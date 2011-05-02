@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:p="http://primefaces.prime.com.tr/ui">
+
+	  <h:head>
+    <h:outputStylesheet>
+      .ui-widget,
+      label,
+      select,
+      thead,
+      tbody,
+      tfoot,
+      input,
+      a {
+        font-size: 12px !important;
+      }
+    </h:outputStylesheet>
+  </h:head>
+
+  <h:body>
+    <p:layout fullPage="true">
+      <p:layoutUnit position="top" height="75">
+        <h:panelGroup>
+          <table width="100%">
+            <tbody>
+              <tr>
+                <td><h2>Заголовок</h2></td>
+              </tr>
+            </tbody>
+          </table>
+        </h:panelGroup>
+      </p:layoutUnit>
+
+      <p:layoutUnit id="centerPageId" position="center">  
+          <ui:insert/>
+     </p:layoutUnit>
+
+    </p:layout>
+  </h:body>
+</html>
