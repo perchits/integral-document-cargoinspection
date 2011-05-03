@@ -1,0 +1,6 @@
+#Шаблон для файла local.properties
+
+hibernate.connection.driver_class=org.postgresql.Driver
+hibernate.connection.url=jdbc:postgresql://localhost/docum
+hibernate.connection.username=user
+hibernate.connection.password=password

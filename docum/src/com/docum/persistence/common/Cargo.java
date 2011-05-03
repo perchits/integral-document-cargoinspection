@@ -9,19 +9,23 @@ import javax.persistence.*;
  *
  */
 @Entity
-
+@SequenceGenerator(name = "idgen", sequenceName = "cargo_seq")
 public class Cargo extends DocumEntity implements Serializable {
 
 	private static final long serialVersionUID = 4275515653210816278L;
 	
+	@Column(nullable = false)
 	private String name;
+
+	@Column(nullable = false)
 	private String shortName;
+
+	@Column(nullable = false)
 	private String englishName;
 
 	public Cargo() {
 	}
 
-	@Column(nullable = false)
 	public String getName() {
 		return name;
 	}
@@ -30,7 +34,6 @@ public class Cargo extends DocumEntity implements Serializable {
 		this.name = name;
 	}
 
-	@Column(nullable = false)
 	public String getShortName() {
 		return shortName;
 	}
@@ -39,7 +42,6 @@ public class Cargo extends DocumEntity implements Serializable {
 		this.shortName = shortName;
 	}
 
-	@Column(nullable = false)
 	public String getEnglishName() {
 		return englishName;
 	}
