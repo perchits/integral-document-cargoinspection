@@ -7,6 +7,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
+import org.hibernate.annotations.Index;
+
 @MappedSuperclass
 public class DocumEntity implements Serializable {
 
@@ -20,6 +22,7 @@ public class DocumEntity implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@Index (name = "indexId")
 	public Long getId() {
 		return id;
 	}
