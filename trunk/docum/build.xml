@@ -3,77 +3,121 @@
 	<property name="DistDir" value="dist"/>
 	<property name="SrcDir" value="src"/>
 	<property name="LibDir" value="lib"/>
-	<property name="BuildDir" value="build"/>
+	<property name="ToolsDir" value="lib/tools"/>
+	<property name="BuildDir" value="build/classes"/>
 	<property name="DocumJar" value="docum-libraries.jar"/>
 	<property name="WarFile" value="docum.war"/>
 	<property name="DocumContextFile" value="docum-context.xml"/>
 	<property name="DeployDir" value="e:/Java/apache-tomcat-7.0.12/webapps"/>
-	
+
 	<path id="DocumClasspath">
-        <fileset dir="${LibDir}">
-            <include name="**/*.jar" />
-        </fileset>
-    </path>
+		<fileset dir="${LibDir}">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+
+	<path id="ToolsClasspath">
+		<fileset dir="${LibDir}">
+			<include name="**/*.jar" />
+		</fileset>
+		<fileset dir="${ToolsDir}">
+			<include name="**/*.jar" />
+		</fileset>
+		<pathelement location="${BuildDir}"/>
+	</path>
 	
 	<target name="makeDirs">
-        <echo message="Building Docum ..."/>
-    	<mkdir dir="${DistDir}"/>
+		<echo message="Building Docum ..."/>
+		<mkdir dir="${DistDir}"/>
 		<mkdir dir="${BuildDir}"/>
-    </target>
-	
+	</target>
+
 	<target name="clean">
 		<echo message="Cleaning up..."/>
-    	<delete dir="${DistDir}"/>
-    </target>
-	
+		<delete dir="${DistDir}"/>
+	</target>
+
 	<target name="compile" depends="makeDirs">
-        <javac debug="true"
+		<javac debug="true"
                destdir="${BuildDir}"
                classpathref="DocumClasspath"
 			   srcdir="${SrcDir}"
                excludes="**/Test*.java" />
-    </target>
-	
+		<copy todir="${BuildDir}/META-INF">
+			<fileset dir="${SrcDir}/META-INF" />
+		</copy>
+	</target>
+
 	<target name="copyToDeployDir">
 		<copy file="${DistDir}/${WarFile}"
             tofile="${DeployDir}/${WarFile}" overwrite="true">
-        </copy>
+		</copy>
 		<copy file="${DistDir}/${DocumJar}"
             tofile="${DeployDir}/${DocumJar}" overwrite="true">
-        </copy>
-    </target>
-	
+		</copy>
+	</target>
+
 	<target name="createJar" depends="compile">
-        <jar jarfile="${DistDir}/${DocumJar}">
-            <fileset dir="${BuildDir}" />
-        	<fileset dir="${SrcDir}" includes="*.xml"/>
-        	<fileset dir="${LibDir}" excludes="**/src/**"/>
-        </jar>
-    </target>
-	
+		<jar jarfile="${DistDir}/${DocumJar}">
+			<fileset dir="${BuildDir}" />
+			<fileset dir="${SrcDir}" includes="*.xml"/>
+			<fileset dir="${LibDir}" excludes="**/src/**"/>
+		</jar>
+	</target>
+
 	<target name="build" depends="createWar"/>
-	
+
 	<target name="createWar" depends="createJar">
 		<zip zipfile="${DistDir}/${WarFile}">
 			<zipfileset dir="resources" prefix="WEB-INF">
 				<include name="web.xml" />
 			</zipfileset>
-			
+
 			<zipfileset dir="resources/client-interface">
 				<include name="*" />
 			</zipfileset>
-			
+
 			<zipfileset dir="resources/xls_template" prefix="xls_template">
 				<include name="*" />
 			</zipfileset>
-			
+
 			<zipfileset dir="resources">
 				<include name="images/*" />
 			</zipfileset>
-			
+
 			<zipfileset dir="resources/flex" prefix="WEB-INF/flex">
 				<include name="*.xml" />
 			</zipfileset>
 		</zip>
-    </target>
+	</target>
+
+	<taskdef name="hibernatetool" classname="org.hibernate.tool.ant.HibernateToolTask" classpathref="ToolsClasspath"/>
+	<target name="db-drop" depends="compile">
+		<hibernatetool destdir="">
+			<jpaconfiguration persistenceunit="docum" propertyfile="local.properties" />
+			<hbm2ddl drop="true" create="false" export="true" update="false"/>
+			<classpath>
+				<path location="${BuildDir}"/>
+			</classpath>
+		</hibernatetool>
+	</target>
+	<target name="db-create" depends="compile">
+		<hibernatetool destdir="">
+			<jpaconfiguration persistenceunit="docum" propertyfile="local.properties" />
+			<hbm2ddl drop="true" create="true" export="true" update="false"/>
+		</hibernatetool>
+	</target>
+	<target name="db-update" depends="compile">
+		<hibernatetool destdir="">
+			<jpaconfiguration persistenceunit="docum" propertyfile="local.properties" />
+			<hbm2ddl drop="false" create="false" export="true" update="true"/>
+		</hibernatetool>
+	</target>
+
+	<target name="db-doc" depends="compile" description="Generate a html description of the mappings">
+		<hibernatetool destdir="hibernate-html">
+			<jpaconfiguration persistenceunit="docum" propertyfile="local.properties" />
+			<hbm2doc/>
+		</hibernatetool>
+	</target>
 </project>
