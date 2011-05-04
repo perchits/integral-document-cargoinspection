@@ -13,8 +13,9 @@ public class ShipArrival implements Serializable {
 		setShipEta(shipEta);
 		containerCount = new ContainerCount(totalContainer);	
 		shipContainers = new ArrayList<ShipContainer>();								
-		shipContainers.add(new ShipContainer("123","Проверен","Новороссийск"));
-		shipContainers.add(new ShipContainer("423","Непроверен","Крымск"));		
+		shipContainers.add(new ShipContainer("123748374837","Проверен","Новороссийск"));
+		shipContainers.add(new ShipContainer("423847837438","Непроверен","Крымск"));		
+		shipContainers.add(new ShipContainer("5545456767","Непроверен","Анапа"));
 	}
 
 	private String shipName;

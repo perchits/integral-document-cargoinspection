@@ -9,6 +9,7 @@ body {
 	padding: 5px;
 	border-left: 1px solid #ccc;
 	border-right: 1px solid #ccc;
+	min-width: 1000px;
 }
 
 .page-wrapper {
@@ -25,17 +26,18 @@ body {
 	padding: 0.2em 0.2em !important;
 }
 
-.mainmemu {
-	width: 530px;
-	margin-left: 3px;
+.main-menu {
+	/* width: 530px; */
+	margin: 0 3px;
+	overflow: hidden;
 }
 
 table td {
 	vertical-align: top;
 }
 
-.middle-table { /*  */
-	
+.middle-table { 
+	width : 100%;
 }
 
 .left-col ul {
@@ -50,4 +52,16 @@ table td {
 
 .main-col { /*  */
 	
+}
+
+.main-menu-left {
+	float: left;
+}
+
+.main-menu-right {
+	float: right;
+}
+
+.main-menu-left, .main-menu-right {
+	border: 0
 }
