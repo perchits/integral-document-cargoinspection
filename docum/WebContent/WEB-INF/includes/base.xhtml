@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+	<h:outputStylesheet name="base.css" library="css" />
+</h:head>
+
+<h:body>
+	<h:panelGroup layout="block" styleClass="page-wrapper">
+		<h:panelGroup layout="block" styleClass="page-container">
+			<ui:include src="/WEB-INF/includes/menubar.xhtml" />
+
+			<h:panelGrid columns="2" columnClasses="left-col,main-col"
+				styleClass="middle-table">
+				<h:panelGroup layout="block">
+					<ui:insert name="leftcol">
+					</ui:insert>
+				</h:panelGroup>
+				<h:panelGroup layout="block">
+					<ui:insert name="rightcol">
+					</ui:insert>
+				</h:panelGroup>
+			</h:panelGrid>
+		</h:panelGroup>
+	</h:panelGroup>
+</h:body>
+</html>
