@@ -3,6 +3,9 @@ package test;
 import java.util.Date;
 import java.util.Random;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 public class TestUtil {
 
 	private static Random random;
@@ -41,6 +44,14 @@ public class TestUtil {
 			result += initialChars[getRandomInteger(initialSize - 1)];
 		}
 
+		return result;
+	}
+	
+	public static ApplicationContext getSpringApplicationContext() {
+		ApplicationContext result = null;
+        String[] paths = {"docum-context.xml"};
+        result = new ClassPathXmlApplicationContext(paths);
+		
 		return result;
 	}
 }
