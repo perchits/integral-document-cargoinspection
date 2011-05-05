@@ -6,8 +6,10 @@
 	xmlns:p="http://primefaces.prime.com.tr/ui">
 <ui:composition template="/WEB-INF/includes/base.xhtml">
 	<ui:define name="leftcol">
-	
+
+
 		<p:dataList value="#{ship.shipDocks}" var="shipdock" itemType="none">
+
 			<p:column>
 
 				<p:panel header="#{shipdock.shipName}" style="text-align:center">
@@ -65,36 +67,42 @@
 						</h:form>
 					</h:panelGroup>
 
-					<h:form prependId="false">
-						<p:dataTable var="curcontainer" value="#{shipdock.shipContainers}">
-							<f:facet name="header">Контейнеры в работе</f:facet>
+					<p:panel header="Контейнеры в работе" style="text-align:center"
+						styleClass="toggle-panel" toggleable="true" collapsed="true" toggleSpeed="300">
+						<h:form prependId="false">
+							<p:dataTable var="curcontainer"
+								value="#{shipdock.shipContainers}">
 
-							<p:column sortBy="#{curcontainer.number}">
-								<f:facet name="header">
-									<h:outputText value="Контейнер" />
-								</f:facet>
-								<h:outputText value="#{curcontainer.number}" />
-							</p:column>
+								<p:column sortBy="#{curcontainer.number}">
+									<f:facet name="header">
+										<h:outputText value="Контейнер" />
+									</f:facet>
+									<h:outputText value="#{curcontainer.number}" />
+								</p:column>
 
-							<p:column sortBy="#{curcontainer.status}">
-								<f:facet name="header">
-									<h:outputText value="Статус" />
-								</f:facet>
-								<h:outputText value="#{curcontainer.status}" />
-							</p:column>
+								<p:column sortBy="#{curcontainer.status}">
+									<f:facet name="header">
+										<h:outputText value="Статус" />
+									</f:facet>
+									<h:outputText value="#{curcontainer.status}" />
+								</p:column>
 
-							<p:column sortBy="#{curcontainer.town}">
-								<f:facet name="header">
-									<h:outputText value="Город" />
-								</f:facet>
-								<h:outputText value="#{curcontainer.town}" />
-							</p:column>
+								<p:column sortBy="#{curcontainer.town}">
+									<f:facet name="header">
+										<h:outputText value="Город" />
+									</f:facet>
+									<h:outputText value="#{curcontainer.town}" />
+								</p:column>
 
-						</p:dataTable>
-					</h:form>
+							</p:dataTable>
+						</h:form>
+					</p:panel>
 				</p:panel>
+
 			</p:column>
+
 		</p:dataList>
+
 
 	</ui:define>
 	<ui:define name="rightcol">
