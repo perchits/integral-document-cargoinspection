@@ -27,6 +27,11 @@ public class Vessel extends DocumEntity implements Serializable {
 	public String getVesselName() {
 		return vesselName;
 	}
+	
+	public Vessel(String vesselName, Date vesselTripDate) {
+		this.vesselName = vesselName;
+		this.vesselTripDate = vesselTripDate;
+	}
 
 	public void setVesselName(String vesselName) {
 		this.vesselName = vesselName;
