@@ -25,6 +25,12 @@ public class Cargo extends DocumEntity implements Serializable {
 
 	public Cargo() {
 	}
+	
+	public Cargo(String name, String shortName, String englishName) {
+		this.name = name;
+		this.shortName = shortName;
+		this.englishName = englishName;
+	}
 
 	public String getName() {
 		return name;

@@ -20,6 +20,10 @@ public class Supplier extends DocumEntity implements Serializable {
 	public Supplier() {
 	}
 	
+	public Supplier(String name) {
+		this.name = name;
+	}
+	
 	public String getName() {
 		return this.name;
 	}
