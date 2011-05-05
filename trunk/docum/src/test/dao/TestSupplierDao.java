@@ -1,22 +1,30 @@
 package test.dao;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertNotNull;
 
-import org.springframework.context.ApplicationContext;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.transaction.TransactionConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 
 import test.TestUtil;
 
 import com.docum.persistence.common.Supplier;
 import com.docum.service.SupplierService;
 
-public class TestSupplierDao extends TestCase {
-
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations="/docum-context.xml")
+@TransactionConfiguration(transactionManager="documTxManager")
+@Transactional
+public class TestSupplierDao {
+	@Autowired
+	SupplierService supplierService;
+	
+	@Test
 	public void testSaveSupplier() {
-		ApplicationContext appContext = TestUtil.getSpringApplicationContext();
-		assertNotNull(appContext);
-		SupplierService supplierService = (SupplierService) appContext.getBean("supplierService");
-		assertNotNull(supplierService);
-		
 		Supplier supplier = new Supplier(TestUtil.getRandomString(10));
 		assertNotNull(supplierService.saveSupplier(supplier));
 		supplierService.deleteSupplier(supplier);
