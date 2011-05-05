@@ -6,52 +6,96 @@
 	xmlns:p="http://primefaces.prime.com.tr/ui">
 <ui:composition template="/WEB-INF/includes/base.xhtml">
 	<ui:define name="leftcol">
-		
 	
-<p:dataList value="#{ship.shipDocks}" var="shipdock" itemType="none"> 
-<p:column>
+		<p:dataList value="#{ship.shipDocks}" var="shipdock" itemType="none">
+			<p:column>
 
- <p:panel header="#{shipdock.shipName}" style="text-align:center">
- <!-- TODO -->
- 
-	<h:panelGrid columns="4" columnClasses="left-col,main-col"	styleClass="">
-		<h:panelGroup layout="block">
-					#{shipdock.containerCount.checked}
-				</h:panelGroup>     
- 	</h:panelGrid>
-			
+				<p:panel header="#{shipdock.shipName}" style="text-align:center">
 
-    <h:form prependId="false">
-                <p:dataTable var="curcontainer" value="#{shipdock.shipContainers}">
-				<f:facet name="header">Контейнеры в работе</f:facet>
+					<h:panelGroup styleClass="def-pad-mar" layout="block">
+						<h:form prependId="false">
+							<p:dataTable var="sd" value="#{shipdock}">
 
-				<p:column sortBy="#{curcontainer.number}">
-					<f:facet name="header">
-						<h:outputText value="Контейнер" />
-					</f:facet>
-					<h:outputText value="#{curcontainer.number}" />
-				</p:column>
-				
-				<p:column sortBy="#{curcontainer.status}">
-					<f:facet name="header">
-						<h:outputText value="Статус" />
-					</f:facet>
-					<h:outputText value="#{curcontainer.status}" />
-				</p:column>
-				
-				<p:column sortBy="#{curcontainer.town}">
-					<f:facet name="header">
-						<h:outputText value="Город" />
-					</f:facet>
-					<h:outputText value="#{curcontainer.town}" />
-				</p:column>
-				
-				</p:dataTable>	
-				</h:form>
-  </p:panel>
-</p:column>
-</p:dataList>	
-		
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="ETA" />
+									</f:facet>
+									<h:outputText value="#{shipdock.shipEta}">
+										<f:convertDateTime dateStyle="medium" type="date" />
+									</h:outputText>
+								</p:column>
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="Номер рейса" />
+									</f:facet>
+									<h:outputText value="hehe" />
+								</p:column>
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="Причал" />
+									</f:facet>
+									<h:outputText value="hehe" />
+								</p:column>
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="Пров." />
+									</f:facet>
+									<h:outputText value="#{sd.containerCount.checked}" />
+								</p:column>
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="Не пров." />
+									</f:facet>
+									<h:outputText value="#{sd.containerCount.unchecked}" />
+								</p:column>
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="Обраб." />
+									</f:facet>
+									<h:outputText value="#{sd.containerCount.processed}" />
+								</p:column>
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="Всего" />
+									</f:facet>
+									<h:outputText value="#{sd.containerCount.total}" />
+								</p:column>
+
+							</p:dataTable>
+						</h:form>
+					</h:panelGroup>
+
+					<h:form prependId="false">
+						<p:dataTable var="curcontainer" value="#{shipdock.shipContainers}">
+							<f:facet name="header">Контейнеры в работе</f:facet>
+
+							<p:column sortBy="#{curcontainer.number}">
+								<f:facet name="header">
+									<h:outputText value="Контейнер" />
+								</f:facet>
+								<h:outputText value="#{curcontainer.number}" />
+							</p:column>
+
+							<p:column sortBy="#{curcontainer.status}">
+								<f:facet name="header">
+									<h:outputText value="Статус" />
+								</f:facet>
+								<h:outputText value="#{curcontainer.status}" />
+							</p:column>
+
+							<p:column sortBy="#{curcontainer.town}">
+								<f:facet name="header">
+									<h:outputText value="Город" />
+								</f:facet>
+								<h:outputText value="#{curcontainer.town}" />
+							</p:column>
+
+						</p:dataTable>
+					</h:form>
+				</p:panel>
+			</p:column>
+		</p:dataList>
+
 	</ui:define>
 	<ui:define name="rightcol">
 		<h:form prependId="false">
@@ -73,9 +117,8 @@
 						<f:convertDateTime dateStyle="medium" type="date" />
 					</h:outputText>
 				</p:column>
-				
-				<p:column sortBy="#{curship.containerCount.total}"
-					style="text-align: right;">
+
+				<p:column sortBy="#{curship.containerCount.total}">
 					<f:facet name="header">
 						<h:outputText value="Контейнеров" />
 					</f:facet>

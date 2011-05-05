@@ -20,7 +20,7 @@ public class ShipArrival implements Serializable {
 
 	private String shipName;
 	private Date shipEta;
-	private ContainerCount containerCount;
+	private ContainerCount containerCount;	
 	private List<ShipContainer> shipContainers;
 
 	public String getShipName() {
@@ -54,5 +54,6 @@ public class ShipArrival implements Serializable {
 	public List<ShipContainer> getShipContainers() {
 		return shipContainers;
 	}
+	
 	
 }

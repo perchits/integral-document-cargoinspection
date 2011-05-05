@@ -11,12 +11,12 @@ import java.util.Date;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
 
 import ru.integral.docum.domain.ShipArrival;
 
 @ManagedBean(name = "ship")
-@RequestScoped
+@SessionScoped
 public class DashBoardView implements Serializable {
 	private static final long serialVersionUID = 8925725427524960747L;
 
