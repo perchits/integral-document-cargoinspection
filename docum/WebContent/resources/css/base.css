@@ -2,7 +2,12 @@ body {
 	margin: 0;
 }
 
-.page-container { /*  */
+.page-wrapper {
+	text-align: center;
+	background: #F6F6F6;
+}
+
+.page-container {
 	display: inline-block;
 	margin: auto;
 	background: white;
@@ -10,11 +15,6 @@ body {
 	border-left: 1px solid #ccc;
 	border-right: 1px solid #ccc;
 	min-width: 1000px;
-}
-
-.page-wrapper {
-	text-align: center;
-	background: #F6F6F6;
 }
 
 .ui-widget,.ui-widget .ui-widget,table tr {
@@ -26,15 +26,14 @@ body {
 	padding: 0.2em 0.2em !important;
 }
 
-.main-menu {
-	/* width: 530px; */
+.main-menu {	
 	margin: 0 3px;	
 }
 
-.cleaner {
+.cleaner { /* Используется для растягивания див-контейнера при float */
 	clear: both;
 	line-height: 0; 
-	height: 0;
+	height: 0;s
 }
 
 table td {
@@ -76,6 +75,8 @@ table td {
     padding: 0 0 2px;
 }
 
+/* Раскраска контейнеров */
+
 .customs-color {
 	background: #FFF2F2;
 }
@@ -91,3 +92,5 @@ table td {
 .processed-color {
 	background: #F5F5F5;
 }
+
+/*  */

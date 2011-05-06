@@ -13,7 +13,7 @@ public abstract class DocumEntity implements Serializable {
 	private static final long serialVersionUID = 8647183098509121405L;
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "idgen")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	public Long getId() {
