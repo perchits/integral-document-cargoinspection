@@ -1,15 +1,17 @@
 package com.docum.persistence.common;
 
-import com.docum.persistence.DocumEntity;
-import java.io.Serializable;
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.SequenceGenerator;
+
+import com.docum.persistence.IdentifiedEntity;
 
 /**
  * Entity implementation class for Entity: Cargo
  *
  */
 @Entity
-public class Cargo extends DocumEntity implements Serializable {
+public class Cargo extends IdentifiedEntity {
 
 	private static final long serialVersionUID = 4275515653210816278L;
 	

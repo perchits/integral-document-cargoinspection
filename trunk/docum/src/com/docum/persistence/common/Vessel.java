@@ -6,10 +6,10 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
-import com.docum.persistence.DocumEntity;
+import com.docum.persistence.IdentifiedEntity;
 
 @Entity
-public class Vessel extends DocumEntity implements Serializable {
+public class Vessel extends IdentifiedEntity implements Serializable {
 
 	private static final long serialVersionUID = -8435521372184842224L;
 

@@ -8,12 +8,12 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
-public abstract class DocumEntity implements Serializable {
+public abstract class IdentifiedEntity implements Serializable {
 
 	private static final long serialVersionUID = 8647183098509121405L;
 	
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	public Long getId() {
