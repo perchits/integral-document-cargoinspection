@@ -5,7 +5,8 @@
 	xmlns:p="http://primefaces.prime.com.tr/ui"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
-	<h:panelGroup layout="block" styleClass="main-menu ui-widget-content ui-corner-all">
+	<h:panelGroup layout="block"
+		styleClass="main-menu ui-widget-content ui-corner-all">
 		<h:form>
 			<p:menubar autoSubmenuDisplay="true" styleClass="main-menu-left">
 				<p:menuitem value="Главная" url="/" icon="ui-icon ui-icon-home" />
@@ -19,9 +20,14 @@
 					icon="ui-icon ui-icon-clipboard" />
 			</p:menubar>
 			<p:menubar autoSubmenuDisplay="true" styleClass="main-menu-right">
-				<p:menuitem value="Выход" url="http://google.com"
+				<p:submenu label="Вид" icon="ui-icon ui-icon-video">
+					<p:menuitem value="Развернуть все" url="javascript:togglePanels(true)" />
+					<p:menuitem value="Свернуть все" url="javascript:togglePanels(false)" />										
+				</p:submenu>
+				<p:menuitem value="Выход" url="about:blank"
 					icon="ui-icon ui-icon-close" />
 			</p:menubar>
 		</h:form>
+		<h:panelGroup layout="block" styleClass="cleaner"></h:panelGroup>
 	</h:panelGroup>
 </ui:composition>
