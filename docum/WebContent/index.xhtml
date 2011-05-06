@@ -7,7 +7,6 @@
 <ui:composition template="/WEB-INF/includes/base.xhtml">
 	<ui:define name="leftcol">
 
-
 		<p:dataList value="#{ship.shipDocks}" var="shipdock" itemType="none">
 
 			<p:column>
@@ -68,10 +67,11 @@
 					</h:panelGroup>
 
 					<p:panel header="Контейнеры в работе" style="text-align:center"
-						styleClass="toggle-panel" toggleable="true" collapsed="true" toggleSpeed="300">
+						styleClass="toggle-panel" toggleable="true" collapsed="true"
+						toggleSpeed="300">
 						<h:form prependId="false">
 							<p:dataTable var="curcontainer"
-								value="#{shipdock.shipContainers}">
+								value="#{shipdock.shipContainers}" rowStyleClass="#{curcontainer.color}">
 
 								<p:column sortBy="#{curcontainer.number}">
 									<f:facet name="header">
@@ -92,7 +92,7 @@
 										<h:outputText value="Город" />
 									</f:facet>
 									<h:outputText value="#{curcontainer.town}" />
-								</p:column>
+								</p:column>							
 
 							</p:dataTable>
 						</h:form>

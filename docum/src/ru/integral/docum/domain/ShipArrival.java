@@ -11,11 +11,12 @@ public class ShipArrival implements Serializable {
 	public ShipArrival(String shipName, Date shipEta, int totalContainer) {
 		setShipName(shipName);
 		setShipEta(shipEta);
-		containerCount = new ContainerCount(totalContainer);	
+		containerCount = new ContainerCount();	
 		shipContainers = new ArrayList<ShipContainer>();								
-		shipContainers.add(new ShipContainer("123748374837","Проверен","Новороссийск"));
-		shipContainers.add(new ShipContainer("423847837438","Непроверен","Крымск"));		
-		shipContainers.add(new ShipContainer("5545456767","Непроверен","Анапа"));
+		shipContainers.add(new ShipContainer("123748374837","Затаможен","Новороссийск"));
+		shipContainers.add(new ShipContainer("423847837438","Проверен","Крымск"));		
+		shipContainers.add(new ShipContainer("5545456767","Растаможен","Анапа"));
+		shipContainers.add(new ShipContainer("5545456767","Обработан","Харьков"));
 	}
 
 	private String shipName;

@@ -70,3 +70,19 @@ table td {
 	margin: 0;
     padding: 0 0 2px;
 }
+
+.customs-color {
+	background: red;
+}
+
+.uncustoms-color {
+	background: green;
+}
+
+.checked-color {
+	background: gray;
+}
+
+.processed-color {
+	background: yellow;
+}
