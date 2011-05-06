@@ -5,12 +5,10 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.SequenceGenerator;
 
 import com.docum.persistence.DocumEntity;
 
 @Entity
-@SequenceGenerator(name = "idgen", sequenceName = "vessel_seq")
 public class Vessel extends DocumEntity implements Serializable {
 
 	private static final long serialVersionUID = -8435521372184842224L;

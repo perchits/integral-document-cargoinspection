@@ -9,7 +9,6 @@ import javax.persistence.*;
  *
  */
 @Entity
-@SequenceGenerator(name = "idgen", sequenceName = "cargo_seq")
 public class Cargo extends DocumEntity implements Serializable {
 
 	private static final long serialVersionUID = 4275515653210816278L;
