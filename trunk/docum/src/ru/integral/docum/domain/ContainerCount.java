@@ -9,11 +9,11 @@ public class ContainerCount implements Serializable{
 	private Integer checked;
 	private Integer unchecked;
 	private Integer processed;
-	public ContainerCount(int maxTotal){		
-		Random generator = new Random();
-		this.total = generator.nextInt(maxTotal);
+	public ContainerCount(){		
+		Random generator = new Random();		
+		total = generator.nextInt(100) + 10;		
 		checked = total - generator.nextInt(total);
-		unchecked = total - checked;		
+		unchecked =  total - checked;		
 		processed = total - generator.nextInt(checked);
 	}
 	public void setTotal(Integer total) {
