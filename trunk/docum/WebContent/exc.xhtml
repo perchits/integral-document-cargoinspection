@@ -6,15 +6,15 @@
 	xmlns:p="http://primefaces.prime.com.tr/ui">
 <ui:composition template="/WEB-INF/includes/base.xhtml">
 <ui:define name="leftcol">
- <h3>Message #{currentViewId}</h3>  
-<h:form prependId="false">  
+ <h3>Message</h3>  
+<h:form prependId="false">
     <h:panelGrid id="grid" columns="3">  
         <h:outputText value="Default: *" />  
-        <p:inputText id="default" required="true" requiredMessage="Нуль!" />  
+        <p:inputText id="default" required="true" requiredMessage="Нуль!1" />  
         <p:message for="default" />  
   
         <h:outputText value="Text Only: *" />  
-        <p:inputText id="textOnly" required="true" requiredMessage="Нуль!" />  
+        <p:inputText id="textOnly" required="true" requiredMessage="Нуль!2" />  
         <p:message for="textOnly" display="text" />  
   
         <h:outputText value="Icon Only: *" />  
@@ -29,7 +29,7 @@
 
     </h:panelGrid>  
   
-    <p:commandButton value="Submit" update="grid"/>  
+    <p:commandButton value="Submit" update="growl" />  
 </h:form>  
 
 <h:form>  
