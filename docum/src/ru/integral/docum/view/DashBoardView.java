@@ -12,6 +12,7 @@ import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.event.ActionEvent;
 
 import ru.integral.docum.domain.ShipArrival;
 
@@ -27,7 +28,6 @@ public class DashBoardView implements Serializable {
 		shipDocks = new ArrayList<ShipArrival>();
 		populateShip(shipDocks, 15);
 		sortByOrderNo();
-
 	}
 
 	private void populateShip(List<ShipArrival> ship, int maxCount) {
@@ -53,6 +53,18 @@ public class DashBoardView implements Serializable {
 	public List<ShipArrival> getShipDocks() {
 		return shipDocks;
 	}
+
+	/* Тестовые функции */
+
+	public void showError(ActionEvent actionEvent) throws Exception {
+		throw new Exception("Не верно!");
+	}
+
+	public void showErrorDiv(ActionEvent actionEvent) throws Exception {
+		int i = 10 / 0;
+	}
+
+	/* конец тестовые функции */
 
 	public void sortByOrderNo() {
 
