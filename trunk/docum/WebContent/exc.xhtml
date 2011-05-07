@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+<ui:composition template="/WEB-INF/includes/base.xhtml">
+<ui:define name="leftcol">
+ <h3>Message #{currentViewId}</h3>  
+<h:form prependId="false">  
+    <h:panelGrid id="grid" columns="3">  
+        <h:outputText value="Default: *" />  
+        <p:inputText id="default" required="true" requiredMessage="Нуль!" />  
+        <p:message for="default" />  
+  
+        <h:outputText value="Text Only: *" />  
+        <p:inputText id="textOnly" required="true" requiredMessage="Нуль!" />  
+        <p:message for="textOnly" display="text" />  
+  
+        <h:outputText value="Icon Only: *" />  
+        <p:inputText id="iconOnly" required="true" />  
+        <p:message for="iconOnly" display="icon" />  
+        
+        <h:outputText value="Validator: *" />
+        <p:inputText id="it1" value="" validatorMessage="Хехе">
+    <f:validateRegex pattern="[\d]{1,}" />
+</p:inputText>
+<p:message for="it1"/>
+
+    </h:panelGrid>  
+  
+    <p:commandButton value="Submit" update="grid"/>  
+</h:form>  
+
+<h:form>  
+                  
+    <p:growl id="growl" showDetail="true" />  
+      
+    <p:panel header="Growl">  
+        <h:panelGrid columns="2">  
+            <h:outputText value="Your Name: *" />   
+            <p:inputText value="OK" required="true" label="Name"/>  
+              
+            <p:commandButton value="Save" actionListener="#{ship.showError}" update="growl"/>  
+            <p:commandButton value="Div by zero" actionListener="#{ship.showErrorDiv}" update="growl"/>
+              
+        </h:panelGrid>  
+    </p:panel>  
+      
+</h:form> 
+
+</ui:define>
+</ui:composition>
+</html>

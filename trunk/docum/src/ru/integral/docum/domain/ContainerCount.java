@@ -9,7 +9,7 @@ public class ContainerCount implements Serializable{
 	private Integer checked;
 	private Integer unchecked;
 	private Integer processed;
-	public ContainerCount(){		
+	public ContainerCount(){			
 		Random generator = new Random();		
 		total = generator.nextInt(100) + 10;		
 		checked = total - generator.nextInt(total);

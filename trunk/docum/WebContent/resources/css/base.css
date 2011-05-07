@@ -78,19 +78,19 @@ table td {
 /* Раскраска контейнеров */
 
 .customs-color {
-	background: #FFF2F2;
+	background: #FFE3E3;
 }
 
 .uncustoms-color {
-	background: #FFFFF2;
+	background: #FFFFE3;
 }
 
 .checked-color {
-	background: #F3FFF2;
+	background: #E3FFE3;
 }
 
 .processed-color {
-	background: #F5F5F5;
+	background: #E3E3E3;
 }
 
 /*  */
