@@ -7,8 +7,8 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
 <h:head>
-	<h:outputStylesheet name="base.css" library="css" />	
-	<h:outputScript name="base.js" library="js" />	
+	<h:outputStylesheet name="base.css" library="css" />
+	<h:outputScript name="base.js" library="js" />
 </h:head>
 
 <h:body>
@@ -16,7 +16,6 @@
 	<h:panelGroup layout="block" styleClass="page-wrapper">
 		<h:panelGroup layout="block" styleClass="page-container">
 			<ui:include src="/WEB-INF/includes/menubar.xhtml" />
-
 			<h:panelGrid columns="2" columnClasses="left-col,main-col"
 				styleClass="middle-table">
 				<h:panelGroup layout="block">
@@ -28,6 +27,10 @@
 					</ui:insert>
 				</h:panelGroup>
 			</h:panelGrid>
+			<h:panelGroup layout="block" id="footer">
+				<ui:insert name="footer">
+				</ui:insert>
+			</h:panelGroup>
 		</h:panelGroup>
 	</h:panelGroup>
 </h:body>
