@@ -35,9 +35,11 @@ public class MyExceptionHandler extends ExceptionHandlerWrapper {
 				// log error
 				FacesContext fc = FacesContext.getCurrentInstance();
 				if (t.getCause() != null) {
-				 fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ошибочка вышла...", t.getCause().getMessage()));
+					fc.addMessage(null, new FacesMessage(
+							FacesMessage.SEVERITY_ERROR, "Ошибочка вышла...", t
+									.getCause().getMessage()));
 				}
-				fc.renderResponse();				
+				fc.renderResponse();
 				// redirect to error view etc....
 			} finally {
 				// after exception is handeled, remove it from queue

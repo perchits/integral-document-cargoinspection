@@ -1,4 +1,3 @@
-<?xml version='1.0' encoding='UTF-8' ?>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
@@ -6,7 +5,8 @@
 	xmlns:p="http://primefaces.prime.com.tr/ui">
 <ui:composition template="/WEB-INF/includes/base.xhtml">
 <ui:define name="leftcol">
- <h3>Message</h3>  
+ <h3>Сообщение</h3>  
+ <h:messages id="msgs" showDetail="true"/> 
 <h:form prependId="false">
     <h:panelGrid id="grid" columns="3">  
         <h:outputText value="Default: *" />  
@@ -16,11 +16,7 @@
         <h:outputText value="Text Only: *" />  
         <p:inputText id="textOnly" required="true" requiredMessage="Нуль!2" />  
         <p:message for="textOnly" display="text" />  
-  
-        <h:outputText value="Icon Only: *" />  
-        <p:inputText id="iconOnly" required="true" />  
-        <p:message for="iconOnly" display="icon" />  
-        
+                  
         <h:outputText value="Validator: *" />
         <p:inputText id="it1" value="" validatorMessage="Хехе">
     <f:validateRegex pattern="[\d]{1,}" />
@@ -29,25 +25,28 @@
 
     </h:panelGrid>  
   
-    <p:commandButton value="Submit" update="growl" />  
+    <p:commandButton value="Submit" update="msgs" action="#{ship.goHome}" />  
 </h:form>  
 
-<h:form>  
-                  
-    <p:growl id="growl" showDetail="true" />  
+<h:form>      
+     
       
     <p:panel header="Growl">  
         <h:panelGrid columns="2">  
             <h:outputText value="Your Name: *" />   
             <p:inputText value="OK" required="true" label="Name"/>  
               
-            <p:commandButton value="Save" actionListener="#{ship.showError}" update="growl"/>  
-            <p:commandButton value="Div by zero" actionListener="#{ship.showErrorDiv}" update="growl"/>
+            <p:commandButton value="Save" actionListener="#{ship.showError}" update="growl" />  
+            <p:commandButton value="Div by zero" actionListener="#{ship.showErrorDiv}" update="growl" />
               
         </h:panelGrid>  
     </p:panel>  
       
 </h:form> 
+
+<p:panel header="Переход на главную. Кнопка без аякса"> 
+<h:form> <p:commandButton value="Submit1" ajax="false" update="growl" action="#{ship.goHome}" /> </h:form>
+</p:panel>
 
 </ui:define>
 </ui:composition>
