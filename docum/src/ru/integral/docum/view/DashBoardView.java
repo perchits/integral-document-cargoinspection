@@ -60,10 +60,14 @@ public class DashBoardView implements Serializable {
 		throw new Exception("Не верно!");
 	}
 
-	public void showErrorDiv(ActionEvent actionEvent) throws Exception {
+	public void showErrorDiv(ActionEvent actionEvent){
 		int i = 10 / 0;
 	}
 
+	public String goHome() {
+		return "index.xhtml";
+	}
+	
 	/* конец тестовые функции */
 
 	public void sortByOrderNo() {
