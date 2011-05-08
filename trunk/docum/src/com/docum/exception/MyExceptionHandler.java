@@ -31,9 +31,9 @@ public class MyExceptionHandler extends ExceptionHandlerWrapper {
 			ExceptionQueuedEventContext context = (ExceptionQueuedEventContext) event
 					.getSource();
 			Throwable t = context.getException();
+			FacesContext fc = FacesContext.getCurrentInstance();
 			try {
 				// log error
-				FacesContext fc = FacesContext.getCurrentInstance();
 				if (t.getCause() != null) {
 					fc.addMessage(null, new FacesMessage(
 							FacesMessage.SEVERITY_ERROR, "Ошибочка вышла...", t

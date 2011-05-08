@@ -4,50 +4,55 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.prime.com.tr/ui">
 <ui:composition template="/WEB-INF/includes/base.xhtml">
-<ui:define name="leftcol">
- <h3>Сообщение</h3>  
- <h:messages id="msgs" showDetail="true"/> 
-<h:form prependId="false">
-    <h:panelGrid id="grid" columns="3">  
-        <h:outputText value="Default: *" />  
-        <p:inputText id="default" required="true" requiredMessage="Нуль!1" />  
-        <p:message for="default" />  
-  
-        <h:outputText value="Text Only: *" />  
-        <p:inputText id="textOnly" required="true" requiredMessage="Нуль!2" />  
-        <p:message for="textOnly" display="text" />  
-                  
-        <h:outputText value="Validator: *" />
-        <p:inputText id="it1" value="" validatorMessage="Хехе">
-    <f:validateRegex pattern="[\d]{1,}" />
-</p:inputText>
-<p:message for="it1"/>
+	<ui:define name="leftcol">
+		<h3>Сообщение</h3>
+		<h:form prependId="false">
+			<h:panelGrid id="grid" columns="3">
+				<h:outputText value="Default: *" />
+				<p:inputText id="default" required="true" requiredMessage="Нуль!1" />
+				<p:message for="default" />
 
-    </h:panelGrid>  
-  
-    <p:commandButton value="Submit" update="msgs" action="#{ship.goHome}" />  
-</h:form>  
+				<h:outputText value="Text Only: *" />
+				<p:inputText id="textOnly" required="true" requiredMessage="Нуль!2" />
+				<p:message for="textOnly" display="text" />
 
-<h:form>      
-     
-      
-    <p:panel header="Growl">  
-        <h:panelGrid columns="2">  
-            <h:outputText value="Your Name: *" />   
-            <p:inputText value="OK" required="true" label="Name"/>  
-              
-            <p:commandButton value="Save" actionListener="#{ship.showError}" update="growl" />  
-            <p:commandButton value="Div by zero" actionListener="#{ship.showErrorDiv}" update="growl" />
-              
-        </h:panelGrid>  
-    </p:panel>  
-      
-</h:form> 
+				<h:outputText value="Validator: *" />
+				<p:inputText id="it1" value="" validatorMessage="Хехе">
+					<f:validateRegex pattern="[\d]{1,}" />
+				</p:inputText>
+				<p:message for="it1" />
 
-<p:panel header="Переход на главную. Кнопка без аякса"> 
-<h:form> <p:commandButton value="Submit1" ajax="false" update="growl" action="#{ship.goHome}" /> </h:form>
-</p:panel>
+			</h:panelGrid>
 
-</ui:define>
+			<p:commandButton value="Submit" update="growl"
+				action="#{ship.goHome}" />
+		</h:form>
+
+		<h:form>
+
+
+			<p:panel header="Growl">
+				<h:panelGrid columns="2">
+					<h:outputText value="Your Name: *" />
+					<p:inputText value="OK" required="true" label="Name" />
+
+					<p:commandButton value="Save" actionListener="#{ship.showError}"
+						update="growl" />
+					<p:commandButton value="Div by zero"
+						actionListener="#{ship.showErrorDiv}" update="growl" />
+
+				</h:panelGrid>
+			</p:panel>
+
+		</h:form>
+
+		<p:panel header="Переход на главную. Кнопка без аякса">
+			<h:form>
+				<p:commandButton value="Submit1" ajax="false" update="growl"
+					action="#{ship.goHome}" />
+			</h:form>
+		</p:panel>
+
+	</ui:define>
 </ui:composition>
 </html>
