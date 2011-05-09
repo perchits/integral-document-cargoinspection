@@ -8,7 +8,9 @@
 	<property name="DocumJar" value="docum-libraries.jar"/>
 	<property name="WarFile" value="docum.war"/>
 	<property name="DocumContextFile" value="docum-context.xml"/>
-	<property name="DeployDir" value="e:/Java/apache-tomcat-7.0.12/webapps"/>
+	<property name="WebContentDir" value="WebContent"/>
+	<property name="TomcatDir" value="e:/Java/apache-tomcat-7.0.12"/>
+	<property name="DeployDir" value="${TomcatDir}/webapps"/>
 
 	<path id="DocumClasspath">
 		<fileset dir="${LibDir}">
@@ -51,44 +53,28 @@
 	<target name="copyToDeployDir">
 		<copy file="${DistDir}/${WarFile}"
             tofile="${DeployDir}/${WarFile}" overwrite="true">
-		</copy>
-		<copy file="${DistDir}/${DocumJar}"
-            tofile="${DeployDir}/${DocumJar}" overwrite="true">
+		</copy>		
+		<copy todir="${TomcatDir}/lib">
+			<fileset dir="${LibDir}" includes="jsf-api*.jar, jsf-impl*.jar, jstl-api*.jar, jstl-impl*.jar, primefaces*.jar"/>
 		</copy>
 	</target>
 
 	<target name="createJar" depends="compile">
 		<jar jarfile="${DistDir}/${DocumJar}">
-			<fileset dir="${BuildDir}" />
+			<fileset dir="${BuildDir}" excludes="**/test/**"/>
 			<fileset dir="${SrcDir}" includes="*.xml"/>
-			<fileset dir="${LibDir}" excludes="**/src/**"/>
+			<fileset dir="${LibDir}" excludes="**/src/**,**/test/**"/>
 		</jar>
 	</target>
 
-	<target name="build" depends="createWar"/>
+	<target name="build" depends="createWar, copyToDeployDir"/>
 
 	<target name="createWar" depends="createJar">
-		<zip zipfile="${DistDir}/${WarFile}">
-			<zipfileset dir="resources" prefix="WEB-INF">
-				<include name="web.xml" />
-			</zipfileset>
-
-			<zipfileset dir="resources/client-interface">
-				<include name="*" />
-			</zipfileset>
-
-			<zipfileset dir="resources/xls_template" prefix="xls_template">
-				<include name="*" />
-			</zipfileset>
-
-			<zipfileset dir="resources">
-				<include name="images/*" />
-			</zipfileset>
-
-			<zipfileset dir="resources/flex" prefix="WEB-INF/flex">
-				<include name="*.xml" />
-			</zipfileset>
-		</zip>
+		<war warfile="${DistDir}/${WarFile}" webxml="${WebContentDir}/WEB-INF/web.xml">
+            <fileset dir="${WebContentDir}"/>
+            <lib file="${DistDir}/${DocumJar}"/>
+            <classes dir="${BuildDir}" excludes="**/test/**"/>
+        </war>
 	</target>
 
 	<taskdef name="hibernatetool" classname="org.hibernate.tool.ant.HibernateToolTask" classpathref="ToolsClasspath"/>
