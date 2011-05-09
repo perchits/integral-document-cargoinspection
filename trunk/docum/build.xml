@@ -55,7 +55,7 @@
             tofile="${DeployDir}/${WarFile}" overwrite="true">
 		</copy>		
 		<copy todir="${TomcatDir}/lib">
-			<fileset dir="${LibDir}" includes="jsf-api*.jar, jsf-impl*.jar, jstl-api*.jar, jstl-impl*.jar, primefaces*.jar"/>
+			<fileset dir="${LibDir}" includes="jsf-api*.jar, jsf-impl*.jar, primefaces*.jar"/>
 		</copy>
 	</target>
 
