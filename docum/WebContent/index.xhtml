@@ -70,28 +70,32 @@
 						toggleSpeed="300">
 						<h:form prependId="false">
 							<p:dataTable var="curcontainer"
-								value="#{shipdock.shipContainers}" rowStyleClass="#{curcontainer.color}">
+								value="#{shipdock.shipContainers}"
+								rowStyleClass="#{curcontainer.color}">
 
-								<p:column sortBy="#{curcontainer.number}" filterBy="#{curcontainer.number}">
+								<p:column sortBy="#{curcontainer.number}"
+									filterBy="#{curcontainer.number}">
 									<f:facet name="header">
 										<h:outputText value="Контейнер" />
 									</f:facet>
 									<h:outputText value="#{curcontainer.number}" />
 								</p:column>
 
-								<p:column sortBy="#{curcontainer.status}">
+								<p:column sortBy="#{curcontainer.status}"
+									filterBy="#{curcontainer.status}">
 									<f:facet name="header">
-										<h:outputText value="Статус" />
+									<h:outputText value="Статус" />
 									</f:facet>
 									<h:outputText value="#{curcontainer.status}" />
 								</p:column>
 
-								<p:column sortBy="#{curcontainer.town}">
+								<p:column sortBy="#{curcontainer.town}"
+									filterBy="#{curcontainer.town}">
 									<f:facet name="header">
 										<h:outputText value="Город" />
 									</f:facet>
 									<h:outputText value="#{curcontainer.town}" />
-								</p:column>							
+								</p:column>
 
 							</p:dataTable>
 						</h:form>
@@ -136,6 +140,6 @@
 		</h:form>
 	</ui:define>
 
-	
+
 </ui:composition>
 </html>
