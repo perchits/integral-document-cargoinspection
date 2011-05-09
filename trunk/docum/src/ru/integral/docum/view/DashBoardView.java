@@ -10,16 +10,16 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
 import javax.faces.event.ActionEvent;
 
 import ru.integral.docum.domain.ShipArrival;
 
-@ManagedBean(name = "ship")
-@RequestScoped
+import com.docum.service.SupplierService;
+
 public class DashBoardView implements Serializable {
 	private static final long serialVersionUID = 8925725427524960747L;
+	
+	private SupplierService supplierService;
 
 	public DashBoardView() {
 
@@ -52,6 +52,14 @@ public class DashBoardView implements Serializable {
 
 	public List<ShipArrival> getShipDocks() {
 		return shipDocks;
+	}
+	
+	public SupplierService getSupplierService() {
+		return supplierService;
+	}
+
+	public void setSupplierService(SupplierService supplierService) {
+		this.supplierService = supplierService;
 	}
 
 	/* Тестовые функции */

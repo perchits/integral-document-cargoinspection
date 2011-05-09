@@ -16,7 +16,6 @@ public class BaseDaoImpl implements BaseDao {
 	protected BaseDaoImpl() {
 	}
 	
-	@Transactional
 	public <T extends IdentifiedEntity> Long saveObject(T object) {
 		Long id = null;
 		entityManager.persist(object);
@@ -24,7 +23,6 @@ public class BaseDaoImpl implements BaseDao {
 		return id;
 	}
 
-	@Transactional
 	public <T extends IdentifiedEntity> void deleteObject(T object) {
 		entityManager.remove(object);
 	}
