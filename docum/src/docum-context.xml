@@ -22,7 +22,6 @@
 	<bean id="documTxManager" class="org.springframework.orm.jpa.JpaTransactionManager">
 		<property name="entityManagerFactory" ref="entityManagerFactory" />
 	</bean>
-<!-- 	<bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" /> -->
 
 	<bean id="supplierDao" class="com.docum.dao.impl.SupplierDaoImpl">
 	</bean>
