@@ -8,5 +8,8 @@
 	<factory>
 		<exception-handler-factory>com.docum.exception.MyExceptionHandlerFactory</exception-handler-factory>
 	</factory>
+	<lifecycle>
+		<phase-listener>com.docum.exception.ContentTypePhaseListener</phase-listener>
+	</lifecycle>
 
 </faces-config>
