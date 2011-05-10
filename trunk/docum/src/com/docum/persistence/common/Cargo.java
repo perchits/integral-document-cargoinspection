@@ -1,7 +1,7 @@
 package com.docum.persistence.common;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 
 import com.docum.persistence.IdentifiedEntity;
 
@@ -11,51 +11,53 @@ import com.docum.persistence.IdentifiedEntity;
  */
 @Entity
 public class Cargo extends IdentifiedEntity {
-
 	private static final long serialVersionUID = 4275515653210816278L;
 	
-	@Column(nullable = false)
-	private String name;
+	private Article article;
 
-	@Column(nullable = false)
-	private String shortName;
-
-	@Column(nullable = false)
-	private String englishName;
-
-	public Cargo() {
+	private Double weight;
+	
+	private Supplier supplier;
+	
+	@ManyToOne
+	private Container container;
+		
+	public Cargo(){
+		super();
 	}
 	
-	public Cargo(String name, String shortName, String englishName) {
-		this.name = name;
-		this.shortName = shortName;
-		this.englishName = englishName;
+	public Article getArticle() {
+		return article;
 	}
 
-	public String getName() {
-		return name;
+
+	public void setArticle(Article goods) {
+		this.article = goods;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+
+	public Double getWeight() {
+		return weight;
 	}
 
-	public String getShortName() {
-		return shortName;
+	public void setWeight(Double weight) {
+		this.weight = weight;
 	}
 
-	public void setShortName(String shortName) {
-		this.shortName = shortName;
+	public Container getContainer() {
+		return container;
 	}
 
-	public String getEnglishName() {
-		return englishName;
+	public void setContainer(Container container) {
+		this.container = container;
 	}
 
-	public void setEnglishName(String englishName) {
-		this.englishName = englishName;
+	public Supplier getSupplier() {
+		return supplier;
 	}
-	
-	
+
+	public void setSupplier(Supplier supplier) {
+		this.supplier = supplier;
+	}
    
 }

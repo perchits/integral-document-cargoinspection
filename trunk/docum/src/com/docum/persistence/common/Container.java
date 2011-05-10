@@ -5,6 +5,7 @@ import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 import com.docum.domain.ContainerStateEnum;
 import com.docum.persistence.IdentifiedEntity;
@@ -15,14 +16,19 @@ public class Container extends IdentifiedEntity {
 
 	private String number;
 	
+	private ContainerStateEnum state;
+
 	@ManyToMany(mappedBy = "containers")
 	private Set<Invoice> invoices = new HashSet<Invoice>();
 	
 	@ManyToMany(mappedBy = "containers")
 	private Set<BillOfLading> billOfLadings = new HashSet<BillOfLading>();
-	
-	private ContainerStateEnum state;
 
+	@OneToMany(mappedBy = "container")
+	private Set<Cargo> cargoes = new HashSet<Cargo>();
+	
+	private Voyage voyage;
+	
 	public Container() {
 		super();
 	}
@@ -46,6 +52,14 @@ public class Container extends IdentifiedEntity {
 		this.number = name;
 	}
 
+	public ContainerStateEnum getState() {
+		return state;
+	}
+
+	public void setState(ContainerStateEnum state) {
+		this.state = state;
+	}
+	
 	public Set<Invoice> getInvoices() {
 		return invoices;
 	}
@@ -62,11 +76,19 @@ public class Container extends IdentifiedEntity {
 		this.billOfLadings = billOfLadings;
 	}
 
-	public void setState(ContainerStateEnum state) {
-		this.state = state;
+	public Set<Cargo> getCargoes() {
+		return cargoes;
 	}
 
-	public ContainerStateEnum getState() {
-		return state;
+	public void setCargoes(Set<Cargo> cargoes) {
+		this.cargoes = cargoes;
+	}
+
+	public Voyage getVoyage() {
+		return voyage;
+	}
+
+	public void setVoyage(Voyage voyage) {
+		this.voyage = voyage;
 	}
 }
