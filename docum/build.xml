@@ -59,20 +59,12 @@
 		</copy>
 	</target>
 
-	<target name="createJar" depends="compile">
-		<jar jarfile="${DistDir}/${DocumJar}">
-			<fileset dir="${BuildDir}" excludes="**/test/**"/>
-			<fileset dir="${SrcDir}" includes="*.xml"/>
-			<fileset dir="${LibDir}" excludes="**/src/**,**/test/**"/>
-		</jar>
-	</target>
-
 	<target name="build" depends="createWar, copyToDeployDir"/>
 
-	<target name="createWar" depends="createJar">
+	<target name="createWar" depends="compile">
 		<war warfile="${DistDir}/${WarFile}" webxml="${WebContentDir}/WEB-INF/web.xml">
             <fileset dir="${WebContentDir}"/>
-            <lib file="${DistDir}/${DocumJar}"/>
+            <lib dir="${LibDir}" excludes="**/src/**"/>
             <classes dir="${BuildDir}" excludes="**/test/**"/>
         </war>
 	</target>
