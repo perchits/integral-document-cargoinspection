@@ -2,7 +2,6 @@ package com.docum.persistence.common;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.SequenceGenerator;
 
 import com.docum.persistence.IdentifiedEntity;
 
