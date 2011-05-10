@@ -3,11 +3,13 @@ package com.docum.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.docum.dao.SupplierDao;
 import com.docum.persistence.common.Supplier;
 import com.docum.service.SupplierService;
 
+@Service("supplierService")
 public class SupplierServiceImpl implements SupplierService {
 	
 	@Autowired
