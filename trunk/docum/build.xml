@@ -50,7 +50,17 @@
 		</copy>
 	</target>
 
-	<target name="copyToDeployDir">
+	<target name="validateCopy">
+		<condition property="copyAllowed">
+			<available file="${TomcatDir}" type="dir"/>
+		</condition>
+	</target>
+	
+	<target name="echoValidationErr" unless="copyAllowed">
+		<fail message="ERROR: ${TomcatDir} does not exists."/>
+	</target>
+	
+	<target name="copyToDeployDir" depends="validateCopy, echoValidationErr" if="copyAllowed">
 		<copy file="${DistDir}/${WarFile}"
             tofile="${DeployDir}/${WarFile}" overwrite="true">
 		</copy>		
