@@ -12,6 +12,9 @@ import java.util.List;
 
 import javax.faces.event.ActionEvent;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Required;
+
 import ru.integral.docum.domain.ShipArrival;
 
 import com.docum.service.SupplierService;
@@ -51,13 +54,18 @@ public class DashBoardView implements Serializable {
 	}
 
 	public List<ShipArrival> getShipDocks() {
+		if (supplierService == null) {
+			System.out.println("Null");
+		} else {
+			System.out.println("OK!!!!");
+		}
 		return shipDocks;
 	}
 	
 	public SupplierService getSupplierService() {
 		return supplierService;
 	}
-
+	
 	public void setSupplierService(SupplierService supplierService) {
 		this.supplierService = supplierService;
 	}

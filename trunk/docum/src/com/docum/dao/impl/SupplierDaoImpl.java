@@ -2,9 +2,12 @@ package com.docum.dao.impl;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.docum.dao.SupplierDao;
 import com.docum.persistence.common.Supplier;
 
+@Service("supplierDao")
 public class SupplierDaoImpl extends BaseDaoImpl implements SupplierDao {
 
 	@Override
