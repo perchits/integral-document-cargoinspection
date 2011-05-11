@@ -9,6 +9,7 @@ import com.docum.persistence.common.Supplier;
 
 @Service("supplierDao")
 public class SupplierDaoImpl extends BaseDaoImpl implements SupplierDao {
+	private static final long serialVersionUID = 2696884917423567369L;
 
 	@Override
 	public Supplier getSupplier(Long supplierId) {

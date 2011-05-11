@@ -1,5 +1,6 @@
 #Шаблон для файла local.properties
 
+hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
 hibernate.connection.driver_class=org.postgresql.Driver
 hibernate.connection.url=jdbc:postgresql://localhost/docum
 hibernate.connection.username=user

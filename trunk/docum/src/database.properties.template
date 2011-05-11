@@ -1,0 +1,6 @@
+#״אבכמם הכÿ פאיכא database.properties
+
+database.class=org.postgresql.Driver
+database.url=jdbc:postgresql://localhost/docum
+database.username=docum
+database.password=docum

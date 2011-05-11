@@ -4,6 +4,7 @@ import com.docum.dao.CargoDao;
 import com.docum.persistence.common.Cargo;
 
 public class CargoDaoImpl extends BaseDaoImpl implements CargoDao {
+	private static final long serialVersionUID = -1849456554203104271L;
 
 	@Override
 	public Cargo getCargoByName(String name) {

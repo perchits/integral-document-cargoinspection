@@ -1,5 +1,6 @@
 package com.docum.service.impl;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +11,9 @@ import com.docum.persistence.common.Supplier;
 import com.docum.service.SupplierService;
 
 @Service("supplierService")
-public class SupplierServiceImpl implements SupplierService {
-	
+public class SupplierServiceImpl implements SupplierService, Serializable {
+	private static final long serialVersionUID = -2732138912731078684L;
+
 	@Autowired
 	private SupplierDao supplierDao; 
 
