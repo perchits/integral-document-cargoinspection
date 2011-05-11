@@ -1,9 +1,5 @@
 package com.docum.dao.impl;
 
-import java.util.List;
-
-import javax.persistence.Query;
-
 import org.springframework.stereotype.Service;
 
 import com.docum.dao.SupplierDao;
@@ -23,14 +19,6 @@ public class SupplierDaoImpl extends BaseDaoImpl implements SupplierDao {
 	public Supplier getSupplier(String supplierName) {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	@Override
-	@SuppressWarnings("unchecked")
-	public List<Supplier> getAllSuppliers() {		
-		Query query = entityManager.createQuery("select s from Supplier s");
-		List<Supplier>resultList = (List<Supplier>) query.getResultList();
-		return resultList;		
 	}
 
 	@Override

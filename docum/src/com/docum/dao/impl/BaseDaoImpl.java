@@ -30,9 +30,9 @@ public class BaseDaoImpl implements BaseDao {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public <T extends IdentifiedEntity> List<T> getAll(Class<T> class_) {
+	public <T extends IdentifiedEntity> List<T> getAll(Class<T> clazz) {
 		List<T> result = null;
-		Query query = entityManager.createQuery("select from " +  class_.getSimpleName());
+		Query query = entityManager.createQuery("select c from " + clazz.getName() + " c");
 		result = query.getResultList();
 		return result;
 	}
