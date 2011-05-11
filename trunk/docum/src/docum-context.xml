@@ -14,6 +14,9 @@
 
 	<context:annotation-config />
 	<context:component-scan base-package="com.docum"/>	
+	
+	<!-- TODO: remove -->
+	<context:component-scan base-package="ru.integral"/>	
 
 	<bean id="entityManagerFactory"
 		class="org.springframework.orm.jpa.LocalEntityManagerFactoryBean">

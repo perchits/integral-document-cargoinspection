@@ -10,18 +10,21 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Required;
 
 import ru.integral.docum.domain.ShipArrival;
 
 import com.docum.service.SupplierService;
 
+@ManagedBean(name = "ship")
+@ViewScoped
 public class DashBoardView implements Serializable {
 	private static final long serialVersionUID = 8925725427524960747L;
 	
+	@ManagedProperty(value="#{supplierService}") 
 	private SupplierService supplierService;
 
 	public DashBoardView() {
