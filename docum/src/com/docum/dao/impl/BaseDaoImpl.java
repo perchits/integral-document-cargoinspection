@@ -32,7 +32,8 @@ public class BaseDaoImpl implements BaseDao {
 	@SuppressWarnings("unchecked")
 	public <T extends IdentifiedEntity> List<T> getAll(Class<T> clazz) {
 		List<T> result = null;
-		Query query = entityManager.createQuery("select c from " + clazz.getName() + " c");
+		Query query = entityManager.createQuery(
+			String.format("select c from %1$s c", clazz.getName()));
 		result = query.getResultList();
 		return result;
 	}
