@@ -110,7 +110,7 @@
 	</ui:define>
 	<ui:define name="rightcol">
 		<h:form prependId="false">
-			<p:dataTable var="curship" value="#{ship.shipArrivals}">
+			<p:dataTable lazy="false" var="curship" value="#{ship.shipArrivals}">
 				<f:facet name="header">Суда на подходе</f:facet>
 
 				<p:column sortBy="#{curship.shipName}">
