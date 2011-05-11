@@ -1,4 +1,4 @@
-package ru.integral.docum.view;
+package coml.docum.view;
 
 import java.io.Serializable;
 import java.text.DateFormat;
@@ -32,8 +32,7 @@ public class DashBoardView implements Serializable {
 		shipArrivals = new ArrayList<ShipArrival>();
 		populateShip(shipArrivals, 22);
 		shipDocks = new ArrayList<ShipArrival>();
-		populateShip(shipDocks, 15);
-		sortByOrderNo();
+		populateShip(shipDocks, 15);		
 	}
 
 	private void populateShip(List<ShipArrival> ship, int maxCount) {
@@ -48,7 +47,7 @@ public class DashBoardView implements Serializable {
 			e.printStackTrace();
 		}
 	}
-
+	
 	private List<ShipArrival> shipArrivals;
 	private List<ShipArrival> shipDocks;
 
@@ -83,8 +82,14 @@ public class DashBoardView implements Serializable {
 		int i = 10 / 0;
 	}
 
-	public String goHome() {
-		return "index.xhtml";
+	public void goWithError() {
+		Integer n = 10 / 0;
+		sortByOrderNo();	
+	}
+	
+	public void goAction() {
+		sortByOrderNo();
+		System.out.println("Sorted...");
 	}
 	
 	/* конец тестовые функции */

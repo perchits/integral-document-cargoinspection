@@ -2,7 +2,9 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:p="http://primefaces.prime.com.tr/ui">
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	xmlns:dlg="http://java.sun.com/jsf/composite/components/dialog">
+	
 <ui:composition template="/WEB-INF/includes/base.xhtml">
 	<ui:define name="leftcol">
 		<h3>Сообщение</h3>
@@ -24,8 +26,7 @@
 
 			</h:panelGrid>
 
-			<p:commandButton value="Submit" update="growl"
-				action="#{ship.goHome}" />
+			<p:commandButton value="Submit" update="growl" />
 		</h:form>
 
 		<h:form>
@@ -48,11 +49,15 @@
 
 		<p:panel header="Переход на главную. Кнопка без аякса">
 			<h:form>
-				<p:commandButton value="Submit1" ajax="false" update="growl"
+				<p:commandButton value="Submit1" ajax="true" update="growl"
 					action="#{ship.goHome}" />
 			</h:form>
 		</p:panel>
 
-	</ui:define>
+<dlg:buttons dialogTitle="С ошибкой" action="#{ship.goWithError}" />
+<dlg:buttons dialogTitle="Без ошибки" action="#{ship.goAction}" />
+
+	</ui:define>	
+	
 </ui:composition>
 </html>
