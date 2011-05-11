@@ -9,15 +9,14 @@
 		<p:panel header="Поставщики" style="text-align:center"
 			styleClass="toggle-panel">
 			<h:form prependId="false">
-				<p:dataTable var="curcontainer" value="#{shipdock.shipContainers}"
-					rowStyleClass="#{curcontainer.color}">
+				<p:dataTable var="sup" value="#{supplier.suppliers}">
 
-					<p:column sortBy="#{curcontainer.number}"
-						filterBy="#{curcontainer.number}">
+					<p:column sortBy="#{sup.name}"
+						filterBy="#{sup.name}">
 						<f:facet name="header">
 										Наименование  
 									</f:facet>
-						<h:outputText value="#{curcontainer.number}" />
+						<h:outputText value="#{sup.name}" />
 					</p:column>
 
 				</p:dataTable>
