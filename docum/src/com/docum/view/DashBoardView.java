@@ -1,4 +1,4 @@
-package coml.docum.view;
+package com.docum.view;
 
 import java.io.Serializable;
 import java.text.DateFormat;
