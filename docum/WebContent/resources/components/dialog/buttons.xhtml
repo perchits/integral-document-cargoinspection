@@ -9,7 +9,7 @@
 
    <composite:interface>    
     <composite:attribute name="dialogTitle"/>   
-    <composite:attribute name="action"  method-signature="void action()" required="true" /> 
+    <composite:attribute name="action1" targets="btn1" method-signature="void action()" required="true" /> 
   </composite:interface>
     
   
@@ -21,7 +21,7 @@
      </div>
   
      <p>
-       <p:commandButton value="GOO" action="#{cc.attrs.action}" />
+       <p:commandButton id="btn1" value="GOO" update="growl" action="#{cc.attrs.action1}" />
      </p>
    </h:form>
  
