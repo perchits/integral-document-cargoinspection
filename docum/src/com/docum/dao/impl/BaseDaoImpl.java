@@ -1,7 +1,10 @@
 package com.docum.dao.impl;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import com.docum.dao.BaseDao;
 import com.docum.persistence.IdentifiedEntity;
@@ -25,5 +28,12 @@ public class BaseDaoImpl implements BaseDao {
 	public <T extends IdentifiedEntity> void deleteObject(T object) {
 		entityManager.remove(object);
 	}
-
+	
+	@SuppressWarnings("unchecked")
+	public <T extends IdentifiedEntity> List<T> getAll(Class<T> class_) {
+		List<T> result = null;
+		Query query = entityManager.createQuery("select from " +  class_.getSimpleName());
+		result = query.getResultList();
+		return result;
+	}
 }
