@@ -13,16 +13,6 @@
 	  </locale-config>
 	</application>
 	
-	<managed-bean>
-	  <managed-bean-name>ship</managed-bean-name>
-		<managed-bean-class>ru.integral.docum.view.DashBoardView</managed-bean-class>
-	  <managed-bean-scope>session</managed-bean-scope>
-	  <managed-property>
-	  	<property-name>supplierService</property-name>
-	  	<value>#{supplierService}</value>
-      </managed-property>
-	</managed-bean>
-
 	<factory>
 		<exception-handler-factory>com.docum.exception.MyExceptionHandlerFactory</exception-handler-factory>
 	</factory>
