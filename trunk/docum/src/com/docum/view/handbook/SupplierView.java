@@ -22,4 +22,11 @@ public class SupplierView implements Serializable {
 		return supplierService.getAllSuppliers();
 	}
 
+	public SupplierService getSupplierService() {
+		return supplierService;
+	}
+
+	public void setSupplierService(SupplierService supplierService) {
+		this.supplierService = supplierService;
+	}
 }
