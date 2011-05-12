@@ -1,0 +1,28 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+<ui:composition template="/WEB-INF/includes/layout.xhtml">
+	<ui:define name="content">	
+	<ui:include src="/WEB-INF/includes/crud.xhtml" />
+		<p:panel header="Суда" style="text-align:center"
+			styleClass="toggle-panel">			
+			<h:form prependId="false">
+				<p:dataTable var="vessel" value="#{vessel.allVessels}"
+					selectionMode="single">
+					<p:column sortBy="#{vessel.name}" filterBy="#{vessel.name}"
+						filterMatchMode="contains">
+						<f:facet name="header">
+										Наименование  
+									</f:facet>
+						<h:outputText value="#{vessel.name}" />
+					</p:column>
+
+				</p:dataTable>
+			</h:form>			
+		</p:panel>
+	</ui:define>
+</ui:composition>
+</html>
