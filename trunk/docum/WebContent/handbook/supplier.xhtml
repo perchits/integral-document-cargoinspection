@@ -10,7 +10,7 @@
 		<h:panelGroup layout="block" styleClass="crud-menu">
 			<h:form>
 				<p:menubar autoSubmenuDisplay="false" styleClass="crud-menu">
-					<p:menuitem value="Добавить" onclick="dialog.show()"
+					<p:menuitem value="Добавить" onclick="lazyload()"
 						icon="ui-icon ui-icon-plus" />
 					<p:menuitem value="Правка" url="/" icon="ui-icon ui-icon-wrench" />
 					<p:menuitem value="Удалить" url="/" icon="ui-icon ui-icon-minus" />
@@ -38,7 +38,8 @@
 		</p:panel>
 
 		<h:form prependId="false">
-			<!-- <p:remoteCommand name="lazyload" update="dialogContent" oncomplete="dialog.show()" actionListener="" /> -->
+			<p:remoteCommand name="lazyload" update="dialogContent"
+				oncomplete="dialog.show()" />
 			<p:dialog id="dialog" widgetVar="dialog" modal="true">
 				<p:outputPanel id="dialogContent">
 					<h:panelGroup>
@@ -46,14 +47,14 @@
 						<h:panelGrid columns="2" cellpadding="5">
 							<h:outputLabel for="username" value="Username: *" />
 							<p:inputText value="" id="username" required="true"
-								label="username" />						
+								label="username" />
 
-								
-								<h:outputLabel for="username1" value="Username1: *" />
+
+							<h:outputLabel for="username1" value="Username1: *" />
 							<p:inputText value="" id="username1" required="true"
 								label="username1" />
-								
-								
+
+
 
 							<f:facet name="footer">
 								<p:commandButton value="Login" update="growl"
