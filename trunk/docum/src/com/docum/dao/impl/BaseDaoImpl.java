@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import com.docum.dao.BaseDao;
 import com.docum.persistence.IdentifiedEntity;
@@ -29,11 +29,10 @@ public class BaseDaoImpl implements BaseDao {
 		entityManager.remove(object);
 	}
 	
-	@SuppressWarnings("unchecked")
 	public <T extends IdentifiedEntity> List<T> getAll(Class<T> clazz) {
 		List<T> result = null;
-		Query query = entityManager.createQuery(
-			String.format("select c from %1$s c", clazz.getName()));
+		TypedQuery<T> query = entityManager.createQuery(
+			String.format("select c from %1$s c", clazz.getName()),clazz);
 		result = query.getResultList();
 		return result;
 	}
