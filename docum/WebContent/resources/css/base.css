@@ -27,7 +27,7 @@ body {
 	padding: 0.2em 0.2em !important;
 }
 
-.main-menu {	
+.main-menu{	
 	margin: 0 3px;	
 }
 
@@ -67,7 +67,7 @@ table td {
 	float: right;
 }
 
-.main-menu-left, .main-menu-right {
+.main-menu-left, .main-menu-right, .crud-menu {
 	border: 0
 }
 
@@ -95,3 +95,12 @@ table td {
 }
 
 /*  */
+
+.crud-menu .wijmo-wijmenu-text {
+	font-size: 11px;
+}
+
+.crud-menu div {
+	padding : 0;
+	margin: 0;
+}

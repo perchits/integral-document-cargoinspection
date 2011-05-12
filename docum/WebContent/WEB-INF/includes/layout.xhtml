@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<f:view contentType="text/html" encoding="UTF-8">
+	<h:head>
+		<h:outputStylesheet name="base.css" library="css" />
+		<h:outputScript name="base.js" library="js" />
+	</h:head>
+
+	<h:body>
+		<p:growl id="growl" showDetail="true" />
+		<h:panelGroup layout="block" styleClass="page-wrapper">
+			<h:panelGroup layout="block" styleClass="page-container">
+				<ui:include src="/WEB-INF/includes/menubar.xhtml" />
+				<h:panelGrid columns="1" styleClass="middle-table">
+					<ui:insert name="content"></ui:insert>
+				</h:panelGrid>
+				<h:panelGroup layout="block" id="footer">
+					<ui:insert name="footer">
+					</ui:insert>
+				</h:panelGroup>
+			</h:panelGroup>
+		</h:panelGroup>
+	</h:body>
+</f:view>
+</html>
