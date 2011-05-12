@@ -2,6 +2,7 @@ package com.docum.service.impl;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,7 @@ public class VoyageServiceImpl implements VoyageService, Serializable {
 	private VoyageDao voyageDao;
 	
 	@Override
-	public Collection<Voyage> getAllVoyages() {
+	public List<Voyage> getAllVoyages() {
 		return voyageDao.getAll(Voyage.class);
 	}
 
