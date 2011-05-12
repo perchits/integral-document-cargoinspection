@@ -27,10 +27,6 @@ public class SupplierView implements Serializable {
 		return suppliers;
 	}
 
-	public SupplierService getSupplierService() {
-		return supplierService;
-	}
-
 	public void setSupplierService(SupplierService supplierService) {
 		this.supplierService = supplierService;
 	}

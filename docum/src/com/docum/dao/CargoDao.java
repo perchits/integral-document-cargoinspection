@@ -2,7 +2,7 @@ package com.docum.dao;
 
 import com.docum.persistence.common.Cargo;
 
-public interface CargoDao {
+public interface CargoDao extends BaseDao{
 	
 	public Cargo getCargoByName(String name);
 	

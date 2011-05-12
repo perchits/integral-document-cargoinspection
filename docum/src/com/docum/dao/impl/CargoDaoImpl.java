@@ -1,8 +1,11 @@
 package com.docum.dao.impl;
 
+import org.springframework.stereotype.Service;
+
 import com.docum.dao.CargoDao;
 import com.docum.persistence.common.Cargo;
 
+@Service("cargoDao")
 public class CargoDaoImpl extends BaseDaoImpl implements CargoDao {
 	private static final long serialVersionUID = -1849456554203104271L;
 

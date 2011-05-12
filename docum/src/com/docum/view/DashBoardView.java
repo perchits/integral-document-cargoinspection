@@ -1,77 +1,47 @@
 package com.docum.view;
 
 import java.io.Serializable;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
 
-import ru.integral.docum.domain.ShipArrival;
+import com.docum.persistence.common.Voyage;
+import com.docum.service.VoyageService;
 
-import com.docum.service.SupplierService;
-
-@ManagedBean(name = "ship")
+@ManagedBean(name = "dashboardView")
 @ViewScoped
 public class DashBoardView implements Serializable {
 	private static final long serialVersionUID = 8925725427524960747L;
 	
-	@ManagedProperty(value="#{supplierService}") 
-	private SupplierService supplierService;
-
-	public DashBoardView() {
-
-		shipArrivals = new ArrayList<ShipArrival>();
-		populateShip(shipArrivals, 22);
-		shipDocks = new ArrayList<ShipArrival>();
-		populateShip(shipDocks, 15);		
+	@ManagedProperty(value="#{voyageService}") 
+	private VoyageService voyageService;
+	public void setVoyageService(VoyageService voyageService) {
+		this.voyageService = voyageService;
 	}
+	
+	private ArrayList<Voyage> finishedVoyages;
+	private ArrayList<Voyage> unfinishedVoyages;
 
-	private void populateShip(List<ShipArrival> ship, int maxCount) {
-		DateFormat dFormat = new SimpleDateFormat("yyyy-MM-dd");
-		try {
-			for (int i = 1; i < maxCount; i++) {
-				Date iDate = dFormat.parse("2011-12-" + Integer.toString(i));
-				ship.add(new ShipArrival("Судно № " + Integer.toString(i),
-						iDate, 100));
-			}
-		} catch (ParseException e) {
-			e.printStackTrace();
+	public Collection<Voyage> getFinishedVoyages() {
+		if(finishedVoyages == null){
+			finishedVoyages = new ArrayList<Voyage>(voyageService.getFinishedVoyages());
 		}
-	}
-	
-	private List<ShipArrival> shipArrivals;
-	private List<ShipArrival> shipDocks;
-
-	public List<ShipArrival> getShipArrivals() {
-		return shipArrivals;
+		return finishedVoyages;
 	}
 
-	public List<ShipArrival> getShipDocks() {
-		if (supplierService == null) {
-			System.out.println("Null");
-		} else {
-			System.out.println("OK!!!!");
+	public Collection<Voyage> getUnfinishedVoyages() {
+		if(unfinishedVoyages == null){
+			unfinishedVoyages = new ArrayList<Voyage>(voyageService.getUnfinishedVoyages());
 		}
-		return shipDocks;
+		return unfinishedVoyages;
 	}
 	
-	public SupplierService getSupplierService() {
-		return supplierService;
-	}
-	
-	public void setSupplierService(SupplierService supplierService) {
-		this.supplierService = supplierService;
-	}
-
 	/* Тестовые функции */
 
 	public void showError(ActionEvent actionEvent) throws Exception {
@@ -97,12 +67,12 @@ public class DashBoardView implements Serializable {
 	public void sortByOrderNo() {
 
 		// ascending order
-		Collections.sort(shipDocks, new Comparator<ShipArrival>() {
+		Collections.sort(finishedVoyages, new Comparator<Voyage>() {
 
 			@Override
-			public int compare(ShipArrival o1, ShipArrival o2) {
+			public int compare(Voyage o1, Voyage o2) {
 
-				return o1.getShipName().compareTo(o2.getShipName());
+				return o1.getVessel().getName().compareTo(o2.getVessel().getName());
 
 			}
 

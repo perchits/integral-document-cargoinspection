@@ -1,7 +1,7 @@
 package com.docum.persistence.common;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
@@ -14,7 +14,7 @@ public class BillOfLading extends IdentifiedEntity{
 
 	private String number;
 	@ManyToMany
-	private Set<Container> containers = new HashSet<Container>();
+	private List<Container> containers = new ArrayList<Container>();
 
 	public BillOfLading() {
 		super();
@@ -33,11 +33,11 @@ public class BillOfLading extends IdentifiedEntity{
 		return number;
 	}
 
-	public void setContainers(Set<Container> containers) {
+	public void setContainers(List<Container> containers) {
 		this.containers = containers;
 	}
 
-	public Set<Container> getContainers() {
+	public List<Container> getContainers() {
 		return containers;
 	}
 }

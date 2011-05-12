@@ -59,9 +59,9 @@ public class TestDataPreparator {
 		Calendar futureCal = (Calendar) cal.clone();
 		futureCal.add(Calendar.MONTH, 1);
 		List<Voyage> result = new ArrayList<Voyage>();
-		result.add(new Voyage(vessels.get(0), "13/W", pastCal.getTime()));
-		result.add(new Voyage(vessels.get(1), "51/E", cal.getTime()));
-		result.add(new Voyage(vessels.get(2), "40/E", futureCal.getTime()));
+		result.add(new Voyage(vessels.get(0), "13/W", pastCal.getTime(), true));
+		result.add(new Voyage(vessels.get(1), "51/E", cal.getTime(), true));
+		result.add(new Voyage(vessels.get(2), "40/E", futureCal.getTime(), false));
 		for(Voyage voyage : result){
 			entityManager.persist(voyage);
 		}
