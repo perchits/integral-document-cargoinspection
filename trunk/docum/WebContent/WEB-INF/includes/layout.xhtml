@@ -16,9 +16,11 @@
 		<h:panelGroup layout="block" styleClass="page-wrapper">
 			<h:panelGroup layout="block" styleClass="page-container">
 				<ui:include src="/WEB-INF/includes/menubar.xhtml" />
-				<h:panelGrid columns="1" styleClass="middle-table">
+				<!-- <h:panelGrid columns="1" styleClass="middle-table"> -->
+				<h:panelGroup layout="block">
 					<ui:insert name="content"></ui:insert>
-				</h:panelGrid>
+				</h:panelGroup>	
+				<!-- </h:panelGrid> -->
 				<h:panelGroup layout="block" id="footer">
 					<ui:insert name="footer">
 					</ui:insert>
