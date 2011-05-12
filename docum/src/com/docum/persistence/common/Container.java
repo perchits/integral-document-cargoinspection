@@ -5,6 +5,7 @@ import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import com.docum.domain.ContainerStateEnum;
@@ -27,6 +28,7 @@ public class Container extends IdentifiedEntity {
 	@OneToMany(mappedBy = "container")
 	private Set<Cargo> cargoes = new HashSet<Cargo>();
 	
+	@ManyToOne
 	private Voyage voyage;
 	
 	public Container() {

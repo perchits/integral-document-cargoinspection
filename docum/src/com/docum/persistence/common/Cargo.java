@@ -13,10 +13,12 @@ import com.docum.persistence.IdentifiedEntity;
 public class Cargo extends IdentifiedEntity {
 	private static final long serialVersionUID = 4275515653210816278L;
 	
+	@ManyToOne
 	private Article article;
 
 	private Double weight;
 	
+	@ManyToOne
 	private Supplier supplier;
 	
 	@ManyToOne
@@ -26,6 +28,15 @@ public class Cargo extends IdentifiedEntity {
 		super();
 	}
 	
+	public Cargo(Article article, Double weight, Supplier supplier,
+			Container container) {
+		super();
+		this.article = article;
+		this.weight = weight;
+		this.supplier = supplier;
+		this.container = container;
+	}
+
 	public Article getArticle() {
 		return article;
 	}
