@@ -5,11 +5,24 @@
 	xmlns:p="http://primefaces.prime.com.tr/ui">
 
 <ui:composition template="/WEB-INF/includes/layout.xhtml">
-	<ui:define name="content">	
-	<ui:include src="/WEB-INF/includes/crud.xhtml" />
+	<ui:define name="content">
+
+		<h:panelGroup layout="block" styleClass="crud-menu">
+			<h:form>
+				<p:menubar autoSubmenuDisplay="false" styleClass="crud-menu">
+					<p:menuitem value="Добавить" onclick="dialog.show()"
+						icon="ui-icon ui-icon-plus" />
+					<p:menuitem value="Правка" url="/" icon="ui-icon ui-icon-wrench" />
+					<p:menuitem value="Удалить" url="/" icon="ui-icon ui-icon-minus" />
+					<p:menuitem value="Обновить" url="/"
+						icon="ui-icon ui-icon-arrowreturnthick-1-w" />
+				</p:menubar>
+			</h:form>
+		</h:panelGroup>
 		<p:panel header="Поставщики" style="text-align:center"
-			styleClass="toggle-panel">			
+			styleClass="toggle-panel">
 			<h:form prependId="false">
+
 				<p:dataTable var="sup" value="#{supplier.suppliers}"
 					selectionMode="single">
 					<p:column sortBy="#{sup.name}" filterBy="#{sup.name}"
@@ -19,10 +32,51 @@
 									</f:facet>
 						<h:outputText value="#{sup.name}" />
 					</p:column>
-
 				</p:dataTable>
-			</h:form>			
+
+			</h:form>
 		</p:panel>
+
+		<h:form prependId="false">
+			<!-- <p:remoteCommand name="lazyload" update="dialogContent" oncomplete="dialog.show()" actionListener="" /> -->
+			<p:dialog id="dialog" widgetVar="dialog" modal="true">
+				<p:outputPanel id="dialogContent">
+					<h:panelGroup>
+
+						<h:panelGrid columns="2" cellpadding="5">
+							<h:outputLabel for="username" value="Username: *" />
+							<p:inputText value="" id="username" required="true"
+								label="username" />						
+
+								
+								<h:outputLabel for="username1" value="Username1: *" />
+							<p:inputText value="" id="username1" required="true"
+								label="username1" />
+								
+								
+
+							<f:facet name="footer">
+								<p:commandButton value="Login" update="growl"
+									oncomplete="handleLoginRequest(xhr, status, args)" />
+							</f:facet>
+						</h:panelGrid>
+
+					</h:panelGroup>
+				</p:outputPanel>
+			</p:dialog>
+		</h:form>
+
+		<script type="text/javascript">  
+    function handleLoginRequest(xhr, status, args) {  
+        if(args.validationFailed) {  
+            jQuery('#dialog').parent().effect("shake", { times:3 }, 100);  
+        } else {  
+        	dialog.hide();  
+            jQuery('#loginLink').fadeOut();  
+        }  
+    }  
+</script>
+
 	</ui:define>
 </ui:composition>
 </html>
