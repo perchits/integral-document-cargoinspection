@@ -44,21 +44,14 @@
 				<p:outputPanel id="dialogContent">
 					<h:panelGroup>
 
-						<h:panelGrid columns="2" cellpadding="5">
-							<h:outputLabel for="username" value="Username: *" />
-							<p:inputText value="" id="username" required="true"
-								label="username" />
+						<h:panelGrid width="100%" columns="2" cellpadding="5">
+							<h:outputLabel for="supname" value="Наименование: *" />
+							<p:inputText value="#{supplier.supplier.name}" id="supname" required="true"
+								label="Наименование" />
 
-
-							<h:outputLabel for="username1" value="Username1: *" />
-							<p:inputText value="" id="username1" required="true"
-								label="username1" />
-
-
-
-							<f:facet name="footer">
-								<p:commandButton value="Login" update="growl"
-									oncomplete="handleLoginRequest(xhr, status, args)" />
+							<f:facet name="footer">							
+								<p:commandButton action="#{supplier.saveSupplierAction}" value="OK" update="growl"
+									oncomplete="handleLoginRequest(xhr, status, args)" />								
 							</f:facet>
 						</h:panelGrid>
 

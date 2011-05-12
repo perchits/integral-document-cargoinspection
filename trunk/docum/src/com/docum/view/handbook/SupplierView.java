@@ -14,11 +14,14 @@ import com.docum.service.SupplierService;
 @ViewScoped
 public class SupplierView implements Serializable {
 	private static final long serialVersionUID = -676095247499740650L;
-
+	public SupplierView(){
+		supplier = new Supplier();
+	}
 	@ManagedProperty(value = "#{supplierService}")
 	private SupplierService supplierService;
 
 	private List<Supplier> suppliers;
+	private Supplier supplier;
 	
 	public List<Supplier> getSuppliers() {
 		if(suppliers == null) {
@@ -29,5 +32,17 @@ public class SupplierView implements Serializable {
 
 	public void setSupplierService(SupplierService supplierService) {
 		this.supplierService = supplierService;
+	}
+
+	public void setSupplier(Supplier supplier) {
+		this.supplier = supplier;
+	}
+
+	public Supplier getSupplier() {
+		return supplier;
+	}
+	
+	public void saveSupplierAction(){
+		supplierService.saveSupplier(supplier);
 	}
 }
