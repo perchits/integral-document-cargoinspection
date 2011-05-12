@@ -32,7 +32,7 @@ public class BaseDaoImpl implements BaseDao {
 	public <T extends IdentifiedEntity> List<T> getAll(Class<T> clazz) {
 		List<T> result = null;
 		TypedQuery<T> query = entityManager.createQuery(
-			String.format("select c from %1$s c", clazz.getName()),clazz);
+			String.format("from %1$s", clazz.getName()),clazz);
 		result = query.getResultList();
 		return result;
 	}
