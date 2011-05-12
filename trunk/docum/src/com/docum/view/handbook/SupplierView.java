@@ -18,8 +18,13 @@ public class SupplierView implements Serializable {
 	@ManagedProperty(value = "#{supplierService}")
 	private SupplierService supplierService;
 
+	private List<Supplier> suppliers;
+	
 	public List<Supplier> getSuppliers() {
-		return supplierService.getAllSuppliers();
+		if(suppliers == null) {
+			suppliers = supplierService.getAllSuppliers();
+		}
+		return suppliers;
 	}
 
 	public SupplierService getSupplierService() {
