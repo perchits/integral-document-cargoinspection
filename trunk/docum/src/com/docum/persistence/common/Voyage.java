@@ -1,9 +1,11 @@
 package com.docum.persistence.common;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import com.docum.persistence.IdentifiedEntity;
 
@@ -13,18 +15,26 @@ public class Voyage extends IdentifiedEntity{
 	
 	@ManyToOne
 	private Vessel vessel;
+	
 	private String number;
+	
 	private Date arrivalDate;
+	
+	private boolean finished = false;
+	
+	@OneToMany(mappedBy = "voyage")
+	private List<Container> containers;
 	
 	public Voyage(){
 		super();
 	}
 
-	public Voyage(Vessel vessel, String number, Date arrivalDate) {
+	public Voyage(Vessel vessel, String number, Date arrivalDate, boolean finished) {
 		super();
 		this.vessel = vessel;
 		this.number = number;
 		this.arrivalDate = arrivalDate;
+		this.finished = finished;
 	}
 
 	public Vessel getVessel() {
@@ -50,5 +60,21 @@ public class Voyage extends IdentifiedEntity{
 	public void setArrivalDate(Date date) {
 		this.arrivalDate = date;
 	}
-	
+
+	public void setFinished(boolean finished) {
+		this.finished = finished;
+	}
+
+	public boolean isFinished() {
+		return finished;
+	}
+
+	public List<Container> getContainers() {
+		return containers;
+	}
+
+	public void setContainers(List<Container> containers) {
+		this.containers = containers;
+	}
+
 }

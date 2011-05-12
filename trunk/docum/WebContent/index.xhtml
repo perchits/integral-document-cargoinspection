@@ -6,21 +6,21 @@
 <ui:composition template="/WEB-INF/includes/base.xhtml">
 	<ui:define name="leftcol">
 
-		<p:dataList id="continwork" value="#{ship.shipDocks}" var="shipdock" itemType="none">
+		<p:dataList id="continwork" value="#{dashboardView.finishedVoyages}" var="voyage" itemType="none">
 
 			<p:column>
 
-				<p:panel header="#{shipdock.shipName}" style="text-align:center">
+				<p:panel header="#{voyage.vessel.name}" style="text-align:center">
 
 					<h:panelGroup styleClass="def-pad-mar" layout="block">
 						<h:form prependId="false">
-							<p:dataTable var="sd" value="#{shipdock}">
+							<p:dataTable var="v" value="#{voyage}">
 
 								<p:column>
 									<f:facet name="header">
 										<h:outputText value="ETA" />
 									</f:facet>
-									<h:outputText value="#{shipdock.shipEta}">
+									<h:outputText value="#{voyage.arrivalDate}">
 										<f:convertDateTime dateStyle="medium" type="date" />
 									</h:outputText>
 								</p:column>
@@ -28,37 +28,41 @@
 									<f:facet name="header">
 										<h:outputText value="Номер рейса" />
 									</f:facet>
-									<h:outputText value="hehe" />
+									<h:outputText value="#{voyage.number}" />
 								</p:column>
 								<p:column>
 									<f:facet name="header">
 										<h:outputText value="Причал" />
 									</f:facet>
-									<h:outputText value="hehe" />
+									<h:outputText value="" />
 								</p:column>
 								<p:column>
 									<f:facet name="header">
 										<h:outputText value="Пров." />
 									</f:facet>
-									<h:outputText value="#{sd.containerCount.checked}" />
+<!-- 									<h:outputText value="#{sd.containerCount.checked}" /> -->
+									<h:outputText value="" />
 								</p:column>
 								<p:column>
 									<f:facet name="header">
 										<h:outputText value="Не пров." />
 									</f:facet>
-									<h:outputText value="#{sd.containerCount.unchecked}" />
+<!-- 									<h:outputText value="#{sd.containerCount.unchecked}" /> -->
+									<h:outputText value="" />
 								</p:column>
 								<p:column>
 									<f:facet name="header">
 										<h:outputText value="Обраб." />
 									</f:facet>
-									<h:outputText value="#{sd.containerCount.processed}" />
+<!-- 									<h:outputText value="#{sd.containerCount.processed}" /> -->
+									<h:outputText value="" />
 								</p:column>
 								<p:column>
 									<f:facet name="header">
 										<h:outputText value="Всего" />
 									</f:facet>
-									<h:outputText value="#{sd.containerCount.total}" />
+<!-- 									<h:outputText value="#{v.containers.size}" /> -->
+									<h:outputText value="" />
 								</p:column>
 
 							</p:dataTable>
@@ -70,8 +74,8 @@
 						toggleSpeed="300">
 						<h:form prependId="false">
 							<p:dataTable var="curcontainer"
-								value="#{shipdock.shipContainers}"
-								rowStyleClass="#{curcontainer.color}">
+								value="#{voyage.containers}"
+								rowStyleClass="customs-color">
 
 								<p:column sortBy="#{curcontainer.number}"
 									filterBy="#{curcontainer.number}">
@@ -81,20 +85,26 @@
 									<h:outputText value="#{curcontainer.number}" />
 								</p:column>
 
-								<p:column sortBy="#{curcontainer.status}"
-									filterBy="#{curcontainer.status}">
+								<p:column sortBy="#{curcontainer.state}"
+									filterBy="#{curcontainer.state}">
 									<f:facet name="header">
 									<h:outputText value="Статус" />
 									</f:facet>
-									<h:outputText value="#{curcontainer.status}" />
+									<h:outputText value="#{curcontainer.state}" />
 								</p:column>
 
-								<p:column sortBy="#{curcontainer.town}"
-									filterBy="#{curcontainer.town}">
+<!-- 								<p:column sortBy="#{curcontainer.town}" -->
+<!-- 									filterBy="#{curcontainer.town}"> -->
+<!-- 									<f:facet name="header"> -->
+<!-- 										<h:outputText value="Город" /> -->
+<!-- 									</f:facet> -->
+<!-- 									<h:outputText value="#{curcontainer.town}" /> -->
+<!-- 								</p:column> -->
+								<p:column>
 									<f:facet name="header">
 										<h:outputText value="Город" />
 									</f:facet>
-									<h:outputText value="#{curcontainer.town}" />
+									<h:outputText value="" />
 								</p:column>
 
 							</p:dataTable>
@@ -110,30 +120,36 @@
 	</ui:define>
 	<ui:define name="rightcol">
 		<h:form prependId="false">
-			<p:dataTable lazy="false" var="curship" value="#{ship.shipArrivals}">
+			<p:dataTable lazy="false" var="voyage" value="#{dashboardView.unfinishedVoyages}">
 				<f:facet name="header">Суда на подходе</f:facet>
 
-				<p:column sortBy="#{curship.shipName}">
+				<p:column sortBy="#{voyage.vessel.name}">
 					<f:facet name="header">
 						<h:outputText value="Судозаход" />
 					</f:facet>
-					<h:outputText value="#{curship.shipName}" />
+					<h:outputText value="#{voyage.vessel.name}" />
 				</p:column>
 
-				<p:column sortBy="#{curship.shipEta}">
+				<p:column sortBy="#{voyage.arrivalDate}">
 					<f:facet name="header">
 						<h:outputText value="ETA" />
 					</f:facet>
-					<h:outputText value="#{curship.shipEta}">
+					<h:outputText value="#{voyage.arrivalDate}">
 						<f:convertDateTime dateStyle="medium" type="date" />
 					</h:outputText>
 				</p:column>
 
-				<p:column sortBy="#{curship.containerCount.total}">
+<!-- 				<p:column sortBy="#{voyage.containers.size}"> -->
+<!-- 					<f:facet name="header"> -->
+<!-- 						<h:outputText value="Контейнеров" /> -->
+<!-- 					</f:facet> -->
+<!-- 					<h:outputText value="#{voyage.containers.size}" /> -->
+<!-- 				</p:column> -->
+				<p:column>
 					<f:facet name="header">
 						<h:outputText value="Контейнеров" />
 					</f:facet>
-					<h:outputText value="#{curship.containerCount.total}" />
+					<h:outputText value="" />
 				</p:column>
 
 			</p:dataTable>

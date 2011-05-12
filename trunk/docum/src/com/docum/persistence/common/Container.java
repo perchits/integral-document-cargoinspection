@@ -1,7 +1,7 @@
 package com.docum.persistence.common;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
@@ -20,13 +20,13 @@ public class Container extends IdentifiedEntity {
 	private ContainerStateEnum state;
 
 	@ManyToMany(mappedBy = "containers")
-	private Set<Invoice> invoices = new HashSet<Invoice>();
+	private List<Invoice> invoices = new ArrayList<Invoice>();
 	
 	@ManyToMany(mappedBy = "containers")
-	private Set<BillOfLading> billOfLadings = new HashSet<BillOfLading>();
+	private List<BillOfLading> billOfLadings = new ArrayList<BillOfLading>();
 
 	@OneToMany(mappedBy = "container")
-	private Set<Cargo> cargoes = new HashSet<Cargo>();
+	private List<Cargo> cargoes = new ArrayList<Cargo>();
 	
 	@ManyToOne
 	private Voyage voyage;
@@ -62,27 +62,27 @@ public class Container extends IdentifiedEntity {
 		this.state = state;
 	}
 	
-	public Set<Invoice> getInvoices() {
+	public List<Invoice> getInvoices() {
 		return invoices;
 	}
 
-	public void setInvoice(Set<Invoice> invoices) {
+	public void setInvoice(List<Invoice> invoices) {
 		this.invoices = invoices;
 	}
 
-	public Set<BillOfLading> getBillOfLadings() {
+	public List<BillOfLading> getBillOfLadings() {
 		return billOfLadings;
 	}
 
-	public void setBillOfLading(Set<BillOfLading> billOfLadings) {
+	public void setBillOfLading(List<BillOfLading> billOfLadings) {
 		this.billOfLadings = billOfLadings;
 	}
 
-	public Set<Cargo> getCargoes() {
+	public List<Cargo> getCargoes() {
 		return cargoes;
 	}
 
-	public void setCargoes(Set<Cargo> cargoes) {
+	public void setCargoes(List<Cargo> cargoes) {
 		this.cargoes = cargoes;
 	}
 

@@ -96,4 +96,12 @@
   <listener>
     <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
   </listener>
+  <filter>
+    <filter-name>openEntityManagerInViewFilter</filter-name>
+      <filter-class>org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter</filter-class>
+    </filter>
+  <filter-mapping>
+    <filter-name>openEntityManagerInViewFilter</filter-name>
+      <url-pattern>/*</url-pattern>
+  </filter-mapping>
 </web-app>
