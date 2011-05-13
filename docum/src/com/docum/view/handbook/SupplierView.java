@@ -22,9 +22,13 @@ public class SupplierView implements Serializable {
 	
 	public List<Supplier> getSuppliers() {
 		if(suppliers == null) {
-			suppliers = supplierService.getAllSuppliers();
+			refreshSuppliers();
 		}
 		return suppliers;
+	}
+	
+	public void refreshSuppliers() {
+		suppliers = supplierService.getAllSuppliers();
 	}
 
 	public void setSupplierService(SupplierService supplierService) {
@@ -47,6 +51,7 @@ public class SupplierView implements Serializable {
 	public void saveSupplierAction(){		
 		supplierService.saveSupplier(supplier);
 		System.out.println(supplier.getName());
+		refreshSuppliers();
 	}
 	
 	public String getTitle() {
