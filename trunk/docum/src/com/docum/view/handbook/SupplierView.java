@@ -32,15 +32,16 @@ public class SupplierView implements Serializable {
 	}
 
 	public void setSupplier(Supplier supplier) {
-		this.supplier = supplier;
+		this.supplier = supplier;		
 	}
 
 	public Supplier getSupplier() {
-		return supplier;
+		return supplier  = new Supplier();
 	}
 	
 	public void newSupplier(){
 		supplier = new Supplier();
+		System.out.println("Новый...");
 	}
 	
 	public void saveSupplierAction(){		
