@@ -48,4 +48,13 @@ public class SupplierView implements Serializable {
 		supplierService.saveSupplier(supplier);
 		System.out.println(supplier.getName());
 	}
+	
+	public String getTitle() {
+		if (supplier.getName() == null) {
+			return "Новый поставщик";
+		} else {
+			return supplier.getName();
+		}
+	}
+	
 }
