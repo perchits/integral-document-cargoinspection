@@ -12,6 +12,7 @@ import com.docum.persistence.common.Supplier;
 import com.docum.service.SupplierService;
 
 @Service("supplierService")
+@Transactional
 public class SupplierServiceImpl implements SupplierService, Serializable {
 	private static final long serialVersionUID = -2732138912731078684L;
 
@@ -42,7 +43,6 @@ public class SupplierServiceImpl implements SupplierService, Serializable {
 	}
 	
 	@Override
-	@Transactional
 	public Supplier saveSupplier(Supplier supplier) {
 		return supplierDao.saveObject(supplier);
 	}
