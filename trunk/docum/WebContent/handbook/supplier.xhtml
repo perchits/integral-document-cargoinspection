@@ -15,7 +15,7 @@
 						icon="ui-icon ui-icon-plus" />
 					<p:menuitem value="Правка" url="/" icon="ui-icon ui-icon-wrench" />
 					<p:menuitem value="Удалить" url="/" icon="ui-icon ui-icon-minus" />
-					<p:menuitem value="Обновить" url="/"
+					<p:menuitem update="suppliers" value="Обновить" actionListener="#{supplier.refreshSuppliers}"
 						icon="ui-icon ui-icon-arrowreturnthick-1-w" />
 				</p:menubar>
 			</h:form>
@@ -24,7 +24,7 @@
 			styleClass="toggle-panel">
 			<h:form prependId="false">
 
-				<p:dataTable var="sup" value="#{supplier.suppliers}"
+				<p:dataTable id="suppliers" var="sup" value="#{supplier.suppliers}"
 					selectionMode="single">
 					<p:column sortBy="#{sup.name}" filterBy="#{sup.name}"
 						filterMatchMode="contains">
@@ -51,7 +51,7 @@
 
 							<f:facet name="footer">
 								<p:commandButton actionListener="#{supplier.saveSupplierAction}"
-									value="OK" update="growl"
+									value="OK" update="growl,suppliers"
 									oncomplete="handleLoginRequest(xhr, status, args)" />
 									<p:commandButton immediate="true"
 									value="Отмена" update="growl"
