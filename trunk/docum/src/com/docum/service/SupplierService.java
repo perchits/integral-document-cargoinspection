@@ -6,7 +6,7 @@ import com.docum.persistence.common.Supplier;
 
 public interface SupplierService {
 	
-	public Long saveSupplier(Supplier supplier);
+	public Supplier saveSupplier(Supplier supplier);
 	
 	public Supplier getSupplier(Long supplierId);
 	

@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.docum.dao.SupplierDao;
 import com.docum.persistence.common.Supplier;
@@ -41,7 +42,8 @@ public class SupplierServiceImpl implements SupplierService, Serializable {
 	}
 	
 	@Override
-	public Long saveSupplier(Supplier supplier) {
+	@Transactional
+	public Supplier saveSupplier(Supplier supplier) {
 		return supplierDao.saveObject(supplier);
 	}
 

@@ -49,7 +49,7 @@ public class SupplierView implements Serializable {
 	}
 	
 	public void saveSupplierAction(){		
-		supplierService.saveSupplier(supplier);
+		supplier = supplierService.saveSupplier(supplier);
 		System.out.println(supplier.getName());
 		refreshSuppliers();
 	}
