@@ -10,7 +10,7 @@
 
 			<p:column>
 
-				<p:panel header="#{voyage.vessel.name}" style="text-align:center">
+				<p:panel header="#{voyage.vessel}" style="text-align:center">
 
 					<h:panelGroup styleClass="def-pad-mar" layout="block">
 						<h:form prependId="false">
@@ -34,27 +34,33 @@
 									<f:facet name="header">
 										<h:outputText value="Причал" />
 									</f:facet>
+									<h:outputText value="-" />
+								</p:column>
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="Не растаможено" />
+									</f:facet>
+									<h:outputText value="#{v.beforeCustomsContainerCount}" />
 									<h:outputText value="" />
 								</p:column>
 								<p:column>
 									<f:facet name="header">
-										<h:outputText value="Пров." />
+										<h:outputText value="Растаможено" />
 									</f:facet>
-<!-- 									<h:outputText value="#{sd.containerCount.checked}" /> -->
+									<h:outputText value="#{v.afterCustomsContainerCount}" />
 									<h:outputText value="" />
 								</p:column>
 								<p:column>
 									<f:facet name="header">
-										<h:outputText value="Не пров." />
+										<h:outputText value="Проверено" />
 									</f:facet>
-<!-- 									<h:outputText value="#{sd.containerCount.unchecked}" /> -->
-									<h:outputText value="" />
+									<h:outputText value="#{v.checkedContainerCount}" />
 								</p:column>
 								<p:column>
 									<f:facet name="header">
-										<h:outputText value="Обраб." />
+										<h:outputText value="Обработано" />
 									</f:facet>
-<!-- 									<h:outputText value="#{sd.containerCount.processed}" /> -->
+									<h:outputText value="#{v.finishedContainerCount}" />
 									<h:outputText value="" />
 								</p:column>
 								<p:column>
@@ -123,11 +129,11 @@
 			<p:dataTable lazy="false" var="voyage" value="#{dashboardView.unfinishedVoyages}">
 				<f:facet name="header">Суда на подходе</f:facet>
 
-				<p:column sortBy="#{voyage.vessel.name}">
+				<p:column sortBy="#{voyage.vessel}">
 					<f:facet name="header">
 						<h:outputText value="Судозаход" />
 					</f:facet>
-					<h:outputText value="#{voyage.vessel.name}" />
+					<h:outputText value="#{voyage.vessel}" />
 				</p:column>
 
 				<p:column sortBy="#{voyage.arrivalDate}">
