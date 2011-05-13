@@ -18,7 +18,7 @@ public class SupplierView implements Serializable {
 	private SupplierService supplierService;
 
 	private List<Supplier> suppliers;
-	private Supplier supplier;
+	private Supplier supplier = new Supplier();
 	
 	public List<Supplier> getSuppliers() {
 		if(suppliers == null) {
@@ -36,7 +36,7 @@ public class SupplierView implements Serializable {
 	}
 
 	public Supplier getSupplier() {
-		return supplier  = new Supplier();
+		return supplier;
 	}
 	
 	public void newSupplier(){
