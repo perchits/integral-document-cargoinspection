@@ -40,10 +40,11 @@ public class Container extends IdentifiedEntity {
 		this.number = number;
 	}
 
-	public Container(String number, ContainerStateEnum state) {
+	public Container(String number, ContainerStateEnum state, Voyage voyage) {
 		super();
 		this.number = number;
 		this.state = state;
+		this.voyage = voyage;
 	}
 
 	public String getNumber() {

@@ -4,12 +4,12 @@ import java.util.List;
 
 import javax.persistence.TypedQuery;
 
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 
 import com.docum.dao.VoyageDao;
 import com.docum.persistence.common.Voyage;
 
-@Service("voyageDao")
+@Repository("voyageDao")
 public class VoyageDaoImpl extends BaseDaoImpl implements VoyageDao {
 	private static final long serialVersionUID = -6464067549821983064L;
 

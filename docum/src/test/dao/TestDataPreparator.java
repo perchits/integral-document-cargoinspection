@@ -27,7 +27,7 @@ import com.docum.persistence.common.Voyage;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations="/docum-context.xml")
-@TransactionConfiguration(transactionManager="documTxManager", defaultRollback=false)
+@TransactionConfiguration(defaultRollback=false)
 @Transactional
 public class TestDataPreparator {
 
@@ -46,7 +46,7 @@ public class TestDataPreparator {
 		List<Article> articles = prepareArticles();
 		List<Vessel> vessels = prepareVessels();
 		List<Voyage> voyages = prepareVoyages(vessels);
-		List<Container> containers = prepareContainers();
+		List<Container> containers = prepareContainers(voyages);
 		List<Cargo> cargoes = prepareCargoes(articles, suppliers, containers);
 		List<BillOfLading> bills = prepareBillOfLadings(containers);
 		List<Invoice> invoices = prepareInvoices(containers);
@@ -103,16 +103,16 @@ public class TestDataPreparator {
 		return result;
 	}
 
-	private List<Container> prepareContainers() {
+	private List<Container> prepareContainers(List<Voyage> voyages) {
 		List<Container> result = new ArrayList<Container>();
-		result.add(new Container("ZCSU5836992", ContainerStateEnum.BEFORE_CUSTOMS));
-		result.add(new Container("ZCSU5132123", ContainerStateEnum.AFTER_CUSTOMS));
-		result.add(new Container("ZCSU5853644", ContainerStateEnum.CHECKED));
-		result.add(new Container("ZCSU5879274", ContainerStateEnum.FINISHED));
-		result.add(new Container("ZCSU5836626", ContainerStateEnum.BEFORE_CUSTOMS));
-		result.add(new Container("ZCSU5846814", ContainerStateEnum.AFTER_CUSTOMS));
-		result.add(new Container("ZCSU5836992", ContainerStateEnum.CHECKED));
-		result.add(new Container("ZCSU5879398", ContainerStateEnum.FINISHED));
+		result.add(new Container("ZCSU5836992", ContainerStateEnum.BEFORE_CUSTOMS, voyages.get(0)));
+		result.add(new Container("ZCSU5132123", ContainerStateEnum.AFTER_CUSTOMS, voyages.get(1)));
+		result.add(new Container("ZCSU5853644", ContainerStateEnum.CHECKED, voyages.get(2)));
+		result.add(new Container("ZCSU5879274", ContainerStateEnum.FINISHED, voyages.get(0)));
+		result.add(new Container("ZCSU5836626", ContainerStateEnum.BEFORE_CUSTOMS, voyages.get(1)));
+		result.add(new Container("ZCSU5846814", ContainerStateEnum.AFTER_CUSTOMS, voyages.get(2)));
+		result.add(new Container("ZCSU5836992", ContainerStateEnum.CHECKED, voyages.get(0)));
+		result.add(new Container("ZCSU5879398", ContainerStateEnum.FINISHED, voyages.get(1)));
 		
 		for(Container container : result){
 			entityManager.persist(container);
