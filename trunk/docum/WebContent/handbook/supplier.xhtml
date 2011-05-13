@@ -10,7 +10,7 @@
 		<h:panelGroup layout="block" styleClass="crud-menu">
 			<h:form>
 				<p:menubar autoSubmenuDisplay="false" styleClass="crud-menu">
-					<p:menuitem value="Добавить" onclick="lazyload()"
+					<p:menuitem value="Добавить" onclick="lazyload()" actionListener="#{supplier.newSupplier}"
 						icon="ui-icon ui-icon-plus" />
 					<p:menuitem value="Правка" url="/" icon="ui-icon ui-icon-wrench" />
 					<p:menuitem value="Удалить" url="/" icon="ui-icon ui-icon-minus" />
@@ -50,7 +50,7 @@
 								label="Наименование" />
 
 							<f:facet name="footer">							
-								<p:commandButton action="#{supplier.saveSupplierAction}" value="OK" update="growl"
+								<p:commandButton actionListener="#{supplier.saveSupplierAction}" value="OK" update="growl"
 									oncomplete="handleLoginRequest(xhr, status, args)" />								
 							</f:facet>
 						</h:panelGrid>

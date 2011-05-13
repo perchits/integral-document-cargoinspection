@@ -5,18 +5,15 @@ import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.SessionScoped;
 
 import com.docum.persistence.common.Supplier;
 import com.docum.service.SupplierService;
 
 @ManagedBean(name = "supplier")
-@ViewScoped
+@SessionScoped
 public class SupplierView implements Serializable {
-	private static final long serialVersionUID = -676095247499740650L;
-	public SupplierView(){
-		supplier = new Supplier();
-	}
+	private static final long serialVersionUID = -676095247499740650L;	
 	@ManagedProperty(value = "#{supplierService}")
 	private SupplierService supplierService;
 
@@ -42,7 +39,12 @@ public class SupplierView implements Serializable {
 		return supplier;
 	}
 	
-	public void saveSupplierAction(){
+	public void newSupplier(){
+		supplier = new Supplier();
+	}
+	
+	public void saveSupplierAction(){		
 		supplierService.saveSupplier(supplier);
+		System.out.println(supplier.getName());
 	}
 }
