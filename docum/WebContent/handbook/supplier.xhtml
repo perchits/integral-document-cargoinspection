@@ -10,7 +10,7 @@
 		<h:panelGroup layout="block" styleClass="crud-menu">
 			<h:form>
 				<p:menubar autoSubmenuDisplay="false" styleClass="crud-menu">
-					<p:menuitem value="Добавить" onclick="lazyload()" actionListener="#{supplier.newSupplier}"
+					<p:menuitem value="Добавить" actionListener="#{supplier.newSupplier}" onclick="dialog.show()" 
 						icon="ui-icon ui-icon-plus" />
 					<p:menuitem value="Правка" url="/" icon="ui-icon ui-icon-wrench" />
 					<p:menuitem value="Удалить" url="/" icon="ui-icon ui-icon-minus" />
@@ -39,7 +39,7 @@
 
 		<h:form prependId="false">
 			<p:remoteCommand name="lazyload" update="dialogContent"
-				oncomplete="dialog.show()" />
+				oncomplete="dialog.show()" actionListener="#{supplier.newSupplier}" />
 			<p:dialog id="dialog" widgetVar="dialog" modal="true">
 				<p:outputPanel id="dialogContent">
 					<h:panelGroup>
