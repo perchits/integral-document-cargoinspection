@@ -108,3 +108,11 @@ table td {
 .wijmo-wijmenu-list {
 	background: #E9EEF5;
 }
+
+.ui-dialog tfoot{
+	text-align : right;	
+}
+
+.ui-dialog tfoot button{
+	margin : 2px;	
+}
