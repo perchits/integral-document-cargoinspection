@@ -9,7 +9,6 @@ import javax.persistence.TypedQuery;
 import com.docum.dao.BaseDao;
 import com.docum.persistence.IdentifiedEntity;
 
-//@Repository("baseDao")
 public class BaseDaoImpl implements BaseDao {
 	private static final long serialVersionUID = -3085216261035616856L;
 
@@ -20,10 +19,8 @@ public class BaseDaoImpl implements BaseDao {
 	}
 	
 	public <T extends IdentifiedEntity> T saveObject(T object) {
-//		entityManager.getTransaction().begin();
 		entityManager.persist(object);
 		entityManager.flush();
-//		entityManager.getTransaction().commit();
 		return object;
 	}
 
