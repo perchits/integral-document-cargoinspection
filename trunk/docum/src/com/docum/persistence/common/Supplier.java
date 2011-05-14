@@ -8,20 +8,20 @@ import com.docum.persistence.IdentifiedEntity;
 public class Supplier extends IdentifiedEntity {
 
 	private static final long serialVersionUID = 7918790765968857071L;
-	
+
 	private String name;
 
 	public Supplier() {
 	}
-	
+
 	public Supplier(Supplier supplier) {
-		this.name = supplier.name;
+		copy(supplier);
 	}
-	
+
 	public Supplier(String name) {
 		this.name = name;
 	}
-	
+
 	public String getName() {
 		return this.name;
 	}
@@ -29,5 +29,8 @@ public class Supplier extends IdentifiedEntity {
 	public void setName(String name) {
 		this.name = name;
 	}
-   
+
+	public void copy(Supplier supplier) {
+		this.name = supplier.name;
+	}
 }

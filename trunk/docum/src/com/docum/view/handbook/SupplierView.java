@@ -31,15 +31,14 @@ public class SupplierView implements Serializable {
 	}
 
 	public void editSupplier() {
-		// TODO Непонятно как будет тут
-		if (supplier.getId() != null) {
-			supplier = supplierService.getSupplier(supplier.getId());
-			setTitle("Правка: " + supplier.getName());			
+		if (supplier != null) {
+			setTitle("Правка: " + supplier.getName());
 		} else {
 			FacesContext fc = FacesContext.getCurrentInstance();
-			fc.addMessage(null, new FacesMessage(
-					FacesMessage.SEVERITY_ERROR, "Ошибочка вышла...", "Поставщик для редактирования не выбран!"));
-			
+			fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					"Ошибочка вышла...",
+					"Поставщик для редактирования не выбран!"));			
+
 		}
 	}
 
@@ -60,13 +59,24 @@ public class SupplierView implements Serializable {
 	}
 
 	public void newSupplier() {
-		setTitle("Новый поставщик");
-		System.out.println(title);
+		supplier = new Supplier();
+		setTitle("Новый поставщик");		
 	}
 
 	public void saveSupplierAction() {
-		supplier = supplierService.saveSupplier(new Supplier(supplier));
-		suppliers.add(supplier);
+		if (supplier.getId() != null) {
+			Supplier serviceSupplier = supplierService.getSupplier(supplier.getId());
+			serviceSupplier.copy(supplier);
+			supplier = serviceSupplier;
+		}
+		supplier = supplierService.saveSupplier(supplier);
+		/*
+		 * int index = suppliers.indexOf(supplier); if (index != -1) {
+		 * suppliers.set(index, supplier); } else { suppliers.add(supplier); }
+		 */
+
+		refreshSuppliers();
+
 	}
 
 	public String getTitle() {
