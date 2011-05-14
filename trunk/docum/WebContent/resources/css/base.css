@@ -116,3 +116,7 @@ table td {
 .ui-dialog tfoot button{
 	margin : 2px;	
 }
+
+.ui-dialog-content td {
+	vertical-align: middle;
+}
