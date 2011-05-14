@@ -19,12 +19,20 @@ public class SupplierView implements Serializable {
 
 	private List<Supplier> suppliers;
 	private Supplier supplier = new Supplier();
+	private String title;
 	
 	public List<Supplier> getSuppliers() {
 		if(suppliers == null) {
 			refreshSuppliers();
 		}
 		return suppliers;
+	}
+	
+	public void editSupplier(){
+		// TODO Непонятно как будет тут
+		supplier = supplierService.getSupplier(supplier.getId());
+		setTitle(supplier.getName());
+		System.out.println(supplier.getName());
 	}
 	
 	public void refreshSuppliers() {
@@ -44,22 +52,20 @@ public class SupplierView implements Serializable {
 	}
 	
 	public void newSupplier(){
-		supplier = new Supplier();
-		System.out.println("Новый...");
+		setTitle("Новый поставщик");	
+		System.out.println(title);
 	}
 	
 	public void saveSupplierAction(){		
-		supplier = supplierService.saveSupplier(supplier);
-		System.out.println(supplier.getName());
-		refreshSuppliers();
+		suppliers.add(supplierService.saveSupplier(new Supplier(supplier)));	
 	}
 	
 	public String getTitle() {
-		if (supplier.getName() == null) {
-			return "Новый поставщик";
-		} else {
-			return supplier.getName();
-		}
+		return title;		
 	}
 	
+	public void setTitle(String title) {
+		this.title = title;
+	}
+		
 }

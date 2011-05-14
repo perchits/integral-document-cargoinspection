@@ -14,6 +14,10 @@ public class Supplier extends IdentifiedEntity {
 	public Supplier() {
 	}
 	
+	public Supplier(Supplier supplier) {
+		this.name = supplier.name;
+	}
+	
 	public Supplier(String name) {
 		this.name = name;
 	}

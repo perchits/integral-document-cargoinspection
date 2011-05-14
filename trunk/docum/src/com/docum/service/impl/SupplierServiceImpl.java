@@ -21,8 +21,7 @@ public class SupplierServiceImpl implements SupplierService, Serializable {
 
 	@Override
 	public Supplier getSupplier(Long supplierId) {
-		// TODO Auto-generated method stub
-		return null;
+		return supplierDao.getObject(Supplier.class, supplierId);
 	}
 
 	@Override

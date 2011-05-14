@@ -11,6 +11,8 @@ public interface BaseDao extends Serializable {
 	
 	public <T extends IdentifiedEntity> void deleteObject(T object);
 	
-	public <T extends IdentifiedEntity> List<T> getAll(Class<T> clazz);
+	public <T extends IdentifiedEntity> T getObject(Class<T> clazz, Long id);
+	
+	public <T extends IdentifiedEntity> List<T> getAll(Class<T> clazz);	
 
 }
