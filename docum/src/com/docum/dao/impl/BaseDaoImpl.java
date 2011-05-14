@@ -31,6 +31,10 @@ public class BaseDaoImpl implements BaseDao {
 		entityManager.remove(object);
 	}
 	
+	public <T extends IdentifiedEntity> T getObject(Class<T> clazz, Long id) {
+		return entityManager.find(clazz, id);
+	}
+	
 	public <T extends IdentifiedEntity> List<T> getAll(Class<T> clazz) {
 		List<T> result = null;
 		TypedQuery<T> query = entityManager.createQuery(

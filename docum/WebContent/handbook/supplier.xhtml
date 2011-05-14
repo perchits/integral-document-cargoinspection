@@ -6,16 +6,16 @@
 
 <ui:composition template="/WEB-INF/includes/layout.xhtml">
 	<ui:define name="content">
-
 		<h:panelGroup layout="block" styleClass="crud-menu">
 			<h:form>
 				<p:menubar autoSubmenuDisplay="false" styleClass="crud-menu">
 					<p:menuitem value="Добавить"
-						actionListener="#{supplier.newSupplier}" onclick="dialog.show()"
+						actionListener="#{supplier.newSupplier}" oncomplete="dialog.show()"
 						icon="ui-icon ui-icon-plus" />
-					<p:menuitem value="Правка" url="/" icon="ui-icon ui-icon-wrench" />
+					<p:menuitem value="Правка" actionListener="#{supplier.editSupplier}" oncomplete="dialog.show()" icon="ui-icon ui-icon-wrench" />
 					<p:menuitem value="Удалить" url="/" icon="ui-icon ui-icon-minus" />
-					<p:menuitem update="suppliers" value="Обновить" actionListener="#{supplier.refreshSuppliers}"
+					<p:menuitem update="suppliers" value="Обновить"
+						actionListener="#{supplier.refreshSuppliers}"
 						icon="ui-icon ui-icon-arrowreturnthick-1-w" />
 				</p:menubar>
 			</h:form>
@@ -39,7 +39,7 @@
 		</p:panel>
 
 		<h:form prependId="false">
-			<p:dialog id="dialog" widgetVar="dialog" modal="true"			
+			<p:dialog id="dialog" widgetVar="dialog" modal="true"
 				header="#{supplier.title}">
 				<p:outputPanel id="dialogContent">
 					<h:panelGroup>
@@ -53,8 +53,7 @@
 								<p:commandButton actionListener="#{supplier.saveSupplierAction}"
 									value="OK" update="growl,suppliers"
 									oncomplete="handleLoginRequest(xhr, status, args)" />
-									<p:commandButton immediate="true"
-									value="Отмена" update="growl"
+								<p:commandButton immediate="true" value="Отмена" update="growl"
 									onclick="dialog.hide()" />
 							</f:facet>
 						</h:panelGrid>
@@ -75,6 +74,12 @@
 					jQuery('#loginLink').fadeOut();
 				}
 			}
+			
+			function editLastDatatableRow(){
+				   jQuery('.ui-datatable-data tr').last().find('span.ui-icon-pencil').each(function(){
+				      jQuery(this).click()
+				   });
+				}			
 		</script>
 
 	</ui:define>
