@@ -10,15 +10,19 @@ public class DocumLogger {
 		
 	}
 	
-	public static void log(Exception exception) throws Exception {
+	public static void log(Throwable throwable) {
+		if (throwable == null) {
+			logger.error("Empty exception was thrown!");
+			return;
+		}
+		
 		StringBuffer sb = new StringBuffer();
-		sb.append(exception.toString()).append("\n");
-		StackTraceElement[] trace = exception.getStackTrace();
+		sb.append(throwable.toString()).append("\n");
+		StackTraceElement[] trace = throwable.getStackTrace();
 		for (int i = 0; i < trace.length; i++) {
 			sb.append(trace[i].toString()).append("\n");
 		}
-		logger.error(exception);
-		throw new Exception (sb.toString());
+		logger.error(sb.toString());
 	}
 	
 	public static void log(String message) {

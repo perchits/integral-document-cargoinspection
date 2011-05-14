@@ -10,6 +10,8 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ExceptionQueuedEvent;
 import javax.faces.event.ExceptionQueuedEventContext;
 
+import com.docum.util.DocumLogger;
+
 public class DocumExceptionHandler extends ExceptionHandlerWrapper {
 
 	private ExceptionHandler wrapped;
@@ -33,20 +35,18 @@ public class DocumExceptionHandler extends ExceptionHandlerWrapper {
 			Throwable t = context.getException();
 			FacesContext fc = FacesContext.getCurrentInstance();
 			try {
-				// log error
 				if (t.getCause() != null) {
 					fc.addMessage(null, new FacesMessage(
-							FacesMessage.SEVERITY_ERROR, "Ошибочка вышла...", t
-									.getCause().getMessage()));
+						FacesMessage.SEVERITY_ERROR, "Ошибочка вышла...", t.getCause().getMessage()));
 				}
 				fc.renderResponse();
-				// redirect to error view etc....
+				DocumLogger.log(t);
+				// redirect to error view etc....				
 			} finally {
 				// after exception is handeled, remove it from queue
 				i.remove();
 			}
 		}
 		getWrapped().handle();
-
 	}
 }
