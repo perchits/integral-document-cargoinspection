@@ -10,11 +10,11 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ExceptionQueuedEvent;
 import javax.faces.event.ExceptionQueuedEventContext;
 
-public class MyExceptionHandler extends ExceptionHandlerWrapper {
+public class DocumExceptionHandler extends ExceptionHandlerWrapper {
 
 	private ExceptionHandler wrapped;
 
-	public MyExceptionHandler(ExceptionHandler wrapped) {
+	public DocumExceptionHandler(ExceptionHandler wrapped) {
 		this.wrapped = wrapped;
 	}
 
