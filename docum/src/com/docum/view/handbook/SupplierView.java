@@ -8,6 +8,9 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
+
+import org.primefaces.context.RequestContext;
 
 import com.docum.persistence.common.Supplier;
 import com.docum.service.SupplierService;
@@ -30,18 +33,28 @@ public class SupplierView implements Serializable {
 		return suppliers;
 	}
 
-	public void editSupplier() {
+	public void editSupplier(ActionEvent actionEvent) {
 		if (supplier != null) {
 			setTitle("Правка: " + supplier.getName());
 		} else {
 			FacesContext fc = FacesContext.getCurrentInstance();
 			fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					"Ошибочка вышла...",
-					"Поставщик для редактирования не выбран!"));			
+					"Поставщик для редактирования не выбран!"));
+			RequestContext requestContext = RequestContext.getCurrentInstance();
+			requestContext.addCallbackParam("isValid", false);
 
 		}
 	}
 
+	public void deleteSupplier() {
+		/*supplierService.deleteSupplier(supplier.getId());*/
+		FacesContext fc = FacesContext.getCurrentInstance();
+		fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+				"Удаляем...",
+				"Все!"));
+	}
+	
 	public void refreshSuppliers() {
 		suppliers = supplierService.getAllSuppliers();
 	}

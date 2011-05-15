@@ -6,26 +6,30 @@
 
 <ui:composition template="/WEB-INF/includes/layout.xhtml">
 	<ui:define name="content">
-	    <h:form prependId="false">
-		<h:panelGroup layout="block" styleClass="crud-menu">
-			
+		<h:form prependId="false">
+			<h:panelGroup layout="block" styleClass="crud-menu">
+
 				<p:menubar autoSubmenuDisplay="false" styleClass="crud-menu">
 					<p:menuitem value="Добавить" update="dialogPanel,growl"
 						actionListener="#{supplier.newSupplier}"
-						oncomplete="handleDialogShow()" icon="ui-icon ui-icon-plus" />
+						oncomplete="handleDialogShow(xhr, status, args)"
+						icon="ui-icon ui-icon-plus" />
 					<p:menuitem value="Правка" update="dialogPanel,growl"
 						actionListener="#{supplier.editSupplier}"
-						oncomplete="handleDialogShow()" icon="ui-icon ui-icon-wrench" />
-					<p:menuitem value="Удалить" url="#" update="dialogPanel,growl" icon="ui-icon ui-icon-minus" />
+						oncomplete="handleDialogShow(xhr, status, args)"
+						icon="ui-icon ui-icon-wrench" />
+					<p:menuitem value="Удалить" update="suppliers,growl"
+						actionListener="#{supplier.deleteSupplier}"
+						icon="ui-icon ui-icon-minus" />
 					<p:menuitem update="suppliers" value="Обновить"
 						actionListener="#{supplier.refreshSuppliers}"
 						icon="ui-icon ui-icon-arrowreturnthick-1-w" />
 				</p:menubar>
-			
-		</h:panelGroup>
-		<p:panel header="Поставщики" style="text-align:center"
-			styleClass="toggle-panel">
-			
+
+			</h:panelGroup>
+			<p:panel header="Поставщики" style="text-align:center"
+				styleClass="toggle-panel">
+
 
 				<p:dataTable id="suppliers" var="sup" value="#{supplier.suppliers}"
 					selectionMode="single" selection="#{supplier.supplier}">
@@ -38,9 +42,9 @@
 					</p:column>
 				</p:dataTable>
 
-			
-		</p:panel>
-</h:form>
+
+			</p:panel>
+		</h:form>
 		<p:outputPanel id="dialogPanel">
 			<h:form prependId="false">
 				<p:dialog width="480" id="dialog" widgetVar="dialog" modal="true"
@@ -49,9 +53,9 @@
 						<h:panelGroup>
 
 							<h:panelGrid width="100%" columns="2" cellpadding="5">
-								<h:outputLabel for="supname" value="Наименование: *" />
-								<p:inputText size="60" value="#{supplier.supplier.name}" id="supname"
-									required="true" label="Наименование" />
+								<h:outputLabel for="supname" value="#{supplier.supplier.name} Наименование: *" />
+								<h:inputText size="60" value="#{supplier.supplier.name}"
+									id="supname" required="true" label="Наименование" />
 
 								<f:facet name="footer">
 									<p:commandButton
@@ -60,7 +64,7 @@
 										oncomplete="handleLoginRequest(xhr, status, args)" />
 									<p:commandButton type="reset" value="Отмена" update="growl"
 										onclick="dialog.hide()" />
-										
+
 								</f:facet>
 							</h:panelGrid>
 
@@ -81,11 +85,11 @@
 					jQuery('#loginLink').fadeOut();
 				}
 			}
-			
-			function handleDialogShow(xhr, status, args) {
-				//if (!args.failShow) {
-					dialog.show();
-				//}	
+
+			function handleDialogShow(xhr, status, args) {				
+				if (args.isValid == null) {
+						dialog.show();
+				}				
 			}
 
 			function editLastDatatableRow() {
