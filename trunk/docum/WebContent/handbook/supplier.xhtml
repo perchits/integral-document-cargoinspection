@@ -54,11 +54,13 @@
 
 							<h:panelGrid width="100%" columns="2" cellpadding="5">
 								<h:outputLabel for="supname" value="#{supplier.supplier.name} Наименование: *" />
-								<h:inputText size="60" value="#{supplier.supplier.name}"
-									id="supname" required="true" label="Наименование" />
+								<p:inputText size="60" value="#{supplier.supplier.name}"
+									id="supname" required="true" label="Наименование" >
+									<f:validateRegex pattern="[\d]{1,}" />
+									</p:inputText>
 
 								<f:facet name="footer">
-									<p:commandButton
+									<p:commandButton 
 										actionListener="#{supplier.saveSupplierAction}" value="OK"
 										update="suppliers,growl"
 										oncomplete="handleLoginRequest(xhr, status, args)" />
