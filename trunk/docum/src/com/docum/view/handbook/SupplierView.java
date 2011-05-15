@@ -53,6 +53,7 @@ public class SupplierView implements Serializable {
 		fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
 				"Удаляем...",
 				"Все!"));
+		supplierService.deleteSupplier(supplierService.getSupplier(supplier.getId()));
 	}
 	
 	public void refreshSuppliers() {
