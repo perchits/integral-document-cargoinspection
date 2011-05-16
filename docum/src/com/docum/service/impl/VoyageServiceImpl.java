@@ -20,7 +20,7 @@ public class VoyageServiceImpl implements VoyageService, Serializable {
 	
 	@Override
 	public List<Voyage> getAllVoyages() {
-		return voyageDao.getAll(Voyage.class);
+		return voyageDao.getAll(Voyage.class, null);
 	}
 
 	@Override

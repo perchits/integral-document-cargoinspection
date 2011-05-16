@@ -37,7 +37,7 @@ public class VesselServiceImpl implements VesselService, Serializable {
 
 	@Override
 	public List<Vessel> getAllVessels() {
-		return vesselDao.getAll(Vessel.class);
+		return vesselDao.getAll(Vessel.class, new String[]{"name"});
 	}
 
 	@Override
