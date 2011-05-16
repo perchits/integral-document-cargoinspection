@@ -33,10 +33,9 @@
 				</p:toolbar>
 
 		</h:panelGroup>
-		
+
 		<p:panel header="Рейсы судов" style="text-align:center"
-			styleClass="toggle-panel">			
-			<h:form prependId="false">
+			styleClass="toggle-panel">
 				<p:dataTable id="voyages" var="voyage" value="#{voyageView.allVoyages}"
 					selectionMode="single" selection="#{voyageView.voyage}">
 					<p:column sortBy="#{voyage.vessel.name}" filterBy="#{voyage.vessel.name}"
@@ -57,22 +56,24 @@
 						filterMatchMode="contains">
 						<f:facet name="header">
 							Дата прибытия  
-						</f:facet>
-						<h:outputText value="#{voyage.arrivalDate}" />
+						</f:facet>						  
+						<h:outputText value="#{voyage.arrivalDate}">
+						<f:convertDateTime dateStyle="medium" type="date" />
+						</h:outputText>
 					</p:column>
 					<p:column sortBy="#{voyage.finished}" filterBy="#{voyage.finished}"
 						filterMatchMode="contains">
 						<f:facet name="header">
 							Завершено  
 						</f:facet>
-						<h:selectBooleanCheckbox value="#{voyage.finished}" />
+						<h:selectBooleanCheckbox disabled="true" value="#{voyage.finished}" />
 					</p:column>
 
-				</p:dataTable>
-			</h:form>			
+				</p:dataTable>						
 		</p:panel>
+			 
 	</h:form>
-	
+
 	<p:outputPanel id="dialogPanel">
 		<h:form prependId="false">
 			<p:dialog width="340" id="dialog" widgetVar="dialog" modal="true"
@@ -87,15 +88,14 @@
 							</h:selectOneMenu>
 							<h:outputLabel for="voyageNumber" value="Рейс: *" />
 							<p:inputText size="30" value="#{voyageView.voyage.number}"
-								id="voyageNumber" required="true" label="Рейс" >
-							</p:inputText>
-							<h:outputLabel for="voyageArrivalDate" value="Дата прибытия:" />
-							<p:inputText size="30" value="#{voyageView.voyage.arrivalDate}"
-								id="voyageArrivalDate" label="Дата прибытия" >
-							</p:inputText>
-							<h:outputLabel for="voyageFinished" value="Завершено:" />
+								id="voyageNumber" required="true" label="Рейс" />								
+							
+							<h:outputLabel for="voyageArrivalDate" value="Дата прибытия: *" />
+							<p:calendar value="#{voyageView.voyage.arrivalDate}" required="true" 
+							id="voyageArrivalDate" label="Дата прибытия" pattern="dd.MM.yyyy"/>							
+							<h:outputLabel for="voyageFinished" value="Завершено: *" />
 							<h:selectBooleanCheckbox size="30" value="#{voyageView.voyage.finished}"
-								id="voyageFinished" required="true" label="Завершено" >
+								id="voyageFinished" required="true" label="Завершено" >								
 							</h:selectBooleanCheckbox>
 
 							<f:facet name="footer">
@@ -116,19 +116,19 @@
 	</p:outputPanel>
 	
 	<p:outputPanel id="confirmationPanel">
-		<h:form prependId="false" id="confirmationForm">
-			<p:confirmDialog
-				message="Удалить судозаход '#{voyageView.voyage.number}'?"
-				header="Удаление..." severity="alert" widgetVar="confirmation">
+			<h:form prependId="false" id="confirmationForm">
+				<p:confirmDialog
+					message="Удалить поставщика '#{supplier.supplier.name}'?"
+					header="Удаление..." severity="alert" widgetVar="confirmation">
 
-				<p:commandButton value="ОК" update="voyages,growl"
-					actionListener="#{voyageView.deleteVoyage}"
-					oncomplete="confirmation.hide()" />
-				<p:commandButton value="Отмена" onclick="confirmation.hide()"
-					type="button" />
-			</p:confirmDialog>
-		</h:form>
-	</p:outputPanel>
+					<p:commandButton value="ОК" update="suppliers,growl"
+						actionListener="#{voyageView.deleteVoyage}"
+						oncomplete="confirmation.hide()" />
+					<p:commandButton value="Отмена" onclick="confirmation.hide()"
+						type="button" />
+				</p:confirmDialog>
+			</h:form>
+		</p:outputPanel>
 	
 	<h:outputScript name="dialog.js" library="js" />
 
