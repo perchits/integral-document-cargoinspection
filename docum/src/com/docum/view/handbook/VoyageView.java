@@ -94,7 +94,8 @@ public class VoyageView extends BaseDialog implements Serializable {
 	}
 
 	public List<Vessel> getVessels() {
-		return vesselService.getAllVessels();
+		this.vessels = vesselService.getAllVessels();
+		return this.vessels;
 	}
 
 	public void setVessels(List<Vessel> vessels) {
