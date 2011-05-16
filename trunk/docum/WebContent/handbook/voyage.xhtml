@@ -68,28 +68,28 @@
 	
 	<p:outputPanel id="dialogPanel">
 		<h:form prependId="false">
-			<p:dialog width="500" id="dialog" widgetVar="dialog" modal="true"
+			<p:dialog width="320" id="dialog" widgetVar="dialog" modal="true"
 				header="#{voyageView.title}">
 				<p:outputPanel id="dialogContent">
 					<h:panelGroup>
 
 						<h:panelGrid width="100%" columns="2" cellpadding="5">
 							<h:outputLabel for="voyageVessel" value="Судно: *" />
-							<h:selectOneMenu style="width: 60;">
+							<h:selectOneMenu>
 								<f:selectItems value="#{voyageView.vessels}"/>
 							</h:selectOneMenu>
 							<h:outputLabel for="voyageNumber" value="Рейс: *" />
-							<p:inputText size="60" value="#{voyageView.voyage.number}"
+							<p:inputText size="30" value="#{voyageView.voyage.number}"
 								id="voyageNumber" required="true" label="Рейс" >
 								<f:validateRegex pattern="[\d]{1,}" />
 							</p:inputText>
 							<h:outputLabel for="voyageArrivalDate" value="Дата прибытия: *" />
-							<p:inputText size="60" value="#{voyageView.voyage.arrivalDate}"
+							<p:inputText size="30" value="#{voyageView.voyage.arrivalDate}"
 								id="voyageArrivalDate" required="true" label="Дата прибытия" >
 								<f:validateRegex pattern="[\d]{1,}" />
 							</p:inputText>
 							<h:outputLabel for="voyageFinished" value="Завершено: *" />
-							<h:selectBooleanCheckbox size="60" value="#{voyageView.voyage.finished}"
+							<h:selectBooleanCheckbox size="30" value="#{voyageView.voyage.finished}"
 								id="voyageFinished" required="true" label="Завершено" >
 								<f:validateRegex pattern="[\d]{1,}" />
 							</h:selectBooleanCheckbox>
