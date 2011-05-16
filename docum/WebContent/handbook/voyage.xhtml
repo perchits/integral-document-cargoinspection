@@ -10,18 +10,18 @@
 		<h:panelGroup layout="block" styleClass="crud-menu">
 			<p:menubar autoSubmenuDisplay="false" styleClass="crud-menu">
 				<p:menuitem value="Добавить" update="dialogPanel,growl"
-					actionListener="#{voyage.newVoyage}"
+					actionListener="#{voyageView.newVoyage}"
 					oncomplete="handleDialogShow(xhr, status, args)"
 					icon="ui-icon ui-icon-plus" />
 				<p:menuitem value="Правка" update="dialogPanel,growl"
-					actionListener="#{voyage.editVoyage}"
+					actionListener="#{voyageView.editVoyage}"
 					oncomplete="handleDialogShow(xhr, status, args)"
 					icon="ui-icon ui-icon-wrench" />
 				<p:menuitem value="Удалить" update="suppliers,growl"
-					actionListener="#{voyage.deleteVoyage}"
+					actionListener="#{voyageView.deleteVoyage}"
 					icon="ui-icon ui-icon-minus" />
 				<p:menuitem update="suppliers" value="Обновить"
-					actionListener="#{voyage.refreshVoyages}"
+					actionListener="#{voyageView.refreshVoyages}"
 					icon="ui-icon ui-icon-arrowreturnthick-1-w" />
 			</p:menubar>
 
@@ -74,23 +74,26 @@
 					<h:panelGroup>
 
 						<h:panelGrid width="100%" columns="2" cellpadding="5">
-							<h:outputLabel for="supname" value="Судно: *" />
+							<h:outputLabel for="voyageVessel" value="Судно: *" />
 							<p:inputText size="60" value="#{voyage.vessel.name}"
 								id="voyageVessel" required="true" label="Судно" >
 								<f:validateRegex pattern="[\d]{1,}" />
 							</p:inputText>
+							<h:outputLabel for="voyageNumber" value="Рейс: *" />
 							<p:inputText size="60" value="#{voyage.number}"
 								id="voyageNumber" required="true" label="Рейс" >
 								<f:validateRegex pattern="[\d]{1,}" />
 							</p:inputText>
+							<h:outputLabel for="voyageArrivalDate" value="Дата прибытия: *" />
 							<p:inputText size="60" value="#{voyage.arrivalDate}"
 								id="voyageArrivalDate" required="true" label="Дата прибытия" >
 								<f:validateRegex pattern="[\d]{1,}" />
 							</p:inputText>
-							<p:inputText size="60" value="#{voyage.finished}"
+							<h:outputLabel for="voyageFinished" value="Завершено: *" />
+							<h:selectBooleanCheckbox size="60" value="#{voyage.finished}"
 								id="voyageFinished" required="true" label="Завершено" >
 								<f:validateRegex pattern="[\d]{1,}" />
-							</p:inputText>
+							</h:selectBooleanCheckbox>
 
 							<f:facet name="footer">
 								<p:commandButton 
