@@ -12,7 +12,9 @@ import javax.faces.event.ActionEvent;
 
 import org.primefaces.context.RequestContext;
 
+import com.docum.persistence.common.Vessel;
 import com.docum.persistence.common.Voyage;
+import com.docum.service.VesselService;
 import com.docum.service.VoyageService;
 import com.docum.view.handbook.dialog.BaseDialog;
 
@@ -23,8 +25,12 @@ public class VoyageView extends BaseDialog implements Serializable {
 
 	@ManagedProperty(value = "#{voyageService}")
 	private VoyageService voyageService;
+	@ManagedProperty(value = "#{vesselService}")
+	private VesselService vesselService;
+
 
 	private List<Voyage> voyages;
+	private List<Vessel> vessels;
 	private Voyage voyage = new Voyage();
 	
 	public List<Voyage> getAllVoyages() {
@@ -81,5 +87,17 @@ public class VoyageView extends BaseDialog implements Serializable {
 
 	public void setVoyage(Voyage voyage) {
 		this.voyage = voyage;
+	}
+	
+	public void setVesselService(VesselService vesselService) {
+		this.vesselService = vesselService;
+	}
+
+	public List<Vessel> getVessels() {
+		return vesselService.getAllVessels();
+	}
+
+	public void setVessels(List<Vessel> vessels) {
+		this.vessels = vessels;
 	}
 }
