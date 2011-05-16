@@ -110,18 +110,27 @@ table td {
 	background: #E9EEF5;
 }
 
-.ui-dialog tfoot{
-	text-align : right;	
-}
-
 .ui-dialog tfoot button{
 	margin : 2px;	
 }
 
 .ui-dialog-content td {
 	vertical-align: middle;
+	text-align: left;
 }
 
-.ui-dialog-buttonpane {
+.ui-dialog-buttonpane, .ui-dialog-content tfoot td{
 	text-align: right !important;
+}
+
+select {
+	padding: 3px !important;	
+}
+
+.ui-dialog .ui-inputfield {
+	width : 96%;
+	box-sizing:content-box;
+	-ms-box-sizing:content-box;
+	-moz-box-sizing:content-box;
+	-webkit-box-sizing:content-box; 
 }
