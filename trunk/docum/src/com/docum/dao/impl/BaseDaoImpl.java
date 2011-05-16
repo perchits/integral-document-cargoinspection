@@ -32,11 +32,16 @@ public class BaseDaoImpl implements BaseDao {
 		return entityManager.find(clazz, id);
 	}
 	
-	public <T extends IdentifiedEntity> List<T> getAll(Class<T> clazz) {
-		List<T> result = null;
-		TypedQuery<T> query = entityManager.createQuery(
-			String.format("from %1$s", clazz.getName()),clazz);
-		result = query.getResultList();
+	public <T extends IdentifiedEntity> List<T> getAll(Class<T> clazz, String[] sortFields) {
+		String queryString;
+		TypedQuery<T> query;
+		if (sortFields == null) {
+			queryString = "from %1$s";
+		} else {
+			queryString = "from %1$s clazz order by name";
+		}
+		query = entityManager.createQuery(String.format(queryString, clazz.getName()),clazz);
+		List<T> result = query.getResultList();
 		return result;
 	}
 }

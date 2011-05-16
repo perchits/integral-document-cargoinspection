@@ -32,7 +32,7 @@ public class SupplierServiceImpl implements SupplierService, Serializable {
 
 	@Override
 	public List<Supplier> getAllSuppliers() {
-		return supplierDao.getAll(Supplier.class);
+		return supplierDao.getAll(Supplier.class, null);
 	}
 
 	@Override

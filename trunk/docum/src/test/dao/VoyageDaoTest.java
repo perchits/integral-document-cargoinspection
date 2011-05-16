@@ -25,7 +25,7 @@ public class VoyageDaoTest {
 	
 	@Test
 	public void testGetVoyages() {
-		voyageDao.getAll(Voyage.class);
+		voyageDao.getAll(Voyage.class, null);
 		voyageDao.getVoyagesByFinishStatus(true);
 		List<Voyage> voyages = voyageDao.getVoyagesByFinishStatus(false);
 		assertTrue(voyages.size() > 0);
