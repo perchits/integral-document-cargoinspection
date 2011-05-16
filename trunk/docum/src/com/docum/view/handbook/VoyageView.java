@@ -6,20 +6,18 @@ import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
 import org.primefaces.context.RequestContext;
 
-import com.docum.persistence.common.Supplier;
 import com.docum.persistence.common.Voyage;
-import com.docum.service.SupplierService;
 import com.docum.service.VoyageService;
 import com.docum.view.handbook.dialog.BaseDialog;
 
 @ManagedBean(name = "voyageView")
-@ViewScoped
+@SessionScoped
 public class VoyageView extends BaseDialog implements Serializable {
 	private static final long serialVersionUID = 5855731783922631397L;
 
@@ -31,22 +29,21 @@ public class VoyageView extends BaseDialog implements Serializable {
 	
 	public List<Voyage> getAllVoyages() {
 		if(voyages == null) {
-			voyages = voyageService.getAllVoyages();
+			refreshVoyages();
 		}
 		return voyages;
 	}
 	
-	public void editSupplier(ActionEvent actionEvent) {
+	public void editVoyage(ActionEvent actionEvent) {
 		if (voyage != null) {
 			setTitle("Правка: " + voyage.getNumber());
 		} else {
 			FacesContext fc = FacesContext.getCurrentInstance();
 			fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					"Ошибочка вышла...",
-					"Поставщик для редактирования не выбран!"));
+					"Рейс для редактирования не выбран!"));
 			RequestContext requestContext = RequestContext.getCurrentInstance();
 			requestContext.addCallbackParam("isValid", false);
-
 		}
 	}
 	
@@ -61,7 +58,7 @@ public class VoyageView extends BaseDialog implements Serializable {
 
 	public void newVoyage() {
 		this.voyage = new Voyage();
-		setTitle("Новый рейс");		
+		setTitle("Новый рейс");
 	}
 
 	public void saveVoyageAction() {
@@ -71,9 +68,7 @@ public class VoyageView extends BaseDialog implements Serializable {
 			this.voyage = voyage;
 		}
 		this.voyage =  voyageService.saveVoyage(this.voyage);
-
 		refreshVoyages();
-
 	}
 
 	public void setVoyageService(VoyageService voyageService) {
