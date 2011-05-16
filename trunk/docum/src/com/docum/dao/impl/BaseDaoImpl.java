@@ -33,14 +33,21 @@ public class BaseDaoImpl implements BaseDao {
 	}
 	
 	public <T extends IdentifiedEntity> List<T> getAll(Class<T> clazz, String[] sortFields) {
-		String queryString;
 		TypedQuery<T> query;
 		if (sortFields == null) {
-			queryString = "from %1$s";
+			query = entityManager.createQuery(String.format("from %1$s", clazz.getName()),clazz);
 		} else {
-			queryString = "from %1$s clazz order by name";
+			String queryString;
+			int range = sortFields.length - 1;
+			StringBuffer orderString = new StringBuffer();
+			for(int i = 0; i < range; i++) {
+				orderString.append(sortFields[i]).append(", ");
+			}
+			orderString.append(sortFields[range]);
+			queryString = String.format(
+				"from %1$s clazz order by %2$s", clazz.getName(), orderString.toString());
+			query = entityManager.createQuery(queryString,clazz);
 		}
-		query = entityManager.createQuery(String.format(queryString, clazz.getName()),clazz);
 		List<T> result = query.getResultList();
 		return result;
 	}
