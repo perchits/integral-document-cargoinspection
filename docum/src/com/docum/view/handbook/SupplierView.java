@@ -6,7 +6,7 @@ import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
@@ -16,7 +16,7 @@ import com.docum.persistence.common.Supplier;
 import com.docum.service.SupplierService;
 
 @ManagedBean(name = "supplier")
-@RequestScoped
+@SessionScoped
 
 public class SupplierView implements Serializable {
 	private static final long serialVersionUID = -676095247499740650L;
@@ -47,7 +47,7 @@ public class SupplierView implements Serializable {
 		}
 	}
 
-	public void deleteSupplier() {
+	public void deleteSupplier() {		
 		supplierService.deleteSupplier(supplierService.getSupplier(supplier
 				.getId()));
 		refreshSuppliers();
@@ -80,7 +80,7 @@ public class SupplierView implements Serializable {
 			supplier.copy(this.supplier);
 			this.supplier = supplier;
 		}
-		supplier = supplierService.saveSupplier(supplier);
+		this.supplier = supplierService.saveSupplier(supplier);
 		/*
 		 * int index = suppliers.indexOf(supplier); if (index != -1) {
 		 * suppliers.set(index, supplier); } else { suppliers.add(supplier); }

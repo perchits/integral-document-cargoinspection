@@ -23,7 +23,7 @@
 							image="ui-icon ui-icon-wrench" />
 
 						<p:commandButton type="push" value="Удалить"
-							oncomplete="beforeShow(confirmation,'suppliers')"
+							oncomplete="beforeShow(confirmation,'suppliers')"							
 							image="ui-icon ui-icon-minus" update="confirmationPanel,growl" />
 
 						<p:commandButton type="push" update="suppliers" value="Обновить"
@@ -60,10 +60,9 @@
 						<h:panelGroup>
 
 							<h:panelGrid width="100%" columns="2" cellpadding="5">
-								<h:outputLabel for="supname"
-									value="Наименование: *" />
+								<h:outputLabel for="supname" value="Наименование: *" />
 								<p:inputText size="60" value="#{supplier.supplier.name}"
-									id="supname" required="true" label="Наименование">									
+									id="supname" required="true" label="Наименование">
 								</p:inputText>
 
 								<f:facet name="footer">
