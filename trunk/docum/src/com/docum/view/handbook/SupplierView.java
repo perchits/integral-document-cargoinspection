@@ -14,18 +14,17 @@ import org.primefaces.context.RequestContext;
 
 import com.docum.persistence.common.Supplier;
 import com.docum.service.SupplierService;
-import com.docum.view.handbook.dialog.BaseDialog;
 
 @ManagedBean(name = "supplier")
 @SessionScoped
-public class SupplierView extends BaseDialog implements Serializable {
+public class SupplierView implements Serializable {
 	private static final long serialVersionUID = -676095247499740650L;
-	
 	@ManagedProperty(value = "#{supplierService}")
 	private SupplierService supplierService;
 
 	private List<Supplier> suppliers;
 	private Supplier supplier = new Supplier();
+	private String title;
 
 	public List<Supplier> getSuppliers() {
 		if (suppliers == null) {
@@ -35,6 +34,7 @@ public class SupplierView extends BaseDialog implements Serializable {
 	}
 
 	public void editSupplier(ActionEvent actionEvent) {
+		RequestContext requestContext = RequestContext.getCurrentInstance();
 		if (supplier != null) {
 			setTitle("Правка: " + supplier.getName());
 		} else {
@@ -42,21 +42,16 @@ public class SupplierView extends BaseDialog implements Serializable {
 			fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					"Ошибочка вышла...",
 					"Поставщик для редактирования не выбран!"));
-			RequestContext requestContext = RequestContext.getCurrentInstance();
 			requestContext.addCallbackParam("isValid", false);
-
 		}
 	}
 
 	public void deleteSupplier() {
-		/*supplierService.deleteSupplier(supplier.getId());*/
-		FacesContext fc = FacesContext.getCurrentInstance();
-		fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-				"Удаляем...",
-				"Все!"));
-		supplierService.deleteSupplier(supplierService.getSupplier(supplier.getId()));
+		supplierService.deleteSupplier(supplierService.getSupplier(supplier
+				.getId()));
+		refreshSuppliers();
 	}
-	
+
 	public void refreshSuppliers() {
 		suppliers = supplierService.getAllSuppliers();
 	}
@@ -75,7 +70,7 @@ public class SupplierView extends BaseDialog implements Serializable {
 
 	public void newSupplier() {
 		supplier = new Supplier();
-		setTitle("Новый поставщик");		
+		setTitle("Новый поставщик");
 	}
 
 	public void saveSupplierAction() {
@@ -93,4 +88,13 @@ public class SupplierView extends BaseDialog implements Serializable {
 		refreshSuppliers();
 
 	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
 }
