@@ -8,22 +8,29 @@
 	<ui:define name="content">	
 	<h:form prependId="false">
 		<h:panelGroup layout="block" styleClass="crud-menu">
-			<p:menubar autoSubmenuDisplay="false" styleClass="crud-menu">
-				<p:menuitem value="Добавить" update="dialogPanel,growl"
-					actionListener="#{voyageView.newVoyage}"
-					oncomplete="handleDialogShow(xhr, status, args)"
-					icon="ui-icon ui-icon-plus" />
-				<p:menuitem value="Правка" update="dialogPanel,growl"
-					actionListener="#{voyageView.editVoyage}"
-					oncomplete="handleDialogShow(xhr, status, args)"
-					icon="ui-icon ui-icon-wrench" />
-				<p:menuitem value="Удалить" update="voyages,growl"
-					actionListener="#{voyageView.deleteVoyage}"
-					icon="ui-icon ui-icon-minus" />
-				<p:menuitem update="voyages" value="Обновить"
-					actionListener="#{voyageView.refreshVoyages}"
-					icon="ui-icon ui-icon-arrowreturnthick-1-w" />
-			</p:menubar>
+			<p:toolbar styleClass="crud-menu">
+					<p:toolbarGroup align="left">
+						<p:commandButton type="push" value="Добавить"
+							update="dialogPanel,growl" image="ui-icon-document"
+							actionListener="#{voyageView.newVoyage}"
+							oncomplete="dialog.show()" />
+
+						<p:commandButton type="push" value="Правка"
+							update="dialogPanel,growl"
+							actionListener="#{voyageView.editVoyage}"
+							oncomplete="beforeShow(dialog,'voyages')"
+							image="ui-icon ui-icon-wrench" />
+
+						<p:commandButton type="push" value="Удалить"
+							oncomplete="beforeShow(confirmation,'voyages')"
+							image="ui-icon ui-icon-minus" update="confirmationPanel,growl" />
+
+						<p:commandButton type="push" update="voyages" value="Обновить"
+							actionListener="#{voyageView.refreshVoyages}"
+							image="ui-icon ui-icon-arrowreturnthick-1-w" />
+
+					</p:toolbarGroup>
+				</p:toolbar>
 
 		</h:panelGroup>
 		
@@ -110,33 +117,9 @@
 			</p:dialog>
 		</h:form>
 	</p:outputPanel>
+	
+	<h:outputScript name="dialog.js" library="js" />
 
-	<script type="text/javascript">
-		function handleLoginRequest(xhr, status, args) {
-			if (args.validationFailed) {
-				jQuery('#dialog').parent().effect("shake", {
-					times : 3
-				}, 100);
-			} else {
-				dialog.hide();
-				jQuery('#loginLink').fadeOut();
-			}
-		}
-
-		function handleDialogShow(xhr, status, args) {				
-			if (args.isValid == null) {
-					dialog.show();
-			}				
-		}
-
-		function editLastDatatableRow() {
-			jQuery('.ui-datatable-data tr').last().find(
-					'span.ui-icon-pencil').each(function() {
-				jQuery(this).click()
-			});
-		}
-	</script>
-		
 	</ui:define>
 </ui:composition>
 </html>
