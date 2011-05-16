@@ -6,11 +6,31 @@
 
 <ui:composition template="/WEB-INF/includes/layout.xhtml">
 	<ui:define name="content">	
-	<ui:include src="/WEB-INF/includes/crud.xhtml" />
+	<h:form prependId="false">
+		<h:panelGroup layout="block" styleClass="crud-menu">
+			<p:menubar autoSubmenuDisplay="false" styleClass="crud-menu">
+				<p:menuitem value="Добавить" update="dialogPanel,growl"
+					actionListener="#{voyage.newVoyage}"
+					oncomplete="handleDialogShow(xhr, status, args)"
+					icon="ui-icon ui-icon-plus" />
+				<p:menuitem value="Правка" update="dialogPanel,growl"
+					actionListener="#{voyage.editVoyage}"
+					oncomplete="handleDialogShow(xhr, status, args)"
+					icon="ui-icon ui-icon-wrench" />
+				<p:menuitem value="Удалить" update="suppliers,growl"
+					actionListener="#{voyage.deleteVoyage}"
+					icon="ui-icon ui-icon-minus" />
+				<p:menuitem update="suppliers" value="Обновить"
+					actionListener="#{voyage.refreshVoyages}"
+					icon="ui-icon ui-icon-arrowreturnthick-1-w" />
+			</p:menubar>
+
+		</h:panelGroup>
+		
 		<p:panel header="Рейсы судов" style="text-align:center"
 			styleClass="toggle-panel">			
 			<h:form prependId="false">
-				<p:dataTable var="voyage" value="#{voyage.allVoyages}"
+				<p:dataTable id="voyages" var="voyage" value="#{voyageView.allVoyages}"
 					selectionMode="single">
 					<p:column sortBy="#{voyage.vessel.name}" filterBy="#{voyage.vessel.name}"
 						filterMatchMode="contains">
@@ -44,6 +64,77 @@
 				</p:dataTable>
 			</h:form>			
 		</p:panel>
+	</h:form>
+	
+	<p:outputPanel id="dialogPanel">
+		<h:form prependId="false">
+			<p:dialog width="480" id="dialog" widgetVar="dialog" modal="true"
+				header="#{voyage.title}">
+				<p:outputPanel id="dialogContent">
+					<h:panelGroup>
+
+						<h:panelGrid width="100%" columns="2" cellpadding="5">
+							<h:outputLabel for="supname" value="Судно: *" />
+							<p:inputText size="60" value="#{voyage.vessel.name}"
+								id="voyageVessel" required="true" label="Судно" >
+								<f:validateRegex pattern="[\d]{1,}" />
+							</p:inputText>
+							<p:inputText size="60" value="#{voyage.number}"
+								id="voyageNumber" required="true" label="Рейс" >
+								<f:validateRegex pattern="[\d]{1,}" />
+							</p:inputText>
+							<p:inputText size="60" value="#{voyage.arrivalDate}"
+								id="voyageArrivalDate" required="true" label="Дата прибытия" >
+								<f:validateRegex pattern="[\d]{1,}" />
+							</p:inputText>
+							<p:inputText size="60" value="#{voyage.finished}"
+								id="voyageFinished" required="true" label="Завершено" >
+								<f:validateRegex pattern="[\d]{1,}" />
+							</p:inputText>
+
+							<f:facet name="footer">
+								<p:commandButton 
+									actionListener="#{voyage.saveVoyageAction}" value="OK"
+									update="voyages,growl"
+									oncomplete="handleLoginRequest(xhr, status, args)" />
+								<p:commandButton type="reset" value="Отмена" update="growl"
+									onclick="dialog.hide()" />
+
+							</f:facet>
+						</h:panelGrid>
+
+					</h:panelGroup>
+				</p:outputPanel>
+			</p:dialog>
+		</h:form>
+	</p:outputPanel>
+
+	<script type="text/javascript">
+		function handleLoginRequest(xhr, status, args) {
+			if (args.validationFailed) {
+				jQuery('#dialog').parent().effect("shake", {
+					times : 3
+				}, 100);
+			} else {
+				dialog.hide();
+				jQuery('#loginLink').fadeOut();
+			}
+		}
+
+		function handleDialogShow(xhr, status, args) {				
+			if (args.isValid == null) {
+					dialog.show();
+			}				
+		}
+
+		function editLastDatatableRow() {
+			jQuery('.ui-datatable-data tr').last().find(
+					'span.ui-icon-pencil').each(function() {
+				jQuery(this).click()
+			});
+		}
+	</script>
+		
 	</ui:define>
 </ui:composition>
 </html>

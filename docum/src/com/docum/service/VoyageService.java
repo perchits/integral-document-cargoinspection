@@ -9,5 +9,6 @@ public interface VoyageService {
 	public List<Voyage> getAllVoyages();
 	public Collection<Voyage> getFinishedVoyages();
 	public Collection<Voyage> getUnfinishedVoyages();
-
+	public Voyage getVoyage(Long voyageId);
+	public Voyage saveVoyage(Voyage voyage);
 }

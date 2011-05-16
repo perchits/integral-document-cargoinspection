@@ -14,17 +14,18 @@ import org.primefaces.context.RequestContext;
 
 import com.docum.persistence.common.Supplier;
 import com.docum.service.SupplierService;
+import com.docum.view.handbook.dialog.BaseDialog;
 
 @ManagedBean(name = "supplier")
 @SessionScoped
-public class SupplierView implements Serializable {
+public class SupplierView extends BaseDialog implements Serializable {
 	private static final long serialVersionUID = -676095247499740650L;
+	
 	@ManagedProperty(value = "#{supplierService}")
 	private SupplierService supplierService;
 
 	private List<Supplier> suppliers;
 	private Supplier supplier = new Supplier();
-	private String title;
 
 	public List<Supplier> getSuppliers() {
 		if (suppliers == null) {
@@ -78,10 +79,10 @@ public class SupplierView implements Serializable {
 	}
 
 	public void saveSupplierAction() {
-		if (supplier.getId() != null) {
-			Supplier serviceSupplier = supplierService.getSupplier(supplier.getId());
-			serviceSupplier.copy(supplier);
-			supplier = serviceSupplier;
+		if (this.supplier.getId() != null) {
+			Supplier supplier = supplierService.getSupplier(this.supplier.getId());
+			supplier.copy(this.supplier);
+			this.supplier = supplier;
 		}
 		supplier = supplierService.saveSupplier(supplier);
 		/*
@@ -92,13 +93,4 @@ public class SupplierView implements Serializable {
 		refreshSuppliers();
 
 	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
 }
