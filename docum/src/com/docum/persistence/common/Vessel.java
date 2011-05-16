@@ -27,5 +27,10 @@ public class Vessel extends IdentifiedEntity implements Serializable {
 	public void setName(String vesselName) {
 		this.name = vesselName;
 	}
+	
+	@Override
+	public String toString() {
+		return this.name;
+	}
 
 }

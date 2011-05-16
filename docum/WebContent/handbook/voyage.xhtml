@@ -75,10 +75,9 @@
 
 						<h:panelGrid width="100%" columns="2" cellpadding="5">
 							<h:outputLabel for="voyageVessel" value="Судно: *" />
-							<p:inputText size="60" value="#{voyageView.voyage.vessel.name}"
-								id="voyageVessel" required="true" label="Судно" >
-								<f:validateRegex pattern="[\d]{1,}" />
-							</p:inputText>
+							<h:selectOneMenu style="width: 60;">
+								<f:selectItems value="#{voyageView.vessels}"/>
+							</h:selectOneMenu>
 							<h:outputLabel for="voyageNumber" value="Рейс: *" />
 							<p:inputText size="60" value="#{voyageView.voyage.number}"
 								id="voyageNumber" required="true" label="Рейс" >

@@ -37,6 +37,7 @@
 	<target name="clean">
 		<echo message="Cleaning up..."/>
 		<delete dir="${DistDir}"/>
+		<delete dir="${DeployDir}/docum"/>
 	</target>
 
 	<target name="compile" depends="makeDirs">
