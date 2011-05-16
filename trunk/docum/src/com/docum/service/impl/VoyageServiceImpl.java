@@ -33,4 +33,14 @@ public class VoyageServiceImpl implements VoyageService, Serializable {
 		return voyageDao.getVoyagesByFinishStatus(false);
 	}
 
+	@Override
+	public Voyage getVoyage(Long voyageId) {
+		return voyageDao.getObject(Voyage.class, voyageId);
+	}
+
+	@Override
+	public Voyage saveVoyage(Voyage voyage) {
+		return voyageDao.saveObject(voyage);
+	}
+
 }
