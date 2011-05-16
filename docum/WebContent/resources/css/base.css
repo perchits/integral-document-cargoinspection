@@ -96,13 +96,14 @@ table td {
 
 /*  */
 
-.crud-menu .wijmo-wijmenu-text {
-	font-size: 11px;
+.crud-menu .wijmo-wijmenu-text, .crud-menu .ui-button {
+	font-size: 11px !important;	
 }
 
 .crud-menu div {
-	padding : 0;
+	padding : 2px;
 	margin: 0;
+	background: none;
 }
 
 .wijmo-wijmenu-list {
@@ -119,4 +120,8 @@ table td {
 
 .ui-dialog-content td {
 	vertical-align: middle;
+}
+
+.ui-dialog-buttonpane {
+	text-align: right !important;
 }
