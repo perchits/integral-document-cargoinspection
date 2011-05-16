@@ -6,7 +6,7 @@ import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
@@ -16,7 +16,8 @@ import com.docum.persistence.common.Supplier;
 import com.docum.service.SupplierService;
 
 @ManagedBean(name = "supplier")
-@SessionScoped
+@RequestScoped
+
 public class SupplierView implements Serializable {
 	private static final long serialVersionUID = -676095247499740650L;
 	@ManagedProperty(value = "#{supplierService}")
