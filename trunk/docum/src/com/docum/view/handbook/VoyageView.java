@@ -61,7 +61,6 @@ public class VoyageView extends BaseDialog implements Serializable {
 		this.voyages = voyageService.getAllVoyages();
 	}
 
-
 	public void newVoyage() {
 		this.voyage = new Voyage();
 		setTitle("Новый рейс");

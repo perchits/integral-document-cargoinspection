@@ -82,30 +82,27 @@
 
 						<h:panelGrid width="100%" columns="2" cellpadding="5">
 							<h:outputLabel for="voyageVessel" value="Судно: *" />
-							<h:selectOneMenu>
+							<h:selectOneMenu id="voyageVessel">
 								<f:selectItems value="#{voyageView.vessels}"/>
 							</h:selectOneMenu>
 							<h:outputLabel for="voyageNumber" value="Рейс: *" />
 							<p:inputText size="30" value="#{voyageView.voyage.number}"
 								id="voyageNumber" required="true" label="Рейс" >
-								<f:validateRegex pattern="[\d]{1,}" />
 							</p:inputText>
-							<h:outputLabel for="voyageArrivalDate" value="Дата прибытия: *" />
+							<h:outputLabel for="voyageArrivalDate" value="Дата прибытия:" />
 							<p:inputText size="30" value="#{voyageView.voyage.arrivalDate}"
-								id="voyageArrivalDate" required="true" label="Дата прибытия" >
-								<f:validateRegex pattern="[\d]{1,}" />
+								id="voyageArrivalDate" label="Дата прибытия" >
 							</p:inputText>
-							<h:outputLabel for="voyageFinished" value="Завершено: *" />
+							<h:outputLabel for="voyageFinished" value="Завершено:" />
 							<h:selectBooleanCheckbox size="30" value="#{voyageView.voyage.finished}"
 								id="voyageFinished" required="true" label="Завершено" >
-								<f:validateRegex pattern="[\d]{1,}" />
 							</h:selectBooleanCheckbox>
 
 							<f:facet name="footer">
 								<p:commandButton 
 									actionListener="#{voyageView.saveVoyageAction}" value="OK"
 									update="voyages,growl"
-									oncomplete="handleLoginRequest(xhr, status, args)" />
+									oncomplete="handleOKRequest(args,dialog,'dialog')" />
 								<p:commandButton type="reset" value="Отмена" update="growl"
 									onclick="dialog.hide()" />
 
@@ -115,6 +112,21 @@
 					</h:panelGroup>
 				</p:outputPanel>
 			</p:dialog>
+		</h:form>
+	</p:outputPanel>
+	
+	<p:outputPanel id="confirmationPanel">
+		<h:form prependId="false" id="confirmationForm">
+			<p:confirmDialog
+				message="Удалить судозаход '#{voyageView.voyage.number}'?"
+				header="Удаление..." severity="alert" widgetVar="confirmation">
+
+				<p:commandButton value="ОК" update="voyages,growl"
+					actionListener="#{voyageView.deleteVoyage}"
+					oncomplete="confirmation.hide()" />
+				<p:commandButton value="Отмена" onclick="confirmation.hide()"
+					type="button" />
+			</p:confirmDialog>
 		</h:form>
 	</p:outputPanel>
 	
