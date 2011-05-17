@@ -83,7 +83,7 @@
 
 						<h:panelGrid width="100%" columns="2" cellpadding="5">
 							<h:outputLabel for="voyageVessel" value="Судно: *" />
-							<h:selectOneMenu id="voyageVessel"
+							<h:selectOneMenu id="voyageVessel" styleClass="ui-inputfield ui-widget ui-state-default ui-corner-all"
 								valueChangeListener="#{voyageBean.vesselSelected}">
 								<f:selectItems value="#{voyageBean.vessels}" var="vsls"
 								 itemLabel="#{vsls.name}" itemValue="#{vsls.id}"/>

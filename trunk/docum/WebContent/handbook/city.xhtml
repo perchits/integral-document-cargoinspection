@@ -49,18 +49,14 @@
 						filterBy="#{city.our}" filterMatchMode="contains">
 						<f:facet name="header">Обслуживаемый</f:facet>
 						<h:selectBooleanCheckbox disabled="true" value="#{city.our}" />
-					</p:column>
-					
-					
-					
+					</p:column>					
 				</p:dataTable>
-
 
 			</p:panel>
 		</h:form>
 		<p:outputPanel id="dialogPanel">
 			<h:form prependId="false" id="dialogForm">
-				<p:dialog width="480" id="dialog" widgetVar="dialog" modal="true"
+				<p:dialog width="380" id="dialog" widgetVar="dialog" modal="true"
 					header="#{cityBean.title}">
 					<p:outputPanel id="dialogContent">
 						<h:panelGroup>
@@ -69,6 +65,11 @@
 								<p:inputText size="60" value="#{cityBean.city.name}"
 									id="supname" required="true" label="Наименование">
 								</p:inputText>
+								
+								<h:outputLabel for="cityOur" value="Обслуживаемый:" />
+							<h:selectBooleanCheckbox value="#{cityBean.city.our}"
+								id="cityOur" label="Обслуживаемый" >								
+							</h:selectBooleanCheckbox>
 
 								<f:facet name="footer">
 									<p:commandButton
