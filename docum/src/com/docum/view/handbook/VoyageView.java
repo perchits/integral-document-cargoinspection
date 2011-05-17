@@ -20,7 +20,7 @@ import com.docum.service.VesselService;
 import com.docum.service.VoyageService;
 import com.docum.view.handbook.dialog.BaseDialog;
 
-@ManagedBean(name = "voyageView")
+@ManagedBean(name = "voyageBean")
 @SessionScoped
 public class VoyageView extends BaseDialog implements Serializable {
 	private static final String sing = "Судозаход";

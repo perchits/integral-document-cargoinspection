@@ -12,12 +12,12 @@
 					<p:toolbarGroup align="left">
 						<p:commandButton type="push" value="Добавить"
 							update="dialogPanel,growl" image="ui-icon-document"
-							actionListener="#{voyageView.newVoyage}"
+							actionListener="#{voyageBean.newVoyage}"
 							oncomplete="dialog.show()" />
 
 						<p:commandButton type="push" value="Правка"
 							update="dialogPanel,growl"
-							actionListener="#{voyageView.editVoyage}"
+							actionListener="#{voyageBean.editVoyage}"
 							oncomplete="beforeShow(dialog,'voyages')"
 							image="ui-icon ui-icon-wrench" />
 
@@ -26,7 +26,7 @@
 							image="ui-icon ui-icon-minus" update="confirmationPanel,growl" />
 
 						<p:commandButton type="push" update="voyages" value="Обновить"
-							actionListener="#{voyageView.refreshVoyages}"
+							actionListener="#{voyageBean.refreshVoyages}"
 							image="ui-icon ui-icon-arrowreturnthick-1-w" />
 
 					</p:toolbarGroup>
@@ -36,8 +36,8 @@
 
 		<p:panel header="Рейсы судов" style="text-align:center"
 			styleClass="toggle-panel">
-				<p:dataTable id="voyages" var="voyage" value="#{voyageView.allVoyages}"
-					selectionMode="single" selection="#{voyageView.voyage}">
+				<p:dataTable id="voyages" var="voyage" value="#{voyageBean.allVoyages}"
+					selectionMode="single" selection="#{voyageBean.voyage}">
 					<p:column sortBy="#{voyage.vessel.name}" filterBy="#{voyage.vessel.name}"
 						filterMatchMode="contains">
 						<f:facet name="header">
@@ -77,33 +77,33 @@
 	<p:outputPanel id="dialogPanel">
 		<h:form prependId="false">
 			<p:dialog width="340" id="dialog" widgetVar="dialog" modal="true"
-				header="#{voyageView.title}">
+				header="#{voyageBean.title}">
 				<p:outputPanel id="dialogContent">
 					<h:panelGroup>
 
 						<h:panelGrid width="100%" columns="2" cellpadding="5">
 							<h:outputLabel for="voyageVessel" value="Судно: *" />
 							<h:selectOneMenu id="voyageVessel"
-								valueChangeListener="#{voyageView.vesselSelected}">
-								<f:selectItems value="#{voyageView.vessels}" var="vsls"
+								valueChangeListener="#{voyageBean.vesselSelected}">
+								<f:selectItems value="#{voyageBean.vessels}" var="vsls"
 								 itemLabel="#{vsls.name}" itemValue="#{vsls.id}"/>
 							</h:selectOneMenu>
 							<h:outputLabel for="voyageNumber" value="Рейс: *" />
-							<p:inputText size="30" value="#{voyageView.voyage.number}"
+							<p:inputText size="30" value="#{voyageBean.voyage.number}"
 								id="voyageNumber" required="true" label="Рейс" />								
 							
 							<h:outputLabel for="voyageArrivalDate" value="Дата прибытия: *" />
-							<p:calendar value="#{voyageView.voyage.arrivalDate}" 
+							<p:calendar value="#{voyageBean.voyage.arrivalDate}" 
 							id="voyageArrivalDate" label="Дата прибытия" pattern="dd.MM.yyyy"/>
 														
 							<h:outputLabel for="voyageFinished" value="Завершено: *" />
-							<h:selectBooleanCheckbox size="30" value="#{voyageView.voyage.finished}"
+							<h:selectBooleanCheckbox size="30" value="#{voyageBean.voyage.finished}"
 								id="voyageFinished" label="Завершено" >								
 							</h:selectBooleanCheckbox>
 
 							<f:facet name="footer">
 								<p:commandButton 
-									actionListener="#{voyageView.saveVoyageAction}" value="OK"
+									actionListener="#{voyageBean.saveVoyageAction}" value="OK"
 									update="voyages,growl"
 									oncomplete="handleOKRequest(args,dialog,'dialog')" />
 								<p:commandButton type="reset" value="Отмена" update="growl"
@@ -121,11 +121,11 @@
 	<p:outputPanel id="confirmationPanel">
 			<h:form prependId="false" id="confirmationForm">
 				<p:confirmDialog
-					message="Удалить судозаход '#{voyageView.voyage.number}'?"
+					message="Удалить судозаход '#{voyageBean.voyage.number}'?"
 					header="Удаление..." severity="alert" widgetVar="confirmation">
 
 					<p:commandButton value="ОК" update="voyages,growl"
-						actionListener="#{voyageView.deleteVoyage}"
+						actionListener="#{voyageBean.deleteVoyage}"
 						oncomplete="confirmation.hide()" />
 					<p:commandButton value="Отмена" onclick="confirmation.hide()"
 						type="button" />
