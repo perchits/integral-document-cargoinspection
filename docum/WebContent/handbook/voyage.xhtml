@@ -121,10 +121,10 @@
 	<p:outputPanel id="confirmationPanel">
 			<h:form prependId="false" id="confirmationForm">
 				<p:confirmDialog
-					message="Удалить поставщика '#{supplier.supplier.name}'?"
+					message="Удалить судозаход '#{voyageView.voyage.number}'?"
 					header="Удаление..." severity="alert" widgetVar="confirmation">
 
-					<p:commandButton value="ОК" update="suppliers,growl"
+					<p:commandButton value="ОК" update="voyages,growl"
 						actionListener="#{voyageView.deleteVoyage}"
 						oncomplete="confirmation.hide()" />
 					<p:commandButton value="Отмена" onclick="confirmation.hide()"

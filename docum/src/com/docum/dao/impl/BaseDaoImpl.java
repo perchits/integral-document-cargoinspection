@@ -51,4 +51,9 @@ public class BaseDaoImpl implements BaseDao {
 		List<T> result = query.getResultList();
 		return result;
 	}
+
+	@Override
+	public <T extends IdentifiedEntity> void deleteObject(Class<T> clazz, Long objectId) {
+		entityManager.remove(entityManager.find(clazz, objectId));
+	}
 }

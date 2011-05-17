@@ -11,4 +11,6 @@ public interface VoyageService {
 	public Collection<Voyage> getUnfinishedVoyages();
 	public Voyage getVoyage(Long voyageId);
 	public Voyage saveVoyage(Voyage voyage);
+	public void deleteVoyage(Voyage voyage);
+	public void deleteVoyage(Long voyageId);
 }

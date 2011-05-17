@@ -45,4 +45,14 @@ public class VoyageServiceImpl implements VoyageService, Serializable {
 		return voyageDao.saveObject(voyage);
 	}
 
+	@Override
+	public void deleteVoyage(Voyage voyage) {
+		voyageDao.deleteObject(voyage);
+	}
+
+	@Override
+	public void deleteVoyage(Long voyageId) {
+		voyageDao.deleteObject(Voyage.class, voyageId);
+	}
+
 }

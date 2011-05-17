@@ -58,9 +58,8 @@ public class VoyageView extends BaseDialog implements Serializable {
 	}
 	
 	public void deleteVoyage() {
-		/*voyageService.deleteVoyage(voyageService.getVoyage(voyage
-				.getId()));
-		refreshVoyages();*/
+		voyageService.deleteVoyage(voyage.getId());
+		refreshVoyages();
 	}
 	
 	public void refreshVoyages() {
