@@ -12,38 +12,47 @@
 					<p:toolbarGroup align="left">
 						<p:commandButton type="push" value="Добавить"
 							update="dialogPanel,growl" image="ui-icon-document"
-							actionListener="#{supplierBean.newSupplier}"
+							actionListener="#{cityBean.newCity}"
 							oncomplete="dialog.show()" />
 
 						<p:commandButton type="push" value="Правка"
 							update="dialogPanel,growl"
-							actionListener="#{supplierBean.edit}"
-							oncomplete="beforeShow(dialog,'suppliers')"
+							actionListener="#{cityBean.edit}"
+							oncomplete="beforeShow(dialog,'cities')"
 							image="ui-icon ui-icon-wrench" />
 
 						<p:commandButton type="push" value="Удалить"
-							oncomplete="beforeShow(confirmation,'suppliers')"
+							oncomplete="beforeShow(confirmation,'cities')"
 							image="ui-icon ui-icon-minus" update="confirmationPanel,growl" />
 
-						<p:commandButton type="push" update="suppliers" value="Обновить"
-							actionListener="#{supplierBean.refreshSuppliers}"
+						<p:commandButton type="push" update="cities" value="Обновить"
+							actionListener="#{cityBean.refreshCities}"
 							image="ui-icon ui-icon-arrowreturnthick-1-w" />
 
 					</p:toolbarGroup>
 				</p:toolbar>
 			</h:panelGroup>
-			<p:panel header="Поставщики" style="text-align:center"
+			<p:panel header="Города" style="text-align:center"
 				styleClass="toggle-panel">
 
 
-				<p:dataTable id="suppliers" var="supplier"
-					value="#{supplierBean.suppliers}" selectionMode="single"
-					selection="#{supplierBean.supplier}">
-					<p:column sortBy="#{supplier.name}"
-						filterBy="#{supplier.name}" filterMatchMode="contains">
+				<p:dataTable id="cities" var="city"
+					value="#{cityBean.cities}" selectionMode="single"
+					selection="#{cityBean.city}">
+					<p:column sortBy="#{city.name}"
+						filterBy="#{city.name}" filterMatchMode="contains">
 						<f:facet name="header">Наименование</f:facet>
-						<h:outputText value="#{supplier.name}" />
+						<h:outputText value="#{city.name}" />
 					</p:column>
+					
+					<p:column sortBy="#{city.our}"
+						filterBy="#{city.our}" filterMatchMode="contains">
+						<f:facet name="header">Обслуживаемый</f:facet>
+						<h:selectBooleanCheckbox disabled="true" value="#{city.our}" />
+					</p:column>
+					
+					
+					
 				</p:dataTable>
 
 
@@ -52,19 +61,19 @@
 		<p:outputPanel id="dialogPanel">
 			<h:form prependId="false" id="dialogForm">
 				<p:dialog width="480" id="dialog" widgetVar="dialog" modal="true"
-					header="#{supplierBean.title}">
+					header="#{cityBean.title}">
 					<p:outputPanel id="dialogContent">
 						<h:panelGroup>
 							<h:panelGrid width="100%" columns="2" cellpadding="5">
 								<h:outputLabel for="supname" value="Наименование: *" />
-								<p:inputText size="60" value="#{supplierBean.supplier.name}"
+								<p:inputText size="60" value="#{cityBean.city.name}"
 									id="supname" required="true" label="Наименование">
 								</p:inputText>
 
 								<f:facet name="footer">
 									<p:commandButton
-										actionListener="#{supplierBean.saveSupplierAction}" value="OK"
-										update="suppliers,growl"
+										actionListener="#{cityBean.saveCityAction}" value="OK"
+										update="cities,growl"
 										oncomplete="handleOKRequest(args,dialog,'dialog')" />
 									<p:commandButton type="reset" value="Отмена" update="growl"
 										onclick="dialog.hide()" />
@@ -81,11 +90,11 @@
 		<p:outputPanel id="confirmationPanel">
 			<h:form prependId="false" id="confirmationForm">
 				<p:confirmDialog
-					message="Удалить поставщика '#{supplierBean.supplier.name}'?"
+					message="Удалить город '#{cityBean.city.name}'?"
 					header="Удаление..." severity="alert" widgetVar="confirmation">
 
-					<p:commandButton value="ОК" update="suppliers,growl"
-						actionListener="#{supplierBean.deleteSupplier}"
+					<p:commandButton value="ОК" update="cities,growl"
+						actionListener="#{cityBean.deleteCity}"
 						oncomplete="confirmation.hide()" />
 					<p:commandButton value="Отмена" onclick="confirmation.hide()"
 						type="button" />

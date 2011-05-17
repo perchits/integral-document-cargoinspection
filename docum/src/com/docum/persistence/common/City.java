@@ -8,7 +8,7 @@ import com.docum.persistence.IdentifiedEntity;
 public class City extends IdentifiedEntity {
 	private static final long serialVersionUID = -8223280387401163563L;
 	private String name;
-	private Boolean our;
+	private Boolean our = false;
 
 	public City() {
 	}
