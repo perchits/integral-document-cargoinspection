@@ -19,6 +19,7 @@ import com.docum.domain.ContainerStateEnum;
 import com.docum.persistence.common.Article;
 import com.docum.persistence.common.BillOfLading;
 import com.docum.persistence.common.Cargo;
+import com.docum.persistence.common.City;
 import com.docum.persistence.common.Container;
 import com.docum.persistence.common.Invoice;
 import com.docum.persistence.common.Supplier;
@@ -50,6 +51,7 @@ public class TestDataPreparator {
 		List<Cargo> cargoes = prepareCargoes(articles, suppliers, containers);
 		List<BillOfLading> bills = prepareBillOfLadings(containers);
 		List<Invoice> invoices = prepareInvoices(containers);
+		List<City> cites = prepareCities();
 	
 	}
 	
@@ -224,6 +226,17 @@ public class TestDataPreparator {
 			entityManager.persist(invoice);
 		}
 
+		return result;
+	}
+	
+	private List<City> prepareCities() {
+		List<City> result = new ArrayList<City>();
+		result.add(new City("Новороссийск",true));
+		result.add(new City("Анапа",true));
+		result.add(new City("Темрюк",false));
+		for(City city : result){
+			entityManager.persist(city);
+		}
 		return result;
 	}
 }
