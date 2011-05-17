@@ -9,6 +9,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.faces.event.ValueChangeEvent;
 
 import org.primefaces.context.RequestContext;
 
@@ -30,9 +31,11 @@ public class VoyageView extends BaseDialog implements Serializable {
 	@ManagedProperty(value = "#{vesselService}")
 	private VesselService vesselService;
 
-
 	private List<Voyage> voyages;
 	private List<Vessel> vessels;
+	private Long vesselId = 0L;
+	private Vessel vessel = new Vessel();
+	
 	private Voyage voyage = new Voyage();
 	
 	public List<Voyage> getAllVoyages() {
@@ -79,6 +82,10 @@ public class VoyageView extends BaseDialog implements Serializable {
 		this.voyage =  voyageService.saveVoyage(this.voyage);
 		refreshVoyages();
 	}
+	
+	public void vesselSelected(ValueChangeEvent e) {
+		 System.out.println(e.getNewValue());
+	}
 
 	public void setVoyageService(VoyageService voyageService) {
 		this.voyageService = voyageService;
@@ -118,5 +125,21 @@ public class VoyageView extends BaseDialog implements Serializable {
 	@Override
 	public IdentifiedEntity getBeanObject() {
 		return voyage;
+	}
+
+	public Long getVesselId() {
+		return vesselId;
+	}
+
+	public void setVesselId(Long vesselId) {
+		this.vesselId = vesselId;
+	}
+
+	public Vessel getVessel() {
+		return vessel;
+	}
+
+	public void setVessel(Vessel vessel) {
+		this.vessel = vessel;
 	}
 }
