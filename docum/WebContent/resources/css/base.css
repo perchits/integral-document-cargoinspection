@@ -134,3 +134,7 @@ select {
 	-moz-box-sizing:content-box;
 	-webkit-box-sizing:content-box; 
 }
+
+.ui-datatable input[type="checkbox"] {
+	margin: 0 !important;
+}
