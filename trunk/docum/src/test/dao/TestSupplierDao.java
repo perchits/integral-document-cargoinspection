@@ -26,6 +26,5 @@ public class TestSupplierDao {
 		Supplier supplier = new Supplier(TestUtil.getRandomString(10));
 		assertNotNull(supplierService.saveSupplier(supplier));
 		supplierService.deleteSupplier(supplier);
-		supplierService.getAllSuppliers();
 	}
 }

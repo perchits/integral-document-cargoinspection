@@ -93,11 +93,12 @@
 								id="voyageNumber" required="true" label="Рейс" />								
 							
 							<h:outputLabel for="voyageArrivalDate" value="Дата прибытия: *" />
-							<p:calendar value="#{voyageView.voyage.arrivalDate}" required="true" 
-							id="voyageArrivalDate" label="Дата прибытия" pattern="dd.MM.yyyy"/>							
+							<p:calendar value="#{voyageView.voyage.arrivalDate}" 
+							id="voyageArrivalDate" label="Дата прибытия" pattern="dd.MM.yyyy"/>
+														
 							<h:outputLabel for="voyageFinished" value="Завершено: *" />
 							<h:selectBooleanCheckbox size="30" value="#{voyageView.voyage.finished}"
-								id="voyageFinished" required="true" label="Завершено" >								
+								id="voyageFinished" label="Завершено" >								
 							</h:selectBooleanCheckbox>
 
 							<f:facet name="footer">

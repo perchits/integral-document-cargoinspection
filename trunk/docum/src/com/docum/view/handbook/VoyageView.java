@@ -33,8 +33,7 @@ public class VoyageView extends BaseDialog implements Serializable {
 
 	private List<Voyage> voyages;
 	private List<Vessel> vessels;
-	private Long vesselId = 0L;
-	private Vessel vessel = new Vessel();
+	private Vessel vessel;
 	
 	private Voyage voyage = new Voyage();
 	
@@ -78,13 +77,16 @@ public class VoyageView extends BaseDialog implements Serializable {
 			Voyage voyage = voyageService.getVoyage(this.voyage.getId());
 			voyage.copy(this.voyage);
 			this.voyage = voyage;
+			this.voyage =  voyageService.saveVoyage(this.voyage);
+		} else {
+			this.voyage.setVessel(this.vessel);
 		}
 		this.voyage =  voyageService.saveVoyage(this.voyage);
 		refreshVoyages();
 	}
 	
 	public void vesselSelected(ValueChangeEvent e) {
-		 System.out.println(e.getNewValue());
+		 this.vessel = vesselService.getVessel(Long.valueOf(e.getNewValue().toString()));
 	}
 
 	public void setVoyageService(VoyageService voyageService) {
@@ -125,21 +127,5 @@ public class VoyageView extends BaseDialog implements Serializable {
 	@Override
 	public IdentifiedEntity getBeanObject() {
 		return voyage;
-	}
-
-	public Long getVesselId() {
-		return vesselId;
-	}
-
-	public void setVesselId(Long vesselId) {
-		this.vesselId = vesselId;
-	}
-
-	public Vessel getVessel() {
-		return vessel;
-	}
-
-	public void setVessel(Vessel vessel) {
-		this.vessel = vessel;
 	}
 }
