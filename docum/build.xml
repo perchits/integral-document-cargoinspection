@@ -38,6 +38,7 @@
 		<echo message="Cleaning up..."/>
 		<delete dir="${DistDir}"/>
 		<delete dir="${DeployDir}/docum"/>
+		<delete dir="${TomcatDir}/work/Catalina/localhost"/>
 	</target>
 
 	<target name="compile" depends="makeDirs">

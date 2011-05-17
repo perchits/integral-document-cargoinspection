@@ -12,16 +12,22 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import test.TestUtil;
+
+import com.docum.dao.VesselDao;
 import com.docum.dao.VoyageDao;
 import com.docum.persistence.common.Container;
+import com.docum.persistence.common.Vessel;
 import com.docum.persistence.common.Voyage;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations="/docum-context.xml")
 @Transactional
-public class VoyageDaoTest {
+public class TestVoyageDao {
 	@Autowired
 	VoyageDao voyageDao;
+	@Autowired
+	VesselDao vesselDao;
 	
 	@Test
 	public void testGetVoyages() {
@@ -34,5 +40,16 @@ public class VoyageDaoTest {
 		for(Container c : v.getContainers()) {
 			assertNotNull(c);
 		}
+	}
+	
+	@Test
+	public void testSaveVoyage() {
+		Voyage voyage = new Voyage();
+		List<Vessel> vessels = vesselDao.getAll(Vessel.class, null);
+		assertTrue(vessels.size() > 0);
+		voyage.setVessel(vessels.get(0));
+		voyage.setNumber(TestUtil.getRandomString(8));
+		voyage = voyageDao.saveObject(voyage);
+		assertTrue(voyage.getId() != null);
 	}
 }

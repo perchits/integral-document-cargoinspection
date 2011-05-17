@@ -5,12 +5,14 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.docum.dao.VesselDao;
 import com.docum.persistence.common.Vessel;
 import com.docum.service.VesselService;
 
 @Service("vesselService")
+@Transactional
 public class VesselServiceImpl implements VesselService, Serializable {
 	private static final long serialVersionUID = 500180831144552695L;
 	
@@ -25,8 +27,7 @@ public class VesselServiceImpl implements VesselService, Serializable {
 
 	@Override
 	public Vessel getVessel(Long vesselId) {
-		// TODO Auto-generated method stub
-		return null;
+		return vesselDao.getObject(Vessel.class, vesselId);
 	}
 
 	@Override

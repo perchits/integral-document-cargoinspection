@@ -6,12 +6,14 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.docum.dao.VoyageDao;
 import com.docum.persistence.common.Voyage;
 import com.docum.service.VoyageService;
 
 @Service("voyageService")
+@Transactional
 public class VoyageServiceImpl implements VoyageService, Serializable {
 	private static final long serialVersionUID = -5052727843476156745L;
 	
