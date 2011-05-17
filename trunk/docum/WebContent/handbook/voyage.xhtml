@@ -83,8 +83,10 @@
 
 						<h:panelGrid width="100%" columns="2" cellpadding="5">
 							<h:outputLabel for="voyageVessel" value="Судно: *" />
-							<h:selectOneMenu id="voyageVessel">
-								<f:selectItems value="#{voyageView.vessels}"/>
+							<h:selectOneMenu id="voyageVessel"
+								valueChangeListener="#{voyageView.vesselSelected}">
+								<f:selectItems value="#{voyageView.vessels}" var="vsls"
+								 itemLabel="#{vsls.name}" itemValue="#{vsls.id}"/>
 							</h:selectOneMenu>
 							<h:outputLabel for="voyageNumber" value="Рейс: *" />
 							<p:inputText size="30" value="#{voyageView.voyage.number}"
