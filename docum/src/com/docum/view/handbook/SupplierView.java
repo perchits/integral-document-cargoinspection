@@ -3,29 +3,25 @@ package com.docum.view.handbook;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
 
-import org.primefaces.context.RequestContext;
-
+import com.docum.persistence.IdentifiedEntity;
 import com.docum.persistence.common.Supplier;
 import com.docum.service.SupplierService;
+import com.docum.view.handbook.dialog.BaseDialog;
 
-@ManagedBean(name = "supplier")
+@ManagedBean(name = "supplierBean")
 @SessionScoped
-
-public class SupplierView implements Serializable {
+public class SupplierView extends BaseDialog implements Serializable {
 	private static final long serialVersionUID = -676095247499740650L;
+	private static final String sing = "Поставщик";
 	@ManagedProperty(value = "#{supplierService}")
 	private SupplierService supplierService;
 
 	private List<Supplier> suppliers;
 	private Supplier supplier = new Supplier();
-	private String title;
 
 	public List<Supplier> getSuppliers() {
 		if (suppliers == null) {
@@ -34,20 +30,7 @@ public class SupplierView implements Serializable {
 		return suppliers;
 	}
 
-	public void editSupplier(ActionEvent actionEvent) {
-		RequestContext requestContext = RequestContext.getCurrentInstance();
-		if (supplier != null) {
-			setTitle("Правка: " + supplier.getName());
-		} else {
-			FacesContext fc = FacesContext.getCurrentInstance();
-			fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-					"Ошибочка вышла...",
-					"Поставщик для редактирования не выбран!"));
-			requestContext.addCallbackParam("isValid", false);
-		}
-	}
-
-	public void deleteSupplier() {		
+	public void deleteSupplier() {
 		supplierService.deleteSupplier(supplierService.getSupplier(supplier
 				.getId()));
 		refreshSuppliers();
@@ -71,31 +54,33 @@ public class SupplierView implements Serializable {
 
 	public void newSupplier() {
 		supplier = new Supplier();
-		setTitle("Новый поставщик");
+		setTitle("Новый " + getSing());
 	}
 
 	public void saveSupplierAction() {
 		if (this.supplier.getId() != null) {
-			Supplier supplier = supplierService.getSupplier(this.supplier.getId());
+			Supplier supplier = supplierService.getSupplier(this.supplier
+					.getId());
 			supplier.copy(this.supplier);
 			this.supplier = supplier;
 		}
 		this.supplier = supplierService.saveSupplier(supplier);
-		/*
-		 * int index = suppliers.indexOf(supplier); if (index != -1) {
-		 * suppliers.set(index, supplier); } else { suppliers.add(supplier); }
-		 */
-
 		refreshSuppliers();
-
 	}
 
-	public String getTitle() {
-		return title;
+	@Override
+	public String getSing() {
+		return sing;
 	}
 
-	public void setTitle(String title) {
-		this.title = title;
+	@Override
+	public String getBase() {
+		return supplier.getName();
+	}
+
+	@Override
+	public IdentifiedEntity getBeanObject() {
+		return supplier;
 	}
 
 }

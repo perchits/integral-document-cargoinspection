@@ -12,6 +12,7 @@ import javax.faces.event.ActionEvent;
 
 import org.primefaces.context.RequestContext;
 
+import com.docum.persistence.IdentifiedEntity;
 import com.docum.persistence.common.Vessel;
 import com.docum.persistence.common.Voyage;
 import com.docum.service.VesselService;
@@ -21,6 +22,7 @@ import com.docum.view.handbook.dialog.BaseDialog;
 @ManagedBean(name = "voyageView")
 @SessionScoped
 public class VoyageView extends BaseDialog implements Serializable {
+	private static final String sing = "Судозаход";
 	private static final long serialVersionUID = 5855731783922631397L;
 
 	@ManagedProperty(value = "#{voyageService}")
@@ -101,5 +103,20 @@ public class VoyageView extends BaseDialog implements Serializable {
 
 	public void setVessels(List<Vessel> vessels) {
 		this.vessels = vessels;
+	}
+	
+	@Override
+	public String getSing() {
+		return sing;
+	}
+
+	@Override
+	public String getBase() {
+		return voyage.getNumber();
+	}
+
+	@Override
+	public IdentifiedEntity getBeanObject() {
+		return voyage;
 	}
 }

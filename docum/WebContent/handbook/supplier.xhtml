@@ -8,26 +8,25 @@
 	<ui:define name="content">
 		<h:form prependId="false">
 			<h:panelGroup layout="block" styleClass="crud-menu">
-
 				<p:toolbar styleClass="crud-menu">
 					<p:toolbarGroup align="left">
 						<p:commandButton type="push" value="Добавить"
 							update="dialogPanel,growl" image="ui-icon-document"
-							actionListener="#{supplier.newSupplier}"
+							actionListener="#{supplierBean.newSupplier}"
 							oncomplete="dialog.show()" />
 
 						<p:commandButton type="push" value="Правка"
 							update="dialogPanel,growl"
-							actionListener="#{supplier.editSupplier}"
+							actionListener="#{supplierBean.edit}"
 							oncomplete="beforeShow(dialog,'suppliers')"
 							image="ui-icon ui-icon-wrench" />
 
 						<p:commandButton type="push" value="Удалить"
-							oncomplete="beforeShow(confirmation,'suppliers')"							
+							oncomplete="beforeShow(confirmation,'suppliers')"
 							image="ui-icon ui-icon-minus" update="confirmationPanel,growl" />
 
 						<p:commandButton type="push" update="suppliers" value="Обновить"
-							actionListener="#{supplier.refreshSuppliers}"
+							actionListener="#{supplierBean.refreshSuppliers}"
 							image="ui-icon ui-icon-arrowreturnthick-1-w" />
 
 					</p:toolbarGroup>
@@ -37,16 +36,14 @@
 				styleClass="toggle-panel">
 
 
-				<p:dataTable id="suppliers" var="sup" value="#{supplier.suppliers}"
-					selectionMode="single" selection="#{supplier.supplier}">
-					<p:column sortBy="#{sup.name}" filterBy="#{sup.name}"
-						filterMatchMode="contains">
-						<f:facet name="header">
-										Наименование  
-									</f:facet>
-						<h:outputText value="#{sup.name}" />
+				<p:dataTable id="suppliers" var="supplierRow"
+					value="#{supplierBean.suppliers}" selectionMode="single"
+					selection="#{supplierBean.supplier}">
+					<p:column sortBy="#{supplierRow.name}"
+						filterBy="#{supplierRow.name}" filterMatchMode="contains">
+						<f:facet name="header">Наименование</f:facet>
+						<h:outputText value="#{supplierRow.name}" />
 					</p:column>
-
 				</p:dataTable>
 
 
@@ -55,19 +52,18 @@
 		<p:outputPanel id="dialogPanel">
 			<h:form prependId="false" id="dialogForm">
 				<p:dialog width="480" id="dialog" widgetVar="dialog" modal="true"
-					header="#{supplier.title}">
+					header="#{supplierBean.title}">
 					<p:outputPanel id="dialogContent">
 						<h:panelGroup>
-
 							<h:panelGrid width="100%" columns="2" cellpadding="5">
 								<h:outputLabel for="supname" value="Наименование: *" />
-								<p:inputText size="60" value="#{supplier.supplier.name}"
+								<p:inputText size="60" value="#{supplierBean.supplier.name}"
 									id="supname" required="true" label="Наименование">
 								</p:inputText>
 
 								<f:facet name="footer">
 									<p:commandButton
-										actionListener="#{supplier.saveSupplierAction}" value="OK"
+										actionListener="#{supplierBean.saveSupplierAction}" value="OK"
 										update="suppliers,growl"
 										oncomplete="handleOKRequest(args,dialog,'dialog')" />
 									<p:commandButton type="reset" value="Отмена" update="growl"
@@ -85,11 +81,11 @@
 		<p:outputPanel id="confirmationPanel">
 			<h:form prependId="false" id="confirmationForm">
 				<p:confirmDialog
-					message="Удалить поставщика '#{supplier.supplier.name}'?"
+					message="Удалить поставщика '#{supplierBean.supplier.name}'?"
 					header="Удаление..." severity="alert" widgetVar="confirmation">
 
 					<p:commandButton value="ОК" update="suppliers,growl"
-						actionListener="#{supplier.deleteSupplier}"
+						actionListener="#{supplierBean.deleteSupplier}"
 						oncomplete="confirmation.hide()" />
 					<p:commandButton value="Отмена" onclick="confirmation.hide()"
 						type="button" />
