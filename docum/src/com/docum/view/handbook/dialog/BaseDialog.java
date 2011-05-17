@@ -17,8 +17,9 @@ public abstract class BaseDialog {
 		this.title = title;
 	}	
 
+	//TODO refactor
 	abstract public String getSing();
-
+	//TODO refactor
 	abstract public String getBase();
 	
 	abstract public IdentifiedEntity getBeanObject();	 
