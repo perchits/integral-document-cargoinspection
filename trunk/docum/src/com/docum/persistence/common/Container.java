@@ -31,6 +31,9 @@ public class Container extends IdentifiedEntity {
 	@ManyToOne
 	private Voyage voyage;
 	
+	@ManyToOne
+	private City city;
+	
 	public Container() {
 		super();
 	}
@@ -40,11 +43,12 @@ public class Container extends IdentifiedEntity {
 		this.number = number;
 	}
 
-	public Container(String number, ContainerStateEnum state, Voyage voyage) {
+	public Container(String number, ContainerStateEnum state, Voyage voyage, City city) {
 		super();
 		this.number = number;
 		this.state = state;
 		this.voyage = voyage;
+		this.city = city;
 	}
 
 	public String getNumber() {
@@ -93,5 +97,13 @@ public class Container extends IdentifiedEntity {
 
 	public void setVoyage(Voyage voyage) {
 		this.voyage = voyage;
+	}
+
+	public City getCity() {
+		return city;
+	}
+
+	public void setCity(City city) {
+		this.city = city;
 	}
 }
