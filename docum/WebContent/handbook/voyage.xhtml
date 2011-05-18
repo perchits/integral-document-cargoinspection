@@ -92,11 +92,11 @@
 							<p:inputText size="30" value="#{voyageBean.voyage.number}"
 								id="voyageNumber" required="true" label="Рейс" />								
 							
-							<h:outputLabel for="voyageArrivalDate" value="Дата прибытия: *" />
+							<h:outputLabel for="voyageArrivalDate" value="Дата прибытия:" />
 							<p:calendar value="#{voyageBean.voyage.arrivalDate}" 
 							id="voyageArrivalDate" label="Дата прибытия" pattern="dd.MM.yyyy"/>
 														
-							<h:outputLabel for="voyageFinished" value="Завершено: *" />
+							<h:outputLabel for="voyageFinished" value="Завершено:" />
 							<h:selectBooleanCheckbox size="30" value="#{voyageBean.voyage.finished}"
 								id="voyageFinished" label="Завершено" >								
 							</h:selectBooleanCheckbox>

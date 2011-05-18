@@ -12,7 +12,7 @@
 					<p:toolbarGroup align="left">
 						<p:commandButton type="push" value="Добавить"
 							update="dialogPanel,growl" image="ui-icon-document"
-							actionListener="#{vesselBean.newVessel}"
+							actionListener="#{vesselBean.newObject}"
 							oncomplete="dialog.show()" />
 
 						<p:commandButton type="push" value="Правка"
@@ -25,8 +25,8 @@
 							oncomplete="beforeShow(confirmation,'vessels')"
 							image="ui-icon ui-icon-minus" update="confirmationPanel,growl" />
 
-						<p:commandButton type="push" update="suppliers" value="Обновить"
-							actionListener="#{vesselBean.refreshVessels}"
+						<p:commandButton type="push" update="vessels" value="Обновить"
+							actionListener="#{vesselBean.refreshObjects}"
 							image="ui-icon ui-icon-arrowreturnthick-1-w" />
 
 					</p:toolbarGroup>
@@ -35,7 +35,7 @@
 			<p:panel header="Суда" style="text-align:center"
 				styleClass="toggle-panel">			
 				<p:dataTable id="vessels" var="vessel" value="#{vesselBean.allVessels}"
-					selectionMode="single">
+					selectionMode="single" selection="#{vesselBean.vessel}">
 					<p:column sortBy="#{vessel.name}" filterBy="#{vessel.name}"
 						filterMatchMode="contains">
 						<f:facet name="header">
@@ -49,18 +49,18 @@
 		<p:outputPanel id="dialogPanel">
 			<h:form prependId="false" id="dialogForm">
 				<p:dialog width="480" id="dialog" widgetVar="dialog" modal="true"
-					header="#{supplierBean.title}">
+					header="#{vesselBean.title}">
 					<p:outputPanel id="dialogContent">
 						<h:panelGroup>
 							<h:panelGrid width="100%" columns="2" cellpadding="5">
-								<h:outputLabel for="supname" value="Наименование: *" />
-								<p:inputText size="60" value="#{supplierBean.supplier.name}"
-									id="supname" required="true" label="Наименование">
+								<h:outputLabel for="vesselName" value="Наименование: *" />
+								<p:inputText size="60" value="#{vesselBean.vessel.name}"
+									id="vesselName" required="true" label="Наименование">
 								</p:inputText>
 
 								<f:facet name="footer">
 									<p:commandButton
-										actionListener="#{supplierBean.saveSupplierAction}" value="OK"
+										actionListener="#{vesselBean.saveObject}" value="OK"
 										update="suppliers,growl"
 										oncomplete="handleOKRequest(args,dialog,'dialog')" />
 									<p:commandButton type="reset" value="Отмена" update="growl"
@@ -78,11 +78,11 @@
 		<p:outputPanel id="confirmationPanel">
 			<h:form prependId="false" id="confirmationForm">
 				<p:confirmDialog
-					message="Удалить поставщика '#{supplierBean.supplier.name}'?"
+					message="Удалить поставщика '#{vesselBean.vessel.name}'?"
 					header="Удаление..." severity="alert" widgetVar="confirmation">
 
 					<p:commandButton value="ОК" update="suppliers,growl"
-						actionListener="#{supplierBean.deleteSupplier}"
+						actionListener="#{vesselBean.deleteObject}"
 						oncomplete="confirmation.hide()" />
 					<p:commandButton value="Отмена" onclick="confirmation.hide()"
 						type="button" />

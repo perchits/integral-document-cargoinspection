@@ -6,9 +6,12 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
+import org.springframework.stereotype.Repository;
+
 import com.docum.dao.BaseDao;
 import com.docum.persistence.IdentifiedEntity;
 
+@Repository("baseDao")
 public class BaseDaoImpl implements BaseDao {
 	private static final long serialVersionUID = -3085216261035616856L;
 

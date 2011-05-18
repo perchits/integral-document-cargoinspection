@@ -54,13 +54,12 @@ public class SupplierView extends BaseDialog implements Serializable {
 
 	public void newSupplier() {
 		supplier = new Supplier();
-		setTitle("Новый " + getSing());
+		setTitle("Новый " + getSing().toLowerCase());
 	}
 
 	public void saveSupplierAction() {
 		if (this.supplier.getId() != null) {
-			Supplier supplier = supplierService.getSupplier(this.supplier
-					.getId());
+			Supplier supplier = supplierService.getSupplier(this.supplier.getId());
 			supplier.copy(this.supplier);
 			this.supplier = supplier;
 		}
@@ -82,5 +81,4 @@ public class SupplierView extends BaseDialog implements Serializable {
 	public IdentifiedEntity getBeanObject() {
 		return supplier;
 	}
-
 }

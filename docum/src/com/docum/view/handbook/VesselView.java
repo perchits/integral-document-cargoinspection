@@ -44,10 +44,16 @@ public class VesselView extends BaseDialog implements Serializable {
 	public String getBase() {
 		return this.vessel.getName();
 	}
+	
+	@Override
+	public void newObject() {
+		super.newObject();
+		setTitle("Новое " + getSing().toLowerCase());
+	}
 
 	@Override
 	public IdentifiedEntity getBeanObject() {
-		return this.vessel;
+		return this.vessel != null ? this.vessel : new Vessel();
 	}
 
 	public Vessel getVessel() {
