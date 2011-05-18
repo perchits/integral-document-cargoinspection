@@ -22,6 +22,16 @@ public class Article extends IdentifiedEntity {
 		this.englishName = englishName;
 	}
 
+	public Article(Article article) {
+		copy(article);
+	}
+
+	public void copy(Article article) {
+		this.name = article.name;
+		this.shortName = article.shortName;
+		this.englishName = article.englishName;
+	}
+
 	public String getName() {
 		return name;
 	}
