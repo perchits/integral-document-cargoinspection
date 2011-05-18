@@ -263,4 +263,12 @@ public class AlgoUtil
         }
         return dst;
     }
+    public static <T> Collection<T> filter(Collection<T> dst, Collection<T> src, FindPredicate<T> f)
+    {
+        dst.clear();
+        for(T s : src)
+            if(f.isIt(s))
+                dst.add(s);
+        return dst;
+    }
 }
