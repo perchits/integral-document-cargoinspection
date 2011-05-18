@@ -51,7 +51,7 @@ public class VoyageView extends BaseDialog implements Serializable {
 			FacesContext fc = FacesContext.getCurrentInstance();
 			fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					"Ошибочка вышла...",
-					"Рейс для редактирования не выбран!"));
+					"Судозаход для редактирования не выбран!"));
 			RequestContext requestContext = RequestContext.getCurrentInstance();
 			requestContext.addCallbackParam("isValid", false);
 		}
@@ -68,7 +68,7 @@ public class VoyageView extends BaseDialog implements Serializable {
 
 	public void newVoyage() {		
 		this.voyage = new Voyage();
-		setTitle("Новый рейс");
+		setTitle("Новый судозаход");
 	}
 
 	public void saveVoyageAction() {
