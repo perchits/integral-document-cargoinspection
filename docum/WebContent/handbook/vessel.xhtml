@@ -5,12 +5,36 @@
 	xmlns:p="http://primefaces.prime.com.tr/ui">
 
 <ui:composition template="/WEB-INF/includes/layout.xhtml">
-	<ui:define name="content">	
-	<ui:include src="/WEB-INF/includes/crud.xhtml" />
-		<p:panel header="Суда" style="text-align:center"
-			styleClass="toggle-panel">			
-			<h:form prependId="false">
-				<p:dataTable var="vessel" value="#{vessel.allVessels}"
+	<ui:define name="content">
+		<h:form prependId="false">
+			<h:panelGroup layout="block" styleClass="crud-menu">
+				<p:toolbar styleClass="crud-menu">
+					<p:toolbarGroup align="left">
+						<p:commandButton type="push" value="Добавить"
+							update="dialogPanel,growl" image="ui-icon-document"
+							actionListener="#{vesselBean.newVessel}"
+							oncomplete="dialog.show()" />
+
+						<p:commandButton type="push" value="Правка"
+							update="dialogPanel,growl"
+							actionListener="#{vesselBean.edit}"
+							oncomplete="beforeShow(dialog,'vessels')"
+							image="ui-icon ui-icon-wrench" />
+
+						<p:commandButton type="push" value="Удалить"
+							oncomplete="beforeShow(confirmation,'vessels')"
+							image="ui-icon ui-icon-minus" update="confirmationPanel,growl" />
+
+						<p:commandButton type="push" update="suppliers" value="Обновить"
+							actionListener="#{vesselBean.refreshVessels}"
+							image="ui-icon ui-icon-arrowreturnthick-1-w" />
+
+					</p:toolbarGroup>
+				</p:toolbar>
+			</h:panelGroup>
+			<p:panel header="Суда" style="text-align:center"
+				styleClass="toggle-panel">			
+				<p:dataTable id="vessels" var="vessel" value="#{vesselBean.allVessels}"
 					selectionMode="single">
 					<p:column sortBy="#{vessel.name}" filterBy="#{vessel.name}"
 						filterMatchMode="contains">
@@ -19,10 +43,55 @@
 						</f:facet>
 						<h:outputText value="#{vessel.name}" />
 					</p:column>
-
 				</p:dataTable>
-			</h:form>			
-		</p:panel>
+			</p:panel>
+		</h:form>
+		<p:outputPanel id="dialogPanel">
+			<h:form prependId="false" id="dialogForm">
+				<p:dialog width="480" id="dialog" widgetVar="dialog" modal="true"
+					header="#{supplierBean.title}">
+					<p:outputPanel id="dialogContent">
+						<h:panelGroup>
+							<h:panelGrid width="100%" columns="2" cellpadding="5">
+								<h:outputLabel for="supname" value="Наименование: *" />
+								<p:inputText size="60" value="#{supplierBean.supplier.name}"
+									id="supname" required="true" label="Наименование">
+								</p:inputText>
+
+								<f:facet name="footer">
+									<p:commandButton
+										actionListener="#{supplierBean.saveSupplierAction}" value="OK"
+										update="suppliers,growl"
+										oncomplete="handleOKRequest(args,dialog,'dialog')" />
+									<p:commandButton type="reset" value="Отмена" update="growl"
+										onclick="dialog.hide()" />
+
+								</f:facet>
+							</h:panelGrid>
+
+						</h:panelGroup>
+					</p:outputPanel>
+				</p:dialog>
+			</h:form>
+		</p:outputPanel>
+
+		<p:outputPanel id="confirmationPanel">
+			<h:form prependId="false" id="confirmationForm">
+				<p:confirmDialog
+					message="Удалить поставщика '#{supplierBean.supplier.name}'?"
+					header="Удаление..." severity="alert" widgetVar="confirmation">
+
+					<p:commandButton value="ОК" update="suppliers,growl"
+						actionListener="#{supplierBean.deleteSupplier}"
+						oncomplete="confirmation.hide()" />
+					<p:commandButton value="Отмена" onclick="confirmation.hide()"
+						type="button" />
+				</p:confirmDialog>
+			</h:form>
+		</p:outputPanel>
+
+		<h:outputScript name="dialog.js" library="js" />
+
 	</ui:define>
 </ui:composition>
 </html>
