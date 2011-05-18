@@ -127,4 +127,27 @@ public class VoyageView extends BaseDialog implements Serializable {
 	public IdentifiedEntity getBeanObject() {
 		return voyage;
 	}
+
+	@Override
+	public void newObject() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void saveObject() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void refreshObjects() {
+		this.voyages = voyageService.getAllVoyages();		
+	}
+
+	@Override
+	public void deleteObject() {
+		// TODO Auto-generated method stub
+		
+	}
 }

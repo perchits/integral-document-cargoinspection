@@ -1,13 +1,18 @@
 package com.docum.view.handbook.dialog;
 
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
 import com.docum.persistence.IdentifiedEntity;
+import com.docum.service.BaseService;
 
 public abstract class BaseDialog {
 	private String title;
+	
+	@ManagedProperty(value = "#{baseService}")
+	private BaseService baseService;
 	
 	public String getTitle() {
 		return title;
@@ -17,10 +22,27 @@ public abstract class BaseDialog {
 		this.title = title;
 	}	
 
-	//TODO refactor
-	abstract public String getSing();
-	//TODO refactor
-	abstract public String getBase();
+	//TODO rename
+	public abstract String getSing();
+	//TODO rename
+	public abstract String getBase();
+	
+	public void saveObject() {
+		//TODO implement
+	}
+
+	public void refreshObjects() {
+		//TODO implement
+	}
+
+	public void deleteObject() {
+		baseService.deleteObject(getBeanObject().getClass(), getBeanObject().getId());
+		refreshObjects();
+	}
+	
+	public void newObject() {
+		setTitle("Новый " + getSing().toLowerCase());
+	}
 	
 	abstract public IdentifiedEntity getBeanObject();	 
 
@@ -33,6 +55,10 @@ public abstract class BaseDialog {
 					"Ошибочка вышла...",
 					getSing() + " для редактирования не выбран!"));			
 		}
+	}
+
+	public void setBaseService(BaseService baseService) {
+		this.baseService = baseService;
 	}
 	
 }
