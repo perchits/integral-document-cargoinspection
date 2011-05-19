@@ -42,7 +42,7 @@ public class CityView extends BaseView implements Serializable {
 
 	@Override
 	public IdentifiedEntity getBeanObject() {		
-		return city;
+		return city != null ? this.city : new City();
 	}
 
 }

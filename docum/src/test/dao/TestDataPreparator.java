@@ -28,6 +28,7 @@ import com.docum.persistence.common.Container;
 import com.docum.persistence.common.Invoice;
 import com.docum.persistence.common.Measure;
 import com.docum.persistence.common.Supplier;
+import com.docum.persistence.common.Tare;
 import com.docum.persistence.common.Vessel;
 import com.docum.persistence.common.Voyage;
 import com.docum.util.AlgoUtil;
@@ -78,6 +79,7 @@ public class TestDataPreparator {
 		List<Voyage> voyages = prepareVoyages(vessels);
 		List<City> cities = prepareCities();
 		List<Measure> measures  = prepareMesures();
+		List<Tare> tare = prepareTare();
 		List<Container> containers = prepareContainers(voyages, cities);
 		List<Cargo> cargoes = prepareCargoes(articles, suppliers, containers);
 		List<BillOfLading> bills = prepareBillOfLadings(containers);
@@ -144,6 +146,15 @@ public class TestDataPreparator {
 		result.add(new Measure("шт."));
 		result.add(new Measure("кг."));
 		result.add(new Measure("т."));
+		persist(result);
+		return result;
+	}
+	
+	private List<Tare> prepareTare() {
+		List<Tare> result = new ArrayList<Tare>();
+		result.add(new Tare("Паллеты"));
+		result.add(new Tare("Поддоны"));
+		result.add(new Tare("Ящики"));
 		persist(result);
 		return result;
 	}
