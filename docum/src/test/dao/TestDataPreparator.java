@@ -26,6 +26,7 @@ import com.docum.persistence.common.Cargo;
 import com.docum.persistence.common.City;
 import com.docum.persistence.common.Container;
 import com.docum.persistence.common.Invoice;
+import com.docum.persistence.common.Mesure;
 import com.docum.persistence.common.Supplier;
 import com.docum.persistence.common.Vessel;
 import com.docum.persistence.common.Voyage;
@@ -74,6 +75,7 @@ public class TestDataPreparator {
 		List<Vessel> vessels = prepareVessels();
 		List<Voyage> voyages = prepareVoyages(vessels);
 		List<City> cities = prepareCities();
+		List<Mesure> mesures  = prepareMesures();
 		List<Container> containers = prepareContainers(voyages, cities);
 		List<Cargo> cargoes = prepareCargoes(articles, suppliers, containers);
 		List<BillOfLading> bills = prepareBillOfLadings(containers);
@@ -130,6 +132,15 @@ public class TestDataPreparator {
 		result.add(new City("Новороссийск", true));
 		result.add(new City("Анапа", true));
 		result.add(new City("Темрюк", false));
+		persist(result);
+		return result;
+	}
+	
+	private List<Mesure> prepareMesures() {
+		List<Mesure> result = new ArrayList<Mesure>();
+		result.add(new Mesure("шт."));
+		result.add(new Mesure("кг."));
+		result.add(new Mesure("т."));
 		persist(result);
 		return result;
 	}
