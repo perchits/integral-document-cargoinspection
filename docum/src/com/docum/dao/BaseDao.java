@@ -9,6 +9,8 @@ public interface BaseDao extends Serializable {
 	
 	public <T extends IdentifiedEntity> T saveObject(T object);
 	
+	public <T extends IdentifiedEntity> T updateObject(T object);
+	
 	public <T extends IdentifiedEntity> void deleteObject(T object);
 	
 	public <T extends IdentifiedEntity> void deleteObject(Class<T> clazz, Long objectId);

@@ -21,6 +21,11 @@ public class BaseServiceImpl implements BaseService {
 	public <T extends IdentifiedEntity> T saveObject(T object) {
 		return baseDao.saveObject(object);
 	}
+	
+	@Override
+	public <T extends IdentifiedEntity> T updateObject(T object) {
+		return baseDao.updateObject(object);
+	}
 
 	@Override
 	public <T extends IdentifiedEntity> void deleteObject(T object) {

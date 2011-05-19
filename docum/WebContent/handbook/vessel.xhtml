@@ -61,7 +61,7 @@
 								<f:facet name="footer">
 									<p:commandButton
 										actionListener="#{vesselBean.saveObject}" value="OK"
-										update="suppliers,growl"
+										update="vessels,growl"
 										oncomplete="handleOKRequest(args,dialog,'dialog')" />
 									<p:commandButton type="reset" value="Отмена" update="growl"
 										onclick="dialog.hide()" />
@@ -78,7 +78,7 @@
 		<p:outputPanel id="confirmationPanel">
 			<h:form prependId="false" id="confirmationForm">
 				<p:confirmDialog
-					message="Удалить поставщика '#{vesselBean.vessel.name}'?"
+					message="Удалить судно '#{vesselBean.vessel.name}'?"
 					header="Удаление..." severity="alert" widgetVar="confirmation">
 
 					<p:commandButton value="ОК" update="suppliers,growl"

@@ -27,12 +27,17 @@ public abstract class BaseDialog {
 	//TODO rename
 	public abstract String getBase();
 	
+	abstract public IdentifiedEntity getBeanObject();
+	
+	public void refreshObjects() {};
+	
 	public void saveObject() {
-		//TODO implement
-	}
-
-	public void refreshObjects() {
-		//TODO implement
+		if (getBeanObject() != null) {
+			baseService.updateObject(getBeanObject());
+		} else {
+			baseService.saveObject(getBeanObject());
+		}
+		refreshObjects();
 	}
 
 	public void deleteObject() {
@@ -44,8 +49,6 @@ public abstract class BaseDialog {
 		setTitle("Новый " + getSing().toLowerCase());
 	}
 	
-	abstract public IdentifiedEntity getBeanObject();	 
-
 	public void edit(ActionEvent actionEvent) {		
 		if (getBeanObject() != null) {
 			setTitle("Правка: " + getBase());

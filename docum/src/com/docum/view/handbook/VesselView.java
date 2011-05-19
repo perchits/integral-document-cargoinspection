@@ -48,6 +48,7 @@ public class VesselView extends BaseDialog implements Serializable {
 	@Override
 	public void newObject() {
 		super.newObject();
+		this.vessel = new Vessel();
 		setTitle("Новое " + getSing().toLowerCase());
 	}
 
@@ -62,5 +63,10 @@ public class VesselView extends BaseDialog implements Serializable {
 
 	public void setVessel(Vessel vessel) {
 		this.vessel = vessel;
+	}
+
+	@Override
+	public void refreshObjects() {
+		this.vessels = vesselService.getAllVessels();
 	}
 }
