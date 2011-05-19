@@ -10,11 +10,10 @@ import javax.faces.bean.SessionScoped;
 import com.docum.persistence.IdentifiedEntity;
 import com.docum.persistence.common.Supplier;
 import com.docum.service.SupplierService;
-import com.docum.view.handbook.dialog.BaseDialog;
 
 @ManagedBean(name = "supplierBean")
 @SessionScoped
-public class SupplierView extends BaseDialog implements Serializable {
+public class SupplierView extends BaseView implements Serializable {
 	private static final long serialVersionUID = -676095247499740650L;
 	private static final String sing = "Поставщик";
 	@ManagedProperty(value = "#{supplierService}")

@@ -10,11 +10,10 @@ import javax.faces.bean.SessionScoped;
 import com.docum.persistence.IdentifiedEntity;
 import com.docum.persistence.common.Article;
 import com.docum.service.ArticleService;
-import com.docum.view.handbook.dialog.BaseDialog;
 
 @ManagedBean(name = "articleBean")
 @SessionScoped
-public class ArticleView extends BaseDialog implements Serializable {
+public class ArticleView extends BaseView implements Serializable {
 	private static final long serialVersionUID = -3958815651039578018L;
 	private static final String sing = "Груз";
 	@ManagedProperty(value = "#{articleService}")
