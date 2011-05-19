@@ -12,12 +12,12 @@
 					<p:toolbarGroup align="left">
 						<p:commandButton type="push" value="Добавить"
 							update="dialogPanel,growl" image="ui-icon-document"
-							actionListener="#{supplierBean.newSupplier}"
+							actionListener="#{supplierBean.newObject}"
 							oncomplete="dialog.show()" />
 
 						<p:commandButton type="push" value="Правка"
 							update="dialogPanel,growl"
-							actionListener="#{supplierBean.edit}"
+							actionListener="#{supplierBean.editObject}"
 							oncomplete="beforeShow(dialog,'suppliers')"
 							image="ui-icon ui-icon-wrench" />
 
@@ -26,7 +26,7 @@
 							image="ui-icon ui-icon-minus" update="confirmationPanel,growl" />
 
 						<p:commandButton type="push" update="suppliers" value="Обновить"
-							actionListener="#{supplierBean.refreshSuppliers}"
+							actionListener="#{supplierBean.refreshObjects}"
 							image="ui-icon ui-icon-arrowreturnthick-1-w" />
 
 					</p:toolbarGroup>
@@ -37,7 +37,7 @@
 
 
 				<p:dataTable id="suppliers" var="supplier"
-					value="#{supplierBean.suppliers}" selectionMode="single"
+					value="#{supplierBean.allObjects}" selectionMode="single"
 					selection="#{supplierBean.supplier}">
 					<p:column sortBy="#{supplier.name}"
 						filterBy="#{supplier.name}" filterMatchMode="contains">
@@ -63,7 +63,7 @@
 
 								<f:facet name="footer">
 									<p:commandButton
-										actionListener="#{supplierBean.saveSupplierAction}" value="OK"
+										actionListener="#{supplierBean.saveObject}" value="OK"
 										update="suppliers,growl"
 										oncomplete="handleOKRequest(args,dialog,'dialog')" />
 									<p:commandButton type="reset" value="Отмена" update="growl"
@@ -85,7 +85,7 @@
 					header="Удаление..." severity="alert" widgetVar="confirmation">
 
 					<p:commandButton value="ОК" update="suppliers,growl"
-						actionListener="#{supplierBean.deleteSupplier}"
+						actionListener="#{supplierBean.deleteObject}"
 						oncomplete="confirmation.hide()" />
 					<p:commandButton value="Отмена" onclick="confirmation.hide()"
 						type="button" />
