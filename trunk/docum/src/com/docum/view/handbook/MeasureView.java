@@ -8,14 +8,13 @@ import javax.faces.bean.SessionScoped;
 import com.docum.persistence.IdentifiedEntity;
 import com.docum.persistence.common.Measure;
 
-@ManagedBean(name = "mesureBean")
+@ManagedBean(name = "measureBean")
 @SessionScoped
-public class MesureView extends BaseView implements Serializable {
+public class MeasureView extends BaseView implements Serializable {
 
 	private static final long serialVersionUID = 8206542333338880241L;
 	private static final String sign = "Ед. изм.";
-	private Measure mesure = new Measure();		
-	
+	private Measure measure = new Measure();
 
 	@Override
 	public String getSign() {
@@ -23,28 +22,28 @@ public class MesureView extends BaseView implements Serializable {
 	}
 
 	@Override
-	public String getBase() {		
-		return mesure.getName();
+	public String getBase() {
+		return measure.getName();
 	}
-	
+
 	@Override
 	public void newObject() {
 		super.newObject();
-		this.mesure = new Measure();
+		this.measure = new Measure();
 		setTitle("Новая " + getSign().toLowerCase());
 	}
 
 	@Override
-	public IdentifiedEntity getBeanObject() {		
-		return mesure;
+	public IdentifiedEntity getBeanObject() {
+		return measure != null ? this.measure : new Measure();		
 	}
 
-	public void setMesure(Measure mesure) {
-		this.mesure = mesure;
+	public void setMeasure(Measure mesure) {		
+			this.measure = mesure;		
 	}
 
-	public Measure getMesure() {
-		return mesure;
+	public Measure getMeasure() {
+		return measure;
 	}
 
 }

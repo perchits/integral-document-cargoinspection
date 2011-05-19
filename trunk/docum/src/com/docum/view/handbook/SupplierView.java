@@ -44,6 +44,6 @@ public class SupplierView extends BaseView implements Serializable {
 
 	@Override
 	public IdentifiedEntity getBeanObject() {
-		return this.supplier != null ? this.supplier : new Supplier();
+		return supplier != null ? this.supplier : new Supplier();
 	}
 }

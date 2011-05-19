@@ -12,36 +12,36 @@
 					<p:toolbarGroup align="left">
 						<p:commandButton type="push" value="Добавить"
 							update="dialogPanel,growl" image="ui-icon-document"
-							actionListener="#{mesureBean.newObject}"
+							actionListener="#{tareBean.newObject}"
 							oncomplete="dialog.show()" />
 
 						<p:commandButton type="push" value="Правка"
 							update="dialogPanel,growl"
-							actionListener="#{mesureBean.edit}"
-							oncomplete="beforeShow(dialog,'mesures')"
+							actionListener="#{tareBean.editObject}"
+							oncomplete="beforeShow(dialog,'tares')"
 							image="ui-icon ui-icon-wrench" />
 
 						<p:commandButton type="push" value="Удалить"
-							oncomplete="beforeShow(confirmation,'mesures')"
+							oncomplete="beforeShow(confirmation,'tares')"
 							image="ui-icon ui-icon-minus" update="confirmationPanel,growl" />
 
-						<p:commandButton type="push" update="mesures" value="Обновить"
-							actionListener="#{mesureBean.refreshObjects}"
+						<p:commandButton type="push" update="tares" value="Обновить"
+							actionListener="#{tareBean.refreshObjects}"
 							image="ui-icon ui-icon-arrowreturnthick-1-w" />
 
 					</p:toolbarGroup>
 				</p:toolbar>
 			</h:panelGroup>
-			<p:panel header="#{mesureBean.sign}" style="text-align:center"
+			<p:panel header="#{tareBean.sign}" style="text-align:center"
 				styleClass="toggle-panel">			
-				<p:dataTable id="mesures" var="mesure" value="#{mesureBean.allObjects}"
-					selectionMode="single" selection="#{mesureBean.mesure}">
-					<p:column sortBy="#{mesure.name}" filterBy="#{mesure.name}"
+				<p:dataTable id="tares" var="tare" value="#{tareBean.allObjects}"
+					selectionMode="single" selection="#{tareBean.tare}">
+					<p:column sortBy="#{tare.name}" filterBy="#{tare.name}"
 						filterMatchMode="contains">
 						<f:facet name="header">
 							Наименование  
 						</f:facet>
-						<h:outputText value="#{mesure.name}" />
+						<h:outputText value="#{tare.name}" />
 					</p:column>
 				</p:dataTable>
 			</p:panel>
@@ -49,19 +49,19 @@
 		<p:outputPanel id="dialogPanel">
 			<h:form prependId="false" id="dialogForm">
 				<p:dialog width="480" id="dialog" widgetVar="dialog" modal="true"
-					header="#{mesureBean.title}">
+					header="#{tareBean.title}">
 					<p:outputPanel id="dialogContent">
 						<h:panelGroup>
 							<h:panelGrid width="100%" columns="2" cellpadding="5">
-								<h:outputLabel for="mesureName" value="Наименование: *" />
-								<p:inputText size="60" value="#{mesureBean.mesure.name}"
-									id="mesureName" required="true" label="Наименование">
+								<h:outputLabel for="tareName" value="Наименование: *" />
+								<p:inputText size="60" value="#{tareBean.tare.name}"
+									id="tareName" required="true" label="Наименование">
 								</p:inputText>
 
 								<f:facet name="footer">
 									<p:commandButton
-										actionListener="#{mesureBean.saveObject}" value="OK"
-										update="mesures,growl"
+										actionListener="#{tareBean.saveObject}" value="OK"
+										update="tares,growl"
 										oncomplete="handleOKRequest(args,dialog,'dialog')" />
 									<p:commandButton type="reset" value="Отмена" update="growl"
 										onclick="dialog.hide()" />
@@ -78,11 +78,11 @@
 		<p:outputPanel id="confirmationPanel">
 			<h:form prependId="false" id="confirmationForm">
 				<p:confirmDialog
-					message="Удалить #{mesureBean.sign} '#{mesureBean.mesure.name}'?"
+					message="Удалить #{tareBean.sign} '#{tareBean.tare.name}'?"
 					header="Удаление..." severity="alert" widgetVar="confirmation">
 
-					<p:commandButton value="ОК" update="mesures,growl"
-						actionListener="#{mesureBean.deleteObject}"
+					<p:commandButton value="ОК" update="tares,growl"
+						actionListener="#{tareBean.deleteObject}"
 						oncomplete="confirmation.hide()" />
 					<p:commandButton value="Отмена" onclick="confirmation.hide()"
 						type="button" />

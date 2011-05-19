@@ -12,12 +12,12 @@
 					<p:toolbarGroup align="left">
 						<p:commandButton type="push" value="Добавить"
 							update="dialogPanel,growl" image="ui-icon-document"
-							actionListener="#{articleBean.newArticle}"
+							actionListener="#{articleBean.newObject}"
 							oncomplete="dialog.show()" />
 
 						<p:commandButton type="push" value="Правка"
 							update="dialogPanel,growl"
-							actionListener="#{articleBean.edit}"
+							actionListener="#{articleBean.editObject}"
 							oncomplete="beforeShow(dialog,'articles')"
 							image="ui-icon ui-icon-wrench" />
 
@@ -32,12 +32,12 @@
 					</p:toolbarGroup>
 				</p:toolbar>
 			</h:panelGroup>
-			<p:panel header="Грузы" style="text-align:center"
+			<p:panel header="#{articleBean.sign}" style="text-align:center"
 				styleClass="toggle-panel">
 
 
 				<p:dataTable id="articles" var="article"
-					value="#{articleBean.articles}" selectionMode="single"
+					value="#{articleBean.allObjects}" selectionMode="single"
 					selection="#{articleBean.article}">
 					<p:column sortBy="#{article.name}"
 						filterBy="#{article.name}" filterMatchMode="contains">
@@ -83,7 +83,7 @@
 																
 								<f:facet name="footer">
 									<p:commandButton
-										actionListener="#{articleBean.saveArticleAction}" value="OK"
+										actionListener="#{articleBean.saveObject}" value="OK"
 										update="articles,growl"
 										oncomplete="handleOKRequest(args,dialog,'dialog')" />
 									<p:commandButton type="reset" value="Отмена" update="growl"
@@ -101,11 +101,11 @@
 		<p:outputPanel id="confirmationPanel">
 			<h:form prependId="false" id="confirmationForm">
 				<p:confirmDialog
-					message="Удалить груз '#{articleBean.article.name}'?"
+					message="Удалить #{articleBean.sign} '#{articleBean.article.name}'?"
 					header="Удаление..." severity="alert" widgetVar="confirmation">
 
 					<p:commandButton value="ОК" update="articles,growl"
-						actionListener="#{articleBean.deleteArticle}"
+						actionListener="#{articleBean.deleteObject}"
 						oncomplete="confirmation.hide()" />
 					<p:commandButton value="Отмена" onclick="confirmation.hide()"
 						type="button" />
