@@ -44,7 +44,7 @@ public abstract class BaseView {
 	}
 	
 	public void saveObject() {
-		if (getBeanObject() != null) {
+		if (getBeanObject().getId() != null) {
 			baseService.updateObject(getBeanObject());
 		} else {
 			baseService.saveObject(getBeanObject());
@@ -82,5 +82,9 @@ public abstract class BaseView {
 
 	public void setObjects(List<? extends IdentifiedEntity> objects) {
 		this.objects = objects;
+	}
+
+	public BaseService getBaseService() {
+		return baseService;
 	}
 }

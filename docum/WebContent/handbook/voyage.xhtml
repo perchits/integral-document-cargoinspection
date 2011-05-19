@@ -12,12 +12,12 @@
 					<p:toolbarGroup align="left">
 						<p:commandButton type="push" value="Добавить"
 							update="dialogPanel,growl" image="ui-icon-document"
-							actionListener="#{voyageBean.newVoyage}"
+							actionListener="#{voyageBean.newObject}"
 							oncomplete="dialog.show()" />
 
 						<p:commandButton type="push" value="Правка"
 							update="dialogPanel,growl"
-							actionListener="#{voyageBean.editVoyage}"
+							actionListener="#{voyageBean.editObject}"
 							oncomplete="beforeShow(dialog,'voyages')"
 							image="ui-icon ui-icon-wrench" />
 
@@ -26,7 +26,7 @@
 							image="ui-icon ui-icon-minus" update="confirmationPanel,growl" />
 
 						<p:commandButton type="push" update="voyages" value="Обновить"
-							actionListener="#{voyageBean.refreshVoyages}"
+							actionListener="#{voyageBean.refreshObjects}"
 							image="ui-icon ui-icon-arrowreturnthick-1-w" />
 
 					</p:toolbarGroup>
@@ -36,7 +36,7 @@
 
 		<p:panel header="Судозаходы" style="text-align:center"
 			styleClass="toggle-panel">
-				<p:dataTable id="voyages" var="voyage" value="#{voyageBean.allVoyages}"
+				<p:dataTable id="voyages" var="voyage" value="#{voyageBean.allObjects}"
 					selectionMode="single" selection="#{voyageBean.voyage}">
 					<p:column sortBy="#{voyage.vessel.name}" filterBy="#{voyage.vessel.name}"
 						filterMatchMode="contains">
@@ -103,7 +103,7 @@
 
 							<f:facet name="footer">
 								<p:commandButton 
-									actionListener="#{voyageBean.saveVoyageAction}" value="OK"
+									actionListener="#{voyageBean.saveObject}" value="OK"
 									update="voyages,growl"
 									oncomplete="handleOKRequest(args,dialog,'dialog')" />
 								<p:commandButton type="reset" value="Отмена" update="growl"
@@ -125,7 +125,7 @@
 					header="Удаление..." severity="alert" widgetVar="confirmation">
 
 					<p:commandButton value="ОК" update="voyages,growl"
-						actionListener="#{voyageBean.deleteVoyage}"
+						actionListener="#{voyageBean.deleteObject}"
 						oncomplete="confirmation.hide()" />
 					<p:commandButton value="Отмена" onclick="confirmation.hide()"
 						type="button" />
