@@ -7,11 +7,10 @@ import javax.faces.bean.SessionScoped;
 
 import com.docum.persistence.IdentifiedEntity;
 import com.docum.persistence.common.Vessel;
-import com.docum.view.handbook.dialog.BaseDialog;
 
 @ManagedBean(name = "vesselBean")
 @SessionScoped
-public class VesselView extends BaseDialog implements Serializable {
+public class VesselView extends BaseView implements Serializable {
 	private static final long serialVersionUID = -7018249724051865904L;
 
 	private static final String sing = "Судно";

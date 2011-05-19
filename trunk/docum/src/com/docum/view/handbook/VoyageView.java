@@ -18,11 +18,10 @@ import com.docum.persistence.common.Vessel;
 import com.docum.persistence.common.Voyage;
 import com.docum.service.VesselService;
 import com.docum.service.VoyageService;
-import com.docum.view.handbook.dialog.BaseDialog;
 
 @ManagedBean(name = "voyageBean")
 @SessionScoped
-public class VoyageView extends BaseDialog implements Serializable {
+public class VoyageView extends BaseView implements Serializable {
 	private static final String sing = "Судозаход";
 	private static final long serialVersionUID = 5855731783922631397L;
 

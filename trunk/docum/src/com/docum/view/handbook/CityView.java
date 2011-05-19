@@ -10,11 +10,10 @@ import javax.faces.bean.SessionScoped;
 import com.docum.persistence.IdentifiedEntity;
 import com.docum.persistence.common.City;
 import com.docum.service.CityService;
-import com.docum.view.handbook.dialog.BaseDialog;
 
 @ManagedBean(name = "cityBean")
 @SessionScoped
-public class CityView extends BaseDialog implements Serializable {
+public class CityView extends BaseView implements Serializable {
 	private static final long serialVersionUID = -6124629281863739318L;
 	private static final String sing = "Город";
 	@ManagedProperty(value = "#{cityService}")
