@@ -55,7 +55,7 @@ public class ArticleView extends BaseView implements Serializable {
 
 	public void newArticle() {
 		article = new Article();
-		setTitle("Новый " + getSing());
+		setTitle("Новый " + getSign());
 	}
 
 	public void saveArticleAction() {
@@ -70,7 +70,7 @@ public class ArticleView extends BaseView implements Serializable {
 	}
 	
 	@Override
-	public String getSing() {
+	public String getSign() {
 		return sing;
 	}
 

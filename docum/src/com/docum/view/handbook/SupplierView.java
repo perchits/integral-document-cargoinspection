@@ -15,7 +15,7 @@ import com.docum.service.SupplierService;
 @SessionScoped
 public class SupplierView extends BaseView implements Serializable {
 	private static final long serialVersionUID = -676095247499740650L;
-	private static final String sing = "Поставщик";
+	private static final String sign = "Поставщик";
 	@ManagedProperty(value = "#{supplierService}")
 	private SupplierService supplierService;
 
@@ -53,7 +53,7 @@ public class SupplierView extends BaseView implements Serializable {
 
 	public void newSupplier() {
 		supplier = new Supplier();
-		setTitle("Новый " + getSing().toLowerCase());
+		setTitle("Новый " + getSign().toLowerCase());
 	}
 
 	public void saveSupplierAction() {
@@ -67,8 +67,8 @@ public class SupplierView extends BaseView implements Serializable {
 	}
 
 	@Override
-	public String getSing() {
-		return sing;
+	public String getSign() {
+		return sign;
 	}
 
 	@Override

@@ -33,8 +33,7 @@ public abstract class BaseView {
 		this.title = title;
 	}	
 
-	//TODO rename
-	public abstract String getSing();
+	public abstract String getSign();
 	//TODO rename
 	public abstract String getBase();
 	
@@ -59,17 +58,17 @@ public abstract class BaseView {
 	}
 	
 	public void newObject() {
-		setTitle("Новый " + getSing().toLowerCase());
+		setTitle("Новый " + getSign().toLowerCase());
 	}
 	
-	public void edit(ActionEvent actionEvent) {		
+	public void editObject(ActionEvent actionEvent) {		
 		if (getBeanObject() != null) {
 			setTitle("Правка: " + getBase());
 		} else {
 			FacesContext fc = FacesContext.getCurrentInstance();
 			fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					"Ошибочка вышла...",
-					getSing() + " для редактирования не выбран!"));			
+					getSign() + " для редактирования не выбран!"));			
 		}
 	}
 
