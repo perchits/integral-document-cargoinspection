@@ -22,7 +22,7 @@ import com.docum.service.VoyageService;
 @ManagedBean(name = "voyageBean")
 @SessionScoped
 public class VoyageView extends BaseView implements Serializable {
-	private static final String sing = "Судозаход";
+	private static final String sign = "Судозаход";
 	private static final long serialVersionUID = 5855731783922631397L;
 
 	@ManagedProperty(value = "#{voyageService}")
@@ -113,8 +113,8 @@ public class VoyageView extends BaseView implements Serializable {
 	}
 	
 	@Override
-	public String getSing() {
-		return sing;
+	public String getSign() {
+		return sign;
 	}
 
 	@Override

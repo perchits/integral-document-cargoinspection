@@ -15,7 +15,7 @@ import com.docum.service.CityService;
 @SessionScoped
 public class CityView extends BaseView implements Serializable {
 	private static final long serialVersionUID = -6124629281863739318L;
-	private static final String sing = "Город";
+	private static final String sign = "Город";
 	@ManagedProperty(value = "#{cityService}")
 	private CityService cityService;
 	private List<City> cities;
@@ -55,7 +55,7 @@ public class CityView extends BaseView implements Serializable {
 
 	public void newCity() {
 		city = new City();
-		setTitle("Новый " + getSing());
+		setTitle("Новый " + getSign());
 	}
 
 	public void saveCityAction() {
@@ -70,8 +70,8 @@ public class CityView extends BaseView implements Serializable {
 	}
 	
 	@Override
-	public String getSing() {
-		return sing;
+	public String getSign() {
+		return sign;
 	}
 
 	@Override

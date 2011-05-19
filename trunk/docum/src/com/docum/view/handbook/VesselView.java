@@ -13,12 +13,12 @@ import com.docum.persistence.common.Vessel;
 public class VesselView extends BaseView implements Serializable {
 	private static final long serialVersionUID = -7018249724051865904L;
 
-	private static final String sing = "Судно";
+	private static final String sign = "Судно";
 	private Vessel vessel = new Vessel();
 	
 	@Override
-	public String getSing() {
-		return sing;
+	public String getSign() {
+		return sign;
 	}
 
 	@Override
@@ -30,7 +30,7 @@ public class VesselView extends BaseView implements Serializable {
 	public void newObject() {
 		super.newObject();
 		this.vessel = new Vessel();
-		setTitle("Новое " + getSing().toLowerCase());
+		setTitle("Новое " + getSign().toLowerCase());
 	}
 
 	@Override
