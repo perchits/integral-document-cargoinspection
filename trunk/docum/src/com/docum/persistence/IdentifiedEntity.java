@@ -23,4 +23,6 @@ public abstract class IdentifiedEntity implements Serializable {
 	public void setId(Long id) {
 		this.id = id;
 	}
+	
+	public <T extends IdentifiedEntity> void copy(T sourceObject) {}
 }

@@ -26,6 +26,12 @@ public class BaseDaoImpl implements BaseDao {
 		entityManager.flush();
 		return object;
 	}
+	
+	public <T extends IdentifiedEntity> T updateObject(T object) {
+		entityManager.merge(object);
+		entityManager.flush();
+		return object;
+	}
 
 	public <T extends IdentifiedEntity> void deleteObject(T object) {
 		entityManager.remove(object);
