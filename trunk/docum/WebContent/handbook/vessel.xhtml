@@ -34,7 +34,7 @@
 			</h:panelGroup>
 			<p:panel header="Суда" style="text-align:center"
 				styleClass="toggle-panel">			
-				<p:dataTable id="vessels" var="vessel" value="#{vesselBean.allVessels}"
+				<p:dataTable id="vessels" var="vessel" value="#{vesselBean.allObjects}"
 					selectionMode="single" selection="#{vesselBean.vessel}">
 					<p:column sortBy="#{vessel.name}" filterBy="#{vessel.name}"
 						filterMatchMode="contains">
@@ -81,7 +81,7 @@
 					message="Удалить судно '#{vesselBean.vessel.name}'?"
 					header="Удаление..." severity="alert" widgetVar="confirmation">
 
-					<p:commandButton value="ОК" update="suppliers,growl"
+					<p:commandButton value="ОК" update="vessels,growl"
 						actionListener="#{vesselBean.deleteObject}"
 						oncomplete="confirmation.hide()" />
 					<p:commandButton value="Отмена" onclick="confirmation.hide()"

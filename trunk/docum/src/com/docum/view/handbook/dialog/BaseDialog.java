@@ -1,5 +1,7 @@
 package com.docum.view.handbook.dialog;
 
+import java.util.List;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
@@ -13,6 +15,15 @@ public abstract class BaseDialog {
 	
 	@ManagedProperty(value = "#{baseService}")
 	private BaseService baseService;
+	
+	private List<? extends IdentifiedEntity> objects;
+	
+	public List<? extends IdentifiedEntity> getAllObjects() {
+		if(this.objects == null) {
+			refreshObjects();
+		}
+		return this.objects;
+	}
 	
 	public String getTitle() {
 		return title;
@@ -29,7 +40,9 @@ public abstract class BaseDialog {
 	
 	abstract public IdentifiedEntity getBeanObject();
 	
-	public void refreshObjects() {};
+	public void refreshObjects() {
+		this.objects = baseService.getAll(getBeanObject().getClass(), null);
+	}
 	
 	public void saveObject() {
 		if (getBeanObject() != null) {
@@ -63,5 +76,12 @@ public abstract class BaseDialog {
 	public void setBaseService(BaseService baseService) {
 		this.baseService = baseService;
 	}
-	
+
+	public List<? extends IdentifiedEntity> getObjects() {
+		return objects;
+	}
+
+	public void setObjects(List<? extends IdentifiedEntity> objects) {
+		this.objects = objects;
+	}
 }
