@@ -32,9 +32,9 @@
 								</p:column>
 								<p:column>
 									<f:facet name="header">
-										<h:outputText value="Причал" />
+										<h:outputText value="Контейнеров" />
 									</f:facet>
-									<h:outputText value="-" />
+									<h:outputText value="#{v.totalContainerCount}" />
 								</p:column>
 								<p:column>
 									<f:facet name="header">
@@ -52,25 +52,17 @@
 								</p:column>
 								<p:column>
 									<f:facet name="header">
-										<h:outputText value="Проверено" />
+										<h:outputText value="Не отработано" />
 									</f:facet>
-									<h:outputText value="#{v.checkedContainerCount}" />
+									<h:outputText value="#{v.unhandledContainerCount}" />
 								</p:column>
 								<p:column>
 									<f:facet name="header">
-										<h:outputText value="Обработано" />
+										<h:outputText value="Отработано" />
 									</f:facet>
-									<h:outputText value="#{v.finishedContainerCount}" />
+									<h:outputText value="#{v.handledContainerCount}" />
 									<h:outputText value="" />
 								</p:column>
-								<p:column>
-									<f:facet name="header">
-										<h:outputText value="Всего" />
-									</f:facet>
-<!-- 									<h:outputText value="#{v.containers.size}" /> -->
-									<h:outputText value="" />
-								</p:column>
-
 							</p:dataTable>
 						</h:form>
 					</h:panelGroup>
@@ -81,7 +73,7 @@
 						<h:form prependId="false">
 							<p:dataTable var="curcontainer"
 								value="#{voyage.containers}"
-								rowStyleClass="customs-color">
+								rowStyleClass="#{curcontainer.color}">
 
 								<p:column sortBy="#{curcontainer.number}"
 									filterBy="#{curcontainer.number}">
@@ -90,7 +82,6 @@
 									</f:facet>
 									<h:outputText value="#{curcontainer.number}" />
 								</p:column>
-
 								<p:column sortBy="#{curcontainer.state}"
 									filterBy="#{curcontainer.state}">
 									<f:facet name="header">
@@ -98,21 +89,13 @@
 									</f:facet>
 									<h:outputText value="#{curcontainer.state}" />
 								</p:column>
-
-<!-- 								<p:column sortBy="#{curcontainer.town}" -->
-<!-- 									filterBy="#{curcontainer.town}"> -->
-<!-- 									<f:facet name="header"> -->
-<!-- 										<h:outputText value="Город" /> -->
-<!-- 									</f:facet> -->
-<!-- 									<h:outputText value="#{curcontainer.town}" /> -->
-<!-- 								</p:column> -->
-								<p:column>
+								<p:column sortBy="#{curcontainer.city}"
+									filterBy="#{curcontainer.city}">
 									<f:facet name="header">
 										<h:outputText value="Город" />
 									</f:facet>
-									<h:outputText value="" />
+									<h:outputText value="#{curcontainer.city}" />
 								</p:column>
-
 							</p:dataTable>
 						</h:form>
 					</p:panel>
@@ -145,17 +128,11 @@
 					</h:outputText>
 				</p:column>
 
-<!-- 				<p:column sortBy="#{voyage.containers.size}"> -->
-<!-- 					<f:facet name="header"> -->
-<!-- 						<h:outputText value="Контейнеров" /> -->
-<!-- 					</f:facet> -->
-<!-- 					<h:outputText value="#{voyage.containers.size}" /> -->
-<!-- 				</p:column> -->
-				<p:column>
+				<p:column sortBy="#{voyage.totalContainerCount}">
 					<f:facet name="header">
 						<h:outputText value="Контейнеров" />
 					</f:facet>
-					<h:outputText value="" />
+					<h:outputText value="#{voyage.totalContainerCount}" />
 				</p:column>
 
 			</p:dataTable>

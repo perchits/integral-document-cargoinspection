@@ -26,7 +26,7 @@ import com.docum.persistence.common.Cargo;
 import com.docum.persistence.common.City;
 import com.docum.persistence.common.Container;
 import com.docum.persistence.common.Invoice;
-import com.docum.persistence.common.Mesure;
+import com.docum.persistence.common.Measure;
 import com.docum.persistence.common.Supplier;
 import com.docum.persistence.common.Vessel;
 import com.docum.persistence.common.Voyage;
@@ -48,7 +48,9 @@ public class TestDataPreparator {
 
 	private String[] containerNames = new String[] {
 			"ZCSU5836992", "ZCSU5132123", "ZCSU5853644", "ZCSU5879274",
-			"ZCSU5836626", "ZCSU5846814", "ZCSU5836992", "ZCSU5879398"};
+			"ZCSU5836626", "ZCSU5846814", "ZCSU5836992", "ZCSU5879398",
+			"CGMU5052139", "CGMU5052756", "CGMU5052782", "CGMU5052606",
+			"CGMU5053177", "CGMU5052313", "CGMU5052078", "CGMU5052099"};
 
 	private String[] vesselNames = new String[] {
 			"Zim Pacific", "Zim India", "Michigan Trader"};
@@ -75,7 +77,7 @@ public class TestDataPreparator {
 		List<Vessel> vessels = prepareVessels();
 		List<Voyage> voyages = prepareVoyages(vessels);
 		List<City> cities = prepareCities();
-		List<Mesure> mesures  = prepareMesures();
+		List<Measure> measures  = prepareMesures();
 		List<Container> containers = prepareContainers(voyages, cities);
 		List<Cargo> cargoes = prepareCargoes(articles, suppliers, containers);
 		List<BillOfLading> bills = prepareBillOfLadings(containers);
@@ -132,22 +134,22 @@ public class TestDataPreparator {
 		result.add(new City("Новороссийск", true));
 		result.add(new City("Анапа", true));
 		result.add(new City("Темрюк", false));
+		result.add(new City("Волгоград", false));
 		persist(result);
 		return result;
 	}
 	
-	private List<Mesure> prepareMesures() {
-		List<Mesure> result = new ArrayList<Mesure>();
-		result.add(new Mesure("шт."));
-		result.add(new Mesure("кг."));
-		result.add(new Mesure("т."));
+	private List<Measure> prepareMesures() {
+		List<Measure> result = new ArrayList<Measure>();
+		result.add(new Measure("шт."));
+		result.add(new Measure("кг."));
+		result.add(new Measure("т."));
 		persist(result);
 		return result;
 	}
 	
 	private List<Container> prepareContainers(List<Voyage> voyages, List<City> cities) {
-		final EnumCounter<ContainerStateEnum> stateCounter =
-			new EnumCounter<ContainerStateEnum>(ContainerStateEnum.values());
+		final ContainerStateEnumCounter stateCounter = new ContainerStateEnumCounter();
 		final EntityCounter<Voyage> voyageCounter = new EntityCounter<Voyage>(voyages);
 		final EntityCounter<City> cityCounter = new EntityCounter<City>(cities);
 
@@ -206,7 +208,6 @@ public class TestDataPreparator {
 		List<Invoice> result = new ArrayList<Invoice>();
 		
 		EntityCounter<Container> containerCounter = new EntityCounter<Container>(containers);
-		EntityCounter<String> numberCounter = new EntityCounter<String>(invoiceNumbers);
 
 		for(String number : invoiceNumbers) {
 			Invoice invoice = new Invoice(number);
@@ -258,20 +259,28 @@ public class TestDataPreparator {
 		}
 	}
 
-	public static class EnumCounter<E extends Enum<E>> {
-		private E[] enums;
-		private int pos = 0;
-		public EnumCounter(E[] enums) {
-			this.enums = enums;
+	public static class EnumCounter<E extends Enum<E>> extends EntityCounter<E> {
+		public EnumCounter(E...enums) {
+			super(Arrays.asList(enums));
 		}
-		public E next() {
-			if (enums.length == 0) {
-				return null;
+		public EnumCounter(E[] enums, E...excluded) {
+			super(new Helper<E>(enums, excluded).getList());
+		}
+		private static class Helper<E extends Enum<E>> {
+			private List<E> enums; 
+			public Helper(E[] enums, E[] excluded) {
+				this.enums = new ArrayList<E>(Arrays.asList(enums));
+				this.enums.removeAll(Arrays.asList(excluded));
 			}
-			if (pos >= enums.length) {
-				pos = 0;
+			public List<E> getList() {
+				return enums;
 			}
-			return enums[pos++];
+		}
+	}
+
+	public static class ContainerStateEnumCounter extends EnumCounter<ContainerStateEnum> {
+		ContainerStateEnumCounter() {
+			super(ContainerStateEnum.values(), ContainerStateEnum.ABANDONED);
 		}
 	}
 }

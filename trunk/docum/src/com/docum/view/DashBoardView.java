@@ -6,9 +6,9 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -46,7 +46,7 @@ public class DashBoardView implements Serializable {
 
 	public Collection<VoyagePresentation> getUnfinishedVoyages() {
 		if(unfinishedVoyages == null){
-			Collection<Voyage> voyages = voyageService.getFinishedVoyages();
+			Collection<Voyage> voyages = voyageService.getUnfinishedVoyages();
 			unfinishedVoyages = new ArrayList<VoyagePresentation>(voyages.size());
 			AlgoUtil.transform(unfinishedVoyages, voyages, new VoyageTransformer());
 		}
@@ -94,23 +94,24 @@ public class DashBoardView implements Serializable {
 	public static class VoyagePresentation implements Serializable {
 		private static final long serialVersionUID = -3545320838886096320L;
 		private Voyage voyage;
-		private Map<ContainerStateEnum, Integer> containerStateCounts =
-			new HashMap<ContainerStateEnum, Integer>();
-		
+		private List<ContainerPresentation> containers = new ArrayList<ContainerPresentation>();
+		private EnumMap<ContainerStateEnum, Integer> containerStateMap =
+			new EnumMap<ContainerStateEnum, Integer>(ContainerStateEnum.class);
+
 		VoyagePresentation() {
-			containerStateCounts.put(ContainerStateEnum.BEFORE_CUSTOMS, 0);
-			containerStateCounts.put(ContainerStateEnum.AFTER_CUSTOMS, 0);
-			containerStateCounts.put(ContainerStateEnum.CHECKED, 0);
-			containerStateCounts.put(ContainerStateEnum.FINISHED, 0);
+			for(ContainerStateEnum e : ContainerStateEnum.values()) {
+				containerStateMap.put(e, 0);
+			}
 		}
 		
 		public VoyagePresentation(Voyage voyage) {
 			this();
 			this.voyage = voyage;
 			for(Container container : voyage.getContainers()){
-				Integer count = containerStateCounts.get(container.getState());
+				Integer count = containerStateMap.get(container.getState());
 				count++;
-				containerStateCounts.put(container.getState(), count);
+				containerStateMap.put(container.getState(), count);
+				this.containers.add(new ContainerPresentation(container));
 			}
 		}
 		
@@ -126,28 +127,32 @@ public class DashBoardView implements Serializable {
 			return voyage.getArrivalDate();
 		}
 
-		public List<Container> getContainers() {
-			return voyage.getContainers();
+		public List<ContainerPresentation> getContainers() {
+			return containers;
 		}
 		
 		public Integer getTotalContainerCount(){
-			return voyage.getContainers().size();
+			return containers.size();
 		}
 		
 		public Integer getBeforeCustomsContainerCount() {
-			return containerStateCounts.get(ContainerStateEnum.BEFORE_CUSTOMS);
+			return containerStateMap.get(ContainerStateEnum.BEFORE_CUSTOMS);
 		}
 
 		public Integer getAfterCustomsContainerCount() {
-			return containerStateCounts.get(ContainerStateEnum.AFTER_CUSTOMS);
+			return containerStateMap.get(ContainerStateEnum.AFTER_CUSTOMS)
+					+ containerStateMap.get(ContainerStateEnum.HANDLED)
+					+ containerStateMap.get(ContainerStateEnum.REPORTED);
 		}
 
-		public Integer getCheckedContainerCount() {
-			return containerStateCounts.get(ContainerStateEnum.CHECKED);
+		public Integer getUnhandledContainerCount() {
+			return containerStateMap.get(ContainerStateEnum.BEFORE_CUSTOMS)
+					+ containerStateMap.get(ContainerStateEnum.AFTER_CUSTOMS);
 		}
 		
-		public Integer getFinishedContainerCount() {
-			return containerStateCounts.get(ContainerStateEnum.FINISHED);
+		public Integer getHandledContainerCount() {
+			return containerStateMap.get(ContainerStateEnum.HANDLED)
+					+ containerStateMap.get(ContainerStateEnum.REPORTED);
 		}
 	}
 	
@@ -156,6 +161,41 @@ public class DashBoardView implements Serializable {
 		@Override
 		public VoyagePresentation transform(Voyage voyage) {
 			return new VoyagePresentation(voyage);
+		}
+	}
+	
+	public static class ContainerPresentation implements Serializable {
+		private static final long serialVersionUID = 3960028459943599183L;
+		private Container container;
+		private static EnumMap<ContainerStateEnum, String> containerStateMap =
+			new EnumMap<ContainerStateEnum, String>(ContainerStateEnum.class);
+		
+		static {
+			containerStateMap.put(ContainerStateEnum.BEFORE_CUSTOMS, "before-customs-color");
+			containerStateMap.put(ContainerStateEnum.AFTER_CUSTOMS, "after-customs-color");
+			containerStateMap.put(ContainerStateEnum.HANDLED, "handled-color");
+			containerStateMap.put(ContainerStateEnum.REPORTED, "reported-color");
+			containerStateMap.put(ContainerStateEnum.ABANDONED, "abandoned-color");
+		}
+
+		public ContainerPresentation(Container container) {
+			this.container = container;
+		}
+		
+		public String getNumber() {
+			return container.getNumber();
+		}
+
+		public String getCity() {
+			return container.getCity().getName();
+		}
+
+		public String getState() {
+			return container.getState().getName();
+		}
+
+		public String getColor() {
+			return containerStateMap.get(container.getState());
 		}
 	}
 }
