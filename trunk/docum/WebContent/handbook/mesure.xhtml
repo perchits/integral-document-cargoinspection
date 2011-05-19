@@ -12,69 +12,56 @@
 					<p:toolbarGroup align="left">
 						<p:commandButton type="push" value="Добавить"
 							update="dialogPanel,growl" image="ui-icon-document"
-							actionListener="#{cityBean.newObject}"
+							actionListener="#{mesureBean.newObject}"
 							oncomplete="dialog.show()" />
 
 						<p:commandButton type="push" value="Правка"
 							update="dialogPanel,growl"
-							actionListener="#{cityBean.editObject}"
-							oncomplete="beforeShow(dialog,'cities')"
+							actionListener="#{mesureBean.edit}"
+							oncomplete="beforeShow(dialog,'mesures')"
 							image="ui-icon ui-icon-wrench" />
 
 						<p:commandButton type="push" value="Удалить"
-							oncomplete="beforeShow(confirmation,'cities')"
+							oncomplete="beforeShow(confirmation,'mesures')"
 							image="ui-icon ui-icon-minus" update="confirmationPanel,growl" />
 
-						<p:commandButton type="push" update="cities" value="Обновить"
-							actionListener="#{cityBean.refreshObjects}"
+						<p:commandButton type="push" update="mesures" value="Обновить"
+							actionListener="#{mesureBean.refreshObjects}"
 							image="ui-icon ui-icon-arrowreturnthick-1-w" />
 
 					</p:toolbarGroup>
 				</p:toolbar>
 			</h:panelGroup>
-			<p:panel header="#{cityBean.sign}" style="text-align:center"
-				styleClass="toggle-panel">
-
-
-				<p:dataTable id="cities" var="city"
-					value="#{cityBean.allObjects}" selectionMode="single"
-					selection="#{cityBean.city}">
-					<p:column sortBy="#{city.name}"
-						filterBy="#{city.name}" filterMatchMode="contains">
-						<f:facet name="header">Наименование</f:facet>
-						<h:outputText value="#{city.name}" />
+			<p:panel header="#{mesureBean.sign}" style="text-align:center"
+				styleClass="toggle-panel">			
+				<p:dataTable id="mesures" var="mesure" value="#{mesureBean.allObjects}"
+					selectionMode="single" selection="#{mesureBean.mesure}">
+					<p:column sortBy="#{mesure.name}" filterBy="#{mesure.name}"
+						filterMatchMode="contains">
+						<f:facet name="header">
+							Наименование  
+						</f:facet>
+						<h:outputText value="#{mesure.name}" />
 					</p:column>
-					
-					<p:column sortBy="#{city.our}"
-						filterBy="#{city.our}" filterMatchMode="contains">
-						<f:facet name="header">Обслуживаемый</f:facet>
-						<h:selectBooleanCheckbox disabled="true" value="#{city.our}" />
-					</p:column>					
 				</p:dataTable>
-
 			</p:panel>
 		</h:form>
 		<p:outputPanel id="dialogPanel">
 			<h:form prependId="false" id="dialogForm">
-				<p:dialog width="380" id="dialog" widgetVar="dialog" modal="true"
-					header="#{cityBean.title}">
+				<p:dialog width="480" id="dialog" widgetVar="dialog" modal="true"
+					header="#{mesureBean.title}">
 					<p:outputPanel id="dialogContent">
 						<h:panelGroup>
 							<h:panelGrid width="100%" columns="2" cellpadding="5">
-								<h:outputLabel for="supname" value="Наименование: *" />
-								<p:inputText size="60" value="#{cityBean.city.name}"
-									id="supname" required="true" label="Наименование">
+								<h:outputLabel for="mesureName" value="Наименование: *" />
+								<p:inputText size="60" value="#{mesureBean.mesure.name}"
+									id="mesureName" required="true" label="Наименование">
 								</p:inputText>
-								
-								<h:outputLabel for="cityOur" value="Обслуживаемый:" />
-							<h:selectBooleanCheckbox value="#{cityBean.city.our}"
-								id="cityOur" label="Обслуживаемый" >								
-							</h:selectBooleanCheckbox>
 
 								<f:facet name="footer">
 									<p:commandButton
-										actionListener="#{cityBean.saveObject}" value="OK"
-										update="cities,growl"
+										actionListener="#{mesureBean.saveObject}" value="OK"
+										update="mesures,growl"
 										oncomplete="handleOKRequest(args,dialog,'dialog')" />
 									<p:commandButton type="reset" value="Отмена" update="growl"
 										onclick="dialog.hide()" />
@@ -91,11 +78,11 @@
 		<p:outputPanel id="confirmationPanel">
 			<h:form prependId="false" id="confirmationForm">
 				<p:confirmDialog
-					message="Удалить #{cityBean.sign} '#{cityBean.city.name}'?"
+					message="Удалить #{mesureBean.sign} '#{mesureBean.mesure.name}'?"
 					header="Удаление..." severity="alert" widgetVar="confirmation">
 
-					<p:commandButton value="ОК" update="cities,growl"
-						actionListener="#{cityBean.deleteObject}"
+					<p:commandButton value="ОК" update="mesures,growl"
+						actionListener="#{mesureBean.deleteObject}"
 						oncomplete="confirmation.hide()" />
 					<p:commandButton value="Отмена" onclick="confirmation.hide()"
 						type="button" />
