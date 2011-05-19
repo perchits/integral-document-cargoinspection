@@ -85,5 +85,11 @@ public class ArticleView extends BaseDialog implements Serializable {
 		return article;
 	}
 
+	@Override
+	public void refreshObjects() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
 

@@ -85,4 +85,10 @@ public class CityView extends BaseDialog implements Serializable {
 		return city;
 	}
 
+	@Override
+	public void refreshObjects() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

@@ -81,4 +81,10 @@ public class SupplierView extends BaseDialog implements Serializable {
 	public IdentifiedEntity getBeanObject() {
 		return supplier;
 	}
+
+	@Override
+	public void refreshObjects() {
+		// TODO Auto-generated method stub
+		
+	}
 }
