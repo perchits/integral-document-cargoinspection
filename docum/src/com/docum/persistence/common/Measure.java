@@ -5,17 +5,17 @@ import javax.persistence.Entity;
 import com.docum.persistence.IdentifiedEntity;
 
 @Entity
-public class Mesure extends IdentifiedEntity {
+public class Measure extends IdentifiedEntity {
 
 	private static final long serialVersionUID = 34410299838532629L;
 
 	private String name;
 
-	public Mesure() {
+	public Measure() {
 
 	}
 
-	public Mesure(String name) {
+	public Measure(String name) {
 		this.name = name;
 	}
 
