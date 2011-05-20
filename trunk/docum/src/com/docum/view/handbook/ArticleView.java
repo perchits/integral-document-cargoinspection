@@ -5,8 +5,8 @@ import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
-import com.docum.persistence.IdentifiedEntity;
-import com.docum.persistence.common.Article;
+import com.docum.domain.po.IdentifiedEntity;
+import com.docum.domain.po.common.Article;
 
 @ManagedBean(name = "articleBean")
 @SessionScoped

@@ -3,7 +3,7 @@ package com.docum.service;
 import java.util.Collection;
 import java.util.List;
 
-import com.docum.persistence.common.Voyage;
+import com.docum.domain.po.common.Voyage;
 
 public interface VoyageService {
 	public List<Voyage> getAllVoyages();

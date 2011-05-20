@@ -19,19 +19,19 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.docum.domain.ContainerStateEnum;
-import com.docum.persistence.IdentifiedEntity;
-import com.docum.persistence.common.Article;
-import com.docum.persistence.common.BillOfLading;
-import com.docum.persistence.common.Cargo;
-import com.docum.persistence.common.City;
-import com.docum.persistence.common.Container;
-import com.docum.persistence.common.Invoice;
-import com.docum.persistence.common.Measure;
-import com.docum.persistence.common.PurchaseOrder;
-import com.docum.persistence.common.Supplier;
-import com.docum.persistence.common.Tare;
-import com.docum.persistence.common.Vessel;
-import com.docum.persistence.common.Voyage;
+import com.docum.domain.po.IdentifiedEntity;
+import com.docum.domain.po.common.Article;
+import com.docum.domain.po.common.BillOfLading;
+import com.docum.domain.po.common.Cargo;
+import com.docum.domain.po.common.City;
+import com.docum.domain.po.common.Container;
+import com.docum.domain.po.common.Invoice;
+import com.docum.domain.po.common.Measure;
+import com.docum.domain.po.common.PurchaseOrder;
+import com.docum.domain.po.common.Supplier;
+import com.docum.domain.po.common.Tare;
+import com.docum.domain.po.common.Vessel;
+import com.docum.domain.po.common.Voyage;
 import com.docum.util.AlgoUtil;
 
 @RunWith(SpringJUnit4ClassRunner.class)

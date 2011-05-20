@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.docum.dao.VesselDao;
-import com.docum.persistence.common.Vessel;
+import com.docum.domain.po.common.Vessel;
 import com.docum.service.VesselService;
 
 @Service("vesselService")

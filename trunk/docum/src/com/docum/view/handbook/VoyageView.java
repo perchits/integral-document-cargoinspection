@@ -7,9 +7,9 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.event.ValueChangeEvent;
 
-import com.docum.persistence.IdentifiedEntity;
-import com.docum.persistence.common.Vessel;
-import com.docum.persistence.common.Voyage;
+import com.docum.domain.po.IdentifiedEntity;
+import com.docum.domain.po.common.Vessel;
+import com.docum.domain.po.common.Voyage;
 
 @ManagedBean(name = "voyageBean")
 @SessionScoped

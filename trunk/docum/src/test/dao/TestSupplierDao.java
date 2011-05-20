@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import test.TestUtil;
 
-import com.docum.persistence.common.Supplier;
+import com.docum.domain.po.common.Supplier;
 import com.docum.service.SupplierService;
 
 @RunWith(SpringJUnit4ClassRunner.class)

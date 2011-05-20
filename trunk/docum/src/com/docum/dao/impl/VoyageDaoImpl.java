@@ -7,7 +7,7 @@ import javax.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
 
 import com.docum.dao.VoyageDao;
-import com.docum.persistence.common.Voyage;
+import com.docum.domain.po.common.Voyage;
 
 @Repository("voyageDao")
 public class VoyageDaoImpl extends BaseDaoImpl implements VoyageDao {

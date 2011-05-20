@@ -1,9 +1,10 @@
-package com.docum.persistence.common;
+package com.docum.domain.po.common;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
-import com.docum.persistence.IdentifiedEntity;
+import com.docum.domain.po.IdentifiedEntity;
 
 @Entity
 public class Cargo extends IdentifiedEntity {
@@ -12,6 +13,7 @@ public class Cargo extends IdentifiedEntity {
 	@ManyToOne
 	private Article article;
 
+	//Вес по коносаменту
 	private Double weight;
 	
 	@ManyToOne
@@ -19,7 +21,13 @@ public class Cargo extends IdentifiedEntity {
 	
 	@ManyToOne
 	private Container container;
+	
+	@OneToOne
+	private CargoCondition declaredCondition;
 
+	@OneToOne
+	private CargoCondition actualCondition;
+	
 	public Cargo(){
 		super();
 	}

@@ -1,4 +1,4 @@
-package com.docum.persistence.common;
+package com.docum.domain.po.common;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,22 +6,21 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 
-import com.docum.persistence.IdentifiedEntity;
+import com.docum.domain.po.IdentifiedEntity;
 
 @Entity
-public class PurchaseOrder extends IdentifiedEntity {
-	private static final long serialVersionUID = -5483165526419958870L;
-	
+public class Invoice extends IdentifiedEntity{
+	private static final long serialVersionUID = 4144517745472469185L;
+
 	private String number;
-	
 	@ManyToMany
 	private List<Container> containers = new ArrayList<Container>();
 
-	public PurchaseOrder() {
+	public Invoice() {
 		super();
 	}
 
-	public PurchaseOrder(String number) {
+	public Invoice(String number) {
 		super();
 		this.number = number;
 	}

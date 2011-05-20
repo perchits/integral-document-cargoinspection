@@ -2,7 +2,7 @@ package com.docum.service;
 
 import java.util.List;
 
-import com.docum.persistence.common.Article;
+import com.docum.domain.po.common.Article;
 
 public interface ArticleService {
 	

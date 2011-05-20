@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.docum.dao.BaseDao;
-import com.docum.persistence.IdentifiedEntity;
+import com.docum.domain.po.IdentifiedEntity;
 import com.docum.service.BaseService;
 
 @Service("baseService")

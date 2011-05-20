@@ -1,4 +1,4 @@
-package com.docum.persistence.common;
+package com.docum.domain.po.common;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,7 +6,7 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 
-import com.docum.persistence.IdentifiedEntity;
+import com.docum.domain.po.IdentifiedEntity;
 
 @Entity
 public class BillOfLading extends IdentifiedEntity{

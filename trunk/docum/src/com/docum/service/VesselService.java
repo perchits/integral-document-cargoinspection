@@ -2,7 +2,7 @@ package com.docum.service;
 
 import java.util.List;
 
-import com.docum.persistence.common.Vessel;
+import com.docum.domain.po.common.Vessel;
 
 public interface VesselService {
 	
