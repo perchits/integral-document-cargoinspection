@@ -1,6 +1,6 @@
 package com.docum.dao;
 
-import com.docum.persistence.common.Supplier;
+import com.docum.domain.po.common.Supplier;
 
 public interface SupplierDao extends BaseDao {
 

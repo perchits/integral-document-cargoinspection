@@ -9,7 +9,7 @@ import javax.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
 
 import com.docum.dao.BaseDao;
-import com.docum.persistence.IdentifiedEntity;
+import com.docum.domain.po.IdentifiedEntity;
 
 @Repository("baseDao")
 public class BaseDaoImpl implements BaseDao {

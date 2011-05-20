@@ -1,6 +1,6 @@
 package com.docum.dao;
 
-import com.docum.persistence.common.Vessel;
+import com.docum.domain.po.common.Vessel;
 
 public interface VesselDao extends BaseDao {
 	

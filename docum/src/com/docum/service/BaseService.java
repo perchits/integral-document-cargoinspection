@@ -2,7 +2,7 @@ package com.docum.service;
 
 import java.util.List;
 
-import com.docum.persistence.IdentifiedEntity;
+import com.docum.domain.po.IdentifiedEntity;
 
 public interface BaseService {
 	public <T extends IdentifiedEntity> T saveObject(T object);

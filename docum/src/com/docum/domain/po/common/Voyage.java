@@ -1,4 +1,4 @@
-package com.docum.persistence.common;
+package com.docum.domain.po.common;
 
 import java.util.Date;
 import java.util.List;
@@ -7,7 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-import com.docum.persistence.IdentifiedEntity;
+import com.docum.domain.po.IdentifiedEntity;
 
 @Entity
 public class Voyage extends IdentifiedEntity{

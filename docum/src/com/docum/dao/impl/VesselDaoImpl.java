@@ -3,7 +3,7 @@ package com.docum.dao.impl;
 import org.springframework.stereotype.Service;
 
 import com.docum.dao.VesselDao;
-import com.docum.persistence.common.Vessel;
+import com.docum.domain.po.common.Vessel;
 
 @Service("vesselDao")
 public class VesselDaoImpl extends BaseDaoImpl implements VesselDao {

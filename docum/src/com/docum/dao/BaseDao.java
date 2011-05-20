@@ -3,7 +3,7 @@ package com.docum.dao;
 import java.io.Serializable;
 import java.util.List;
 
-import com.docum.persistence.IdentifiedEntity;
+import com.docum.domain.po.IdentifiedEntity;
 
 public interface BaseDao extends Serializable {
 	

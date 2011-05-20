@@ -3,7 +3,7 @@ package com.docum.dao.impl;
 import org.springframework.stereotype.Repository;
 
 import com.docum.dao.SupplierDao;
-import com.docum.persistence.common.Supplier;
+import com.docum.domain.po.common.Supplier;
 
 @Repository("supplierDao")
 public class SupplierDaoImpl extends BaseDaoImpl implements SupplierDao {

@@ -16,8 +16,8 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
 
 import com.docum.domain.ContainerStateEnum;
-import com.docum.persistence.common.Container;
-import com.docum.persistence.common.Voyage;
+import com.docum.domain.po.common.Container;
+import com.docum.domain.po.common.Voyage;
 import com.docum.service.VoyageService;
 import com.docum.util.AlgoUtil;
 

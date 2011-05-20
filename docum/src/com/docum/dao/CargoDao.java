@@ -1,6 +1,6 @@
 package com.docum.dao;
 
-import com.docum.persistence.common.Cargo;
+import com.docum.domain.po.common.Cargo;
 
 public interface CargoDao extends BaseDao{
 	

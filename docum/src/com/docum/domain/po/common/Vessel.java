@@ -1,10 +1,10 @@
-package com.docum.persistence.common;
+package com.docum.domain.po.common;
 
 import java.io.Serializable;
 
 import javax.persistence.Entity;
 
-import com.docum.persistence.IdentifiedEntity;
+import com.docum.domain.po.IdentifiedEntity;
 
 @Entity
 public class Vessel extends IdentifiedEntity implements Serializable {

@@ -1,4 +1,4 @@
-package com.docum.persistence;
+package com.docum.domain.po;
 
 import java.io.Serializable;
 

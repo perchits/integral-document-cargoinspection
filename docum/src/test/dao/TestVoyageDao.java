@@ -16,9 +16,9 @@ import test.TestUtil;
 
 import com.docum.dao.VesselDao;
 import com.docum.dao.VoyageDao;
-import com.docum.persistence.common.Container;
-import com.docum.persistence.common.Vessel;
-import com.docum.persistence.common.Voyage;
+import com.docum.domain.po.common.Container;
+import com.docum.domain.po.common.Vessel;
+import com.docum.domain.po.common.Voyage;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations="/docum-context.xml")
