@@ -5,6 +5,8 @@ import java.io.Serializable;
 import javax.persistence.Entity;
 
 import com.docum.domain.po.IdentifiedEntity;
+import com.docum.util.EqualsHelper;
+import com.docum.util.HashCodeHelper;
 
 @Entity
 public class Vessel extends IdentifiedEntity implements Serializable {
@@ -26,5 +28,21 @@ public class Vessel extends IdentifiedEntity implements Serializable {
 	
 	public void setName(String vesselName) {
 		this.name = vesselName;
+	}
+
+	public boolean equals(Object obj) {
+		if (obj == this) {
+			return true;
+		}
+
+		if (!(obj instanceof Vessel)) {
+			return false;
+		}
+
+		return EqualsHelper.equals(getId(), ((Vessel) obj).getId());
+	}
+
+	public int hashCode() {
+		return HashCodeHelper.hashCode(getId());
 	}
 }

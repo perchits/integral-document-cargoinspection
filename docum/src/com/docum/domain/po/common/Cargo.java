@@ -74,5 +74,21 @@ public class Cargo extends IdentifiedEntity {
 	public void setSupplier(Supplier supplier) {
 		this.supplier = supplier;
 	}
+
+	public CargoCondition getDeclaredCondition() {
+		return declaredCondition;
+	}
+
+	public void setDeclaredCondition(CargoCondition declaredCondition) {
+		this.declaredCondition = declaredCondition;
+	}
+
+	public CargoCondition getActualCondition() {
+		return actualCondition;
+	}
+
+	public void setActualCondition(CargoCondition actualCondition) {
+		this.actualCondition = actualCondition;
+	}
    
 }
