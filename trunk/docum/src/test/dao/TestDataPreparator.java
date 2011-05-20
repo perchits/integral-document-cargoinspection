@@ -27,6 +27,7 @@ import com.docum.persistence.common.City;
 import com.docum.persistence.common.Container;
 import com.docum.persistence.common.Invoice;
 import com.docum.persistence.common.Measure;
+import com.docum.persistence.common.PurchaseOrder;
 import com.docum.persistence.common.Supplier;
 import com.docum.persistence.common.Tare;
 import com.docum.persistence.common.Vessel;
@@ -68,9 +69,22 @@ public class TestDataPreparator {
 			12300.0, 22300.0, 24200.0, 20520.0, 19800.0, 25000.0,
 			23300.0, 21630.0, 26300.0, 8700.0, };
 	
-	String[] invoiceNumbers = new String[]{
+	private String[] invoiceNumbers = new String[]{
 			"PP11-652", "PP11-678", "TM11-674", "CL11-675"};
 
+	private String[] orderNumbers = new String[]{
+			"12712", "13156", "10892"};
+
+	private String[] tareNames = new String[]{
+			"Паллеты", "Поддоны", "Ящики", "Мешки"};
+
+	private String[] cityNames = new String[]{
+			"Новороссийск", "Анапа", "Темрюк", "Волгоград"};
+	private boolean ourCity = true;
+	
+	private String[] measureNames = new String[]{
+			"шт", "кг", "т"};
+	
 	@Test
 	public void prepareData(){
 		List<Supplier> suppliers = prepareSuppliers();
@@ -79,12 +93,12 @@ public class TestDataPreparator {
 		List<Voyage> voyages = prepareVoyages(vessels);
 		List<City> cities = prepareCities();
 		List<Measure> measures  = prepareMesures();
-		List<Tare> tare = prepareTare();
+		List<Tare> tares = prepareTares();
 		List<Container> containers = prepareContainers(voyages, cities);
 		List<Cargo> cargoes = prepareCargoes(articles, suppliers, containers);
 		List<BillOfLading> bills = prepareBillOfLadings(containers);
 		List<Invoice> invoices = prepareInvoices(containers);
-	
+		List<PurchaseOrder> order = prepareOrders(containers);
 	}
 	
 	private List<Voyage> prepareVoyages(List<Vessel> vessels) {
@@ -103,12 +117,10 @@ public class TestDataPreparator {
 	}
 
 	private List<Vessel> prepareVessels() {
-		List<Vessel> result = new ArrayList<Vessel>();
-		for(String name : vesselNames) {
-			result.add(new Vessel(name));
-		}
-		persist(result);
-		return result;
+		return prepareDictionary(vesselNames, new EntityConstructor<Vessel>(){
+			public Vessel construct(String name) {
+				return new Vessel(name);
+			}});
 	}
 
 	private List<Article> prepareArticles() {
@@ -122,41 +134,47 @@ public class TestDataPreparator {
 		return result;
 	}
 
-	private List<Supplier> prepareSuppliers() {
-		List<Supplier> result = new ArrayList<Supplier>();
-		for(String name : supplierNames) {
-			result.add(new Supplier(name));
+	private <T extends IdentifiedEntity> List<T> prepareDictionary(String[] names,
+			EntityConstructor<T> constructor) {
+		List<T> result = new ArrayList<T>();
+		for(String name : names) {
+			result.add(constructor.construct(name));
 		}
 		persist(result);
 		return result;
 	}
+	private static interface EntityConstructor<T extends IdentifiedEntity> {
+		public T construct(String name);
+	}
+
+	private List<Supplier> prepareSuppliers() {
+		return prepareDictionary(supplierNames, new EntityConstructor<Supplier>(){
+			public Supplier construct(String name) {
+				return new Supplier(name);
+			}});
+	}
 
 	private List<City> prepareCities() {
-		List<City> result = new ArrayList<City>();
-		result.add(new City("Новороссийск", true));
-		result.add(new City("Анапа", true));
-		result.add(new City("Темрюк", false));
-		result.add(new City("Волгоград", false));
-		persist(result);
-		return result;
+		return prepareDictionary(cityNames, new EntityConstructor<City>(){
+			public City construct(String name) {
+				City city = new City(name, ourCity);
+				ourCity = !ourCity;
+				return city;
+			}});
 	}
 	
 	private List<Measure> prepareMesures() {
-		List<Measure> result = new ArrayList<Measure>();
-		result.add(new Measure("шт."));
-		result.add(new Measure("кг."));
-		result.add(new Measure("т."));
-		persist(result);
-		return result;
+		return prepareDictionary(measureNames, new EntityConstructor<Measure>(){
+			public Measure construct(String name) {
+				return new Measure(name);
+			}});
 	}
 	
-	private List<Tare> prepareTare() {
-		List<Tare> result = new ArrayList<Tare>();
-		result.add(new Tare("Паллеты"));
-		result.add(new Tare("Поддоны"));
-		result.add(new Tare("Ящики"));
-		persist(result);
-		return result;
+	private List<Tare> prepareTares() {
+		return prepareDictionary(tareNames, new EntityConstructor<Tare>(){
+			public Tare construct(String name) {
+				return new Tare(name);
+			}});
 	}
 	
 	private List<Container> prepareContainers(List<Voyage> voyages, List<City> cities) {
@@ -234,6 +252,24 @@ public class TestDataPreparator {
 		return result;
 	}
 
+	private List<PurchaseOrder> prepareOrders(List<Container> containers){
+		List<PurchaseOrder> result = new ArrayList<PurchaseOrder>();
+		
+		EntityCounter<Container> containerCounter = new EntityCounter<Container>(containers);
+
+		for(String number : orderNumbers) {
+			PurchaseOrder order = new PurchaseOrder(number);
+			Container container = containerCounter.next();
+			order.getContainers().add(container);
+			container.getOrders().add(order);
+			container = containerCounter.next();
+			order.getContainers().add(container);
+			container.getOrders().add(order);
+			result.add(order);
+		}
+		persist(result);
+		return result;
+	}
 
 	
 	
