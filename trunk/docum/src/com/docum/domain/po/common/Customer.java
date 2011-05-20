@@ -6,17 +6,17 @@ import javax.persistence.ManyToOne;
 import com.docum.domain.po.IdentifiedEntity;
 
 @Entity
-public class Supplier extends IdentifiedEntity {
+public class Customer extends IdentifiedEntity {
 
-	private static final long serialVersionUID = 7918790765968857071L;
-
+	private static final long serialVersionUID = 5006930255152064933L;
+	
 	@ManyToOne
 	private Company company;
 
-	public Supplier() {
+	public Customer() {
 	}
 
-	public Supplier(Company company) {
+	public Customer(Company company) {		
 		this.company = company;
 	}
 

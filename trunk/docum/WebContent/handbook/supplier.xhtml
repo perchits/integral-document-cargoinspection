@@ -39,10 +39,10 @@
 				<p:dataTable id="suppliers" var="supplier"
 					value="#{supplierBean.allObjects}" selectionMode="single"
 					selection="#{supplierBean.supplier}">
-					<p:column sortBy="#{supplier.name}"
-						filterBy="#{supplier.name}" filterMatchMode="contains">
+					<p:column sortBy="#{supplier.company.name}"
+						filterBy="#{supplier.company.name}" filterMatchMode="contains">
 						<f:facet name="header">Наименование</f:facet>
-						<h:outputText value="#{supplier.name}" />
+						<h:outputText value="#{supplier.company.name}" />
 					</p:column>
 				</p:dataTable>
 
@@ -56,15 +56,20 @@
 					<p:outputPanel id="dialogContent">
 						<h:panelGroup>
 							<h:panelGrid width="100%" columns="2" cellpadding="5">
-								<h:outputLabel for="supname" value="Наименование: *" />
-								<p:inputText size="60" value="#{supplierBean.supplier.name}"
-									id="supname" required="true" label="Наименование">
-								</p:inputText>
+								<h:outputLabel for="supplierCompanyName" value="Наименование: *" />
+								
+
+								<h:selectOneMenu id="supplierCompanyName"
+									styleClass="ui-inputfield ui-widget ui-state-default ui-corner-all"
+									value="#{supplierBean.supplier.company}">
+									<f:selectItems 
+										value="#{supplierBean.companies}" var="company"
+										itemLabel="#{company.name}" itemValue="#{company}" />
+								</h:selectOneMenu>
 
 								<f:facet name="footer">
-									<p:commandButton
-										actionListener="#{supplierBean.saveObject}" value="OK"
-										update="suppliers,growl"
+									<p:commandButton actionListener="#{supplierBean.saveObject}"
+										value="OK" update="suppliers,growl"
 										oncomplete="handleOKRequest(args,dialog,'dialog')" />
 									<p:commandButton type="reset" value="Отмена" update="growl"
 										onclick="dialog.hide()" />
@@ -81,7 +86,7 @@
 		<p:outputPanel id="confirmationPanel">
 			<h:form prependId="false" id="confirmationForm">
 				<p:confirmDialog
-					message="Удалить поставщика '#{supplierBean.supplier.name}'?"
+					message="Удалить поставщика '#{supplierBean.supplier.company.name}'?"
 					header="Удаление..." severity="alert" widgetVar="confirmation">
 
 					<p:commandButton value="ОК" update="suppliers,growl"
