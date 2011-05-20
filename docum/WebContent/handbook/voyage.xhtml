@@ -85,8 +85,10 @@
 							<h:outputLabel for="voyageVessel" value="Судно: *" />
 							<h:selectOneMenu id="voyageVessel"
 								 styleClass="ui-inputfield ui-widget ui-state-default ui-corner-all"
-								 value="#{voyageBean.selectedVessel}">
+								 value="#{voyageBean.selectedVessel}">							
 								<f:converter converterId="vesselConverter" />
+								<f:selectItem itemLabel="Выберите судно..." itemValue=""
+            noSelectionOption="true" itemDisabled="true"/>
 								<f:selectItems value="#{voyageBean.vessels}" var="vsls"
 								 itemLabel="#{vsls.name}"/>
 							</h:selectOneMenu>
