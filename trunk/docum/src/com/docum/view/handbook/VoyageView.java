@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.event.ValueChangeEvent;
 
 import com.docum.domain.po.IdentifiedEntity;
 import com.docum.domain.po.common.Vessel;
@@ -18,7 +17,6 @@ public class VoyageView extends BaseView implements Serializable {
 	private static final long serialVersionUID = 5855731783922631397L;
 
 	private List<Vessel> vessels;
-	private Vessel vessel;
 	private Voyage voyage = new Voyage();
 	
 	
@@ -38,13 +36,6 @@ public class VoyageView extends BaseView implements Serializable {
 		this.voyage = new Voyage();
 	}
 
-	
-	public void vesselSelected(ValueChangeEvent e) {
-		 this.vessel = getBaseService().getObject(Vessel.class, 
-			 Long.valueOf(e.getNewValue().toString()));
-		 this.voyage.setVessel(this.vessel);
-	}
-
 	public Voyage getVoyage() {
 		return voyage;
 	}
@@ -54,14 +45,12 @@ public class VoyageView extends BaseView implements Serializable {
 	}
 
 	public List<Vessel> getVessels() {
-		this.vessels = getBaseService().getAll(Vessel.class, null);
-		return this.vessels;
+		if(vessels == null) {
+			vessels = getBaseService().getAll(Vessel.class, null);
+		}
+		return vessels;
 	}
 
-	public void setVessels(List<Vessel> vessels) {
-		this.vessels = vessels;
-	}
-	
 	@Override
 	public String getSign() {
 		return sign;
@@ -75,5 +64,15 @@ public class VoyageView extends BaseView implements Serializable {
 	@Override
 	public IdentifiedEntity getBeanObject() {
 		return this.voyage != null ? this.voyage : new Voyage();
+	}
+
+	public Vessel getSelectedVessel() {
+		return voyage == null ? null : voyage.getVessel();
+	}
+
+	public void setSelectedVessel(Vessel selectedVessel) {
+		if(voyage != null) {
+			voyage.setVessel(selectedVessel);
+		}
 	}
 }
