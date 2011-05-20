@@ -5,10 +5,6 @@ import javax.persistence.ManyToOne;
 
 import com.docum.persistence.IdentifiedEntity;
 
-/**
- * Entity implementation class for Entity: Cargo
- *
- */
 @Entity
 public class Cargo extends IdentifiedEntity {
 	private static final long serialVersionUID = 4275515653210816278L;
@@ -23,7 +19,7 @@ public class Cargo extends IdentifiedEntity {
 	
 	@ManyToOne
 	private Container container;
-		
+
 	public Cargo(){
 		super();
 	}

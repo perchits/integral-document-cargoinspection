@@ -23,6 +23,9 @@ public class Container extends IdentifiedEntity {
 	private List<Invoice> invoices = new ArrayList<Invoice>();
 	
 	@ManyToMany(mappedBy = "containers")
+	private List<PurchaseOrder> orders = new ArrayList<PurchaseOrder>();
+	
+	@ManyToMany(mappedBy = "containers")
 	private List<BillOfLading> billOfLadings = new ArrayList<BillOfLading>();
 
 	@OneToMany(mappedBy = "container")
@@ -71,15 +74,23 @@ public class Container extends IdentifiedEntity {
 		return invoices;
 	}
 
-	public void setInvoice(List<Invoice> invoices) {
+	public void setInvoices(List<Invoice> invoices) {
 		this.invoices = invoices;
+	}
+
+	public List<PurchaseOrder> getOrders() {
+		return orders;
+	}
+
+	public void setOrders(List<PurchaseOrder> orders) {
+		this.orders = orders;
 	}
 
 	public List<BillOfLading> getBillOfLadings() {
 		return billOfLadings;
 	}
 
-	public void setBillOfLading(List<BillOfLading> billOfLadings) {
+	public void setBillOfLadings(List<BillOfLading> billOfLadings) {
 		this.billOfLadings = billOfLadings;
 	}
 
