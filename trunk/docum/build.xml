@@ -9,7 +9,7 @@
 	<property name="WarFile" value="docum.war"/>
 	<property name="DocumContextFile" value="docum-context.xml"/>
 	<property name="WebContentDir" value="WebContent"/>
-	<property name="TomcatDir" value="e:/Java/apache-tomcat-7.0.12"/>
+	<property name="TomcatDir" value="../apache-tomcat-7"/>
 	<property name="DeployDir" value="${TomcatDir}/webapps"/>
 
 	<path id="DocumClasspath">
@@ -66,9 +66,6 @@
 		<copy file="${DistDir}/${WarFile}"
             tofile="${DeployDir}/${WarFile}" overwrite="true">
 		</copy>		
-		<copy todir="${TomcatDir}/lib">
-			<fileset dir="${LibDir}" includes="primefaces*.jar"/>
-		</copy>
 	</target>
 
 	<target name="build" depends="clean, createWar, copyToDeployDir"/>
