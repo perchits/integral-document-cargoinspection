@@ -91,11 +91,17 @@
 			</classpath>
 		</hibernatetool>
 	</target>
-	<target name="db-create" depends="compile">
+	<target name="db-create-empty" depends="compile">
 		<hibernatetool destdir="">
 			<jpaconfiguration persistenceunit="docum" propertyfile="local.properties" />
 			<hbm2ddl drop="true" create="true" export="true" update="false"/>
 		</hibernatetool>
+	</target>
+	<target name="db-create" depends="db-create-empty">
+		<junit>
+			<classpath refid="ToolsClasspath" />
+			<test name="test.dao.TestDataPreparator"/>
+		</junit>
 	</target>
 	<target name="db-update" depends="compile">
 		<hibernatetool destdir="">
