@@ -24,7 +24,9 @@ import com.docum.domain.po.common.Article;
 import com.docum.domain.po.common.BillOfLading;
 import com.docum.domain.po.common.Cargo;
 import com.docum.domain.po.common.City;
+import com.docum.domain.po.common.Company;
 import com.docum.domain.po.common.Container;
+import com.docum.domain.po.common.Customer;
 import com.docum.domain.po.common.Invoice;
 import com.docum.domain.po.common.Measure;
 import com.docum.domain.po.common.PurchaseOrder;
@@ -85,9 +87,31 @@ public class TestDataPreparator {
 	private String[] measureNames = new String[]{
 			"шт", "кг", "т"};
 	
+	
+	private String[][] companyNames = new String[][] {
+			{"Кингдао Юнлонг","Кингдао",
+				"Qingdao Yunlong Import And Export Co. Ltd.","Qingdao Yunlong",
+				"Адрес", "Address"				
+			},
+			{"Ю. М. С Индастри","Ю. М. С.", 
+				"U.M.S. Industry And Food Ltd.","U.M.S.",
+				"Адрес", "Address"
+			},			
+			{"Джининг Санглонг Экономик","Джининг Санглонг",
+				"Jining Sanglong Economic & Trade Co. Ltd.", "Jining Sanglong",
+				"Адрес", "Address"
+			},
+			{"ЗAO «Тандер»","ЗAO «Тандер»",
+				"CJSC «Tander»","CJSC «Tander»",
+				"Россия 350002 Краснодар ул. Леваневского 185", "185 Levanevskogo Street Krasnodar, 350002 Russia"
+			}
+			};
+	
 	@Test
 	public void prepareData(){
-		List<Supplier> suppliers = prepareSuppliers();
+		List<Company> companies = prepareCompanies();
+		List<Supplier> suppliers = prepareSuppliers(companies);
+		List<Customer> customers = prepareCustomers(companies);
 		List<Article> articles = prepareArticles();
 		List<Vessel> vessels = prepareVessels();
 		List<Voyage> voyages = prepareVoyages(vessels);
@@ -147,13 +171,30 @@ public class TestDataPreparator {
 		public T construct(String name);
 	}
 
-	private List<Supplier> prepareSuppliers() {
-		return prepareDictionary(supplierNames, new EntityConstructor<Supplier>(){
-			public Supplier construct(String name) {
-				return new Supplier(name);
-			}});
+    private List<Company> prepareCompanies(){
+		List<Company> result = new ArrayList<Company>();
+		for(String c[] : companyNames) { 
+			result.add(new Company(c[0],c[1],c[2],c[3],c[4],c[5]));
+		}
+		persist(result);
+		return result;
 	}
-
+	
+	private List<Supplier> prepareSuppliers(List<Company> companies) {
+		List<Supplier> result = new ArrayList<Supplier>();
+		for(int i = 0; i < 3 ; i++) {
+			result.add(new Supplier(companies.get(i)));
+		}
+		persist(result);
+		return result;
+	}
+	
+	private List<Customer> prepareCustomers(List<Company> companies) {
+		List<Customer> result = new ArrayList<Customer>();		
+		result.add(new Customer(companies.get(3)));		
+		persist(result);
+		return result;
+	}
 	private List<City> prepareCities() {
 		return prepareDictionary(cityNames, new EntityConstructor<City>(){
 			public City construct(String name) {

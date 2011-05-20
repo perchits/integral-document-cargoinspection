@@ -210,7 +210,7 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="lib/myfaces-api-2.0.4.jar">
+	<classpathentry kind="lib" path="lib/myfaces-api-2.0.4.jar" sourcepath="lib/src/myfaces-api-2.0.4-sources.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
