@@ -23,6 +23,7 @@
 
 						<p:commandButton type="push" value="Удалить"
 							oncomplete="beforeShow(confirmation,'voyages')"
+							actionListener="#{voyageBean.beforeDeleteObject}"
 							image="ui-icon ui-icon-minus" update="confirmationPanel,growl" />
 
 						<p:commandButton type="push" update="voyages" value="Обновить"
