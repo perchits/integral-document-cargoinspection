@@ -62,7 +62,7 @@ public abstract class BaseView {
 	}
 	
 	public void editObject(ActionEvent actionEvent) {		
-		if (getBeanObject() != null) {
+		if (getBeanObject().getId() != null) {
 			setTitle("Правка: " + getBase());
 		} else {
 			FacesContext fc = FacesContext.getCurrentInstance();
