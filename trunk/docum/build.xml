@@ -1,16 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="Docum" default="build">
-	<property name="DistDir" value="dist"/>
-	<property name="SrcDir" value="src"/>
-	<property name="LibDir" value="lib"/>
-	<property name="ToolsDir" value="lib/tools"/>
-	<property name="BuildDir" value="build/classes"/>
-	<property name="DocumJar" value="docum-libraries.jar"/>
-	<property name="WarFile" value="docum.war"/>
-	<property name="DocumContextFile" value="docum-context.xml"/>
-	<property name="WebContentDir" value="WebContent"/>
-	<property name="TomcatDir" value="../apache-tomcat-7"/>
-	<property name="DeployDir" value="${TomcatDir}/webapps"/>
+	<property file="local.properties"/>
 
 	<path id="DocumClasspath">
 		<fileset dir="${LibDir}">

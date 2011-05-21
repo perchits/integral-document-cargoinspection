@@ -5,3 +5,16 @@ hibernate.connection.driver_class=org.postgresql.Driver
 hibernate.connection.url=jdbc:postgresql://localhost/docum
 hibernate.connection.username=user
 hibernate.connection.password=password
+
+#AntProperties
+DistDir=dist
+SrcDir=src
+LibDir=lib
+ToolsDir=lib/tools
+BuildDir=build/classes
+DocumJar=docum-libraries.jar
+WarFile=docum.war
+DocumContextFile=docum-context.xml
+WebContentDir=WebContent
+TomcatDir=E:/java/apache-tomcat-7.0.12
+DeployDir=E:/java/apache-tomcat-7.0.12/webapps
