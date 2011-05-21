@@ -57,7 +57,7 @@ public class SupplierView extends BaseView implements Serializable {
 
 	@Override
 	public String getBase() {
-		return supplier.getCompany().getName();
+		return getSelectedCompany().getName();
 	}
 
 	@Override
