@@ -12,37 +12,38 @@ import com.docum.service.BaseService;
 
 public abstract class BaseView {
 	private String title;
-	
+
 	@ManagedProperty(value = "#{baseService}")
 	private BaseService baseService;
-	
+
 	private List<? extends IdentifiedEntity> objects;
-	
+
 	public List<? extends IdentifiedEntity> getAllObjects() {
-		if(this.objects == null) {
+		if (this.objects == null) {
 			refreshObjects();
 		}
 		return this.objects;
 	}
-	
+
 	public String getTitle() {
 		return title;
 	}
 
 	public void setTitle(String title) {
 		this.title = title;
-	}	
+	}
 
 	public abstract String getSign();
-	//TODO rename
+
+	// TODO rename
 	public abstract String getBase();
-	
+
 	abstract public IdentifiedEntity getBeanObject();
-	
+
 	public void refreshObjects() {
 		this.objects = baseService.getAll(getBeanObject().getClass(), null);
 	}
-	
+
 	public void saveObject() {
 		if (getBeanObject().getId() != null) {
 			baseService.updateObject(getBeanObject());
@@ -53,23 +54,37 @@ public abstract class BaseView {
 	}
 
 	public void deleteObject() {
-		baseService.deleteObject(getBeanObject().getClass(), getBeanObject().getId());
+		baseService.deleteObject(getBeanObject().getClass(), getBeanObject()
+				.getId());
 		refreshObjects();
 	}
-	
+
 	public void newObject() {
 		setTitle("Новый " + getSign().toLowerCase());
 	}
-	
-	public void editObject(ActionEvent actionEvent) {		
+
+	public void editObject(ActionEvent actionEvent) {
 		if (getBeanObject().getId() != null) {
 			setTitle("Правка: " + getBase());
 		} else {
-			FacesContext fc = FacesContext.getCurrentInstance();
-			fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-					"Ошибочка вышла...",
-					getSign() + " для редактирования не выбран!"));			
+			String message = String.format(
+					"%1$s для редактирование не выбран!", getSign());
+			showErrorMessage(message);
 		}
+	}
+
+	public void beforeDeleteObject(ActionEvent actionEvent) {
+		if (getBeanObject().getId() == null) {
+			String message = String.format("%1$s для удаления не выбран!",
+					getSign());
+			showErrorMessage(message);
+		}
+	}
+
+	private void showErrorMessage(String message) {
+		FacesContext fc = FacesContext.getCurrentInstance();
+		fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+				"Ошибочка вышла...", message));
 	}
 
 	public void setBaseService(BaseService baseService) {
