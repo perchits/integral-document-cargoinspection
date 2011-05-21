@@ -4,6 +4,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 
 import com.docum.domain.po.IdentifiedEntity;
+import com.docum.util.EqualsHelper;
+import com.docum.util.HashCodeHelper;
 
 @Entity
 public class Company extends IdentifiedEntity {
@@ -79,4 +81,19 @@ public class Company extends IdentifiedEntity {
 		this.englishShortName = englishShortName;
 	}
 
+	public boolean equals(Object obj) {
+		if (obj == this) {
+			return true;
+		}
+
+		if (!(obj instanceof Company)) {
+			return false;
+		}
+		
+		return EqualsHelper.equals(getId(), ((Company) obj).getId());
+	}
+
+	public int hashCode() {
+		return HashCodeHelper.hashCode(getId());
+	}
 }

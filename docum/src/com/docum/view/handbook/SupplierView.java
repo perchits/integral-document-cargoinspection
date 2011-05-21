@@ -14,13 +14,16 @@ import com.docum.domain.po.common.Supplier;
 @SessionScoped
 public class SupplierView extends BaseView implements Serializable {
 	private static final long serialVersionUID = -676095247499740650L;
-	
+
 	private static final String sign = "Поставщик";
-	private Supplier supplier = new Supplier();	
-	/*private Company company;*/
-	
+	private Supplier supplier = new Supplier();
+	private List<Company> companies;
+
 	public List<Company> getCompanies() {
-		return getBaseService().getAll(Company.class, null);		
+		if (companies == null) {
+			companies = getBaseService().getAll(Company.class, null);
+		}
+		return companies;
 	}
 
 	public void setSupplier(Supplier supplier) {
@@ -31,18 +34,22 @@ public class SupplierView extends BaseView implements Serializable {
 		return supplier;
 	}
 
+	public Company getSelectedCompany() {
+		return supplier == null ? null : supplier.getCompany();
+	}
+
+	public void setSelectedCompany(Company selectedCompany) {
+		if (supplier != null) {
+			supplier.setCompany(selectedCompany);
+		}
+	}
+
 	@Override
 	public void newObject() {
 		super.newObject();
 		supplier = new Supplier();
 	}
 
-	/*public void companySelected(ValueChangeEvent e) {
-		 company = getBaseService().getObject(Company.class, 
-			 Long.valueOf(e.getNewValue().toString()));
-		 supplier.setVessel(company);
-	}	*/
-	
 	@Override
 	public String getSign() {
 		return sign;

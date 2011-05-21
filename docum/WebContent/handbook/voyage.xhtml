@@ -5,10 +5,10 @@
 	xmlns:p="http://primefaces.prime.com.tr/ui">
 
 <ui:composition template="/WEB-INF/includes/layout.xhtml">
-	<ui:define name="content">	
-	<h:form prependId="false">
-		<h:panelGroup layout="block" styleClass="crud-menu">
-			<p:toolbar styleClass="crud-menu">
+	<ui:define name="content">
+		<h:form prependId="false">
+			<h:panelGroup layout="block" styleClass="crud-menu">
+				<p:toolbar styleClass="crud-menu">
 					<p:toolbarGroup align="left">
 						<p:commandButton type="push" value="Добавить"
 							update="dialogPanel,growl" image="ui-icon-document"
@@ -33,14 +33,15 @@
 					</p:toolbarGroup>
 				</p:toolbar>
 
-		</h:panelGroup>
+			</h:panelGroup>
 
-		<p:panel header="Судозаходы" style="text-align:center"
-			styleClass="toggle-panel">
-				<p:dataTable id="voyages" var="voyage" value="#{voyageBean.allObjects}"
-					selectionMode="single" selection="#{voyageBean.voyage}">
-					<p:column sortBy="#{voyage.vessel.name}" filterBy="#{voyage.vessel.name}"
-						filterMatchMode="contains">
+			<p:panel header="Судозаходы" style="text-align:center"
+				styleClass="toggle-panel">
+				<p:dataTable id="voyages" var="voyage"
+					value="#{voyageBean.allObjects}" selectionMode="single"
+					selection="#{voyageBean.voyage}">
+					<p:column sortBy="#{voyage.vessel.name}"
+						filterBy="#{voyage.vessel.name}" filterMatchMode="contains">
 						<f:facet name="header">
 							Судно 
 						</f:facet>
@@ -53,13 +54,13 @@
 						</f:facet>
 						<h:outputText value="#{voyage.number}" />
 					</p:column>
-					<p:column sortBy="#{voyage.arrivalDate}" filterBy="#{voyage.arrivalDate}"
-						filterMatchMode="contains">
+					<p:column sortBy="#{voyage.arrivalDate}"
+						filterBy="#{voyage.arrivalDate}" filterMatchMode="contains">
 						<f:facet name="header">
 							Дата прибытия  
-						</f:facet>						  
+						</f:facet>
 						<h:outputText value="#{voyage.arrivalDate}">
-						<f:convertDateTime dateStyle="medium" type="date" />
+							<f:convertDateTime dateStyle="medium" type="date" />
 						</h:outputText>
 					</p:column>
 					<p:column sortBy="#{voyage.finished}" filterBy="#{voyage.finished}"
@@ -67,63 +68,65 @@
 						<f:facet name="header">
 							Завершено  
 						</f:facet>
-						<h:selectBooleanCheckbox disabled="true" value="#{voyage.finished}" />
+						<h:selectBooleanCheckbox disabled="true"
+							value="#{voyage.finished}" />
 					</p:column>
 
-				</p:dataTable>						
-		</p:panel>
-			 
-	</h:form>
+				</p:dataTable>
+			</p:panel>
 
-	<p:outputPanel id="dialogPanel">
-		<h:form prependId="false">
-			<p:dialog width="340" id="dialog" widgetVar="dialog" modal="true"
-				header="#{voyageBean.title}">
-				<p:outputPanel id="dialogContent">
-					<h:panelGroup>
-
-						<h:panelGrid width="100%" columns="2" cellpadding="5">
-							<h:outputLabel for="voyageVessel" value="Судно: *" />
-							<h:selectOneMenu id="voyageVessel"
-								 styleClass="ui-inputfield ui-widget ui-state-default ui-corner-all"
-								 value="#{voyageBean.selectedVessel}">							
-								<f:converter converterId="vesselConverter" />
-								<f:selectItem itemLabel="Выберите судно..." itemValue=""
-            noSelectionOption="true" itemDisabled="true"/>
-								<f:selectItems value="#{voyageBean.vessels}" var="vsls"
-								 itemLabel="#{vsls.name}"/>
-							</h:selectOneMenu>
-							<h:outputLabel for="voyageNumber" value="Рейс: *" />
-							<p:inputText size="30" value="#{voyageBean.voyage.number}"
-								id="voyageNumber" required="true" label="Рейс" />								
-							
-							<h:outputLabel for="voyageArrivalDate" value="Дата прибытия:" />
-							<p:calendar value="#{voyageBean.voyage.arrivalDate}" 
-							id="voyageArrivalDate" label="Дата прибытия" pattern="dd.MM.yyyy"/>
-														
-							<h:outputLabel for="voyageFinished" value="Завершено:" />
-							<h:selectBooleanCheckbox size="30" value="#{voyageBean.voyage.finished}"
-								id="voyageFinished" label="Завершено" >								
-							</h:selectBooleanCheckbox>
-
-							<f:facet name="footer">
-								<p:commandButton 
-									actionListener="#{voyageBean.saveObject}" value="OK"
-									update="voyages,growl"
-									oncomplete="handleOKRequest(args,dialog,'dialog')" />
-								<p:commandButton type="reset" value="Отмена" update="growl"
-									onclick="dialog.hide()" />
-
-							</f:facet>
-						</h:panelGrid>
-
-					</h:panelGroup>
-				</p:outputPanel>
-			</p:dialog>
 		</h:form>
-	</p:outputPanel>
-	
-	<p:outputPanel id="confirmationPanel">
+
+		<p:outputPanel id="dialogPanel">
+			<h:form prependId="false">
+				<p:dialog width="340" id="dialog" widgetVar="dialog" modal="true"
+					header="#{voyageBean.title}">
+					<p:outputPanel id="dialogContent">
+						<h:panelGroup>
+
+							<h:panelGrid width="100%" columns="2" cellpadding="5">
+								<h:outputLabel for="voyageVessel" value="Судно: *" />
+								<h:selectOneMenu id="voyageVessel"
+									styleClass="ui-inputfield ui-widget ui-state-default ui-corner-all"
+									value="#{voyageBean.selectedVessel}">
+									<f:converter converterId="vesselConverter" />
+									<f:selectItem itemLabel="Выберите судно..." itemValue=""
+										noSelectionOption="true" itemDisabled="true" />
+									<f:selectItems value="#{voyageBean.vessels}" var="vsls"
+										itemLabel="#{vsls.name}" />
+								</h:selectOneMenu>
+								<h:outputLabel for="voyageNumber" value="Рейс: *" />
+								<p:inputText size="30" value="#{voyageBean.voyage.number}"
+									id="voyageNumber" required="true" label="Рейс" />
+
+								<h:outputLabel for="voyageArrivalDate" value="Дата прибытия:" />
+								<p:calendar value="#{voyageBean.voyage.arrivalDate}"
+									id="voyageArrivalDate" label="Дата прибытия"
+									pattern="dd.MM.yyyy" />
+
+								<h:outputLabel for="voyageFinished" value="Завершено:" />
+								<h:selectBooleanCheckbox size="30"
+									value="#{voyageBean.voyage.finished}" id="voyageFinished"
+									label="Завершено">
+								</h:selectBooleanCheckbox>
+
+								<f:facet name="footer">
+									<p:commandButton actionListener="#{voyageBean.saveObject}"
+										value="OK" update="voyages,growl"
+										oncomplete="handleOKRequest(args,dialog,'dialog')" />
+									<p:commandButton type="reset" value="Отмена" update="growl"
+										onclick="dialog.hide()" />
+
+								</f:facet>
+							</h:panelGrid>
+
+						</h:panelGroup>
+					</p:outputPanel>
+				</p:dialog>
+			</h:form>
+		</p:outputPanel>
+
+		<p:outputPanel id="confirmationPanel">
 			<h:form prependId="false" id="confirmationForm">
 				<p:confirmDialog
 					message="Удалить судозаход '#{voyageBean.voyage.number}'?"
@@ -137,8 +140,8 @@
 				</p:confirmDialog>
 			</h:form>
 		</p:outputPanel>
-	
-	<h:outputScript name="dialog.js" library="js" />
+
+		<h:outputScript name="dialog.js" library="js" />
 
 	</ui:define>
 </ui:composition>
