@@ -1,6 +1,6 @@
 body {
 	margin: 0;
-	background: #F6F6F6;
+	background: #F4F7E6;
 }
 
 .page-wrapper {
@@ -12,9 +12,9 @@ body {
 	margin: auto;
 	background: white;
 	padding: 5px;
-	border-left: 1px solid #ccc;
-	border-right: 1px solid #ccc;
-	border-bottom: 1px solid #ccc;
+	border-left: 1px solid #B1A635;
+	border-right: 1px solid #B1A635;
+	border-bottom: 1px solid #B1A635;
 	min-width: 1000px;
 }
 
@@ -29,6 +29,17 @@ body {
 
 .main-menu{	
 	margin: 0 3px;	
+	background: #F5FCD9;
+}
+
+.main-menu .ui-widget-content, .main-menu .ui-state-active {
+	background: #F5FCD9;
+}
+
+.wijmo-wijmenu-child {	
+-moz-box-shadow: 2px 3px 5px #B1A635;
+-webkit-box-shadow:2px 3px 5px #B1A635;
+box-shadow:2px 3px 5px #B1A635;
 }
 
 .cleaner { /* Используется для растягивания див-контейнера при float */
@@ -110,9 +121,6 @@ table td {
 	background: none;
 }
 
-.wijmo-wijmenu-list {
-	background: #E9EEF5;
-}
 
 .ui-dialog tfoot button{
 	margin : 2px;	
