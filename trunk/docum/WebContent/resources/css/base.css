@@ -159,3 +159,22 @@ select {
 		url("#{resource['primefaces-olive:images/ui-bg_glass_75_ebfb83_1x400.png']}")
 		50% 50% repeat-x !important;	
 }
+
+
+.voyagesLayoutTable {
+	width : 100%;
+}
+
+
+#voyagesPanel .crud-menu div {
+	padding: 0 0 1px;
+}
+
+
+.voyagesLayoutTable .ui-panel-content {
+	min-width: 145px !important;
+}
+
+.voyagesLayoutTable input {
+	width: 90px !important;
+}

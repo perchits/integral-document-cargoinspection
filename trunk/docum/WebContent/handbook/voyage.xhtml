@@ -6,76 +6,108 @@
 
 <ui:composition template="/WEB-INF/includes/layout.xhtml">
 	<ui:define name="content">
-		<h:form prependId="false">
-			<h:panelGroup layout="block" styleClass="crud-menu">
-				<p:toolbar styleClass="crud-menu">
-					<p:toolbarGroup align="left">
-						<p:commandButton type="push" value="Добавить"
-							update="dialogPanel,growl" image="ui-icon-document"
-							actionListener="#{voyageBean.newObject}"
-							oncomplete="dialog.show()" />
-
-						<p:commandButton type="push" value="Правка"
-							update="dialogPanel,growl"
-							actionListener="#{voyageBean.editObject}"
-							oncomplete="beforeShow(dialog,'voyages')"
-							image="ui-icon ui-icon-wrench" />
-
-						<p:commandButton type="push" value="Удалить"
-							oncomplete="beforeShow(confirmation,'voyages')"
-							actionListener="#{voyageBean.beforeDeleteObject}"
-							image="ui-icon ui-icon-minus" update="confirmationPanel,growl" />
-
-						<p:commandButton type="push" update="voyages" value="Обновить"
-							actionListener="#{voyageBean.refreshObjects}"
-							image="ui-icon ui-icon-arrowreturnthick-1-w" />
-
-					</p:toolbarGroup>
-				</p:toolbar>
-
-			</h:panelGroup>
-
-			<p:panel header="Судозаходы" style="text-align:center"
-				styleClass="toggle-panel">
-				<p:dataTable id="voyages" var="voyage"
-					value="#{voyageBean.allObjects}" selectionMode="single"
-					selection="#{voyageBean.voyage}">
-					<p:column sortBy="#{voyage.vessel.name}"
-						filterBy="#{voyage.vessel.name}" filterMatchMode="contains">
-						<f:facet name="header">
+		<h:panelGrid columns="5" styleClass="voyagesLayoutTable">
+			<h:form prependId="false">
+				<p:panel id="voyagesPanel" header="Судозаходы"
+					style="text-align:center" styleClass="toggle-panel">
+					<ui:include src="/WEB-INF/includes/crudToolBar.xhtml">
+						<ui:param name="bean" value="#{voyageBean}" />
+						<ui:param name="dataTableId" value="voyages" />
+					</ui:include>
+					<p:dataTable id="voyages" var="voyage"
+						value="#{voyageBean.allObjects}" selectionMode="single"
+						selection="#{voyageBean.voyage}">
+						<p:column sortBy="#{voyage.vessel.name}"
+							filterBy="#{voyage.vessel.name}" filterMatchMode="contains">
+							<f:facet name="header">
 							Судно 
 						</f:facet>
-						<h:outputText value="#{voyage.vessel.name}" />
-					</p:column>
-					<p:column sortBy="#{voyage.number}" filterBy="#{voyage.number}"
-						filterMatchMode="contains">
-						<f:facet name="header">
+							<h:outputText value="#{voyage.vessel.name}" />
+						</p:column>
+						<p:column sortBy="#{voyage.number}" filterBy="#{voyage.number}"
+							filterMatchMode="contains">
+							<f:facet name="header">
 							Рейс  
 						</f:facet>
-						<h:outputText value="#{voyage.number}" />
-					</p:column>
-					<p:column sortBy="#{voyage.arrivalDate}"
-						filterBy="#{voyage.arrivalDate}" filterMatchMode="contains">
-						<f:facet name="header">
+							<h:outputText value="#{voyage.number}" />
+						</p:column>
+						<p:column sortBy="#{voyage.arrivalDate}"
+							filterBy="#{voyage.arrivalDate}" filterMatchMode="contains">
+							<f:facet name="header">
 							Дата прибытия  
 						</f:facet>
-						<h:outputText value="#{voyage.arrivalDate}">
-							<f:convertDateTime dateStyle="medium" type="date" />
-						</h:outputText>
-					</p:column>
-					<p:column sortBy="#{voyage.finished}" filterBy="#{voyage.finished}"
-						filterMatchMode="contains">
-						<f:facet name="header">
-							Завершено  
-						</f:facet>
-						<h:selectBooleanCheckbox disabled="true"
-							value="#{voyage.finished}" />
-					</p:column>
+							<h:outputText value="#{voyage.arrivalDate}">
+								<f:convertDateTime dateStyle="medium" type="date" />
+							</h:outputText>
+						</p:column>
+					</p:dataTable>
+				</p:panel>
+			</h:form>
 
-				</p:dataTable>
-			</p:panel>
 
-		</h:form>
+
+			<h:form>
+				<p:panel id="purchaseOrdersPanel" header="Заказы"
+					style="text-align:center">
+					<p:dataTable id="purchaseOrders" var="voyage"
+						value="#{voyageBean.allObjects}" selectionMode="single"
+						selection="#{voyageBean.voyage}">
+						<p:column sortBy="#{voyage.vessel.name}"
+							filterBy="#{voyage.vessel.name}" filterMatchMode="contains">
+							
+							<h:outputText value="#{voyage.vessel.name}" />
+						</p:column>
+					</p:dataTable>
+				</p:panel>
+			</h:form>
+			
+			
+						<h:form>
+				<p:panel id="invoicePanel" header="Инвойсы"
+					style="text-align:center">
+					<p:dataTable id="invoices" var="voyage"
+						value="#{voyageBean.allObjects}" selectionMode="single"
+						selection="#{voyageBean.voyage}">
+						<p:column sortBy="#{voyage.vessel.name}"
+							filterBy="#{voyage.vessel.name}" filterMatchMode="contains">
+						
+							<h:outputText value="#{voyage.vessel.name}" />
+						</p:column>
+					</p:dataTable>
+				</p:panel>
+			</h:form>
+			
+				<h:form>
+				<p:panel id="billOfLadingPanel" header="Коносаменты"
+					style="text-align:center">
+					<p:dataTable id="billOfLadings" var="voyage"
+						value="#{voyageBean.allObjects}" selectionMode="single"
+						selection="#{voyageBean.voyage}">
+						<p:column sortBy="#{voyage.vessel.name}"
+							filterBy="#{voyage.vessel.name}" filterMatchMode="contains">
+					
+							<h:outputText value="#{voyage.vessel.name}" />
+						</p:column>
+					</p:dataTable>
+				</p:panel>
+			</h:form>
+			
+			<h:form>
+				<p:panel id="containerPanel" header="Контейнеры"
+					style="text-align:center">
+					<p:dataTable id="containers" var="voyage"
+						value="#{voyageBean.allObjects}" selectionMode="single"
+						selection="#{voyageBean.voyage}">
+						<p:column sortBy="#{voyage.vessel.name}"
+							filterBy="#{voyage.vessel.name}" filterMatchMode="contains">
+					
+							<h:outputText value="#{voyage.vessel.name}" />
+						</p:column>
+					</p:dataTable>
+				</p:panel>
+			</h:form>
+			
+		</h:panelGrid>
 
 		<p:outputPanel id="dialogPanel">
 			<h:form prependId="false">
@@ -126,20 +158,12 @@
 			</h:form>
 		</p:outputPanel>
 
-		<p:outputPanel id="confirmationPanel">
-			<h:form prependId="false" id="confirmationForm">
-				<p:confirmDialog
-					message="Удалить судозаход '#{voyageBean.voyage.number}'?"
-					header="Удаление..." severity="alert" widgetVar="confirmation">
 
-					<p:commandButton value="ОК" update="voyages,growl"
-						actionListener="#{voyageBean.deleteObject}"
-						oncomplete="confirmation.hide()" />
-					<p:commandButton value="Отмена" onclick="confirmation.hide()"
-						type="button" />
-				</p:confirmDialog>
-			</h:form>
-		</p:outputPanel>
+		<ui:include src="/WEB-INF/includes/confirmation.xhtml">
+			<ui:param name="bean" value="#{voyageBean}" />
+			<ui:param name="message"
+				value="Удалить судозаход '#{voyageBean.voyage.number}'?" />
+		</ui:include>
 
 		<h:outputScript name="dialog.js" library="js" />
 
