@@ -4,7 +4,7 @@ body {
 }
 
 .page-wrapper {
-	text-align: center;	
+	text-align: center;
 }
 
 .page-container {
@@ -27,33 +27,38 @@ body {
 	padding: 0.2em 0.2em !important;
 }
 
-.main-menu{	
-	margin: 0 3px;	
+.main-menu {
+	margin: 0 3px;
 	background: #F5FCD9;
 }
 
-.main-menu .ui-widget-content, .main-menu .ui-state-active {
+.main-menu .ui-widget-content,.main-menu .ui-state-active {
 	background: #F5FCD9;
 }
 
-.wijmo-wijmenu-child {	
--moz-box-shadow: 2px 3px 5px #B1A635;
--webkit-box-shadow:2px 3px 5px #B1A635;
-box-shadow:2px 3px 5px #B1A635;
+.wijmo-wijmenu-child {
+	-moz-box-shadow: 2px 3px 5px #B1A635;
+	-webkit-box-shadow: 2px 3px 5px #B1A635;
+	box-shadow: 2px 3px 5px #B1A635;
+}
+
+.main-menu .ui-state-hover {
+	border: 1px solid #B1A635 !important;
 }
 
 .cleaner { /* Используется для растягивания див-контейнера при float */
 	clear: both;
-	line-height: 0; 
-	height: 0;s
+	line-height: 0;
+	height: 0;
+	s
 }
 
 table td {
 	vertical-align: top;
 }
 
-.middle-table { 
-	width : 100%;
+.middle-table {
+	width: 100%;
 }
 
 .left-col ul {
@@ -78,17 +83,16 @@ table td {
 	float: right;
 }
 
-.main-menu-left, .main-menu-right, .crud-menu {
+.main-menu-left,.main-menu-right,.crud-menu {
 	border: 0
 }
 
 .def-pad-mar {
 	margin: 0;
-    padding: 0 0 2px;
+	padding: 0 0 2px;
 }
 
 /* Раскраска контейнеров */
-
 .before-customs-color {
 	background: #FFE3E3;
 }
@@ -110,20 +114,18 @@ table td {
 }
 
 /*  */
-
-.crud-menu .wijmo-wijmenu-text, .crud-menu .ui-button {
-	font-size: 11px !important;	
+.crud-menu .wijmo-wijmenu-text,.crud-menu .ui-button {
+	font-size: 11px !important;
 }
 
 .crud-menu div {
-	padding : 2px;
+	padding: 2px;
 	margin: 0;
 	background: none;
 }
 
-
-.ui-dialog tfoot button{
-	margin : 2px;	
+.ui-dialog tfoot button {
+	margin: 2px;
 }
 
 .ui-dialog-content td {
@@ -131,23 +133,29 @@ table td {
 	text-align: left;
 }
 
-.ui-dialog-buttonpane, .ui-dialog-content tfoot td{
+.ui-dialog-buttonpane,.ui-dialog-content tfoot td {
 	text-align: right !important;
 }
 
 select {
-	padding: 3px !important;	
+	padding: 3px !important;
 }
 
 .ui-dialog .ui-inputfield {
-	min-width : 200px;
-	width : 96%;
-	box-sizing:content-box;
-	-ms-box-sizing:content-box;
-	-moz-box-sizing:content-box;
-	-webkit-box-sizing:content-box; 
+	min-width: 200px;
+	width: 96%;
+	box-sizing: content-box;
+	-ms-box-sizing: content-box;
+	-moz-box-sizing: content-box;
+	-webkit-box-sizing: content-box;
 }
 
 .ui-datatable input[type="checkbox"] {
 	margin: 0 !important;
+}
+
+.ui-selected {	
+	background: #ebfb83
+		url("#{resource['primefaces-olive:images/ui-bg_glass_75_ebfb83_1x400.png']}")
+		50% 50% repeat-x !important;	
 }
