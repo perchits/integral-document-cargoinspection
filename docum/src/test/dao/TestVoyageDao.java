@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import test.TestUtil;
 
-import com.docum.dao.VesselDao;
+import com.docum.dao.BaseDao;
 import com.docum.dao.VoyageDao;
 import com.docum.domain.po.common.Container;
 import com.docum.domain.po.common.Vessel;
@@ -27,7 +27,7 @@ public class TestVoyageDao {
 	@Autowired
 	VoyageDao voyageDao;
 	@Autowired
-	VesselDao vesselDao;
+	BaseDao baseDao;
 	
 	@Test
 	public void testGetVoyages() {
@@ -45,7 +45,7 @@ public class TestVoyageDao {
 	@Test
 	public void testSaveVoyage() {
 		Voyage voyage = new Voyage();
-		List<Vessel> vessels = vesselDao.getAll(Vessel.class, null);
+		List<Vessel> vessels = baseDao.getAll(Vessel.class, null);
 		assertTrue(vessels.size() > 0);
 		voyage.setVessel(vessels.get(0));
 		voyage.setNumber(TestUtil.getRandomString(8));
