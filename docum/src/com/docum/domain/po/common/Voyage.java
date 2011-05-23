@@ -76,12 +76,4 @@ public class Voyage extends IdentifiedEntity{
 	public void setContainers(List<Container> containers) {
 		this.containers = containers;
 	}
-	
-	public void copy(Voyage voyage) {
-		this.vessel = voyage.vessel;
-		this.number = voyage.number;
-		this.arrivalDate = voyage.arrivalDate;
-		this.finished = voyage.finished;
-	}
-
 }

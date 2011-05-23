@@ -10,7 +10,7 @@
 			message="#{message}"
 			header="Удаление..." severity="alert" widgetVar="confirmation">
 
-			<p:commandButton value="ОК" update="suppliers,growl"
+			<p:commandButton value="ОК" update="'#{dataTableId}',growl"
 				actionListener="#{bean['deleteObject']}"
 				oncomplete="confirmation.hide()" />
 			<p:commandButton value="Отмена" onclick="confirmation.hide()"
