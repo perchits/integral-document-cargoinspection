@@ -54,8 +54,7 @@ public abstract class BaseView {
 	}
 
 	public void deleteObject() {
-		baseService.deleteObject(getBeanObject().getClass(), getBeanObject()
-				.getId());
+		baseService.deleteObject(getBeanObject().getClass(), getBeanObject().getId());
 		refreshObjects();
 	}
 
