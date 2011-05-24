@@ -15,9 +15,6 @@
 	<context:annotation-config />
 	<context:component-scan base-package="com.docum"/>	
 	
-	<!-- TODO: remove -->
-	<context:component-scan base-package="ru.integral"/>	
-
 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="location" value="classpath:database.properties" />
 	</bean>
@@ -47,5 +44,14 @@
 	</bean>
 
 	<tx:annotation-driven transaction-manager="transactionManager" mode="proxy"/>
-	
+
+	<bean class="org.springframework.beans.factory.config.CustomScopeConfigurer">
+		<property name="scopes">
+			<map>
+				<entry key="view">
+					<bean class="com.docum.spring.scope.ViewScope" />
+				</entry>
+			</map>
+		</property>
+	</bean>	
 </beans>

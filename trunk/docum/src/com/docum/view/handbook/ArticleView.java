@@ -1,16 +1,14 @@
 package com.docum.view.handbook;
 
-import java.io.Serializable;
-
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
 
 import com.docum.domain.po.IdentifiedEntity;
 import com.docum.domain.po.common.Article;
 
-@ManagedBean(name = "articleBean")
-@SessionScoped
-public class ArticleView extends BaseView implements Serializable {
+@Controller("articleBean")
+@Scope("session")
+public class ArticleView extends BaseView {
 	private static final long serialVersionUID = -3958815651039578018L;
 	private static final String sing = "Товар";
 

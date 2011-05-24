@@ -1,18 +1,17 @@
 package com.docum.view.handbook;
 
-import java.io.Serializable;
 import java.util.List;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
 
 import com.docum.domain.po.IdentifiedEntity;
 import com.docum.domain.po.common.Company;
 import com.docum.domain.po.common.Supplier;
 
-@ManagedBean(name = "supplierBean")
-@SessionScoped
-public class SupplierView extends BaseView implements Serializable {
+@Controller("supplierBean")
+@Scope("session")
+public class SupplierView extends BaseView {
 	private static final long serialVersionUID = -676095247499740650L;
 
 	private static final String sign = "Поставщик";
