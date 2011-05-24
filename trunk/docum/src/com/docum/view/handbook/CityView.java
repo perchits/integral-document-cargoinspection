@@ -25,7 +25,13 @@ public class CityView extends BaseView {
 	@Override
 	public void newObject() {
 		super.newObject();
-		this.city = new City();		
+		this.city = new City();
+	}
+
+	public String newCity() {
+		super.newObject();
+		this.city = new City();
+		return "city";
 	}
 	
 	@Override
