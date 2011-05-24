@@ -276,18 +276,15 @@ public class TestDataPreparator {
 	
 	private List<Invoice> prepareInvoices(List<Container> containers){
 		List<Invoice> result = new ArrayList<Invoice>();
-		
-		EntityCounter<Container> containerCounter = new EntityCounter<Container>(containers);
-
 		for(String number : invoiceNumbers) {
 			Invoice invoice = new Invoice(number);
-			Container container = containerCounter.next();
-			invoice.getContainers().add(container);
-			container.getInvoices().add(invoice);
-			container = containerCounter.next();
-			invoice.getContainers().add(container);
-			container.getInvoices().add(invoice);
 			result.add(invoice);
+		}
+		EntityCounter<Invoice> invoiceCounter = new EntityCounter<Invoice>(result);
+		for(Container container : containers) {
+			Invoice invoice = invoiceCounter.next();
+			invoice.getContainers().add(container);
+			container.getInvoices().add(invoice);
 		}
 		persist(result);
 		return result;
@@ -295,18 +292,15 @@ public class TestDataPreparator {
 
 	private List<PurchaseOrder> prepareOrders(List<Container> containers){
 		List<PurchaseOrder> result = new ArrayList<PurchaseOrder>();
-		
-		EntityCounter<Container> containerCounter = new EntityCounter<Container>(containers);
-
 		for(String number : orderNumbers) {
-			PurchaseOrder order = new PurchaseOrder(number);
-			Container container = containerCounter.next();
+			PurchaseOrder invoice = new PurchaseOrder(number);
+			result.add(invoice);
+		}
+		EntityCounter<PurchaseOrder> orderCounter = new EntityCounter<PurchaseOrder>(result);
+		for(Container container : containers) {
+			PurchaseOrder order = orderCounter.next();
 			order.getContainers().add(container);
 			container.getOrders().add(order);
-			container = containerCounter.next();
-			order.getContainers().add(container);
-			container.getOrders().add(order);
-			result.add(order);
 		}
 		persist(result);
 		return result;

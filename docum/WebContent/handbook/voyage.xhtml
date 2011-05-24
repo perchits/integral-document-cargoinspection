@@ -16,7 +16,8 @@
 					</ui:include>
 					<p:dataTable id="voyages" var="voyage"
 						value="#{voyageBean.allObjects}" selectionMode="single"
-						selection="#{voyageBean.voyage}">
+						selection="#{voyageBean.voyage}"
+						update="purchaseOrdersPanel">
 						<p:column sortBy="#{voyage.vessel.name}"
 							filterBy="#{voyage.vessel.name}" filterMatchMode="contains">
 							<f:facet name="header">
@@ -42,27 +43,20 @@
 						</p:column>
 					</p:dataTable>
 				</p:panel>
-			</h:form>
-
-
-
-			<h:form>
 				<p:panel id="purchaseOrdersPanel" header="Заказы"
 					style="text-align:center">
-					<p:dataTable id="purchaseOrders" var="voyage"
-						value="#{voyageBean.allObjects}" selectionMode="single"
-						selection="#{voyageBean.voyage}">
-						<p:column sortBy="#{voyage.vessel.name}"
-							filterBy="#{voyage.vessel.name}" filterMatchMode="contains">
-							
-							<h:outputText value="#{voyage.vessel.name}" />
+					<p:dataTable id="purchaseOrders" var="order"
+						value="#{voyageBean.orders}">
+						<p:column sortBy="#{order.number}"
+							filterBy="#{order.number}" filterMatchMode="contains">
+							<h:outputText value="#{order.number}" />
 						</p:column>
 					</p:dataTable>
 				</p:panel>
 			</h:form>
 			
 			
-						<h:form>
+			<h:form>
 				<p:panel id="invoicePanel" header="Инвойсы"
 					style="text-align:center">
 					<p:dataTable id="invoices" var="voyage"

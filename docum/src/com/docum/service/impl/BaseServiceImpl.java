@@ -13,7 +13,7 @@ import com.docum.service.BaseService;
 @Service("baseService")
 @Transactional
 public class BaseServiceImpl implements BaseService {
-
+	private static final long serialVersionUID = 233634615322331476L;
 	@Autowired
 	BaseDao baseDao;
 	

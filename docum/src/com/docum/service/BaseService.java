@@ -1,10 +1,11 @@
 package com.docum.service;
 
+import java.io.Serializable;
 import java.util.List;
 
 import com.docum.domain.po.IdentifiedEntity;
 
-public interface BaseService {
+public interface BaseService extends Serializable {
 	public <T extends IdentifiedEntity> T saveObject(T object);
 	public <T extends IdentifiedEntity> T updateObject(T object);
 	public <T extends IdentifiedEntity> void deleteObject(T object);
