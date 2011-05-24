@@ -5,10 +5,20 @@ import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
+import com.docum.dao.BillOfLadingDao;
 import com.docum.domain.po.IdentifiedEntity;
 
 @Entity
+@NamedQueries(
+		@NamedQuery(
+				name = BillOfLadingDao.GET_BILLS_BY_VOYAGE_QUERY,
+				query = "SELECT DISTINCT bill FROM BillOfLading bill JOIN bill.containers c " +
+					"WHERE c.voyage.id=:voyageId"
+		)
+)
 public class BillOfLading extends IdentifiedEntity{
 	private static final long serialVersionUID = 5640872642276855894L;
 

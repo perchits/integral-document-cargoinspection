@@ -6,12 +6,22 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
+import com.docum.dao.ContainerDao;
 import com.docum.domain.ContainerStateEnum;
 import com.docum.domain.po.IdentifiedEntity;
 
 @Entity
+@NamedQueries(
+		@NamedQuery(
+				name = ContainerDao.GET_CONTAINERS_BY_VOYAGE_QUERY,
+				query = "SELECT DISTINCT c FROM Container c " +
+					"WHERE c.voyage.id=:voyageId"
+		)
+)
 public class Container extends IdentifiedEntity {
 	private static final long serialVersionUID = -1325845205678208996L;
 
