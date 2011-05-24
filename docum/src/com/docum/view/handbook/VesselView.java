@@ -1,16 +1,14 @@
 package com.docum.view.handbook;
 
-import java.io.Serializable;
-
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
 
 import com.docum.domain.po.IdentifiedEntity;
 import com.docum.domain.po.common.Vessel;
 
-@ManagedBean(name = "vesselBean")
-@SessionScoped
-public class VesselView extends BaseView implements Serializable {
+@Controller("vesselBean")
+@Scope("session")
+public class VesselView extends BaseView {
 	private static final long serialVersionUID = -7018249724051865904L;
 
 	private static final String sign = "Судно";

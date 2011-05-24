@@ -1,16 +1,14 @@
 package com.docum.view.handbook;
 
-import java.io.Serializable;
-
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
 
 import com.docum.domain.po.IdentifiedEntity;
 import com.docum.domain.po.common.Company;
 
-@ManagedBean(name = "companyBean")
-@SessionScoped
-public class CompanyView extends BaseView implements Serializable {
+@Controller("companyBean")
+@Scope("session")
+public class CompanyView extends BaseView {
 
 	private static final long serialVersionUID = -1126312045148623962L;
 	private static final String sign = "Контрагент";

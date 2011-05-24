@@ -9,10 +9,11 @@ import java.util.Date;
 import java.util.EnumMap;
 import java.util.List;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
 
 import com.docum.domain.ContainerStateEnum;
 import com.docum.domain.po.common.Container;
@@ -20,16 +21,13 @@ import com.docum.domain.po.common.Voyage;
 import com.docum.service.VoyageService;
 import com.docum.util.AlgoUtil;
 
-@ManagedBean(name = "dashboardView")
-@ViewScoped
+@Controller("dashboardView")
+@Scope("request")
 public class DashBoardView implements Serializable {
 	private static final long serialVersionUID = 8925725427524960747L;
 	
-	@ManagedProperty(value="#{voyageService}") 
+	@Autowired
 	private VoyageService voyageService;
-	public void setVoyageService(VoyageService voyageService) {
-		this.voyageService = voyageService;
-	}
 	
 	private ArrayList<VoyagePresentation> finishedVoyages;
 	private ArrayList<VoyagePresentation> unfinishedVoyages;

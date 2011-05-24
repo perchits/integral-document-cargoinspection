@@ -1,14 +1,12 @@
 package com.docum.view.handbook;
 
-import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
-
 import org.primefaces.event.SelectEvent;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
 
 import com.docum.domain.po.IdentifiedEntity;
 import com.docum.domain.po.common.PurchaseOrder;
@@ -16,17 +14,14 @@ import com.docum.domain.po.common.Vessel;
 import com.docum.domain.po.common.Voyage;
 import com.docum.service.PurchaseOrderService;
 
-@ManagedBean(name = "voyageBean")
-@SessionScoped
-public class VoyageView extends BaseView implements Serializable {
+@Controller("voyageBean")
+@Scope("session")
+public class VoyageView extends BaseView {
 	private static final String sign = "Судозаход";
 	private static final long serialVersionUID = 5855731783922631397L;
 
-	@ManagedProperty(value = "#{" + PurchaseOrderService.SERVICE_NAME + "}")
+	@Autowired
 	private PurchaseOrderService purchaseOrderService;
-	public void setPurchaseOrderService(PurchaseOrderService purchaseOrderService) {
-		this.purchaseOrderService = purchaseOrderService;
-	}
 
 	private List<Vessel> vessels;
 	private Voyage voyage = new Voyage();

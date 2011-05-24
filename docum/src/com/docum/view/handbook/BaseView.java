@@ -1,19 +1,23 @@
 package com.docum.view.handbook;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.docum.domain.po.IdentifiedEntity;
 import com.docum.service.BaseService;
 
-public abstract class BaseView {
+public abstract class BaseView implements Serializable{
+	private static final long serialVersionUID = -1072752910650707550L;
+
 	private String title;
 
-	@ManagedProperty(value = "#{baseService}")
+	@Autowired
 	private BaseService baseService;
 
 	private List<? extends IdentifiedEntity> objects;
@@ -86,10 +90,6 @@ public abstract class BaseView {
 				"Ошибочка вышла...", message));
 	}
 
-	public void setBaseService(BaseService baseService) {
-		this.baseService = baseService;
-	}
-
 	public List<? extends IdentifiedEntity> getObjects() {
 		return objects;
 	}
@@ -98,7 +98,7 @@ public abstract class BaseView {
 		this.objects = objects;
 	}
 
-	public BaseService getBaseService() {
+	protected BaseService getBaseService() {
 		return baseService;
 	}
 }

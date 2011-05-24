@@ -1,16 +1,14 @@
 package com.docum.view.handbook;
 
-import java.io.Serializable;
-
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
 
 import com.docum.domain.po.IdentifiedEntity;
 import com.docum.domain.po.common.City;
 
-@ManagedBean(name = "cityBean")
-@SessionScoped
-public class CityView extends BaseView implements Serializable {
+@Controller("cityBean")
+@Scope("session")
+public class CityView extends BaseView {
 	private static final long serialVersionUID = -6124629281863739318L;
 	private static final String sign = "Город";
 		
