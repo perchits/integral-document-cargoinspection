@@ -43,7 +43,7 @@
 		<property name="entityManagerFactory" ref="entityManagerFactory" />
 	</bean>
 
-	<tx:annotation-driven transaction-manager="transactionManager" mode="proxy"/>
+	<tx:annotation-driven transaction-manager="transactionManager" mode="proxy" proxy-target-class="true"/>
 
 	<bean class="org.springframework.beans.factory.config.CustomScopeConfigurer">
 		<property name="scopes">
