@@ -5,10 +5,20 @@ import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
+import com.docum.dao.InvoiceDao;
 import com.docum.domain.po.IdentifiedEntity;
 
 @Entity
+@NamedQueries(
+		@NamedQuery(
+				name = InvoiceDao.GET_INVOICES_BY_VOYAGE_QUERY,
+				query = "SELECT DISTINCT inv FROM Invoice inv JOIN inv.containers c " +
+					"WHERE c.voyage.id=:voyageId"
+		)
+)
 public class Invoice extends IdentifiedEntity{
 	private static final long serialVersionUID = 4144517745472469185L;
 
