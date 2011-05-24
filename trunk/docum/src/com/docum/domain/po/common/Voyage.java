@@ -1,5 +1,6 @@
 package com.docum.domain.po.common;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class Voyage extends IdentifiedEntity{
 	private boolean finished = false;
 	
 	@OneToMany(mappedBy = "voyage")
-	private List<Container> containers;
+	private List<Container> containers = new ArrayList<Container>();
 	
 	public Voyage(){
 		super();

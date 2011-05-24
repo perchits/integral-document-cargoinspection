@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.docum.domain.po.common.Voyage;
 
-public interface VoyageService {
+public interface VoyageService extends BaseService {
 	public List<Voyage> getAllVoyages();
 	public Collection<Voyage> getFinishedVoyages();
 	public Collection<Voyage> getUnfinishedVoyages();

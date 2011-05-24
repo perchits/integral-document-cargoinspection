@@ -1,6 +1,5 @@
 package com.docum.service.impl;
 
-import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 
@@ -14,7 +13,7 @@ import com.docum.service.VoyageService;
 
 @Service("voyageService")
 @Transactional
-public class VoyageServiceImpl implements VoyageService, Serializable {
+public class VoyageServiceImpl extends BaseServiceImpl implements VoyageService {
 	private static final long serialVersionUID = -5052727843476156745L;
 	
 	@Autowired
