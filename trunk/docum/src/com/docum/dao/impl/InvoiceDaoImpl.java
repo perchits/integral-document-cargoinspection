@@ -4,9 +4,12 @@ import java.util.List;
 
 import javax.persistence.Query;
 
+import org.springframework.stereotype.Repository;
+
 import com.docum.dao.InvoiceDao;
 import com.docum.domain.po.common.Invoice;
 
+@Repository
 public class InvoiceDaoImpl extends BaseDaoImpl implements InvoiceDao {
 
 	private static final long serialVersionUID = 8418761484297199308L;

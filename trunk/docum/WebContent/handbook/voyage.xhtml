@@ -6,8 +6,8 @@
 
 <ui:composition template="/WEB-INF/includes/layout.xhtml">
 	<ui:define name="content">
-		<h:panelGrid columns="5" styleClass="voyagesLayoutTable">
-			<h:form prependId="false">
+		<h:form prependId="false">
+			<h:panelGrid columns="5" styleClass="voyagesLayoutTable">
 				<p:panel id="voyagesPanel" header="Судозаходы"
 					style="text-align:center" styleClass="toggle-panel">
 					<ui:include src="/WEB-INF/includes/crudToolBar.xhtml">
@@ -17,7 +17,7 @@
 					<p:dataTable id="voyages" var="voyage"
 						value="#{voyageBean.allObjects}" selectionMode="single"
 						selection="#{voyageBean.voyage}"
-						update="purchaseOrdersPanel">
+						update="billOfLadingPanel,purchaseOrdersPanel,invoicePanel">
 						<p:column sortBy="#{voyage.vessel.name}"
 							filterBy="#{voyage.vessel.name}" filterMatchMode="contains">
 							<f:facet name="header">
@@ -47,46 +47,36 @@
 					style="text-align:center">
 					<p:dataTable id="purchaseOrders" var="order"
 						value="#{voyageBean.orders}">
-						<p:column sortBy="#{order.number}"
-							filterBy="#{order.number}" filterMatchMode="contains">
+						<p:column sortBy="#{order.number}" filterBy="#{order.number}"
+							filterMatchMode="contains">
 							<h:outputText value="#{order.number}" />
 						</p:column>
 					</p:dataTable>
 				</p:panel>
-			</h:form>
-			
-			
-			<h:form>
+
 				<p:panel id="invoicePanel" header="Инвойсы"
 					style="text-align:center">
-					<p:dataTable id="invoices" var="voyage"
-						value="#{voyageBean.allObjects}" selectionMode="single"
-						selection="#{voyageBean.voyage}">
-						<p:column sortBy="#{voyage.vessel.name}"
-							filterBy="#{voyage.vessel.name}" filterMatchMode="contains">
-						
-							<h:outputText value="#{voyage.vessel.name}" />
+					<p:dataTable id="invoices" var="invoice"
+						value="#{voyageBean.invoices}">
+						<p:column sortBy="#{invoice.number}" filterBy="#{invoice.number}"
+							filterMatchMode="contains">
+							<h:outputText value="#{invoice.number}" />
 						</p:column>
 					</p:dataTable>
 				</p:panel>
-			</h:form>
-			
-				<h:form>
+
 				<p:panel id="billOfLadingPanel" header="Коносаменты"
 					style="text-align:center">
-					<p:dataTable id="billOfLadings" var="voyage"
-						value="#{voyageBean.allObjects}" selectionMode="single"
-						selection="#{voyageBean.voyage}">
-						<p:column sortBy="#{voyage.vessel.name}"
-							filterBy="#{voyage.vessel.name}" filterMatchMode="contains">
-					
-							<h:outputText value="#{voyage.vessel.name}" />
+					<p:dataTable id="billOfLadings" var="bill"
+						value="#{voyageBean.billOfLadings}">
+						<p:column sortBy="#{bill.number}"
+							filterBy="#{bill.number}" filterMatchMode="contains">
+
+							<h:outputText value="#{bill.number}" />
 						</p:column>
 					</p:dataTable>
 				</p:panel>
-			</h:form>
-			
-			<h:form>
+
 				<p:panel id="containerPanel" header="Контейнеры"
 					style="text-align:center">
 					<p:dataTable id="containers" var="voyage"
@@ -94,14 +84,13 @@
 						selection="#{voyageBean.voyage}">
 						<p:column sortBy="#{voyage.vessel.name}"
 							filterBy="#{voyage.vessel.name}" filterMatchMode="contains">
-					
+
 							<h:outputText value="#{voyage.vessel.name}" />
 						</p:column>
 					</p:dataTable>
 				</p:panel>
-			</h:form>
-			
-		</h:panelGrid>
+			</h:panelGrid>
+		</h:form>
 
 		<p:outputPanel id="dialogPanel">
 			<h:form prependId="false">
