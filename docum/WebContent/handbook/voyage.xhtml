@@ -17,7 +17,7 @@
 					<p:dataTable id="voyages" var="voyage"
 						value="#{voyageBean.allObjects}" selectionMode="single"
 						selection="#{voyageBean.voyage}"
-						update="billOfLadingPanel,purchaseOrdersPanel,invoicePanel">
+						update="billOfLadingPanel,purchaseOrdersPanel,invoicePanel,containerPanel">
 						<p:column sortBy="#{voyage.vessel.name}"
 							filterBy="#{voyage.vessel.name}" filterMatchMode="contains">
 							<f:facet name="header">
@@ -79,13 +79,12 @@
 
 				<p:panel id="containerPanel" header="Контейнеры"
 					style="text-align:center">
-					<p:dataTable id="containers" var="voyage"
-						value="#{voyageBean.allObjects}" selectionMode="single"
-						selection="#{voyageBean.voyage}">
-						<p:column sortBy="#{voyage.vessel.name}"
-							filterBy="#{voyage.vessel.name}" filterMatchMode="contains">
+					<p:dataTable id="containers" var="container"
+						value="#{voyageBean.containers}">
+						<p:column sortBy="#{container.number}"
+							filterBy="#{container.number}" filterMatchMode="contains">
 
-							<h:outputText value="#{voyage.vessel.name}" />
+							<h:outputText value="#{container.number}" />
 						</p:column>
 					</p:dataTable>
 				</p:panel>
