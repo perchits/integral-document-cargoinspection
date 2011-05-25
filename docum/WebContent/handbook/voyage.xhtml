@@ -7,7 +7,8 @@
 <ui:composition template="/WEB-INF/includes/layout.xhtml">
 	<ui:define name="content">
 		<h:form prependId="false">
-			<h:panelGrid columns="5" styleClass="voyagesLayoutTable">
+			<h:panelGrid columns="5" styleClass="voyagesLayoutTable"
+				id="voyagesLayoutTable">
 				<p:panel id="voyagesPanel" header="Судозаходы"
 					style="text-align:center" styleClass="toggle-panel">
 					<ui:include src="/WEB-INF/includes/crudToolBar.xhtml">
@@ -17,7 +18,7 @@
 					<p:dataTable id="voyages" var="voyage"
 						value="#{voyageBean.allObjects}" selectionMode="single"
 						selection="#{voyageBean.voyage}"
-						update="billOfLadingPanel,purchaseOrdersPanel,invoicePanel,containerPanel">
+						update="voyagesLayoutTable">
 						<p:column sortBy="#{voyage.vessel.name}"
 							filterBy="#{voyage.vessel.name}" filterMatchMode="contains">
 							<f:facet name="header">
@@ -69,8 +70,8 @@
 					style="text-align:center">
 					<p:dataTable id="billOfLadings" var="bill"
 						value="#{voyageBean.billOfLadings}">
-						<p:column sortBy="#{bill.number}"
-							filterBy="#{bill.number}" filterMatchMode="contains">
+						<p:column sortBy="#{bill.number}" filterBy="#{bill.number}"
+							filterMatchMode="contains">
 
 							<h:outputText value="#{bill.number}" />
 						</p:column>
