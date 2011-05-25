@@ -4,9 +4,12 @@ import java.util.List;
 
 import javax.persistence.Query;
 
+import org.springframework.stereotype.Repository;
+
 import com.docum.dao.ContainerDao;
 import com.docum.domain.po.common.Container;
 
+@Repository
 public class ContainerDaoImpl extends BaseDaoImpl implements ContainerDao {
 
 	private static final long serialVersionUID = 6738371757481216033L;
