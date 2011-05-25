@@ -28,12 +28,6 @@ public class CityView extends BaseView {
 		this.city = new City();
 	}
 
-	public String newCity() {
-		super.newObject();
-		this.city = new City();
-		return "city";
-	}
-	
 	@Override
 	public String getSign() {
 		return sign;

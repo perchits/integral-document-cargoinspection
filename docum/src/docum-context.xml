@@ -43,6 +43,9 @@
 		<property name="entityManagerFactory" ref="entityManagerFactory" />
 	</bean>
 
+<!-- TODO разобраться с менеджером транзакций -->
+<!-- 	<tx:jta-transaction-manager/> -->
+
 	<tx:annotation-driven transaction-manager="transactionManager" mode="proxy" proxy-target-class="true"/>
 
 	<bean class="org.springframework.beans.factory.config.CustomScopeConfigurer">
