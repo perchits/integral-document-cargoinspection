@@ -129,5 +129,10 @@ public class VoyageView extends BaseView {
 			return billOfLadingService.getBillsByVoyage(voyage.getId());
 		}
 	}
+	
+	public String getContainerCount() {
+		Integer containers = getContainers().size();
+		return containers.toString();
+	}
 
 }

@@ -161,7 +161,7 @@ select {
 }
 
 
-.voyagesLayoutTable {
+.voyagesLayoutTable, .infoLayoutTable {
 	width : 100%;
 }
 
@@ -170,11 +170,10 @@ select {
 	padding: 0 0 1px;
 }
 
-
-.voyagesLayoutTable .ui-panel-content {
-	min-width: 145px !important;
+.infoLayoutTable table {
+	margin-bottom: 2px;
 }
 
-.voyagesLayoutTable input {
-	width: 90px !important;
+.infoLayoutTable {
+	min-width: 320px;
 }
