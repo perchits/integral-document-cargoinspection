@@ -7,7 +7,7 @@
 <ui:composition template="/WEB-INF/includes/layout.xhtml">
 	<ui:define name="content">
 		<h:form prependId="false">
-			<h:panelGrid columns="5" styleClass="voyagesLayoutTable"
+			<h:panelGrid columns="2" styleClass="voyagesLayoutTable"
 				id="voyagesLayoutTable">
 				<p:panel id="voyagesPanel" header="Судозаходы"
 					style="text-align:center" styleClass="toggle-panel">
@@ -17,8 +17,7 @@
 					</ui:include>
 					<p:dataTable id="voyages" var="voyage"
 						value="#{voyageBean.allObjects}" selectionMode="single"
-						selection="#{voyageBean.voyage}"
-						update="voyagesLayoutTable">
+						selection="#{voyageBean.voyage}" update="voyagesLayoutTable">
 						<p:column sortBy="#{voyage.vessel.name}"
 							filterBy="#{voyage.vessel.name}" filterMatchMode="contains">
 							<f:facet name="header">
@@ -42,52 +41,72 @@
 								<f:convertDateTime dateStyle="medium" type="date" />
 							</h:outputText>
 						</p:column>
-					</p:dataTable>
-				</p:panel>
-				<p:panel id="purchaseOrdersPanel" header="Заказы"
-					style="text-align:center">
-					<p:dataTable id="purchaseOrders" var="order"
-						value="#{voyageBean.orders}">
-						<p:column sortBy="#{order.number}" filterBy="#{order.number}"
-							filterMatchMode="contains">
-							<h:outputText value="#{order.number}" />
+						
+						<p:column sortBy="#{voyage.containerCount}"
+							filterBy="#{voyage.containerCount}" filterMatchMode="contains">
+							<f:facet name="header">
+							 Контейнеров
+						</f:facet>
+							<h:outputText value="" />						
 						</p:column>
+						
 					</p:dataTable>
+					<h3>#{voyageBean.containerCount}</h3>
 				</p:panel>
-
-				<p:panel id="invoicePanel" header="Инвойсы"
+				<p:panel id="infoPanel" 
 					style="text-align:center">
-					<p:dataTable id="invoices" var="invoice"
-						value="#{voyageBean.invoices}">
-						<p:column sortBy="#{invoice.number}" filterBy="#{invoice.number}"
-							filterMatchMode="contains">
-							<h:outputText value="#{invoice.number}" />
-						</p:column>
-					</p:dataTable>
-				</p:panel>
+					<f:facet name="header">
+					<h:outputText value="#{voyageBean.voyage.vessel.name}, " />
+					<h:outputText value="#{voyageBean.voyage.number}, " />					
+					<h:outputText value="#{voyageBean.voyage.arrivalDate}">
+								<f:convertDateTime dateStyle="medium" type="date" />
+							</h:outputText>
+					</f:facet>
+					<h:panelGrid columns="2" styleClass="infoLayoutTable">
 
-				<p:panel id="billOfLadingPanel" header="Коносаменты"
-					style="text-align:center">
-					<p:dataTable id="billOfLadings" var="bill"
-						value="#{voyageBean.billOfLadings}">
-						<p:column sortBy="#{bill.number}" filterBy="#{bill.number}"
-							filterMatchMode="contains">
 
-							<h:outputText value="#{bill.number}" />
-						</p:column>
-					</p:dataTable>
-				</p:panel>
+						<p:dataTable id="containers" var="container"
+							value="#{voyageBean.containers}">							
+							<p:column>
+								<h:outputText value="#{container.number}" />
+								<f:facet name="header">Контейнеры</f:facet>
+							</p:column>
+						</p:dataTable>
 
-				<p:panel id="containerPanel" header="Контейнеры"
-					style="text-align:center">
-					<p:dataTable id="containers" var="container"
-						value="#{voyageBean.containers}">
-						<p:column sortBy="#{container.number}"
-							filterBy="#{container.number}" filterMatchMode="contains">
 
-							<h:outputText value="#{container.number}" />
-						</p:column>
-					</p:dataTable>
+						<h:panelGroup>
+							<p:dataTable id="purchaseOrders" var="order"
+								value="#{voyageBean.orders}">								
+								<p:column>
+									<h:outputText value="#{order.number}" />
+									<f:facet name="header">Заказы</f:facet>
+								</p:column>
+							</p:dataTable>
+
+
+							<p:dataTable id="invoices" var="invoice"
+								value="#{voyageBean.invoices}">								
+								<p:column>
+									<h:outputText value="#{invoice.number}" />
+									<f:facet name="header">Инвойсы</f:facet>
+								</p:column>
+							</p:dataTable>
+
+
+
+							<p:dataTable id="billOfLadings" var="bill"
+								value="#{voyageBean.billOfLadings}">
+								
+								<p:column>
+									<h:outputText value="#{bill.number}" />
+									<f:facet name="header">Коносаменты</f:facet>
+								</p:column>
+							</p:dataTable>
+
+
+						</h:panelGroup>
+
+					</h:panelGrid>
 				</p:panel>
 			</h:panelGrid>
 		</h:form>
