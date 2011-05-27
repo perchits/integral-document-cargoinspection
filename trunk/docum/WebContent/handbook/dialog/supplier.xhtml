@@ -1,0 +1,30 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+<ui:composition template="/WEB-INF/includes/dialogLayout.xhtml">
+	<ui:define name="dialogBody">
+		<h:outputLabel for="#{sign}CompanyName" value="Наименование: *" />
+		<h:selectOneMenu id="#{sign}CompanyName"
+			styleClass="ui-inputfield ui-widget ui-state-default ui-corner-all"
+			value="#{bean[selectedCompany]}">
+			<f:converter converterId="companyConverter" />
+			<f:selectItem itemLabel="Выберите поставщика..." itemValue=""
+				noSelectionOption="true" itemDisabled="true" />
+			<f:selectItems value="#{bean[companies]}" var="cmpn"
+				itemLabel="#{cmpn.name}" />
+		</h:selectOneMenu>
+	</ui:define>
+
+	<ui:define name="deleteConfirmation">
+		<ui:include src="/WEB-INF/includes/deleteConfirmation.xhtml">
+			<ui:param name="deleteAction" value="deleteObject" />
+			<ui:param name="message"
+				value="Удалить поставщика '#{bean[selectedCompany].name}'?" />
+		</ui:include>
+	</ui:define>
+</ui:composition>
+
+</html>
