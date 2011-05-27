@@ -1,0 +1,20 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+<p:outputPanel id="#{sign}ConfirmId">
+	<h:form prependId="false">
+		<p:confirmDialog message="#{message}" header="Удаление..."
+			severity="alert" widgetVar="#{sign}ConfirmVar">
+			<p:commandButton value="ОК" update="#{sign}Grid,growl"
+				actionListener="#{bean[deleteAction]}"
+				oncomplete="#{sign}ConfirmVar.hide()" />
+			<p:commandButton value="Отмена" onclick="#{sign}ConfirmVar.hide()"
+				type="button" />
+		</p:confirmDialog>
+	</h:form>
+</p:outputPanel>
+
+</html>

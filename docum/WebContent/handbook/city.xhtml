@@ -7,36 +7,16 @@
 <ui:composition template="/WEB-INF/includes/layout.xhtml">
 	<ui:define name="content">
 		<h:form prependId="false">
-			<h:panelGroup layout="block" styleClass="crud-menu">
-				<p:toolbar styleClass="crud-menu">
-					<p:toolbarGroup align="left">
-						<p:commandButton type="push" value="Добавить"
-							update="dialogPanel,growl" image="ui-icon-document"
-							actionListener="#{cityBean.newObject}"
-							oncomplete="dialog.show()" />
-
-						<p:commandButton type="push" value="Правка"
-							update="dialogPanel,growl"
-							actionListener="#{cityBean.editObject}"
-							oncomplete="beforeShow(dialog,'cities')"
-							image="ui-icon ui-icon-wrench" />
-
-						<p:commandButton type="push" value="Удалить"
-							oncomplete="beforeShow(confirmation,'cities')"
-							image="ui-icon ui-icon-minus" update="confirmationPanel,growl" />
-
-						<p:commandButton type="push" update="cities" value="Обновить"
-							actionListener="#{cityBean.refreshObjects}"
-							image="ui-icon ui-icon-arrowreturnthick-1-w" />
-
-					</p:toolbarGroup>
-				</p:toolbar>
-			</h:panelGroup>
+			
+			<ui:include src="/WEB-INF/includes/crudToolBar.xhtml">
+				<ui:param name="bean" value="#{cityBean}" />
+				<ui:param name="sign" value="city" />
+			</ui:include>
+			
 			<p:panel header="#{cityBean.sign}" style="text-align:center"
 				styleClass="toggle-panel">
 
-
-				<p:dataTable id="cities" var="city"
+				<p:dataTable id="cityGrid" var="city"
 					value="#{cityBean.allObjects}" selectionMode="single"
 					selection="#{cityBean.city}">
 					<p:column sortBy="#{city.name}"
@@ -54,55 +34,14 @@
 
 			</p:panel>
 		</h:form>
-		<p:outputPanel id="dialogPanel">
-			<h:form prependId="false" id="dialogForm">
-				<p:dialog width="380" id="dialog" widgetVar="dialog" modal="true"
-					header="#{cityBean.title}">
-					<p:outputPanel id="dialogContent">
-						<h:panelGroup>
-							<h:panelGrid width="100%" columns="2" cellpadding="5">
-								<h:outputLabel for="supname" value="Наименование: *" />
-								<p:inputText size="60" value="#{cityBean.city.name}"
-									id="supname" required="true" label="Наименование">
-								</p:inputText>
-								
-								<h:outputLabel for="cityOur" value="Обслуживаемый:" />
-							<h:selectBooleanCheckbox value="#{cityBean.city.our}"
-								id="cityOur" label="Обслуживаемый" >								
-							</h:selectBooleanCheckbox>
-
-								<f:facet name="footer">
-									<p:commandButton
-										actionListener="#{cityBean.saveObject}" value="OK"
-										update="cities,growl"
-										oncomplete="handleOKRequest(args,dialog,'dialog')" />
-									<p:commandButton type="reset" value="Отмена" update="growl"
-										onclick="dialog.hide()" />
-
-								</f:facet>
-							</h:panelGrid>
-
-						</h:panelGroup>
-					</p:outputPanel>
-				</p:dialog>
-			</h:form>
-		</p:outputPanel>
-
-		<p:outputPanel id="confirmationPanel">
-			<h:form prependId="false" id="confirmationForm">
-				<p:confirmDialog
-					message="Удалить #{cityBean.sign} '#{cityBean.city.name}'?"
-					header="Удаление..." severity="alert" widgetVar="confirmation">
-
-					<p:commandButton value="ОК" update="cities,growl"
-						actionListener="#{cityBean.deleteObject}"
-						oncomplete="confirmation.hide()" />
-					<p:commandButton value="Отмена" onclick="confirmation.hide()"
-						type="button" />
-				</p:confirmDialog>
-			</h:form>
-		</p:outputPanel>
-
+		
+		<ui:include src="/handbook/dialog/city.xhtml">
+			<ui:param name="bean" value="#{cityBean}" />
+			<ui:param name="sign" value="city" />			
+			<ui:param name="title" value="title" />
+			<ui:param name="width" value="380" />
+		</ui:include>
+		
 		<h:outputScript name="dialog.js" library="js" />
 
 	</ui:define>

@@ -1,0 +1,28 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+<p:outputPanel id="#{sign}DlgPanel">
+	<h:form prependId="false">
+		<p:dialog width="#{width}" id="#{sign}Id" widgetVar="#{sign}Var"
+			modal="true" header="#{bean[title]}">
+			<h:panelGrid width="100%" columns="2" cellpadding="5">
+				<ui:insert name="dialogBody">
+				</ui:insert>
+				<f:facet name="footer">
+					<p:commandButton actionListener="#{bean['saveObject']}" value="OK"
+						update="#{sign}Grid,growl"
+						oncomplete="handleOKRequest(args,#{sign}Var,'#{sign}Id')" />
+					<p:commandButton type="reset" value="Отмена" update="growl"
+						onclick="#{sign}Var.hide()" />
+				</f:facet>
+			</h:panelGrid>
+		</p:dialog>
+	</h:form>
+</p:outputPanel>
+
+<ui:insert name="deleteConfirmation"/>
+
+</html>

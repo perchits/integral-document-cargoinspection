@@ -11,12 +11,12 @@
 
 			<ui:include src="/WEB-INF/includes/crudToolBar.xhtml">
 				<ui:param name="bean" value="#{supplierBean}" />
-				<ui:param name="dataTableId" value="suppliers" />
+				<ui:param name="sign" value="supplier" />
 			</ui:include>
 
 			<p:panel header="Поставщики" style="text-align:center"
 				styleClass="toggle-panel">
-				<p:dataTable id="suppliers" var="supplier"
+				<p:dataTable id="supplierGrid" var="supplier"
 					value="#{supplierBean.allObjects}" selectionMode="single"
 					selection="#{supplierBean.supplier}">
 					<p:column sortBy="#{supplier.company.name}"
@@ -29,44 +29,13 @@
 
 		</h:form>
 
-		<p:outputPanel id="dialogPanel">
-			<h:form prependId="false" id="dialogForm">
-				<p:dialog width="480" id="dialog" widgetVar="dialog" modal="true"
-					header="#{supplierBean.title}">
-					<p:outputPanel id="dialogContent">
-
-						<h:panelGrid width="100%" columns="2" cellpadding="5">
-
-							<h:outputLabel for="supplierCompanyName" value="Наименование: *" />
-							<h:selectOneMenu id="supplierCompanyName"
-								styleClass="ui-inputfield ui-widget ui-state-default ui-corner-all"
-								value="#{supplierBean.selectedCompany}">
-								<f:converter converterId="companyConverter" />
-								<f:selectItem itemLabel="Выберите поставщика..." itemValue=""
-									noSelectionOption="true" itemDisabled="true" />
-								<f:selectItems value="#{supplierBean.companies}" var="cmpn"
-									itemLabel="#{cmpn.name}" />
-							</h:selectOneMenu>
-
-							<f:facet name="footer">
-								<p:commandButton actionListener="#{supplierBean.saveObject}"
-									value="OK" update="suppliers,growl"
-									oncomplete="handleOKRequest(args,dialog,'dialog')" />
-								<p:commandButton type="reset" value="Отмена" update="growl"
-									onclick="dialog.hide()" />
-							</f:facet>
-
-						</h:panelGrid>
-
-					</p:outputPanel>
-				</p:dialog>
-			</h:form>
-		</p:outputPanel>
-
-		<ui:include src="/WEB-INF/includes/confirmation.xhtml">
+		<ui:include src="/handbook/dialog/supplier.xhtml">
 			<ui:param name="bean" value="#{supplierBean}" />
-			<ui:param name="message"
-				value="Удалить поставщика '#{supplierBean.supplier.company.name}' ?" />
+			<ui:param name="sign" value="supplier" />
+			<ui:param name="selectedCompany" value="selectedCompany" />
+			<ui:param name="companies" value="companies" />
+			<ui:param name="title" value="title" />
+			<ui:param name="width" value="420" />			
 		</ui:include>
 
 		<h:outputScript name="dialog.js" library="js" />

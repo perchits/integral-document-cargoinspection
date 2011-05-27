@@ -135,6 +135,7 @@ table td {
 
 .ui-dialog-buttonpane,.ui-dialog-content tfoot td {
 	text-align: right !important;
+	border: 0 !important;
 }
 
 select {
