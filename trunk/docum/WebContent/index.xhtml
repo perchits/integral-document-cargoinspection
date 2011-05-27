@@ -52,17 +52,17 @@
 								</p:column>
 								<p:column>
 									<f:facet name="header">
-										<h:outputText value="Не отработано" />
-									</f:facet>
-									<h:outputText value="#{v.unhandledContainerCount}" />
-								</p:column>
-								<p:column>
-									<f:facet name="header">
 										<h:outputText value="Отработано" />
 									</f:facet>
 									<h:outputText value="#{v.handledContainerCount}" />
 									<h:outputText value="" />
 								</p:column>
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="Не отработано" />
+									</f:facet>
+									<h:outputText value="#{v.unhandledContainerCount}" />
+								</p:column>								
 							</p:dataTable>
 						</h:form>
 					</h:panelGroup>
