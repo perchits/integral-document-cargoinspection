@@ -1,4 +1,4 @@
-package com.docum.view.handbook;
+package com.docum.view.dict;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
