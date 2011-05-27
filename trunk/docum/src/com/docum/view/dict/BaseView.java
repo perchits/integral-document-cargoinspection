@@ -1,4 +1,4 @@
-package com.docum.view.handbook;
+package com.docum.view.dict;
 
 import java.io.Serializable;
 import java.util.List;
