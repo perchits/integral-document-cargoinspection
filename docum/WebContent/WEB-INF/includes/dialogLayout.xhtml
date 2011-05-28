@@ -12,7 +12,7 @@
 				<ui:insert name="dialogBody">
 				</ui:insert>
 				<f:facet name="footer">
-					<p:commandButton actionListener="#{bean['saveObject']}" value="OK"
+					<p:commandButton actionListener="#{bean[saveObject]}" value="OK"
 						update="#{sign}Grid,growl"
 						oncomplete="handleOKRequest(args,#{sign}Var,'#{sign}Id')" />
 					<p:commandButton type="reset" value="Отмена" update="growl"

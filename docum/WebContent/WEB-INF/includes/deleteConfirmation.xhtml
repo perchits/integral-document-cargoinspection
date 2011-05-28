@@ -9,7 +9,7 @@
 		<p:confirmDialog message="#{message}" header="Удаление..."
 			severity="alert" widgetVar="#{sign}ConfirmVar">
 			<p:commandButton value="ОК" update="#{sign}Grid,growl"
-				actionListener="#{bean[deleteAction]}"
+				actionListener="#{bean[deleteObject]}"
 				oncomplete="#{sign}ConfirmVar.hide()" />
 			<p:commandButton value="Отмена" onclick="#{sign}ConfirmVar.hide()"
 				type="button" />

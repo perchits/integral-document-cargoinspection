@@ -20,8 +20,7 @@
 
 
 	<ui:define name="deleteConfirmation">
-		<ui:include src="/WEB-INF/includes/deleteConfirmation.xhtml">
-			<ui:param name="deleteAction" value="deleteObject" />
+		<ui:include src="/WEB-INF/includes/deleteConfirmation.xhtml">			
 			<ui:param name="message"
 				value="Удалить город '#{bean.city.name}'?" />
 		</ui:include>

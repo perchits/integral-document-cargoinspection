@@ -12,6 +12,7 @@
 				<ui:param name="bean" value="#{cityBean}" />
 				<ui:param name="sign" value="city" />
 			</ui:include>
+						
 			
 			<p:panel header="#{cityBean.sign}" style="text-align:center"
 				styleClass="toggle-panel">
@@ -40,6 +41,8 @@
 			<ui:param name="sign" value="city" />			
 			<ui:param name="title" value="title" />
 			<ui:param name="width" value="380" />
+			<ui:param name="saveObject" value="saveObject" />
+			<ui:param name="deleteObject" value="deleteObject" />
 		</ui:include>
 		
 		<h:outputScript name="dialog.js" library="js" />
