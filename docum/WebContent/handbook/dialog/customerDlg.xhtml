@@ -5,13 +5,16 @@
 	xmlns:p="http://primefaces.prime.com.tr/ui">
 
 <ui:composition template="/WEB-INF/includes/dialogLayout.xhtml">
+	<ui:param name="width" value="480" />
+	<ui:param name="saveObject" value="saveObject" />
+	<ui:param name="deleteObject" value="deleteObject" />
 	<ui:define name="dialogBody">
-		<h:outputLabel for="#{sign}CompanyName" value="Наименование: *" />
-		<h:selectOneMenu id="#{sign}CompanyName"
+		<h:outputLabel for="customerCompanyName" value="Наименование: *" />
+		<h:selectOneMenu id="customerCompanyName"
 			styleClass="ui-inputfield ui-widget ui-state-default ui-corner-all"
 			value="#{bean[selectedCompany]}">
 			<f:converter converterId="companyConverter" />
-			<f:selectItem itemLabel="Выберите поставщика..." itemValue=""
+			<f:selectItem itemLabel="Выберите компанию..." itemValue=""
 				noSelectionOption="true" itemDisabled="true" />
 			<f:selectItems value="#{bean[companies]}" var="cmpn"
 				itemLabel="#{cmpn.name}" />
@@ -19,9 +22,9 @@
 	</ui:define>
 
 	<ui:define name="deleteConfirmation">
-		<ui:include src="/WEB-INF/includes/deleteConfirmation.xhtml">			
+		<ui:include src="/WEB-INF/includes/deleteConfirmation.xhtml">
 			<ui:param name="message"
-				value="Удалить поставщика '#{bean[selectedCompany].name}'?" />
+				value="Удалить заказчика '#{bean.customer.company.name}'?" />
 		</ui:include>
 	</ui:define>
 </ui:composition>

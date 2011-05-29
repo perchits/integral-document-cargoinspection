@@ -4,19 +4,19 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.prime.com.tr/ui">
 
-<p:outputPanel id="#{sign}DlgPanel">
+<p:outputPanel id="#{gridId}DlgPanel">
 	<h:form prependId="false">
-		<p:dialog width="#{width}" id="#{sign}Id" widgetVar="#{sign}Var"
+		<p:dialog width="#{width}" id="#{gridId}Id" widgetVar="#{gridId}Var"
 			modal="true" header="#{bean[title]}">
 			<h:panelGrid width="100%" columns="2" cellpadding="5">
 				<ui:insert name="dialogBody">
 				</ui:insert>
 				<f:facet name="footer">
 					<p:commandButton actionListener="#{bean[saveObject]}" value="OK"
-						update="#{sign}Grid,growl"
-						oncomplete="handleOKRequest(args,#{sign}Var,'#{sign}Id')" />
+						update="#{gridId},growl"
+						oncomplete="handleOKRequest(args,#{gridId}Var,'#{gridId}Id')" />
 					<p:commandButton type="reset" value="Отмена" update="growl"
-						onclick="#{sign}Var.hide()" />
+						onclick="#{gridId}Var.hide()" />
 				</f:facet>
 			</h:panelGrid>
 		</p:dialog>

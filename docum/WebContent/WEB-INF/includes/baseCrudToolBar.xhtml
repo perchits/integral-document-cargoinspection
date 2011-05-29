@@ -4,24 +4,27 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.prime.com.tr/ui">
 
+<h:outputScript name="dialog.js" library="js" />
+
 <h:panelGroup layout="block" styleClass="crud-menu">
 	<p:toolbar styleClass="crud-menu">
 		<p:toolbarGroup align="left">
 			<p:commandButton type="push" value="Добавить"
-				update="#{sign}DlgPanel,growl" image="ui-icon-document"
-				actionListener="#{bean[newObject]}" oncomplete="#{sign}Var.show()" />
+				update="#{gridId}DlgPanel,growl" image="ui-icon-document"
+				actionListener="#{bean[newObject]}" oncomplete="#{gridId}Var.show()" />
 
 			<p:commandButton type="push" value="Правка"
-				update="#{sign}DlgPanel,growl" actionListener="#{bean[editObject]}"
-				oncomplete="beforeShow(#{sign}Var,'#{sign}Grid')"
+				update="#{gridId}DlgPanel,growl"
+				actionListener="#{bean[editObject]}"
+				oncomplete="beforeShow(#{gridId}Var,'#{gridId}')"
 				image="ui-icon ui-icon-wrench" />
 
 			<p:commandButton type="push" value="Удалить"
 				actionListener="#{bean[beforeDeleteObject]}"
-				oncomplete="beforeShow(#{sign}ConfirmVar,'#{sign}Grid')"
-				image="ui-icon ui-icon-minus" update="#{sign}ConfirmId,growl" />
+				oncomplete="beforeShow(#{gridId}ConfirmVar,'#{gridId}')"
+				image="ui-icon ui-icon-minus" update="#{gridId}ConfirmId,growl" />
 
-			<p:commandButton type="push" update="#{sign}Grid" value="Обновить"
+			<p:commandButton type="push" update="#{gridId}" value="Обновить"
 				actionListener="#{bean[refreshObjects]}"
 				image="ui-icon ui-icon-arrowreturnthick-1-w" />
 

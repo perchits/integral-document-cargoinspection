@@ -7,34 +7,15 @@
 <ui:composition template="/WEB-INF/includes/layout.xhtml">
 	<ui:define name="content">
 		<h:form prependId="false">
-			<h:panelGroup layout="block" styleClass="crud-menu">
-				<p:toolbar styleClass="crud-menu">
-					<p:toolbarGroup align="left">
-						<p:commandButton type="push" value="Добавить"
-							update="dialogPanel,growl" image="ui-icon-document"
-							actionListener="#{companyBean.newObject}"
-							oncomplete="dialog.show()" />
 
-						<p:commandButton type="push" value="Правка"
-							update="dialogPanel,growl"
-							actionListener="#{companyBean.editObject}"
-							oncomplete="beforeShow(dialog,'companies')"
-							image="ui-icon ui-icon-wrench" />
+			<ui:include src="/WEB-INF/includes/crudToolBar.xhtml">
+				<ui:param name="bean" value="#{companyBean}" />
+				<ui:param name="gridId" value="companyGrid" />
+			</ui:include>
 
-						<p:commandButton type="push" value="Удалить"
-							oncomplete="beforeShow(confirmation,'companies')"
-							image="ui-icon ui-icon-minus" update="confirmationPanel,growl" />
-
-						<p:commandButton type="push" update="companies" value="Обновить"
-							actionListener="#{companyBean.refreshObjects}"
-							image="ui-icon ui-icon-arrowreturnthick-1-w" />
-
-					</p:toolbarGroup>
-				</p:toolbar>
-			</h:panelGroup>
 			<p:panel header="#{companyBean.sign}" style="text-align:center"
 				styleClass="toggle-panel">
-				<p:dataTable id="companies" var="company"
+				<p:dataTable id="companyGrid" var="company"
 					value="#{companyBean.allObjects}" selectionMode="single"
 					selection="#{companyBean.company}">
 					<p:column sortBy="#{company.name}" filterBy="#{company.name}"
@@ -44,8 +25,8 @@
 						</f:facet>
 						<h:outputText value="#{company.name}" />
 					</p:column>
-					<p:column sortBy="#{company.englishName}" filterBy="#{company.englishName}"
-						filterMatchMode="contains">
+					<p:column sortBy="#{company.englishName}"
+						filterBy="#{company.englishName}" filterMatchMode="contains">
 						<f:facet name="header">
 							Наименование на англ. яз.  
 						</f:facet>
@@ -54,82 +35,12 @@
 				</p:dataTable>
 			</p:panel>
 		</h:form>
-		<p:outputPanel id="dialogPanel">
-			<h:form prependId="false" id="dialogForm">
-				<p:dialog width="480" id="dialog" widgetVar="dialog" modal="true"
-					header="#{companyBean.title}">
-					<p:outputPanel id="dialogContent">
-						<h:panelGroup>
-							<h:panelGrid width="100%" columns="2" cellpadding="5">
-
-								<h:outputLabel for="companyName" value="Наименование: *" />
-								<p:inputText value="#{companyBean.company.name}"
-									id="companyName" required="true" label="Наименование">
-								</p:inputText>
-
-								<h:outputLabel for="companyShortName"
-									value="Краткое наименование: *" />
-								<p:inputText value="#{companyBean.company.shortName}"
-									id="companyShortName" required="true"
-									label="Краткое наименование">
-								</p:inputText>
-
-								<h:outputLabel for="companyEName"
-									value="Наименование на англ. яз.: *" />
-								<p:inputText value="#{companyBean.company.englishName}"
-									id="companyEName" required="true"
-									label="Наименование на англ. яз.">
-								</p:inputText>
-
-								<h:outputLabel for="companyEShortName"
-									value="Краткое наимен. на англ. яз.: *" />
-								<p:inputText value="#{companyBean.company.englishShortName}"
-									id="companyEShortName" required="true"
-									label="Краткое наимен. на англ. яз.">
-								</p:inputText>
-
-								<h:outputLabel for="companyAddress" value="Адрес:" />
-								<p:inputTextarea value="#{companyBean.company.address}"
-									id="companyAddress" label="Адрес">
-								</p:inputTextarea>
-
-								<h:outputLabel for="companyEAddress" value="Адрес на англ. яз.:" />
-								<p:inputTextarea value="#{companyBean.company.englishAddress}"
-									id="companyEAddress" label="Адрес на англ. яз.">
-								</p:inputTextarea>
-
-								<f:facet name="footer">
-									<p:commandButton actionListener="#{companyBean.saveObject}"
-										value="OK" update="companies,growl"
-										oncomplete="handleOKRequest(args,dialog,'dialog')" />
-									<p:commandButton type="reset" value="Отмена" update="growl"
-										onclick="dialog.hide()" />
-
-								</f:facet>
-							</h:panelGrid>
-
-						</h:panelGroup>
-					</p:outputPanel>
-				</p:dialog>
-			</h:form>
-		</p:outputPanel>
-
-		<p:outputPanel id="confirmationPanel">
-			<h:form prependId="false" id="confirmationForm">
-				<p:confirmDialog
-					message="Удалить #{companyBean.sign} '#{companyBean.company.name}'?"
-					header="Удаление..." severity="alert" widgetVar="confirmation">
-
-					<p:commandButton value="ОК" update="companies,growl"
-						actionListener="#{companyBean.deleteObject}"
-						oncomplete="confirmation.hide()" />
-					<p:commandButton value="Отмена" onclick="confirmation.hide()"
-						type="button" />
-				</p:confirmDialog>
-			</h:form>
-		</p:outputPanel>
-
-		<h:outputScript name="dialog.js" library="js" />
+		
+		<ui:include src="/handbook/dialog/companyDlg.xhtml">
+			<ui:param name="gridId" value="companyGrid" />
+			<ui:param name="bean" value="#{companyBean}" />
+			<ui:param name="title" value="title" />
+		</ui:include>		
 
 	</ui:define>
 </ui:composition>

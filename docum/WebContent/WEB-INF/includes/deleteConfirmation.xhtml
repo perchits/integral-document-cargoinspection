@@ -4,14 +4,14 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.prime.com.tr/ui">
 
-<p:outputPanel id="#{sign}ConfirmId">
+<p:outputPanel id="#{gridId}ConfirmId">
 	<h:form prependId="false">
 		<p:confirmDialog message="#{message}" header="Удаление..."
-			severity="alert" widgetVar="#{sign}ConfirmVar">
-			<p:commandButton value="ОК" update="#{sign}Grid,growl"
+			severity="alert" widgetVar="#{gridId}ConfirmVar">
+			<p:commandButton value="ОК" update="#{gridId},growl"
 				actionListener="#{bean[deleteObject]}"
-				oncomplete="#{sign}ConfirmVar.hide()" />
-			<p:commandButton value="Отмена" onclick="#{sign}ConfirmVar.hide()"
+				oncomplete="#{gridId}ConfirmVar.hide()" />
+			<p:commandButton value="Отмена" onclick="#{gridId}ConfirmVar.hide()"
 				type="button" />
 		</p:confirmDialog>
 	</h:form>
