@@ -9,14 +9,14 @@
 
 		<h:form prependId="false">
 
-			<ui:include src="/WEB-INF/includes/crudToolBar.xhtml">
+				<ui:include src="/WEB-INF/includes/crudToolBar.xhtml">
 				<ui:param name="bean" value="#{customerBean}" />
-				<ui:param name="dataTableId" value="customers" />
+				<ui:param name="gridId" value="customerGrid" />
 			</ui:include>
 
 			<p:panel header="Клиенты" style="text-align:center"
 				styleClass="toggle-panel">
-				<p:dataTable id="customers" var="customer"
+				<p:dataTable id="customerGrid" var="customer"
 					value="#{customerBean.allObjects}" selectionMode="single"
 					selection="#{customerBean.customer}">
 					<p:column sortBy="#{customer.company.name}"
@@ -29,47 +29,13 @@
 
 		</h:form>
 
-		<p:outputPanel id="dialogPanel">
-			<h:form prependId="false" id="dialogForm">
-				<p:dialog width="480" id="dialog" widgetVar="dialog" modal="true"
-					header="#{customerBean.title}">
-					<p:outputPanel id="dialogContent">
-
-						<h:panelGrid width="100%" columns="2" cellpadding="5">
-
-							<h:outputLabel for="customerCompanyName" value="Наименование: *" />
-							<h:selectOneMenu id="customerCompanyName"
-								styleClass="ui-inputfield ui-widget ui-state-default ui-corner-all"
-								value="#{customerBean.selectedCompany}">
-								<f:converter converterId="companyConverter" />
-								<f:selectItem itemLabel="Выберите клиента..." itemValue=""
-									noSelectionOption="true" itemDisabled="true" />
-								<f:selectItems value="#{customerBean.companies}" var="cmpn"
-									itemLabel="#{cmpn.name}" />
-							</h:selectOneMenu>
-
-							<f:facet name="footer">
-								<p:commandButton actionListener="#{customerBean.saveObject}"
-									value="OK" update="customers,growl"
-									oncomplete="handleOKRequest(args,dialog,'dialog')" />
-								<p:commandButton type="reset" value="Отмена" update="growl"
-									onclick="dialog.hide()" />
-							</f:facet>
-
-						</h:panelGrid>
-
-					</p:outputPanel>
-				</p:dialog>
-			</h:form>
-		</p:outputPanel>
-
-		<ui:include src="/WEB-INF/includes/confirmation.xhtml">
+		<ui:include src="/handbook/dialog/customerDlg.xhtml">
 			<ui:param name="bean" value="#{customerBean}" />
-			<ui:param name="message"
-				value="Удалить клиента '#{customerBean.customer.company.name}' ?" />
-		</ui:include>
-
-		<h:outputScript name="dialog.js" library="js" />
+			<ui:param name="gridId" value="customerGrid" />
+			<ui:param name="selectedCompany" value="selectedCompany" />
+			<ui:param name="companies" value="companies" />
+			<ui:param name="title" value="title" />									
+		</ui:include>		
 
 	</ui:define>
 </ui:composition>

@@ -5,27 +5,23 @@
 	xmlns:p="http://primefaces.prime.com.tr/ui">
 
 <ui:composition template="/WEB-INF/includes/dialogLayout.xhtml">
+	<ui:param name="width" value="380" />
+	<ui:param name="saveObject" value="saveObject" />
+	<ui:param name="deleteObject" value="deleteObject" />
 	<ui:define name="dialogBody">
-
-		<h:outputLabel for="#{sign}Name" value="Наименование: *" />
-		<p:inputText value="#{bean.city.name}" id="#{sign}Name"
+		<h:outputLabel for="cityName" value="Наименование: *" />
+		<p:inputText value="#{bean.city.name}" id="cityName"
 			required="true" label="Наименование">
 		</p:inputText>
-
-		<h:outputLabel for="#{sign}Our" value="Обслуживаемый:" />
-		<h:selectBooleanCheckbox value="#{bean.city.our}" id="#{sign}Our"
+		<h:outputLabel for="cityOur" value="Обслуживаемый:" />
+		<h:selectBooleanCheckbox value="#{bean.city.our}" id="cityOur"
 			label="Обслуживаемый">
 		</h:selectBooleanCheckbox>
 	</ui:define>
-
-
 	<ui:define name="deleteConfirmation">
-		<ui:include src="/WEB-INF/includes/deleteConfirmation.xhtml">			
-			<ui:param name="message"
-				value="Удалить город '#{bean.city.name}'?" />
+		<ui:include src="/WEB-INF/includes/deleteConfirmation.xhtml">
+			<ui:param name="message" value="Удалить город '#{bean.city.name}'?" />
 		</ui:include>
 	</ui:define>
 </ui:composition>
-
-
 </html>

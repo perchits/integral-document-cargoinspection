@@ -1,0 +1,43 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+<ui:composition template="/WEB-INF/includes/dialogLayout.xhtml">
+	<ui:param name="width" value="500" />
+	<ui:param name="saveObject" value="saveObject" />
+	<ui:param name="deleteObject" value="deleteObject" />
+	<ui:define name="dialogBody">
+		<h:outputLabel for="voyageVessel" value="Судно: *" />
+		<h:selectOneMenu id="voyageVessel"
+			styleClass="ui-inputfield ui-widget ui-state-default ui-corner-all"
+			value="#{bean[selectedVessel]}">
+			<f:converter converterId="vesselConverter" />
+			<f:selectItem itemLabel="Выберите судно..." itemValue=""
+				noSelectionOption="true" itemDisabled="true" />
+			<f:selectItems value="#{bean[vessels]}" var="vsls"
+				itemLabel="#{vsls.name}" />
+		</h:selectOneMenu>
+		<h:outputLabel for="voyageNumber" value="Рейс: *" />
+		<p:inputText size="30" value="#{bean.voyage.number}"
+			id="voyageNumber" required="true" label="Рейс" />
+
+		<h:outputLabel for="voyageArrivalDate" value="Дата прибытия:" />
+		<p:calendar value="#{bean.voyage.arrivalDate}"
+			id="voyageArrivalDate" label="Дата прибытия" pattern="dd.MM.yyyy" />
+
+		<h:outputLabel for="voyageFinished" value="Завершено:" />
+		<h:selectBooleanCheckbox size="30"
+			value="#{bean.voyage.finished}" id="voyageFinished"
+			label="Завершено">
+		</h:selectBooleanCheckbox>
+	</ui:define>
+	<ui:define name="deleteConfirmation">
+		<ui:include src="/WEB-INF/includes/deleteConfirmation.xhtml">
+			<ui:param name="message"
+				value="Удалить судозаход '#{bean.voyage.number}'?" />
+		</ui:include>
+	</ui:define>
+</ui:composition>
+</html>

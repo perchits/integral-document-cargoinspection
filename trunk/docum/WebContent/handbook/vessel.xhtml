@@ -7,35 +7,17 @@
 <ui:composition template="/WEB-INF/includes/layout.xhtml">
 	<ui:define name="content">
 		<h:form prependId="false">
-			<h:panelGroup layout="block" styleClass="crud-menu">
-				<p:toolbar styleClass="crud-menu">
-					<p:toolbarGroup align="left">
-						<p:commandButton type="push" value="Добавить"
-							update="dialogPanel,growl" image="ui-icon-document"
-							actionListener="#{vesselBean.newObject}"
-							oncomplete="dialog.show()" />
 
-						<p:commandButton type="push" value="Правка"
-							update="dialogPanel,growl"
-							actionListener="#{vesselBean.editObject}"
-							oncomplete="beforeShow(dialog,'vessels')"
-							image="ui-icon ui-icon-wrench" />
+			<ui:include src="/WEB-INF/includes/crudToolBar.xhtml">
+				<ui:param name="bean" value="#{vesselBean}" />
+				<ui:param name="gridId" value="vesselGrid" />
+			</ui:include>
 
-						<p:commandButton type="push" value="Удалить"
-							oncomplete="beforeShow(confirmation,'vessels')"
-							image="ui-icon ui-icon-minus" update="confirmationPanel,growl" />
-
-						<p:commandButton type="push" update="vessels" value="Обновить"
-							actionListener="#{vesselBean.refreshObjects}"
-							image="ui-icon ui-icon-arrowreturnthick-1-w" />
-
-					</p:toolbarGroup>
-				</p:toolbar>
-			</h:panelGroup>
 			<p:panel header="Суда" style="text-align:center"
-				styleClass="toggle-panel">			
-				<p:dataTable id="vessels" var="vessel" value="#{vesselBean.allObjects}"
-					selectionMode="single" selection="#{vesselBean.vessel}">
+				styleClass="toggle-panel">
+				<p:dataTable id="vesselGrid" var="vessel"
+					value="#{vesselBean.allObjects}" selectionMode="single"
+					selection="#{vesselBean.vessel}">
 					<p:column sortBy="#{vessel.name}" filterBy="#{vessel.name}"
 						filterMatchMode="contains">
 						<f:facet name="header">
@@ -46,51 +28,12 @@
 				</p:dataTable>
 			</p:panel>
 		</h:form>
-		<p:outputPanel id="dialogPanel">
-			<h:form prependId="false" id="dialogForm">
-				<p:dialog width="480" id="dialog" widgetVar="dialog" modal="true"
-					header="#{vesselBean.title}">
-					<p:outputPanel id="dialogContent">
-						<h:panelGroup>
-							<h:panelGrid width="100%" columns="2" cellpadding="5">
-								<h:outputLabel for="vesselName" value="Наименование: *" />
-								<p:inputText size="60" value="#{vesselBean.vessel.name}"
-									id="vesselName" required="true" label="Наименование">
-								</p:inputText>
 
-								<f:facet name="footer">
-									<p:commandButton
-										actionListener="#{vesselBean.saveObject}" value="OK"
-										update="vessels,growl"
-										oncomplete="handleOKRequest(args,dialog,'dialog')" />
-									<p:commandButton type="reset" value="Отмена" update="growl"
-										onclick="dialog.hide()" />
-
-								</f:facet>
-							</h:panelGrid>
-
-						</h:panelGroup>
-					</p:outputPanel>
-				</p:dialog>
-			</h:form>
-		</p:outputPanel>
-
-		<p:outputPanel id="confirmationPanel">
-			<h:form prependId="false" id="confirmationForm">
-				<p:confirmDialog
-					message="Удалить судно '#{vesselBean.vessel.name}'?"
-					header="Удаление..." severity="alert" widgetVar="confirmation">
-
-					<p:commandButton value="ОК" update="vessels,growl"
-						actionListener="#{vesselBean.deleteObject}"
-						oncomplete="confirmation.hide()" />
-					<p:commandButton value="Отмена" onclick="confirmation.hide()"
-						type="button" />
-				</p:confirmDialog>
-			</h:form>
-		</p:outputPanel>
-
-		<h:outputScript name="dialog.js" library="js" />
+		<ui:include src="/handbook/dialog/vesselDlg.xhtml">
+			<ui:param name="gridId" value="vesselGrid" />
+			<ui:param name="bean" value="#{vesselBean}" />
+			<ui:param name="title" value="title" />
+		</ui:include>	
 
 	</ui:define>
 </ui:composition>

@@ -6,46 +6,40 @@
 
 <ui:composition template="/WEB-INF/includes/layout.xhtml">
 	<ui:define name="content">
+
 		<h:form prependId="false">
-			
+
 			<ui:include src="/WEB-INF/includes/crudToolBar.xhtml">
 				<ui:param name="bean" value="#{cityBean}" />
-				<ui:param name="sign" value="city" />
+				<ui:param name="gridId" value="cityGrid" />
 			</ui:include>
-						
-			
+
 			<p:panel header="#{cityBean.sign}" style="text-align:center"
 				styleClass="toggle-panel">
 
-				<p:dataTable id="cityGrid" var="city"
-					value="#{cityBean.allObjects}" selectionMode="single"
-					selection="#{cityBean.city}">
-					<p:column sortBy="#{city.name}"
-						filterBy="#{city.name}" filterMatchMode="contains">
+				<p:dataTable id="cityGrid" var="city" value="#{cityBean.allObjects}"
+					selectionMode="single" selection="#{cityBean.city}">
+					<p:column sortBy="#{city.name}" filterBy="#{city.name}"
+						filterMatchMode="contains">
 						<f:facet name="header">Наименование</f:facet>
 						<h:outputText value="#{city.name}" />
 					</p:column>
-					
-					<p:column sortBy="#{city.our}"
-						filterBy="#{city.our}" filterMatchMode="contains">
+
+					<p:column sortBy="#{city.our}" filterBy="#{city.our}"
+						filterMatchMode="contains">
 						<f:facet name="header">Обслуживаемый</f:facet>
 						<h:selectBooleanCheckbox disabled="true" value="#{city.our}" />
-					</p:column>					
+					</p:column>
 				</p:dataTable>
 
 			</p:panel>
 		</h:form>
-		
-		<ui:include src="/handbook/dialog/city.xhtml">
+
+		<ui:include src="/handbook/dialog/cityDlg.xhtml">
+			<ui:param name="gridId" value="cityGrid" />
 			<ui:param name="bean" value="#{cityBean}" />
-			<ui:param name="sign" value="city" />			
 			<ui:param name="title" value="title" />
-			<ui:param name="width" value="380" />
-			<ui:param name="saveObject" value="saveObject" />
-			<ui:param name="deleteObject" value="deleteObject" />
-		</ui:include>
-		
-		<h:outputScript name="dialog.js" library="js" />
+		</ui:include>		
 
 	</ui:define>
 </ui:composition>
