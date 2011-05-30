@@ -37,7 +37,7 @@ public class ContainerDaoImpl extends BaseDaoImpl implements ContainerDao {
 	public List<Container> getContainersByPurchaseOrder(Long orderId) {
 		Query query = entityManager.createNamedQuery(GET_CONTAINERS_BY_PURCHASE_ORDER_QUERY);
 		query.setParameter("orderId", orderId);
-		@SuppressWarnings("unchecked")
+		//@SuppressWarnings("unchecked")
 		List<Container> result = query.getResultList();
 		return result;
 	}

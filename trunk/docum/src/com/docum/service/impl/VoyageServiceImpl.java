@@ -54,4 +54,14 @@ public class VoyageServiceImpl extends BaseServiceImpl implements VoyageService 
 		voyageDao.deleteObject(Voyage.class, voyageId);
 	}
 
+	@Override
+	public List<Voyage> getVoyagesByInvoice(Long invoiceId) {
+		return voyageDao.getVoyagesByInvoice(invoiceId);
+	}
+
+	@Override
+	public List<Voyage> getVoyagesByPurchaseOrder(Long orderId) {
+		return voyageDao.getVoyagesByPurchaseOrder(orderId);
+	}
+
 }

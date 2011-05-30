@@ -37,8 +37,16 @@
 						<p:dataTable id="voyages" var="voyage"
 							value="#{invoiceBean.voyages}">
 							<p:column>
+								<h:outputText value="#{voyage.vessel.name}" />
+								<f:facet name="header">Судно</f:facet>
+							</p:column>
+							<p:column>
 								<h:outputText value="#{voyage.number}" />
-								<f:facet name="header">Судозаходы</f:facet>
+								<f:facet name="header">Рейс</f:facet>
+							</p:column>
+							<p:column>
+								<h:outputText value="#{voyage.arrivalDate}" />
+								<f:facet name="header">Дата прибытия</f:facet>
 							</p:column>
 						</p:dataTable>
 						
@@ -84,8 +92,16 @@
 						<p:dataTable id="orderVoyages" var="voyage"
 							value="#{orderBean.voyages}">
 							<p:column>
+								<h:outputText value="#{voyage.vessel.name}" />
+								<f:facet name="header">Судно</f:facet>
+							</p:column>
+							<p:column>
 								<h:outputText value="#{voyage.number}" />
-								<f:facet name="header">Судозаходы</f:facet>
+								<f:facet name="header">Рейс</f:facet>
+							</p:column>
+							<p:column>
+								<h:outputText value="#{voyage.arrivalDate}" />
+								<f:facet name="header">Дата прибытия</f:facet>
 							</p:column>
 						</p:dataTable>
 						

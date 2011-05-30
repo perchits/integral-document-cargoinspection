@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import com.docum.domain.po.IdentifiedEntity;
 import com.docum.domain.po.common.Container;
 import com.docum.domain.po.common.Invoice;
+import com.docum.domain.po.common.Voyage;
 import com.docum.service.ContainerService;
 import com.docum.service.VoyageService;
 import com.docum.view.dict.BaseView;
@@ -67,13 +68,12 @@ public class InvoiceView extends BaseView {
 		}
 	}
 	
-	public List<Container> getVoyages() {
-		return null;
-		/*if (this.invoice == null) {
-			return Collections.emptyList();
+	public List<Voyage> getVoyages() {
+		if (this.invoice == null || this.invoice.getId() == null) {
+			return null;
 		} else {
-			return containerService.getContainersByVoyage(this.invoice.getId());
-		}*/
+			return voyageService.getVoyagesByInvoice(this.invoice.getId());
+		}
 	}
 
 	public Invoice getInvoice() {
