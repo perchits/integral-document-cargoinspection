@@ -12,16 +12,15 @@ import org.springframework.stereotype.Controller;
 
 import com.docum.domain.po.IdentifiedEntity;
 import com.docum.domain.po.common.BillOfLading;
-import com.docum.domain.po.common.Container;
 import com.docum.domain.po.common.Invoice;
 import com.docum.domain.po.common.PurchaseOrder;
 import com.docum.domain.po.common.Vessel;
 import com.docum.domain.po.common.Voyage;
 import com.docum.service.BillOfLadingService;
-import com.docum.service.ContainerService;
 import com.docum.service.InvoiceService;
 import com.docum.service.PurchaseOrderService;
 import com.docum.util.AlgoUtil;
+import com.docum.view.wrapper.ContainerPresentation;
 import com.docum.view.wrapper.VoyagePresentation;
 import com.docum.view.wrapper.VoyageTransformer;
 
@@ -34,38 +33,20 @@ public class VoyageView extends BaseView {
 	@Autowired
 	private PurchaseOrderService purchaseOrderService;
 	@Autowired
-	private InvoiceService invoiceService;
-	@Autowired
-	private ContainerService containerService;
+	private InvoiceService invoiceService;	
 	@Autowired
 	private BillOfLadingService billOfLadingService;
-	
+
 	private ArrayList<VoyagePresentation> voyages;
 
 	private List<Vessel> vessels;
 	private Voyage voyage = new Voyage();
 
-	
-	public Collection<VoyagePresentation> getVoyages(){		
+	public Collection<VoyagePresentation> getVoyages() {
 		if (voyages == null) {
-			// TODO Посмотреть преобразование типов
-			@SuppressWarnings("unchecked")
-			Collection<Voyage> v = (Collection<Voyage>) getAllObjects();
-			voyages = new ArrayList<VoyagePresentation>(v.size());
-			AlgoUtil.transform(voyages, v,
-					new VoyageTransformer());
+			refreshObjects();
 		}
 		return voyages;
-	}
-	
-	@Override
-	public void saveObject() {
-		if (this.voyage.getId() != null) {
-			getBaseService().updateObject(this.voyage);
-		} else {
-			getBaseService().saveObject(this.voyage);
-		}
-		refreshObjects();
 	}
 
 	@Override
@@ -74,12 +55,21 @@ public class VoyageView extends BaseView {
 		this.voyage = new Voyage();
 	}
 
-	public VoyagePresentation getVoyage() {
-		return new VoyagePresentation(voyage);
+	public VoyagePresentation getVoyagePresentation() {
+		return this.voyage != null ? new VoyagePresentation(voyage) : null;
 	}
 
-	public void setVoyage(VoyagePresentation voyagePresentation) {
-		this.voyage = voyagePresentation.getVoyage();
+	public void setVoyagePresentation(VoyagePresentation voyagePresentation) {
+		this.voyage = voyagePresentation != null ? voyagePresentation
+				.getVoyage() : null;
+	}
+
+	public void setVoyage(Voyage voyage) {
+		this.voyage = voyage;
+	}
+
+	public Voyage getVoyage() {
+		return voyage;
 	}
 
 	public List<Vessel> getVessels() {
@@ -130,6 +120,16 @@ public class VoyageView extends BaseView {
 		}
 	}
 
+	@Override
+	public void refreshObjects() {
+		super.refreshObjects();
+		// TODO Посмотреть преобразование типов
+		@SuppressWarnings("unchecked")
+		Collection<Voyage> v = (Collection<Voyage>) getAllObjects();
+		voyages = new ArrayList<VoyagePresentation>(v.size());
+		AlgoUtil.transform(voyages, v, new VoyageTransformer());
+	}
+
 	public void voyageSelected(SelectEvent event) {
 		voyage = (Voyage) event.getObject();
 	}
@@ -150,12 +150,8 @@ public class VoyageView extends BaseView {
 		}
 	}
 
-	public List<Container> getContainers() {
-		if (voyage == null) {
-			return Collections.emptyList();
-		} else {
-			return containerService.getContainersByVoyage(voyage.getId());
-		}
+	public List<ContainerPresentation> getContainers() {		
+		return getVoyagePresentation() != null ? getVoyagePresentation().getContainers(): null;
 	}
 
 	public List<BillOfLading> getBillOfLadings() {
@@ -164,11 +160,6 @@ public class VoyageView extends BaseView {
 		} else {
 			return billOfLadingService.getBillsByVoyage(voyage.getId());
 		}
-	}
-
-	public String getContainerCount() {
-		Integer containers = getContainers().size();
-		return containers.toString();
 	}
 
 }

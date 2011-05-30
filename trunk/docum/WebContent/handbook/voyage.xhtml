@@ -18,9 +18,9 @@
 					</ui:include>
 					<p:dataTable id="voyages" var="voyage"
 						value="#{voyageBean.voyages}" selectionMode="single"
-						selection="#{voyageBean.voyage}" update="infoPanel">
-						<p:column sortBy="#{voyage.vessel.name}"
-							filterBy="#{voyage.vessel.name}" filterMatchMode="contains">
+						selection="#{voyageBean.voyagePresentation}" update="infoPanel">
+						<p:column sortBy="#{voyage.vessel}" filterBy="#{voyage.vessel}"
+							filterMatchMode="contains">
 							<f:facet name="header">
 							Судно 
 						</f:facet>
@@ -43,26 +43,28 @@
 							</h:outputText>
 						</p:column>
 
-						<p:column sortBy="#{voyage.containerCount}"
-							filterBy="#{voyage.containerCount}" filterMatchMode="contains">
+						<p:column sortBy="#{voyage.totalContainerCount}"
+							filterBy="#{voyage.totalContainerCount}"
+							filterMatchMode="contains">
 							<f:facet name="header">
 							 Контейнеров
 						</f:facet>
-							<h:outputText value="" />
+							<h:outputText value="#{voyage.totalContainerCount}" />
 						</p:column>
 
 					</p:dataTable>
 				</p:panel>
 				<p:panel id="infoPanel" style="text-align:center">
 					<f:facet name="header">
-					  
-					<h:outputText value="#{voyageBean.voyageInfo}" />
-						
+
+						<h:outputText value="#{voyageBean.voyageInfo}" />
+
 					</f:facet>
 					<h:panelGrid columns="2" styleClass="infoLayoutTable">
 
 						<p:dataTable id="containers" var="container"
-							value="#{voyageBean.containers}">
+							value="#{voyageBean.containers}"
+							rowStyleClass="#{container.color}">
 							<p:column>
 								<h:outputText value="#{container.number}" />
 								<f:facet name="header">Контейнеры</f:facet>
