@@ -69,6 +69,16 @@ public class VoyageView extends BaseView {
 		return vessels;
 	}
 
+	public String getVoyageInfo() {
+		if (voyage != null && voyage.getVessel() != null) {
+			return String.format("%1$s, %2$s,  %3$td.%3$tm.%3$tY", voyage
+					.getVessel().getName(), voyage.getNumber(), voyage
+					.getArrivalDate());
+		} else {
+			return "Судозаход не выбран";
+		}
+	}
+
 	@Override
 	public String getSign() {
 		return sign;
@@ -82,6 +92,12 @@ public class VoyageView extends BaseView {
 	@Override
 	public IdentifiedEntity getBeanObject() {
 		return this.voyage != null ? this.voyage : new Voyage();
+	}
+
+	@Override
+	public void deleteObject() {
+		super.deleteObject();
+		this.voyage = null;
 	}
 
 	public Vessel getSelectedVessel() {
@@ -129,7 +145,7 @@ public class VoyageView extends BaseView {
 			return billOfLadingService.getBillsByVoyage(voyage.getId());
 		}
 	}
-	
+
 	public String getContainerCount() {
 		Integer containers = getContainers().size();
 		return containers.toString();

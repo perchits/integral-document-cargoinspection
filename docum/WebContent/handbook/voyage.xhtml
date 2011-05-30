@@ -14,6 +14,7 @@
 					<ui:include src="/WEB-INF/includes/crudToolBar.xhtml">
 						<ui:param name="bean" value="#{voyageBean}" />
 						<ui:param name="gridId" value="voyages" />
+						<ui:param name="update" value="infoPanel" />
 					</ui:include>
 					<p:dataTable id="voyages" var="voyage"
 						value="#{voyageBean.allObjects}" selectionMode="single"
@@ -54,11 +55,9 @@
 				</p:panel>
 				<p:panel id="infoPanel" style="text-align:center">
 					<f:facet name="header">
-						<h:outputText value="#{voyageBean.voyage.vessel.name}, " />
-						<h:outputText value="#{voyageBean.voyage.number}, " />
-						<h:outputText value="#{voyageBean.voyage.arrivalDate}">
-							<f:convertDateTime dateStyle="medium" type="date" />
-						</h:outputText>
+					  
+					<h:outputText value="#{voyageBean.voyageInfo}" />
+						
 					</f:facet>
 					<h:panelGrid columns="2" styleClass="infoLayoutTable">
 
@@ -109,6 +108,7 @@
 			<ui:param name="selectedVessel" value="selectedVessel" />
 			<ui:param name="vessels" value="vessels" />
 			<ui:param name="title" value="title" />
+			<ui:param name="update" value="infoPanel" />
 		</ui:include>
 
 	</ui:define>

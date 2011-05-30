@@ -13,7 +13,7 @@
 				</ui:insert>
 				<f:facet name="footer">
 					<p:commandButton actionListener="#{bean[saveObject]}" value="OK"
-						update="#{gridId},growl"
+						update="#{gridId},growl,#{update}"
 						oncomplete="handleOKRequest(args,#{gridId}Var,'#{gridId}Id')" />
 					<p:commandButton type="reset" value="Отмена" update="growl"
 						onclick="#{gridId}Var.hide()" />

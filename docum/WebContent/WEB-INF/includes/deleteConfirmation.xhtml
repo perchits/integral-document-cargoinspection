@@ -8,7 +8,7 @@
 	<h:form prependId="false">
 		<p:confirmDialog message="#{message}" header="Удаление..."
 			severity="alert" widgetVar="#{gridId}ConfirmVar">
-			<p:commandButton value="ОК" update="#{gridId},growl"
+			<p:commandButton value="ОК" update="#{gridId},growl,#{update}"
 				actionListener="#{bean[deleteObject]}"
 				oncomplete="#{gridId}ConfirmVar.hide()" />
 			<p:commandButton value="Отмена" onclick="#{gridId}ConfirmVar.hide()"
