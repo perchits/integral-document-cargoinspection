@@ -60,12 +60,11 @@ public class InvoiceView extends BaseView {
 
 
 	public List<Container> getContainers() {
-		return null;
-		/*if (this.invoice == null) {
-			return Collections.emptyList();
+		if (this.invoice.getId() == null) {
+			return null;
 		} else {
-			return containerService.getContainersByVoyage(this.invoice.getId());
-		}*/
+			return containerService.getContainersByInvoice(this.invoice.getId());
+		}
 	}
 	
 	public List<Container> getVoyages() {

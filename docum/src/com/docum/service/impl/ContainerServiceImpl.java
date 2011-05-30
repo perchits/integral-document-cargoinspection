@@ -25,4 +25,9 @@ public class ContainerServiceImpl extends BaseServiceImpl implements
 		return containerDao.getContainersByVoyage(voyageId);
 	}
 
+	@Override
+	public List<Container> getContainersByInvoice(Long invoiceId) {
+		return containerDao.getContainersByInvoice(invoiceId);
+	}
+
 }

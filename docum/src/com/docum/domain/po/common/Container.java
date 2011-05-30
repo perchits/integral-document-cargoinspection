@@ -15,13 +15,19 @@ import com.docum.domain.ContainerStateEnum;
 import com.docum.domain.po.IdentifiedEntity;
 
 @Entity
-@NamedQueries(
+@NamedQueries({
 		@NamedQuery(
 				name = ContainerDao.GET_CONTAINERS_BY_VOYAGE_QUERY,
 				query = "SELECT DISTINCT c FROM Container c " +
 					"WHERE c.voyage.id=:voyageId"
+		), 
+		@NamedQuery(
+				name = ContainerDao.GET_CONTAINERS_BY_INVOICE_QUERY,
+				query = "SELECT DISTINCT c FROM Container c " +
+					"JOIN c.invoices i " +
+					"WHERE i.id=:invoiceId"
 		)
-)
+})
 public class Container extends IdentifiedEntity {
 	private static final long serialVersionUID = -1325845205678208996L;
 
