@@ -30,8 +30,8 @@ import com.docum.domain.po.IdentifiedEntity;
 		@NamedQuery(
 				name = ContainerDao.GET_CONTAINERS_BY_PURCHASE_ORDER_QUERY,
 				query = "SELECT DISTINCT c FROM Container c " +
-					"JOIN c.orders i " +
-					"WHERE i.id=:orderId"
+					"JOIN c.orders o " +
+					"WHERE o.id=:orderId"
 		)
 })
 public class Container extends IdentifiedEntity {
