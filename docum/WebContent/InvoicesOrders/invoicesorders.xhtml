@@ -34,6 +34,14 @@
 					</f:facet>
 					<h:panelGrid columns="2" styleClass="infoLayoutTable">
 
+						<p:dataTable id="containers" var="container"
+							value="#{invoiceBean.containers}">
+							<p:column>
+								<h:outputText value="#{container.number}" />
+								<f:facet name="header">Контейнеры</f:facet>
+							</p:column>
+						</p:dataTable>
+						
 						<p:dataTable id="voyages" var="voyage"
 							value="#{invoiceBean.voyages}">
 							<p:column>
@@ -47,14 +55,6 @@
 							<p:column>
 								<h:outputText value="#{voyage.arrivalDate}" />
 								<f:facet name="header">Дата прибытия</f:facet>
-							</p:column>
-						</p:dataTable>
-						
-						<p:dataTable id="containers" var="container"
-							value="#{invoiceBean.containers}">
-							<p:column>
-								<h:outputText value="#{container.number}" />
-								<f:facet name="header">Контейнеры</f:facet>
 							</p:column>
 						</p:dataTable>
 
@@ -88,6 +88,14 @@
 						<h:outputText value="#{orderBean.order.number}" />
 					</f:facet>
 					<h:panelGrid columns="2" styleClass="infoLayoutTable">
+					
+						<p:dataTable id="orderContainers" var="container"
+							value="#{orderBean.containers}">
+							<p:column>
+								<h:outputText value="#{container.number}" />
+								<f:facet name="header">Контейнеры</f:facet>
+							</p:column>
+						</p:dataTable>
 
 						<p:dataTable id="orderVoyages" var="voyage"
 							value="#{orderBean.voyages}">
@@ -102,14 +110,6 @@
 							<p:column>
 								<h:outputText value="#{voyage.arrivalDate}" />
 								<f:facet name="header">Дата прибытия</f:facet>
-							</p:column>
-						</p:dataTable>
-						
-						<p:dataTable id="orderContainers" var="container"
-							value="#{orderBean.containers}">
-							<p:column>
-								<h:outputText value="#{container.number}" />
-								<f:facet name="header">Контейнеры</f:facet>
 							</p:column>
 						</p:dataTable>
 
