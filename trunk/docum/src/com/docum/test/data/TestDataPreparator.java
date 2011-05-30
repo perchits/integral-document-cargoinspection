@@ -107,6 +107,7 @@ public class TestDataPreparator implements TestDataPersister {
 			}
 			};
 	
+	@SuppressWarnings(value="unused")
 	@Test
 	public void prepareData(){
 		List<Company> companies = prepareCompanies();
