@@ -73,4 +73,20 @@ public class VoyagePresentation implements Serializable {
 		return containerStateMap.get(ContainerStateEnum.HANDLED)
 				+ containerStateMap.get(ContainerStateEnum.REPORTED);
 	}
+
+	public Voyage getVoyage() {
+		return voyage;
+	}
+
+	public void setVoyage(Voyage voyage) {
+		this.voyage = voyage;
+	}
+	
+	public boolean isFinished() {
+		return voyage.isFinished();
+	}
+
+	public void setFinished(boolean finished) {
+		voyage.setFinished(finished);
+	}
 }

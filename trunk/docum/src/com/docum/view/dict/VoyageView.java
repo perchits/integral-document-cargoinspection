@@ -74,12 +74,12 @@ public class VoyageView extends BaseView {
 		this.voyage = new Voyage();
 	}
 
-	public Voyage getVoyage() {
-		return voyage;
+	public VoyagePresentation getVoyage() {
+		return new VoyagePresentation(voyage);
 	}
 
-	public void setVoyage(Voyage voyage) {
-		this.voyage = voyage;
+	public void setVoyage(VoyagePresentation voyagePresentation) {
+		this.voyage = voyagePresentation.getVoyage();
 	}
 
 	public List<Vessel> getVessels() {
