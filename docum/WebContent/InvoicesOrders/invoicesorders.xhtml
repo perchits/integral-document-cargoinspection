@@ -7,10 +7,10 @@
 <ui:composition template="/WEB-INF/includes/layout.xhtml">
 	<ui:define name="content">
 		<h:form prependId="false">
+		  <p:panel id="invoicesMainPanel" header="Инвойсы" toggleable="true" collapsed="false" toggleSpeed="300" styleClass="toggle-panel">
 			<h:panelGrid columns="2" styleClass="invoicesLayoutTable"
 				id="ivoicesLayoutTable">
-				<p:panel id="invoicesPanel" header="Инвойсы"
-					style="text-align:center" styleClass="toggle-panel">
+				<p:panel id="invoicesPanel"	style="text-align:center" styleClass="toggle-panel">
 					<ui:include src="/WEB-INF/includes/crudToolBar.xhtml">
 						<ui:param name="bean" value="#{invoiceBean}" />
 						<ui:param name="gridId" value="invoices" />
@@ -61,11 +61,11 @@
 					</h:panelGrid>
 				</p:panel>
 			</h:panelGrid>
-			
+		</p:panel>	
+		<p:panel id="ordersMainPanel" header="Заказы" toggleable="true" collapsed="false" toggleSpeed="300" styleClass="toggle-panel">	
 			<h:panelGrid columns="2" styleClass="invoicesLayoutTable"
 				id="ordersLayoutTable">
-				<p:panel id="ordersPanel" header="Заказы"
-					style="text-align:center" styleClass="toggle-panel">
+				<p:panel id="ordersPanel" style="text-align:center" styleClass="toggle-panel">
 					<ui:include src="/WEB-INF/includes/crudToolBar.xhtml">
 						<ui:param name="bean" value="#{orderBean}" />
 						<ui:param name="gridId" value="orders" />
@@ -116,6 +116,7 @@
 					</h:panelGrid>
 				</p:panel>
 			</h:panelGrid>
+		  </p:panel>	
 		</h:form>
 		
 		<ui:include src="/handbook/dialog/invoiceDlg.xhtml">
