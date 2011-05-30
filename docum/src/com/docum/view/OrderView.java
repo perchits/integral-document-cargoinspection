@@ -9,30 +9,31 @@ import org.springframework.stereotype.Controller;
 import com.docum.domain.po.IdentifiedEntity;
 import com.docum.domain.po.common.Container;
 import com.docum.domain.po.common.Invoice;
+import com.docum.domain.po.common.PurchaseOrder;
 import com.docum.service.ContainerService;
 import com.docum.service.VoyageService;
 import com.docum.view.dict.BaseView;
 
-@Controller("invoiceBean")
+@Controller("orderBean")
 @Scope("session")
-public class InvoiceView extends BaseView {
-	private static final long serialVersionUID = 7608376610068348483L;
+public class OrderView extends BaseView {
+	private static final long serialVersionUID = 4894206468649180355L;
 
-	private static final String sign = "Инвойс";
+	private static final String sign = "Заказ";
 
 	@Autowired
 	private ContainerService containerService;
 	@Autowired
 	private VoyageService voyageService;
 
-	private Invoice invoice = new Invoice(); 
+	private PurchaseOrder order = new PurchaseOrder(); 
 
 	@Override
 	public void saveObject() {
-		if (this.invoice.getId() != null) {
-			getBaseService().updateObject(this.invoice);
+		if (this.order.getId() != null) {
+			getBaseService().updateObject(this.order);
 		} else {
-			getBaseService().saveObject(this.invoice);
+			getBaseService().saveObject(this.order);
 		}
 		refreshObjects();
 	}
@@ -40,7 +41,7 @@ public class InvoiceView extends BaseView {
 	@Override
 	public void newObject() {
 		super.newObject();
-		this.invoice = new Invoice();
+		this.order = new PurchaseOrder();
 	}
 
 	@Override
@@ -50,20 +51,20 @@ public class InvoiceView extends BaseView {
 
 	@Override
 	public String getBase() {
-		return invoice.getNumber();
+		return order.getNumber();
 	}
 
 	@Override
 	public IdentifiedEntity getBeanObject() {
-		return this.invoice != null ? this.invoice : new Invoice();
+		return this.order != null ? this.order : new PurchaseOrder();
 	}
 
 
 	public List<Container> getContainers() {
-		if (this.invoice == null || this.invoice.getId() == null) {
+		if (this.order == null || this.order.getId() == null) {
 			return null;
 		} else {
-			return containerService.getContainersByInvoice(this.invoice.getId());
+			return containerService.getContainersByPurchaseOrder(this.order.getId());
 		}
 	}
 	
@@ -76,12 +77,11 @@ public class InvoiceView extends BaseView {
 		}*/
 	}
 
-	public Invoice getInvoice() {
-		return invoice;
+	public PurchaseOrder getOrder() {
+		return order;
 	}
 
-	public void setInvoice(Invoice invoice) {
-		this.invoice = invoice;
+	public void setOrder(PurchaseOrder order) {
+		this.order = order;
 	}
-
 }
