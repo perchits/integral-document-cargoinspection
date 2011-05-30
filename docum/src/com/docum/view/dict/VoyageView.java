@@ -1,5 +1,7 @@
 package com.docum.view.dict;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -19,6 +21,9 @@ import com.docum.service.BillOfLadingService;
 import com.docum.service.ContainerService;
 import com.docum.service.InvoiceService;
 import com.docum.service.PurchaseOrderService;
+import com.docum.util.AlgoUtil;
+import com.docum.view.wrapper.VoyagePresentation;
+import com.docum.view.wrapper.VoyageTransformer;
 
 @Controller("voyageBean")
 @Scope("session")
@@ -34,10 +39,25 @@ public class VoyageView extends BaseView {
 	private ContainerService containerService;
 	@Autowired
 	private BillOfLadingService billOfLadingService;
+	
+	private ArrayList<VoyagePresentation> voyages;
 
 	private List<Vessel> vessels;
 	private Voyage voyage = new Voyage();
 
+	
+	public Collection<VoyagePresentation> getVoyages(){		
+		if (voyages == null) {
+			// TODO Посмотреть преобразование типов
+			@SuppressWarnings("unchecked")
+			Collection<Voyage> v = (Collection<Voyage>) getAllObjects();
+			voyages = new ArrayList<VoyagePresentation>(v.size());
+			AlgoUtil.transform(voyages, v,
+					new VoyageTransformer());
+		}
+		return voyages;
+	}
+	
 	@Override
 	public void saveObject() {
 		if (this.voyage.getId() != null) {

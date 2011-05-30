@@ -16,8 +16,8 @@ public class VoyagePresentation implements Serializable {
 	private List<ContainerPresentation> containers = new ArrayList<ContainerPresentation>();
 	private EnumMap<ContainerStateEnum, Integer> containerStateMap = new EnumMap<ContainerStateEnum, Integer>(
 			ContainerStateEnum.class);
-
-	VoyagePresentation() {
+	
+	public VoyagePresentation() {
 		for (ContainerStateEnum e : ContainerStateEnum.values()) {
 			containerStateMap.put(e, 0);
 		}
