@@ -64,7 +64,7 @@
 		<war warfile="${DistDir}/${WarFile}" webxml="${WebContentDir}/WEB-INF/web.xml">
             <fileset dir="${WebContentDir}"/>
             <lib dir="${LibDir}" excludes="**/src/**"/>
-            <classes dir="${BuildDir}" excludes="**/test/**"/>
+            <classes dir="${BuildDir}" excludes="**/com.docum.test/**"/>
         </war>
 	</target>
 
@@ -87,7 +87,7 @@
 	<target name="db-create" depends="db-create-empty">
 		<junit>
 			<classpath refid="ToolsClasspath" />
-			<test name="test.dao.TestDataPreparator"/>
+			<test name="com.docum.test.data.TestDataPreparator"/>
 		</junit>
 	</target>
 	<target name="db-update" depends="compile">
