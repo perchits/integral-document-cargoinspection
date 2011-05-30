@@ -26,6 +26,12 @@ import com.docum.domain.po.IdentifiedEntity;
 				query = "SELECT DISTINCT c FROM Container c " +
 					"JOIN c.invoices i " +
 					"WHERE i.id=:invoiceId"
+		),
+		@NamedQuery(
+				name = ContainerDao.GET_CONTAINERS_BY_PURCHASE_ORDER_QUERY,
+				query = "SELECT DISTINCT c FROM Container c " +
+					"JOIN c.orders i " +
+					"WHERE i.id=:orderId"
 		)
 })
 public class Container extends IdentifiedEntity {

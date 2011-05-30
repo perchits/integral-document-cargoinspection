@@ -26,9 +26,17 @@ public class ContainerDaoImpl extends BaseDaoImpl implements ContainerDao {
 
 	@Override
 	public List<Container> getContainersByInvoice(Long invoiceId) {
-		Query query = entityManager
-				.createNamedQuery(GET_CONTAINERS_BY_INVOICE_QUERY);
+		Query query = entityManager.createNamedQuery(GET_CONTAINERS_BY_INVOICE_QUERY);
 		query.setParameter("invoiceId", invoiceId);
+		@SuppressWarnings("unchecked")
+		List<Container> result = query.getResultList();
+		return result;
+	}
+
+	@Override
+	public List<Container> getContainersByPurchaseOrder(Long orderId) {
+		Query query = entityManager.createNamedQuery(GET_CONTAINERS_BY_PURCHASE_ORDER_QUERY);
+		query.setParameter("orderId", orderId);
 		@SuppressWarnings("unchecked")
 		List<Container> result = query.getResultList();
 		return result;
