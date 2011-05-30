@@ -1,4 +1,4 @@
-package test;
+package com.docum.test;
 
 import java.util.Date;
 import java.util.Random;

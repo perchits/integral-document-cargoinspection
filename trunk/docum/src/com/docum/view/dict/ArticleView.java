@@ -35,7 +35,7 @@ public class ArticleView extends BaseView {
 
 	@Override
 	public String getBase() {
-		return article.getShortName();
+		return article.getName();
 	}
 
 	@Override

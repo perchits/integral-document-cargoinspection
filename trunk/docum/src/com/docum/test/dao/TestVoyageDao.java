@@ -1,4 +1,4 @@
-package test.dao;
+package com.docum.test.dao;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -12,13 +12,13 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import test.TestUtil;
 
 import com.docum.dao.BaseDao;
 import com.docum.dao.VoyageDao;
 import com.docum.domain.po.common.Container;
 import com.docum.domain.po.common.Vessel;
 import com.docum.domain.po.common.Voyage;
+import com.docum.test.TestUtil;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations="/docum-context.xml")

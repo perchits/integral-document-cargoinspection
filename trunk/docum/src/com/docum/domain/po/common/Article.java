@@ -1,6 +1,10 @@
 package com.docum.domain.po.common;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 
 import com.docum.domain.po.IdentifiedEntity;
 
@@ -9,16 +13,17 @@ public class Article extends IdentifiedEntity {
 	private static final long serialVersionUID = -6988218269163708874L;
 
 	private String name;
-	private String shortName;
 	private String englishName;
+	@OneToMany(mappedBy = "article")
+	private List<ArticleCategory> categories = new ArrayList<ArticleCategory>();
+
 
 	public Article() {
 		super();
 	}
 
-	public Article(String name, String shortName, String englishName) {
+	public Article(String name, String englishName) {
 		this.name = name;
-		this.shortName = shortName;
 		this.englishName = englishName;
 	}
 
@@ -28,7 +33,6 @@ public class Article extends IdentifiedEntity {
 
 	public void copy(Article article) {
 		this.name = article.name;
-		this.shortName = article.shortName;
 		this.englishName = article.englishName;
 	}
 
@@ -40,14 +44,6 @@ public class Article extends IdentifiedEntity {
 		this.name = name;
 	}
 
-	public String getShortName() {
-		return shortName;
-	}
-
-	public void setShortName(String shortName) {
-		this.shortName = shortName;
-	}
-
 	public String getEnglishName() {
 		return englishName;
 	}
@@ -56,4 +52,11 @@ public class Article extends IdentifiedEntity {
 		this.englishName = englishName;
 	}
 
+	public List<ArticleCategory> getCategories() {
+		return categories;
+	}
+
+	public void setCategories(List<ArticleCategory> categories) {
+		this.categories = categories;
+	}
 }

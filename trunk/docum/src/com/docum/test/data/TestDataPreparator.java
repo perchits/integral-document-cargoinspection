@@ -1,4 +1,4 @@
-package test.dao;
+package com.docum.test.data;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -40,7 +40,7 @@ import com.docum.util.AlgoUtil;
 @ContextConfiguration(locations="/docum-context.xml")
 @TransactionConfiguration(defaultRollback=false)
 @Transactional
-public class TestDataPreparator {
+public class TestDataPreparator implements TestDataPersister {
 
 	@PersistenceContext(name="docum")
 	private EntityManager entityManager;
@@ -112,7 +112,7 @@ public class TestDataPreparator {
 		List<Company> companies = prepareCompanies();
 		List<Supplier> suppliers = prepareSuppliers(companies);
 		List<Customer> customers = prepareCustomers(companies);
-		List<Article> articles = prepareArticles();
+		List<Article> articles = ArticleDataPreparator.prepareArticles(this);
 		List<Vessel> vessels = prepareVessels();
 		List<Voyage> voyages = prepareVoyages(vessels);
 		List<City> cities = prepareCities();
@@ -147,16 +147,7 @@ public class TestDataPreparator {
 			}});
 	}
 
-	private List<Article> prepareArticles() {
-		List<Article> result = new ArrayList<Article>();
-		result.add(new Article("Помело свежий", "Помело", "Fresh Pomelo"));
-		result.add(new Article("Чеснок свежий", "Чеснок", "Fresh Garlic"));
-		result.add(new Article("Яблоки свежие", "Яблоки", "Fresh Apples"));
-		result.add(new Article("Грейпфрут свежий", "Грейпфрут", "Fresh Grapefruit"));
-		result.add(new Article("Картофель свежий", "Картофель", "Fresh Potatoes"));
-		persist(result);
-		return result;
-	}
+	
 
 	private <T extends IdentifiedEntity> List<T> prepareDictionary(String[] names,
 			EntityConstructor<T> constructor) {
@@ -309,10 +300,15 @@ public class TestDataPreparator {
 	
 	
 	
-	
-	private <T extends IdentifiedEntity> void persist(Collection<T> entities) {
+	@Override
+	public <T extends IdentifiedEntity> void persist(T entity) {
+		entityManager.persist(entity);
+	}
+
+	@Override
+	public <T extends IdentifiedEntity> void persist(Collection<T> entities) {
 		for(T entity : entities){
-			entityManager.persist(entity);
+			persist(entity);
 		}
 	}
 
