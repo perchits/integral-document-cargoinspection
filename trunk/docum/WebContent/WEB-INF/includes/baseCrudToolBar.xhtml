@@ -24,7 +24,7 @@
 				oncomplete="beforeShow(#{gridId}ConfirmVar,'#{gridId}')"
 				image="ui-icon ui-icon-minus" update="#{gridId}ConfirmId,growl" />
 
-			<p:commandButton type="push" update="#{gridId}" value="Обновить"
+			<p:commandButton type="push" update="#{gridId},#{update}" value="Обновить"
 				actionListener="#{bean[refreshObjects]}"
 				image="ui-icon ui-icon-arrowreturnthick-1-w" />
 
