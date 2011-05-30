@@ -46,7 +46,7 @@ body {
 	border: 1px solid #B1A635 !important;
 }
 
-.cleaner { /* Используется для растягивания див-контейнера при float */
+.cleaner { /* Р�СЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РґР»СЏ СЂР°СЃС‚СЏРіРёРІР°РЅРёСЏ РґРёРІ-РєРѕРЅС‚РµР№РЅРµСЂР° РїСЂРё float */
 	clear: both;
 	line-height: 0;
 	height: 0;
@@ -92,7 +92,7 @@ table td {
 	padding: 0 0 2px;
 }
 
-/* Раскраска контейнеров */
+/* Р Р°СЃРєСЂР°СЃРєР° РєРѕРЅС‚РµР№РЅРµСЂРѕРІ */
 .before-customs-color {
 	background: #FFE3E3;
 }
@@ -162,7 +162,7 @@ select {
 }
 
 
-.voyagesLayoutTable, .infoLayoutTable {
+.voyagesLayoutTable, .infoLayoutTable, .invoicesLayoutTable {
 	width : 100%;
 }
 
