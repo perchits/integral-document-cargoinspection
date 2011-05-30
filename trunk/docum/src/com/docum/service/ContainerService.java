@@ -9,4 +9,5 @@ public interface ContainerService extends BaseService {
 	public static final String SERVICE_NAME = "containerService";
 
 	public List<Container> getContainersByVoyage(Long voyageId);
+	public List<Container> getContainersByInvoice(Long invoiceId);
 }

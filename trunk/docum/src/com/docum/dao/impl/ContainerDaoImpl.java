@@ -24,4 +24,14 @@ public class ContainerDaoImpl extends BaseDaoImpl implements ContainerDao {
 		return result;
 	}
 
+	@Override
+	public List<Container> getContainersByInvoice(Long invoiceId) {
+		Query query = entityManager
+				.createNamedQuery(GET_CONTAINERS_BY_INVOICE_QUERY);
+		query.setParameter("invoiceId", invoiceId);
+		@SuppressWarnings("unchecked")
+		List<Container> result = query.getResultList();
+		return result;
+	}
+
 }
