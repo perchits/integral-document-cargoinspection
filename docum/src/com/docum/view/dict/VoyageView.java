@@ -56,12 +56,7 @@ public class VoyageView extends BaseView {
 	}
 
 	public VoyagePresentation getVoyagePresentation() {
-		for(VoyagePresentation voyagePresentation : voyages) {
-			if(voyagePresentation.getVoyage().equals(voyage)) {
-				return voyagePresentation;
-			}
-		}
-		return null;
+		return this.voyage != null ? new VoyagePresentation(voyage) : null;
 	}
 
 	public void setVoyagePresentation(VoyagePresentation voyagePresentation) {

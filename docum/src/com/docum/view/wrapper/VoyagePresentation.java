@@ -8,7 +8,10 @@ import java.util.List;
 
 import com.docum.domain.ContainerStateEnum;
 import com.docum.domain.po.common.Container;
+import com.docum.domain.po.common.Vessel;
 import com.docum.domain.po.common.Voyage;
+import com.docum.util.EqualsHelper;
+import com.docum.util.HashCodeHelper;
 
 public class VoyagePresentation implements Serializable {
 	private static final long serialVersionUID = -3545320838886096320L;
@@ -88,5 +91,21 @@ public class VoyagePresentation implements Serializable {
 
 	public void setFinished(boolean finished) {
 		voyage.setFinished(finished);
+	}
+	
+	public boolean equals(Object obj) {
+		if (obj == this) {
+			return true;
+		}
+
+		if (!(obj instanceof VoyagePresentation)) {
+			return false;
+		}
+
+		return EqualsHelper.equals(getVoyage(), ((VoyagePresentation) obj).getVoyage());
+	}
+
+	public int hashCode() {
+		return HashCodeHelper.hashCode(getVoyage());
 	}
 }
