@@ -16,6 +16,8 @@ public class Article extends IdentifiedEntity {
 	private String englishName;
 	@OneToMany(mappedBy = "article")
 	private List<ArticleCategory> categories = new ArrayList<ArticleCategory>();
+	@OneToMany(mappedBy = "article")
+	private List<ArticleFeature> features = new ArrayList<ArticleFeature>();
 
 
 	public Article() {
@@ -58,5 +60,13 @@ public class Article extends IdentifiedEntity {
 
 	public void setCategories(List<ArticleCategory> categories) {
 		this.categories = categories;
+	}
+
+	public List<ArticleFeature> getFeatures() {
+		return features;
+	}
+
+	public void setFeatures(List<ArticleFeature> features) {
+		this.features = features;
 	}
 }

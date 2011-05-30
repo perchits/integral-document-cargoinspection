@@ -6,32 +6,32 @@ import javax.persistence.ManyToOne;
 import com.docum.domain.po.IdentifiedEntity;
 
 @Entity
-public class ArticleCategory extends IdentifiedEntity {
-	private static final long serialVersionUID = -3149818615410332097L;
+public class ArticleFeatureInstance extends IdentifiedEntity {
+	private static final long serialVersionUID = 6553357822861656964L;
 
 	@ManyToOne(optional=false)
-	private Article article;
+	private ArticleFeature articleFeature;
 	
 	private String name;
-
+	
 	private String englishName;
 	
-	public ArticleCategory() {
+	public ArticleFeatureInstance() {
 		super();
 	}
 
-	public ArticleCategory(Article article, String name, String englishName) {
-		this.article = article;
+	public ArticleFeatureInstance(ArticleFeature articleFeature, String name, String englishName) {
+		this.articleFeature = articleFeature;
 		this.name = name;
 		this.englishName = englishName;
 	}
 
-	public ArticleCategory(ArticleCategory other) {
+	public ArticleFeatureInstance(ArticleFeatureInstance other) {
 		copy(other);
 	}
 
-	public void copy(ArticleCategory other) {
-		this.article = other.article;
+	public void copy(ArticleFeatureInstance other) {
+		this.articleFeature = other.articleFeature;
 		this.name = other.name;
 		this.englishName = other.englishName;
 	}
@@ -52,11 +52,11 @@ public class ArticleCategory extends IdentifiedEntity {
 		this.englishName = englishName;
 	}
 
-	public Article getArticle() {
-		return article;
+	public ArticleFeature getArticleFeature() {
+		return articleFeature;
 	}
 
-	public void setArticle(Article article) {
-		this.article = article;
+	public void setArticleFeature(ArticleFeature articleFeature) {
+		this.articleFeature = articleFeature;
 	}
 }
