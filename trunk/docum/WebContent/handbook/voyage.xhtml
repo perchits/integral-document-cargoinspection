@@ -17,14 +17,14 @@
 						<ui:param name="update" value="infoPanel" />
 					</ui:include>
 					<p:dataTable id="voyages" var="voyage"
-						value="#{voyageBean.allObjects}" selectionMode="single"
+						value="#{voyageBean.voyages}" selectionMode="single"
 						selection="#{voyageBean.voyage}" update="infoPanel">
 						<p:column sortBy="#{voyage.vessel.name}"
 							filterBy="#{voyage.vessel.name}" filterMatchMode="contains">
 							<f:facet name="header">
 							Судно 
 						</f:facet>
-							<h:outputText value="#{voyage.vessel.name}" />
+							<h:outputText value="#{voyage.vessel}" />
 						</p:column>
 						<p:column sortBy="#{voyage.number}" filterBy="#{voyage.number}"
 							filterMatchMode="contains">
