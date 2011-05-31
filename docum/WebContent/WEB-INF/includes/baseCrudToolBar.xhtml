@@ -9,22 +9,22 @@
 <h:panelGroup layout="block" styleClass="crud-menu">
 	<p:toolbar styleClass="crud-menu">
 		<p:toolbarGroup align="left">
-			<p:commandButton type="push" value="Добавить"
+			<p:commandButton type="push" value="#{(addTitle == null) ? 'Добавить' : addTitle}"
 				update="#{gridId}DlgPanel,growl" image="ui-icon-document"
 				actionListener="#{bean[newObject]}" oncomplete="#{gridId}Var.show()" />
 
-			<p:commandButton type="push" value="Правка"
+			<p:commandButton type="push" value="#{(editTitle == null) ? 'Правка' : editTitle}" 
 				update="#{gridId}DlgPanel,growl"
 				actionListener="#{bean[editObject]}"
 				oncomplete="beforeShow(#{gridId}Var,'#{gridId}')"
 				image="ui-icon ui-icon-wrench" />
 
-			<p:commandButton type="push" value="Удалить"
+			<p:commandButton type="push" value="#{(deleteTitle == null) ? 'Удалить' : deleteTitle}"
 				actionListener="#{bean[beforeDeleteObject]}"
 				oncomplete="beforeShow(#{gridId}ConfirmVar,'#{gridId}')"
 				image="ui-icon ui-icon-minus" update="#{gridId}ConfirmId,growl" />
 
-			<p:commandButton type="push" update="#{gridId},#{update}" value="Обновить"
+			<p:commandButton type="push" update="#{gridId},#{update}" value="#{(refreshTitle == null) ? 'Обновить' : refreshTitle}"
 				actionListener="#{bean[refreshObjects]}"
 				image="ui-icon ui-icon-arrowreturnthick-1-w" />
 
