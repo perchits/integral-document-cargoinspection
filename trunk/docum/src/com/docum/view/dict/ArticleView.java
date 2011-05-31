@@ -1,16 +1,20 @@
 package com.docum.view.dict;
 
+import java.util.List;
+
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import com.docum.domain.po.IdentifiedEntity;
 import com.docum.domain.po.common.Article;
+import com.docum.domain.po.common.ArticleCategory;
+import com.docum.domain.po.common.ArticleFeature;
 
 @Controller("articleBean")
 @Scope("session")
 public class ArticleView extends BaseView {
 	private static final long serialVersionUID = -3958815651039578018L;
-	private static final String sing = "Товар";
+	private static final String sign = "Товар";
 
 	private Article article = new Article();
 
@@ -30,7 +34,7 @@ public class ArticleView extends BaseView {
 
 	@Override
 	public String getSign() {
-		return sing;
+		return sign;
 	}
 
 	@Override
@@ -41,6 +45,14 @@ public class ArticleView extends BaseView {
 	@Override
 	public IdentifiedEntity getBeanObject() {
 		return article != null ? this.article : new Article(); 
+	}
+	
+	public List<ArticleCategory> getCategories() {
+		return null;
+	}
+	
+	public List<ArticleFeature> getFeatures() {
+		return null;
 	}
 
 }

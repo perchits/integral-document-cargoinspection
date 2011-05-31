@@ -13,27 +13,67 @@
 				<ui:param name="gridId" value="articleGrid" />
 			</ui:include>
 
+			<h:panelGrid columns="2" styleClass="invoicesLayoutTable" id="articlesLayoutTable">
+				<p:panel header="#{articleBean.sign}" style="text-align:center"
+					styleClass="toggle-panel">
+	
+					<p:dataTable id="articleGrid" var="article"
+						value="#{articleBean.allObjects}" selectionMode="single"
+						selection="#{articleBean.article}" update="articlesInfoPanel">
+						<p:column sortBy="#{article.name}" filterBy="#{article.name}"
+							filterMatchMode="contains">
+							<f:facet name="header">Наименование</f:facet>
+							<h:outputText value="#{article.name}" />
+						</p:column>
+						<p:column sortBy="#{article.englishName}"
+							filterBy="#{article.englishName}" filterMatchMode="contains">
+							<f:facet name="header">Наименование на англ. яз.</f:facet>
+							<h:outputText value="#{article.englishName}" />
+						</p:column>
+	
+					</p:dataTable>
+				</p:panel>
+				<p:panel id="articlesInfoPanel" style="text-align:center">
+					<f:facet name="header">
+						<h:outputText value="#{articleBean.article.name}" />
+					</f:facet>
+					<ui:include src="/WEB-INF/includes/crudToolBar.xhtml">
+						<ui:param name="bean" value="#{articleBean}" />
+						<ui:param name="gridId" value="categoriesGrid" />
+						<ui:param name="addTitle" value="" />
+						<ui:param name="editTitle" value="" />
+						<ui:param name="deleteTitle" value="" />
+						<ui:param name="refreshTitle" value="" />
+					</ui:include>
+					<h:panelGrid columns="2" styleClass="infoLayoutTable">
 
-			<p:panel header="#{articleBean.sign}" style="text-align:center"
-				styleClass="toggle-panel">
+						<p:dataTable id="categoriesGrid" var="category"
+							value="#{articleBean.categories}">
+							<p:column>
+								<h:outputText value="#{catgegory.name}" />
+								<f:facet name="header">Категория</f:facet>
+							</p:column>
+							<p:column>
+								<h:outputText value="#{catgegory.englishName}" />
+								<f:facet name="header">Категория англ.</f:facet>
+							</p:column>
+						</p:dataTable>
+						
+						<p:dataTable id="features" var="feature"
+							value="#{articleBean.features}">
+							<p:column>
+								<h:outputText value="#{feature.name}" />
+								<f:facet name="header">Характеристика</f:facet>
+							</p:column>
+							<p:column>
+								<h:outputText value="#{feature.englishName}" />
+								<f:facet name="header">Характеристика англ.</f:facet>
+							</p:column>
+						</p:dataTable>
 
-				<p:dataTable id="articleGrid" var="article"
-					value="#{articleBean.allObjects}" selectionMode="single"
-					selection="#{articleBean.article}">
-					<p:column sortBy="#{article.name}" filterBy="#{article.name}"
-						filterMatchMode="contains">
-						<f:facet name="header">Наименование</f:facet>
-						<h:outputText value="#{article.name}" />
-					</p:column>
-					<p:column sortBy="#{article.englishName}"
-						filterBy="#{article.englishName}" filterMatchMode="contains">
-						<f:facet name="header">Наименование на англ. яз.</f:facet>
-						<h:outputText value="#{article.englishName}" />
-					</p:column>
-
-				</p:dataTable>
-
-			</p:panel>
+					</h:panelGrid>
+				</p:panel>
+			</h:panelGrid>	
 		</h:form>
 
 		<ui:include src="/handbook/dialog/articleDlg.xhtml">
