@@ -50,4 +50,9 @@ public class BillOfLading extends IdentifiedEntity{
 	public List<Container> getContainers() {
 		return containers;
 	}
+	
+	@Override
+	public String toString(){
+		return getNumber();
+	}
 }

@@ -8,7 +8,6 @@ import java.util.List;
 
 import com.docum.domain.ContainerStateEnum;
 import com.docum.domain.po.common.Container;
-import com.docum.domain.po.common.Vessel;
 import com.docum.domain.po.common.Voyage;
 import com.docum.util.EqualsHelper;
 import com.docum.util.HashCodeHelper;
