@@ -67,4 +67,9 @@ public class PurchaseOrder extends IdentifiedEntity {
 	public int hashCode() {
 		return HashCodeHelper.hashCode(getId());
 	}
+	
+	@Override
+	public String toString(){
+		return getNumber();
+	}
 }

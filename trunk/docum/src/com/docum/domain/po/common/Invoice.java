@@ -51,4 +51,9 @@ public class Invoice extends IdentifiedEntity{
 		return containers;
 	}
 	
+	@Override
+	public String toString(){
+		return getNumber();
+	}
+	
 }
