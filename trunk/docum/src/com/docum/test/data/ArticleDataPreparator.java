@@ -84,7 +84,9 @@ public class ArticleDataPreparator {
 				new String[][] {
 				{"Юбилейный", "Yubileyny"},
 				{"Хеннеси", "Hennesey"}}));
-		article.getFeatures().add(prepareArticleFeature(persister, article, "Год", "Year", null));
+		article.getFeatures().add(prepareArticleFeature(persister, article, "Год", "Year", 
+				new String[][] {
+				{"2000", "2000"}, {"2001", "2001"}, {"2002", "2002"}}));
 		persister.persist(article);
 		return article;
 	}

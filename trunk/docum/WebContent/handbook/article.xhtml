@@ -68,6 +68,9 @@
 						
 						<p:dataTable id="features" var="feature"
 							value="#{articleBean.features}">
+							<p:column style="width:16px">  
+					            <p:rowToggler />  
+					        </p:column>
 							<p:column>
 								<h:outputText value="#{feature.name}" />
 								<f:facet name="header">Характеристика</f:facet>
@@ -76,6 +79,17 @@
 								<h:outputText value="#{feature.englishName}" />
 								<f:facet name="header">Характеристика англ.</f:facet>
 							</p:column>
+							<p:rowExpansion>  
+					            <p:dataTable id="featuresDetailsGrid" var="f_instance" 
+									value="#{feature.instances}">
+									<p:column>
+										<h:outputText value="#{f_instance.name}" />
+									</p:column>
+									<p:column>
+										<h:outputText value="#{f_instance.englishName}" />
+									</p:column>
+								</p:dataTable>
+					        </p:rowExpansion>
 						</p:dataTable>
 
 					</h:panelGrid>
