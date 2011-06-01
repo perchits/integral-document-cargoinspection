@@ -11,8 +11,8 @@ import com.docum.domain.po.IdentifiedEntity;
 public class CargoCondition extends IdentifiedEntity {
 	private static final long serialVersionUID = 6450548355480762800L;
 
-	@OneToMany
-	private List<CargoPackage> cargoPackage;
+	@OneToMany(mappedBy="condition")
+	private List<CargoPackage> cargoPackages;
 	
 	Double temperature;
 
@@ -20,18 +20,17 @@ public class CargoCondition extends IdentifiedEntity {
 		super();
 	}
 
-	public CargoCondition(List<CargoPackage> cargoPackage, Double temperature) {
+	public CargoCondition(Cargo cargo, Double temperature) {
 		super();
-		this.cargoPackage = cargoPackage;
 		this.temperature = temperature;
 	}
 	
-	public List<CargoPackage> getCargoPackage() {
-		return cargoPackage;
+	public List<CargoPackage> getCargoPackages() {
+		return cargoPackages;
 	}
 
-	public void setCargoPackage(List<CargoPackage> cargoPackage) {
-		this.cargoPackage = cargoPackage;
+	public void setCargoPackages(List<CargoPackage> cargoPackage) {
+		this.cargoPackages = cargoPackage;
 	}
 
 	public Double getTemperature() {

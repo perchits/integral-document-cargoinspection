@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.GregorianCalendar;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -62,15 +61,6 @@ public class TestDataPreparator implements TestDataPersister {
 	private String[] voyageNumbers = new String[] {
 			"13/W", "51/E", "40/E"};
 
-	private String[] supplierNames = new String[] {
-			"Qingdao Yunlong Import And Export Co. Ltd.",
-			"U.M.S. Industry And Food Ltd.",
-			"Jining Sanglong Economic & Trade Co. Ltd."};
-
-	private Double[] cargoWeights = new Double[] {
-			12300.0, 22300.0, 24200.0, 20520.0, 19800.0, 25000.0,
-			23300.0, 21630.0, 26300.0, 8700.0, };
-	
 	private String[] invoiceNumbers = new String[]{
 			"PP11-652", "PP11-678", "TM11-674", "CL11-675"};
 
@@ -85,8 +75,8 @@ public class TestDataPreparator implements TestDataPersister {
 	private boolean ourCity = true;
 	
 	private String[] measureNames = new String[]{
-			"шт", "кг", "т"};
-	
+			"Паллеты, обернутые пленкой", "Ящики деревянные без верха", "Мешки полиэтиленовые",
+			"Общий вес в килограммах"};
 	
 	private String[][] companyNames = new String[][] {
 			{"Кингдао Юнлонг","Кингдао",
@@ -120,7 +110,8 @@ public class TestDataPreparator implements TestDataPersister {
 		List<Measure> measures  = prepareMesures();
 		List<Tare> tares = prepareTares();
 		List<Container> containers = prepareContainers(voyages, cities);
-		List<Cargo> cargoes = prepareCargoes(articles, suppliers, containers);
+		List<Cargo> cargoes = CargoDataPreparator.prepareCargoes(this, articles, suppliers,
+				containers, measures);
 		List<BillOfLading> bills = prepareBillOfLadings(containers);
 		List<Invoice> invoices = prepareInvoices(containers);
 		List<PurchaseOrder> order = prepareOrders(containers);
@@ -132,8 +123,8 @@ public class TestDataPreparator implements TestDataPersister {
 		Calendar futureCal = (Calendar) cal.clone();
 		futureCal.add(Calendar.MONTH, 1);
 		List<Voyage> result = new ArrayList<Voyage>();
-		EntityCounter<Vessel> vesselCounter = new EntityCounter<Vessel>(vessels); 
-		EntityCounter<String> nameCounter = new EntityCounter<String>(voyageNumbers); 
+		TestDataEntityCounter<Vessel> vesselCounter = new TestDataEntityCounter<Vessel>(vessels); 
+		TestDataEntityCounter<String> nameCounter = new TestDataEntityCounter<String>(voyageNumbers); 
 		result.add(new Voyage(vesselCounter.next(), nameCounter.next(), pastCal.getTime(), true));
 		result.add(new Voyage(vesselCounter.next(), nameCounter.next(), cal.getTime(), true));
 		result.add(new Voyage(vesselCounter.next(), nameCounter.next(), futureCal.getTime(), false));
@@ -212,8 +203,8 @@ public class TestDataPreparator implements TestDataPersister {
 	
 	private List<Container> prepareContainers(List<Voyage> voyages, List<City> cities) {
 		final ContainerStateEnumCounter stateCounter = new ContainerStateEnumCounter();
-		final EntityCounter<Voyage> voyageCounter = new EntityCounter<Voyage>(voyages);
-		final EntityCounter<City> cityCounter = new EntityCounter<City>(cities);
+		final TestDataEntityCounter<Voyage> voyageCounter = new TestDataEntityCounter<Voyage>(voyages);
+		final TestDataEntityCounter<City> cityCounter = new TestDataEntityCounter<City>(cities);
 
 		List<Container> result = new ArrayList<Container>(containerNames.length);
 		AlgoUtil.transform(result, Arrays.asList(containerNames),
@@ -230,12 +221,12 @@ public class TestDataPreparator implements TestDataPersister {
 	
 	private List<Cargo> prepareCargoes(List<Article> articles,
 			List<Supplier> suppliers, List<Container> containers) {
-		EntityCounter<Article> articleCounter = new EntityCounter<Article>(articles);
-		EntityCounter<Supplier> supplierCounter = new EntityCounter<Supplier>(suppliers);
-		EntityCounter<Container> containerCounter = new EntityCounter<Container>(containers);
+		TestDataEntityCounter<Article> articleCounter = new TestDataEntityCounter<Article>(articles);
+		TestDataEntityCounter<Supplier> supplierCounter = new TestDataEntityCounter<Supplier>(suppliers);
+		TestDataEntityCounter<Container> containerCounter = new TestDataEntityCounter<Container>(containers);
 		List<Cargo> result = new ArrayList<Cargo>();
-		for(Double weight : cargoWeights) {
-			result.add(new Cargo(articleCounter.next(), weight, supplierCounter.next(),
+		for(int i=0; i<10; i++) {
+			result.add(new Cargo(articleCounter.next(), supplierCounter.next(),
 					containerCounter.next()));
 		}
 		persist(result);
@@ -244,11 +235,11 @@ public class TestDataPreparator implements TestDataPersister {
 	
 	private List<BillOfLading> prepareBillOfLadings(List<Container> containers){
 		List<BillOfLading> result = new ArrayList<BillOfLading>();
-		EntityCounter<Container> containerCounter = new EntityCounter<Container>(containers);
+		TestDataEntityCounter<Container> containerCounter = new TestDataEntityCounter<Container>(containers);
 
 		result.add(new BillOfLading("ZIMUASH032310"));
 		result.add(new BillOfLading("ZIMUHFA00322361"));
-		EntityCounter<BillOfLading> billCounter = new EntityCounter<BillOfLading>(result);
+		TestDataEntityCounter<BillOfLading> billCounter = new TestDataEntityCounter<BillOfLading>(result);
 		
 		for(int i=0; i<containers.size(); i++){
 			Container container = containerCounter.next();
@@ -272,7 +263,7 @@ public class TestDataPreparator implements TestDataPersister {
 			Invoice invoice = new Invoice(number);
 			result.add(invoice);
 		}
-		EntityCounter<Invoice> invoiceCounter = new EntityCounter<Invoice>(result);
+		TestDataEntityCounter<Invoice> invoiceCounter = new TestDataEntityCounter<Invoice>(result);
 		for(Container container : containers) {
 			Invoice invoice = invoiceCounter.next();
 			invoice.getContainers().add(container);
@@ -288,7 +279,7 @@ public class TestDataPreparator implements TestDataPersister {
 			PurchaseOrder invoice = new PurchaseOrder(number);
 			result.add(invoice);
 		}
-		EntityCounter<PurchaseOrder> orderCounter = new EntityCounter<PurchaseOrder>(result);
+		TestDataEntityCounter<PurchaseOrder> orderCounter = new TestDataEntityCounter<PurchaseOrder>(result);
 		for(Container container : containers) {
 			PurchaseOrder order = orderCounter.next();
 			order.getContainers().add(container);
@@ -313,51 +304,7 @@ public class TestDataPreparator implements TestDataPersister {
 		}
 	}
 
-	public static class EntityCounter<T> {
-		private Collection<T> entities;
-		private Iterator<T> it;
-
-		public EntityCounter(Collection<T> entities) {
-			this.entities = entities;
-			it = this.entities.iterator();
-		}
-
-		public EntityCounter(T[] entities) {
-			this.entities = Arrays.asList(entities);
-			it = this.entities.iterator();
-		}
-
-		public T next() {
-			if (entities.isEmpty()) {
-				return null;
-			}
-			if (!it.hasNext()) {
-				it = entities.iterator();
-			}
-			return it.next();
-		}
-	}
-
-	public static class EnumCounter<E extends Enum<E>> extends EntityCounter<E> {
-		public EnumCounter(E...enums) {
-			super(Arrays.asList(enums));
-		}
-		public EnumCounter(E[] enums, E...excluded) {
-			super(new Helper<E>(enums, excluded).getList());
-		}
-		private static class Helper<E extends Enum<E>> {
-			private List<E> enums; 
-			public Helper(E[] enums, E[] excluded) {
-				this.enums = new ArrayList<E>(Arrays.asList(enums));
-				this.enums.removeAll(Arrays.asList(excluded));
-			}
-			public List<E> getList() {
-				return enums;
-			}
-		}
-	}
-
-	public static class ContainerStateEnumCounter extends EnumCounter<ContainerStateEnum> {
+	public static class ContainerStateEnumCounter extends TestDataEnumCounter<ContainerStateEnum> {
 		ContainerStateEnumCounter() {
 			super(ContainerStateEnum.values(), ContainerStateEnum.ABANDONED);
 		}
