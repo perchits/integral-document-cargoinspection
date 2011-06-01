@@ -80,13 +80,7 @@ public class VoyageView extends BaseView {
 	}
 
 	public String getVoyageInfo() {
-		if (voyage != null && voyage.getVessel() != null) {
-			return String.format("%1$s, %2$s,  %3$td.%3$tm.%3$tY", voyage
-					.getVessel().getName(), voyage.getNumber(), voyage
-					.getArrivalDate());
-		} else {
-			return "Судозаход не выбран";
-		}
+		return VoyagePresentation.joinVoyageInfo(voyage);
 	}
 
 	@Override

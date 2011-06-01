@@ -107,4 +107,14 @@ public class VoyagePresentation implements Serializable {
 	public int hashCode() {
 		return HashCodeHelper.hashCode(getVoyage());
 	}
+	
+	public static String joinVoyageInfo(Voyage voyage){
+		if (voyage != null && voyage.getVessel() != null) {
+			return String.format("%1$s, %2$s,  %3$td.%3$tm.%3$tY", voyage
+					.getVessel().getName(), voyage.getNumber(), voyage
+					.getArrivalDate());
+		} else {
+			return "Судозаход не выбран";
+		}
+	}
 }

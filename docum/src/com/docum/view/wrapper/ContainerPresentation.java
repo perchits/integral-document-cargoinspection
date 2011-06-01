@@ -108,4 +108,8 @@ public class ContainerPresentation implements Serializable {
 		return cargoInLine;
 	}
 
+	public String getVoyage() {
+		return container != null ? VoyagePresentation.joinVoyageInfo(container
+				.getVoyage()) : null;
+	}
 }
