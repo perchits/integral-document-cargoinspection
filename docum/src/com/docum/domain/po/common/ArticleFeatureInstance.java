@@ -2,10 +2,20 @@ package com.docum.domain.po.common;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
+import com.docum.dao.ArticleDao;
 import com.docum.domain.po.IdentifiedEntity;
 
 @Entity
+@NamedQueries(
+	@NamedQuery(
+			name = ArticleDao.GET_ARTICLE_FEATURE_INSTANCE_BY_ARTICLE_QUERY,
+			query = "SELECT DISTINCT afi FROM ArticleFeatureInstance afi " +
+				"WHERE articleFeature=:articleFeatureId"
+	)
+)
 public class ArticleFeatureInstance extends IdentifiedEntity {
 	private static final long serialVersionUID = 6553357822861656964L;
 

@@ -61,7 +61,11 @@ public class ArticleView extends BaseView {
 	}
 	
 	public List<ArticleFeature> getFeatures() {
-		return null;
+		if (this.article == null || this.article.getId() == null) {
+			return null;
+		} else {
+			return articleService.getArticleFeatureByArticle(this.article.getId());
+		}
 	}
 
 }

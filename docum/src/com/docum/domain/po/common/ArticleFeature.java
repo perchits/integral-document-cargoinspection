@@ -5,11 +5,21 @@ import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
+import com.docum.dao.ArticleDao;
 import com.docum.domain.po.IdentifiedEntity;
 
 @Entity
+@NamedQueries(
+	@NamedQuery(
+			name = ArticleDao.GET_ARTICLE_FEATURES_BY_ARTICLE_QUERY,
+			query = "SELECT DISTINCT af FROM ArticleFeature af " +
+				"WHERE af.article.id=:articleId"
+	)
+)
 public class ArticleFeature extends IdentifiedEntity {
 	private static final long serialVersionUID = -4670814162326883296L;
 
