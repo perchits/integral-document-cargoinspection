@@ -10,33 +10,29 @@ import com.docum.domain.po.IdentifiedEntity;
 public class Cargo extends IdentifiedEntity {
 	private static final long serialVersionUID = 4275515653210816278L;
 	
-	@ManyToOne
+	@ManyToOne(optional=false)
 	private Article article;
 
-	//Вес по коносаменту
-	private Double weight;
-	
-	@ManyToOne
+	@ManyToOne(optional=false)
 	private Supplier supplier;
 	
-	@ManyToOne
+	@ManyToOne(optional=false)
 	private Container container;
 	
-	@OneToOne
+	@OneToOne//(mappedBy="cargo")
 	private CargoCondition declaredCondition;
 
-	@OneToOne
+	@OneToOne//(mappedBy="cargo")
 	private CargoCondition actualCondition;
 	
 	public Cargo(){
 		super();
 	}
 	
-	public Cargo(Article article, Double weight, Supplier supplier,
+	public Cargo(Article article, Supplier supplier,
 			Container container) {
 		super();
 		this.article = article;
-		this.weight = weight;
 		this.supplier = supplier;
 		this.container = container;
 	}
@@ -48,15 +44,6 @@ public class Cargo extends IdentifiedEntity {
 
 	public void setArticle(Article goods) {
 		this.article = goods;
-	}
-
-
-	public Double getWeight() {
-		return weight;
-	}
-
-	public void setWeight(Double weight) {
-		this.weight = weight;
 	}
 
 	public Container getContainer() {

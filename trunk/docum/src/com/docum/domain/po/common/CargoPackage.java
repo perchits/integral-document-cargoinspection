@@ -9,18 +9,30 @@ import com.docum.domain.po.IdentifiedEntity;
 public class CargoPackage extends IdentifiedEntity {
 	private static final long serialVersionUID = 1238283870788720201L;
 
-	@ManyToOne
+	@ManyToOne(optional=false)
+	private	CargoCondition condition;
+	
+	@ManyToOne(optional=false)
 	private Measure measure;
 
-	private Double count;
+	private double count;
 
 	public CargoPackage() {
 	}
 
-	public CargoPackage(Measure measure, Double count) {
+	public CargoPackage(CargoCondition condition, Measure measure, Double count) {
 		super();
+		this.setCondition(condition);
 		this.measure = measure;
 		this.count = count;
+	}
+
+	public CargoCondition getCondition() {
+		return condition;
+	}
+
+	public void setCondition(CargoCondition condition) {
+		this.condition = condition;
 	}
 
 	public Measure getMeasure() {
@@ -38,4 +50,5 @@ public class CargoPackage extends IdentifiedEntity {
 	public void setCount(Double count) {
 		this.count = count;
 	}
+
 }
