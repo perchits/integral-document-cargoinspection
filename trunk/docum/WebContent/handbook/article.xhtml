@@ -19,7 +19,8 @@
 	
 					<p:dataTable id="articleGrid" var="article"
 						value="#{articleBean.allObjects}" selectionMode="single"
-						selection="#{articleBean.article}" update="categoriesGrid, characteristics">
+						selection="#{articleBean.article}" 
+						update="categoriesGrid, characteristics, features">
 						<p:column sortBy="#{article.name}" filterBy="#{article.name}"
 							filterMatchMode="contains">
 							<f:facet name="header">Наименование</f:facet>
