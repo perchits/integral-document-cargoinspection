@@ -167,7 +167,7 @@ select {
 }
 
 
-#voyagesPanel .crud-menu div {
+#voyagesPanel .crud-menu div, #containersPanel .crud-menu div{
 	padding: 0 0 1px;
 }
 
@@ -179,6 +179,10 @@ select {
 	min-width: 320px;
 }
 
-.cellSmallText{
+.cellSmallText td{
 	font-size: 11px;
+}
+
+#containersPanel .ui-column-filter {
+	width: 60px !important;
 }

@@ -7,9 +7,9 @@
 <ui:composition template="/WEB-INF/includes/layout.xhtml">
 	<ui:define name="content">
 		<h:form prependId="false">
-			<h:panelGrid columns="2" styleClass="voyagesLayoutTable"
+			<h:panelGrid columns="2" styleClass="containersLayoutTable"
 				id="voyagesLayoutTable">
-				<p:panel id="voyagesPanel" header="Судозаходы"
+				<p:panel id="containersPanel" header="Контейнеры"
 					style="text-align:center" styleClass="toggle-panel">
 					<ui:include src="/WEB-INF/includes/crudToolBar.xhtml">
 						<ui:param name="bean" value="#{containerBean}" />
@@ -17,7 +17,7 @@
 						<ui:param name="update" value="infoPanel" />
 					</ui:include>
 
-					<p:dataTable id="containers" var="container"
+					<p:dataTable selectionMode="single" styleClass="cellSmallText" id="containers" var="container"
 						value="#{containerBean.containers}"
 						rowStyleClass="#{container.color}">
 
@@ -25,6 +25,12 @@
 							filterBy="#{container.number}" filterMatchMode="contains">
 							<f:facet name="header">Номер</f:facet>
 							<h:outputText value="#{container.number}" />
+						</p:column>
+						
+						<p:column sortBy="#{container.voyage}"
+							filterBy="#{container.voyage}" filterMatchMode="contains">
+							<f:facet name="header">Судозаход</f:facet>
+							<h:outputText style="float:left" value="#{container.voyage}" />
 						</p:column>
 						
 						<p:column sortBy="#{container.invoiceInLine}"
@@ -39,7 +45,7 @@
 							<h:outputText value="#{container.orderInLine}" />
 						</p:column>
 						
-						<p:column styleClass="cellSmallText" sortBy="#{container.billOfLadingInLine}"
+						<p:column sortBy="#{container.billOfLadingInLine}"
 							filterBy="#{container.billOfLadingInLine}" filterMatchMode="contains">
 							<f:facet name="header">Коносаменты</f:facet>
 							<h:outputText value="#{container.billOfLadingInLine}" />
@@ -50,8 +56,13 @@
 							<f:facet name="header">Грузы</f:facet>
 							<h:outputText value="#{container.cargoInLine}" />
 						</p:column>
-
-
+						
+						<p:column sortBy="#{container.state}"
+							filterBy="#{container.state}">
+							<f:facet name="header">Статус</f:facet>
+							<h:outputText value="#{container.state}" />
+						</p:column>
+						
 					</p:dataTable>
 
 				</p:panel>
