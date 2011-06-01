@@ -19,7 +19,7 @@
 	
 					<p:dataTable id="articleGrid" var="article"
 						value="#{articleBean.allObjects}" selectionMode="single"
-						selection="#{articleBean.article}" update="categoriesGrid">
+						selection="#{articleBean.article}" update="categoriesGrid, characteristics">
 						<p:column sortBy="#{article.name}" filterBy="#{article.name}"
 							filterMatchMode="contains">
 							<f:facet name="header">Наименование</f:facet>
@@ -35,7 +35,7 @@
 				</p:panel>
 				<p:panel id="articlesInfoPanel" style="text-align:center">
 					<f:facet name="header">
-						<h:outputText value="Характеристики" />
+						<h:outputText value="Характеристики #{articleBean.article.name}" id="characteristics"/>
 					</f:facet>
 					<ui:include src="/WEB-INF/includes/crudToolBar.xhtml">
 						<ui:param name="bean" value="#{articleBean}" />
