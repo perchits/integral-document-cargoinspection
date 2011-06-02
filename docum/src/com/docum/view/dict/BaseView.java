@@ -45,7 +45,7 @@ public abstract class BaseView implements Serializable{
 	abstract public IdentifiedEntity getBeanObject();
 
 	public void refreshObjects() {
-		this.objects = baseService.getAll(getBeanObject().getClass(), null);
+		this.objects = baseService.getAll(getBeanObject().getClass(), new String[]{"id"});
 	}
 
 	public void saveObject() {
