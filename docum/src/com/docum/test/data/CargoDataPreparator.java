@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.docum.domain.po.common.Article;
+import com.docum.domain.po.common.ArticleFeature;
 import com.docum.domain.po.common.Cargo;
+import com.docum.domain.po.common.CargoArticleFeature;
 import com.docum.domain.po.common.CargoCondition;
 import com.docum.domain.po.common.CargoPackage;
 import com.docum.domain.po.common.Container;
@@ -45,7 +47,26 @@ public class CargoDataPreparator {
 			persister.persist(cargo);
 			cargo.setDeclaredCondition(prepareCondition(persister, cargo));
 			cargo.setActualCondition(prepareCondition(persister, cargo));
+			cargo.setFeatures(prepareFeatures(persister, cargo));
 			result.add(cargo);
+		}
+		persister.persist(result);
+		return result;
+	}
+
+	private static List<CargoArticleFeature> prepareFeatures(
+			TestDataPersister persister, Cargo cargo) {
+		List<CargoArticleFeature> result = new ArrayList<CargoArticleFeature>();
+		CargoArticleFeature cargoArticleFeature;
+		for(ArticleFeature feature : cargo.getArticle().getFeatures()) {
+			if(feature.isList()) {
+				cargoArticleFeature =
+					new CargoArticleFeature(cargo, feature, feature.getInstances().get(0));
+			} else {
+				cargoArticleFeature =
+					new CargoArticleFeature(cargo, feature, "2010", "2010");
+			}
+			result.add(cargoArticleFeature);
 		}
 		persister.persist(result);
 		return result;

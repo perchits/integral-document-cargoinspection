@@ -1,7 +1,10 @@
 package com.docum.domain.po.common;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import com.docum.domain.po.IdentifiedEntity;
@@ -13,16 +16,22 @@ public class Cargo extends IdentifiedEntity {
 	@ManyToOne(optional=false)
 	private Article article;
 
+	@ManyToOne
+	private ArticleCategory articleCategory;
+
+	@OneToMany(mappedBy="cargo")
+	private List<CargoArticleFeature> features;
+	
 	@ManyToOne(optional=false)
 	private Supplier supplier;
 	
 	@ManyToOne(optional=false)
 	private Container container;
 	
-	@OneToOne//(mappedBy="cargo")
+	@OneToOne
 	private CargoCondition declaredCondition;
 
-	@OneToOne//(mappedBy="cargo")
+	@OneToOne
 	private CargoCondition actualCondition;
 	
 	public Cargo(){
@@ -76,6 +85,22 @@ public class Cargo extends IdentifiedEntity {
 
 	public void setActualCondition(CargoCondition actualCondition) {
 		this.actualCondition = actualCondition;
+	}
+
+	public ArticleCategory getArticleCategory() {
+		return articleCategory;
+	}
+
+	public void setArticleCategory(ArticleCategory articleCategory) {
+		this.articleCategory = articleCategory;
+	}
+
+	public List<CargoArticleFeature> getFeatures() {
+		return features;
+	}
+
+	public void setFeatures(List<CargoArticleFeature> features) {
+		this.features = features;
 	}
    
 }
