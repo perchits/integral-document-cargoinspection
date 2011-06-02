@@ -103,4 +103,8 @@ public class Cargo extends IdentifiedEntity {
 		this.features = features;
 	}
    
+	@Override
+	public String toString(){
+		return article.getName();
+	}
 }

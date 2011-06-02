@@ -1,9 +1,7 @@
 package com.docum.view.wrapper;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.EnumMap;
-import java.util.List;
 
 import com.docum.domain.ContainerStateEnum;
 import com.docum.domain.po.common.Container;
@@ -34,7 +32,11 @@ public class ContainerPresentation implements Serializable {
 		setInvoiceInLine(getInvoices());
 		setOrderInLine(getOrders());
 		setBillOfLadingInLine(getBillOfLaddinds());
-		setCargoInLine(getCargos());
+		setCargoInLine(getCargoes());
+	}
+
+	public Container getContainer() {
+		return container;
 	}
 
 	public String getNumber() {
@@ -68,12 +70,9 @@ public class ContainerPresentation implements Serializable {
 				container.getBillOfLadings(), ", ") : null;
 	}
 
-	private String getCargos() {
-		// TODO Заменить на нормальную функцию
-		List<Object> list = new ArrayList<Object>();
-		list.add("Картошка");
-		list.add("Бурак");
-		return container != null ? ListHandler.join(list, ", ") : null;
+	private String getCargoes() {
+		return container != null ? ListHandler.join(container.getCargoes(),
+				", ") : null;
 	}
 
 	public void setInvoiceInLine(String invoiceInLine) {
