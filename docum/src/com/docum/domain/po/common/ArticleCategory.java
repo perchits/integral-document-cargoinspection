@@ -13,7 +13,8 @@ import com.docum.domain.po.IdentifiedEntity;
 	@NamedQuery(
 			name = ArticleDao.GET_ARTICLE_CATEGORIES_BY_ARTICLE_QUERY,
 			query = "SELECT DISTINCT ac FROM ArticleCategory ac " +
-				"WHERE ac.article.id=:articleId"
+				"WHERE ac.article.id=:articleId " +
+				"ORDER BY ac.id"
 	)
 )
 public class ArticleCategory extends IdentifiedEntity {
