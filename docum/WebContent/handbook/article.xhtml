@@ -69,7 +69,7 @@
 						<p:dataTable id="features" var="feature"
 							value="#{articleBean.features}">
 							<p:column style="width:16px">  
-					            <p:rowToggler />  
+					            <p:rowToggler rendered="#{feature.list}"/>  
 					        </p:column>
 							<p:column>
 								<h:outputText value="#{feature.name}" />
