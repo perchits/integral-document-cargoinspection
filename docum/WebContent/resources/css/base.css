@@ -46,11 +46,10 @@ body {
 	border: 1px solid #B1A635 !important;
 }
 
-.cleaner { /* Р�СЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РґР»СЏ СЂР°СЃС‚СЏРіРёРІР°РЅРёСЏ РґРёРІ-РєРѕРЅС‚РµР№РЅРµСЂР° РїСЂРё float */
+.cleaner {	
 	clear: both;
 	line-height: 0;
-	height: 0;
-	s
+	height: 0;	
 }
 
 table td {
@@ -92,24 +91,24 @@ table td {
 	padding: 0 0 2px;
 }
 
-/* Р Р°СЃРєСЂР°СЃРєР° РєРѕРЅС‚РµР№РЅРµСЂРѕРІ */
-.before-customs-color {
+/**/
+.before-customs-color td:nth-child(1) {
 	background: #FFE3E3;
 }
 
-.after-customs-color {
+.after-customs-color td:nth-child(1) {
 	background: #FFFFE3;
 }
 
-.handled-color {
+.handled-color td:nth-child(1) {
 	background: #E3FFE3;
 }
 
-.reported-color {
+.reported-color td:nth-child(1) {
 	background: #E3E3E3;
 }
 
-.abandoned-color {
+.abandoned-color td:nth-child(1) {
 	background: #E3E3E3;
 }
 
@@ -155,19 +154,17 @@ select {
 	margin: 0 !important;
 }
 
-.ui-selected {	
+.ui-selected{
 	background: #ebfb83
 		url("#{resource['primefaces-olive:images/ui-bg_glass_75_ebfb83_1x400.png']}")
-		50% 50% repeat-x !important;	
+		50% 50% repeat-x !important;
 }
 
-
-.voyagesLayoutTable, .infoLayoutTable, .invoicesLayoutTable {
-	width : 100%;
+.voyagesLayoutTable,.infoLayoutTable,.invoicesLayoutTable {
+	width: 100%;
 }
 
-
-#voyagesPanel .crud-menu div, #containersPanel .crud-menu div{
+#voyagesPanel .crud-menu div,#containersPanel .crud-menu div {
 	padding: 0 0 1px;
 }
 
@@ -175,11 +172,11 @@ select {
 	margin-bottom: 2px;
 }
 
-.infoLayoutTable, #infoPanel{
+.infoLayoutTable,#infoPanel {
 	min-width: 320px;
 }
 
-.cellSmallText td{
+.cellSmallText td {
 	font-size: 11px;
 }
 

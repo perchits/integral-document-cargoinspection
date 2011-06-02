@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 
 import com.docum.domain.po.IdentifiedEntity;
 import com.docum.domain.po.common.Container;
-import com.docum.domain.po.common.Invoice;
 import com.docum.util.AlgoUtil;
 import com.docum.view.dict.BaseView;
 import com.docum.view.wrapper.ContainerPresentation;
@@ -22,6 +21,7 @@ public class ContainerView extends BaseView implements Serializable {
 	private static final long serialVersionUID = 3476513399265370923L;
 	private static final String sign = "Контейнер";
 	private Container container = new Container();
+	private Container lazyContainer = new Container();
 
 	private ArrayList<ContainerPresentation> containers;
 
@@ -37,7 +37,7 @@ public class ContainerView extends BaseView implements Serializable {
 
 	@Override
 	public IdentifiedEntity getBeanObject() {
-		return container != null ? container : new Invoice();
+		return container != null ? container : new Container();
 	}
 
 	@Override
@@ -63,6 +63,25 @@ public class ContainerView extends BaseView implements Serializable {
 			refreshObjects();
 		}
 		return containers;
+	}
+
+	public ContainerPresentation getContainerPresentation() {
+		return container != null ? new ContainerPresentation(container) : null;
+	}
+
+	public void setContainerPresentation(
+			ContainerPresentation containerPresentation) {
+		container = containerPresentation != null ? containerPresentation
+				.getContainer() : null;
+		setLazyContainer(container);
+	}
+
+	public void setLazyContainer(Container lazyContainer) {
+		this.lazyContainer = lazyContainer != null ? getBaseService().getObject(Container.class, lazyContainer.getId()) : null;
+	}
+
+	public Container getLazyContainer() {
+		return lazyContainer;
 	}
 
 }

@@ -17,58 +17,61 @@
 						<ui:param name="update" value="infoPanel" />
 					</ui:include>
 
-					<p:dataTable selectionMode="single" styleClass="cellSmallText" id="containers" var="container"
+					<p:dataTable selectionMode="single" styleClass="cellSmallText"
+						id="containers" var="container"
 						value="#{containerBean.containers}"
-						rowStyleClass="#{container.color}">
+						selection="#{containerBean.containerPresentation}"
+						rowStyleClass="#{container.color}" update="infoPanel">
 
 						<p:column sortBy="#{container.number}"
 							filterBy="#{container.number}" filterMatchMode="contains">
 							<f:facet name="header">Номер</f:facet>
 							<h:outputText value="#{container.number}" />
 						</p:column>
-						
+
 						<p:column sortBy="#{container.voyage}"
 							filterBy="#{container.voyage}" filterMatchMode="contains">
 							<f:facet name="header">Судозаход</f:facet>
 							<h:outputText style="float:left" value="#{container.voyage}" />
 						</p:column>
-						
+
 						<p:column sortBy="#{container.invoiceInLine}"
 							filterBy="#{container.invoiceInLine}" filterMatchMode="contains">
 							<f:facet name="header">Инвойсы</f:facet>
 							<h:outputText value="#{container.invoiceInLine}" />
 						</p:column>
-						
+
 						<p:column sortBy="#{container.orderInLine}"
 							filterBy="#{container.orderInLine}" filterMatchMode="contains">
 							<f:facet name="header">Заказы</f:facet>
 							<h:outputText value="#{container.orderInLine}" />
 						</p:column>
-						
+
 						<p:column sortBy="#{container.billOfLadingInLine}"
-							filterBy="#{container.billOfLadingInLine}" filterMatchMode="contains">
+							filterBy="#{container.billOfLadingInLine}"
+							filterMatchMode="contains">
 							<f:facet name="header">Коносаменты</f:facet>
 							<h:outputText value="#{container.billOfLadingInLine}" />
 						</p:column>
-						
+
 						<p:column sortBy="#{container.cargoInLine}"
 							filterBy="#{container.cargoInLine}" filterMatchMode="contains">
 							<f:facet name="header">Грузы</f:facet>
 							<h:outputText value="#{container.cargoInLine}" />
 						</p:column>
-						
+
 						<p:column sortBy="#{container.state}"
 							filterBy="#{container.state}">
 							<f:facet name="header">Статус</f:facet>
 							<h:outputText value="#{container.state}" />
 						</p:column>
-						
+
 					</p:dataTable>
 
 				</p:panel>
 				<p:panel id="infoPanel" style="text-align:center">
 					<f:facet name="header">
-						<h:outputText value="#{containerBean.title}" />
+						<h:outputText value="#{containerBean.lazyContainer.number}" />
 					</f:facet>
 
 				</p:panel>
