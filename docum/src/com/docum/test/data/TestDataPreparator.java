@@ -28,9 +28,9 @@ import com.docum.domain.po.common.Container;
 import com.docum.domain.po.common.Customer;
 import com.docum.domain.po.common.Invoice;
 import com.docum.domain.po.common.Measure;
+import com.docum.domain.po.common.Port;
 import com.docum.domain.po.common.PurchaseOrder;
 import com.docum.domain.po.common.Supplier;
-import com.docum.domain.po.common.Tare;
 import com.docum.domain.po.common.Vessel;
 import com.docum.domain.po.common.Voyage;
 import com.docum.util.AlgoUtil;
@@ -67,9 +67,6 @@ public class TestDataPreparator implements TestDataPersister {
 	private String[] orderNumbers = new String[]{
 			"12712", "13156", "10892"};
 
-	private String[] tareNames = new String[]{
-			"Паллеты", "Поддоны", "Ящики", "Мешки"};
-
 	private String[] cityNames = new String[]{
 			"Новороссийск", "Анапа", "Темрюк", "Волгоград"};
 	private boolean ourCity = true;
@@ -96,6 +93,20 @@ public class TestDataPreparator implements TestDataPersister {
 				"Россия 350002 Краснодар ул. Леваневского 185", "185 Levanevskogo Street Krasnodar, 350002 Russia"
 			}
 			};
+
+	private String[] sealNames = new String[] {
+			"ZZD266900/RH40", "AHL2296968", "AHL2296969", "AHL2296970",
+			"ZZB353945/RH40", "268559/RH40", "268558/RH40", "268560/RH40",
+			"ZZD266901/RH40", "AHL2296969", "AHL2296980", "AHL2296981",
+			"ZZB353955/RH40", "268569/RH40", "268568/RH40", "268570/RH40"
+			};
+
+	private String[][] portNames = new String[][] {
+			{"Стамбул", "Istanbul"},
+			{"Роттердам", "Rotterdam"},
+			{"Гамбург", "Hamburg"},
+			{"Нью-Йорк", "New York"},
+			{"Новороссийск", "Novorossiysk"}};
 	
 	@SuppressWarnings(value="unused")
 	@Test
@@ -108,8 +119,8 @@ public class TestDataPreparator implements TestDataPersister {
 		List<Voyage> voyages = prepareVoyages(vessels);
 		List<City> cities = prepareCities();
 		List<Measure> measures  = prepareMesures();
-		List<Tare> tares = prepareTares();
-		List<Container> containers = prepareContainers(voyages, cities);
+		List<Port> ports = preparePorts();
+		List<Container> containers = prepareContainers(voyages, cities, ports);
 		List<Cargo> cargoes = CargoDataPreparator.prepareCargoes(this, articles, suppliers,
 				containers, measures);
 		List<BillOfLading> bills = prepareBillOfLadings(containers);
@@ -117,6 +128,13 @@ public class TestDataPreparator implements TestDataPersister {
 		List<PurchaseOrder> order = prepareOrders(containers);
 	}
 	
+	private List<Port> preparePorts() {
+		return prepareDictionary(portNames, new EntityConstructor<Port, String[]>(){
+			public Port construct(String[] names) {
+				return new Port(names[0], names[1]);
+			}});
+	}
+
 	private List<Voyage> prepareVoyages(List<Vessel> vessels) {
 		Calendar pastCal = (Calendar) cal.clone();
 		pastCal.add(Calendar.MONTH, -1);
@@ -133,7 +151,7 @@ public class TestDataPreparator implements TestDataPersister {
 	}
 
 	private List<Vessel> prepareVessels() {
-		return prepareDictionary(vesselNames, new EntityConstructor<Vessel>(){
+		return prepareDictionary(vesselNames, new EntityConstructor<Vessel, String>(){
 			public Vessel construct(String name) {
 				return new Vessel(name);
 			}});
@@ -141,17 +159,17 @@ public class TestDataPreparator implements TestDataPersister {
 
 	
 
-	private <T extends IdentifiedEntity> List<T> prepareDictionary(String[] names,
-			EntityConstructor<T> constructor) {
+	private <T extends IdentifiedEntity, S> List<T> prepareDictionary(S[] names,
+			EntityConstructor<T, S> constructor) {
 		List<T> result = new ArrayList<T>();
-		for(String name : names) {
+		for(S name : names) {
 			result.add(constructor.construct(name));
 		}
 		persist(result);
 		return result;
 	}
-	private static interface EntityConstructor<T extends IdentifiedEntity> {
-		public T construct(String name);
+	private static interface EntityConstructor<T extends IdentifiedEntity, S> {
+		public T construct(S name);
 	}
 
     private List<Company> prepareCompanies(){
@@ -179,7 +197,7 @@ public class TestDataPreparator implements TestDataPersister {
 		return result;
 	}
 	private List<City> prepareCities() {
-		return prepareDictionary(cityNames, new EntityConstructor<City>(){
+		return prepareDictionary(cityNames, new EntityConstructor<City, String>(){
 			public City construct(String name) {
 				City city = new City(name, ourCity);
 				ourCity = !ourCity;
@@ -188,47 +206,40 @@ public class TestDataPreparator implements TestDataPersister {
 	}
 	
 	private List<Measure> prepareMesures() {
-		return prepareDictionary(measureNames, new EntityConstructor<Measure>(){
+		return prepareDictionary(measureNames, new EntityConstructor<Measure, String>(){
 			public Measure construct(String name) {
 				return new Measure(name);
 			}});
 	}
 	
-	private List<Tare> prepareTares() {
-		return prepareDictionary(tareNames, new EntityConstructor<Tare>(){
-			public Tare construct(String name) {
-				return new Tare(name);
-			}});
-	}
-	
-	private List<Container> prepareContainers(List<Voyage> voyages, List<City> cities) {
+	private List<Container> prepareContainers(List<Voyage> voyages, List<City> cities,
+			List<Port> ports) {
 		final ContainerStateEnumCounter stateCounter = new ContainerStateEnumCounter();
 		final TestDataEntityCounter<Voyage> voyageCounter = new TestDataEntityCounter<Voyage>(voyages);
 		final TestDataEntityCounter<City> cityCounter = new TestDataEntityCounter<City>(cities);
+		final TestDataEntityCounter<Port> portCounter = new TestDataEntityCounter<Port>(ports);
+		final TestDataEntityCounter<String> sealCounter = new TestDataEntityCounter<String>(sealNames);
+		final Calendar pastCal = (Calendar) cal.clone();
+		pastCal.add(Calendar.MONTH, -6);
 
 		List<Container> result = new ArrayList<Container>(containerNames.length);
 		AlgoUtil.transform(result, Arrays.asList(containerNames),
 				new AlgoUtil.TransformFunctor<Container, String>() {
 					public Container transform(String name) {
-						return new Container(name, stateCounter.next(), voyageCounter.next(),
+						Container result = new Container(name, stateCounter.next(), voyageCounter.next(),
 								cityCounter.next());
+						result.setLoadingPort(portCounter.next());
+						pastCal.add(Calendar.DAY_OF_MONTH, 5);
+						result.setLoadingDate(cal.getTime());
+						result.setDischargePort(portCounter.next());
+						pastCal.add(Calendar.DAY_OF_MONTH, 5);
+						result.setDischargeDate(cal.getTime());
+						result.setDeclaredSeal(sealCounter.next());
+						result.setActualSeal(result.getDeclaredSeal());
+						return result;
 					}
 		});
 		
-		persist(result);
-		return result;
-	}
-	
-	private List<Cargo> prepareCargoes(List<Article> articles,
-			List<Supplier> suppliers, List<Container> containers) {
-		TestDataEntityCounter<Article> articleCounter = new TestDataEntityCounter<Article>(articles);
-		TestDataEntityCounter<Supplier> supplierCounter = new TestDataEntityCounter<Supplier>(suppliers);
-		TestDataEntityCounter<Container> containerCounter = new TestDataEntityCounter<Container>(containers);
-		List<Cargo> result = new ArrayList<Cargo>();
-		for(int i=0; i<10; i++) {
-			result.add(new Cargo(articleCounter.next(), supplierCounter.next(),
-					containerCounter.next()));
-		}
 		persist(result);
 		return result;
 	}
@@ -247,7 +258,6 @@ public class TestDataPreparator implements TestDataPersister {
 			bill.getContainers().add(container);
 			container.getBillOfLadings().add(bill);
 		}
-		//TODO: Может ли быть два коносамента на один контейнер?
 		Container container = containers.get(1);
 		BillOfLading bill = result.get(0);
 		bill.getContainers().add(container);

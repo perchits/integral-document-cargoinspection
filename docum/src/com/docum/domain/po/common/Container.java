@@ -1,6 +1,7 @@
 package com.docum.domain.po.common;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -58,6 +59,20 @@ public class Container extends IdentifiedEntity {
 	
 	@ManyToOne
 	private City city;
+
+	@ManyToOne
+	private Port loadingPort;
+	
+	private Date loadingDate;
+
+	@ManyToOne
+	private Port dischargePort;
+
+	private Date dischargeDate;
+	
+	private String declaredSeal;
+
+	private String actualSeal;
 	
 	public Container() {
 		super();
@@ -138,5 +153,53 @@ public class Container extends IdentifiedEntity {
 
 	public void setCity(City city) {
 		this.city = city;
+	}
+
+	public Port getLoadingPort() {
+		return loadingPort;
+	}
+
+	public void setLoadingPort(Port loadingPort) {
+		this.loadingPort = loadingPort;
+	}
+
+	public Date getLoadingDate() {
+		return loadingDate;
+	}
+
+	public void setLoadingDate(Date loadingDate) {
+		this.loadingDate = loadingDate;
+	}
+
+	public Port getDischargePort() {
+		return dischargePort;
+	}
+
+	public void setDischargePort(Port dischargePort) {
+		this.dischargePort = dischargePort;
+	}
+
+	public Date getDischargeDate() {
+		return dischargeDate;
+	}
+
+	public void setDischargeDate(Date dischargeDate) {
+		this.dischargeDate = dischargeDate;
+	}
+
+	public String getDeclaredSeal() {
+		return declaredSeal;
+	}
+
+	public void setDeclaredSeal(String declaredSeal) {
+		this.declaredSeal = declaredSeal;
+	}
+
+	public String getActualSeal() {
+		return actualSeal;
+	}
+
+	public void setActualSeal(String actualSeal) {
+		this.actualSeal = actualSeal;
 	}
 }
