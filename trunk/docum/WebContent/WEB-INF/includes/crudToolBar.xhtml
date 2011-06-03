@@ -5,7 +5,7 @@
 	xmlns:p="http://primefaces.prime.com.tr/ui">
 
 <ui:include src="/WEB-INF/includes/baseCrudToolBar.xhtml">	
-	<ui:param name="newObject" value="newObject" />
+	<ui:param name="newObject" value="#{(newObject == null) ? 'newObject' : newObject}" />
 	<ui:param name="editObject" value="editObject" />
 	<ui:param name="beforeDeleteObject" value="beforeDeleteObject" />
 	<ui:param name="refreshObjects" value="refreshObjects" />

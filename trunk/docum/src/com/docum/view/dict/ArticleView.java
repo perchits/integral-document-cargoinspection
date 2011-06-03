@@ -21,7 +21,9 @@ public class ArticleView extends BaseView {
 	@Autowired
 	ArticleService articleService;
 
+	private String categoryTitle;
 	private Article article = new Article();
+	private ArticleCategory category = new ArticleCategory();
 
 	public Article getArticle() {
 		return article;
@@ -66,6 +68,36 @@ public class ArticleView extends BaseView {
 		} else {
 			return articleService.getArticleFeatureByArticle(this.article.getId());
 		}
+	}
+	
+	public void saveCategory() {
+		if (this.category != null && this.category.getId() != null) {
+			super.getBaseService().updateObject(this.category);
+		} else {
+			super.getBaseService().saveObject(this.category);
+		}
+		super.getBaseService().getAll(this.category.getClass(), new String[]{"id"});
+	}
+	
+	public void newCategory() {
+		setTitle("Новая категория");
+		this.category = new ArticleCategory();
+	}
+
+	public String getCategoryTitle() {
+		return categoryTitle;
+	}
+
+	public void setCategoryTitle(String categoryTitle) {
+		this.categoryTitle = categoryTitle;
+	}
+
+	public ArticleCategory getCategory() {
+		return category;
+	}
+
+	public void setCategory(ArticleCategory category) {
+		this.category = category;
 	}
 
 }
