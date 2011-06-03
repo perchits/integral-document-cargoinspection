@@ -38,18 +38,20 @@
 					<f:facet name="header">
 						<h:outputText value="Характеристики #{articleBean.article.name}" id="characteristics"/>
 					</f:facet>
-					<ui:include src="/WEB-INF/includes/crudToolBar.xhtml">
-						<ui:param name="bean" value="#{articleBean}" />
-						<ui:param name="gridId" value="categoriesGrid" />
-						<ui:param name="addTitle" value="" />
-						<ui:param name="editTitle" value="" />
-						<ui:param name="deleteTitle" value="" />
-						<ui:param name="refreshTitle" value="" />
-					</ui:include>
 					<h:panelGrid columns="2" styleClass="infoLayoutTable">
 
+						<p:panel>
+							<ui:include src="/WEB-INF/includes/crudToolBar.xhtml">
+							<ui:param name="bean" value="#{articleBean}" />
+							<ui:param name="gridId" value="categoriesGrid" />
+							<ui:param name="newObject" value="newCategory" />
+							<ui:param name="addTitle" value="" />
+							<ui:param name="editTitle" value="" />
+							<ui:param name="deleteTitle" value="" />
+							<ui:param name="refreshTitle" value="" />
+						</ui:include>
 						<p:dataTable id="categoriesGrid" var="category" selectionMode="single"
-							value="#{articleBean.categories}">
+							value="#{articleBean.categories}" selection="#{articleBean.category}">
 							<p:column headerText="Категория">
 								<p:cellEditor>
 									<f:facet name="output">
@@ -65,7 +67,16 @@
 								<f:facet name="header">Категория англ.</f:facet>
 							</p:column>
 						</p:dataTable>
-						
+						</p:panel>
+						<p:panel>
+						<ui:include src="/WEB-INF/includes/crudToolBar.xhtml">
+							<ui:param name="bean" value="#{articleBean}" />
+							<ui:param name="gridId" value="categoriesGrid" />
+							<ui:param name="addTitle" value="" />
+							<ui:param name="editTitle" value="" />
+							<ui:param name="deleteTitle" value="" />
+							<ui:param name="refreshTitle" value="" />
+						</ui:include>
 						<p:dataTable id="features" var="feature"
 							value="#{articleBean.features}">
 							<p:column style="width:16px">  
@@ -76,8 +87,8 @@
 								<f:facet name="header">Характеристика</f:facet>
 							</p:column>
 							<p:column>
-								<h:outputText value="#{feature.englishName}" />
 								<f:facet name="header">Характеристика англ.</f:facet>
+								<h:outputText value="#{feature.englishName}" />
 							</p:column>
 							<p:rowExpansion>  
 					            <p:dataTable id="featuresDetailsGrid" var="f_instance" 
@@ -91,12 +102,18 @@
 								</p:dataTable>
 					        </p:rowExpansion>
 						</p:dataTable>
+						</p:panel>
 
 					</h:panelGrid>
 				</p:panel>
 			</h:panelGrid>	
 		</h:form>
 
+		<ui:include src="/handbook/dialog/articleCategoryDlg.xhtml">
+			<ui:param name="gridId" value="categoriesGrid" />
+			<ui:param name="bean" value="#{articleBean}" />
+			<ui:param name="title" value="title" />
+		</ui:include>
 		<ui:include src="/handbook/dialog/articleDlg.xhtml">
 			<ui:param name="gridId" value="articleGrid" />
 			<ui:param name="bean" value="#{articleBean}" />
