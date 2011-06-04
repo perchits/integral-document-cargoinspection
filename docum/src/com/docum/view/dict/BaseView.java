@@ -1,6 +1,7 @@
 package com.docum.view.dict;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
@@ -9,6 +10,7 @@ import javax.faces.event.ActionEvent;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.docum.domain.SortOrderEnum;
 import com.docum.domain.po.IdentifiedEntity;
 import com.docum.service.BaseService;
 
@@ -45,7 +47,9 @@ public abstract class BaseView implements Serializable{
 	abstract public IdentifiedEntity getBeanObject();
 
 	public void refreshObjects() {
-		this.objects = baseService.getAll(getBeanObject().getClass(), new String[]{"id"});
+		HashMap<String, SortOrderEnum> sortFields = new HashMap<String, SortOrderEnum>();
+		sortFields.put("id", SortOrderEnum.ASC);
+		this.objects = baseService.getAll(getBeanObject().getClass(), sortFields);
 	}
 
 	public void saveObject() {

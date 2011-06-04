@@ -1,5 +1,6 @@
 package com.docum.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.docum.dao.BaseDao;
+import com.docum.domain.SortOrderEnum;
 import com.docum.domain.po.IdentifiedEntity;
 import com.docum.service.BaseService;
 
@@ -16,12 +18,12 @@ public class BaseServiceImpl implements BaseService {
 	private static final long serialVersionUID = 233634615322331476L;
 	@Autowired
 	BaseDao baseDao;
-	
+
 	@Override
 	public <T extends IdentifiedEntity> T saveObject(T object) {
 		return baseDao.saveObject(object);
 	}
-	
+
 	@Override
 	public <T extends IdentifiedEntity> T updateObject(T object) {
 		return baseDao.updateObject(object);
@@ -33,7 +35,8 @@ public class BaseServiceImpl implements BaseService {
 	}
 
 	@Override
-	public <T extends IdentifiedEntity> void deleteObject(Class<T> clazz, Long objectId) {
+	public <T extends IdentifiedEntity> void deleteObject(Class<T> clazz,
+			Long objectId) {
 		baseDao.deleteObject(clazz, objectId);
 	}
 
@@ -43,7 +46,8 @@ public class BaseServiceImpl implements BaseService {
 	}
 
 	@Override
-	public <T extends IdentifiedEntity> List<T> getAll(Class<T> clazz, String[] sortFields) {
+	public <T extends IdentifiedEntity> List<T> getAll(Class<T> clazz,
+			HashMap<String, SortOrderEnum> sortFields) {
 		return baseDao.getAll(clazz, sortFields);
 	}
 
