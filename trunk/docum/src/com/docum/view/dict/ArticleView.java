@@ -1,11 +1,13 @@
 package com.docum.view.dict;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
+import com.docum.domain.SortOrderEnum;
 import com.docum.domain.po.IdentifiedEntity;
 import com.docum.domain.po.common.Article;
 import com.docum.domain.po.common.ArticleCategory;
@@ -76,7 +78,9 @@ public class ArticleView extends BaseView {
 		} else {
 			super.getBaseService().saveObject(this.category);
 		}
-		super.getBaseService().getAll(this.category.getClass(), new String[]{"id"});
+		HashMap<String, SortOrderEnum> sortFields = new HashMap<String, SortOrderEnum>();
+		sortFields.put("id", SortOrderEnum.ASC);
+		super.getBaseService().getAll(this.category.getClass(), sortFields);
 	}
 	
 	public void newCategory() {

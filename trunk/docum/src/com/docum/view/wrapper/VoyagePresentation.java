@@ -117,4 +117,8 @@ public class VoyagePresentation implements Serializable {
 			return "Судозаход не выбран";
 		}
 	}
+	
+	public String getVoyageInfo(){
+		return joinVoyageInfo(voyage);
+	}
 }

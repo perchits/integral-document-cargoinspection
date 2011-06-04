@@ -8,9 +8,11 @@ public class ListHandler {
 			StringBuilder sb = new StringBuilder();
 			String loopDelim = "";
 			for (Object s : list) {
-				sb.append(loopDelim);
-				sb.append(s.toString());
-				loopDelim = delim;
+				if (sb.indexOf(s.toString()) == -1) {
+					sb.append(loopDelim);
+					sb.append(s.toString());
+					loopDelim = delim;
+				}
 			}
 			return sb.toString();
 		} else {

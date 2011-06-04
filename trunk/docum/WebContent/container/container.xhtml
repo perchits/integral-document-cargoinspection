@@ -9,13 +9,24 @@
 		<h:form prependId="false">
 			<h:panelGrid columns="2" styleClass="containersLayoutTable"
 				id="voyagesLayoutTable">
+
 				<p:panel id="containersPanel" header="Контейнеры"
 					style="text-align:center" styleClass="toggle-panel">
+
+					<p:autoComplete style="float:right; width : 270px"
+						id="VoyageSearchBoxId" value="#{containerBean.selectedVoyage}"
+						completeMethod="#{containerBean.voyageAutocomplete}" var="voyage"
+						itemValue="#{voyage}" itemLabel="#{voyage.voyageInfo}"
+						forceSelection="true" converter="voyagePresentationConverter">
+					</p:autoComplete>
+
 					<ui:include src="/WEB-INF/includes/crudToolBar.xhtml">
 						<ui:param name="bean" value="#{containerBean}" />
 						<ui:param name="gridId" value="containers" />
 						<ui:param name="update" value="infoPanel" />
 					</ui:include>
+
+
 
 					<p:dataTable selectionMode="single" styleClass="cellSmallText"
 						id="containers" var="container"
@@ -73,6 +84,25 @@
 					<f:facet name="header">
 						<h:outputText value="#{containerBean.lazyContainer.number}" />
 					</f:facet>
+
+					<p:dataTable id="cargoes" var="cargo"
+						value="#{containerBean.lazyContainer.cargoes}"
+						selectionMode="single">
+						<p:column>
+							<f:facet name="header">
+							Груз 
+						</f:facet>
+							<h:outputText value="#{cargo.article.name}" />
+						</p:column>
+
+						<p:column>
+							<f:facet name="header">
+							Поставщик 
+						</f:facet>
+							<h:outputText value="#{cargo.supplier.company.name}" />
+						</p:column>
+					</p:dataTable>
+
 
 				</p:panel>
 			</h:panelGrid>
