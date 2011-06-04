@@ -6,6 +6,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
+import org.primefaces.event.SelectEvent;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
@@ -13,6 +15,7 @@ import com.docum.domain.SortOrderEnum;
 import com.docum.domain.po.IdentifiedEntity;
 import com.docum.domain.po.common.Container;
 import com.docum.domain.po.common.Voyage;
+import com.docum.service.ContainerService;
 import com.docum.util.AlgoUtil;
 import com.docum.view.dict.BaseView;
 import com.docum.view.wrapper.ContainerPresentation;
@@ -30,7 +33,8 @@ public class ContainerView extends BaseView implements Serializable {
 	private Container container = new Container();
 	private Container lazyContainer = new Container();
 	private VoyagePresentation selectedVoyage;
-
+	@Autowired
+	private ContainerService containerService;
 	private ArrayList<ContainerPresentation> containers;
 
 	@Override
@@ -50,10 +54,8 @@ public class ContainerView extends BaseView implements Serializable {
 
 	@Override
 	public void refreshObjects() {
-		super.refreshObjects();
-		// TODO Посмотреть преобразование типов
-		@SuppressWarnings("unchecked")
-		Collection<Container> c = (Collection<Container>) getAllObjects();
+		super.refreshObjects();		
+		Collection<Container> c = containerService.getContainersByVoyage(selectedVoyage != null ? selectedVoyage.getVoyage().getId() : null);		
 		containers = new ArrayList<ContainerPresentation>(c.size());
 		AlgoUtil.transform(containers, c, new ContainerTransformer());
 	}
@@ -126,6 +128,10 @@ public class ContainerView extends BaseView implements Serializable {
 
 	public VoyagePresentation getSelectedVoyage() {
 		return selectedVoyage;
+	}
+	
+	public void voyageSelect(SelectEvent event) {
+		refreshObjects();
 	}
 
 }

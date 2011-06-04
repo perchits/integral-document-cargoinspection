@@ -17,7 +17,9 @@
 						id="VoyageSearchBoxId" value="#{containerBean.selectedVoyage}"
 						completeMethod="#{containerBean.voyageAutocomplete}" var="voyage"
 						itemValue="#{voyage}" itemLabel="#{voyage.voyageInfo}"
-						forceSelection="true" converter="voyagePresentationConverter">
+						forceSelection="true" converter="voyagePresentationConverter"
+						selectListener="#{containerBean.voyageSelect}" 
+						onSelectUpdate="containers,infoPanel">
 					</p:autoComplete>
 
 					<ui:include src="/WEB-INF/includes/crudToolBar.xhtml">
