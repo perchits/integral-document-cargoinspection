@@ -46,10 +46,10 @@ body {
 	border: 1px solid #B1A635 !important;
 }
 
-.cleaner {	
+.cleaner {
 	clear: both;
 	line-height: 0;
-	height: 0;	
+	height: 0;
 }
 
 table td {
@@ -154,7 +154,7 @@ select {
 	margin: 0 !important;
 }
 
-.ui-selected{
+.ui-selected {
 	background: #ebfb83
 		url("#{resource['primefaces-olive:images/ui-bg_glass_75_ebfb83_1x400.png']}")
 		50% 50% repeat-x !important;
@@ -186,4 +186,11 @@ select {
 
 #containersPanel {
 	min-width: 656px;
+}
+
+#VoyageSearchBoxId input{
+	font-size : 11px !important;
+	float: right;
+	width: 250px !important;
+	margin-top: 1px;
 }
