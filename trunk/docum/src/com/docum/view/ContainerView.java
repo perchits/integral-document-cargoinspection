@@ -133,5 +133,13 @@ public class ContainerView extends BaseView implements Serializable {
 	public void voyageSelect(SelectEvent event) {
 		refreshObjects();
 	}
+	
+	public String getContainersTitle(){
+		return selectedVoyage != null ? 
+				String.format("Контейнеры (судозаход: %1$s)", selectedVoyage.getVoyageInfo()): 
+					"Судозаход не выбран...";
+		
+		
+	}
 
 }
