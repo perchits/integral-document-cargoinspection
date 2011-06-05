@@ -183,3 +183,7 @@ select {
 #containersPanel .ui-column-filter {
 	width: 60px !important;
 }
+
+#containersPanel {
+	min-width: 656px;
+}

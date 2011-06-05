@@ -10,16 +10,20 @@
 			<h:panelGrid columns="2" styleClass="containersLayoutTable"
 				id="voyagesLayoutTable">
 
-				<p:panel id="containersPanel" header="Контейнеры"
-					style="text-align:center" styleClass="toggle-panel">
-
+				<p:panel id="containersPanel" style="text-align:center"
+					styleClass="toggle-panel">
+					<f:facet name="header">
+						<h:panelGroup id="containerTitle">
+							Контейнеры для судозахода #{containerBean.selectedVoyage.voyageInfo}
+						</h:panelGroup>
+					</f:facet>
 					<p:autoComplete style="float:right; width : 270px"
 						id="VoyageSearchBoxId" value="#{containerBean.selectedVoyage}"
 						completeMethod="#{containerBean.voyageAutocomplete}" var="voyage"
 						itemValue="#{voyage}" itemLabel="#{voyage.voyageInfo}"
 						forceSelection="true" converter="voyagePresentationConverter"
-						selectListener="#{containerBean.voyageSelect}" 
-						onSelectUpdate="containers,infoPanel">
+						selectListener="#{containerBean.voyageSelect}"
+						onSelectUpdate="containers,infoPanel,containerTitle">
 					</p:autoComplete>
 
 					<ui:include src="/WEB-INF/includes/crudToolBar.xhtml">
@@ -40,20 +44,14 @@
 							filterBy="#{container.number}" filterMatchMode="contains">
 							<f:facet name="header">Номер</f:facet>
 							<h:outputText value="#{container.number}" />
-						</p:column>
-
-						<p:column sortBy="#{container.voyage}"
-							filterBy="#{container.voyage}" filterMatchMode="contains">
-							<f:facet name="header">Судозаход</f:facet>
-							<h:outputText style="float:left" value="#{container.voyage}" />
-						</p:column>
+						</p:column>		
 
 						<p:column sortBy="#{container.invoiceInLine}"
 							filterBy="#{container.invoiceInLine}" filterMatchMode="contains">
 							<f:facet name="header">Инвойсы</f:facet>
 							<h:outputText value="#{container.invoiceInLine}" />
-						</p:column>
-
+						</p:column>				
+				
 						<p:column sortBy="#{container.orderInLine}"
 							filterBy="#{container.orderInLine}" filterMatchMode="contains">
 							<f:facet name="header">Заказы</f:facet>
@@ -112,7 +110,7 @@
 
 		<ui:include src="/handbook/dialog/voyageDlg.xhtml">
 			<ui:param name="bean" value="#{voyageBean}" />
-			<ui:param name="gridId" value="voyages" />
+			<ui:param name="gridId" value="containers" />
 			<ui:param name="selectedVessel" value="selectedVessel" />
 			<ui:param name="vessels" value="vessels" />
 			<ui:param name="title" value="title" />
