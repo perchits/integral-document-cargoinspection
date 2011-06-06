@@ -1,8 +1,8 @@
 package com.docum.dao;
 
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.docum.domain.SortOrderEnum;
 import com.docum.domain.po.IdentifiedEntity;
@@ -19,6 +19,6 @@ public interface BaseDao extends Serializable {
 	
 	public <T extends IdentifiedEntity> T getObject(Class<T> clazz, Long id);
 	
-	public <T extends IdentifiedEntity> List<T> getAll(Class<T> clazz, HashMap<String, SortOrderEnum>sortFields);	
+	public <T extends IdentifiedEntity> List<T> getAll(Class<T> clazz, Map<String, SortOrderEnum>sortFields);	
 
 }

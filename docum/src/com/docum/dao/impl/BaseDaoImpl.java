@@ -1,8 +1,7 @@
 package com.docum.dao.impl;
 
-import java.util.HashMap;
-
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -45,7 +44,7 @@ public class BaseDaoImpl implements BaseDao {
 	}
 
 	public <T extends IdentifiedEntity> List<T> getAll(Class<T> clazz,
-			HashMap<String, SortOrderEnum> sortFields) {
+			Map<String, SortOrderEnum> sortFields) {
 		StringBuffer orderBy = new StringBuffer();
 		if (sortFields != null) {
 			if (orderBy.length() > 0) {
