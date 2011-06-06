@@ -17,7 +17,7 @@ import com.docum.domain.po.IdentifiedEntity;
 	@NamedQuery(
 			name = ArticleDao.GET_ARTICLE_FEATURES_BY_ARTICLE_QUERY,
 			query = "SELECT DISTINCT af FROM ArticleFeature af " +
-				"WHERE af.article.id=:articleId"
+				"WHERE af.article.id=:articleId ORDER BY af.list, af.id"
 	)
 )
 public class ArticleFeature extends IdentifiedEntity {

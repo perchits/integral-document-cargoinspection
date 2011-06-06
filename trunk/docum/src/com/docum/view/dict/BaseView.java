@@ -53,9 +53,7 @@ public abstract class BaseView implements Serializable{
 	abstract public IdentifiedEntity getBeanObject();
 
 	public void refreshObjects() {
-		HashMap<String, SortOrderEnum> sortFields = new HashMap<String, SortOrderEnum>();
-		sortFields.put("id", SortOrderEnum.ASC);
-		this.objects = baseService.getAll(getBeanObject().getClass(), sortFields);
+		this.objects = baseService.getAll(getBeanObject().getClass(), DEAFULT_SORT_FIELDS);
 	}
 
 	public void saveObject() {
