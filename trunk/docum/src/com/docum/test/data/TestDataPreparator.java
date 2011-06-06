@@ -129,10 +129,12 @@ public class TestDataPreparator implements TestDataPersister {
 	}
 	
 	private List<Port> preparePorts() {
-		return prepareDictionary(portNames, new EntityConstructor<Port, String[]>(){
-			public Port construct(String[] names) {
-				return new Port(names[0], names[1]);
-			}});
+		return TestDataPrepareUtil.prepareDictionary(this, portNames,
+				new TestDataEntityConstructor<Port, String[]>() {
+					public Port construct(String[] names) {
+						return new Port(names[0], names[1]);
+					}
+				});
 	}
 
 	private List<Voyage> prepareVoyages(List<Vessel> vessels) {
@@ -151,28 +153,15 @@ public class TestDataPreparator implements TestDataPersister {
 	}
 
 	private List<Vessel> prepareVessels() {
-		return prepareDictionary(vesselNames, new EntityConstructor<Vessel, String>(){
-			public Vessel construct(String name) {
-				return new Vessel(name);
-			}});
+		return TestDataPrepareUtil.prepareDictionary(this, vesselNames,
+				new TestDataEntityConstructor<Vessel, String>() {
+					public Vessel construct(String name) {
+						return new Vessel(name);
+					}
+				});
 	}
 
-	
-
-	private <T extends IdentifiedEntity, S> List<T> prepareDictionary(S[] names,
-			EntityConstructor<T, S> constructor) {
-		List<T> result = new ArrayList<T>();
-		for(S name : names) {
-			result.add(constructor.construct(name));
-		}
-		persist(result);
-		return result;
-	}
-	private static interface EntityConstructor<T extends IdentifiedEntity, S> {
-		public T construct(S name);
-	}
-
-    private List<Company> prepareCompanies(){
+	private List<Company> prepareCompanies(){
 		List<Company> result = new ArrayList<Company>();
 		for(String c[] : companyNames) { 
 			result.add(new Company(c[0],c[1],c[2],c[3],c[4],c[5]));
@@ -196,20 +185,25 @@ public class TestDataPreparator implements TestDataPersister {
 		persist(result);
 		return result;
 	}
+
 	private List<City> prepareCities() {
-		return prepareDictionary(cityNames, new EntityConstructor<City, String>(){
-			public City construct(String name) {
-				City city = new City(name, ourCity);
-				ourCity = !ourCity;
-				return city;
-			}});
+		return TestDataPrepareUtil.prepareDictionary(this, cityNames,
+				new TestDataEntityConstructor<City, String>() {
+					public City construct(String name) {
+						City city = new City(name, ourCity);
+						ourCity = !ourCity;
+						return city;
+					}
+				});
 	}
 	
 	private List<Measure> prepareMesures() {
-		return prepareDictionary(measureNames, new EntityConstructor<Measure, String>(){
-			public Measure construct(String name) {
-				return new Measure(name);
-			}});
+		return TestDataPrepareUtil.prepareDictionary(this, measureNames,
+				new TestDataEntityConstructor<Measure, String>() {
+					public Measure construct(String name) {
+						return new Measure(name);
+					}
+				});
 	}
 	
 	private List<Container> prepareContainers(List<Voyage> voyages, List<City> cities,
