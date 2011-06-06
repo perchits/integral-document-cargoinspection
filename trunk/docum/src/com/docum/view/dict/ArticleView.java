@@ -76,6 +76,7 @@ public class ArticleView extends BaseView {
 		if (this.category != null && this.category.getId() != null) {
 			super.getBaseService().updateObject(this.category);
 		} else {
+			this.category.setArticle(this.article);
 			super.getBaseService().saveObject(this.category);
 		}
 		HashMap<String, SortOrderEnum> sortFields = new HashMap<String, SortOrderEnum>();
