@@ -6,9 +6,9 @@
 	xmlns:p="http://primefaces.prime.com.tr/ui">
 
 		<h:form>
-			<p:commandButton value="Save" action="#{testView.save}"></p:commandButton>
-			<p:commandButton value="Go" action="#{testView.go}">
-			</p:commandButton>
+			<h:outputText value="#{testView1.value}" />
+			<br/>
+			<h:outputText value="#{flash.city1.name}" />
 		</h:form>
 
 </ui:composition>
