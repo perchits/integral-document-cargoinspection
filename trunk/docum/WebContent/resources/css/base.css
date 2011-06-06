@@ -194,3 +194,25 @@ select {
 	width: 250px !important;
 	margin-top: 1px;
 }
+
+.container-cargo-panel {
+	margin-bottom: 2px;	
+}
+
+.container-cargo-panel div{	
+	font-size: 11px !important;	
+}
+
+.container-cargo-panel .ui-panel-content{	
+	text-align: left;
+}
+
+#lazyContainerInfo {
+	text-align: left;
+	margin: 4px 0 7px 4px;
+	line-height: 16px;
+}
+
+.olive-color {
+	color : olive;
+}

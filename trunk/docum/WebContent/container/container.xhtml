@@ -13,7 +13,8 @@
 				<p:panel id="containersPanel" style="text-align:center"
 					styleClass="toggle-panel">
 					<f:facet name="header">
-						<h:outputText id="containerTitle" value="#{containerBean.containersTitle}" />
+						<h:outputText id="containerTitle"
+							value="#{containerBean.containersTitle}" />
 					</f:facet>
 					<p:autoComplete id="VoyageSearchBoxId"
 						value="#{containerBean.selectedVoyage}"
@@ -46,27 +47,33 @@
 
 						<p:column sortBy="#{container.invoiceInLine}"
 							filterBy="#{container.invoiceInLine}" filterMatchMode="contains">
-							<f:facet name="header">Инвойсы</f:facet>
+							<f:facet name="header">Инвойс</f:facet>
 							<h:outputText value="#{container.invoiceInLine}" />
 						</p:column>
 
 						<p:column sortBy="#{container.orderInLine}"
 							filterBy="#{container.orderInLine}" filterMatchMode="contains">
-							<f:facet name="header">Заказы</f:facet>
+							<f:facet name="header">Заказ</f:facet>
 							<h:outputText value="#{container.orderInLine}" />
 						</p:column>
 
 						<p:column sortBy="#{container.billOfLadingInLine}"
 							filterBy="#{container.billOfLadingInLine}"
 							filterMatchMode="contains">
-							<f:facet name="header">Коносаменты</f:facet>
+							<f:facet name="header">Коносамент</f:facet>
 							<h:outputText value="#{container.billOfLadingInLine}" />
 						</p:column>
 
 						<p:column sortBy="#{container.cargoInLine}"
 							filterBy="#{container.cargoInLine}" filterMatchMode="contains">
-							<f:facet name="header">Грузы</f:facet>
+							<f:facet name="header">Груз</f:facet>
 							<h:outputText value="#{container.cargoInLine}" />
+						</p:column>
+
+						<p:column sortBy="#{container.city}" filterBy="#{container.city}"
+							filterMatchMode="contains">
+							<f:facet name="header">Город</f:facet>
+							<h:outputText value="#{container.city}" />
 						</p:column>
 
 						<p:column sortBy="#{container.state}"
@@ -82,25 +89,60 @@
 					<f:facet name="header">
 						<h:outputText value="#{containerBean.lazyContainer.number}" />
 					</f:facet>
-
-					<p:dataTable id="cargoes" var="cargo"
-						value="#{containerBean.lazyContainer.cargoes}"
-						selectionMode="single">
-						<p:column>
-							<f:facet name="header">
-							Груз 
-						</f:facet>
-							<h:outputText value="#{cargo.article.name}" />
-						</p:column>
-
-						<p:column>
-							<f:facet name="header">
-							Поставщик 
-						</f:facet>
+					<h:panelGroup id="lazyContainerInfo" layout="block"
+						rendered="#{containerBean.isSelected}">
+						<h:outputText styleClass="olive-color" value="Статус: " />
+						<h:outputText
+							value="#{containerBean.lazyContainerPresentation.state}" />
+						<br />
+						<h:outputText styleClass="olive-color" value="Инвойс: " />
+						<h:outputText
+							value="#{containerBean.lazyContainerPresentation.invoiceInLine}" />
+						<br />
+						<h:outputText styleClass="olive-color" value="Заказ: " />
+						<h:outputText
+							value="#{containerBean.lazyContainerPresentation.orderInLine}" />
+						<br />
+						<h:outputText styleClass="olive-color" value="Коносамент: " />
+						<h:outputText
+							value="#{containerBean.lazyContainerPresentation.billOfLadingInLine}" />
+						<br />
+						<h:outputText styleClass="olive-color" value="Город: " />
+						<h:outputText value="#{containerBean.lazyContainer.city.name}" />
+						<br />
+						<h:outputText styleClass="olive-color" value="Погрузка: " />
+						<h:outputText
+							value="#{containerBean.lazyContainer.loadingPort.name}" />
+						<h:outputText value=", " />
+						<h:outputText value="#{containerBean.lazyContainer.loadingDate}">
+							<f:convertDateTime dateStyle="medium" type="date" />
+						</h:outputText>
+						<br />
+						<h:outputText styleClass="olive-color" value="Выгрузка: " />
+						<h:outputText
+							value="#{containerBean.lazyContainer.dischargePort.name}" />
+						<h:outputText value=", " />
+						<h:outputText value="#{containerBean.lazyContainer.dischargeDate}">
+							<f:convertDateTime dateStyle="medium" type="date" />
+						</h:outputText>
+					</h:panelGroup>
+					<ui:repeat value="#{containerBean.lazyContainer.cargoes}"
+						var="cargo">
+						<p:panel
+							header="#{cargo.article.name}, кат: #{cargo.articleCategory.name}"
+							styleClass="container-cargo-panel">
+							<h:outputText styleClass="olive-color" value="Поставщик: " />
 							<h:outputText value="#{cargo.supplier.company.name}" />
-						</p:column>
-					</p:dataTable>
+							<ul>
+								<ui:repeat value="#{cargo.features}" var="feature">
+									<li><h:outputText styleClass="olive-color"
+											value="#{feature.feature.name}: " /> <h:outputText
+											value="#{feature.value}" /></li>
+								</ui:repeat>
+							</ul>
 
+						</p:panel>
+					</ui:repeat>
 
 				</p:panel>
 			</h:panelGrid>

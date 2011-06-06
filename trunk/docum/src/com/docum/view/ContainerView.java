@@ -95,6 +95,10 @@ public class ContainerView extends BaseView implements Serializable {
 		return lazyContainer;
 	}
 
+	public ContainerPresentation getLazyContainerPresentation() {
+		return new ContainerPresentation(lazyContainer);
+	}
+	
 	public List<VoyagePresentation> getVoyages() {	
 		HashMap<String, SortOrderEnum> sortFields = new HashMap<String, SortOrderEnum>();
 		sortFields.put("arrivalDate", SortOrderEnum.DESC);		
@@ -137,9 +141,12 @@ public class ContainerView extends BaseView implements Serializable {
 	public String getContainersTitle(){
 		return selectedVoyage != null ? 
 				String.format("Контейнеры (судозаход: %1$s)", selectedVoyage.getVoyageInfo()): 
-					"Судозаход не выбран...";
+					"Судозаход не выбран...";		
 		
-		
+	}
+	
+	public Boolean getIsSelected() {
+		return lazyContainer.getId() == null ? false : true;
 	}
 
 }
