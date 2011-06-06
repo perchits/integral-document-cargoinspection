@@ -33,13 +33,14 @@
 				<ui:param name="bean" value="#{articleBean}" />
 				<ui:param name="gridId" value="featuresDetailsEditGrid" />
 				<ui:param name="newObject" value="newFeatureInstance" />
+				<ui:param name="refreshObjects" value="refreshFeatureInstances" />
 				<ui:param name="addTitle" value="" />
 				<ui:param name="editTitle" value="" />
 				<ui:param name="deleteTitle" value="" />
 				<ui:param name="refreshTitle" value="" />
 			</ui:include>
 			<p:dataTable id="featuresDetailsEditGrid" var="fde" 
-				value="#{bean.feature.instances}" selectionMode="single" selection="#{bean.featureInstance}">
+				value="#{bean.featureInstances}" selectionMode="single" selection="#{bean.featureInstance}">
 				<p:column>
 					<h:outputText value="#{fde.name}" />
 				</p:column>

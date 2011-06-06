@@ -8,7 +8,7 @@
 	<ui:param name="newObject" value="#{(newObject == null) ? 'newObject' : newObject}" />
 	<ui:param name="editObject" value="editObject" />
 	<ui:param name="beforeDeleteObject" value="beforeDeleteObject" />
-	<ui:param name="refreshObjects" value="refreshObjects" />
+	<ui:param name="refreshObjects" value="#{(refreshObjects == null) ? 'refreshObjects' : refreshObjects}" />
 </ui:include>
 
 </html>
