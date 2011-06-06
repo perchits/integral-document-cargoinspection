@@ -156,7 +156,9 @@ public class ArticleView extends BaseView {
 
 	public void setFeature(ArticleFeature feature) {
 		this.feature = feature;
-		this.featureInstances = this.feature.getInstances();
+		if (this.feature != null) {
+			this.featureInstances = this.feature.getInstances();
+		}
 	}
 
 	public List<ArticleFeatureInstance> getFeatureInstances() {

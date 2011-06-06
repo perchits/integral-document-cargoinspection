@@ -28,7 +28,7 @@
 				label="Завершено">
 			</h:selectBooleanCheckbox>
 			</p:panel>
-			<p:panel> 
+			<p:panel rendered="#{bean.feature.id != null}"> 
 			<ui:include src="/WEB-INF/includes/crudToolBar.xhtml">
 				<ui:param name="bean" value="#{articleBean}" />
 				<ui:param name="gridId" value="featuresDetailsEditGrid" />
