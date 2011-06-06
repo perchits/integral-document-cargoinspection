@@ -3,6 +3,7 @@ package com.docum.view.dict;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -16,6 +17,11 @@ import com.docum.service.BaseService;
 
 public abstract class BaseView implements Serializable{
 	private static final long serialVersionUID = -1072752910650707550L;
+	protected static Map<String, SortOrderEnum> DEAFULT_SORT_FIELDS = new HashMap<String, SortOrderEnum>();
+	
+	static {
+		DEAFULT_SORT_FIELDS.put("id", SortOrderEnum.ASC);
+	}
 
 	private String title;
 

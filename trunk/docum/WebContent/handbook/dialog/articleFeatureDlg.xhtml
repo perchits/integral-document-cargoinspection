@@ -1,0 +1,60 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+<ui:composition template="/WEB-INF/includes/dialogLayout.xhtml">
+	<ui:param name="width" value="640" />
+	<ui:param name="saveObject" value="saveFeature" />
+	<ui:param name="deleteObject" value="deleteFeature" />
+	<ui:define name="dialogBody">
+		<h:panelGrid columns="2">
+			<p:panel>
+			<h:outputLabel for="featureName" value="Наименование: *" />
+			<p:inputText value="#{bean.feature.name}" id="featureName"
+				required="true" label="Наименование">
+			</p:inputText>
+	
+			<h:outputLabel for="featureEnglishName"
+				value="Наименование на англ. яз.: *" />
+			<p:inputText value="#{bean.feature.englishName}"
+				id="featureEnglishName" required="true"
+				label="Наименование на англ. яз.">
+			</p:inputText>
+			<h:outputLabel for="featureIsList" value="Список:" />
+			<h:selectBooleanCheckbox size="30"
+				value="#{bean.feature.list}" id="featureIsList"
+				label="Завершено">
+			</h:selectBooleanCheckbox>
+			</p:panel>
+			<p:panel> 
+			<ui:include src="/WEB-INF/includes/crudToolBar.xhtml">
+				<ui:param name="bean" value="#{articleBean}" />
+				<ui:param name="gridId" value="featuresDetailsEditGrid" />
+				<ui:param name="newObject" value="newFeatureInstance" />
+				<ui:param name="addTitle" value="" />
+				<ui:param name="editTitle" value="" />
+				<ui:param name="deleteTitle" value="" />
+				<ui:param name="refreshTitle" value="" />
+			</ui:include>
+			<p:dataTable id="featuresDetailsEditGrid" var="fde" 
+				value="#{bean.feature.instances}" selectionMode="single" selection="#{bean.featureInstance}">
+				<p:column>
+					<h:outputText value="#{fde.name}" />
+				</p:column>
+				<p:column>
+					<h:outputText value="#{fde.englishName}" />
+				</p:column>
+			</p:dataTable>
+			</p:panel>
+		</h:panelGrid>
+	</ui:define>
+	<ui:define name="deleteConfirmation">
+		<ui:include src="/WEB-INF/includes/deleteConfirmation.xhtml">
+			<ui:param name="message"
+				value="Удалить характеристику '#{bean.feature.name}'?" />
+		</ui:include>
+	</ui:define>
+</ui:composition>
+</html>

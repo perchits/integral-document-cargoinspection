@@ -1,7 +1,7 @@
 package com.docum.service.impl;
 
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,7 +47,7 @@ public class BaseServiceImpl implements BaseService {
 
 	@Override
 	public <T extends IdentifiedEntity> List<T> getAll(Class<T> clazz,
-			HashMap<String, SortOrderEnum> sortFields) {
+			Map<String, SortOrderEnum> sortFields) {
 		return baseDao.getAll(clazz, sortFields);
 	}
 

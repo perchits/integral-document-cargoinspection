@@ -20,7 +20,7 @@
 					<p:dataTable id="articleGrid" var="article"
 						value="#{articleBean.allObjects}" selectionMode="single"
 						selection="#{articleBean.article}" 
-						update="categoriesGrid, characteristics, features">
+						update="categoriesGrid, characteristics, featuresGrid">
 						<p:column sortBy="#{article.name}" filterBy="#{article.name}"
 							filterMatchMode="contains">
 							<f:facet name="header">Наименование</f:facet>
@@ -71,14 +71,15 @@
 						<p:panel>
 						<ui:include src="/WEB-INF/includes/crudToolBar.xhtml">
 							<ui:param name="bean" value="#{articleBean}" />
-							<ui:param name="gridId" value="categoriesGrid" />
+							<ui:param name="gridId" value="featuresGrid" />
+							<ui:param name="newObject" value="newFeature" />
 							<ui:param name="addTitle" value="" />
 							<ui:param name="editTitle" value="" />
 							<ui:param name="deleteTitle" value="" />
 							<ui:param name="refreshTitle" value="" />
 						</ui:include>
-						<p:dataTable id="features" var="feature"
-							value="#{articleBean.features}">
+						<p:dataTable id="featuresGrid" var="feature" selectionMode="single"
+							value="#{articleBean.features}" selection="#{articleBean.feature}">
 							<p:column style="width:16px">  
 					            <p:rowToggler rendered="#{feature.list}"/>  
 					        </p:column>
@@ -90,8 +91,8 @@
 								<f:facet name="header">Характеристика англ.</f:facet>
 								<h:outputText value="#{feature.englishName}" />
 							</p:column>
-							<p:rowExpansion>  
-					            <p:dataTable id="featuresDetailsGrid" var="f_instance" 
+							<p:rowExpansion>
+								<p:dataTable id="featuresDetailsGrid" var="f_instance" 
 									value="#{feature.instances}">
 									<p:column>
 										<h:outputText value="#{f_instance.name}" />
@@ -111,6 +112,16 @@
 
 		<ui:include src="/handbook/dialog/articleCategoryDlg.xhtml">
 			<ui:param name="gridId" value="categoriesGrid" />
+			<ui:param name="bean" value="#{articleBean}" />
+			<ui:param name="title" value="title" />
+		</ui:include>
+		<ui:include src="/handbook/dialog/articleFeatureDlg.xhtml">
+			<ui:param name="gridId" value="featuresGrid" />
+			<ui:param name="bean" value="#{articleBean}" />
+			<ui:param name="title" value="title" />
+		</ui:include>
+		<ui:include src="/handbook/dialog/articleFeatureInstanceDlg.xhtml">
+			<ui:param name="gridId" value="featuresDetailsEditGrid" />
 			<ui:param name="bean" value="#{articleBean}" />
 			<ui:param name="title" value="title" />
 		</ui:include>
