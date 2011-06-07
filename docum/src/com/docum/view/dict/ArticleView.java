@@ -106,6 +106,11 @@ public class ArticleView extends BaseView {
 			articleService.getArticleFeatureInstanceByArticle(this.feature.getId()); 
 	}
 	
+	public void deleteCategory() {
+		super.getBaseService().deleteObject(this.category.getClass(), this.category.getId());
+		refreshObjects();
+	}
+	
 	public void refreshFeatureInstances() {
 		this.featureInstances = 
 			articleService.getArticleFeatureInstanceByArticle(this.feature.getId()); 
