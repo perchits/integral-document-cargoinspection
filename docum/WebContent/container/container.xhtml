@@ -126,10 +126,9 @@
 							<f:convertDateTime dateStyle="medium" type="date" />
 						</h:outputText>
 					</h:panelGroup>
-					<ui:repeat value="#{containerBean.wrappedCargoes}"
-						var="wcargo">
+					<ui:repeat value="#{containerBean.wrappedCargoes}" var="wcargo">
 						<p:panel
-							header="#{wcargo.cargo.article.name}, кат: #{wcargo.cargo.articleCategory.name}"
+							header="#{wcargo.cargo.article.name}, #{wcargo.cargo.articleCategory.name}"
 							styleClass="container-cargo-panel">
 							<h:outputText styleClass="olive-color" value="Поставщик: " />
 							<h:outputText value="#{wcargo.cargo.supplier.company.name}" />
@@ -137,18 +136,28 @@
 								<ui:repeat value="#{wcargo.cargo.features}" var="feature">
 									<li><h:outputText styleClass="olive-color"
 											value="#{feature.feature.name}: " /> <h:outputText
-											value="#{feature.value}" /></li>
-								</ui:repeat>
-							</ul>
-							
-							<ul>
-								<ui:repeat value="#{wcargo.activeCargoCondition.cargoPackages}" var="pack">
-									<li><h:outputText styleClass="olive-color" value="#{pack.measure.name}: " /> 
-									<h:outputText value="#{pack.count}" />
+											value="#{feature.value}" />
 									</li>
 								</ui:repeat>
 							</ul>
-
+							Упаковка
+							<ul>
+								<ui:repeat value="#{wcargo.activeCargoCondition.cargoPackages}"
+									var="pack">
+									<li><h:outputText styleClass="olive-color"
+											value="#{pack.measure.name}: " /> <h:outputText
+											value="#{pack.count}" /> <h:panelGroup rendered="#{not empty pack.calibres}">											
+											<ul>
+												<ui:repeat value="#{pack.calibres}" var="calibre">
+													<li><h:outputText styleClass="olive-color"
+															value="#{calibre.calibreValue}: " /> <h:outputText
+															value="#{feature.packageCount}" />
+													</li>
+												</ui:repeat>
+											</ul>
+										</h:panelGroup></li>
+								</ui:repeat>
+							</ul>
 						</p:panel>
 					</ui:repeat>
 
