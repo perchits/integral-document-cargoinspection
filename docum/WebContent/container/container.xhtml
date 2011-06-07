@@ -126,18 +126,26 @@
 							<f:convertDateTime dateStyle="medium" type="date" />
 						</h:outputText>
 					</h:panelGroup>
-					<ui:repeat value="#{containerBean.lazyContainer.cargoes}"
-						var="cargo">
+					<ui:repeat value="#{containerBean.wrappedCargoes}"
+						var="wcargo">
 						<p:panel
-							header="#{cargo.article.name}, кат: #{cargo.articleCategory.name}"
+							header="#{wcargo.cargo.article.name}, кат: #{wcargo.cargo.articleCategory.name}"
 							styleClass="container-cargo-panel">
 							<h:outputText styleClass="olive-color" value="Поставщик: " />
-							<h:outputText value="#{cargo.supplier.company.name}" />
+							<h:outputText value="#{wcargo.cargo.supplier.company.name}" />
 							<ul>
-								<ui:repeat value="#{cargo.features}" var="feature">
+								<ui:repeat value="#{wcargo.cargo.features}" var="feature">
 									<li><h:outputText styleClass="olive-color"
 											value="#{feature.feature.name}: " /> <h:outputText
 											value="#{feature.value}" /></li>
+								</ui:repeat>
+							</ul>
+							
+							<ul>
+								<ui:repeat value="#{wcargo.activeCargoCondition.cargoPackages}" var="pack">
+									<li><h:outputText styleClass="olive-color" value="#{pack.measure.name}: " /> 
+									<h:outputText value="#{pack.count}" />
+									</li>
 								</ui:repeat>
 							</ul>
 
