@@ -119,6 +119,8 @@ public class ArticleView extends BaseView {
 				this.featureInstance.getClass(), this.featureInstance.getId());
 		this.featureInstances = 
 			articleService.getArticleFeatureInstanceByArticle(this.feature.getId());
+		this.feature.setInstances(this.featureInstances);
+		super.getBaseService().updateObject(this.feature);
 	}
 	
 	public void refreshFeatureInstances() {
