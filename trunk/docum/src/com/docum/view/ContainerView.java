@@ -13,11 +13,14 @@ import org.springframework.stereotype.Controller;
 
 import com.docum.domain.SortOrderEnum;
 import com.docum.domain.po.IdentifiedEntity;
+import com.docum.domain.po.common.Cargo;
 import com.docum.domain.po.common.Container;
 import com.docum.domain.po.common.Voyage;
 import com.docum.service.ContainerService;
 import com.docum.util.AlgoUtil;
 import com.docum.view.dict.BaseView;
+import com.docum.view.wrapper.CargoPresentation;
+import com.docum.view.wrapper.CargoTransformer;
 import com.docum.view.wrapper.ContainerPresentation;
 import com.docum.view.wrapper.ContainerTransformer;
 import com.docum.view.wrapper.VoyagePresentation;
@@ -31,7 +34,7 @@ public class ContainerView extends BaseView implements Serializable {
 	private static final String sign = "Контейнер";
 	private static final int MAX_LIST_SIZE = 10;
 	private Container container = new Container();
-	private Container lazyContainer = new Container();
+	private Container lazyContainer;
 	private VoyagePresentation selectedVoyage;
 	@Autowired
 	private ContainerService containerService;
@@ -54,8 +57,10 @@ public class ContainerView extends BaseView implements Serializable {
 
 	@Override
 	public void refreshObjects() {
-		super.refreshObjects();		
-		Collection<Container> c = containerService.getContainersByVoyage(selectedVoyage != null ? selectedVoyage.getVoyage().getId() : null);		
+		super.refreshObjects();
+		Collection<Container> c = containerService
+				.getContainersByVoyage(selectedVoyage != null ? selectedVoyage
+						.getVoyage().getId() : null);
 		containers = new ArrayList<ContainerPresentation>(c.size());
 		AlgoUtil.transform(containers, c, new ContainerTransformer());
 	}
@@ -98,11 +103,12 @@ public class ContainerView extends BaseView implements Serializable {
 	public ContainerPresentation getLazyContainerPresentation() {
 		return new ContainerPresentation(lazyContainer);
 	}
-	
-	public List<VoyagePresentation> getVoyages() {	
+
+	public List<VoyagePresentation> getVoyages() {
 		HashMap<String, SortOrderEnum> sortFields = new HashMap<String, SortOrderEnum>();
-		sortFields.put("arrivalDate", SortOrderEnum.DESC);		
-		List<Voyage> voyages = (List<Voyage>) getBaseService().getAll(Voyage.class, sortFields);
+		sortFields.put("arrivalDate", SortOrderEnum.DESC);
+		List<Voyage> voyages = (List<Voyage>) getBaseService().getAll(
+				Voyage.class, sortFields);
 		List<VoyagePresentation> result = new ArrayList<VoyagePresentation>(
 				voyages.size());
 		AlgoUtil.transform(result, voyages, new VoyageTransformer());
@@ -133,20 +139,33 @@ public class ContainerView extends BaseView implements Serializable {
 	public VoyagePresentation getSelectedVoyage() {
 		return selectedVoyage;
 	}
-	
+
 	public void voyageSelect(SelectEvent event) {
 		refreshObjects();
+		setContainerPresentation(new ContainerPresentation(null));
 	}
-	
-	public String getContainersTitle(){
-		return selectedVoyage != null ? 
-				String.format("Контейнеры (судозаход: %1$s)", selectedVoyage.getVoyageInfo()): 
-					"Судозаход не выбран...";		
-		
+
+	public String getContainersTitle() {
+		return selectedVoyage != null ? String.format(
+				"Контейнеры (судозаход: %1$s)", selectedVoyage.getVoyageInfo())
+				: "Судозаход не выбран...";
+
 	}
-	
+
 	public Boolean getIsSelected() {
-		return lazyContainer.getId() == null ? false : true;
+		return lazyContainer == null ? false : true;
+	}
+
+	public List<CargoPresentation> getWrappedCargoes() {
+		if (lazyContainer != null) {
+			Collection<Cargo> c = lazyContainer.getCargoes();
+			List<CargoPresentation> result = new ArrayList<CargoPresentation>(
+					c.size());
+			AlgoUtil.transform(result, c, new CargoTransformer());
+			return result;
+		} else {
+			return null;
+		}
 	}
 
 }

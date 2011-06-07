@@ -48,7 +48,7 @@ public class ContainerPresentation implements Serializable {
 	}
 
 	public String getState() {
-		return container.getState().getName();
+		return container != null ? container.getState().getName() : null;
 	}
 
 	public String getColor() {
