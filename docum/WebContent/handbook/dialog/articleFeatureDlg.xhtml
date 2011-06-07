@@ -53,8 +53,8 @@
 	</ui:define>
 	<ui:define name="deleteConfirmation">
 		<ui:include src="/WEB-INF/includes/deleteConfirmation.xhtml">
-			<ui:param name="message"
-				value="Удалить характеристику '#{bean.feature.name}'?" />
+			<ui:param name="message" value="Удалить характеристику '#{bean.feature.name}'?" />
+			<ui:param name="deleteObject" value="deleteFeature" />	
 		</ui:include>
 	</ui:define>
 </ui:composition>
