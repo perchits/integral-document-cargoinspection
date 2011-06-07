@@ -27,6 +27,7 @@ public class ArticleView extends BaseView {
 	private Article article = new Article();
 	private ArticleCategory category = new ArticleCategory();
 	private ArticleFeature feature = new ArticleFeature();
+	private List<ArticleFeature> features =new ArrayList<ArticleFeature>();
 	private List<ArticleFeatureInstance> featureInstances =new ArrayList<ArticleFeatureInstance>();
 	private ArticleFeatureInstance featureInstance = new ArticleFeatureInstance();
 
@@ -71,7 +72,8 @@ public class ArticleView extends BaseView {
 		if (this.article == null || this.article.getId() == null) {
 			return null;
 		} else {
-			return articleService.getArticleFeatureByArticle(this.article.getId());
+			this.features = articleService.getArticleFeatureByArticle(this.article.getId()); 
+			return this.features;  
 		}
 	}
 	
@@ -110,6 +112,13 @@ public class ArticleView extends BaseView {
 	
 	public void deleteFeature() {
 		super.getBaseService().deleteObject(this.feature.getClass(), this.feature.getId());
+	}
+	
+	public void deleteFeatureInstance() {
+		super.getBaseService().deleteObject(
+				this.featureInstance.getClass(), this.featureInstance.getId());
+		this.featureInstances = 
+			articleService.getArticleFeatureInstanceByArticle(this.feature.getId());
 	}
 	
 	public void refreshFeatureInstances() {
