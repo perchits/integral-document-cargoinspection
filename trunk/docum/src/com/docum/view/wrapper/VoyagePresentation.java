@@ -9,6 +9,7 @@ import java.util.List;
 import com.docum.domain.ContainerStateEnum;
 import com.docum.domain.po.common.Container;
 import com.docum.domain.po.common.Voyage;
+import com.docum.util.AlgoUtil;
 import com.docum.util.EqualsHelper;
 import com.docum.util.HashCodeHelper;
 
@@ -52,6 +53,20 @@ public class VoyagePresentation implements Serializable {
 		return containers;
 	}
 
+	public List<ContainerPresentation> getUnfinishedContainers() {
+		List<ContainerPresentation> result = new ArrayList<ContainerPresentation>();
+		AlgoUtil.collect(result, containers, new AlgoUtil.FindPredicate<ContainerPresentation>() {
+			@Override
+			public boolean isIt(ContainerPresentation container) {
+				ContainerStateEnum state = container.getContainer().getState();
+				return (ContainerStateEnum.BEFORE_CUSTOMS.equals(state) ||
+						ContainerStateEnum.AFTER_CUSTOMS.equals(state) ||
+						ContainerStateEnum.HANDLED.equals(state));
+			}
+		});
+		return result;
+	}
+	
 	public Integer getTotalContainerCount() {
 		return containers.size();
 	}
