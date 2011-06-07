@@ -82,7 +82,6 @@ public class ArticleView extends BaseView {
 			this.category.setArticle(this.article);
 			super.getBaseService().saveObject(this.category);
 		}
-		super.getBaseService().getAll(this.category.getClass(), DEAFULT_SORT_FIELDS);
 	}
 	
 	public void saveFeature() {
@@ -92,7 +91,6 @@ public class ArticleView extends BaseView {
 			this.feature.setArticle(this.article);
 			super.getBaseService().saveObject(this.feature);
 		}
-		super.getBaseService().getAll(this.feature.getClass(), DEAFULT_SORT_FIELDS);
 	}
 	
 	public void saveFeatureInstance() {
@@ -108,7 +106,10 @@ public class ArticleView extends BaseView {
 	
 	public void deleteCategory() {
 		super.getBaseService().deleteObject(this.category.getClass(), this.category.getId());
-		refreshObjects();
+	}
+	
+	public void deleteFeature() {
+		super.getBaseService().deleteObject(this.feature.getClass(), this.feature.getId());
 	}
 	
 	public void refreshFeatureInstances() {
