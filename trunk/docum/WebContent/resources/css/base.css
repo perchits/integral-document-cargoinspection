@@ -172,6 +172,12 @@ select {
 	margin-bottom: 2px;
 }
 
+#infoPanel ul {
+	margin : 5px;
+	padding-left :15px ;
+	line-height: 14px;
+}
+
 .infoLayoutTable,#infoPanel {
 	min-width: 320px;
 }
