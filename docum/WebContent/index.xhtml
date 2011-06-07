@@ -72,7 +72,7 @@
 						toggleSpeed="300">
 						<h:form prependId="false">
 							<p:dataTable var="curcontainer"
-								value="#{voyage.containers}"
+								value="#{voyage.unfinishedContainers}"
 								rowStyleClass="#{curcontainer.color}">
 
 								<p:column sortBy="#{curcontainer.number}"
@@ -80,7 +80,11 @@
 									<f:facet name="header">
 										<h:outputText value="Контейнер" />
 									</f:facet>
-									<h:outputText value="#{curcontainer.number}" />
+									<h:commandLink value="#{curcontainer.number}"
+										action="#{dashboardView.goToContainer}">
+										<f:setPropertyActionListener target="#{dashboardView.selectedContainer}"
+											value="#{curcontainer}" />
+									</h:commandLink>
 								</p:column>
 								<p:column sortBy="#{curcontainer.state}"
 									filterBy="#{curcontainer.state}">

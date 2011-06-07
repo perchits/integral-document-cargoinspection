@@ -5,6 +5,8 @@ import java.util.EnumMap;
 
 import com.docum.domain.ContainerStateEnum;
 import com.docum.domain.po.common.Container;
+import com.docum.util.EqualsHelper;
+import com.docum.util.HashCodeHelper;
 import com.docum.util.ListHandler;
 
 public class ContainerPresentation implements Serializable {
@@ -110,5 +112,21 @@ public class ContainerPresentation implements Serializable {
 	public String getVoyage() {
 		return container != null ? VoyagePresentation.joinVoyageInfo(container
 				.getVoyage()) : null;
+	}
+
+	public boolean equals(Object obj) {
+		if (obj == this) {
+			return true;
+		}
+
+		if (!(obj instanceof ContainerPresentation)) {
+			return false;
+		}
+
+		return EqualsHelper.equals(container, ((ContainerPresentation) obj).container);
+	}
+
+	public int hashCode() {
+		return HashCodeHelper.hashCode(container);
 	}
 }

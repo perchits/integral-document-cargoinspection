@@ -6,6 +6,9 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.faces.event.PhaseEvent;
+import javax.faces.event.PhaseId;
+
 import org.primefaces.event.SelectEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -18,7 +21,9 @@ import com.docum.domain.po.common.Container;
 import com.docum.domain.po.common.Voyage;
 import com.docum.service.ContainerService;
 import com.docum.util.AlgoUtil;
+import com.docum.util.FacesUtil;
 import com.docum.view.dict.BaseView;
+import com.docum.view.param.FlashParamKeys;
 import com.docum.view.wrapper.CargoPresentation;
 import com.docum.view.wrapper.CargoTransformer;
 import com.docum.view.wrapper.ContainerPresentation;
@@ -33,8 +38,7 @@ public class ContainerView extends BaseView implements Serializable {
 	private static final long serialVersionUID = 3476513399265370923L;
 	private static final String sign = "Контейнер";
 	private static final int MAX_LIST_SIZE = 10;
-	private Container container = new Container();
-	private Container lazyContainer;
+	private Container container;
 	private VoyagePresentation selectedVoyage;
 	@Autowired
 	private ContainerService containerService;
@@ -81,27 +85,27 @@ public class ContainerView extends BaseView implements Serializable {
 	}
 
 	public ContainerPresentation getContainerPresentation() {
-		return container != null ? new ContainerPresentation(container) : null;
+		return getContainer() != null ? new ContainerPresentation(getContainer()) : null;
 	}
 
 	public void setContainerPresentation(
 			ContainerPresentation containerPresentation) {
 		container = containerPresentation != null ? containerPresentation
 				.getContainer() : null;
-		setLazyContainer(container);
+		loadContainer(container);
 	}
 
-	public void setLazyContainer(Container lazyContainer) {
-		this.lazyContainer = lazyContainer != null ? getBaseService()
-				.getObject(Container.class, lazyContainer.getId()) : null;
+	private void loadContainer(Container container) {
+		this.container = container != null ? getBaseService()
+				.getObject(Container.class, container.getId()) : null;
 	}
 
 	public Container getLazyContainer() {
-		return lazyContainer;
+		return container;
 	}
 
 	public ContainerPresentation getLazyContainerPresentation() {
-		return new ContainerPresentation(lazyContainer);
+		return new ContainerPresentation(container);
 	}
 
 	public List<VoyagePresentation> getVoyages() {
@@ -153,12 +157,12 @@ public class ContainerView extends BaseView implements Serializable {
 	}
 
 	public Boolean getIsSelected() {
-		return lazyContainer == null ? false : true;
+		return container == null ? false : true;
 	}
 
 	public List<CargoPresentation> getWrappedCargoes() {
-		if (lazyContainer != null) {
-			Collection<Cargo> c = lazyContainer.getCargoes();
+		if (container != null) {
+			Collection<Cargo> c = container.getCargoes();
 			List<CargoPresentation> result = new ArrayList<CargoPresentation>(
 					c.size());
 			AlgoUtil.transform(result, c, new CargoTransformer());
@@ -168,4 +172,14 @@ public class ContainerView extends BaseView implements Serializable {
 		}
 	}
 
+	void loadPage(PhaseEvent event) {
+		if(PhaseId.APPLY_REQUEST_VALUES.equals(event.getPhaseId())) {
+			Container c = (Container)FacesUtil.getFlashParam(FlashParamKeys.CONTAINER);
+			if(c != null) {
+				container = c;
+				selectedVoyage = new VoyagePresentation(c.getVoyage());
+			}
+			loadContainer(container);
+		}
+	}
 }

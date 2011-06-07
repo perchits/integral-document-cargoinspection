@@ -13,6 +13,10 @@ import org.springframework.stereotype.Controller;
 import com.docum.domain.po.common.Voyage;
 import com.docum.service.VoyageService;
 import com.docum.util.AlgoUtil;
+import com.docum.util.FacesUtil;
+import com.docum.view.navigation.ViewNavigation;
+import com.docum.view.param.FlashParamKeys;
+import com.docum.view.wrapper.ContainerPresentation;
 import com.docum.view.wrapper.VoyagePresentation;
 import com.docum.view.wrapper.VoyageTransformer;
 
@@ -26,6 +30,7 @@ public class DashBoardView implements Serializable {
 
 	private ArrayList<VoyagePresentation> finishedVoyages;
 	private ArrayList<VoyagePresentation> unfinishedVoyages;
+	private ContainerPresentation selectedContainer;
 
 	public Collection<VoyagePresentation> getFinishedVoyages() {
 		if (finishedVoyages == null) {
@@ -55,5 +60,18 @@ public class DashBoardView implements Serializable {
 				return o1.getVessel().compareTo(o2.getVessel());
 			}
 		});
+	}
+
+	public ContainerPresentation getSelectedContainer() {
+		return selectedContainer;
+	}
+
+	public void setSelectedContainer(ContainerPresentation selectedContainer) {
+		this.selectedContainer = selectedContainer;
+	}
+	
+	public String goToContainer() {
+		FacesUtil.putFlashParam(FlashParamKeys.CONTAINER, selectedContainer.getContainer());
+		return ViewNavigation.CONTAINERS_VIEW;
 	}
 }

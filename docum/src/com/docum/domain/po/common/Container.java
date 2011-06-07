@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.Enumerated;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -14,6 +15,8 @@ import javax.persistence.OneToMany;
 import com.docum.dao.ContainerDao;
 import com.docum.domain.ContainerStateEnum;
 import com.docum.domain.po.IdentifiedEntity;
+import com.docum.util.EqualsHelper;
+import com.docum.util.HashCodeHelper;
 
 @Entity
 @NamedQueries({
@@ -40,6 +43,7 @@ public class Container extends IdentifiedEntity {
 
 	private String number;
 	
+	@Enumerated
 	private ContainerStateEnum state;
 
 	@ManyToMany(mappedBy = "containers")
@@ -201,5 +205,21 @@ public class Container extends IdentifiedEntity {
 
 	public void setActualSeal(String actualSeal) {
 		this.actualSeal = actualSeal;
+	}
+
+	public boolean equals(Object obj) {
+		if (obj == this) {
+			return true;
+		}
+
+		if (!(obj instanceof Container)) {
+			return false;
+		}
+
+		return EqualsHelper.equals(getId(), ((Container) obj).getId());
+	}
+
+	public int hashCode() {
+		return HashCodeHelper.hashCode(getId());
 	}
 }
