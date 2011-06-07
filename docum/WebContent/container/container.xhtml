@@ -131,12 +131,13 @@
 							header="#{wcargo.cargo.article.name}, #{wcargo.cargo.articleCategory.name}"
 							styleClass="container-cargo-panel">
 							<h:outputText styleClass="olive-color" value="Поставщик: " />
-							<h:outputText value="#{wcargo.cargo.supplier.company.name}" />
+							<h:outputText value="#{wcargo.cargo.supplier.company.name}" />							
 							<ul>
 								<ui:repeat value="#{wcargo.cargo.features}" var="feature">
 									<li><h:outputText styleClass="olive-color"
 											value="#{feature.feature.name}: " /> <h:outputText
-											value="#{feature.value}" />
+											value="#{feature.value}" />											
+											
 									</li>
 								</ui:repeat>
 							</ul>
@@ -146,12 +147,17 @@
 									var="pack">
 									<li><h:outputText styleClass="olive-color"
 											value="#{pack.measure.name}: " /> <h:outputText
-											value="#{pack.count}" /> <h:panelGroup rendered="#{not empty pack.calibres}">											
+											value="#{pack.count}" >
+											<f:convertNumber maxFractionDigits="2" />
+											</h:outputText> 
+											<h:panelGroup rendered="#{not empty pack.calibres}">											
 											<ul>
 												<ui:repeat value="#{pack.calibres}" var="calibre">
 													<li><h:outputText styleClass="olive-color"
 															value="#{calibre.calibreValue}: " /> <h:outputText
-															value="#{calibre.packageCount}" />
+															value="#{calibre.packageCount}" >
+															<f:convertNumber maxFractionDigits="2" />
+														</h:outputText>
 													</li>
 												</ui:repeat>
 											</ul>
