@@ -4,34 +4,42 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.prime.com.tr/ui"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
-
+	<h:outputStylesheet>
+	 .main-menu-left div > ul > li:nth-child(#{selectedMenuItem}) > a {
+	 	background : #FBFFEB  !important;
+	 	border : 1px solid #E0E8BE !important;	 	
+	 }
+	</h:outputStylesheet>
 	<h:panelGroup layout="block"
 		styleClass="main-menu ui-widget-content ui-corner-all">
 		<h:form>
 			<p:menubar autoSubmenuDisplay="false" styleClass="main-menu-left">
 				<p:menuitem value="Главная" url="/" icon="ui-icon ui-icon-home" />
-				<p:menuitem value="Судозаходы" url="/handbook/voyage.jsf"/>
-				<p:menuitem value="Документы" url="/Documents/documents.jsf" icon="ui-icon ui-icon-document" />
+				<p:menuitem value="Судозаходы" url="/handbook/voyage.jsf" />
+				<p:menuitem value="Документы" url="/Documents/documents.jsf"
+					icon="ui-icon ui-icon-document" />
 				<p:menuitem value="Контейнеры" url="/container/container.jsf"
 					icon="ui-icon ui-icon-suitcase" />
 				<p:menuitem value="Отчеты" url="/" icon="ui-icon ui-icon-image" />
-				<p:submenu label="Справочники" icon="ui-icon ui-icon-comment" >
+				<p:submenu label="Справочники" icon="ui-icon ui-icon-comment">
 					<p:menuitem value="Поставщики" url="/handbook/supplier.jsf" />
-					<p:menuitem value="Контрагенты" url="/handbook/company.jsf"/>
-					<p:menuitem value="Клиенты" url="/handbook/customer.jsf"/>					
-					<p:menuitem value="Суда" url="/handbook/vessel.jsf"/>
-					<p:menuitem value="Города" url="/handbook/city.jsf"/>
-					<p:menuitem value="Товары" url="/handbook/article.jsf"/>
-					<p:menuitem value="Ед. изм." url="/handbook/measure.jsf"/>
-					<p:menuitem value="Тара" url="/handbook/tare.jsf"/>
-				</p:submenu>				
+					<p:menuitem value="Контрагенты" url="/handbook/company.jsf" />
+					<p:menuitem value="Клиенты" url="/handbook/customer.jsf" />
+					<p:menuitem value="Суда" url="/handbook/vessel.jsf" />
+					<p:menuitem value="Города" url="/handbook/city.jsf" />
+					<p:menuitem value="Товары" url="/handbook/article.jsf" />
+					<p:menuitem value="Ед. изм." url="/handbook/measure.jsf" />
+					<p:menuitem value="Тара" url="/handbook/tare.jsf" />
+				</p:submenu>
 				<p:menuitem value="Статистика" url="/"
 					icon="ui-icon ui-icon-clipboard" />
 			</p:menubar>
 			<p:menubar autoSubmenuDisplay="false" styleClass="main-menu-right">
 				<p:submenu label="Вид" icon="ui-icon ui-icon-video">
-					<p:menuitem value="Развернуть все" url="javascript:togglePanels(true)" />
-					<p:menuitem value="Свернуть все" url="javascript:togglePanels(false)" />										
+					<p:menuitem value="Развернуть все"
+						url="javascript:togglePanels(true)" />
+					<p:menuitem value="Свернуть все"
+						url="javascript:togglePanels(false)" />
 				</p:submenu>
 				<p:menuitem value="Выход" url="/exc.jsf"
 					icon="ui-icon ui-icon-close" />
