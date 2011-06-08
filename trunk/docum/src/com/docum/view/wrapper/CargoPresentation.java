@@ -1,9 +1,11 @@
 package com.docum.view.wrapper;
 
 import java.io.Serializable;
+import java.util.List;
 
 import com.docum.domain.ContainerStateEnum;
 import com.docum.domain.po.common.Cargo;
+import com.docum.domain.po.common.CargoArticleFeature;
 import com.docum.domain.po.common.CargoCondition;
 
 public class CargoPresentation implements Serializable {
@@ -34,5 +36,21 @@ public class CargoPresentation implements Serializable {
 		} else {
 			return null;
 		}
+	}
+
+	public String getArticle() {
+		return cargo != null ? cargo.getArticle().getName() : null;
+	}
+
+	public String getArticleCategory() {
+		return cargo != null ? cargo.getArticleCategory().getName() : null;
+	}
+
+	public String getSupplier() {
+		return cargo != null ? cargo.getSupplier().getCompany().getName() : null;
+	}
+
+	public List<CargoArticleFeature> getFeatures() {
+		return cargo != null ? cargo.getFeatures() : null;
 	}
 }

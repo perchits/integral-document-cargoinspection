@@ -6,9 +6,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.faces.event.PhaseEvent;
-import javax.faces.event.PhaseId;
-
 import org.primefaces.event.SelectEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -69,14 +66,6 @@ public class ContainerView extends BaseView implements Serializable {
 		AlgoUtil.transform(containers, c, new ContainerTransformer());
 	}
 
-	public void setContainer(Container container) {
-		this.container = container;
-	}
-
-	public Container getContainer() {
-		return container;
-	}
-
 	public ArrayList<ContainerPresentation> getContainers() {
 		if (containers == null) {
 			refreshObjects();
@@ -84,11 +73,11 @@ public class ContainerView extends BaseView implements Serializable {
 		return containers;
 	}
 
-	public ContainerPresentation getContainerPresentation() {
-		return getContainer() != null ? new ContainerPresentation(getContainer()) : null;
+	public ContainerPresentation getContainer() {
+		return container != null ? new ContainerPresentation(container) : null;
 	}
 
-	public void setContainerPresentation(
+	public void setContainer(
 			ContainerPresentation containerPresentation) {
 		container = containerPresentation != null ? containerPresentation
 				.getContainer() : null;
@@ -98,14 +87,6 @@ public class ContainerView extends BaseView implements Serializable {
 	private void loadContainer(Container container) {
 		this.container = container != null ? getBaseService()
 				.getObject(Container.class, container.getId()) : null;
-	}
-
-	public Container getLazyContainer() {
-		return container;
-	}
-
-	public ContainerPresentation getLazyContainerPresentation() {
-		return new ContainerPresentation(container);
 	}
 
 	public List<VoyagePresentation> getVoyages() {
@@ -146,7 +127,7 @@ public class ContainerView extends BaseView implements Serializable {
 
 	public void voyageSelect(SelectEvent event) {
 		refreshObjects();
-		setContainerPresentation(new ContainerPresentation(null));
+		setContainer(new ContainerPresentation(null));
 	}
 
 	public String getContainersTitle() {
@@ -160,7 +141,7 @@ public class ContainerView extends BaseView implements Serializable {
 		return container == null ? false : true;
 	}
 
-	public List<CargoPresentation> getWrappedCargoes() {
+	public List<CargoPresentation> getContainerCargoes() {
 		if (container != null) {
 			Collection<Cargo> c = container.getCargoes();
 			List<CargoPresentation> result = new ArrayList<CargoPresentation>(
