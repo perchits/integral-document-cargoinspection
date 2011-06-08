@@ -74,12 +74,6 @@ public class ContainerView extends BaseView implements Serializable {
 	}
 
 	public Container getContainer() {
-		Container c = (Container)FacesUtil.getFlashParam(FlashParamKeys.CONTAINER);
-		if(c != null) {
-			container = c;
-			selectedVoyage = new VoyagePresentation(c.getVoyage());
-		}
-		loadContainer(container);
 		return container;
 	}
 
@@ -178,14 +172,13 @@ public class ContainerView extends BaseView implements Serializable {
 		}
 	}
 
-	void loadPage(PhaseEvent event) {
-		if(PhaseId.APPLY_REQUEST_VALUES.equals(event.getPhaseId())) {
-			Container c = (Container)FacesUtil.getFlashParam(FlashParamKeys.CONTAINER);
-			if(c != null) {
-				container = c;
-				selectedVoyage = new VoyagePresentation(c.getVoyage());
-			}
-			loadContainer(container);
+	public void loadPage() {
+		Container container = (Container)FacesUtil.getFlashParam(FlashParamKeys.CONTAINER);
+		if(container != null) {
+			this.container = container;
+			selectedVoyage = new VoyagePresentation(container.getVoyage());
+			refreshObjects();
+			loadContainer(this.container);
 		}
 	}
 }
