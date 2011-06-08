@@ -5,7 +5,12 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -67,6 +72,9 @@ public class TestDataPreparator implements TestDataPersister {
 	private String[] orderNumbers = new String[]{
 			"12712", "13156", "10892"};
 
+	private String[] blNumbers = new String[]{
+			"ZIMUASH032310", "ZIMUHFA00322361", "GHUIR0349578"};
+
 	private String[] cityNames = new String[]{
 			"Новороссийск", "Анапа", "Темрюк", "Волгоград"};
 	private boolean ourCity = true;
@@ -123,9 +131,9 @@ public class TestDataPreparator implements TestDataPersister {
 		List<Container> containers = prepareContainers(voyages, cities, ports);
 		List<Cargo> cargoes = CargoDataPreparator.prepareCargoes(this, articles, suppliers,
 				containers, measures);
-		List<BillOfLading> bills = prepareBillOfLadings(containers);
-		List<Invoice> invoices = prepareInvoices(containers);
-		List<PurchaseOrder> order = prepareOrders(containers);
+		List<BillOfLading> bills = prepareBillOfLadings(voyages, containers);
+		List<Invoice> invoices = prepareInvoices(voyages, containers);
+		List<PurchaseOrder> order = prepareOrders(voyages, containers);
 	}
 	
 	private List<Port> preparePorts() {
@@ -238,38 +246,70 @@ public class TestDataPreparator implements TestDataPersister {
 		return result;
 	}
 	
-	private List<BillOfLading> prepareBillOfLadings(List<Container> containers){
+	private List<BillOfLading> prepareBillOfLadings(List<Voyage> voyages, List<Container> containers){
 		List<BillOfLading> result = new ArrayList<BillOfLading>();
-		TestDataEntityCounter<Container> containerCounter = new TestDataEntityCounter<Container>(containers);
-
-		result.add(new BillOfLading("ZIMUASH032310"));
-		result.add(new BillOfLading("ZIMUHFA00322361"));
-		TestDataEntityCounter<BillOfLading> billCounter = new TestDataEntityCounter<BillOfLading>(result);
-		
-		for(int i=0; i<containers.size(); i++){
-			Container container = containerCounter.next();
-			BillOfLading bill = billCounter.next();
+		TestDataEntityCounter<Voyage> voyageCounter = new TestDataEntityCounter<Voyage>(voyages);
+		for(String number : blNumbers) {
+			BillOfLading bl = new BillOfLading(voyageCounter.next(), number);
+			result.add(bl);
+		}
+		Map<Voyage, TestDataEntityCounter<BillOfLading>> billCounterByVoyageMap =
+			makeCounterByKeyMap(result, new KeyAccessor<Voyage, BillOfLading>(){
+				@Override
+				public Voyage getKey(BillOfLading obj) {
+					return obj.getVoyage();
+				}});
+		for(Container container : containers){
+			BillOfLading bill = billCounterByVoyageMap.get(container.getVoyage()).next();
 			bill.getContainers().add(container);
 			container.getBillOfLadings().add(bill);
 		}
-		Container container = containers.get(1);
-		BillOfLading bill = result.get(0);
-		bill.getContainers().add(container);
-		container.getBillOfLadings().add(bill);
-
 		persist(result);
 		return result;
 	}
+
+	public interface KeyAccessor<K, T> {
+		public K getKey(T obj);
+	}
+
+	private <K, T> Map<K, TestDataEntityCounter<T>> makeCounterByKeyMap(List<T> objects, KeyAccessor<K, T> keyAccessor) {
+		Map<K, Set<T>> objectsByKeyMap =	makeObjectsByKeyMap(objects, keyAccessor);
+		Map<K, TestDataEntityCounter<T>> result = new HashMap<K, TestDataEntityCounter<T>>();
+		for(Entry<K, Set<T>> entry : objectsByKeyMap.entrySet()) {
+			result.put(entry.getKey(),	new TestDataEntityCounter<T>(entry.getValue()));
+		}
+		return result;
+	}
+
+	private <K, T> Map<K, Set<T>> makeObjectsByKeyMap(List<T> objects, KeyAccessor<K, T> keyAccessor) {
+		Map<K, Set<T>> result = new HashMap<K, Set<T>>();
+		for(T obj : objects) {
+			K key = keyAccessor.getKey(obj);
+			Set<T> tmp = result.get(key);
+			if(tmp == null) {
+				tmp = new HashSet<T>();
+				result.put(key, tmp);
+			}
+			tmp.add(obj);
+		}
+		return result;
+	}
 	
-	private List<Invoice> prepareInvoices(List<Container> containers){
+	private List<Invoice> prepareInvoices(List<Voyage> voyages, List<Container> containers){
 		List<Invoice> result = new ArrayList<Invoice>();
+		TestDataEntityCounter<Voyage> voyageCounter = new TestDataEntityCounter<Voyage>(voyages);
 		for(String number : invoiceNumbers) {
-			Invoice invoice = new Invoice(number);
+			Invoice invoice = new Invoice(voyageCounter.next(), number);
 			result.add(invoice);
 		}
-		TestDataEntityCounter<Invoice> invoiceCounter = new TestDataEntityCounter<Invoice>(result);
+		Map<Voyage, TestDataEntityCounter<Invoice>> invoiceCounterByVoyageMap =
+			makeCounterByKeyMap(result, new KeyAccessor<Voyage, Invoice>(){
+				@Override
+				public Voyage getKey(Invoice obj) {
+					return obj.getVoyage();
+				}});
 		for(Container container : containers) {
-			Invoice invoice = invoiceCounter.next();
+			Invoice invoice = invoiceCounterByVoyageMap.get(container.getVoyage()).next();
 			invoice.getContainers().add(container);
 			container.getInvoices().add(invoice);
 		}
@@ -277,15 +317,21 @@ public class TestDataPreparator implements TestDataPersister {
 		return result;
 	}
 
-	private List<PurchaseOrder> prepareOrders(List<Container> containers){
+	private List<PurchaseOrder> prepareOrders(List<Voyage> voyages, List<Container> containers){
 		List<PurchaseOrder> result = new ArrayList<PurchaseOrder>();
+		TestDataEntityCounter<Voyage> voyageCounter = new TestDataEntityCounter<Voyage>(voyages);
 		for(String number : orderNumbers) {
-			PurchaseOrder invoice = new PurchaseOrder(number);
+			PurchaseOrder invoice = new PurchaseOrder(voyageCounter.next(), number);
 			result.add(invoice);
 		}
-		TestDataEntityCounter<PurchaseOrder> orderCounter = new TestDataEntityCounter<PurchaseOrder>(result);
+		Map<Voyage, TestDataEntityCounter<PurchaseOrder>> orderCounterByVoyageMap =
+			makeCounterByKeyMap(result, new KeyAccessor<Voyage, PurchaseOrder>(){
+				@Override
+				public Voyage getKey(PurchaseOrder obj) {
+					return obj.getVoyage();
+				}});
 		for(Container container : containers) {
-			PurchaseOrder order = orderCounter.next();
+			PurchaseOrder order = orderCounterByVoyageMap.get(container.getVoyage()).next();
 			order.getContainers().add(container);
 			container.getOrders().add(order);
 		}
@@ -293,9 +339,6 @@ public class TestDataPreparator implements TestDataPersister {
 		return result;
 	}
 
-	
-	
-	
 	@Override
 	public <T extends IdentifiedEntity> void persist(T entity) {
 		entityManager.persist(entity);

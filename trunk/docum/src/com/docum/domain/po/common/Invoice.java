@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 
@@ -23,6 +24,10 @@ public class Invoice extends IdentifiedEntity{
 	private static final long serialVersionUID = 4144517745472469185L;
 
 	private String number;
+
+	@ManyToOne(optional=false)
+	private Voyage voyage;
+
 	@ManyToMany
 	private List<Container> containers = new ArrayList<Container>();
 
@@ -30,8 +35,9 @@ public class Invoice extends IdentifiedEntity{
 		super();
 	}
 
-	public Invoice(String number) {
+	public Invoice(Voyage voyage, String number) {
 		super();
+		this.voyage = voyage;
 		this.number = number;
 	}
 
@@ -41,6 +47,14 @@ public class Invoice extends IdentifiedEntity{
 
 	public String getNumber() {
 		return number;
+	}
+
+	public Voyage getVoyage() {
+		return voyage;
+	}
+
+	public void setVoyage(Voyage voyage) {
+		this.voyage = voyage;
 	}
 
 	public void setContainers(List<Container> containers) {
