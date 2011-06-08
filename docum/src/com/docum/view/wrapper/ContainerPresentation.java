@@ -1,6 +1,7 @@
 package com.docum.view.wrapper;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.EnumMap;
 
 import com.docum.domain.ContainerStateEnum;
@@ -42,19 +43,35 @@ public class ContainerPresentation implements Serializable {
 	}
 
 	public String getNumber() {
-		return container.getNumber();
+		return container != null ? container.getNumber() : null;
 	}
 
 	public String getCity() {
-		return container.getCity().getName();
+		return container != null ? container.getCity().getName() : null;
 	}
 
 	public String getState() {
 		return container != null ? container.getState().getName() : null;
 	}
 
+	public String getLoadingPort() {
+		return container != null ? container.getLoadingPort().getName() : null;
+	}
+
+	public Date getLoadingDate() {
+		return container != null ? container.getLoadingDate() : null;
+	}
+
+	public String getDischargePort() {
+		return container != null ? container.getDischargePort().getName() : null;
+	}
+
+	public Date getDischargeDate() {
+		return container != null ? container.getDischargeDate() : null;
+	}
+	
 	public String getColor() {
-		return containerStateMap.get(container.getState());
+		return container != null ? containerStateMap.get(container.getState()) : "";
 	}
 
 	private String getInvoices() {
