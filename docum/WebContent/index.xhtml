@@ -4,6 +4,7 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.prime.com.tr/ui">
 <ui:composition template="/WEB-INF/includes/base.xhtml">
+<ui:param name="selectedMenuItem" value="1" />
 	<ui:define name="leftcol">
 
 		<p:dataList id="continwork" value="#{dashboardView.finishedVoyages}" var="voyage" itemType="none">

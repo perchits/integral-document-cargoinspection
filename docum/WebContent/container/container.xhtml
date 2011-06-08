@@ -5,6 +5,7 @@
 	xmlns:p="http://primefaces.prime.com.tr/ui">
 
 <ui:composition template="/WEB-INF/includes/layout.xhtml">
+<ui:param name="selectedMenuItem" value="4" />
     <f:metadata>  
        <f:event type="preRenderView" listener="#{containerBean.loadPage}"></f:event>  
     </f:metadata>
