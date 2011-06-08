@@ -5,17 +5,15 @@
 	xmlns:p="http://primefaces.prime.com.tr/ui">
 
 <ui:composition template="/WEB-INF/includes/layout.xhtml">
+<ui:param name="selectedMenuItem" value="6" />
 	<ui:define name="content">
-
 		<h:form prependId="false">
-
 			<ui:include src="/WEB-INF/includes/crudToolBar.xhtml">
 				<ui:param name="bean" value="#{supplierBean}" />
 				<ui:param name="gridId" value="supplierGrid" />
 			</ui:include>
 
-			<p:panel header="Поставщики" style="text-align:center"
-				styleClass="toggle-panel">
+			<p:panel header="Поставщики"  styleClass="small-panel">
 				<p:dataTable id="supplierGrid" var="supplier"
 					value="#{supplierBean.allObjects}" selectionMode="single"
 					selection="#{supplierBean.supplier}">

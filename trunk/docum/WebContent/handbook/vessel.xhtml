@@ -5,6 +5,7 @@
 	xmlns:p="http://primefaces.prime.com.tr/ui">
 
 <ui:composition template="/WEB-INF/includes/layout.xhtml">
+<ui:param name="selectedMenuItem" value="6" />
 	<ui:define name="content">
 		<h:form prependId="false">
 
@@ -13,8 +14,7 @@
 				<ui:param name="gridId" value="vesselGrid" />
 			</ui:include>
 
-			<p:panel header="Суда" style="text-align:center"
-				styleClass="toggle-panel">
+			<p:panel header="Суда" styleClass="small-panel">
 				<p:dataTable id="vesselGrid" var="vessel"
 					value="#{vesselBean.allObjects}" selectionMode="single"
 					selection="#{vesselBean.vessel}">
