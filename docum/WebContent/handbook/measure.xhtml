@@ -5,6 +5,7 @@
 	xmlns:p="http://primefaces.prime.com.tr/ui">
 
 <ui:composition template="/WEB-INF/includes/layout.xhtml">
+<ui:param name="selectedMenuItem" value="6" />
 	<ui:define name="content">
 		<h:form prependId="false">
 			<h:panelGroup layout="block" styleClass="crud-menu">
@@ -32,8 +33,7 @@
 					</p:toolbarGroup>
 				</p:toolbar>
 			</h:panelGroup>
-			<p:panel header="#{measureBean.sign}" style="text-align:center"
-				styleClass="toggle-panel">			
+			<p:panel header="#{measureBean.sign}" styleClass="small-panel">			
 				<p:dataTable id="measures" var="measure" value="#{measureBean.allObjects}"
 					selectionMode="single" selection="#{measureBean.measure}">
 					<p:column sortBy="#{measure.name}" filterBy="#{measure.name}"

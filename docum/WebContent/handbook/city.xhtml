@@ -5,6 +5,7 @@
 	xmlns:p="http://primefaces.prime.com.tr/ui">
 
 <ui:composition template="/WEB-INF/includes/layout.xhtml">
+<ui:param name="selectedMenuItem" value="6" />
 	<ui:define name="content">
 
 		<h:form prependId="false">
@@ -14,8 +15,7 @@
 				<ui:param name="gridId" value="cityGrid" />
 			</ui:include>
 
-			<p:panel header="#{cityBean.sign}" style="text-align:center"
-				styleClass="toggle-panel">
+			<p:panel header="#{cityBean.sign}" styleClass="small-panel">
 
 				<p:dataTable id="cityGrid" var="city" value="#{cityBean.allObjects}"
 					selectionMode="single" selection="#{cityBean.city}">
@@ -28,7 +28,7 @@
 					<p:column sortBy="#{city.our}" filterBy="#{city.our}"
 						filterMatchMode="contains">
 						<f:facet name="header">Обслуживаемый</f:facet>
-						<h:selectBooleanCheckbox disabled="true" value="#{city.our}" />
+						<h:selectBooleanCheckbox disabled="true" styleClass="centered-col" value="#{city.our}" />
 					</p:column>
 				</p:dataTable>
 

@@ -5,6 +5,7 @@
 	xmlns:p="http://primefaces.prime.com.tr/ui">
 
 <ui:composition template="/WEB-INF/includes/layout.xhtml">
+<ui:param name="selectedMenuItem" value="6" />
 	<ui:define name="content">
 		<h:form prependId="false">
 
@@ -13,8 +14,7 @@
 				<ui:param name="gridId" value="companyGrid" />
 			</ui:include>
 
-			<p:panel header="#{companyBean.sign}" style="text-align:center"
-				styleClass="toggle-panel">
+			<p:panel header="#{companyBean.sign}" styleClass="small-panel">
 				<p:dataTable id="companyGrid" var="company"
 					value="#{companyBean.allObjects}" selectionMode="single"
 					selection="#{companyBean.company}">
