@@ -15,4 +15,5 @@ public interface VoyageService extends BaseService {
 	public void deleteVoyage(Long voyageId);
 	public List<Voyage> getVoyagesByInvoice(Long invoiceId);
 	public List<Voyage> getVoyagesByPurchaseOrder(Long orderId);
+	public List<Voyage> getVoyagesByBillOfLading(Long billOfLadingId);
 }

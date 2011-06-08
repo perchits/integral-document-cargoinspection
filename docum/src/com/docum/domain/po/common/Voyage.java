@@ -26,6 +26,12 @@ import com.docum.domain.po.IdentifiedEntity;
 				query = "SELECT DISTINCT v FROM Voyage v JOIN v.containers c " +
 					"JOIN c.orders o " + 
 					"WHERE o.id=:orderId"
+		),
+		@NamedQuery(
+				name = VoyageDao.GET_VOYAGES_BY_BILL_OF_LADING,
+				query = "SELECT DISTINCT v FROM Voyage v JOIN v.containers c " +
+					"JOIN c.billOfLadings b " + 
+					"WHERE b.id=:billOfLadingId"
 		)
 })
 public class Voyage extends IdentifiedEntity{

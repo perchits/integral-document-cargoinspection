@@ -12,8 +12,7 @@ import com.docum.service.ContainerService;
 
 @Service(ContainerService.SERVICE_NAME)
 @Transactional
-public class ContainerServiceImpl extends BaseServiceImpl implements
-		ContainerService {
+public class ContainerServiceImpl extends BaseServiceImpl implements ContainerService {
 
 	private static final long serialVersionUID = 9011562038896560162L;
 
@@ -33,6 +32,11 @@ public class ContainerServiceImpl extends BaseServiceImpl implements
 	@Override
 	public List<Container> getContainersByPurchaseOrder(Long orderId) {
 		return containerDao.getContainersByPurchaseOrder(orderId);
+	}
+
+	@Override
+	public List<Container> getContainersByBillOfLading(Long billOfLadingId) {
+		return containerDao.getContainersByBillOfLading(billOfLadingId);
 	}
 
 }

@@ -40,4 +40,13 @@ public class VoyageDaoImpl extends BaseDaoImpl implements VoyageDao {
 		return result;
 	}
 
+	@Override
+	public List<Voyage> getVoyagesByBillOfLading(Long billOfLadingId) {
+		Query query = entityManager.createNamedQuery(GET_VOYAGES_BY_BILL_OF_LADING);
+		query.setParameter("billOfLadingId", billOfLadingId);
+		@SuppressWarnings("unchecked")
+		List<Voyage> result = query.getResultList();
+		return result;
+	}
+
 }

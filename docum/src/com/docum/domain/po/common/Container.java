@@ -36,6 +36,12 @@ import com.docum.util.HashCodeHelper;
 				query = "SELECT DISTINCT c FROM Container c " +
 					"JOIN c.orders o " +
 					"WHERE o.id=:orderId"
+		),
+		@NamedQuery(
+				name = ContainerDao.GET_CONTAINERS_BY_BILL_OF_LADING_QUERY,
+				query = "SELECT DISTINCT c FROM Container c " +
+					"JOIN c.billOfLadings b " +
+					"WHERE b.id=:billOfLadingId"
 		)
 })
 public class Container extends IdentifiedEntity {
