@@ -74,6 +74,12 @@ public class ContainerView extends BaseView implements Serializable {
 	}
 
 	public Container getContainer() {
+		Container c = (Container)FacesUtil.getFlashParam(FlashParamKeys.CONTAINER);
+		if(c != null) {
+			container = c;
+			selectedVoyage = new VoyagePresentation(c.getVoyage());
+		}
+		loadContainer(container);
 		return container;
 	}
 
