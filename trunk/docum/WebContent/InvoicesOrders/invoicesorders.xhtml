@@ -116,6 +116,61 @@
 					</h:panelGrid>
 				</p:panel>
 			</h:panelGrid>
+		  </p:panel>
+		  <p:panel id="billOfLadingsMainPanel" header="Коносаменты" toggleable="true" collapsed="false" toggleSpeed="300" styleClass="toggle-panel">	
+			<h:panelGrid columns="2" styleClass="invoicesLayoutTable"
+				id="blsLayoutTable">
+				<p:panel id="blsPanel" style="text-align:center" styleClass="toggle-panel">
+					<ui:include src="/WEB-INF/includes/crudToolBar.xhtml">
+						<ui:param name="bean" value="#{billOfLadingBean}" />
+						<ui:param name="gridId" value="blsGrid" />
+					</ui:include>
+					<p:dataTable id="blsGrid" var="billOfLading"
+						value="#{billOfLadingBean.allObjects}" selectionMode="single"
+						selection="#{billOfLadingBean.billOfLading}" update="billOfLadingInfoPanel">
+						<p:column sortBy="#{billOfLading.number}"
+							filterBy="#{billOfLading.number}" filterMatchMode="contains">
+							<f:facet name="header">
+							Номер коносамента 
+						</f:facet>
+							<h:outputText value="#{billOfLading.number}" />
+						</p:column>
+					</p:dataTable>
+					
+				</p:panel>
+				<p:panel id="billOfLadingInfoPanel" style="text-align:center">
+					<f:facet name="header">
+						<h:outputText value="#{billOfLadingBean.billOfLading.number}" />
+					</f:facet>
+					<h:panelGrid columns="2" styleClass="infoLayoutTable">
+					
+						<p:dataTable id="billOfLadingContainers" var="container"
+							value="#{billOfLadingBean.containers}">
+							<p:column>
+								<h:outputText value="#{container.number}" />
+								<f:facet name="header">Контейнеры</f:facet>
+							</p:column>
+						</p:dataTable>
+
+						<p:dataTable id="billOfLadingVoyages" var="voyage"
+							value="#{billOfLadingBean.voyages}">
+							<p:column>
+								<h:outputText value="#{voyage.vessel.name}" />
+								<f:facet name="header">Судно</f:facet>
+							</p:column>
+							<p:column>
+								<h:outputText value="#{voyage.number}" />
+								<f:facet name="header">Рейс</f:facet>
+							</p:column>
+							<p:column>
+								<h:outputText value="#{voyage.arrivalDate}" />
+								<f:facet name="header">Дата прибытия</f:facet>
+							</p:column>
+						</p:dataTable>
+
+					</h:panelGrid>
+				</p:panel>
+			</h:panelGrid>
 		  </p:panel>	
 		</h:form>
 		
@@ -128,6 +183,12 @@
 		<ui:include src="/handbook/dialog/purchaseOrderDlg.xhtml">
 			<ui:param name="bean" value="#{orderBean}" />
 			<ui:param name="gridId" value="orders" />
+			<ui:param name="title" value="title" />
+		</ui:include>
+		
+		<ui:include src="/handbook/dialog/billOfLadingDlg.xhtml">
+			<ui:param name="bean" value="#{billOfLadingBean}" />
+			<ui:param name="gridId" value="blsGrid" />
 			<ui:param name="title" value="title" />
 		</ui:include>
 	</ui:define>

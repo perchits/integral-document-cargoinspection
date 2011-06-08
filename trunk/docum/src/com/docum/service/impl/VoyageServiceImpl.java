@@ -2,12 +2,15 @@ package com.docum.service.impl;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.docum.dao.VoyageDao;
+import com.docum.domain.SortOrderEnum;
+import com.docum.domain.po.IdentifiedEntity;
 import com.docum.domain.po.common.Voyage;
 import com.docum.service.VoyageService;
 
@@ -62,6 +65,19 @@ public class VoyageServiceImpl extends BaseServiceImpl implements VoyageService 
 	@Override
 	public List<Voyage> getVoyagesByPurchaseOrder(Long orderId) {
 		return voyageDao.getVoyagesByPurchaseOrder(orderId);
+	}
+
+	//TODO refactor
+	@Override
+	public <T extends IdentifiedEntity> List<T> getAll(Class<T> clazz,
+			Map<String, SortOrderEnum> sortFields) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Voyage> getVoyagesByBillOfLading(Long billOfLadingId) {
+		return voyageDao.getVoyagesByBillOfLading(billOfLadingId);
 	}
 
 }
