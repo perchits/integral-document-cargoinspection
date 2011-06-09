@@ -10,7 +10,7 @@ import com.docum.dao.BillOfLadingDao;
 import com.docum.domain.po.common.BillOfLading;
 
 @Repository
-public class BillOfLadingImpl extends BaseDaoImpl implements BillOfLadingDao {
+public class BillOfLadingDaoImpl extends BaseDaoImpl implements BillOfLadingDao {
 
 	private static final long serialVersionUID = -7680363829989502838L;
 
