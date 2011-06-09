@@ -8,9 +8,9 @@
 <ui:param name="selectedMenuItem" value="3" />
 	<ui:define name="content">
 		<h:form prependId="false">
-		  <ui:include src="/Documents/invoices.xhtml"/>
-		  <ui:include src="/Documents/orders.xhtml"/>
-		  <ui:include src="/Documents/billOfLadings.xhtml"/>	
+		  <ui:include src="/document/invoices.xhtml"/>
+		  <ui:include src="/document/orders.xhtml"/>
+		  <ui:include src="/document/billOfLadings.xhtml"/>	
 		</h:form>
 		<ui:include src="/handbook/dialog/invoiceDlg.xhtml">
 			<ui:param name="bean" value="#{invoiceBean}" />
