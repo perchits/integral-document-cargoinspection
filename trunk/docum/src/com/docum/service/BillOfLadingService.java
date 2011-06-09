@@ -10,5 +10,5 @@ public interface BillOfLadingService extends BaseService {
 
 	public List<BillOfLading> getBillsByVoyage(Long voyageId);
 	public List<BillOfLading> getBillsByInvoice(Long invoiceId);
-
+	public List<BillOfLading> getBillsByPurchaseOrder(Long orderId);
 }

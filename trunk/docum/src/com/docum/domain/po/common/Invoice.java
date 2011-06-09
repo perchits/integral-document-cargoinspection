@@ -13,13 +13,19 @@ import com.docum.dao.InvoiceDao;
 import com.docum.domain.po.IdentifiedEntity;
 
 @Entity
-@NamedQueries(
+@NamedQueries({
 		@NamedQuery(
 				name = InvoiceDao.GET_INVOICES_BY_VOYAGE_QUERY,
 				query = "SELECT DISTINCT inv FROM Invoice inv JOIN inv.containers c " +
 					"WHERE c.voyage.id=:voyageId"
+		),
+		@NamedQuery(
+				name = InvoiceDao.GET_INVOICES_BY_PURCHASE_ORDER_QUERY,
+				query = "SELECT DISTINCT inv FROM Invoice inv JOIN inv.containers c " +
+					"JOIN c.orders o " + 
+					"WHERE o.id=:orderId"
 		)
-)
+})
 public class Invoice extends IdentifiedEntity{
 	private static final long serialVersionUID = 4144517745472469185L;
 
