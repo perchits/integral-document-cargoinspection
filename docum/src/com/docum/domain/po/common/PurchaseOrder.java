@@ -15,13 +15,19 @@ import com.docum.util.EqualsHelper;
 import com.docum.util.HashCodeHelper;
 
 @Entity
-@NamedQueries(
+@NamedQueries({
 		@NamedQuery(
 				name = PurchaseOrderDao.GET_ORDERS_BY_VOYAGE_QUERY,
 				query = "SELECT DISTINCT po FROM PurchaseOrder po JOIN po.containers c " +
 					"WHERE c.voyage.id=:voyageId"
+		),
+		@NamedQuery(
+				name = PurchaseOrderDao.GET_ORDERS_BY_INVOICE_QUERY,
+				query = "SELECT DISTINCT po FROM PurchaseOrder po JOIN po.containers c " +
+					"JOIN c.invoices i " + 
+					"WHERE i.id=:invoiceId"
 		)
-)
+})
 public class PurchaseOrder extends IdentifiedEntity {
 	private static final long serialVersionUID = -5483165526419958870L;
 	

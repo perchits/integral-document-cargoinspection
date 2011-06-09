@@ -25,4 +25,9 @@ public class BillOfLadingServiceImpl extends BaseServiceImpl implements
 		return billOfLadingDao.getBillsByVoyage(voyageId);
 	}
 
+	@Override
+	public List<BillOfLading> getBillsByInvoice(Long invoiceId) {
+		return billOfLadingDao.getBillsByInvoice(invoiceId);
+	}
+
 }

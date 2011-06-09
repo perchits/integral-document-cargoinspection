@@ -23,4 +23,13 @@ public class BillOfLadingImpl extends BaseDaoImpl implements BillOfLadingDao {
 		return result;
 	}
 
+	@Override
+	public List<BillOfLading> getBillsByInvoice(Long invoiceId) {
+		Query query = entityManager.createNamedQuery(GET_BILLS_BY_INVOICE_QUERY);
+		query.setParameter("invoiceId", invoiceId);
+		@SuppressWarnings("unchecked")
+		List<BillOfLading> result = query.getResultList();
+		return result;
+	}
+
 }

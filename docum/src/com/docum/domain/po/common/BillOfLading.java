@@ -13,13 +13,19 @@ import com.docum.dao.BillOfLadingDao;
 import com.docum.domain.po.IdentifiedEntity;
 
 @Entity
-@NamedQueries(
+@NamedQueries({
 		@NamedQuery(
 				name = BillOfLadingDao.GET_BILLS_BY_VOYAGE_QUERY,
 				query = "SELECT DISTINCT bill FROM BillOfLading bill JOIN bill.containers c " +
 					"WHERE c.voyage.id=:voyageId"
+		),
+		@NamedQuery(
+				name = BillOfLadingDao.GET_BILLS_BY_INVOICE_QUERY,
+				query = "SELECT DISTINCT bill FROM BillOfLading bill JOIN bill.containers c " +
+					"JOIN c.invoices i " + 
+					"WHERE i.id=:invoiceId"
 		)
-)
+})
 public class BillOfLading extends IdentifiedEntity{
 	private static final long serialVersionUID = 5640872642276855894L;
 
