@@ -9,5 +9,5 @@ public interface InvoiceService extends BaseService {
 	public static final String SERVICE_NAME = "invoiceService";
 
 	public List<Invoice> getInvoicesByVoyage(Long voyageId);
-
+	public List<Invoice> getInvoicesByPurchaseOrder(Long orderId);
 }

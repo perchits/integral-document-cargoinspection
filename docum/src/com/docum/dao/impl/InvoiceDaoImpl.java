@@ -23,4 +23,14 @@ public class InvoiceDaoImpl extends BaseDaoImpl implements InvoiceDao {
 		return result;
 	}
 
+
+	@Override
+	public List<Invoice> getInvoicesByPurchaseOrder(Long orderId) {
+		Query query = entityManager.createNamedQuery(GET_INVOICES_BY_PURCHASE_ORDER_QUERY);
+		query.setParameter("orderId", orderId);
+		@SuppressWarnings("unchecked")
+		List<Invoice> result = query.getResultList();
+		return result;
+	}
+
 }

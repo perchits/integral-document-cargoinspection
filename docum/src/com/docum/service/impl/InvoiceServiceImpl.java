@@ -25,4 +25,9 @@ public class InvoiceServiceImpl extends BaseServiceImpl implements
 		return invoiceDao.getInvoicesByVoyage(voyageId);
 	}
 
+	@Override
+	public List<Invoice> getInvoicesByPurchaseOrder(Long orderId) {
+		return invoiceDao.getInvoicesByPurchaseOrder(orderId);
+	}
+
 }
