@@ -42,8 +42,8 @@
 				<p:panel styleClass="container-cargo-panel">
 					Инвойсы
 					<ul>
-					<ui:repeat value="#{orderBean.invoices}" var="purchaseOrder">
-						<li><p:commandLink styleClass="olive-color" value="#{purchaseOrder.number}" /> 
+					<ui:repeat value="#{orderBean.invoices}" var="invoice">
+						<li><p:commandLink styleClass="olive-color" value="#{invoice.number}" /> 
 						</li>
 					</ui:repeat>
 					</ul>

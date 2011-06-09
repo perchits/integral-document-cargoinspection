@@ -22,10 +22,14 @@ public class PurchaseOrderServiceImpl extends BaseServiceImpl implements Purchas
 		return purchaseOrderDao.getOrdersByVoyage(voyageId);
 	}
 
-
 	@Override
 	public List<PurchaseOrder> getOrdersByInvoice(Long invoiceId) {
 		return purchaseOrderDao.getOrdersByInvoice(invoiceId);
+	}
+
+	@Override
+	public List<PurchaseOrder> getOrdersByBillOfLading(Long billOfLadingId) {
+		return purchaseOrderDao.getOrdersByBillOfLading(billOfLadingId);
 	}
 
 }

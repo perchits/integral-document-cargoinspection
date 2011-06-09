@@ -12,8 +12,7 @@ import com.docum.service.InvoiceService;
 
 @Service(InvoiceService.SERVICE_NAME)
 @Transactional
-public class InvoiceServiceImpl extends BaseServiceImpl implements
-		InvoiceService {
+public class InvoiceServiceImpl extends BaseServiceImpl implements InvoiceService {
 
 	private static final long serialVersionUID = 6963837401609745464L;
 
@@ -28,6 +27,11 @@ public class InvoiceServiceImpl extends BaseServiceImpl implements
 	@Override
 	public List<Invoice> getInvoicesByPurchaseOrder(Long orderId) {
 		return invoiceDao.getInvoicesByPurchaseOrder(orderId);
+	}
+
+	@Override
+	public List<Invoice> getInvoicesByBillOfLading(Long billOfLadingId) {
+		return invoiceDao.getInvoicesByBillOfLading(billOfLadingId);
 	}
 
 }

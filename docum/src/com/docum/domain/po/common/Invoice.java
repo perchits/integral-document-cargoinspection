@@ -24,6 +24,12 @@ import com.docum.domain.po.IdentifiedEntity;
 				query = "SELECT DISTINCT inv FROM Invoice inv JOIN inv.containers c " +
 					"JOIN c.orders o " + 
 					"WHERE o.id=:orderId"
+		),
+		@NamedQuery(
+				name = InvoiceDao.GET_INVOICES_BY_BILL_OF_LADING_QUERY,
+				query = "SELECT DISTINCT inv FROM Invoice inv JOIN inv.containers c " +
+					"JOIN c.billOfLadings b " + 
+					"WHERE b.id=:billOfLadingId"
 		)
 })
 public class Invoice extends IdentifiedEntity{

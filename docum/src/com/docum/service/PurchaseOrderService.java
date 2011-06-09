@@ -9,4 +9,5 @@ public interface PurchaseOrderService extends BaseService {
 	
 	public List<PurchaseOrder> getOrdersByVoyage(Long voyageId);
 	public List<PurchaseOrder> getOrdersByInvoice(Long invoiceId);
+	public List<PurchaseOrder> getOrdersByBillOfLading(Long billOfLadingId);
 }
