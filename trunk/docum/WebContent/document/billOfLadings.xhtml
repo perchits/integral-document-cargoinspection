@@ -28,32 +28,34 @@
 			<f:facet name="header">
 				<h:outputText value="#{billOfLadingBean.billOfLading.number}" />
 			</f:facet>
-			<h:panelGrid columns="2" styleClass="infoLayoutTable">
-			
-				<p:dataTable id="billOfLadingContainers" var="container"
-					value="#{billOfLadingBean.containers}">
-					<p:column>
-						<h:outputText value="#{container.number}" />
-						<f:facet name="header">Контейнеры</f:facet>
-					</p:column>
-				</p:dataTable>
-
-				<p:dataTable id="billOfLadingVoyages" var="voyage"
-					value="#{billOfLadingBean.voyages}">
-					<p:column>
-						<h:outputText value="#{voyage.vessel.name}" />
-						<f:facet name="header">Судно</f:facet>
-					</p:column>
-					<p:column>
-						<h:outputText value="#{voyage.number}" />
-						<f:facet name="header">Рейс</f:facet>
-					</p:column>
-					<p:column>
-						<h:outputText value="#{voyage.arrivalDate}" />
-						<f:facet name="header">Дата прибытия</f:facet>
-					</p:column>
-				</p:dataTable>
-
+			<h:panelGrid columns="3" styleClass="infoLayoutTable">
+				<p:panel styleClass="container-cargo-panel">
+					Контейнеры
+					<ul>
+					<ui:repeat value="#{billOfLadingBean.containers}" var="container">
+						<li><p:commandLink styleClass="olive-color" value="#{container.number}" /> 
+						</li>
+					</ui:repeat>
+					</ul>
+				</p:panel>
+				<p:panel styleClass="container-cargo-panel">
+					Инвойсы
+					<ul>
+					<ui:repeat value="#{billOfLadingBean.invoices}" var="purchaseOrder">
+						<li><p:commandLink styleClass="olive-color" value="#{purchaseOrder.number}" /> 
+						</li>
+					</ui:repeat>
+					</ul>
+				</p:panel>
+				<p:panel styleClass="container-cargo-panel">
+					Заказы
+					<ul>
+					<ui:repeat value="#{billOfLadingBean.orders}" var="order">
+						<li><p:commandLink styleClass="olive-color" value="#{order.number}" /> 
+						</li>
+					</ui:repeat>
+					</ul>
+				</p:panel>
 			</h:panelGrid>
 		</p:panel>
 	</h:panelGrid>

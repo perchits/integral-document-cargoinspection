@@ -33,5 +33,14 @@ public class PurchaseOrderDaoImpl extends BaseDaoImpl implements PurchaseOrderDa
 		List<PurchaseOrder> result = query.getResultList();
 		return result;
 	}
+
+	@Override
+	public List<PurchaseOrder> getOrdersByBillOfLading(Long billOfLadingId) {
+		Query query = entityManager.createNamedQuery(GET_ORDERS_BY_BILL_OF_LADING_QUERY);
+		query.setParameter("billOfLadingId", billOfLadingId);
+		@SuppressWarnings("unchecked")
+		List<PurchaseOrder> result = query.getResultList();
+		return result;
+	}
 	
 }

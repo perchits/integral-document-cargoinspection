@@ -26,6 +26,12 @@ import com.docum.util.HashCodeHelper;
 				query = "SELECT DISTINCT po FROM PurchaseOrder po JOIN po.containers c " +
 					"JOIN c.invoices i " + 
 					"WHERE i.id=:invoiceId"
+		),
+		@NamedQuery(
+				name = PurchaseOrderDao.GET_ORDERS_BY_BILL_OF_LADING_QUERY,
+				query = "SELECT DISTINCT po FROM PurchaseOrder po JOIN po.containers c " +
+					"JOIN c.billOfLadings b " + 
+					"WHERE b.id=:billOfLadingId"
 		)
 })
 public class PurchaseOrder extends IdentifiedEntity {
