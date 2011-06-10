@@ -9,6 +9,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
+import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.docum.domain.SortOrderEnum;
@@ -81,6 +82,7 @@ public abstract class BaseView implements Serializable{
 			String message = String.format(
 					"%1$s для редактирование не выбран!", getSign());
 			showErrorMessage(message);
+			addCallbackParam("dontShow", true);
 		}
 	}
 
@@ -89,10 +91,11 @@ public abstract class BaseView implements Serializable{
 			String message = String.format("%1$s для удаления не выбран!",
 					getSign());
 			showErrorMessage(message);
+			addCallbackParam("dontShow", true);
 		}
 	}
 
-	private void showErrorMessage(String message) {
+	protected void showErrorMessage(String message) {
 		FacesContext fc = FacesContext.getCurrentInstance();
 		fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
 				"Ошибочка вышла...", message));
@@ -108,5 +111,10 @@ public abstract class BaseView implements Serializable{
 
 	protected BaseService getBaseService() {
 		return baseService;
+	}
+	
+	protected void addCallbackParam(String paramName, Object paramValue) {
+		RequestContext context = RequestContext.getCurrentInstance();
+		context.addCallbackParam(paramName, paramValue);
 	}
 }

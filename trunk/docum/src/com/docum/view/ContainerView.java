@@ -162,4 +162,14 @@ public class ContainerView extends BaseView implements Serializable {
 			loadContainer(this.container);
 		}
 	}
+	
+	@Override
+	public void newObject() {		
+		super.newObject();	
+		if (selectedVoyage == null) {
+			String message = "Добавление контейнера невозможно пока не выбран судозаход!";
+			showErrorMessage(message);
+			addCallbackParam("dontShow", true);
+		}
+	}
 }

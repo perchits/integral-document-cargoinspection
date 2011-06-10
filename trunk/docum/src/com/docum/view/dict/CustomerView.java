@@ -15,14 +15,10 @@ public class CustomerView extends BaseView {
 	private static final long serialVersionUID = 7576706351479590355L;
 		
 	private static final String sign = "Клиент";
-	private Customer customer = new Customer();
-	private List<Company> companies;
+	private Customer customer = new Customer();	
 
-	public List<Company> getCompanies() {
-		if (companies == null) {
-			companies = getBaseService().getAll(Company.class, null);
-		}
-		return companies;
+	public List<Company> getCompanies() {				
+		return getBaseService().getAll(Company.class, null);
 	}
 
 	public Company getSelectedCompany() {

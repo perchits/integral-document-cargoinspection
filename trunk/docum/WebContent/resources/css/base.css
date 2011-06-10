@@ -228,7 +228,7 @@ select {
 .small-panel {
 	display: inline-block;
 	float: left;
-	margin-left: 4px;
+	margin-left: 4px;	
 }
 
 .small-panel table {

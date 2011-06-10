@@ -38,8 +38,7 @@ public class VoyageView extends BaseView {
 	private BillOfLadingService billOfLadingService;
 
 	private ArrayList<VoyagePresentation> voyages;
-
-	private List<Vessel> vessels;
+	
 	private Voyage voyage = new Voyage();
 
 	public Collection<VoyagePresentation> getVoyages() {
@@ -72,11 +71,8 @@ public class VoyageView extends BaseView {
 		return voyage;
 	}
 
-	public List<Vessel> getVessels() {
-		if (vessels == null) {
-			vessels = getBaseService().getAll(Vessel.class, null);
-		}
-		return vessels;
+	public List<Vessel> getVessels() {		
+		return getBaseService().getAll(Vessel.class, null);
 	}
 
 	public String getVoyageInfo() {
