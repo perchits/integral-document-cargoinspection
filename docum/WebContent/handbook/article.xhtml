@@ -13,10 +13,8 @@
 				<ui:param name="bean" value="#{articleBean}" />
 				<ui:param name="gridId" value="articleGrid" />
 			</ui:include>
-
 			<h:panelGrid columns="2" styleClass="invoicesLayoutTable" id="articlesLayoutTable">
-				<p:panel header="#{articleBean.sign}" style="text-align:center"
-					styleClass="toggle-panel">
+				<p:panel header="#{articleBean.sign}" styleClass="small-panel">
 	
 					<p:dataTable id="articleGrid" var="article"
 						value="#{articleBean.allObjects}" selectionMode="single"
@@ -35,7 +33,7 @@
 	
 					</p:dataTable>
 				</p:panel>
-				<p:panel id="articlesInfoPanel" style="text-align:center">
+				<p:panel id="articlesInfoPanel" styleClass="articleInfoPanel">
 					<f:facet name="header">
 						<h:outputText value="Характеристики #{articleBean.article.name}" id="characteristics"/>
 					</f:facet>

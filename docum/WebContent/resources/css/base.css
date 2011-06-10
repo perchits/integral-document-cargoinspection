@@ -250,6 +250,7 @@ select {
 	position: relative;
 }
 
-.docInfoPanel {
+.docInfoPanel,
+.articleInfoPanel {
 	min-width: 683px;
 }
