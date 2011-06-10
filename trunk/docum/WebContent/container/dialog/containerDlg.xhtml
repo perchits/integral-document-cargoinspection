@@ -9,7 +9,10 @@
 	<ui:param name="saveObject" value="saveObject" />
 	<ui:param name="deleteObject" value="deleteObject" />
 	<ui:define name="dialogBody">
-		
+		<h:outputLabel for="containerNumber" value="Номер: *" />
+		<p:inputText value="#{bean.container.number}" id="containerNumber"
+			required="true" label="Номер">
+		</p:inputText>
 	</ui:define>
 	<ui:define name="deleteConfirmation">
 		<ui:include src="/WEB-INF/includes/deleteConfirmation.xhtml">
