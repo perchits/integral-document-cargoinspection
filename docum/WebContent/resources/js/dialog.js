@@ -8,8 +8,8 @@ function handleOKRequest(args, widgetVar, dialogId) {
 	}
 }
 
-function beforeShow(widgetVar, tableId) {
-	if (jQuery('#' + tableId).find(".ui-selected").length > 0) {
+function beforeShow(widgetVar, args) {
+	if (!args.dontShow) {
 		widgetVar.show();
-	}
+	}	
 }

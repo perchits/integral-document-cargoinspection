@@ -5,11 +5,11 @@
 	xmlns:p="http://primefaces.prime.com.tr/ui">
 
 <ui:composition template="/WEB-INF/includes/layout.xhtml">
-<ui:param name="selectedMenuItem" value="4" />
-    <f:metadata>  
-       <f:event type="preRenderView" listener="#{containerBean.loadPage}"></f:event>  
-    </f:metadata>
-    <ui:define name="content">
+	<ui:param name="selectedMenuItem" value="4" />
+	<f:metadata>
+		<f:event type="preRenderView" listener="#{containerBean.loadPage}"></f:event>
+	</f:metadata>
+	<ui:define name="content">
 		<h:form prependId="false">
 			<h:panelGrid columns="2" styleClass="containersLayoutTable"
 				id="voyagesLayoutTable">
@@ -29,13 +29,16 @@
 						onSelectUpdate="containers,infoPanel,containerTitle">
 					</p:autoComplete>
 
-					<ui:include src="/WEB-INF/includes/crudToolBar.xhtml">
+
+					<ui:include src="/WEB-INF/includes/baseCrudToolBar.xhtml">
 						<ui:param name="bean" value="#{containerBean}" />
 						<ui:param name="gridId" value="containers" />
 						<ui:param name="update" value="infoPanel" />
+						<ui:param name="newObject" value="newObject" />
+						<ui:param name="editObject" value="editObject" />
+						<ui:param name="beforeDeleteObject" value="beforeDeleteObject" />
+						<ui:param name="refreshObjects" value="refreshObjects" />
 					</ui:include>
-
-
 
 					<p:dataTable selectionMode="single" styleClass="cellSmallText"
 						id="containers" var="container"
@@ -96,16 +99,13 @@
 					<h:panelGroup id="lazyContainerInfo" layout="block"
 						rendered="#{containerBean.isSelected}">
 						<h:outputText styleClass="olive-color" value="Статус: " />
-						<h:outputText
-							value="#{containerBean.container.state}" />
+						<h:outputText value="#{containerBean.container.state}" />
 						<br />
 						<h:outputText styleClass="olive-color" value="Инвойс: " />
-						<h:outputText
-							value="#{containerBean.container.invoiceInLine}" />
+						<h:outputText value="#{containerBean.container.invoiceInLine}" />
 						<br />
 						<h:outputText styleClass="olive-color" value="Заказ: " />
-						<h:outputText
-							value="#{containerBean.container.orderInLine}" />
+						<h:outputText value="#{containerBean.container.orderInLine}" />
 						<br />
 						<h:outputText styleClass="olive-color" value="Коносамент: " />
 						<h:outputText
@@ -115,34 +115,29 @@
 						<h:outputText value="#{containerBean.container.city}" />
 						<br />
 						<h:outputText styleClass="olive-color" value="Погрузка: " />
-						<h:outputText
-							value="#{containerBean.container.loadingPort}" />
+						<h:outputText value="#{containerBean.container.loadingPort}" />
 						<h:outputText value=", " />
 						<h:outputText value="#{containerBean.container.loadingDate}">
 							<f:convertDateTime dateStyle="medium" type="date" />
 						</h:outputText>
 						<br />
 						<h:outputText styleClass="olive-color" value="Выгрузка: " />
-						<h:outputText
-							value="#{containerBean.container.dischargePort}" />
+						<h:outputText value="#{containerBean.container.dischargePort}" />
 						<h:outputText value=", " />
 						<h:outputText value="#{containerBean.container.dischargeDate}">
 							<f:convertDateTime dateStyle="medium" type="date" />
 						</h:outputText>
 					</h:panelGroup>
 					<ui:repeat value="#{containerBean.containerCargoes}" var="wcargo">
-						<p:panel
-							header="#{wcargo.article}, #{wcargo.articleCategory}"
+						<p:panel header="#{wcargo.article}, #{wcargo.articleCategory}"
 							styleClass="container-cargo-panel">
 							<h:outputText styleClass="olive-color" value="Поставщик: " />
-							<h:outputText value="#{wcargo.supplier}" />							
+							<h:outputText value="#{wcargo.supplier}" />
 							<ul>
 								<ui:repeat value="#{wcargo.features}" var="feature">
 									<li><h:outputText styleClass="olive-color"
 											value="#{feature.feature.name}: " /> <h:outputText
-											value="#{feature.value}" />											
-											
-									</li>
+											value="#{feature.value}" /></li>
 								</ui:repeat>
 							</ul>
 							Упаковка
@@ -151,21 +146,20 @@
 									var="pack">
 									<li><h:outputText styleClass="olive-color"
 											value="#{pack.measure.name}: " /> <h:outputText
-											value="#{pack.count}" >
+											value="#{pack.count}">
 											<f:convertNumber maxFractionDigits="2" />
-											</h:outputText> 
-											<h:panelGroup rendered="#{not empty pack.calibres}">											
+										</h:outputText> <h:panelGroup rendered="#{not empty pack.calibres}">
 											<ul>
 												<ui:repeat value="#{pack.calibres}" var="calibre">
 													<li><h:outputText styleClass="olive-color"
 															value="#{calibre.calibreValue}: " /> <h:outputText
-															value="#{calibre.packageCount}" >
+															value="#{calibre.packageCount}">
 															<f:convertNumber maxFractionDigits="2" />
-														</h:outputText>
-													</li>
+														</h:outputText></li>
 												</ui:repeat>
 											</ul>
-										</h:panelGroup></li>
+										</h:panelGroup>
+									</li>
 								</ui:repeat>
 							</ul>
 						</p:panel>
@@ -175,11 +169,9 @@
 			</h:panelGrid>
 		</h:form>
 
-		<ui:include src="/handbook/dialog/voyageDlg.xhtml">
-			<ui:param name="bean" value="#{voyageBean}" />
-			<ui:param name="gridId" value="containers" />
-			<ui:param name="selectedVessel" value="selectedVessel" />
-			<ui:param name="vessels" value="vessels" />
+		<ui:include src="/container/dialog/containerDlg.xhtml">
+			<ui:param name="bean" value="#{containerBean}" />
+			<ui:param name="gridId" value="containers" />			
 			<ui:param name="title" value="title" />
 			<ui:param name="update" value="infoPanel" />
 		</ui:include>

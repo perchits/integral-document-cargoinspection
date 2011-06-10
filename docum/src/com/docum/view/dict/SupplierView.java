@@ -15,14 +15,10 @@ public class SupplierView extends BaseView {
 	private static final long serialVersionUID = -676095247499740650L;
 
 	private static final String sign = "Поставщик";
-	private Supplier supplier = new Supplier();
-	private List<Company> companies;
+	private Supplier supplier = new Supplier();	
 
-	public List<Company> getCompanies() {
-		if (companies == null) {
-			companies = getBaseService().getAll(Company.class, null);
-		}
-		return companies;
+	public List<Company> getCompanies() {		
+		return getBaseService().getAll(Company.class, null);
 	}
 
 	public void setSupplier(Supplier supplier) {
