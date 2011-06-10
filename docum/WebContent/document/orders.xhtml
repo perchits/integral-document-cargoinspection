@@ -4,14 +4,16 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.prime.com.tr/ui">
 
-	<p:panel id="ordersMainPanel" header="Заказы" toggleable="true" collapsed="false" toggleSpeed="300" styleClass="toggle-panel">	
+	<p:panel id="ordersMainPanel" header="Заказы" toggleable="true" collapsed="false" 
+			toggleSpeed="300" styleClass="mainBackground">	
 		<h:panelGrid columns="2" styleClass="invoicesLayoutTable"
 			id="ordersLayoutTable">
-			<p:panel id="ordersPanel" style="text-align:center" styleClass="toggle-panel">
+			<p:panel id="ordersPanel" styleClass="small-panel">
 			<ui:include src="/WEB-INF/includes/crudToolBar.xhtml">
 				<ui:param name="bean" value="#{orderBean}" />
 				<ui:param name="gridId" value="orders" />
 			</ui:include>
+			<p:panel styleClass="small-panel" style="border: none;">
 			<p:dataTable id="orders" var="order"
 				value="#{orderBean.allObjects}" selectionMode="single"
 				selection="#{orderBean.order}" update="ordersInfoPanel">
@@ -23,9 +25,9 @@
 					<h:outputText value="#{order.number}" />
 				</p:column>
 			</p:dataTable>
-			
+			</p:panel>
 		</p:panel>
-		<p:panel id="ordersInfoPanel" style="text-align:center">
+		<p:panel id="ordersInfoPanel" styleClass="docInfoPanel">
 			<f:facet name="header">
 				<h:outputText value="#{orderBean.order.number}" />
 			</f:facet>
@@ -43,7 +45,7 @@
 					Инвойсы
 					<ul>
 					<ui:repeat value="#{orderBean.invoices}" var="invoice">
-						<li><p:commandLink styleClass="olive-color" value="#{invoice.number}" /> 
+						<li><h:outputText styleClass="olive-color" value="#{invoice.number}" /> 
 						</li>
 					</ui:repeat>
 					</ul>
@@ -52,7 +54,7 @@
 					Коносаменты
 					<ul>
 					<ui:repeat value="#{orderBean.billOfLadings}" var="billOfLading">
-						<li><p:commandLink styleClass="olive-color" value="#{billOfLading.number}" /> 
+						<li><h:outputText styleClass="olive-color" value="#{billOfLading.number}" /> 
 						</li>
 					</ui:repeat>
 					</ul>

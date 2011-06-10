@@ -7,10 +7,14 @@ body {
 	text-align: center;
 }
 
+.page-container,
+.mainBackground {
+	background: url("#{resource['images/page-bg.png']}") white;
+}
+
 .page-container {
 	display: inline-block;
 	margin: auto;
-	background: url("#{resource['images/page-bg.png']}") white;
 	padding: 5px;
 	border-left: 1px solid #B1A635;
 	border-right: 1px solid #B1A635;
@@ -244,4 +248,8 @@ select {
 	float: right;
 	left: -50%;
 	position: relative;
+}
+
+.docInfoPanel {
+	min-width: 683px;
 }

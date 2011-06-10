@@ -3,14 +3,16 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.prime.com.tr/ui">
-  <p:panel id="billOfLadingsMainPanel" header="Коносаменты" toggleable="true" collapsed="false" toggleSpeed="300" styleClass="toggle-panel">	
+  <p:panel id="billOfLadingsMainPanel" header="Коносаменты" toggleable="true" collapsed="false" 
+  		toggleSpeed="300" styleClass="mainBackground">	
 	<h:panelGrid columns="2" styleClass="invoicesLayoutTable"
 		id="blsLayoutTable">
-		<p:panel id="blsPanel" style="text-align:center" styleClass="toggle-panel">
+		<p:panel id="blsPanel" styleClass="small-panel">
 			<ui:include src="/WEB-INF/includes/crudToolBar.xhtml">
 				<ui:param name="bean" value="#{billOfLadingBean}" />
 				<ui:param name="gridId" value="blsGrid" />
 			</ui:include>
+			<p:panel styleClass="small-panel" style="border: none;">
 			<p:dataTable id="blsGrid" var="billOfLading"
 				value="#{billOfLadingBean.allObjects}" selectionMode="single"
 				selection="#{billOfLadingBean.billOfLading}" update="billOfLadingInfoPanel">
@@ -22,9 +24,9 @@
 					<h:outputText value="#{billOfLading.number}" />
 				</p:column>
 			</p:dataTable>
-			
+			</p:panel>
 		</p:panel>
-		<p:panel id="billOfLadingInfoPanel" style="text-align:center">
+		<p:panel id="billOfLadingInfoPanel" styleClass="docInfoPanel">
 			<f:facet name="header">
 				<h:outputText value="#{billOfLadingBean.billOfLading.number}" />
 			</f:facet>
@@ -42,7 +44,7 @@
 					Инвойсы
 					<ul>
 					<ui:repeat value="#{billOfLadingBean.invoices}" var="purchaseOrder">
-						<li><p:commandLink styleClass="olive-color" value="#{purchaseOrder.number}" /> 
+						<li><h:outputText styleClass="olive-color" value="#{purchaseOrder.number}" /> 
 						</li>
 					</ui:repeat>
 					</ul>
@@ -51,7 +53,7 @@
 					Заказы
 					<ul>
 					<ui:repeat value="#{billOfLadingBean.orders}" var="order">
-						<li><p:commandLink styleClass="olive-color" value="#{order.number}" /> 
+						<li><h:outputText styleClass="olive-color" value="#{order.number}" /> 
 						</li>
 					</ui:repeat>
 					</ul>

@@ -4,14 +4,16 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.prime.com.tr/ui">
 
- <p:panel id="invoicesMainPanel" header="Инвойсы" toggleable="true" collapsed="false" toggleSpeed="300" styleClass="toggle-panel">
+ <p:panel id="invoicesMainPanel" header="Инвойсы" toggleable="true" collapsed="false" 
+ 		toggleSpeed="300" styleClass="mainBackground">
 	<h:panelGrid columns="2" styleClass="invoicesLayoutTable"
 		id="ivoicesLayoutTable">
-		<p:panel id="invoicesPanel"	style="text-align:center" styleClass="toggle-panel">
+		<p:panel id="invoicesPanel"	styleClass="small-panel">
 			<ui:include src="/WEB-INF/includes/crudToolBar.xhtml">
 				<ui:param name="bean" value="#{invoiceBean}" />
 				<ui:param name="gridId" value="invoices" />
 			</ui:include>
+			<p:panel styleClass="small-panel" style="border: none;">
 			<p:dataTable id="invoices" var="invoice"
 				value="#{invoiceBean.allObjects}" selectionMode="single"
 				selection="#{invoiceBean.invoice}" update="invoicesInfoPanel">
@@ -23,9 +25,9 @@
 					<h:outputText value="#{invoice.number}" />
 				</p:column>
 			</p:dataTable>
-			
+			</p:panel>
 		</p:panel>
-		<p:panel id="invoicesInfoPanel" style="text-align:center">
+		<p:panel id="invoicesInfoPanel" styleClass="docInfoPanel">
 			<f:facet name="header">
 				<h:outputText value="#{invoiceBean.invoice.number}" />
 			</f:facet>
@@ -44,7 +46,7 @@
 					Заказы
 					<ul>
 					<ui:repeat value="#{invoiceBean.purchaseOrders}" var="purchaseOrder">
-						<li><p:commandLink styleClass="olive-color" value="#{purchaseOrder.number}" /> 
+						<li><h:outputText styleClass="olive-color" value="#{purchaseOrder.number}" /> 
 						</li>
 					</ui:repeat>
 					</ul>
@@ -53,7 +55,7 @@
 					Коносаменты
 					<ul>
 					<ui:repeat value="#{invoiceBean.billOfLadings}" var="billOfLading">
-						<li><p:commandLink styleClass="olive-color" value="#{billOfLading.number}" /> 
+						<li><h:outputText styleClass="olive-color" value="#{billOfLading.number}" /> 
 						</li>
 					</ui:repeat>
 					</ul>
