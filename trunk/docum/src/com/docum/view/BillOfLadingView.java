@@ -34,7 +34,8 @@ public class BillOfLadingView extends BaseView {
 	@Autowired
 	private PurchaseOrderService purchaseOrderService;
 
-	private BillOfLading billOfLading = new BillOfLading(); 
+	private BillOfLading billOfLading = new BillOfLading();
+	private Integer containersAmount;
 
 	@Override
 	public void saveObject() {
@@ -69,10 +70,13 @@ public class BillOfLadingView extends BaseView {
 
 
 	public List<Container> getContainers() {
+		List<Container> result = null;
 		if (this.billOfLading == null || this.billOfLading.getId() == null) {
-			return null;
+			return result;
 		} else {
-			return containerService.getContainersByBillOfLading(this.billOfLading.getId());
+			result = containerService.getContainersByBillOfLading(this.billOfLading.getId());
+			this.containersAmount = result.size();
+			return result;
 		}
 	}
 	
@@ -106,5 +110,13 @@ public class BillOfLadingView extends BaseView {
 
 	public void setBillOfLading(BillOfLading billOfLading) {
 		this.billOfLading = billOfLading;
+	}
+
+	public ContainerService getContainerService() {
+		return containerService;
+	}
+
+	public Integer getContainersAmount() {
+		return containersAmount;
 	}
 }

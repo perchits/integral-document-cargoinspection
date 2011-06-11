@@ -34,7 +34,8 @@ public class OrderView extends BaseView {
 	@Autowired
 	private BillOfLadingService billOfLadingService;
 
-	private PurchaseOrder order = new PurchaseOrder(); 
+	private PurchaseOrder order = new PurchaseOrder();
+	private Integer containersAmount;
 
 	@Override
 	public void saveObject() {
@@ -69,10 +70,13 @@ public class OrderView extends BaseView {
 
 
 	public List<Container> getContainers() {
+		List<Container> result = null;
 		if (this.order == null || this.order.getId() == null) {
-			return null;
+			return result;
 		} else {
-			return containerService.getContainersByPurchaseOrder(this.order.getId());
+			result = containerService.getContainersByPurchaseOrder(this.order.getId()); 
+			this.containersAmount = result.size();
+			return result;
 		}
 	}
 	
@@ -106,5 +110,9 @@ public class OrderView extends BaseView {
 
 	public void setOrder(PurchaseOrder order) {
 		this.order = order;
+	}
+
+	public Integer getContainersAmount() {
+		return containersAmount;
 	}
 }

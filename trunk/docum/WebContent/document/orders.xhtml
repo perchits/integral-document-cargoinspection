@@ -32,6 +32,7 @@
 				<h:outputText value="#{orderBean.order.number}" />
 			</f:facet>
 			<h:panelGrid columns="3" styleClass="infoLayoutTable">
+			    <p:panel styleClass="borderless">
 				<p:panel styleClass="documentPartialDetailPanel">
 					Контейнеры
 					<ul>
@@ -40,6 +41,11 @@
 						</li>
 					</ui:repeat>
 					</ul>
+				</p:panel>
+				<div class="documentContainersSummary">
+					<h:outputText styleClass="olive-color" value="Всего, шт: " />
+					<h:outputText value="#{orderBean.containersAmount}"/>
+				</div>
 				</p:panel>
 				<p:panel styleClass="documentPartialDetailPanel">
 					Инвойсы

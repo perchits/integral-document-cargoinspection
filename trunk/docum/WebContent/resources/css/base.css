@@ -261,3 +261,12 @@ select {
 .articleInfoPanel {
 	min-width: 683px;
 }
+
+.borderless {
+	border: none;
+}
+
+.documentContainersSummary {
+	text-align: left; 
+	margin-left: 4px;
+}

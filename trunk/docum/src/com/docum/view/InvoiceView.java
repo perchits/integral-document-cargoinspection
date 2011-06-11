@@ -35,6 +35,7 @@ public class InvoiceView extends BaseView {
 	private BillOfLadingService billOfLadingService;
 
 	private Invoice invoice = new Invoice(); 
+	private Integer containersAmount;
 
 	@Override
 	public void saveObject() {
@@ -69,10 +70,13 @@ public class InvoiceView extends BaseView {
 
 
 	public List<Container> getContainers() {
+		List<Container> result = null;
 		if (this.invoice == null || this.invoice.getId() == null) {
-			return null;
+			return result;
 		} else {
-			return containerService.getContainersByInvoice(this.invoice.getId());
+			result = containerService.getContainersByInvoice(this.invoice.getId());
+			this.containersAmount = result.size();
+			return result;
 		}
 	}
 	
@@ -106,6 +110,10 @@ public class InvoiceView extends BaseView {
 
 	public void setInvoice(Invoice invoice) {
 		this.invoice = invoice;
+	}
+
+	public Integer getContainersAmount() {
+		return containersAmount;
 	}
 
 }
