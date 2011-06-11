@@ -32,7 +32,7 @@
 				<h:outputText value="#{orderBean.order.number}" />
 			</f:facet>
 			<h:panelGrid columns="3" styleClass="infoLayoutTable">
-				<p:panel styleClass="container-cargo-panel">
+				<p:panel styleClass="documentPartialDetailPanel">
 					Контейнеры
 					<ul>
 					<ui:repeat value="#{orderBean.containers}" var="container">
@@ -41,7 +41,7 @@
 					</ui:repeat>
 					</ul>
 				</p:panel>
-				<p:panel styleClass="container-cargo-panel">
+				<p:panel styleClass="documentPartialDetailPanel">
 					Инвойсы
 					<ul>
 					<ui:repeat value="#{orderBean.invoices}" var="invoice">
@@ -50,7 +50,7 @@
 					</ui:repeat>
 					</ul>
 				</p:panel>
-				<p:panel styleClass="container-cargo-panel">
+				<p:panel styleClass="documentPartialDetailPanel">
 					Коносаменты
 					<ul>
 					<ui:repeat value="#{orderBean.billOfLadings}" var="billOfLading">
