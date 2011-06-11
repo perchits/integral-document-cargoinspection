@@ -216,6 +216,7 @@ select {
 	overflow: auto;
 	text-align: left;
 	max-height: 150px;
+	width: 220px;
 }
 
 .container-cargo-panel div {
