@@ -207,8 +207,15 @@ select {
 	border-radius: 3px 3px 3px 3px;
 }
 
-.container-cargo-panel {
+.container-cargo-panel,
+.documentPartialDetailPanel {
 	margin-bottom: 2px;
+}
+
+.documentPartialDetailPanel {
+	overflow: auto;
+	text-align: left;
+	max-height: 150px;
 }
 
 .container-cargo-panel div {
