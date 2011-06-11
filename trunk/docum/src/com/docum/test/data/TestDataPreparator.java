@@ -38,6 +38,7 @@ import com.docum.domain.po.common.PurchaseOrder;
 import com.docum.domain.po.common.Supplier;
 import com.docum.domain.po.common.Vessel;
 import com.docum.domain.po.common.Voyage;
+import com.docum.test.TestUtil;
 import com.docum.util.AlgoUtil;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -58,7 +59,56 @@ public class TestDataPreparator implements TestDataPersister {
 			"ZCSU5836992", "ZCSU5132123", "ZCSU5853644", "ZCSU5879274",
 			"ZCSU5836626", "ZCSU5846814", "ZCSU5845256", "ZCSU5879398",
 			"CGMU5052139", "CGMU5052756", "CGMU5052782", "CGMU5052606",
-			"CGMU5053177", "CGMU5052313", "CGMU5052078", "CGMU5052099"};
+			"CGMU5053177", "CGMU5052313", "CGMU5052078", "CGMU5052099",
+			TestUtil.getRandomString(11), TestUtil.getRandomString(11), 
+			TestUtil.getRandomString(11), TestUtil.getRandomString(11),
+			TestUtil.getRandomString(11), TestUtil.getRandomString(11), 
+			TestUtil.getRandomString(11), TestUtil.getRandomString(11),
+			TestUtil.getRandomString(11), TestUtil.getRandomString(11), 
+			TestUtil.getRandomString(11), TestUtil.getRandomString(11),
+			TestUtil.getRandomString(11), TestUtil.getRandomString(11), 
+			TestUtil.getRandomString(11), TestUtil.getRandomString(11),
+			TestUtil.getRandomString(11), TestUtil.getRandomString(11), 
+			TestUtil.getRandomString(11), TestUtil.getRandomString(11),
+			TestUtil.getRandomString(11), TestUtil.getRandomString(11), 
+			TestUtil.getRandomString(11), TestUtil.getRandomString(11),
+			TestUtil.getRandomString(11), TestUtil.getRandomString(11), 
+			TestUtil.getRandomString(11), TestUtil.getRandomString(11),
+			TestUtil.getRandomString(11), TestUtil.getRandomString(11), 
+			TestUtil.getRandomString(11), TestUtil.getRandomString(11),
+			TestUtil.getRandomString(11), TestUtil.getRandomString(11), 
+			TestUtil.getRandomString(11), TestUtil.getRandomString(11),
+			TestUtil.getRandomString(11), TestUtil.getRandomString(11), 
+			TestUtil.getRandomString(11), TestUtil.getRandomString(11),
+			TestUtil.getRandomString(11), TestUtil.getRandomString(11), 
+			TestUtil.getRandomString(11), TestUtil.getRandomString(11),
+			TestUtil.getRandomString(11), TestUtil.getRandomString(11), 
+			TestUtil.getRandomString(11), TestUtil.getRandomString(11),
+			TestUtil.getRandomString(11), TestUtil.getRandomString(11), 
+			TestUtil.getRandomString(11), TestUtil.getRandomString(11),
+			TestUtil.getRandomString(11), TestUtil.getRandomString(11), 
+			TestUtil.getRandomString(11), TestUtil.getRandomString(11),
+			TestUtil.getRandomString(11), TestUtil.getRandomString(11), 
+			TestUtil.getRandomString(11), TestUtil.getRandomString(11),
+			TestUtil.getRandomString(11), TestUtil.getRandomString(11), 
+			TestUtil.getRandomString(11), TestUtil.getRandomString(11),
+			TestUtil.getRandomString(11), TestUtil.getRandomString(11), 
+			TestUtil.getRandomString(11), TestUtil.getRandomString(11),
+			TestUtil.getRandomString(11), TestUtil.getRandomString(11), 
+			TestUtil.getRandomString(11), TestUtil.getRandomString(11),
+			TestUtil.getRandomString(11), TestUtil.getRandomString(11), 
+			TestUtil.getRandomString(11), TestUtil.getRandomString(11),
+			TestUtil.getRandomString(11), TestUtil.getRandomString(11), 
+			TestUtil.getRandomString(11), TestUtil.getRandomString(11),
+			TestUtil.getRandomString(11), TestUtil.getRandomString(11),
+			TestUtil.getRandomString(11), TestUtil.getRandomString(11), 
+			TestUtil.getRandomString(11), TestUtil.getRandomString(11),
+			TestUtil.getRandomString(11), TestUtil.getRandomString(11), 
+			TestUtil.getRandomString(11), TestUtil.getRandomString(11),
+			TestUtil.getRandomString(11), TestUtil.getRandomString(11), 
+			TestUtil.getRandomString(11), TestUtil.getRandomString(11),
+			TestUtil.getRandomString(11), TestUtil.getRandomString(11), 
+			TestUtil.getRandomString(11), TestUtil.getRandomString(11)};
 
 	private String[] vesselNames = new String[] {
 			"Zim Pacific", "Zim India", "Michigan Trader"};
