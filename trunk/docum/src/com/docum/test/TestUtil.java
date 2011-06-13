@@ -11,6 +11,7 @@ public class TestUtil {
 	private static Random random;
 	private static String initialString =
 		"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+	private static String initialDigitString = "0123456789";
 	private static final Long ONE_YEAR_MILLIS = 31536000000L;
 	private static final int epoch = 1970;
 
@@ -39,6 +40,18 @@ public class TestUtil {
 		String result = "";
 		int initialSize = initialString.length();
 		char[] initialChars = initialString.toCharArray() ;
+
+		for (int i = 0; i < length; i++) {
+			result += initialChars[getRandomInteger(initialSize - 1)];
+		}
+
+		return result;
+	}
+	
+	public static String getRandomDigitString(int length) {
+		String result = "";
+		int initialSize = initialDigitString.length();
+		char[] initialChars = initialDigitString.toCharArray() ;
 
 		for (int i = 0; i < length; i++) {
 			result += initialChars[getRandomInteger(initialSize - 1)];
