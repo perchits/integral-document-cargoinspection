@@ -42,6 +42,18 @@ import com.docum.util.HashCodeHelper;
 				query = "SELECT DISTINCT c FROM Container c " +
 					"JOIN c.billOfLadings b " +
 					"WHERE b.id=:billOfLadingId"
+		),
+		@NamedQuery(
+				name = ContainerDao.GET_FULL_CONTAINER_QUERY,
+				query = "SELECT DISTINCT c FROM Container c FETCH ALL PROPERTIES " +
+//TODO: С этим запросом вылетает ошибка "cannot simultaneously fetch multiple bags"
+// Варианты решения тут: http://community.jboss.org/message/361474#4045327
+//					"LEFT JOIN FETCH c.invoices " +
+//					"LEFT JOIN FETCH c.orders " +
+//					"LEFT JOIN FETCH c.billOfLadings " +
+//					"LEFT JOIN FETCH c.cargoes crg " +
+//					"LEFT JOIN FETCH crg.features " +
+					"WHERE c.id=:containerId"
 		)
 })
 public class Container extends IdentifiedEntity {

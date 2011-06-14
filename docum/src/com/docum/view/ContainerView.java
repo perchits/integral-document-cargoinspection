@@ -85,8 +85,8 @@ public class ContainerView extends BaseView implements Serializable {
 	}
 
 	private void loadContainer(Container container) {
-		this.container = container != null ? getBaseService()
-				.getObject(Container.class, container.getId()) : null;
+		this.container = container != null ? containerService
+				.getContainer(container.getId()) : null;
 	}
 
 	public List<VoyagePresentation> getVoyages() {
