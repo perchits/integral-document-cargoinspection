@@ -7,6 +7,8 @@ import javax.persistence.Query;
 import org.springframework.stereotype.Repository;
 
 import com.docum.dao.ContainerDao;
+import com.docum.domain.po.common.Cargo;
+import com.docum.domain.po.common.CargoPackage;
 import com.docum.domain.po.common.Container;
 
 @Repository
@@ -48,6 +50,30 @@ public class ContainerDaoImpl extends BaseDaoImpl implements ContainerDao {
 		query.setParameter("billOfLadingId", billOfLadingId);
 		@SuppressWarnings("unchecked")
 		List<Container> result = query.getResultList();
+		return result;
+	}
+
+	@Override
+	public Container getContainer(Long containerId) {
+//		TypedQuery<Container> query =
+//			entityManager.createNamedQuery(GET_FULL_CONTAINER_QUERY, Container.class);
+//		query.setParameter("containerId", containerId);
+//		Container result = query.getSingleResult();
+//		return result;
+//TODO: решить вопрос с GET_FULL_CONTAINER_QUERY
+		Container result = getObject(Container.class, containerId);
+		result.getInvoices().size();
+		result.getBillOfLadings().size();
+		result.getOrders().size();
+		for(Cargo c : result.getCargoes()){
+			for(CargoPackage cp : c.getActualCondition().getCargoPackages()){
+				cp.getCalibres().size();
+			}
+			for(CargoPackage cp : c.getDeclaredCondition().getCargoPackages()){
+				cp.getCalibres().size();
+			}
+			c.getFeatures().size();
+		}
 		return result;
 	}
 

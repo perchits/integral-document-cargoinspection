@@ -39,4 +39,8 @@ public class ContainerServiceImpl extends BaseServiceImpl implements ContainerSe
 		return containerDao.getContainersByBillOfLading(billOfLadingId);
 	}
 
+	@Override
+	public Container getContainer(Long containerId) {
+		return containerDao.getContainer(containerId);
+	}
 }
