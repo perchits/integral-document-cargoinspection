@@ -18,8 +18,8 @@ import com.docum.util.HashCodeHelper;
 @NamedQueries({
 		@NamedQuery(
 				name = PurchaseOrderDao.GET_ORDERS_BY_VOYAGE_QUERY,
-				query = "SELECT DISTINCT po FROM PurchaseOrder po JOIN po.containers c " +
-					"WHERE c.voyage.id=:voyageId " +
+				query = "SELECT DISTINCT po FROM PurchaseOrder po " +
+					"WHERE po.voyage.id=:voyageId " +
 					"ORDER BY po.id"
 		),
 		@NamedQuery(
