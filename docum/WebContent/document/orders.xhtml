@@ -37,7 +37,13 @@
 					Контейнеры
 					<ul>
 					<ui:repeat value="#{orderBean.containers}" var="container">
-						<li><p:commandLink styleClass="olive-color" value="#{container.number}" /> 
+						<li><p:commandLink styleClass="olive-color" value="#{container.number}" 
+										   action="#{orderBean.goToContainer}">
+							<f:setPropertyActionListener 
+								target="#{orderBean.selectedContainer}"
+								value="#{container}" 
+							/> 
+						</p:commandLink> 
 						</li>
 					</ui:repeat>
 					</ul>

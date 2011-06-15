@@ -16,11 +16,10 @@ import com.docum.service.ContainerService;
 import com.docum.service.InvoiceService;
 import com.docum.service.PurchaseOrderService;
 import com.docum.service.VoyageService;
-import com.docum.view.dict.BaseView;
 
 @Controller("billOfLadingBean")
 @Scope("session")
-public class BillOfLadingView extends BaseView {
+public class BillOfLadingView extends AbstractDocumentView {
 	private static final long serialVersionUID = 3982196636131340370L;
 
 	private static final String sign = "Коносамент";
