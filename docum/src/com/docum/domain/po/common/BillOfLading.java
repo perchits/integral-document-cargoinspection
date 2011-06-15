@@ -17,7 +17,8 @@ import com.docum.domain.po.IdentifiedEntity;
 		@NamedQuery(
 				name = BillOfLadingDao.GET_BILLS_BY_VOYAGE_QUERY,
 				query = "SELECT DISTINCT bill FROM BillOfLading bill JOIN bill.containers c " +
-					"WHERE c.voyage.id=:voyageId"
+					"WHERE c.voyage.id=:voyageId " +
+					"ORDER BY bill.id"
 		),
 		@NamedQuery(
 				name = BillOfLadingDao.GET_BILLS_BY_INVOICE_QUERY,

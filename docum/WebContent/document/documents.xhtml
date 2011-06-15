@@ -8,9 +8,20 @@
 <ui:param name="selectedMenuItem" value="3" />
 	<ui:define name="content">
 		<h:form prependId="false">
-		  <ui:include src="/document/invoices.xhtml"/>
-		  <ui:include src="/document/orders.xhtml"/>
-		  <ui:include src="/document/billOfLadings.xhtml"/>	
+			<p:panel id="selectVoyagePanel" header="Выберите судозаход" 
+				toggleable="false" styleClass="mainBackground" style="height: 50px; text-align: left;">
+ 				<p:autoComplete id="DocumentsVoyageSearchBoxInId"
+					value="#{documentBean.selectedVoyage}"
+					completeMethod="#{documentBean.voyageAutocomplete}" var="voyage"
+					itemValue="#{voyage}" itemLabel="#{voyage.voyageInfo}"
+					forceSelection="true" converter="voyagePresentationConverter"
+					selectListener="#{documentBean.voyageSelect}"
+					onSelectUpdate="invoices,orders,blsGrid">
+				</p:autoComplete>
+ 			</p:panel>	
+			<ui:include src="/document/invoices.xhtml"/>
+			<ui:include src="/document/orders.xhtml"/>
+			<ui:include src="/document/billOfLadings.xhtml"/>	
 		</h:form>
 		<ui:include src="/handbook/dialog/invoiceDlg.xhtml">
 			<ui:param name="bean" value="#{invoiceBean}" />

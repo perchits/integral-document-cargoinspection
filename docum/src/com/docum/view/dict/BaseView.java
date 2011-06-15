@@ -18,10 +18,11 @@ import com.docum.service.BaseService;
 
 public abstract class BaseView implements Serializable{
 	private static final long serialVersionUID = -1072752910650707550L;
-	protected static Map<String, SortOrderEnum> DEAFULT_SORT_FIELDS = new HashMap<String, SortOrderEnum>();
+	protected static Map<String, SortOrderEnum> DEFAULT_SORT_FIELDS = 
+		new HashMap<String, SortOrderEnum>();
 	
 	static {
-		DEAFULT_SORT_FIELDS.put("id", SortOrderEnum.ASC);
+		DEFAULT_SORT_FIELDS.put("id", SortOrderEnum.ASC);
 	}
 
 	private String title;
@@ -54,7 +55,7 @@ public abstract class BaseView implements Serializable{
 	abstract public IdentifiedEntity getBeanObject();
 
 	public void refreshObjects() {
-		this.objects = baseService.getAll(getBeanObject().getClass(), DEAFULT_SORT_FIELDS);
+		this.objects = baseService.getAll(getBeanObject().getClass(), DEFAULT_SORT_FIELDS);
 	}
 
 	public void saveObject() {
