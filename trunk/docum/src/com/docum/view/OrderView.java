@@ -13,9 +13,7 @@ import com.docum.domain.po.common.Invoice;
 import com.docum.domain.po.common.PurchaseOrder;
 import com.docum.domain.po.common.Voyage;
 import com.docum.service.BillOfLadingService;
-import com.docum.service.ContainerService;
 import com.docum.service.InvoiceService;
-import com.docum.service.VoyageService;
 
 @Controller("orderBean")
 @Scope("session")
@@ -24,10 +22,6 @@ public class OrderView extends AbstractDocumentView {
 
 	private static final String sign = "Заказ";
 
-	@Autowired
-	private ContainerService containerService;
-	@Autowired
-	private VoyageService voyageService;
 	@Autowired
 	private InvoiceService invoiceService;
 	@Autowired
