@@ -36,6 +36,7 @@ public class ContainerView extends BaseView implements Serializable {
 	private static final String sign = "Контейнер";
 	private static final int MAX_LIST_SIZE = 10;
 	private Container container;
+	private boolean reloadContainer = true;
 	private VoyagePresentation selectedVoyage;
 	@Autowired
 	private ContainerService containerService;
@@ -74,19 +75,29 @@ public class ContainerView extends BaseView implements Serializable {
 	}
 
 	public ContainerPresentation getContainer() {
-		return container != null ? new ContainerPresentation(container) : null;
+		if(container == null) {
+			return null;
+		} else if (reloadContainer) {
+			loadContainer(container);
+			reloadContainer = false;
+		}
+		return new ContainerPresentation(container);
 	}
 
-	public void setContainer(
-			ContainerPresentation containerPresentation) {
-		container = containerPresentation != null ? containerPresentation
-				.getContainer() : null;
-		loadContainer(container);
+	public void setContainer(ContainerPresentation containerPresentation) {
+		if(containerPresentation ==  null || containerPresentation.getContainer() == null) {
+			this.container = null;
+			return;
+		}
+		reloadContainer = !containerPresentation.getContainer().equals(this.container);
+		if(reloadContainer) {
+			this.container = containerPresentation.getContainer();
+		}
 	}
 
 	private void loadContainer(Container container) {
 		this.container = container != null ? containerService
-				.getContainer(container.getId()) : null;
+				.getObject(Container.class, container.getId()) : null;
 	}
 
 	public List<VoyagePresentation> getVoyages() {
