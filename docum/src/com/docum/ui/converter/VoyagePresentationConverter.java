@@ -24,7 +24,8 @@ public class VoyagePresentationConverter implements Converter {
 			return null;
 		}
 		try {
-			return new VoyagePresentation(getBaseService(context).getObject(Voyage.class, Long.parseLong(value)));
+			return new VoyagePresentation(
+					getBaseService(context).getObject(Voyage.class, Long.parseLong(value)), false);
 		} catch (NumberFormatException e) {
 			return null;
 		}

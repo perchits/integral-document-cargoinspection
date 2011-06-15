@@ -27,16 +27,22 @@ public class VoyagePresentation implements Serializable {
 	}
 
 	public VoyagePresentation(Voyage voyage) {
-		this();
-		this.voyage = voyage;
-		for (Container container : voyage.getContainers()) {
-			Integer count = containerStateMap.get(container.getState());
-			count++;
-			containerStateMap.put(container.getState(), count);
-			this.containers.add(new ContainerPresentation(container));
-		}
+		this(voyage, true);
 	}
 
+	public VoyagePresentation(Voyage voyage, boolean deep) {
+		this();
+		this.voyage = voyage;
+		if(deep) {
+			for (Container container : voyage.getContainers()) {
+				Integer count = containerStateMap.get(container.getState());
+				count++;
+				containerStateMap.put(container.getState(), count);
+				this.containers.add(new ContainerPresentation(container));
+			}
+		}
+	}
+	
 	public String getVessel() {
 		return voyage.getVessel().getName();
 	}
