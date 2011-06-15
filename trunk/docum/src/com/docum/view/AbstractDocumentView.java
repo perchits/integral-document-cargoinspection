@@ -42,6 +42,16 @@ public abstract class AbstractDocumentView extends BaseView {
 		return super.getObjects();
 	}
 	
+	@Override
+	public void newObject() {
+		super.newObject();
+		if (selectedVoyage == null) {
+			String message = "Добавление документа невозможно пока не выбран судозаход!";
+			showErrorMessage(message);
+			addCallbackParam("dontShow", true);
+		}
+	}
+	
 	public Container getSelectedContainer() {
 		return selectedContainer;
 	}

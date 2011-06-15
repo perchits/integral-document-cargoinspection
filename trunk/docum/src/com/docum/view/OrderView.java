@@ -38,6 +38,7 @@ public class OrderView extends AbstractDocumentView {
 		if (this.order.getId() != null) {
 			getBaseService().updateObject(this.order);
 		} else {
+			this.order.setVoyage(getSelectedVoyage());
 			getBaseService().saveObject(this.order);
 		}
 		refreshObjects();
