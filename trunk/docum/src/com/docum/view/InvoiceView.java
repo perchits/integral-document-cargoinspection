@@ -16,11 +16,10 @@ import com.docum.service.BillOfLadingService;
 import com.docum.service.ContainerService;
 import com.docum.service.PurchaseOrderService;
 import com.docum.service.VoyageService;
-import com.docum.view.dict.BaseView;
 
 @Controller("invoiceBean")
 @Scope("session")
-public class InvoiceView extends BaseView {
+public class InvoiceView extends AbstractDocumentView {
 	private static final long serialVersionUID = 7608376610068348483L;
 
 	private static final String sign = "Инвойс";
@@ -115,5 +114,4 @@ public class InvoiceView extends BaseView {
 	public Integer getContainersAmount() {
 		return containersAmount;
 	}
-
 }
