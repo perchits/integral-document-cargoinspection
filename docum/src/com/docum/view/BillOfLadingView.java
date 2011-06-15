@@ -12,10 +12,8 @@ import com.docum.domain.po.common.Container;
 import com.docum.domain.po.common.Invoice;
 import com.docum.domain.po.common.PurchaseOrder;
 import com.docum.domain.po.common.Voyage;
-import com.docum.service.ContainerService;
 import com.docum.service.InvoiceService;
 import com.docum.service.PurchaseOrderService;
-import com.docum.service.VoyageService;
 
 @Controller("billOfLadingBean")
 @Scope("session")
@@ -24,10 +22,6 @@ public class BillOfLadingView extends AbstractDocumentView {
 
 	private static final String sign = "Коносамент";
 
-	@Autowired
-	private ContainerService containerService;
-	@Autowired
-	private VoyageService voyageService;
 	@Autowired
 	private InvoiceService invoiceService;
 	@Autowired
@@ -109,10 +103,6 @@ public class BillOfLadingView extends AbstractDocumentView {
 
 	public void setBillOfLading(BillOfLading billOfLading) {
 		this.billOfLading = billOfLading;
-	}
-
-	public ContainerService getContainerService() {
-		return containerService;
 	}
 
 	public Integer getContainersAmount() {
