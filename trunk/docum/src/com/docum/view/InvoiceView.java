@@ -13,6 +13,7 @@ import com.docum.domain.po.common.Invoice;
 import com.docum.domain.po.common.PurchaseOrder;
 import com.docum.domain.po.common.Voyage;
 import com.docum.service.BillOfLadingService;
+import com.docum.service.InvoiceService;
 import com.docum.service.PurchaseOrderService;
 
 @Controller("invoiceBean")
@@ -22,6 +23,8 @@ public class InvoiceView extends AbstractDocumentView {
 
 	private static final String sign = "Инвойс";
 
+	@Autowired
+	private InvoiceService invoiceService;
 	@Autowired
 	private PurchaseOrderService purchaseOrderService;
 	@Autowired
@@ -38,6 +41,13 @@ public class InvoiceView extends AbstractDocumentView {
 			getBaseService().saveObject(this.invoice);
 		}
 		refreshObjects();
+	}
+	
+	@Override
+	public void refreshObjects() {
+		Voyage voyage = getSelectedVoyage();
+		if (voyage != null)
+			super.setObjects(invoiceService.getInvoicesByVoyage(voyage.getId()));
 	}
 
 	@Override

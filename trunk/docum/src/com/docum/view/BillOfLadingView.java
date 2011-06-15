@@ -12,6 +12,7 @@ import com.docum.domain.po.common.Container;
 import com.docum.domain.po.common.Invoice;
 import com.docum.domain.po.common.PurchaseOrder;
 import com.docum.domain.po.common.Voyage;
+import com.docum.service.BillOfLadingService;
 import com.docum.service.InvoiceService;
 import com.docum.service.PurchaseOrderService;
 
@@ -26,6 +27,8 @@ public class BillOfLadingView extends AbstractDocumentView {
 	private InvoiceService invoiceService;
 	@Autowired
 	private PurchaseOrderService purchaseOrderService;
+	@Autowired
+	private BillOfLadingService billOfLadingService;
 
 	private BillOfLading billOfLading = new BillOfLading();
 	private Integer containersAmount;
@@ -38,6 +41,13 @@ public class BillOfLadingView extends AbstractDocumentView {
 			getBaseService().saveObject(this.billOfLading);
 		}
 		refreshObjects();
+	}
+	
+	@Override
+	public void refreshObjects() {
+		Voyage voyage = getSelectedVoyage();
+		if (voyage != null)
+			super.setObjects(billOfLadingService.getBillsByVoyage(voyage.getId()));
 	}
 
 	@Override

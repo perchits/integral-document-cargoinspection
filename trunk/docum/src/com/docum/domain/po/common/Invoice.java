@@ -17,7 +17,8 @@ import com.docum.domain.po.IdentifiedEntity;
 		@NamedQuery(
 				name = InvoiceDao.GET_INVOICES_BY_VOYAGE_QUERY,
 				query = "SELECT DISTINCT inv FROM Invoice inv JOIN inv.containers c " +
-					"WHERE c.voyage.id=:voyageId"
+					"WHERE c.voyage.id=:voyageId " +
+					"ORDER BY inv.id"
 		),
 		@NamedQuery(
 				name = InvoiceDao.GET_INVOICES_BY_PURCHASE_ORDER_QUERY,

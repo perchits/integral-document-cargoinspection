@@ -14,6 +14,7 @@ import com.docum.domain.po.common.PurchaseOrder;
 import com.docum.domain.po.common.Voyage;
 import com.docum.service.BillOfLadingService;
 import com.docum.service.InvoiceService;
+import com.docum.service.PurchaseOrderService;
 
 @Controller("orderBean")
 @Scope("session")
@@ -26,6 +27,8 @@ public class OrderView extends AbstractDocumentView {
 	private InvoiceService invoiceService;
 	@Autowired
 	private BillOfLadingService billOfLadingService;
+	@Autowired
+	private PurchaseOrderService purchaseOrderService;
 
 	private PurchaseOrder order = new PurchaseOrder();
 	private Integer containersAmount;
@@ -38,6 +41,13 @@ public class OrderView extends AbstractDocumentView {
 			getBaseService().saveObject(this.order);
 		}
 		refreshObjects();
+	}
+	
+	@Override
+	public void refreshObjects() {
+		Voyage voyage = getSelectedVoyage();
+		if (voyage != null)
+			super.setObjects(purchaseOrderService.getOrdersByVoyage(voyage.getId()));
 	}
 
 	@Override
