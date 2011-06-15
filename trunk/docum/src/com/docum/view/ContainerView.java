@@ -107,7 +107,7 @@ public class ContainerView extends BaseView implements Serializable {
 				Voyage.class, sortFields);
 		List<VoyagePresentation> result = new ArrayList<VoyagePresentation>(
 				voyages.size());
-		AlgoUtil.transform(result, voyages, new VoyageTransformer());
+		AlgoUtil.transform(result, voyages, new VoyageTransformer(false));
 		return result;
 	}
 
