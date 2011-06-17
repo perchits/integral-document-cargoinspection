@@ -10,9 +10,34 @@
 	<ui:param name="deleteObject" value="deleteObject" />
 	<ui:define name="dialogBody">
 		<h:outputLabel for="containerNumber" value="Номер: *" />
-		<p:inputText value="#{bean.container.container.number}" id="containerNumber"
-			required="true" label="Номер">
-		</p:inputText>
+		<p:inputText value="#{bean.container.container.number}"
+			id="containerNumber" required="true" label="Номер" />
+		<h:outputLabel for="containerOrders" value="Заказы: *" />
+		<h:outputText value="#{bean.container.orderInLine}"
+			id="containerOrders" />
+
+		<p:dataTable id="invoices" var="invoice" selectionMode="single"
+			styleClass="cellSmallText"			
+			selection="#{bean.selectedInvoice}"
+			value="#{bean.container.container.invoices}">
+			<p:column>
+				<h:outputText value="#{invoice.number}" />
+				<f:facet name="header">Инвойсы</f:facet>
+			</p:column>
+		</p:dataTable>
+<p:commandButton value="bind" actionListener="#{bean.bindInvoice}" update="invoices,invoices1" />
+<p:commandButton value="unBind" actionListener="#{bean.unBindInvoice}"  update="invoices,invoices1" />
+		<p:dataTable id="invoices1" var="invoice" selectionMode="single"
+			styleClass="cellSmallText"			
+			selection="#{bean.selectedInvoice}"
+			value="#{bean.freeInvoices}">
+			<p:column>
+				<h:outputText value="#{invoice.number}" />
+				<f:facet name="header">Инвойсы</f:facet>
+			</p:column>
+		</p:dataTable>
+
+
 	</ui:define>
 	<ui:define name="deleteConfirmation">
 		<ui:include src="/WEB-INF/includes/deleteConfirmation.xhtml">

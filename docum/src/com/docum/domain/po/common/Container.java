@@ -62,7 +62,7 @@ public class Container extends IdentifiedEntity {
 	private String number;
 	
 	@Enumerated
-	private ContainerStateEnum state;
+	private ContainerStateEnum state = ContainerStateEnum.BEFORE_CUSTOMS;
 
 	@ManyToMany(mappedBy = "containers")
 	private List<Invoice> invoices = new ArrayList<Invoice>();

@@ -47,7 +47,7 @@ public class ContainerPresentation implements Serializable {
 	}
 
 	public String getCity() {
-		return container != null ? container.getCity().getName() : null;
+		return (container != null && container.getCity() != null) ? container.getCity().getName() : null;
 	}
 
 	public String getState() {
@@ -55,7 +55,7 @@ public class ContainerPresentation implements Serializable {
 	}
 
 	public String getLoadingPort() {
-		return container != null ? container.getLoadingPort().getName() : null;
+		return (container != null && container.getLoadingPort() != null) ? container.getLoadingPort().getName() : null;		
 	}
 
 	public Date getLoadingDate() {
@@ -63,7 +63,7 @@ public class ContainerPresentation implements Serializable {
 	}
 
 	public String getDischargePort() {
-		return container != null ? container.getDischargePort().getName() : null;
+		return (container != null && container.getDischargePort() != null) ? container.getDischargePort().getName() : null;		
 	}
 
 	public Date getDischargeDate() {
