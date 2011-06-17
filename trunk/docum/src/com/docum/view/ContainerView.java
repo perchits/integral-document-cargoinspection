@@ -15,10 +15,13 @@ import com.docum.domain.SortOrderEnum;
 import com.docum.domain.po.IdentifiedEntity;
 import com.docum.domain.po.common.Cargo;
 import com.docum.domain.po.common.Container;
+import com.docum.domain.po.common.Invoice;
 import com.docum.domain.po.common.Voyage;
 import com.docum.service.ContainerService;
+import com.docum.service.InvoiceService;
 import com.docum.util.AlgoUtil;
 import com.docum.util.FacesUtil;
+import com.docum.util.AlgoUtil.FindPredicate;
 import com.docum.view.dict.BaseView;
 import com.docum.view.param.FlashParamKeys;
 import com.docum.view.wrapper.CargoPresentation;
@@ -40,8 +43,11 @@ public class ContainerView extends BaseView implements Serializable {
 	private VoyagePresentation selectedVoyage;
 	@Autowired
 	private ContainerService containerService;
+	@Autowired
+	private InvoiceService invoiceService;
 	private ArrayList<ContainerPresentation> containers;
-
+	private Invoice selectedInvoice;
+	
 	@Override
 	public String getSign() {
 		return sign;
@@ -49,7 +55,7 @@ public class ContainerView extends BaseView implements Serializable {
 
 	@Override
 	public String getBase() {
-		return container.getNumber();
+		return container != null ? container.getNumber() : null;
 	}
 
 	@Override
@@ -75,7 +81,7 @@ public class ContainerView extends BaseView implements Serializable {
 	}
 
 	public ContainerPresentation getContainer() {
-		if(container == null) {
+		if (container == null) {
 			return null;
 		} else if (reloadContainer) {
 			loadContainer(container);
@@ -85,18 +91,20 @@ public class ContainerView extends BaseView implements Serializable {
 	}
 
 	public void setContainer(ContainerPresentation containerPresentation) {
-		if(containerPresentation ==  null || containerPresentation.getContainer() == null) {
+		if (containerPresentation == null
+				|| containerPresentation.getContainer() == null) {
 			this.container = null;
 			return;
 		}
-		reloadContainer = !containerPresentation.getContainer().equals(this.container);
-		if(reloadContainer) {
+		reloadContainer = !containerPresentation.getContainer().equals(
+				this.container);
+		if (reloadContainer) {
 			this.container = containerPresentation.getContainer();
 		}
 	}
 
 	private void loadContainer(Container container) {
-		this.container = container != null ? containerService
+		this.container = (container != null && container.getId() != null) ? containerService
 				.getObject(Container.class, container.getId()) : null;
 	}
 
@@ -165,22 +173,61 @@ public class ContainerView extends BaseView implements Serializable {
 	}
 
 	public void loadPage() {
-		Container container = (Container)FacesUtil.getFlashParam(FlashParamKeys.CONTAINER);
-		if(container != null) {
+		Container container = (Container) FacesUtil
+				.getFlashParam(FlashParamKeys.CONTAINER);
+		if (container != null) {
 			this.container = container;
 			loadContainer(this.container);
 			selectedVoyage = new VoyagePresentation(this.container.getVoyage());
 			refreshObjects();
 		}
 	}
-	
+
 	@Override
-	public void newObject() {		
-		super.newObject();	
+	public void newObject() {
+		super.newObject();
 		if (selectedVoyage == null) {
 			String message = "Добавление контейнера невозможно пока не выбран судозаход!";
 			showErrorMessage(message);
 			addCallbackParam("dontShow", true);
+		} else {
+			container = new Container();
+			container.setVoyage(selectedVoyage.getVoyage());
 		}
 	}
+
+	public void setSelectedInvoice(Invoice selectedInvoice) {
+		this.selectedInvoice = selectedInvoice;
+	}
+
+	public Invoice getSelectedInvoice() {
+		return selectedInvoice;
+	}
+
+
+	public List<Invoice> getFreeInvoices() {		
+		if (selectedVoyage != null) {
+			List<Invoice> freeInvoices = new ArrayList<Invoice>();
+			List<Invoice> allInvoices = invoiceService.getInvoicesByVoyage(selectedVoyage
+					.getVoyage().getId());			
+			AlgoUtil.filter(freeInvoices, allInvoices,
+					new FindPredicate<Invoice>() {
+						@Override
+						public boolean isIt(Invoice o) {
+							return !o.getContainers().contains(container);
+						}
+					});
+			return freeInvoices;
+		} else
+			return null;
+	}
+
+	public void bindInvoice() {
+		container.getInvoices().add(selectedInvoice);		
+	}
+	
+	public void unBindInvoice() {
+		container.getInvoices().remove(selectedInvoice);		
+	}
+	
 }
