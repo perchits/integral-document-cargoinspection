@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="Docum" default="build">
-	<property file="local.properties"/>
+	<property file="local.properties" />
 
 	<path id="DocumClasspath">
 		<fileset dir="${LibDir}">
@@ -15,28 +15,24 @@
 		<fileset dir="${ToolsDir}">
 			<include name="**/*.jar" />
 		</fileset>
-		<pathelement location="${BuildDir}"/>
+		<pathelement location="${BuildDir}" />
 	</path>
-	
+
 	<target name="makeDirs">
-		<echo message="Building Docum ..."/>
-		<mkdir dir="${DistDir}"/>
-		<mkdir dir="${BuildDir}"/>
+		<echo message="Building Docum ..." />
+		<mkdir dir="${DistDir}" />
+		<mkdir dir="${BuildDir}" />
 	</target>
 
 	<target name="clean">
-		<echo message="Cleaning up..."/>
-		<delete dir="${DistDir}"/>
-		<delete dir="${DeployDir}/docum"/>
-		<delete dir="${TomcatDir}/work/Catalina/localhost"/>
+		<echo message="Cleaning up..." />
+		<delete dir="${DistDir}" />
+		<delete dir="${DeployDir}/docum" />
+		<delete dir="${TomcatDir}/work/Catalina/localhost" />
 	</target>
 
 	<target name="compile" depends="makeDirs">
-		<javac debug="true"
-               destdir="${BuildDir}"
-               classpathref="DocumClasspath"
-			   srcdir="${SrcDir}"
-               excludes="**/Test*.java" />
+		<javac debug="true" destdir="${BuildDir}" classpathref="DocumClasspath" srcdir="${SrcDir}" excludes="**/Test*.java" />
 		<copy todir="${BuildDir}/META-INF">
 			<fileset dir="${SrcDir}/META-INF" />
 		</copy>
@@ -44,63 +40,106 @@
 
 	<target name="validateCopy">
 		<condition property="copyAllowed">
-			<available file="${TomcatDir}" type="dir"/>
+			<available file="${TomcatDir}" type="dir" />
 		</condition>
 	</target>
-	
+
 	<target name="echoValidationErr" unless="copyAllowed">
-		<fail message="ERROR: ${TomcatDir} does not exists."/>
-	</target>
-	
-	<target name="copyToDeployDir" depends="validateCopy, echoValidationErr" if="copyAllowed">
-		<copy file="${DistDir}/${WarFile}"
-            tofile="${DeployDir}/${WarFile}" overwrite="true">
-		</copy>		
+		<fail message="ERROR: ${TomcatDir} does not exists." />
 	</target>
 
-	<target name="build" depends="clean, createWar, copyToDeployDir"/>
+	<target name="copyToDeployDir" depends="validateCopy, echoValidationErr" if="copyAllowed">
+		<copy file="${DistDir}/${WarFile}" tofile="${DeployDir}/${WarFile}" overwrite="true">
+		</copy>
+	</target>
+
+	<target name="build" depends="clean, createWar, copyToDeployDir" />
 
 	<target name="createWar" depends="compile">
 		<war warfile="${DistDir}/${WarFile}" webxml="${WebContentDir}/WEB-INF/web.xml">
-            <fileset dir="${WebContentDir}"/>
-            <lib dir="${LibDir}" excludes="**/src/**"/>
-            <classes dir="${BuildDir}" excludes="**/com.docum.test/**"/>
-        </war>
+			<fileset dir="${WebContentDir}" />
+			<lib dir="${LibDir}" excludes="**/src/**" />
+			<classes dir="${BuildDir}" excludes="**/com.docum.test/**" />
+		</war>
 	</target>
 
-	<taskdef name="hibernatetool" classname="org.hibernate.tool.ant.HibernateToolTask" classpathref="ToolsClasspath"/>
+	<taskdef name="hibernatetool" classname="org.hibernate.tool.ant.HibernateToolTask" classpathref="ToolsClasspath" />
 	<target name="db-drop" depends="compile">
 		<hibernatetool destdir="">
 			<jpaconfiguration persistenceunit="docum" propertyfile="local.properties" />
-			<hbm2ddl drop="true" create="false" export="true" update="false"/>
+			<hbm2ddl drop="true" create="false" export="true" update="false" />
 			<classpath>
-				<path location="${BuildDir}"/>
+				<path location="${BuildDir}" />
 			</classpath>
 		</hibernatetool>
 	</target>
 	<target name="db-create-empty" depends="compile">
 		<hibernatetool destdir="">
 			<jpaconfiguration persistenceunit="docum" propertyfile="local.properties" />
-			<hbm2ddl drop="true" create="true" export="true" update="false"/>
+			<hbm2ddl drop="true" create="true" export="true" update="false" />
 		</hibernatetool>
 	</target>
 	<target name="db-create" depends="db-create-empty">
 		<junit>
 			<classpath refid="ToolsClasspath" />
-			<test name="com.docum.test.data.TestDataPreparator"/>
+			<test name="com.docum.test.data.TestDataPreparator" />
 		</junit>
 	</target>
 	<target name="db-update" depends="compile">
 		<hibernatetool destdir="">
 			<jpaconfiguration persistenceunit="docum" propertyfile="local.properties" />
-			<hbm2ddl drop="false" create="false" export="true" update="true"/>
+			<hbm2ddl drop="false" create="false" export="true" update="true" />
 		</hibernatetool>
 	</target>
 
 	<target name="db-doc" depends="compile" description="Generate a html description of the mappings">
 		<hibernatetool destdir="hibernate-html">
 			<jpaconfiguration persistenceunit="docum" propertyfile="local.properties" />
-			<hbm2doc/>
+			<hbm2doc />
 		</hibernatetool>
 	</target>
+	
+	<path id="tomcat.class.path">
+		<fileset dir="${TomcatDir}/lib">
+			<include name="**/*.jar" />
+			<include name="**/*.zip" />
+		</fileset>
+		<pathelement location="${TomcatDir}/bin/bootstrap.jar" />
+		<pathelement location="${TomcatDir}/bin/tomcat-juli.jar" />
+	</path>
+	
+	<target name="tomcat-stop" depends="tomcat-check-status" if="tomcat.started">
+		    <java classname="org.apache.catalina.startup.Bootstrap" fork="true"
+		        classpathref="tomcat.class.path">
+		        <jvmarg value="-Dcatalina.home=${TomcatDir}"/>
+		        <arg line="stop"/>
+		    </java>
+		    <sleep seconds="5"/>
+	</target>
+	
+	<target name="tomcat-start" depends="tomcat-stop,build">
+		<java classname="org.apache.catalina.startup.Bootstrap" 
+			fork="true" classpathref="tomcat.class.path">
+			<jvmarg value="-Dcatalina.home=${TomcatDir}" />
+		</java>
+	</target>
+	
+	<target name="tomcat-start-debug" depends="tomcat-stop,build">
+		<java classname="org.apache.catalina.startup.Bootstrap"
+			fork="true" classpathref="tomcat.class.path">
+			<jvmarg value="-Dcatalina.home=${TomcatDir}" />
+			<jvmarg value="-Xdebug" />			   
+			<jvmarg value="-Xrunjdwp:transport=dt_socket,address=8787,server=y,suspend=n" />
+			<jvmarg value="-Xms128m" />
+			<jvmarg value="-Xmx512m" />
+			<jvmarg value="-XX:MaxPermSize=512m" />
+		</java>
+	</target>
+	
+	<target name="tomcat-check-status">
+		    <condition property="tomcat.started">
+		        <socket server="localhost" port="8080"/>
+		    </condition>
+		</target>
+	
 </project>
