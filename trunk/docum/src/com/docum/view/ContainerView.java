@@ -238,7 +238,7 @@ public class ContainerView extends BaseView implements Serializable {
 	public void bindInvoice() {
 		if (freeInvoice != null) {
 			container.getInvoices().add(freeInvoice);
-			loadInvoce(freeInvoice);
+			freeInvoice = loadInvoce(freeInvoice);
 			freeInvoice.getContainers().add(container);
 			unsavedInvoives.add(freeInvoice);
 		}
@@ -247,7 +247,7 @@ public class ContainerView extends BaseView implements Serializable {
 	public void unBindInvoice() {
 		if (selectedInvoice != null) {
 			container.getInvoices().remove(selectedInvoice);
-			loadInvoce(selectedInvoice);
+			selectedInvoice = loadInvoce(selectedInvoice);
 			selectedInvoice.getContainers().remove(container);
 			unsavedInvoives.remove(selectedInvoice);
 		}
@@ -261,8 +261,8 @@ public class ContainerView extends BaseView implements Serializable {
 		return freeInvoice;		
 	}
 	
-	public void loadInvoce(Invoice invoice) {
-		invoice = invoice != null ? invoiceService.getObject(
+	private Invoice loadInvoce(Invoice invoice) {
+		return invoice != null ? invoiceService.getObject(
 					Invoice.class, invoice.getId()) : null;
 	}
 
