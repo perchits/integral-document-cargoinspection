@@ -1,5 +1,7 @@
 package com.docum.dao.impl;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -67,5 +69,20 @@ public class BaseDaoImpl implements BaseDao {
 	public <T extends IdentifiedEntity> void deleteObject(Class<T> clazz,
 			Long objectId) {
 		entityManager.remove(entityManager.find(clazz, objectId));
+	}
+
+	@Override
+	public <T extends IdentifiedEntity> Collection<T> mergeObjects(
+			Collection<T> objects) {
+		if (objects == null) {
+			return null;
+		} else {
+			Collection<T> result = new ArrayList<T>();
+			for (T o : objects) {
+				entityManager.merge(o);
+			}			
+			entityManager.flush();
+			return result;
+		}
 	}
 }

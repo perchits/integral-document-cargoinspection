@@ -24,8 +24,8 @@ import com.docum.domain.po.common.Voyage;
 import com.docum.service.ContainerService;
 import com.docum.service.InvoiceService;
 import com.docum.util.AlgoUtil;
-import com.docum.util.AlgoUtil.FindPredicate;
 import com.docum.util.FacesUtil;
+import com.docum.util.ListHandler;
 import com.docum.view.dict.BaseView;
 import com.docum.view.param.FlashParamKeys;
 import com.docum.view.wrapper.CargoPresentation;
@@ -53,7 +53,8 @@ public class ContainerView extends BaseView implements Serializable {
 	private Invoice selectedInvoice;
 	private Invoice freeInvoice;
 	private Set<Invoice> unsavedInvoives = new HashSet<Invoice>();
-	private List<Invoice> allInvoices = new ArrayList<Invoice>();
+	private Set<Invoice> freeInvoices  = new HashSet<Invoice>();
+	
 
 	@Override
 	public String getSign() {
@@ -80,6 +81,12 @@ public class ContainerView extends BaseView implements Serializable {
 		AlgoUtil.transform(containers, c, new ContainerTransformer());
 	}
 
+	@Override
+	public void saveObject(){
+		super.saveObject();
+		getBaseService().mergeObjects(unsavedInvoives);
+	}
+	
 	public ArrayList<ContainerPresentation> getContainers() {
 		if (containers == null) {
 			refreshObjects();
@@ -220,19 +227,8 @@ public class ContainerView extends BaseView implements Serializable {
 		return selectedInvoice;
 	}
 
-	public List<Invoice> getFreeInvoices() {
-		if (selectedVoyage != null) {
-			List<Invoice> freeInvoices = new ArrayList<Invoice>();
-			AlgoUtil.filter(freeInvoices, allInvoices,
-					new FindPredicate<Invoice>() {
-						@Override
-						public boolean isIt(Invoice o) {
-							return !o.getContainers().contains(container);
-						}
-					});
-			return freeInvoices;
-		} else
-			return null;
+	public List<Invoice> getFreeInvoices() {	
+		return new ArrayList<Invoice>(freeInvoices);
 	}
 
 	public void bindInvoice() {
@@ -240,6 +236,7 @@ public class ContainerView extends BaseView implements Serializable {
 			container.getInvoices().add(freeInvoice);
 			freeInvoice = loadInvoce(freeInvoice);
 			freeInvoice.getContainers().add(container);
+			freeInvoices.remove(freeInvoice);
 			unsavedInvoives.add(freeInvoice);
 		}
 	}
@@ -249,7 +246,8 @@ public class ContainerView extends BaseView implements Serializable {
 			container.getInvoices().remove(selectedInvoice);
 			selectedInvoice = loadInvoce(selectedInvoice);
 			selectedInvoice.getContainers().remove(container);
-			unsavedInvoives.remove(selectedInvoice);
+			freeInvoices.add(selectedInvoice);
+			unsavedInvoives.add(selectedInvoice);
 		}
 	}
 
@@ -267,7 +265,9 @@ public class ContainerView extends BaseView implements Serializable {
 	}
 
 	private void beforeDialogShow() {
-		allInvoices = invoiceService.getInvoicesByVoyage(selectedVoyage
-				.getVoyage().getId());
+		freeInvoices = new HashSet<Invoice>(invoiceService.getInvoicesByVoyage(selectedVoyage
+				.getVoyage().getId()));
+		List<Invoice> sub = container != null ? container.getInvoices() : null;
+		ListHandler.sublist(freeInvoices, sub);		
 	}
 }
