@@ -1,5 +1,6 @@
 package com.docum.util;
 
+import java.util.Collection;
 import java.util.List;
 
 public class ListHandler {
@@ -17,6 +18,14 @@ public class ListHandler {
 			return sb.toString();
 		} else {
 			return null;
+		}
+	}
+
+	public static <T> void sublist(Collection<T> src, Collection<T> sub) {
+		if (sub != null && src != null) {
+			for (T o : sub) {
+				src.remove(o);
+			}
 		}
 	}
 }

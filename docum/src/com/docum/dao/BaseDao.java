@@ -1,6 +1,7 @@
 package com.docum.dao;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -10,6 +11,8 @@ import com.docum.domain.po.IdentifiedEntity;
 public interface BaseDao extends Serializable {
 	
 	public <T extends IdentifiedEntity> T saveObject(T object);
+	
+	public <T extends IdentifiedEntity> Collection<T> mergeObjects(Collection<T> objects);
 	
 	public <T extends IdentifiedEntity> T updateObject(T object);
 	

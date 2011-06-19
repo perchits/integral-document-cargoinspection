@@ -1,5 +1,6 @@
 package com.docum.service.impl;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -24,6 +25,11 @@ public class BaseServiceImpl implements BaseService {
 		return baseDao.saveObject(object);
 	}
 
+	@Override
+	public <T extends IdentifiedEntity> Collection<T> mergeObjects(Collection<T> objects) {
+		return baseDao.mergeObjects(objects);
+	}
+	
 	@Override
 	public <T extends IdentifiedEntity> T updateObject(T object) {
 		return baseDao.updateObject(object);
