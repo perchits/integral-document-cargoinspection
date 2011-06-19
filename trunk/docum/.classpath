@@ -255,5 +255,14 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="lib/spring-security-acl-3.0.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="lib/spring-security-aspects-3.0.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="lib/spring-security-cas-client-3.0.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="lib/spring-security-config-3.0.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="lib/spring-security-core-3.0.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="lib/spring-security-ldap-3.0.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="lib/spring-security-openid-3.0.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="lib/spring-security-taglibs-3.0.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="lib/spring-security-web-3.0.5.RELEASE.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
