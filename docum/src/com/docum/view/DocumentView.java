@@ -1,5 +1,6 @@
 package com.docum.view;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,7 +19,8 @@ import com.docum.view.wrapper.VoyageTransformer;
 
 @Controller("documentBean")
 @Scope("session")
-public class DocumentView {
+public class DocumentView implements Serializable {
+	private static final long serialVersionUID = -2377086383437629982L;
 	
 	@Autowired
 	InvoiceView invoiceView;
