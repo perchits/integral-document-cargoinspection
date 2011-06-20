@@ -2,8 +2,10 @@ package com.docum.dao.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -23,18 +25,6 @@ public class BaseDaoImpl implements BaseDao {
 	protected EntityManager entityManager;
 
 	protected BaseDaoImpl() {
-	}
-
-	public <T extends IdentifiedEntity> T saveObject(T object) {
-		entityManager.persist(object);
-		entityManager.flush();
-		return object;
-	}
-
-	public <T extends IdentifiedEntity> T updateObject(T object) {
-		entityManager.merge(object);
-		entityManager.flush();
-		return object;
 	}
 
 	public <T extends IdentifiedEntity> void deleteObject(T object) {
@@ -72,17 +62,31 @@ public class BaseDaoImpl implements BaseDao {
 	}
 
 	@Override
-	public <T extends IdentifiedEntity> Collection<T> mergeObjects(
-			Collection<T> objects) {
-		if (objects == null) {
-			return null;
+	public <T extends IdentifiedEntity> T save(T entity) {
+		if (entity.getId() == null) {
+			entityManager.persist(entity);
 		} else {
-			Collection<T> result = new ArrayList<T>();
-			for (T o : objects) {
-				entityManager.merge(o);
-			}			
-			entityManager.flush();
-			return result;
+			if (!entityManager.contains(entity)) {
+				entity = entityManager.merge(entity);
+			}
 		}
+		return entity;
+	}
+
+	private <T extends IdentifiedEntity, C extends Collection<T>> C save(C result, C entities) {
+		for (T entity : entities) {
+			result.add(save(entity));
+		}			
+		return result;
+	}
+	
+	@Override
+	public <T extends IdentifiedEntity> List<T> save(List<T> entities) {
+		return save(new ArrayList<T>(entities.size()), entities);
+	}
+	
+	@Override
+	public <T extends IdentifiedEntity> Set<T> save(Set<T> entities) {
+		return save(new HashSet<T>(entities.size()), entities);
 	}
 }

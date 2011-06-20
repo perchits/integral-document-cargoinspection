@@ -52,7 +52,7 @@ public class ContainerView extends BaseView implements Serializable {
 	private ArrayList<ContainerPresentation> containers;
 	private Invoice selectedInvoice;
 	private Invoice freeInvoice;
-	private Set<Invoice> unsavedInvoives = new HashSet<Invoice>();
+	private Set<Invoice> unsavedInvoices = new HashSet<Invoice>();
 	private Set<Invoice> freeInvoices  = new HashSet<Invoice>();
 	
 
@@ -73,7 +73,7 @@ public class ContainerView extends BaseView implements Serializable {
 
 	@Override
 	public void refreshObjects() {
-		super.refreshObjects();
+		//super.refreshObjects();
 		Collection<Container> c = containerService
 				.getContainersByVoyage(selectedVoyage != null ? selectedVoyage
 						.getVoyage().getId() : null);
@@ -83,8 +83,11 @@ public class ContainerView extends BaseView implements Serializable {
 
 	@Override
 	public void saveObject(){
-		super.saveObject();
-		getBaseService().mergeObjects(unsavedInvoives);
+//		super.saveObject();
+		container = containerService.save(container);
+		invoiceService.save(unsavedInvoices);
+		unsavedInvoices.clear();
+		refreshObjects();
 	}
 	
 	public ArrayList<ContainerPresentation> getContainers() {
@@ -237,7 +240,7 @@ public class ContainerView extends BaseView implements Serializable {
 			freeInvoice = loadInvoce(freeInvoice);
 			freeInvoice.getContainers().add(container);
 			freeInvoices.remove(freeInvoice);
-			unsavedInvoives.add(freeInvoice);
+			unsavedInvoices.add(freeInvoice);
 		}
 	}
 
@@ -247,7 +250,7 @@ public class ContainerView extends BaseView implements Serializable {
 			selectedInvoice = loadInvoce(selectedInvoice);
 			selectedInvoice.getContainers().remove(container);
 			freeInvoices.add(selectedInvoice);
-			unsavedInvoives.add(selectedInvoice);
+			unsavedInvoices.add(selectedInvoice);
 		}
 	}
 

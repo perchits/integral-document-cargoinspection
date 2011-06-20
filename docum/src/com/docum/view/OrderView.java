@@ -35,12 +35,10 @@ public class OrderView extends AbstractDocumentView {
 
 	@Override
 	public void saveObject() {
-		if (this.order.getId() != null) {
-			getBaseService().updateObject(this.order);
-		} else {
+		if (this.order.getId() == null) {
 			this.order.setVoyage(getSelectedVoyage());
-			getBaseService().saveObject(this.order);
 		}
+		getBaseService().save(this.order);
 		refreshObjects();
 	}
 	

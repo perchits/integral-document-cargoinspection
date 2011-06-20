@@ -44,7 +44,7 @@ public class VoyageServiceImpl extends BaseServiceImpl implements VoyageService 
 
 	@Override
 	public Voyage saveVoyage(Voyage voyage) {
-		return voyageDao.saveObject(voyage);
+		return voyageDao.save(voyage);
 	}
 
 	@Override

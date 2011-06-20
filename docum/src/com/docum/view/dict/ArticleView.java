@@ -78,29 +78,29 @@ public class ArticleView extends BaseView {
 	}
 	
 	public void saveCategory() {
-		if (this.category != null && this.category.getId() != null) {
-			super.getBaseService().updateObject(this.category);
-		} else {
-			this.category.setArticle(this.article);
-			super.getBaseService().saveObject(this.category);
+		if (this.category != null) {
+			if (this.category.getId() == null) {
+				this.category.setArticle(this.article);
+			}
+			super.getBaseService().save(this.category);
 		}
 	}
 	
 	public void saveFeature() {
-		if (this.feature != null && this.feature.getId() != null) {
-			super.getBaseService().updateObject(this.feature);
-		} else {
-			this.feature.setArticle(this.article);
-			super.getBaseService().saveObject(this.feature);
+		if (this.feature != null) {
+			if (this.feature.getId() == null) {
+				this.feature.setArticle(this.article);
+			}
+			super.getBaseService().save(this.feature);
 		}
 	}
 	
 	public void saveFeatureInstance() {
-		if (this.featureInstance != null && this.featureInstance.getId() != null) {
-			super.getBaseService().updateObject(this.featureInstance);
-		} else {
-			this.featureInstance.setArticleFeature(this.feature);
-			super.getBaseService().saveObject(this.featureInstance);
+		if (this.featureInstance != null) {
+			if (this.featureInstance.getId() == null) {
+				this.featureInstance.setArticleFeature(this.feature);
+			}
+			super.getBaseService().save(this.featureInstance);
 		}
 		this.featureInstances = 
 			articleService.getArticleFeatureInstanceByArticle(this.feature.getId()); 
@@ -120,7 +120,7 @@ public class ArticleView extends BaseView {
 		this.featureInstances = 
 			articleService.getArticleFeatureInstanceByArticle(this.feature.getId());
 		this.feature.setInstances(this.featureInstances);
-		super.getBaseService().updateObject(this.feature);
+		super.getBaseService().save(this.feature);
 	}
 	
 	public void refreshFeatureInstances() {
