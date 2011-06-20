@@ -35,12 +35,10 @@ public class BillOfLadingView extends AbstractDocumentView {
 
 	@Override
 	public void saveObject() {
-		if (this.billOfLading.getId() != null) {
-			getBaseService().updateObject(this.billOfLading);
-		} else {
+		if (this.billOfLading.getId() == null) {
 			this.billOfLading.setVoyage(getSelectedVoyage());
-			getBaseService().saveObject(this.billOfLading);
 		}
+		getBaseService().save(this.billOfLading);
 		refreshObjects();
 	}
 	

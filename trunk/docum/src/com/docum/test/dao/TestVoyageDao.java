@@ -49,7 +49,7 @@ public class TestVoyageDao {
 		assertTrue(vessels.size() > 0);
 		voyage.setVessel(vessels.get(0));
 		voyage.setNumber(TestUtil.getRandomString(8));
-		voyage = voyageDao.saveObject(voyage);
+		voyage = voyageDao.save(voyage);
 		assertTrue(voyage.getId() != null);
 	}
 }

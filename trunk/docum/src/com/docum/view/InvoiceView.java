@@ -35,12 +35,10 @@ public class InvoiceView extends AbstractDocumentView {
 
 	@Override
 	public void saveObject() {
-		if (this.invoice.getId() != null) {
-			getBaseService().updateObject(this.invoice);
-		} else {
+		if (this.invoice.getId() == null) {
 			this.invoice.setVoyage(getSelectedVoyage());
-			getBaseService().saveObject(this.invoice);
 		}
+		getBaseService().save(this.invoice);
 		refreshObjects();
 	}
 	

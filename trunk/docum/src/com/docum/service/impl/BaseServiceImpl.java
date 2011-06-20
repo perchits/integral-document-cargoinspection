@@ -1,8 +1,8 @@
 package com.docum.service.impl;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,21 +19,6 @@ public class BaseServiceImpl implements BaseService {
 	private static final long serialVersionUID = 233634615322331476L;
 	@Autowired
 	BaseDao baseDao;
-
-	@Override
-	public <T extends IdentifiedEntity> T saveObject(T object) {
-		return baseDao.saveObject(object);
-	}
-
-	@Override
-	public <T extends IdentifiedEntity> Collection<T> mergeObjects(Collection<T> objects) {
-		return baseDao.mergeObjects(objects);
-	}
-	
-	@Override
-	public <T extends IdentifiedEntity> T updateObject(T object) {
-		return baseDao.updateObject(object);
-	}
 
 	@Override
 	public <T extends IdentifiedEntity> void deleteObject(T object) {
@@ -57,4 +42,17 @@ public class BaseServiceImpl implements BaseService {
 		return baseDao.getAll(clazz, sortFields);
 	}
 
+	@Override
+	public <T extends IdentifiedEntity> T save(T entity) {
+		return baseDao.save(entity);
+	}
+
+	public <T extends IdentifiedEntity> List<T> save(List<T> entities) {
+		return baseDao.save(entities);
+	}
+	
+	public <T extends IdentifiedEntity> Set<T> save(Set<T> entities) {
+		return baseDao.save(entities);
+	}
+	
 }
