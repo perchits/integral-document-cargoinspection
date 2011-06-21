@@ -1,0 +1,47 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+	
+<ui:composition >
+	<h:form prependId="false">
+	<center>
+    	<p:panel style="background:white url('resources/images/page-bg.png') repeat; display: inline-block; border: 1px solid #B1A635; width: 320px; height: 150px;">
+    		<table>
+    			<tr>
+    				<td colspan="2" align="center" style="padding-top: 5px; padding-bottom: 10px;">
+    					Вход в систему "Документъ"
+    				</td>
+    			</tr>
+    			<tr>
+    				<td>
+	    			 	<label for="j_username">
+			    			<h:outputText value="Логин:" />
+					    </label>
+	    			</td>
+	    			<td>
+	    			 	<p:inputText id="j_username" value="user" required="true" />
+	    			</td>
+    			</tr>
+    			<tr>
+    				<td>
+    					<label for="j_password"><h:outputText value="Пароль:" />
+					    	<p:message for="j_password" /><br />
+					    </label>
+    				</td>
+    				<td>
+    					<h:inputSecret id="j_password" value="user" required="true" />
+    				</td>
+    			</tr>
+    			<tr>
+    				<td colspan="2" align="center">
+    					<p:commandButton type="submit" id="login" value="Login" action="#{loginBean.doLogin}"/>
+    				</td>
+    			</tr>
+		    </table>
+    	</p:panel>
+    </center>
+	</h:form>
+</ui:composition>
+</html>

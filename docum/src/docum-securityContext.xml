@@ -5,20 +5,22 @@
                     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
                     http://www.springframework.org/schema/security 
                     http://www.springframework.org/schema/security/spring-security-3.0.3.xsd">
-
-    <http use-expressions="true" auto-config="true">
-    	<intercept-url pattern="/document/**" access="hasAnyRole('superuser','administrator')" />
-    	<intercept-url pattern="/**" access="permitAll" />
-        <form-login />
+    
+    <beans:bean id="authenticationFilter" class="org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter">
+    	<beans:property name="authenticationManager" ref="authenticationManager"/>
+		<beans:property name="filterProcessesUrl" value="/j_spring_security_check"/>
+    </beans:bean>
+    
+    <http use-expressions="true">    	
+    	<custom-filter before="FORM_LOGIN_FILTER" ref="authenticationFilter" />
+    	<intercept-url pattern="/resources/**" access="permitAll" />
+    	<intercept-url pattern="/login.jsf" access="permitAll" />
+    	<intercept-url pattern="/**" access="hasAnyRole('user')" />
+        <form-login login-page="/login.jsf"/>
     </http>
 
     <authentication-manager>
-        <authentication-provider>
-        	<password-encoder hash="md5"/>
-            <user-service>
-                <user name="admin" password="21232f297a57a5a743894a0e4a801fc3" authorities="superuser, administrator" />
-                <user name="user" password="ee11cbb19052e40b07aac0ca060c23ee" authorities="user" />
-            </user-service>
+        <authentication-provider user-service-ref="baseService">
         </authentication-provider>
     </authentication-manager>
 </beans:beans>
