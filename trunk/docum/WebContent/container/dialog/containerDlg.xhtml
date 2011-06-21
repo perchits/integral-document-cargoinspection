@@ -17,20 +17,20 @@
 			id="containerOrders" />
 
 		<p:dataTable id="invoices" var="invoice" selectionMode="single"
-			styleClass="cellSmallText" selection="#{bean.selectedInvoice}"
+			styleClass="cellSmallText" selection="#{bean.containerDlg.selectedInvoice}"
 			value="#{bean.container.container.invoices}">
 			<p:column>
 				<h:outputText value="#{invoice.number}" />
 				<f:facet name="header">Инвойсы</f:facet>
 			</p:column>
 		</p:dataTable>
-		<p:commandButton process="invoices,freeInvoices" value="bind" actionListener="#{bean.bindInvoice}"
+		<p:commandButton process="invoices,freeInvoices" value="bind" actionListener="#{bean.containerDlg.bindInvoice}"
 			update="invoices,freeInvoices" />
-		<p:commandButton process="invoices,freeInvoices" value="unBind" actionListener="#{bean.unBindInvoice}"
+		<p:commandButton process="invoices,freeInvoices" value="unBind" actionListener="#{bean.containerDlg.unBindInvoice}"
 			update="invoices,freeInvoices" />
 		<p:dataTable id="freeInvoices" var="invoice" selectionMode="single"
-			styleClass="cellSmallText" selection="#{bean.freeInvoice}"
-			value="#{bean.freeInvoices}">
+			styleClass="cellSmallText" selection="#{bean.containerDlg.freeInvoice}"
+			value="#{bean.containerDlg.freeInvoices}">
 			<p:column>
 				<h:outputText value="#{invoice.number}" />
 				<f:facet name="header">Инвойсы</f:facet>
