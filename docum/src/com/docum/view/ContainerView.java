@@ -4,9 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.faces.event.ActionEvent;
 
@@ -19,13 +17,11 @@ import com.docum.domain.SortOrderEnum;
 import com.docum.domain.po.IdentifiedEntity;
 import com.docum.domain.po.common.Cargo;
 import com.docum.domain.po.common.Container;
-import com.docum.domain.po.common.Invoice;
 import com.docum.domain.po.common.Voyage;
 import com.docum.service.ContainerService;
 import com.docum.service.InvoiceService;
 import com.docum.util.AlgoUtil;
 import com.docum.util.FacesUtil;
-import com.docum.util.ListHandler;
 import com.docum.view.dict.BaseView;
 import com.docum.view.param.FlashParamKeys;
 import com.docum.view.wrapper.CargoPresentation;
@@ -43,18 +39,16 @@ public class ContainerView extends BaseView implements Serializable {
 	private static final String sign = "Контейнер";
 	private static final int MAX_LIST_SIZE = 10;
 	private Container container;
+	private ContainerDlgView containerDlg;	
+
 	private boolean reloadContainer = true;
 	private VoyagePresentation selectedVoyage;
 	@Autowired
 	private ContainerService containerService;
 	@Autowired
 	private InvoiceService invoiceService;
-	private ArrayList<ContainerPresentation> containers;
-	private Invoice selectedInvoice;
-	private Invoice freeInvoice;
-	private Set<Invoice> unsavedInvoices = new HashSet<Invoice>();
-	private Set<Invoice> freeInvoices  = new HashSet<Invoice>();
 	
+	private ArrayList<ContainerPresentation> containers;	
 
 	@Override
 	public String getSign() {
@@ -73,7 +67,6 @@ public class ContainerView extends BaseView implements Serializable {
 
 	@Override
 	public void refreshObjects() {
-		//super.refreshObjects();
 		Collection<Container> c = containerService
 				.getContainersByVoyage(selectedVoyage != null ? selectedVoyage
 						.getVoyage().getId() : null);
@@ -83,10 +76,8 @@ public class ContainerView extends BaseView implements Serializable {
 
 	@Override
 	public void saveObject(){
-//		super.saveObject();
 		container = containerService.save(container);
-		invoiceService.save(unsavedInvoices);
-		unsavedInvoices.clear();
+		containerDlg.saveInvoives();
 		refreshObjects();
 	}
 	
@@ -210,7 +201,7 @@ public class ContainerView extends BaseView implements Serializable {
 		} else {
 			container = new Container();
 			container.setVoyage(selectedVoyage.getVoyage());
-			beforeDialogShow();
+			prepareDialog();
 		}
 	}
 
@@ -218,59 +209,20 @@ public class ContainerView extends BaseView implements Serializable {
 	public void editObject(ActionEvent actionEvent) {
 		super.editObject(actionEvent);
 		if (selectedVoyage != null) {
-			beforeDialogShow();
+			prepareDialog();
 		}
 	}
 
-	public void setSelectedInvoice(Invoice selectedInvoice) {
-		this.selectedInvoice = selectedInvoice;
+	public ContainerDlgView getContainerDlg() {
+		return containerDlg;
 	}
 
-	public Invoice getSelectedInvoice() {
-		return selectedInvoice;
-	}
-
-	public List<Invoice> getFreeInvoices() {	
-		return new ArrayList<Invoice>(freeInvoices);
-	}
-
-	public void bindInvoice() {
-		if (freeInvoice != null) {
-			container.getInvoices().add(freeInvoice);
-			freeInvoice = loadInvoce(freeInvoice);
-			freeInvoice.getContainers().add(container);
-			freeInvoices.remove(freeInvoice);
-			unsavedInvoices.add(freeInvoice);
-		}
-	}
-
-	public void unBindInvoice() {
-		if (selectedInvoice != null) {
-			container.getInvoices().remove(selectedInvoice);
-			selectedInvoice = loadInvoce(selectedInvoice);
-			selectedInvoice.getContainers().remove(container);
-			freeInvoices.add(selectedInvoice);
-			unsavedInvoices.add(selectedInvoice);
-		}
-	}
-
-	public void setFreeInvoice(Invoice freeInvoice) {
-		this.freeInvoice = freeInvoice;
-	}
-
-	public Invoice getFreeInvoice() {
-		return freeInvoice;		
+	public void setContainerDlg(ContainerDlgView containerDlg) {
+		this.containerDlg = containerDlg;
 	}
 	
-	private Invoice loadInvoce(Invoice invoice) {
-		return invoice != null ? invoiceService.getObject(
-					Invoice.class, invoice.getId()) : null;
+	private void prepareDialog(){
+		containerDlg =  new ContainerDlgView(container,selectedVoyage,invoiceService);
 	}
-
-	private void beforeDialogShow() {
-		freeInvoices = new HashSet<Invoice>(invoiceService.getInvoicesByVoyage(selectedVoyage
-				.getVoyage().getId()));
-		List<Invoice> sub = container != null ? container.getInvoices() : null;
-		ListHandler.sublist(freeInvoices, sub);		
-	}
+	
 }
