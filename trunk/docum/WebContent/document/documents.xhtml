@@ -16,7 +16,7 @@
 					itemValue="#{voyage}" itemLabel="#{voyage.voyageInfo}"
 					forceSelection="true" converter="voyagePresentationConverter"
 					selectListener="#{documentBean.voyageSelect}"
-					onSelectUpdate="invoices,orders,blsGrid">
+					onSelectUpdate="invoices, probe, orders, blsGrid,">
 				</p:autoComplete>
  			</p:panel>	
 			<ui:include src="/document/invoices.xhtml"/>
