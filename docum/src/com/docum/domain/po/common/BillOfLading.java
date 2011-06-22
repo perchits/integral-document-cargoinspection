@@ -11,6 +11,8 @@ import javax.persistence.NamedQuery;
 
 import com.docum.dao.BillOfLadingDao;
 import com.docum.domain.po.IdentifiedEntity;
+import com.docum.util.EqualsHelper;
+import com.docum.util.HashCodeHelper;
 
 @Entity
 @NamedQueries({
@@ -76,6 +78,20 @@ public class BillOfLading extends IdentifiedEntity{
 
 	public List<Container> getContainers() {
 		return containers;
+	}
+	
+	public boolean equals(Object obj) {
+		if (obj == this) {
+			return true;
+		}
+		if (!(obj instanceof BillOfLading)) {
+			return false;
+		}
+		return EqualsHelper.equals(getId(), ((BillOfLading) obj).getId());
+	}
+
+	public int hashCode() {
+		return HashCodeHelper.hashCode(getId());
 	}
 	
 	@Override

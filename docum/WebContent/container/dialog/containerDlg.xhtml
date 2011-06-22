@@ -19,38 +19,30 @@
 
 
 			<h:outputLabel for="containerState" value="Статус: *" />
-			 
-		<!-- <h:selectOneMenu id="containerState"
-			styleClass="ui-inputfield ui-widget ui-state-default ui-corner-all"
-			value="#{bean.containerDlg.container.state}">	
-			<f:converter converterId="containerStateConvertor" />		
-			<f:selectItem itemLabel="Выберите состояние..." itemValue=""
-				noSelectionOption="true" itemDisabled="true" />
-		<f:selectItems value="#{bean.containerDlg.containerStates}" var="containerState"
-				itemLabel="#{containerState.name}" />
-		</h:selectOneMenu>	 --> 
-		
+
+			<h:selectOneMenu id="containerState"
+				styleClass="ui-inputfield ui-widget ui-state-default ui-corner-all"
+				value="#{bean.containerDlg.container.state}">
+				<f:selectItems value="#{bean.containerDlg.containerStates}"
+					var="containerState" itemLabel="#{containerState.name}" />
+			</h:selectOneMenu>
 
 
-			<!-- 
-		 <p:inputText value="#{bean.containerDlg.container.state}" id="containerState"
-			required="true" label="Состояние" />
-		 -->
 		</h:panelGrid>
-		
-		
+
+
 		<h:panelGrid columns="3" cellpadding="2" styleClass="container-docum">
-		
-		<p:panel header="Инвойсы">
-		<ui:include src="/container/dialog/selectInvoice.xhtml" />		
-		</p:panel>
-		<p:panel header="Заказы">
-		<ui:include src="/container/dialog/selectOrder.xhtml" />
-		</p:panel>		
-		<p:panel header="Коносаменты">
-		<ui:include src="/container/dialog/selectBill.xhtml" />
-		</p:panel>
-		
+
+			<p:panel header="Инвойсы">
+				<ui:include src="/container/dialog/selectInvoice.xhtml" />
+			</p:panel>
+			<p:panel header="Заказы">
+				<ui:include src="/container/dialog/selectOrder.xhtml" />
+			</p:panel>
+			<p:panel header="Коносаменты">
+				<ui:include src="/container/dialog/selectBill.xhtml" />
+			</p:panel>
+
 		</h:panelGrid>
 	</ui:define>
 	<ui:define name="deleteConfirmation">
