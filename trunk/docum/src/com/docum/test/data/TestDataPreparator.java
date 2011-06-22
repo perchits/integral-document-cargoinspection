@@ -24,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.docum.domain.ContainerStateEnum;
 import com.docum.domain.po.IdentifiedEntity;
+import com.docum.domain.po.SecurityRoleEnum;
 import com.docum.domain.po.common.Article;
 import com.docum.domain.po.common.BillOfLading;
 import com.docum.domain.po.common.Cargo;
@@ -35,6 +36,8 @@ import com.docum.domain.po.common.Invoice;
 import com.docum.domain.po.common.Measure;
 import com.docum.domain.po.common.Port;
 import com.docum.domain.po.common.PurchaseOrder;
+import com.docum.domain.po.common.SecurityRole;
+import com.docum.domain.po.common.SecurityUser;
 import com.docum.domain.po.common.Supplier;
 import com.docum.domain.po.common.Vessel;
 import com.docum.domain.po.common.Voyage;
@@ -183,6 +186,28 @@ public class TestDataPreparator implements TestDataPersister {
 		List<BillOfLading> bills = prepareBillOfLadings(voyages, containers);
 		List<Invoice> invoices = prepareInvoices(voyages, containers);
 		List<PurchaseOrder> order = prepareOrders(voyages, containers);
+		List<SecurityRole> securityRoles = prepareRoles();
+		List<SecurityUser> users = prepareUsers(securityRoles);
+	}
+	
+	private List<SecurityRole> prepareRoles() {
+		List<SecurityRole> result = new ArrayList<SecurityRole>();
+		result.add(new SecurityRole(SecurityRoleEnum.SUPERUSER));
+		result.add(new SecurityRole(SecurityRoleEnum.USER));
+		persist(result);
+		return result;
+	}
+	
+	private List<SecurityUser> prepareUsers(List<SecurityRole> roles) {
+		List<SecurityUser> result = new ArrayList<SecurityUser>();
+		List<SecurityRole> adminRoles = new ArrayList<SecurityRole>();
+		adminRoles.add(roles.get(0));
+		List<SecurityRole> userRoles = new ArrayList<SecurityRole>();
+		userRoles.add(roles.get(1));
+		result.add(new SecurityUser("admin", "admin", adminRoles));
+		result.add(new SecurityUser("user", "user", userRoles));
+		persist(result);
+		return result;
 	}
 	
 	private List<Port> preparePorts() {
