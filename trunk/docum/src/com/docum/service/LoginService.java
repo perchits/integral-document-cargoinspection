@@ -1,9 +1,14 @@
 package com.docum.service;
 
+import java.util.List;
+
 import org.springframework.security.core.userdetails.UserDetailsService;
 
-public interface LoginService extends UserDetailsService{
-	
-	public static final String SERVICE_NAME = "loginService"; 
+import com.docum.domain.po.common.SecurityRole;
 
+public interface LoginService extends UserDetailsService {
+	
+	public static final String SERVICE_NAME = "loginService";
+	
+	public List<SecurityRole> getUserRoles();  
 }
