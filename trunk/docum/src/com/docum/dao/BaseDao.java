@@ -18,7 +18,6 @@ public interface BaseDao extends Serializable {
 	
 	public <T extends IdentifiedEntity> List<T> getAll(Class<T> clazz, Map<String, SortOrderEnum>sortFields);	
 
-
 	public <T extends IdentifiedEntity> T save(T entity);
 
 	public <T extends IdentifiedEntity> List<T> save(List<T> entities);

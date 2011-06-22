@@ -20,7 +20,7 @@
     </http>
 
     <authentication-manager>
-        <authentication-provider user-service-ref="baseService">
+        <authentication-provider user-service-ref="loginService">
         </authentication-provider>
     </authentication-manager>
 </beans:beans>
