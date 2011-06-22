@@ -310,3 +310,11 @@ select {
 	background: url("#{resource['images/page-bg.png']}") white;
 	font-size: 11px !important;
 }
+
+.strong-div {
+	border : 5px solid #E8EDCE;
+}
+
+.shift-div {
+	margin-top: 5px;
+}

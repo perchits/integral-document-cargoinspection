@@ -6,7 +6,7 @@
 
 <h:panelGrid columns="3" cellpadding="2" styleClass="container-docum">
 
-	<h:panelGroup layout="block" styleClass="select-table-div">
+	<h:panelGroup layout="block" styleClass="select-table-div strong-div">
 		<p:dataTable emptyMessage="Пусто" id="bills" var="bill" selectionMode="single"
 			styleClass="cellSmallText"
 			selection="#{bean.containerDlg.selectedBill}"
@@ -29,7 +29,7 @@
 			update="bills,freeBills" />
 	</h:panelGrid>
 
-	<h:panelGroup layout="block" styleClass="select-table-div">
+	<h:panelGroup layout="block" styleClass="select-table-div shift-div">
 		<p:dataTable emptyMessage="Пусто" id="freeBills" var="bill" selectionMode="single"
 			styleClass="cellSmallText"
 			selection="#{bean.containerDlg.freeBill}"
