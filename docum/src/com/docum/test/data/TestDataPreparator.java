@@ -199,6 +199,7 @@ public class TestDataPreparator implements TestDataPersister {
 		List<SecurityRole> result = new ArrayList<SecurityRole>();
 		result.add(new SecurityRole(SecurityRoleEnum.SUPERUSER));
 		result.add(new SecurityRole(SecurityRoleEnum.USER));
+		result.add(new SecurityRole(SecurityRoleEnum.GUEST));
 		persist(result);
 		return result;
 	}
@@ -209,8 +210,11 @@ public class TestDataPreparator implements TestDataPersister {
 		adminRoles.add(roles.get(0));
 		List<SecurityRole> userRoles = new ArrayList<SecurityRole>();
 		userRoles.add(roles.get(1));
+		List<SecurityRole> guetsRoles = new ArrayList<SecurityRole>();
+		guetsRoles.add(roles.get(2));
 		result.add(new SecurityUser("admin", cryptoService.encryptText("admin"), adminRoles));
 		result.add(new SecurityUser("user", cryptoService.encryptText("user"), userRoles));
+		result.add(new SecurityUser("guest", "", guetsRoles));
 		persist(result);
 		return result;
 	}
