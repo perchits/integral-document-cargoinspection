@@ -77,7 +77,7 @@ public class ContainerView extends BaseView implements Serializable {
 	@Override
 	public void saveObject(){
 		container = containerService.save(container);
-		containerDlg.saveInvoives();
+		containerDlg.saveDocuments();
 		refreshObjects();
 	}
 	

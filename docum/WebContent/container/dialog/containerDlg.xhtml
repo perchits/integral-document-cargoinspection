@@ -5,44 +5,58 @@
 	xmlns:p="http://primefaces.prime.com.tr/ui">
 
 <ui:composition template="/WEB-INF/includes/dialogLayout.xhtml">
-	<ui:param name="width" value="800" />
+	<ui:param name="width" value="850" />
 	<ui:param name="saveObject" value="saveObject" />
 	<ui:param name="deleteObject" value="deleteObject" />
+	<ui:param name="colCount" value="1" />
 	<ui:define name="dialogBody">
-		<h:outputLabel for="containerNumber" value="Номер: *" />
-		<p:inputText value="#{bean.container.container.number}"
-			id="containerNumber" required="true" label="Номер" />
-		<h:outputLabel for="containerOrders" value="Заказы: *" />
-		<h:outputText value="#{bean.container.orderInLine}"
-			id="containerOrders" />
 
-		<p:dataTable id="invoices" var="invoice" selectionMode="single"
-			styleClass="cellSmallText" selection="#{bean.containerDlg.selectedInvoice}"
-			value="#{bean.container.container.invoices}">
-			<p:column>
-				<h:outputText value="#{invoice.number}" />
-				<f:facet name="header">Инвойсы</f:facet>
-			</p:column>
-		</p:dataTable>
-		<p:commandButton process="invoices,freeInvoices" value="bind" actionListener="#{bean.containerDlg.bindInvoice}"
-			update="invoices,freeInvoices" />
-		<p:commandButton process="invoices,freeInvoices" value="unBind" actionListener="#{bean.containerDlg.unBindInvoice}"
-			update="invoices,freeInvoices" />
-		<p:dataTable id="freeInvoices" var="invoice" selectionMode="single"
-			styleClass="cellSmallText" selection="#{bean.containerDlg.freeInvoice}"
-			value="#{bean.containerDlg.freeInvoices}">
-			<p:column>
-				<h:outputText value="#{invoice.number}" />
-				<f:facet name="header">Инвойсы</f:facet>
-			</p:column>
-		</p:dataTable>
+		<h:panelGrid width="100%" columns="2" cellpadding="5">
+
+			<h:outputLabel for="containerNumber" value="Номер: *" />
+			<p:inputText value="#{bean.containerDlg.container.number}"
+				id="containerNumber" required="true" label="Номер" />
 
 
+			<h:outputLabel for="containerState" value="Статус: *" />
+			 
+		<!-- <h:selectOneMenu id="containerState"
+			styleClass="ui-inputfield ui-widget ui-state-default ui-corner-all"
+			value="#{bean.containerDlg.container.state}">	
+			<f:converter converterId="containerStateConvertor" />		
+			<f:selectItem itemLabel="Выберите состояние..." itemValue=""
+				noSelectionOption="true" itemDisabled="true" />
+		<f:selectItems value="#{bean.containerDlg.containerStates}" var="containerState"
+				itemLabel="#{containerState.name}" />
+		</h:selectOneMenu>	 --> 
+		
+
+
+			<!-- 
+		 <p:inputText value="#{bean.containerDlg.container.state}" id="containerState"
+			required="true" label="Состояние" />
+		 -->
+		</h:panelGrid>
+		
+		
+		<h:panelGrid columns="3" cellpadding="2" styleClass="container-docum">
+		
+		<p:panel header="Инвойсы">
+		<ui:include src="/container/dialog/selectInvoice.xhtml" />		
+		</p:panel>
+		<p:panel header="Заказы">
+		<ui:include src="/container/dialog/selectOrder.xhtml" />
+		</p:panel>		
+		<p:panel header="Коносаменты">
+		<ui:include src="/container/dialog/selectBill.xhtml" />
+		</p:panel>
+		
+		</h:panelGrid>
 	</ui:define>
 	<ui:define name="deleteConfirmation">
 		<ui:include src="/WEB-INF/includes/deleteConfirmation.xhtml">
 			<ui:param name="message"
-				value="Удалить контейнер '#{bean.container.number}'?" />
+				value="Удалить контейнер '#{bean.containerDlg.container.number}'?" />
 		</ui:include>
 	</ui:define>
 </ui:composition>
