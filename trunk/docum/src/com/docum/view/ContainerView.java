@@ -18,8 +18,10 @@ import com.docum.domain.po.IdentifiedEntity;
 import com.docum.domain.po.common.Cargo;
 import com.docum.domain.po.common.Container;
 import com.docum.domain.po.common.Voyage;
+import com.docum.service.BillOfLadingService;
 import com.docum.service.ContainerService;
 import com.docum.service.InvoiceService;
+import com.docum.service.PurchaseOrderService;
 import com.docum.util.AlgoUtil;
 import com.docum.util.FacesUtil;
 import com.docum.view.dict.BaseView;
@@ -47,6 +49,10 @@ public class ContainerView extends BaseView implements Serializable {
 	private ContainerService containerService;
 	@Autowired
 	private InvoiceService invoiceService;
+	@Autowired
+	private PurchaseOrderService orderService;
+	@Autowired
+	private BillOfLadingService billService;
 	
 	private ArrayList<ContainerPresentation> containers;	
 
@@ -222,7 +228,7 @@ public class ContainerView extends BaseView implements Serializable {
 	}
 	
 	private void prepareDialog(){
-		containerDlg =  new ContainerDlgView(container,selectedVoyage,invoiceService);
+		containerDlg =  new ContainerDlgView(container,invoiceService,orderService,billService);
 	}
 	
 }
