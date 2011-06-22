@@ -14,6 +14,7 @@ import org.springframework.security.web.authentication.switchuser.SwitchUserGran
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.docum.domain.po.common.SecurityRole;
 import com.docum.domain.po.common.SecurityUser;
 import com.docum.service.CryptoService;
 import com.docum.service.DocumAuthenticationManager;
@@ -39,13 +40,18 @@ public class LoginServiceImpl implements LoginService {
 		if (user == null) {
 			throw new UsernameNotFoundException("Неверное имя пользователя");
 		} else {
-			String password = cryptoService.decryptText(user.getPassword()); 
+			String password = "";
+			if (!user.getPassword().equals(password)) {
+				password = cryptoService.decryptText(user.getPassword());
+			}
 			if (!password.equals(auth.getCredentials().toString())) {
 				throw new UsernameNotFoundException("Неверный пароль");
 			}
 		}
 		Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-		authorities.add(new SwitchUserGrantedAuthority("user", auth));
+		for(SecurityRole role: user.getSecurityRoles()) {
+			authorities.add(new SwitchUserGrantedAuthority(role.getRole().name(), auth));
+		}
 		return new User(
 				auth.getPrincipal().toString(), 
 				auth.getCredentials().toString(), 
