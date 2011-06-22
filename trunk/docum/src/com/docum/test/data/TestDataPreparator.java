@@ -17,6 +17,7 @@ import javax.persistence.PersistenceContext;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
@@ -41,6 +42,7 @@ import com.docum.domain.po.common.SecurityUser;
 import com.docum.domain.po.common.Supplier;
 import com.docum.domain.po.common.Vessel;
 import com.docum.domain.po.common.Voyage;
+import com.docum.service.CryptoService;
 import com.docum.test.TestUtil;
 import com.docum.util.AlgoUtil;
 
@@ -52,6 +54,9 @@ public class TestDataPreparator implements TestDataPersister {
 
 	@PersistenceContext(name="docum")
 	private EntityManager entityManager;
+	
+	@Autowired
+	private CryptoService cryptoService;
 
 	private Calendar cal = new GregorianCalendar(
 			Calendar.getInstance().get(Calendar.YEAR),
@@ -204,8 +209,8 @@ public class TestDataPreparator implements TestDataPersister {
 		adminRoles.add(roles.get(0));
 		List<SecurityRole> userRoles = new ArrayList<SecurityRole>();
 		userRoles.add(roles.get(1));
-		result.add(new SecurityUser("admin", "admin", adminRoles));
-		result.add(new SecurityUser("user", "user", userRoles));
+		result.add(new SecurityUser("admin", cryptoService.encryptText("admin"), adminRoles));
+		result.add(new SecurityUser("user", cryptoService.encryptText("user"), userRoles));
 		persist(result);
 		return result;
 	}

@@ -301,5 +301,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/servlet-api.jar"/>
+	<classpathentry kind="lib" path="lib/jasypt-1.5.jar"/>
+	<classpathentry kind="lib" path="lib/commons-lang-2.6.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
