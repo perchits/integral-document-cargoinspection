@@ -8,7 +8,6 @@ import java.util.List;
 import org.primefaces.event.SelectEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Controller;
 
 import com.docum.domain.SortOrderEnum;
@@ -31,8 +30,6 @@ public class DocumentView implements Serializable {
 	BillOfLadingView billOfLadingView;
 	@Autowired
 	private BaseService baseService;
-	@Autowired
-	UsernamePasswordAuthenticationFilter usernamePasswordAuthenticationFilter;
 	
 	private static final int MAX_LIST_SIZE = 10;
 	private VoyagePresentation selectedVoyage;
