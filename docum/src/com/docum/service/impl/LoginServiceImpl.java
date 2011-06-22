@@ -2,6 +2,7 @@ package com.docum.service.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -25,6 +26,8 @@ import com.docum.service.SecurityUserService;
 @Transactional
 public class LoginServiceImpl implements LoginService {
 
+	private SecurityUser securityUser;
+	
 	@Autowired
 	DocumAuthenticationManager documAuthenticationManager;
 	@Autowired
@@ -36,20 +39,20 @@ public class LoginServiceImpl implements LoginService {
 	public UserDetails loadUserByUsername(String arg0)
 			throws UsernameNotFoundException, DataAccessException {
 		Authentication auth = documAuthenticationManager.getAuthentication();
-		SecurityUser user = securityUserService.getUser(auth.getPrincipal().toString());
-		if (user == null) {
+		this.securityUser  = securityUserService.getUser(auth.getPrincipal().toString());
+		if (this.securityUser == null) {
 			throw new UsernameNotFoundException("Неверное имя пользователя");
 		} else {
 			String password = "";
-			if (!user.getPassword().equals(password)) {
-				password = cryptoService.decryptText(user.getPassword());
+			if (!this.securityUser.getPassword().equals(password)) {
+				password = cryptoService.decryptText(this.securityUser.getPassword());
 			}
 			if (!password.equals(auth.getCredentials().toString())) {
 				throw new UsernameNotFoundException("Неверный пароль");
 			}
 		}
 		Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-		for(SecurityRole role: user.getSecurityRoles()) {
+		for(SecurityRole role: this.securityUser.getSecurityRoles()) {
 			authorities.add(new SwitchUserGrantedAuthority(role.getRole().name(), auth));
 		}
 		return new User(
@@ -57,6 +60,11 @@ public class LoginServiceImpl implements LoginService {
 				auth.getCredentials().toString(), 
 				true, true, true, true,
 				authorities);
+	}
+
+	@Override
+	public List<SecurityRole> getUserRoles() {
+		return this.securityUser.getSecurityRoles();
 	}
 
 }

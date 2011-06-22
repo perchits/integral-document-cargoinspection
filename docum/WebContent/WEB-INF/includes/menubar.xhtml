@@ -28,10 +28,12 @@
 					<p:menuitem value="Суда" url="/handbook/vessel.jsf" />
 					<p:menuitem value="Города" url="/handbook/city.jsf" />
 					<p:menuitem value="Товары" url="/handbook/article.jsf" />
-					<p:menuitem value="Ед. изм." url="/handbook/measure.jsf" />					
+					<p:menuitem value="Ед. изм." url="/handbook/measure.jsf"/>					
 				</p:submenu>
-				<p:menuitem value="Статистика" url="/"
-					icon="ui-icon ui-icon-clipboard" />
+				<p:menuitem value="Статистика" url="/" icon="ui-icon ui-icon-clipboard" />
+				<p:submenu label="Администрирование" rendered="#{userBean.administrationPermited}">
+					<p:menuitem value="Пользователи и роли" url="/administration/user.jsf" />
+				</p:submenu>
 			</p:menubar>
 			<p:menubar autoSubmenuDisplay="false" styleClass="main-menu-right">
 				<p:submenu label="Вид" icon="ui-icon ui-icon-video">
