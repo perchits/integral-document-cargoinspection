@@ -2,16 +2,28 @@ package com.docum.domain.po.common;
 
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
+import com.docum.dao.SecurityUserDao;
 import com.docum.domain.po.IdentifiedEntity;
 
 @Entity
+@NamedQueries({
+	@NamedQuery(
+			name = SecurityUserDao.GET_USER_BY_LOGIN_QUERY,
+			query = "SELECT user FROM SecurityUser user " +
+				"WHERE user.login=:login"
+	)
+})
 public class SecurityUser extends IdentifiedEntity {
 	private static final long serialVersionUID = 8146197207074652866L;
 	
 	private String fullName;
+	@Column(unique=true)
 	private String login;
 	private String password;
 	private String description;
