@@ -15,22 +15,29 @@
 			</ui:include>
 
 			<p:panel header="#{userBean.sign}" styleClass="small-panel">
-				<p:dataTable id="userGrid" var="company"
+				<p:dataTable id="userGrid" var="user"
 					value="#{userBean.allObjects}" selectionMode="single"
-					selection="#{userBean.company}">
-					<p:column sortBy="#{company.name}" filterBy="#{company.name}"
+					selection="#{userBean.user}">
+					<p:column sortBy="#{user.fullName}" filterBy="#{user.fullName}"
 						filterMatchMode="contains">
 						<f:facet name="header">
-							Наименование  
+							Полное имя  
 						</f:facet>
-						<h:outputText value="#{company.name}" />
+						<h:outputText value="#{user.fullName}" />
 					</p:column>
-					<p:column sortBy="#{company.englishName}"
-						filterBy="#{company.englishName}" filterMatchMode="contains">
+					<p:column sortBy="#{user.login}" filterBy="#{user.login}"
+						filterMatchMode="contains">
 						<f:facet name="header">
-							Наименование на англ. яз.  
+							Логин  
 						</f:facet>
-						<h:outputText value="#{company.englishName}" />
+						<h:outputText value="#{user.login}" />
+					</p:column>
+					<p:column sortBy="#{user.description}" filterBy="#{user.description}"
+						filterMatchMode="contains">
+						<f:facet name="header">
+							Описание  
+						</f:facet>
+						<h:outputText value="#{user.description}" />
 					</p:column>
 				</p:dataTable>
 			</p:panel>

@@ -17,8 +17,7 @@
 			<p:dataTable id="orders" var="order"
 				value="#{orderBean.allObjects}" selectionMode="single"
 				selection="#{orderBean.order}" update="ordersInfoPanel">
-				<p:column sortBy="#{order.number}"
-					filterBy="#{order.number}" filterMatchMode="contains">
+				<p:column sortBy="#{order.number}">
 					<f:facet name="header">
 					Номер заказа 
 				</f:facet>
