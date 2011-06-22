@@ -17,8 +17,7 @@
 			<p:dataTable id="invoices" var="invoice"
 				value="#{invoiceBean.allObjects}" selectionMode="single"
 				selection="#{invoiceBean.invoice}" update="invoicesInfoPanel">
-				<p:column sortBy="#{invoice.number}"
-					filterBy="#{invoice.number}" filterMatchMode="contains">
+				<p:column sortBy="#{invoice.number}">
 					<f:facet name="header">
 					Номер инвойса 
 				</f:facet>
