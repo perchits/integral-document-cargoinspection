@@ -289,3 +289,24 @@ select {
 	text-align: left; 
 	margin-left: 4px;
 }
+
+.bind-unbind button{
+	/*
+	width : 24px;
+	height: 22px;
+	*/
+}
+
+
+.container-docum td {
+	vertical-align: top;
+}
+
+.select-table-div {
+	width: 100px;
+}
+
+.container-docum .ui-panel {
+	background: url("#{resource['images/page-bg.png']}") white;
+	font-size: 11px !important;
+}

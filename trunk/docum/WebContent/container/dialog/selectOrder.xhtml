@@ -1,0 +1,45 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+<h:panelGrid columns="3" cellpadding="2" styleClass="container-docum">
+
+	<h:panelGroup layout="block" styleClass="select-table-div">
+		<p:dataTable emptyMessage="Пусто" id="orders" var="order" selectionMode="single"
+			styleClass="cellSmallText"
+			selection="#{bean.containerDlg.selectedOrder}"
+			value="#{bean.containerDlg.container.orders}">
+			<p:column>
+				<h:outputText value="#{order.number}" />
+				<f:facet name="header">Выбранные</f:facet>
+			</p:column>
+		</p:dataTable>
+	</h:panelGroup>
+	<h:panelGrid columns="1" cellpadding="1" styleClass="bind-unbind">
+		<p:commandButton process="orders,freeOrders"
+			image="ui-icon-arrowthick-1-w"
+			actionListener="#{bean.containerDlg.bindOrder}"
+			update="orders,freeOrders" />
+
+		<p:commandButton process="orders,freeOrders"
+			image="ui-icon-arrowthick-1-e"
+			actionListener="#{bean.containerDlg.unBindOrder}"
+			update="orders,freeOrders" />
+	</h:panelGrid>
+
+	<h:panelGroup layout="block" styleClass="select-table-div">
+		<p:dataTable emptyMessage="Пусто" id="freeOrders" var="order" selectionMode="single"
+			styleClass="cellSmallText"
+			selection="#{bean.containerDlg.freeOrder}"
+			value="#{bean.containerDlg.freeOrders}">
+			<p:column>
+				<h:outputText value="#{order.number}" />
+				<f:facet name="header">Доступные</f:facet>
+			</p:column>
+		</p:dataTable>
+	</h:panelGroup>
+
+</h:panelGrid>
+</html>
