@@ -8,7 +8,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
 
 @Service("authenticationManager")
-public class DocumAuthenticationManager implements AuthenticationManager,Serializable {
+public class DocumAuthenticationManager implements AuthenticationManager, Serializable {
 
 	private static final long serialVersionUID = -1905470359652988106L;
 	private Authentication authentication;
