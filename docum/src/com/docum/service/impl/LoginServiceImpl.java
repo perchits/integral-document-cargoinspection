@@ -15,6 +15,7 @@ import org.springframework.security.web.authentication.switchuser.SwitchUserGran
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.docum.domain.po.SecurityRoleEnum;
 import com.docum.domain.po.common.SecurityRole;
 import com.docum.domain.po.common.SecurityUser;
 import com.docum.service.CryptoService;
@@ -27,6 +28,7 @@ import com.docum.service.SecurityUserService;
 public class LoginServiceImpl implements LoginService {
 
 	private SecurityUser securityUser;
+	private boolean administrationPermited = false;
 	
 	@Autowired
 	DocumAuthenticationManager documAuthenticationManager;
@@ -53,6 +55,9 @@ public class LoginServiceImpl implements LoginService {
 		}
 		Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 		for(SecurityRole role: this.securityUser.getSecurityRoles()) {
+			if (role.getRole().equals(SecurityRoleEnum.SUPERUSER)) {
+				this.administrationPermited = true;
+			}
 			authorities.add(new SwitchUserGrantedAuthority(role.getRole().name(), auth));
 		}
 		return new User(
@@ -65,6 +70,11 @@ public class LoginServiceImpl implements LoginService {
 	@Override
 	public List<SecurityRole> getUserRoles() {
 		return this.securityUser.getSecurityRoles();
+	}
+
+	@Override
+	public boolean getAdministrationPermited() {
+		return this.administrationPermited;
 	}
 
 }
