@@ -91,27 +91,42 @@
 					</p:dataTable>
 
 				</p:panel>
-				<p:panel id="infoPanel" style="text-align:center">
+				<h:panelGroup id="infoPanel" layout="block">
+				<p:panel style="text-align:center" rendered="#{containerBean.container != null}">
 					<f:facet name="header">
 						<h:outputText value="#{containerBean.container.number}" />
 					</f:facet>
 					<h:panelGroup id="lazyContainerInfo" layout="block"
 						rendered="#{containerBean.isSelected}">
 						<h:outputText styleClass="olive-color" value="Статус: " />
-						<h:outputText value="#{containerBean.container.state}" />
+						<h:outputText value="#{containerBean.container.state}" />						
+						
+						<h:panelGroup rendered="#{containerBean.container.invoiceInLine != null}">
 						<br />
 						<h:outputText styleClass="olive-color" value="Инвойс: " />
 						<h:outputText value="#{containerBean.container.invoiceInLine}" />
+						</h:panelGroup>
+						
+						<h:panelGroup rendered="#{containerBean.container.orderInLine != null}">
 						<br />
 						<h:outputText styleClass="olive-color" value="Заказ: " />
 						<h:outputText value="#{containerBean.container.orderInLine}" />
+						</h:panelGroup>
+						
+						<h:panelGroup rendered="#{containerBean.container.billOfLadingInLine != null}">
 						<br />
 						<h:outputText styleClass="olive-color" value="Коносамент: " />
 						<h:outputText
 							value="#{containerBean.container.billOfLadingInLine}" />
+						</h:panelGroup>	
+						
+						<h:panelGroup rendered="#{containerBean.container.city != null}">
 						<br />
 						<h:outputText styleClass="olive-color" value="Город: " />
 						<h:outputText value="#{containerBean.container.city}" />
+						</h:panelGroup>
+						
+						<h:panelGroup rendered="#{containerBean.container.loadingPort != null}">
 						<br />
 						<h:outputText styleClass="olive-color" value="Погрузка: " />
 						<h:outputText value="#{containerBean.container.loadingPort}" />
@@ -119,6 +134,9 @@
 						<h:outputText value="#{containerBean.container.loadingDate}">
 							<f:convertDateTime dateStyle="medium" type="date" />
 						</h:outputText>
+						</h:panelGroup>
+						
+						<h:panelGroup rendered="#{containerBean.container.dischargePort != null}">
 						<br />
 						<h:outputText styleClass="olive-color" value="Выгрузка: " />
 						<h:outputText value="#{containerBean.container.dischargePort}" />
@@ -126,6 +144,7 @@
 						<h:outputText value="#{containerBean.container.dischargeDate}">
 							<f:convertDateTime dateStyle="medium" type="date" />
 						</h:outputText>
+						</h:panelGroup>
 					</h:panelGroup>
 					<ui:repeat value="#{containerBean.containerCargoes}" var="wcargo">
 						<p:panel header="#{wcargo.article}, #{wcargo.articleCategory}"
@@ -165,10 +184,11 @@
 					</ui:repeat>
 
 				</p:panel>
+				</h:panelGroup>
 			</h:panelGrid>
 		</h:form>
 
-<p:outputPanel>
+
 		<ui:include src="/container/dialog/containerDlg.xhtml">
 			<ui:param name="bean" value="#{containerBean.containerDlg}" />
 			<ui:param name="gridId" value="containers" />
@@ -176,7 +196,15 @@
 			<ui:param name="update" value="infoPanel" />
 			<ui:param name="rendered" value="#{containerBean.containerDlg != null}" />
 		</ui:include>
-</p:outputPanel>
+		
+		<ui:include src="/WEB-INF/includes/deleteConfirmation.xhtml">
+			<ui:param name="message"
+				value="Удалить контейнер '#{containerBean.container.number}'?" />
+			<ui:param name="gridId" value="containers" />
+			<ui:param name="bean" value="#{containerBean}" />
+			<ui:param name="deleteObject" value="deleteObject" />	
+		</ui:include>
+
 
 	</ui:define>
 	
