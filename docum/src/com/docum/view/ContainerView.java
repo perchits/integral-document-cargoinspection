@@ -35,7 +35,7 @@ import com.docum.view.wrapper.VoyageTransformer;
 
 @Controller("containerBean")
 @Scope("session")
-public class ContainerView extends BaseView implements Serializable {
+public class ContainerView extends BaseView implements Serializable, DialogActionHandler {
 
 	private static final long serialVersionUID = 3476513399265370923L;
 	private static final String sign = "Контейнер";
@@ -229,6 +229,21 @@ public class ContainerView extends BaseView implements Serializable {
 	
 	private void prepareDialog(){
 		containerDlg =  new ContainerDlgView(container,invoiceService,orderService,billService);
+		containerDlg.addHandler(this);
 	}
+
+	@Override
+	public void handleAction(AbstractDlgView dialog, DialogActionEnum action) {
+		// TODO Тут мы получаем событие и можем получить все свойства диалога.
+		if(dialog.equals(containerDlg)) {
+			containerDlg.getContainer();
+		}
+		//или, если нет своего containerDlg, то можно так:
+		if(dialog instanceof ContainerDlgView) {
+			ContainerDlgView d = (ContainerDlgView)dialog;
+			d.getContainer();
+		}
+	}
+
 	
 }

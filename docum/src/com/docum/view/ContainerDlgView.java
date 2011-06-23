@@ -16,7 +16,7 @@ import com.docum.service.InvoiceService;
 import com.docum.service.PurchaseOrderService;
 import com.docum.util.ListHandler;
 
-public class ContainerDlgView implements Serializable {
+public class ContainerDlgView extends AbstractDlgView implements Serializable {
 	private static final long serialVersionUID = 8476485603392082763L;
 	private Container container;
 
@@ -201,6 +201,9 @@ public class ContainerDlgView implements Serializable {
 		unsavedOrders.clear();
 		billService.save(unsavedBills);
 		unsavedBills.clear();
+
+		// TODO Тут мы создаем событие.
+		fireAction(this, DialogActionEnum.ACCEPT);
 	}
 
 	public String getTitle() {
