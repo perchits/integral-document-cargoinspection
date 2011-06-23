@@ -10,5 +10,6 @@ public interface LoginService extends UserDetailsService {
 	
 	public static final String SERVICE_NAME = "loginService";
 	
-	public List<SecurityRole> getUserRoles();  
+	public List<SecurityRole> getUserRoles();
+	public boolean getAdministrationPermited();
 }
