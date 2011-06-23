@@ -184,8 +184,8 @@ public class ContainerDlgView extends AbstractDlgView implements Serializable {
 		ListHandler.sublist(freeBills, b);
 	}
 
-	public void saveDocuments() {
-		invoiceService.save(invoiceBinder.prepareDocumentsToSave());
+	public void saveDocuments(Container container) {
+		invoiceService.save(invoiceBinder.prepareDocumentsToSave(container));
 
 		orderService.save(unsavedOrders);
 		unsavedOrders.clear();
@@ -225,7 +225,6 @@ public class ContainerDlgView extends AbstractDlgView implements Serializable {
 	private static abstract class DocumentBinder<T extends IdentifiedEntity>
 			implements Serializable {
 		private static final long serialVersionUID = 5905102091907209582L;
-		private Container container;
 		private Set<T> initialFreeDocuments;
 		private Set<T> initialContainerDocuments;
 		private Set<T> selectedDocuments;
@@ -237,7 +236,6 @@ public class ContainerDlgView extends AbstractDlgView implements Serializable {
 		
 		public DocumentBinder(Container container, Collection<T> freeDocuments,
 				BaseService service, Class<T> clazz) {
-			this.container = container;
 			initialFreeDocuments = new HashSet<T>(freeDocuments);
 			initialContainerDocuments = new HashSet<T>(getContainerDocuments(container));
 			this.freeDocuments = new HashSet<T>(initialFreeDocuments);
@@ -278,7 +276,7 @@ public class ContainerDlgView extends AbstractDlgView implements Serializable {
 			selectedDocuments.remove(document);
 		}
 		
-		public Set<T> prepareDocumentsToSave() {
+		public Set<T> prepareDocumentsToSave(Container container) {
 			Set<T> result = new HashSet<T>(bindedDocuments.size() + unbindedDocuments.size());
 			for(T document : bindedDocuments) {
 				document = loadDocument(document, clazz);
