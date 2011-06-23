@@ -2,15 +2,18 @@ package com.docum.view;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import com.docum.domain.ContainerStateEnum;
+import com.docum.domain.po.IdentifiedEntity;
 import com.docum.domain.po.common.BillOfLading;
 import com.docum.domain.po.common.Container;
 import com.docum.domain.po.common.Invoice;
 import com.docum.domain.po.common.PurchaseOrder;
+import com.docum.service.BaseService;
 import com.docum.service.BillOfLadingService;
 import com.docum.service.InvoiceService;
 import com.docum.service.PurchaseOrderService;
@@ -22,9 +25,8 @@ public class ContainerDlgView extends AbstractDlgView implements Serializable {
 
 	private Invoice selectedInvoice;
 	private Invoice freeInvoice;
-	private Set<Invoice> unsavedInvoices = new HashSet<Invoice>();
-	private Set<Invoice> freeInvoices = new HashSet<Invoice>();
 	private InvoiceService invoiceService;
+	private InvoiceBinder invoiceBinder;
 
 	private PurchaseOrder selectedOrder;
 	private PurchaseOrder freeOrder;
@@ -55,9 +57,13 @@ public class ContainerDlgView extends AbstractDlgView implements Serializable {
 	}
 
 	public List<Invoice> getFreeInvoices() {
-		return new ArrayList<Invoice>(freeInvoices);
+		return new ArrayList<Invoice>(invoiceBinder.getFreeDocuments());
 	}
 
+	public List<Invoice> getSelectedInvoices() {
+		return new ArrayList<Invoice>(invoiceBinder.getSelectedDocuments());
+	}
+	
 	public List<PurchaseOrder> getFreeOrders() {
 		return new ArrayList<PurchaseOrder>(freeOrders);
 	}
@@ -67,13 +73,7 @@ public class ContainerDlgView extends AbstractDlgView implements Serializable {
 	}
 
 	public void bindInvoice() {
-		if (freeInvoice != null) {
-			container.getInvoices().add(freeInvoice);
-			freeInvoice = loadInvoce(freeInvoice);
-			freeInvoice.getContainers().add(container);
-			freeInvoices.remove(freeInvoice);
-			unsavedInvoices.add(freeInvoice);
-		}
+		invoiceBinder.bind(freeInvoice);
 	}
 
 	public void bindOrder() {
@@ -97,13 +97,7 @@ public class ContainerDlgView extends AbstractDlgView implements Serializable {
 	}
 
 	public void unBindInvoice() {
-		if (selectedInvoice != null) {
-			container.getInvoices().remove(selectedInvoice);
-			selectedInvoice = loadInvoce(selectedInvoice);
-			selectedInvoice.getContainers().remove(container);
-			freeInvoices.add(selectedInvoice);
-			unsavedInvoices.add(selectedInvoice);
-		}
+		invoiceBinder.unbind(selectedInvoice);
 	}
 
 	public void unBindOrder() {
@@ -150,11 +144,6 @@ public class ContainerDlgView extends AbstractDlgView implements Serializable {
 		return freeBill;
 	}
 
-	private Invoice loadInvoce(Invoice invoice) {
-		return invoice != null ? invoiceService.getObject(Invoice.class,
-				invoice.getId()) : null;
-	}
-
 	private PurchaseOrder loadOrder(PurchaseOrder order) {
 		return order != null ? orderService.getObject(PurchaseOrder.class,
 				order.getId()) : null;
@@ -172,12 +161,13 @@ public class ContainerDlgView extends AbstractDlgView implements Serializable {
 		this.billService = billService;
 		this.container = container;
 
-		freeInvoices = new HashSet<Invoice>(
+		Set<Invoice> freeInvoices = new HashSet<Invoice>(
 				this.invoiceService.getInvoicesByVoyage(container.getVoyage()
 						.getId()));
 		List<Invoice> i = this.container != null ? this.container.getInvoices()
 				: null;
 		ListHandler.sublist(freeInvoices, i);
+		invoiceBinder = new InvoiceBinder(this.container, freeInvoices, invoiceService);
 
 		freeOrders = new HashSet<PurchaseOrder>(
 				this.orderService.getOrdersByVoyage(container.getVoyage()
@@ -195,8 +185,8 @@ public class ContainerDlgView extends AbstractDlgView implements Serializable {
 	}
 
 	public void saveDocuments() {
-		invoiceService.save(unsavedInvoices);
-		unsavedInvoices.clear();
+		invoiceService.save(invoiceBinder.getDocumentsToSave());
+
 		orderService.save(unsavedOrders);
 		unsavedOrders.clear();
 		billService.save(unsavedBills);
@@ -231,4 +221,109 @@ public class ContainerDlgView extends AbstractDlgView implements Serializable {
 		return selectedBill;
 	}
 
+
+	private static abstract class DocumentBinder<T extends IdentifiedEntity>
+			implements Serializable {
+		private static final long serialVersionUID = 5905102091907209582L;
+		private Container container;
+		private Set<T> initialFreeDocuments;
+		private Set<T> initialContainerDocuments;
+		private Set<T> selectedDocuments;
+		private Set<T> freeDocuments;
+		private Set<T> bindedDocuments = new HashSet<T>();
+		private Set<T> unbindedDocuments = new HashSet<T>();
+		private BaseService service;
+		Class<T> clazz;
+		
+		public DocumentBinder(Container container, Collection<T> freeDocuments,
+				BaseService service, Class<T> clazz) {
+			this.container = container;
+			initialFreeDocuments = new HashSet<T>(freeDocuments);
+			initialContainerDocuments = new HashSet<T>(getContainerDocuments(container));
+			this.freeDocuments = new HashSet<T>(initialFreeDocuments);
+			this.selectedDocuments = new HashSet<T>(initialContainerDocuments);
+			this.service = service;
+			this.clazz = clazz;
+		}
+		
+		public Collection<T> getFreeDocuments() {
+			return freeDocuments;
+		}
+
+		public Collection<T> getSelectedDocuments() {
+			return selectedDocuments;
+		}
+		
+		public void bind(T document) {
+			if(document == null) {
+				return;
+			}
+			if(!initialContainerDocuments.contains(document)) {
+				bindedDocuments.add(document);
+			}
+			selectedDocuments.add(document);
+			unbindedDocuments.remove(document);
+			freeDocuments.remove(document);
+		}
+		
+		public void unbind(T document) {
+			if(document == null) {
+				return;
+			}
+			if(!initialFreeDocuments.contains(document)) {
+				unbindedDocuments.add(document);
+			}
+			freeDocuments.add(document);
+			bindedDocuments.remove(document);
+			selectedDocuments.remove(document);
+		}
+		
+		public Set<T> getDocumentsToSave() {
+			Set<T> result = new HashSet<T>(bindedDocuments.size() + unbindedDocuments.size());
+			for(T document : bindedDocuments) {
+				document = loadDocument(document, clazz);
+				bindContainer(document, container);
+				result.add(document);
+			}
+			for(T document : unbindedDocuments) {
+				document = loadDocument(document, clazz);
+				unbindContainer(document, container);
+				result.add(document);
+			}
+			return result;
+		}
+
+		private T loadDocument(T document, Class<T> clazz) {
+			return document != null ? service.getObject(clazz,
+					document.getId()) : null;
+		}
+		
+		protected abstract void bindContainer(T document, Container container);
+		protected abstract void unbindContainer(T document, Container container);
+		protected abstract Collection<T> getContainerDocuments(Container container);
+	}
+
+	private static class InvoiceBinder extends DocumentBinder<Invoice> {
+		private static final long serialVersionUID = 4860074165553906205L;
+
+		public InvoiceBinder(Container container,
+				Collection<Invoice> freeDocuments, InvoiceService service) {
+			super(container, freeDocuments, service, Invoice.class);
+		}
+
+		@Override
+		protected void bindContainer(Invoice document, Container container) {
+			document.getContainers().add(container);
+		}
+
+		@Override
+		protected void unbindContainer(Invoice document, Container container) {
+			document.getContainers().remove(container);
+		}
+
+		@Override
+		protected Collection<Invoice> getContainerDocuments(Container container) {
+			return container.getInvoices();
+		}
+	}
 }
