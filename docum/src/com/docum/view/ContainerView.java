@@ -83,7 +83,8 @@ public class ContainerView extends BaseView implements Serializable, DialogActio
 	@Override
 	public void saveObject(){
 		container = containerService.save(container);
-		containerDlg.saveDocuments();
+		containerDlg.saveDocuments(container);
+//		loadContainer(container);
 		refreshObjects();
 	}
 	
