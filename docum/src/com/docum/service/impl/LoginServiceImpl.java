@@ -1,5 +1,6 @@
 package com.docum.service.impl;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -25,8 +26,8 @@ import com.docum.service.SecurityUserService;
 
 @Service(LoginService.SERVICE_NAME)
 @Transactional
-public class LoginServiceImpl implements LoginService {
-
+public class LoginServiceImpl implements LoginService, Serializable {
+	private static final long serialVersionUID = -748218780390076591L;
 	private SecurityUser securityUser;
 	private boolean administrationPermited = false;
 	

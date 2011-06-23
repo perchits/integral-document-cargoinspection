@@ -10,7 +10,7 @@
 		<p:dataTable emptyMessage="Пусто" id="invoices" var="invoice" selectionMode="single"
 			styleClass="cellSmallText"
 			selection="#{bean.containerDlg.selectedInvoice}"
-			value="#{bean.containerDlg.container.invoices}">
+			value="#{bean.containerDlg.selectedInvoices}">
 			<p:column>
 				<h:outputText value="#{invoice.number}" />
 				<f:facet name="header">Выбранные</f:facet>
