@@ -35,13 +35,14 @@ import com.docum.view.wrapper.VoyageTransformer;
 
 @Controller("containerBean")
 @Scope("session")
-public class ContainerView extends BaseView implements Serializable, DialogActionHandler {
+public class ContainerView extends BaseView implements Serializable,
+		DialogActionHandler {
 
 	private static final long serialVersionUID = 3476513399265370923L;
 	private static final String sign = "Контейнер";
 	private static final int MAX_LIST_SIZE = 10;
 	private Container container;
-	private ContainerDlgView containerDlg;	
+	private ContainerDlgView containerDlg;
 
 	private boolean reloadContainer = true;
 	private VoyagePresentation selectedVoyage;
@@ -53,8 +54,8 @@ public class ContainerView extends BaseView implements Serializable, DialogActio
 	private PurchaseOrderService orderService;
 	@Autowired
 	private BillOfLadingService billService;
-	
-	private ArrayList<ContainerPresentation> containers;	
+
+	private ArrayList<ContainerPresentation> containers;
 
 	@Override
 	public String getSign() {
@@ -80,14 +81,6 @@ public class ContainerView extends BaseView implements Serializable, DialogActio
 		AlgoUtil.transform(containers, c, new ContainerTransformer());
 	}
 
-	@Override
-	public void saveObject(){
-		container = containerService.save(container);
-		containerDlg.saveDocuments(container);
-//		loadContainer(container);
-		refreshObjects();
-	}
-	
 	public ArrayList<ContainerPresentation> getContainers() {
 		if (containers == null) {
 			refreshObjects();
@@ -227,24 +220,25 @@ public class ContainerView extends BaseView implements Serializable, DialogActio
 	public void setContainerDlg(ContainerDlgView containerDlg) {
 		this.containerDlg = containerDlg;
 	}
-	
-	private void prepareDialog(){
-		containerDlg =  new ContainerDlgView(container,invoiceService,orderService,billService);
+
+	private void prepareDialog() {
+		containerDlg = new ContainerDlgView(container, invoiceService,
+				orderService, billService);
 		containerDlg.addHandler(this);
 	}
 
 	@Override
 	public void handleAction(AbstractDlgView dialog, DialogActionEnum action) {
-		// TODO Тут мы получаем событие и можем получить все свойства диалога.
-		if(dialog.equals(containerDlg)) {
-			containerDlg.getContainer();
-		}
-		//или, если нет своего containerDlg, то можно так:
-		if(dialog instanceof ContainerDlgView) {
-			ContainerDlgView d = (ContainerDlgView)dialog;
-			d.getContainer();
+		if (dialog instanceof ContainerDlgView) {
+			ContainerDlgView d = (ContainerDlgView) dialog;
+			if (action == DialogActionEnum.ACCEPT) {
+				container = containerService.save(container);
+				invoiceService.save(d.getInvoices(container));
+				orderService.save(d.getOrders(container));
+				billService.save(d.getBills(container));
+				refreshObjects();
+			}
 		}
 	}
 
-	
 }

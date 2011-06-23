@@ -9,8 +9,8 @@
 	<h:panelGroup layout="block" styleClass="select-table-div strong-div">
 		<p:dataTable emptyMessage="Пусто" id="invoices" var="invoice" selectionMode="single"
 			styleClass="cellSmallText"
-			selection="#{bean.containerDlg.selectedInvoice}"
-			value="#{bean.containerDlg.selectedInvoices}">
+			selection="#{bean.selectedInvoice}"
+			value="#{bean.selectedInvoices}">
 			<p:column>
 				<h:outputText value="#{invoice.number}" />
 				<f:facet name="header">Выбранные</f:facet>
@@ -20,20 +20,20 @@
 	<h:panelGrid columns="1" cellpadding="1" styleClass="bind-unbind">
 		<p:commandButton process="invoices,freeInvoices"
 			image="ui-icon-arrowthick-1-w"
-			actionListener="#{bean.containerDlg.bindInvoice}"
+			actionListener="#{bean.bindInvoice}"
 			update="invoices,freeInvoices" />
 
 		<p:commandButton process="invoices,freeInvoices"
 			image="ui-icon-arrowthick-1-e"
-			actionListener="#{bean.containerDlg.unBindInvoice}"
+			actionListener="#{bean.unBindInvoice}"
 			update="invoices,freeInvoices" />
 	</h:panelGrid>
 
 	<h:panelGroup layout="block" styleClass="select-table-div shift-div">
 		<p:dataTable emptyMessage="Пусто" id="freeInvoices" var="invoice" selectionMode="single"
 			styleClass="cellSmallText"
-			selection="#{bean.containerDlg.freeInvoice}"
-			value="#{bean.containerDlg.freeInvoices}">
+			selection="#{bean.freeInvoice}"
+			value="#{bean.freeInvoices}">
 			<p:column>
 				<h:outputText value="#{invoice.number}" />
 				<f:facet name="header">Доступные</f:facet>

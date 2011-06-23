@@ -9,8 +9,8 @@
 	<h:panelGroup layout="block" styleClass="select-table-div strong-div">
 		<p:dataTable emptyMessage="Пусто" id="orders" var="order" selectionMode="single"
 			styleClass="cellSmallText"
-			selection="#{bean.containerDlg.selectedOrder}"
-			value="#{bean.containerDlg.container.orders}">
+			selection="#{bean.selectedOrder}"
+			value="#{bean.selectedOrders}">
 			<p:column>
 				<h:outputText value="#{order.number}" />
 				<f:facet name="header">Выбранные</f:facet>
@@ -20,20 +20,20 @@
 	<h:panelGrid columns="1" cellpadding="1" styleClass="bind-unbind">
 		<p:commandButton process="orders,freeOrders"
 			image="ui-icon-arrowthick-1-w"
-			actionListener="#{bean.containerDlg.bindOrder}"
+			actionListener="#{bean.bindOrder}"
 			update="orders,freeOrders" />
 
 		<p:commandButton process="orders,freeOrders"
 			image="ui-icon-arrowthick-1-e"
-			actionListener="#{bean.containerDlg.unBindOrder}"
+			actionListener="#{bean.unBindOrder}"
 			update="orders,freeOrders" />
 	</h:panelGrid>
 
 	<h:panelGroup layout="block" styleClass="select-table-div shift-div">
 		<p:dataTable emptyMessage="Пусто" id="freeOrders" var="order" selectionMode="single"
 			styleClass="cellSmallText"
-			selection="#{bean.containerDlg.freeOrder}"
-			value="#{bean.containerDlg.freeOrders}">
+			selection="#{bean.freeOrder}"
+			value="#{bean.freeOrders}">
 			<p:column>
 				<h:outputText value="#{order.number}" />
 				<f:facet name="header">Доступные</f:facet>
