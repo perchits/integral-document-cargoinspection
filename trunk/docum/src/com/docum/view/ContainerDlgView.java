@@ -185,7 +185,7 @@ public class ContainerDlgView extends AbstractDlgView implements Serializable {
 	}
 
 	public void saveDocuments() {
-		invoiceService.save(invoiceBinder.getDocumentsToSave());
+		invoiceService.save(invoiceBinder.prepareDocumentsToSave());
 
 		orderService.save(unsavedOrders);
 		unsavedOrders.clear();
@@ -278,7 +278,7 @@ public class ContainerDlgView extends AbstractDlgView implements Serializable {
 			selectedDocuments.remove(document);
 		}
 		
-		public Set<T> getDocumentsToSave() {
+		public Set<T> prepareDocumentsToSave() {
 			Set<T> result = new HashSet<T>(bindedDocuments.size() + unbindedDocuments.size());
 			for(T document : bindedDocuments) {
 				document = loadDocument(document, clazz);
@@ -313,12 +313,14 @@ public class ContainerDlgView extends AbstractDlgView implements Serializable {
 
 		@Override
 		protected void bindContainer(Invoice document, Container container) {
-			document.getContainers().add(container);
+			document.getContainers().add(container);			
+			container.getInvoices().add(document);
 		}
 
 		@Override
 		protected void unbindContainer(Invoice document, Container container) {
 			document.getContainers().remove(container);
+			container.getInvoices().remove(document);
 		}
 
 		@Override
