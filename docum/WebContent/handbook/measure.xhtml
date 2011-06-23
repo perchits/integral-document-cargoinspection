@@ -8,7 +8,7 @@
 <ui:param name="selectedMenuItem" value="6" />
 	<ui:define name="content">
 		<h:form prependId="false">
-			<h:panelGroup layout="block" styleClass="crud-menu">
+			<h:panelGroup layout="block" styleClass="crud-menu" rendered="#{userBean.administrationPermited}">
 				<p:toolbar styleClass="crud-menu">
 					<p:toolbarGroup align="left">
 						<p:commandButton type="push" value="Добавить"

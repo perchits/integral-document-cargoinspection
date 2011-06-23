@@ -6,7 +6,7 @@
 
 <h:outputScript name="dialog.js" library="js" />
 
-<h:panelGroup layout="block" styleClass="crud-menu">
+<h:panelGroup layout="block" styleClass="crud-menu" rendered="#{userBean.administrationPermited}">
 	<p:toolbar styleClass="crud-menu">
 		<p:toolbarGroup align="left">
 			<p:commandButton type="push" value="#{(addTitle == null) ? 'Добавить' : addTitle}"
@@ -20,7 +20,7 @@
 				actionListener="#{bean[editObject]}"
 				oncomplete="beforeShow(#{gridId}Var,args)"
 				image="ui-icon ui-icon-wrench"
-				title="Правка" />
+				title="Правка"/>
 
 			<p:commandButton type="push" value="#{(deleteTitle == null) ? 'Удалить' : deleteTitle}"
 				actionListener="#{bean[beforeDeleteObject]}"
