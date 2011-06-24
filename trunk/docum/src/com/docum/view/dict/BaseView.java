@@ -59,11 +59,6 @@ public abstract class BaseView implements Serializable{
 	}
 
 	public void saveObject() {
-//		if (getBeanObject().getId() != null) {
-//			baseService.updateObject(getBeanObject());
-//		} else {
-//			baseService.saveObject(getBeanObject());
-//		}
 		baseService.save(getBeanObject());
 		refreshObjects();
 	}

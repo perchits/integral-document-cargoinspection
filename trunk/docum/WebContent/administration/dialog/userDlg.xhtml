@@ -10,16 +10,16 @@
 	<ui:param name="deleteObject" value="deleteObject" />
 	<ui:define name="dialogBody">
 		<h:outputLabel for="fullName" value="Полное имя: " />
-		<p:inputText value="#{bean.user.fullName}" id="fullName">
-		</p:inputText>
+		<p:inputText value="#{bean.user.fullName}" id="fullName" />
 
 		<h:outputLabel for="userLogin" value="Логин: *" />
-		<p:inputText value="#{bean.user.login}" id="userLogin" required="true">
-		</p:inputText>
+		<p:inputText value="#{bean.user.login}" id="userLogin" required="true" />
+		
+		<h:outputLabel for="userPassword" value="Пароль: " />
+		<h:inputSecret value="#{bean.user.password}" id="userPassword" />
 		
 		<h:outputLabel for="userDescription" value="Описание: " />
-		<p:inputText value="#{bean.user.description}" id="userDescription">
-		</p:inputText>		
+		<p:inputText value="#{bean.user.description}" id="userDescription"/>
 	</ui:define>
 	<ui:define name="deleteConfirmation">
 		<ui:include src="/WEB-INF/includes/deleteConfirmation.xhtml">

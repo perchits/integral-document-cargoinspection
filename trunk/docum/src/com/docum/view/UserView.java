@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 
 import com.docum.domain.po.IdentifiedEntity;
 import com.docum.domain.po.common.SecurityUser;
+import com.docum.service.CryptoService;
 import com.docum.service.LoginService;
 import com.docum.view.dict.BaseView;
 
@@ -16,8 +17,21 @@ public class UserView extends BaseView {
 	
 	@Autowired
 	LoginService loginService;
+	@Autowired
+	CryptoService cryptoService;
+	
 	private static final String sign = "Пользователь";
 	private SecurityUser user = new SecurityUser();
+	
+	@Override
+	public void saveObject() {
+		String password = this.user.getPassword();
+		if (password != null && !password.equals("")) {
+			this.user.setPassword(cryptoService.encryptText(password)); 
+		}
+		super.getBaseService().save(getBeanObject());
+		refreshObjects();
+	}
 
 	@Override
 	public String getSign() {
