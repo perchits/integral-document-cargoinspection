@@ -42,6 +42,7 @@ public class LoginServiceImpl implements LoginService, Serializable {
 	@Override
 	public UserDetails loadUserByUsername(String arg0)
 			throws UsernameNotFoundException, DataAccessException {
+		this.administrationPermited = false;
 		Authentication auth = documAuthenticationManager.getAuthentication();
 		this.securityUser  = securityUserService.getUser(auth.getPrincipal().toString());
 		if (this.securityUser == null) {
