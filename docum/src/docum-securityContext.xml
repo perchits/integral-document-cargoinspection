@@ -17,6 +17,7 @@
     	<intercept-url pattern="/login.jsf" access="permitAll" />
     	<intercept-url pattern="/**" access="hasAnyRole('USER', 'SUPERUSER')" />
         <form-login login-page="/login.jsf"/>
+        <logout />
     </http>
 
     <authentication-manager>
