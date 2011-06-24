@@ -11,46 +11,54 @@
 	<ui:param name="colCount" value="1" />
 	<ui:define name="dialogBody">
 
-		<h:panelGrid width="100%" columns="2" cellpadding="5">
+		<h:panelGrid id="container-top-info" width="100%" columns="1"
+			cellpadding="2" styleClass="container-top-info">
 
-			<h:outputLabel for="containerNumber" value="Номер: *" />
-			<p:inputText value="#{bean.container.number}"
-				id="containerNumber" required="true" label="Номер" />
+			<h:panelGrid width="100%" columns="6" cellpadding="2"
+				columnClasses=",,left-space,,left-space">
+				<h:outputLabel for="containerNumber" value="Номер: *" />
+				<p:inputText value="#{bean.container.number}" id="containerNumber"
+					required="true" label="Номер" />
 
+				<h:outputLabel for="containerState" value="Статус: *" />
+				<h:selectOneMenu id="containerState"
+					styleClass="ui-inputfield ui-widget ui-state-default ui-corner-all"
+					value="#{bean.container.state}">
+					<f:selectItems value="#{bean.containerStates}" var="containerState"
+						itemLabel="#{containerState.name}" />
+				</h:selectOneMenu>
 
-			<h:outputLabel for="containerState" value="Статус: *" />
-
-			<h:selectOneMenu id="containerState"
-				styleClass="ui-inputfield ui-widget ui-state-default ui-corner-all"
-				value="#{bean.container.state}">
-				<f:selectItems value="#{bean.containerStates}"
-					var="containerState" itemLabel="#{containerState.name}" />
-			</h:selectOneMenu>
-
-
+				<h:outputLabel for="containerState" value="Город:" />
+				<p:inputText value="#{bean.container.city.name}" id="containerCity"
+					required="true" label="Город" />
+			</h:panelGrid>
 		</h:panelGrid>
 
+		<p:tabView styleClass="container-tab">
+			<p:tab title="Документы">
+				<h:panelGrid columns="2" cellpadding="2"
+					styleClass="container-docum">
+<h:panelGroup>
+					<p:panel header="Инвойсы">
+						<ui:include src="/container/dialog/selectInvoice.xhtml" />
+					</p:panel>
+					<p:panel header="Заказы" style="margin-top : 6px">
+						<ui:include src="/container/dialog/selectOrder.xhtml" />
+					</p:panel>
+</h:panelGroup>					
+					<p:panel header="Коносаменты">
+						<ui:include src="/container/dialog/selectBill.xhtml" />
+					</p:panel>
 
-		<h:panelGrid columns="3" cellpadding="2" styleClass="container-docum">
-
-			<p:panel header="Инвойсы">
-				<ui:include src="/container/dialog/selectInvoice.xhtml" />
-			</p:panel>
-			<p:panel header="Заказы">
-				<ui:include src="/container/dialog/selectOrder.xhtml" />
-			</p:panel>
-			<p:panel header="Коносаменты">
-				<ui:include src="/container/dialog/selectBill.xhtml" />
-			</p:panel>
-
-		</h:panelGrid>
+				</h:panelGrid>
+			</p:tab>
+			<p:tab title="Состояние по документам">
+			</p:tab>
+			<p:tab title="Состояние по инспекции">
+			</p:tab>
+		</p:tabView>
 	</ui:define>
-	<!-- <ui:define name="deleteConfirmation">
-		<ui:include src="/WEB-INF/includes/deleteConfirmation.xhtml">
-			<ui:param name="message"
-				value="Удалить контейнер '#{bean.container.number}'?" />
-		</ui:include>
-	</ui:define> -->
+
 </ui:composition>
 
 </html>
