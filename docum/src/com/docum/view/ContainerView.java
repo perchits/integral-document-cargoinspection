@@ -223,7 +223,7 @@ public class ContainerView extends BaseView implements Serializable,
 
 	private void prepareDialog() {
 		containerDlg = new ContainerDlgView(container, invoiceService,
-				orderService, billService);
+				orderService, billService, getBaseService());
 		containerDlg.addHandler(this);
 	}
 

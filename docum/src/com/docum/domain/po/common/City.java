@@ -3,6 +3,8 @@ package com.docum.domain.po.common;
 import javax.persistence.Entity;
 
 import com.docum.domain.po.IdentifiedEntity;
+import com.docum.util.EqualsHelper;
+import com.docum.util.HashCodeHelper;
 
 @Entity
 public class City extends IdentifiedEntity {
@@ -41,5 +43,21 @@ public class City extends IdentifiedEntity {
 
 	public Boolean getOur() {
 		return our;
+	}
+	
+	public boolean equals(Object obj) {
+		if (obj == this) {
+			return true;
+		}
+
+		if (!(obj instanceof City)) {
+			return false;
+		}
+
+		return EqualsHelper.equals(getId(), ((City) obj).getId());
+	}
+
+	public int hashCode() {
+		return HashCodeHelper.hashCode(getId());
 	}
 }
