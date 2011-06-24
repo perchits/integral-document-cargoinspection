@@ -7,9 +7,7 @@ body {
 	text-align: center;
 }
 
-.page-container,
-.mainBackground,
-.loginPanel {
+.page-container,.mainBackground,.loginPanel {
 	background: url("#{resource['images/page-bg.png']}") white;
 }
 
@@ -159,7 +157,7 @@ select {
 }
 
 .ui-dialog .ui-inputfield {
-	min-width: 200px;
+	min-width: 170px;
 	width: 96%;
 	box-sizing: content-box;
 	-ms-box-sizing: content-box;
@@ -211,8 +209,7 @@ select {
 	min-width: 656px;
 }
 
-#VoyageSearchBoxId input,
-#DocumentsVoyageSearchBoxInId input {
+#VoyageSearchBoxId input,#DocumentsVoyageSearchBoxInId input {
 	font-size: 11px !important;
 	float: right;
 	width: 250px !important;
@@ -225,8 +222,7 @@ select {
 	float: left;
 }
 
-.container-cargo-panel,
-.documentPartialDetailPanel {
+.container-cargo-panel,.documentPartialDetailPanel {
 	margin-bottom: 2px;
 }
 
@@ -258,7 +254,7 @@ select {
 .small-panel {
 	display: inline-block;
 	float: left;
-	margin-left: 4px;	
+	margin-left: 4px;
 }
 
 .small-panel table {
@@ -276,8 +272,7 @@ select {
 	position: relative;
 }
 
-.docInfoPanel,
-.articleInfoPanel {
+.docInfoPanel,.articleInfoPanel {
 	min-width: 683px;
 }
 
@@ -286,17 +281,16 @@ select {
 }
 
 .documentContainersSummary {
-	text-align: left; 
+	text-align: left;
 	margin-left: 4px;
 }
 
-.bind-unbind button{
-	/*
+.bind-unbind button { /*
 	width : 24px;
 	height: 22px;
 	*/
+	
 }
-
 
 .container-docum td {
 	vertical-align: top;
@@ -312,9 +306,33 @@ select {
 }
 
 .strong-div {
-	border : 5px solid #E8EDCE;
+	border: 5px solid #E8EDCE;
 }
 
 .shift-div {
 	margin-top: 5px;
+}
+
+.left-space {
+	padding-left: 15px;
+}
+
+.container-tab .ui-tabs-panel {
+	padding: 0px !important;
+	background: #ecf3ce !important;
+	border: 1px solid #a6b135 !important;
+	margin-left: 2px;
+}
+
+.container-tab .ui-tabs-nav {
+	background: white !important;
+}
+
+.container-tab em {
+	font-style: normal !important;
+	font-family: sans-serif;
+}
+
+.container-tab {
+	border: 0 !important;
 }
