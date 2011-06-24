@@ -28,24 +28,31 @@
 						itemLabel="#{containerState.name}" />
 				</h:selectOneMenu>
 
-				<h:outputLabel for="containerState" value="Город:" />
-				<p:inputText value="#{bean.container.city.name}" id="containerCity"
-					required="true" label="Город" />
+				<h:outputLabel for="city" value="Город:" />
+
+				<h:selectOneMenu id="city" label="Город"
+					styleClass="ui-inputfield ui-widget ui-state-default ui-corner-all"
+					value="#{bean.container.city}">
+					<f:converter converterId="cityConverter" />
+					<f:selectItems value="#{bean.cities}" var="city"
+						itemLabel="#{city.name}" />
+				</h:selectOneMenu>
 			</h:panelGrid>
+
 		</h:panelGrid>
 
 		<p:tabView styleClass="container-tab">
 			<p:tab title="Документы">
 				<h:panelGrid columns="2" cellpadding="2"
 					styleClass="container-docum">
-<h:panelGroup>
-					<p:panel header="Инвойсы">
-						<ui:include src="/container/dialog/selectInvoice.xhtml" />
-					</p:panel>
-					<p:panel header="Заказы" style="margin-top : 6px">
-						<ui:include src="/container/dialog/selectOrder.xhtml" />
-					</p:panel>
-</h:panelGroup>					
+					<h:panelGroup>
+						<p:panel header="Инвойсы">
+							<ui:include src="/container/dialog/selectInvoice.xhtml" />
+						</p:panel>
+						<p:panel header="Заказы" style="margin-top : 6px">
+							<ui:include src="/container/dialog/selectOrder.xhtml" />
+						</p:panel>
+					</h:panelGroup>
 					<p:panel header="Коносаменты">
 						<ui:include src="/container/dialog/selectBill.xhtml" />
 					</p:panel>

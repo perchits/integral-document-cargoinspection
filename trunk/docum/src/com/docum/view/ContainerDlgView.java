@@ -10,6 +10,7 @@ import java.util.Set;
 import com.docum.domain.ContainerStateEnum;
 import com.docum.domain.po.IdentifiedEntity;
 import com.docum.domain.po.common.BillOfLading;
+import com.docum.domain.po.common.City;
 import com.docum.domain.po.common.Container;
 import com.docum.domain.po.common.Invoice;
 import com.docum.domain.po.common.PurchaseOrder;
@@ -34,6 +35,7 @@ public class ContainerDlgView extends AbstractDlgView implements Serializable {
 	private BillOfLading selectedBill;
 	private BillOfLading freeBill;
 	private BillBinder billBinder;
+	private List<City> cities;
 
 	public Container getContainer() {
 		return container;
@@ -123,10 +125,17 @@ public class ContainerDlgView extends AbstractDlgView implements Serializable {
 		return freeBill;
 	}
 
-	public ContainerDlgView(Container container, InvoiceService invoiceService,
-			PurchaseOrderService orderService, BillOfLadingService billService) {
-		this.container = container;
+	public List<City> getCities() {
+		return cities;
+	}
 
+	public ContainerDlgView(Container container, InvoiceService invoiceService,
+			PurchaseOrderService orderService, BillOfLadingService billService,
+			BaseService baseService) {
+		this.container = container;		
+
+		cities = baseService.getAll(City.class, null);
+		
 		Set<Invoice> freeInvoices = new HashSet<Invoice>(
 				invoiceService.getInvoicesByVoyage(container.getVoyage()
 						.getId()));
