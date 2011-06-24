@@ -28,6 +28,7 @@ import com.docum.service.SecurityUserService;
 @Transactional
 public class LoginServiceImpl implements LoginService, Serializable {
 	private static final long serialVersionUID = -748218780390076591L;
+	
 	private SecurityUser securityUser;
 	private boolean administrationPermited = false;
 	
