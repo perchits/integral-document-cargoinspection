@@ -1,6 +1,9 @@
 package com.docum.view;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -29,6 +32,12 @@ public class UserView extends BaseView {
 	private SecurityRole selectedRole;
 	private List<SecurityRole> availableRoles;
 	private List<SecurityRole> selectedRoles;
+	
+	@PostConstruct
+	public void initRoles() {
+		this.availableRoles = 
+			super.getBaseService().getAll(SecurityRole.class, DEFAULT_SORT_FIELDS);
+	}
 	
 	@Override
 	public void saveObject() {
@@ -66,6 +75,7 @@ public class UserView extends BaseView {
 	}
 
 	public void setUser(SecurityUser user) {
+		this.selectedRoles = user.getSecurityRoles();
 		this.user = user;
 	}
 
@@ -90,10 +100,15 @@ public class UserView extends BaseView {
 	}
 
 	public List<SecurityRole> getAvailableRoles() {
-		return super.getBaseService().getAll(SecurityRole.class, DEFAULT_SORT_FIELDS);
+		List<SecurityRole> result = new ArrayList<SecurityRole>();
+		result.addAll(this.availableRoles); 
+		if (this.selectedRoles != null) {
+			result.removeAll(this.selectedRoles);
+		}
+		return result;
 	}
 
 	public List<SecurityRole> getSelectedRoles() {
-		return this.user.getSecurityRoles();
+		return this.selectedRoles;
 	}
 }
