@@ -20,10 +20,12 @@
 	<h:panelGrid columns="1" cellpadding="1" styleClass="bind-unbind">
 		<p:commandButton process="roles, availableRoles"
 			image="ui-icon-arrowthick-1-w"
+			actionListener="#{bean.addRole}"
 			update="roles, availableRoles" />
 
 		<p:commandButton process="roles, availableRoles"
 			image="ui-icon-arrowthick-1-e"
+			actionListener="#{bean.removeRole}"
 			update="roles, availableRoles" />
 	</h:panelGrid>
 

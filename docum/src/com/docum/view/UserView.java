@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.event.ActionEvent;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -30,23 +31,41 @@ public class UserView extends BaseView {
 	private SecurityUser user = new SecurityUser();
 	private SecurityRole availableRole;
 	private SecurityRole selectedRole;
-	private List<SecurityRole> availableRoles;
-	private List<SecurityRole> selectedRoles;
+	private List<SecurityRole> availableRoles = new ArrayList<SecurityRole>();
+	private List<SecurityRole> selectedRoles = new ArrayList<SecurityRole>();
 	
 	@PostConstruct
 	public void initRoles() {
-		this.availableRoles = 
-			super.getBaseService().getAll(SecurityRole.class, DEFAULT_SORT_FIELDS);
+		this.availableRoles.addAll( 
+			super.getBaseService().getAll(SecurityRole.class, DEFAULT_SORT_FIELDS));
 	}
 	
 	@Override
 	public void saveObject() {
+		this.user.setSecurityRoles(this.selectedRoles);
 		String password = this.user.getPassword();
 		if (password != null && !password.equals("")) {
 			this.user.setPassword(cryptoService.encryptText(password)); 
 		}
 		super.getBaseService().save(getBeanObject());
 		refreshObjects();
+	}
+	
+	@Override
+	public void editObject(ActionEvent actionEvent) {
+		if (getBeanObject().getId() != null) {
+			this.selectedRoles.clear();
+			this.availableRoles.clear();
+			this.selectedRoles.addAll(this.user.getSecurityRoles());
+			this.availableRoles.addAll(
+				super.getBaseService().getAll(SecurityRole.class, DEFAULT_SORT_FIELDS));
+			setTitle("Правка: " + getBase());
+		} else {
+			String message = String.format(
+					"%1$s для редактирование не выбран!", getSign());
+			showErrorMessage(message);
+			addCallbackParam("dontShow", true);
+		}
 	}
 
 	@Override
@@ -75,7 +94,6 @@ public class UserView extends BaseView {
 	}
 
 	public void setUser(SecurityUser user) {
-		this.selectedRoles = user.getSecurityRoles();
 		this.user = user;
 	}
 
@@ -100,15 +118,27 @@ public class UserView extends BaseView {
 	}
 
 	public List<SecurityRole> getAvailableRoles() {
-		List<SecurityRole> result = new ArrayList<SecurityRole>();
-		result.addAll(this.availableRoles); 
 		if (this.selectedRoles != null) {
-			result.removeAll(this.selectedRoles);
+			this.availableRoles.removeAll(this.selectedRoles);
 		}
-		return result;
+		return this.availableRoles;
 	}
 
 	public List<SecurityRole> getSelectedRoles() {
 		return this.selectedRoles;
+	}
+	
+	public void addRole() {
+		if (this.availableRole != null) {
+			this.availableRoles.remove(this.availableRole);
+			this.selectedRoles.add(this.availableRole);
+		}
+	}
+	
+	public void removeRole() {
+		if (this.selectedRole != null) {
+			this.selectedRoles.remove(this.selectedRole);
+			this.availableRoles.add(this.selectedRole);
+		}
 	}
 }
