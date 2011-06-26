@@ -16,7 +16,7 @@
 			<p:panel styleClass="small-panel" style="border: none;">
 			<p:dataTable id="invoices" var="invoice"
 				value="#{invoiceBean.allObjects}" selectionMode="single"
-				selection="#{invoiceBean.invoice}" update="invoicesInfoPanel">
+				selection="#{invoiceBean.invoice}" update="invoicesInfoPanel" >
 				<p:column sortBy="#{invoice.number}">
 					<f:facet name="header">
 					Номер инвойса 

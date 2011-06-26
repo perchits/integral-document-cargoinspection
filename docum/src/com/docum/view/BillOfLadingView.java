@@ -45,8 +45,13 @@ public class BillOfLadingView extends AbstractDocumentView {
 	@Override
 	public void refreshObjects() {
 		Voyage voyage = getSelectedVoyage();
-		if (voyage != null)
-			super.setObjects(billOfLadingService.getBillsByVoyage(voyage.getId()));
+		if (voyage != null) {
+			List<BillOfLading> billOfLadings = billOfLadingService.getBillsByVoyage(voyage.getId()); 
+			super.setObjects(billOfLadings);
+			if (billOfLadings != null && billOfLadings.size() >= 0) {
+				this.billOfLading = billOfLadings.get(0);
+			}
+		}
 	}
 
 	@Override
