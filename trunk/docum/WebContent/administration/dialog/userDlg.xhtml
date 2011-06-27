@@ -18,7 +18,8 @@
 				<p:inputText value="#{bean.user.login}" id="userLogin" required="true" />
 				
 				<h:outputLabel for="userPassword" value="Пароль: " />
-				<h:inputSecret value="#{bean.user.password}" id="userPassword" />
+				<h:inputSecret value="#{bean.user.password}" id="userPassword" 
+					styleClass="ui-inputfield ui-widget ui-state-default ui-corner-all"/>
 				
 				<h:outputLabel for="userDescription" value="Описание: " />
 				<p:inputText value="#{bean.user.description}" id="userDescription"/>
