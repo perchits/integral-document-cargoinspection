@@ -107,20 +107,16 @@ table td {
 }
 
 /**/
-.before-customs-color td:nth-child(1) {
+.not-handled-color td:nth-child(1) {
 	background: #FFE3E3;
 }
 
-.after-customs-color td:nth-child(1) {
+.handled-color td:nth-child(1) {
 	background: #FFFFE3;
 }
 
-.handled-color td:nth-child(1) {
-	background: #E3FFE3;
-}
-
 .reported-color td:nth-child(1) {
-	background: #E3E3E3;
+	background: #E3FFE3;
 }
 
 .abandoned-color td:nth-child(1) {

@@ -39,20 +39,6 @@
 								</p:column>
 								<p:column>
 									<f:facet name="header">
-										<h:outputText value="Не растаможено" />
-									</f:facet>
-									<h:outputText value="#{v.beforeCustomsContainerCount}" />
-									<h:outputText value="" />
-								</p:column>
-								<p:column>
-									<f:facet name="header">
-										<h:outputText value="Растаможено" />
-									</f:facet>
-									<h:outputText value="#{v.afterCustomsContainerCount}" />
-									<h:outputText value="" />
-								</p:column>
-								<p:column>
-									<f:facet name="header">
 										<h:outputText value="Отработано" />
 									</f:facet>
 									<h:outputText value="#{v.handledContainerCount}" />
@@ -62,7 +48,7 @@
 									<f:facet name="header">
 										<h:outputText value="Не отработано" />
 									</f:facet>
-									<h:outputText value="#{v.unhandledContainerCount}" />
+									<h:outputText value="#{v.notHandledContainerCount}" />
 								</p:column>								
 							</p:dataTable>
 						</h:form>
