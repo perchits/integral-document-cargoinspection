@@ -30,12 +30,13 @@
 				<h:outputText value="#{billOfLadingBean.billOfLading.number}" />
 			</f:facet>
 			<h:panelGrid columns="3" styleClass="infoLayoutTable">
-			    <p:panel styleClass="borderless">
-				<p:panel styleClass="documentPartialDetailPanel">
+			    <p:panel>
+				<p:panel styleClass="documentPartialDetailPanel borderless">
 					Контейнеры
 					<ul>
 					<ui:repeat value="#{billOfLadingBean.containers}" var="container">
-						<li><p:commandLink styleClass="olive-color" value="#{container.number}" 
+						<li class="listContainersInDoc">
+							<p:commandLink styleClass="olive-color" value="#{container.number}" 
 										   action="#{billOfLadingBean.goToContainer}">
 							<f:setPropertyActionListener 
 								target="#{billOfLadingBean.selectedContainer}"

@@ -336,3 +336,8 @@ select {
 .container-tab {
 	border: 0 !important;
 }
+
+.listContainersInDoc {
+	margin-top:2px;
+	font-size:11px;
+}
