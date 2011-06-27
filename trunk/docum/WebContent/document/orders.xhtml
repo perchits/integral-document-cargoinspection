@@ -31,12 +31,13 @@
 				<h:outputText value="#{orderBean.order.number}" />
 			</f:facet>
 			<h:panelGrid columns="3" styleClass="infoLayoutTable">
-			    <p:panel styleClass="borderless">
-				<p:panel styleClass="documentPartialDetailPanel">
+			    <p:panel>
+				<p:panel styleClass="documentPartialDetailPanel borderless">
 					Контейнеры
 					<ul>
 					<ui:repeat value="#{orderBean.containers}" var="container">
-						<li><p:commandLink styleClass="olive-color" value="#{container.number}" 
+						<li class="listContainersInDoc">
+							<p:commandLink styleClass="olive-color" value="#{container.number}" 
 										   action="#{orderBean.goToContainer}">
 							<f:setPropertyActionListener 
 								target="#{orderBean.selectedContainer}"
