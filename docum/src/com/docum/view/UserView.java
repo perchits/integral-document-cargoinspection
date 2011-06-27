@@ -81,7 +81,11 @@ public class UserView extends BaseView {
 	@Override
 	public void newObject() {
 		super.newObject();
-		this.user = new SecurityUser();		
+		this.user = new SecurityUser();
+		this.selectedRoles.clear();
+		this.availableRoles.clear();
+		this.availableRoles.addAll(
+			super.getBaseService().getAll(SecurityRole.class, DEFAULT_SORT_FIELDS));
 	}
 
 	@Override
