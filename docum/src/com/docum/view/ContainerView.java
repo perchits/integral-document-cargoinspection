@@ -212,6 +212,11 @@ public class ContainerView extends BaseView implements Serializable,
 			prepareDialog();
 		}
 	}
+	
+	public void deleteObject() {
+		super.deleteObject();
+		setContainer(null);
+	}
 
 	public ContainerDlgView getContainerDlg() {
 		return containerDlg;

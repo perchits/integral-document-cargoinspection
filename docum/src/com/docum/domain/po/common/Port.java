@@ -3,6 +3,8 @@ package com.docum.domain.po.common;
 import javax.persistence.Entity;
 
 import com.docum.domain.po.IdentifiedEntity;
+import com.docum.util.EqualsHelper;
+import com.docum.util.HashCodeHelper;
 
 @Entity
 public class Port extends IdentifiedEntity {
@@ -45,4 +47,19 @@ public class Port extends IdentifiedEntity {
 		this.englishName = englishName;
 	}
 
+	public boolean equals(Object obj) {
+		if (obj == this) {
+			return true;
+		}
+
+		if (!(obj instanceof Port)) {
+			return false;
+		}
+
+		return EqualsHelper.equals(getId(), ((Port) obj).getId());
+	}
+
+	public int hashCode() {
+		return HashCodeHelper.hashCode(getId());
+	}
 }

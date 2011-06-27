@@ -12,7 +12,7 @@
 	<ui:define name="dialogBody">
 
 		<h:panelGrid id="container-top-info" width="100%" columns="1"
-			cellpadding="2" styleClass="container-top-info">
+			cellpadding="0" styleClass="container-top-info">
 
 			<h:panelGrid width="100%" columns="6" cellpadding="2"
 				columnClasses=",,left-space,,left-space">
@@ -37,6 +37,44 @@
 					<f:selectItems value="#{bean.cities}" var="city"
 						itemLabel="#{city.name}" />
 				</h:selectOneMenu>
+			</h:panelGrid>
+			<h:panelGrid width="100%" columns="4" cellpadding="2"
+				columnClasses=",,left-space">
+
+				<h:outputLabel for="loadingPort" value="Порт погрузки:" />
+
+				<h:selectOneMenu id="loadingPort" label="Порт погрузки"
+					styleClass="ui-inputfield ui-widget ui-state-default ui-corner-all"
+					value="#{bean.container.loadingPort}">
+					<f:converter converterId="portConverter" />
+					<f:selectItem itemLabel="Выберите порт погрузки..." itemValue=""
+						noSelectionOption="true" itemDisabled="true" />
+					<f:selectItems value="#{bean.ports}" var="port"
+						itemLabel="#{port.name}" />
+				</h:selectOneMenu>
+
+				<h:outputLabel for="loadingDate" value="Дата погрузки:" />
+				<p:calendar value="#{bean.container.loadingDate}" id="loadingDate"
+					label="Дата погрузки" pattern="dd.MM.yyyy" />
+			</h:panelGrid>
+			<h:panelGrid width="100%" columns="4" cellpadding="2"
+				columnClasses=",,left-space">
+
+<h:outputLabel for="dischargePort" value="Порт выгрузки:" />
+				<h:selectOneMenu id="dischargePort" label=""
+					styleClass="ui-inputfield ui-widget ui-state-default ui-corner-all"
+					value="#{bean.container.dischargePort}">
+					<f:converter converterId="portConverter" />
+					<f:selectItem itemLabel="Выберите порт выгрузки..." itemValue=""
+						noSelectionOption="true" itemDisabled="true" />
+					<f:selectItems value="#{bean.ports}" var="port"
+						itemLabel="#{port.name}" />
+				</h:selectOneMenu>
+
+				<h:outputLabel for="dischargeDate" value="Дата выгрузки:" />
+				<p:calendar value="#{bean.container.dischargeDate}"
+					id="dischargeDate" label="Дата выгрузки" pattern="dd.MM.yyyy" />
+
 			</h:panelGrid>
 
 		</h:panelGrid>

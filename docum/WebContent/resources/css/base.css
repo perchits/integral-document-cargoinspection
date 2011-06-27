@@ -337,6 +337,10 @@ select {
 	border: 0 !important;
 }
 
+.container-top-info table{
+	border-bottom: 1px dotted #a6b135 !important;
+}
+
 .listContainersInDoc {
 	margin-top:2px;
 	font-size:11px;

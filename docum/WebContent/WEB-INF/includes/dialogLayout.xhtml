@@ -9,7 +9,7 @@
 		<p:dialog width="#{width}" id="#{gridId}Id" widgetVar="#{gridId}Var"
 			modal="true" header="#{bean[title]}">
 			<h:panelGrid width="100%"
-				columns="#{(colCount == null) ? 2 : colCount}" cellpadding="5">
+				columns="#{(colCount == null) ? 2 : colCount}" cellpadding="1">
 				<ui:insert name="dialogBody">
 				</ui:insert>
 				<f:facet name="footer">
