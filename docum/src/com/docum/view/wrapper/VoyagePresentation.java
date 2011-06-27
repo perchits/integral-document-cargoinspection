@@ -36,8 +36,10 @@ public class VoyagePresentation implements Serializable {
 		if(deep) {
 			for (Container container : voyage.getContainers()) {
 				Integer count = containerStateMap.get(container.getState());
-				count++;
-				containerStateMap.put(container.getState(), count);
+				if(count != null) {
+					count++;
+					containerStateMap.put(container.getState(), count);
+				}
 				this.containers.add(new ContainerPresentation(container));
 			}
 		}
@@ -65,8 +67,7 @@ public class VoyagePresentation implements Serializable {
 			@Override
 			public boolean isIt(ContainerPresentation container) {
 				ContainerStateEnum state = container.getContainer().getState();
-				return (ContainerStateEnum.BEFORE_CUSTOMS.equals(state) ||
-						ContainerStateEnum.AFTER_CUSTOMS.equals(state) ||
+				return (ContainerStateEnum.NOT_HANDLED.equals(state) ||
 						ContainerStateEnum.HANDLED.equals(state));
 			}
 		});
@@ -77,24 +78,12 @@ public class VoyagePresentation implements Serializable {
 		return containers.size();
 	}
 
-	public Integer getBeforeCustomsContainerCount() {
-		return containerStateMap.get(ContainerStateEnum.BEFORE_CUSTOMS);
-	}
-
-	public Integer getAfterCustomsContainerCount() {
-		return containerStateMap.get(ContainerStateEnum.AFTER_CUSTOMS)
-				+ containerStateMap.get(ContainerStateEnum.HANDLED)
-				+ containerStateMap.get(ContainerStateEnum.REPORTED);
-	}
-
-	public Integer getUnhandledContainerCount() {
-		return containerStateMap.get(ContainerStateEnum.BEFORE_CUSTOMS)
-				+ containerStateMap.get(ContainerStateEnum.AFTER_CUSTOMS);
+	public Integer getNotHandledContainerCount() {
+		return containerStateMap.get(ContainerStateEnum.NOT_HANDLED);
 	}
 
 	public Integer getHandledContainerCount() {
-		return containerStateMap.get(ContainerStateEnum.HANDLED)
-				+ containerStateMap.get(ContainerStateEnum.REPORTED);
+		return containerStateMap.get(ContainerStateEnum.HANDLED);
 	}
 
 	public Voyage getVoyage() {

@@ -1,8 +1,7 @@
 package com.docum.domain;
 
 public enum ContainerStateEnum {
-	BEFORE_CUSTOMS("Не растаможен"),
-	AFTER_CUSTOMS("Растаможен"),
+	NOT_HANDLED("Не отработан"),
 	HANDLED("Отработан"),
 	REPORTED("Отчет сдан"),
 	ABANDONED("Невозможно отработать");

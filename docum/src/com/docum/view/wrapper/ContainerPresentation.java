@@ -21,10 +21,7 @@ public class ContainerPresentation implements Serializable {
 			ContainerStateEnum.class);
 
 	static {
-		containerStateMap.put(ContainerStateEnum.BEFORE_CUSTOMS,
-				"before-customs-color");
-		containerStateMap.put(ContainerStateEnum.AFTER_CUSTOMS,
-				"after-customs-color");
+		containerStateMap.put(ContainerStateEnum.NOT_HANDLED, "not-handled-color");
 		containerStateMap.put(ContainerStateEnum.HANDLED, "handled-color");
 		containerStateMap.put(ContainerStateEnum.REPORTED, "reported-color");
 		containerStateMap.put(ContainerStateEnum.ABANDONED, "abandoned-color");

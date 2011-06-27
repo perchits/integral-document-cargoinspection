@@ -436,7 +436,8 @@ public class TestDataPreparator implements TestDataPersister {
 
 	public static class ContainerStateEnumCounter extends TestDataEnumCounter<ContainerStateEnum> {
 		ContainerStateEnumCounter() {
-			super(ContainerStateEnum.values(), ContainerStateEnum.ABANDONED);
+			//super(ContainerStateEnum.values(), ContainerStateEnum.ABANDONED);
+			super(ContainerStateEnum.values());
 		}
 	}
 }
