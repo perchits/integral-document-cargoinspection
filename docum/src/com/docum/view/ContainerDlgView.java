@@ -45,7 +45,7 @@ public class ContainerDlgView extends AbstractDlgView implements Serializable {
 	private List<Article> articles;
 	private Cargo cargo;
 	
-	private ArticleService articleService;
+	private ArticleService articleService;	 
 
 	public Container getContainer() {
 		return container;
@@ -152,7 +152,7 @@ public class ContainerDlgView extends AbstractDlgView implements Serializable {
 			BaseService baseService, ArticleService articleService) {
 		this.container = container;
 
-		this.articleService = articleService;
+		this.articleService = articleService;		
 		cities = baseService.getAll(City.class, null);
 		ports = baseService.getAll(Port.class, null);
 		articles = baseService.getAll(Article.class, null);
@@ -193,7 +193,7 @@ public class ContainerDlgView extends AbstractDlgView implements Serializable {
 		return billBinder.prepareDocumentsToSave(container);
 	}
 
-	public void save() {
+	public void save() {		
 		fireAction(this, DialogActionEnum.ACCEPT);
 	}
 
@@ -244,6 +244,16 @@ public class ContainerDlgView extends AbstractDlgView implements Serializable {
 			return null;
 	}
 
+	public void addCargo(){
+		cargo = new Cargo();
+		container.getCargoes().add(cargo);
+	}
+	
+	public void deleteCargo(){		
+		//container.getCargoes().remove(cargo);
+		//cargo = null;
+	}
+	
 	private static abstract class DocumentBinder<T extends IdentifiedEntity>
 			implements Serializable {
 		private static final long serialVersionUID = 5905102091907209582L;

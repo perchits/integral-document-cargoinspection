@@ -305,6 +305,10 @@ select {
 	font-size: 11px !important;
 }
 
+.container-cargo td {
+	vertical-align : top;
+}
+
 .strong-div {
 	border: 5px solid #E8EDCE;
 }
@@ -344,4 +348,27 @@ select {
 .listContainersInDoc {
 	margin-top:2px;
 	font-size:11px;
+}
+
+#cargo-list {
+	min-width: 150px;
+}
+
+#cargo-info div{
+    border-radius: 0 !important;	
+}
+
+#cargo-info input, #cargo-info select{
+	width: auto;
+}
+
+.table-title {
+	font-size: 11px;
+	float: left;
+	margin-top: 7px;
+	font-weight: bold;
+}
+
+.table-btns {
+	float: right;
 }

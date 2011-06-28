@@ -100,17 +100,30 @@
 			<p:tab title="Состояние по документам">
 				<h:panelGrid columns="2" cellpadding="2"
 					styleClass="container-cargo">
-					<p:dataTable selectionMode="single"
+
+
+					<p:dataTable selectionMode="single" id="cargo-list"
 						value="#{bean.container.cargoes}" var="wcargo"
 						selection="#{bean.cargo}" update="cargo-info">
 						<p:column>
-							<f:facet name="header">Товар</f:facet>
-							<h:outputText value="#{wcargo.article.name}" />
+							<f:facet name="header">
+								<h:panelGroup styleClass="table-title">Товар</h:panelGroup>
+								<h:panelGroup styleClass="table-btns">
+									<p:commandButton 
+										image="ui-icon-plusthick" process="cargo-list"
+										actionListener="#{bean.addCargo}" update="cargo-list" />
+										<p:commandButton process="cargo-list"
+										image="ui-icon-minusthick"
+										actionListener="#{bean.unBindBill}" update="cargo-list" />
+								</h:panelGroup>
+							</f:facet>
+							<h:outputText value="#{wcargo.article.name}, #{wcargo.articleCategory.name}" />							
 						</p:column>
 					</p:dataTable>
-					<h:panelGroup id="cargo-info">
+
+
+					<h:panelGroup id="cargo-info" layout="block">
 						<p:panel rendered="#{bean.cargo != null}"
-							header="#{bean.cargo.article.name}, #{bean.cargo.articleCategory.name}"
 							styleClass="container-dlg-cargo-panel">
 
 							<h:selectOneMenu id="article" label="Товары"
@@ -121,9 +134,10 @@
 									noSelectionOption="true" itemDisabled="true" />
 								<f:selectItems value="#{bean.articles}" var="article"
 									itemLabel="#{article.name}" />
-								<p:ajax update="articleCategory"
+								<p:ajax update="articleCategory,cargoList"
 									listener="#{bean.articleChange}" />
-							</h:selectOneMenu>							
+							</h:selectOneMenu>
+
 							<p:outputPanel id="articleCategory">
 								<h:selectOneMenu label="Категории"
 									rendered="#{bean.cargo.article != null}"
@@ -134,10 +148,12 @@
 										noSelectionOption="true" itemDisabled="true" />
 									<f:selectItems value="#{bean.articleCategories}" var="artcat"
 										itemLabel="#{artcat.name}" />
+									<p:ajax update="cargoList" />
 								</h:selectOneMenu>
 							</p:outputPanel>
 							<h:outputText styleClass="olive-color" value="Поставщик: " />
-							<h:outputText value="#{cargo.supplier.company.name}" />
+							<h:outputText value="#{bean.cargo.supplier.company.name}" />
+
 							<!-- 
 							<ul>
 								<ui:repeat value="#{wcargo.features}" var="feature">

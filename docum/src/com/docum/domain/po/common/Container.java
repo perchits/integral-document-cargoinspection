@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
 import javax.persistence.ManyToMany;
@@ -73,7 +74,7 @@ public class Container extends IdentifiedEntity {
 	@ManyToMany(mappedBy = "containers")
 	private List<BillOfLading> billOfLadings = new ArrayList<BillOfLading>();
 
-	@OneToMany(mappedBy = "container")
+	@OneToMany(mappedBy = "container",cascade=CascadeType.ALL)
 	private List<Cargo> cargoes = new ArrayList<Cargo>();
 	
 	@ManyToOne
