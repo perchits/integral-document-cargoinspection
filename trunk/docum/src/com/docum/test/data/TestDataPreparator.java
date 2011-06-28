@@ -67,7 +67,8 @@ public class TestDataPreparator implements TestDataPersister {
 			"ZCSU5836992", "ZCSU5132123", "ZCSU5853644", "ZCSU5879274",
 			"ZCSU5836626", "ZCSU5846814", "ZCSU5845256", "ZCSU5879398",
 			"CGMU5052139", "CGMU5052756", "CGMU5052782", "CGMU5052606",
-			"CGMU5053177", "CGMU5052313", "CGMU5052078", "CGMU5052099",
+			"CGMU5053177", "CGMU5052313", "CGMU5052078", "CGMU5052099"
+			/*,
 			"NYKU" + TestUtil.getRandomDigitString(7), "OOLU" + TestUtil.getRandomDigitString(7), 
 			"MSCU" + TestUtil.getRandomDigitString(7), "ZIMU" + TestUtil.getRandomDigitString(7),
 			"NYKU" + TestUtil.getRandomDigitString(7), "OOLU" + TestUtil.getRandomDigitString(7), 
@@ -115,7 +116,8 @@ public class TestDataPreparator implements TestDataPersister {
 			"NYKU" + TestUtil.getRandomDigitString(7), "OOLU" + TestUtil.getRandomDigitString(7), 
 			"MSCU" + TestUtil.getRandomDigitString(7), "ZIMU" + TestUtil.getRandomDigitString(7),
 			"NYKU" + TestUtil.getRandomDigitString(7), "OOLU" + TestUtil.getRandomDigitString(7), 
-			"MSCU" + TestUtil.getRandomDigitString(7), "ZIMU" + TestUtil.getRandomDigitString(7)};
+			"MSCU" + TestUtil.getRandomDigitString(7), "ZIMU" + TestUtil.getRandomDigitString(7)*/
+			};
 
 	private String[] vesselNames = new String[] {
 			"Zim Pacific", "Zim India", "Michigan Trader"};
