@@ -301,6 +301,10 @@ select {
 	font-size: 11px !important;
 }
 
+.container-cargo .ui-panel {
+	font-size: 11px !important;
+}
+
 .strong-div {
 	border: 5px solid #E8EDCE;
 }
