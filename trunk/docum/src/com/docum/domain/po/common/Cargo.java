@@ -104,7 +104,7 @@ public class Cargo extends IdentifiedEntity {
 	}
    
 	@Override
-	public String toString(){
-		return article.getName();
+	public String toString(){		
+		return article != null ? article.getName() : "";
 	}
 }

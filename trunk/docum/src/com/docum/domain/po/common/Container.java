@@ -74,7 +74,7 @@ public class Container extends IdentifiedEntity {
 	@ManyToMany(mappedBy = "containers")
 	private List<BillOfLading> billOfLadings = new ArrayList<BillOfLading>();
 
-	@OneToMany(mappedBy = "container",cascade=CascadeType.ALL)
+	@OneToMany(mappedBy = "container",cascade=CascadeType.ALL, orphanRemoval=true)
 	private List<Cargo> cargoes = new ArrayList<Cargo>();
 	
 	@ManyToOne
