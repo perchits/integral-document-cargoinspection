@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 
 import com.docum.domain.po.IdentifiedEntity;
+import com.docum.util.EqualsHelper;
+import com.docum.util.HashCodeHelper;
 
 @Entity
 public class Article extends IdentifiedEntity {
@@ -68,5 +70,21 @@ public class Article extends IdentifiedEntity {
 
 	public void setFeatures(List<ArticleFeature> features) {
 		this.features = features;
+	}
+	
+	public boolean equals(Object obj) {
+		if (obj == this) {
+			return true;
+		}
+
+		if (!(obj instanceof Article)) {
+			return false;
+		}
+
+		return EqualsHelper.equals(getId(), ((Article) obj).getId());
+	}
+
+	public int hashCode() {
+		return HashCodeHelper.hashCode(getId());
 	}
 }

@@ -60,7 +60,7 @@
 			<h:panelGrid width="100%" columns="4" cellpadding="2"
 				columnClasses=",,left-space">
 
-<h:outputLabel for="dischargePort" value="Порт выгрузки:" />
+				<h:outputLabel for="dischargePort" value="Порт выгрузки:" />
 				<h:selectOneMenu id="dischargePort" label=""
 					styleClass="ui-inputfield ui-widget ui-state-default ui-corner-all"
 					value="#{bean.container.dischargePort}">
@@ -98,6 +98,60 @@
 				</h:panelGrid>
 			</p:tab>
 			<p:tab title="Состояние по документам">
+				<h:panelGrid columns="2" cellpadding="2"
+					styleClass="container-cargo">
+					<p:dataTable selectionMode="single"
+						value="#{bean.container.cargoes}" var="wcargo"
+						selection="#{bean.cargo}" update="cargo-info">
+						<p:column>
+							<f:facet name="header">Товар</f:facet>
+							<h:outputText value="#{wcargo.article.name}" />
+						</p:column>
+					</p:dataTable>
+					<h:panelGroup id="cargo-info">
+						<p:panel rendered="#{bean.cargo != null}"
+							header="#{bean.cargo.article.name}, #{bean.cargo.articleCategory.name}"
+							styleClass="container-dlg-cargo-panel">
+
+							<h:selectOneMenu id="article" label="Товары"
+								styleClass="ui-inputfield ui-widget ui-state-default ui-corner-all"
+								value="#{bean.cargo.article}">
+								<f:converter converterId="articleConverter" />
+								<f:selectItem itemLabel="Выберите товар..." itemValue=""
+									noSelectionOption="true" itemDisabled="true" />
+								<f:selectItems value="#{bean.articles}" var="article"
+									itemLabel="#{article.name}" />
+								<p:ajax update="articleCategory"
+									listener="#{bean.articleChange}" />
+							</h:selectOneMenu>							
+							<p:outputPanel id="articleCategory">
+								<h:selectOneMenu label="Категории"
+									rendered="#{bean.cargo.article != null}"
+									styleClass="ui-inputfield ui-widget ui-state-default ui-corner-all"
+									value="#{bean.cargo.articleCategory}">
+									<f:converter converterId="articleCategoryConverter" />
+									<f:selectItem itemLabel="Выберите категорию..." itemValue=""
+										noSelectionOption="true" itemDisabled="true" />
+									<f:selectItems value="#{bean.articleCategories}" var="artcat"
+										itemLabel="#{artcat.name}" />
+								</h:selectOneMenu>
+							</p:outputPanel>
+							<h:outputText styleClass="olive-color" value="Поставщик: " />
+							<h:outputText value="#{cargo.supplier.company.name}" />
+							<!-- 
+							<ul>
+								<ui:repeat value="#{wcargo.features}" var="feature">
+									<li><h:outputText styleClass="olive-color"
+											value="#{feature.feature.name}: " /> <h:outputText
+											value="#{feature.value}" />
+									</li>
+								</ui:repeat>
+							</ul> -->
+
+						</p:panel>
+					</h:panelGroup>
+
+				</h:panelGrid>
 			</p:tab>
 			<p:tab title="Состояние по инспекции">
 			</p:tab>

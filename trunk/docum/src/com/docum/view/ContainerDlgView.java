@@ -9,12 +9,16 @@ import java.util.Set;
 
 import com.docum.domain.ContainerStateEnum;
 import com.docum.domain.po.IdentifiedEntity;
+import com.docum.domain.po.common.Article;
+import com.docum.domain.po.common.ArticleCategory;
 import com.docum.domain.po.common.BillOfLading;
+import com.docum.domain.po.common.Cargo;
 import com.docum.domain.po.common.City;
 import com.docum.domain.po.common.Container;
 import com.docum.domain.po.common.Invoice;
 import com.docum.domain.po.common.Port;
 import com.docum.domain.po.common.PurchaseOrder;
+import com.docum.service.ArticleService;
 import com.docum.service.BaseService;
 import com.docum.service.BillOfLadingService;
 import com.docum.service.InvoiceService;
@@ -38,6 +42,10 @@ public class ContainerDlgView extends AbstractDlgView implements Serializable {
 	private BillBinder billBinder;
 	private List<City> cities;
 	private List<Port> ports;
+	private List<Article> articles;
+	private Cargo cargo;
+	
+	private ArticleService articleService;
 
 	public Container getContainer() {
 		return container;
@@ -130,19 +138,25 @@ public class ContainerDlgView extends AbstractDlgView implements Serializable {
 	public List<City> getCities() {
 		return cities;
 	}
-	
+
 	public List<Port> getPorts() {
 		return ports;
 	}
 
+	public List<Article> getArticles() {
+		return articles;
+	}
+
 	public ContainerDlgView(Container container, InvoiceService invoiceService,
 			PurchaseOrderService orderService, BillOfLadingService billService,
-			BaseService baseService) {
-		this.container = container;		
+			BaseService baseService, ArticleService articleService) {
+		this.container = container;
 
+		this.articleService = articleService;
 		cities = baseService.getAll(City.class, null);
 		ports = baseService.getAll(Port.class, null);
-		
+		articles = baseService.getAll(Article.class, null);
+
 		Set<Invoice> freeInvoices = new HashSet<Invoice>(
 				invoiceService.getInvoicesByVoyage(container.getVoyage()
 						.getId()));
@@ -206,6 +220,28 @@ public class ContainerDlgView extends AbstractDlgView implements Serializable {
 
 	public BillOfLading getSelectedBill() {
 		return selectedBill;
+	}
+
+	public void setCargo(Cargo cargo) {
+		this.cargo = cargo;
+	}
+
+	public Cargo getCargo() {
+		return cargo;
+	}
+
+	public void articleChange() {
+		if (cargo != null && cargo.getArticle() != null) {
+			cargo.setArticleCategory(null);
+		}
+	}
+	
+	public List<ArticleCategory> getArticleCategories() {
+		if (cargo != null && cargo.getArticle() != null) {
+		return	articleService
+					.getArticleCategoryByArticle(cargo.getArticle().getId());
+		} else
+			return null;
 	}
 
 	private static abstract class DocumentBinder<T extends IdentifiedEntity>
