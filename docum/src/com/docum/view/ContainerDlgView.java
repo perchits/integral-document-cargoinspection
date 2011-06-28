@@ -18,6 +18,7 @@ import com.docum.domain.po.common.Container;
 import com.docum.domain.po.common.Invoice;
 import com.docum.domain.po.common.Port;
 import com.docum.domain.po.common.PurchaseOrder;
+import com.docum.domain.po.common.Supplier;
 import com.docum.service.ArticleService;
 import com.docum.service.BaseService;
 import com.docum.service.BillOfLadingService;
@@ -43,6 +44,7 @@ public class ContainerDlgView extends AbstractDlgView implements Serializable {
 	private List<City> cities;
 	private List<Port> ports;
 	private List<Article> articles;
+	private List<Supplier> suppliers;
 	private Cargo cargo;
 	
 	private ArticleService articleService;	 
@@ -146,6 +148,10 @@ public class ContainerDlgView extends AbstractDlgView implements Serializable {
 	public List<Article> getArticles() {
 		return articles;
 	}
+	
+	public List<Supplier> getSuppliers() {
+		return suppliers;
+	}
 
 	public ContainerDlgView(Container container, InvoiceService invoiceService,
 			PurchaseOrderService orderService, BillOfLadingService billService,
@@ -156,6 +162,7 @@ public class ContainerDlgView extends AbstractDlgView implements Serializable {
 		cities = baseService.getAll(City.class, null);
 		ports = baseService.getAll(Port.class, null);
 		articles = baseService.getAll(Article.class, null);
+		suppliers = baseService.getAll(Supplier.class, null);
 
 		Set<Invoice> freeInvoices = new HashSet<Invoice>(
 				invoiceService.getInvoicesByVoyage(container.getVoyage()
@@ -246,12 +253,13 @@ public class ContainerDlgView extends AbstractDlgView implements Serializable {
 
 	public void addCargo(){
 		cargo = new Cargo();
+		cargo.setContainer(container);
 		container.getCargoes().add(cargo);
 	}
 	
 	public void deleteCargo(){		
-		//container.getCargoes().remove(cargo);
-		//cargo = null;
+		container.getCargoes().remove(cargo);
+		cargo = null;
 	}
 	
 	private static abstract class DocumentBinder<T extends IdentifiedEntity>

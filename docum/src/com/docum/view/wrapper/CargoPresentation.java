@@ -25,7 +25,7 @@ public class CargoPresentation implements Serializable {
 	}
 
 	public CargoCondition getActiveCargoCondition() {
-		if (cargo != null) {
+		if (cargo != null && cargo.getContainer() != null) {
 			ContainerStateEnum sate = cargo.getContainer().getState();
 			if (ContainerStateEnum.HANDLED.equals(sate)
 					|| ContainerStateEnum.REPORTED.equals(sate)) {
@@ -39,15 +39,15 @@ public class CargoPresentation implements Serializable {
 	}
 
 	public String getArticle() {
-		return cargo != null ? cargo.getArticle().getName() : null;
+		return cargo != null && cargo.getArticle()!= null ? cargo.getArticle().getName() : null;
 	}
 
 	public String getArticleCategory() {
-		return cargo != null ? cargo.getArticleCategory().getName() : null;
+		return cargo != null && cargo.getArticleCategory() != null ? cargo.getArticleCategory().getName() : null;
 	}
 
 	public String getSupplier() {
-		return cargo != null ? cargo.getSupplier().getCompany().getName() : null;
+		return cargo != null && cargo.getSupplier() != null ? cargo.getSupplier().getCompany().getName() : null;
 	}
 
 	public List<CargoArticleFeature> getFeatures() {

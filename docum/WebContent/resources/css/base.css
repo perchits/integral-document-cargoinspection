@@ -301,7 +301,7 @@ select {
 	font-size: 11px !important;
 }
 
-.container-cargo .ui-panel {
+.container-cargo .ui-panel td{
 	font-size: 11px !important;
 }
 

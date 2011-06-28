@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
 import com.docum.domain.po.IdentifiedEntity;
+import com.docum.util.EqualsHelper;
+import com.docum.util.HashCodeHelper;
 
 @Entity
 public class Supplier extends IdentifiedEntity {
@@ -26,6 +28,22 @@ public class Supplier extends IdentifiedEntity {
 
 	public void setCompany(Company company) {
 		this.company = company;
+	}
+
+	public boolean equals(Object obj) {
+		if (obj == this) {
+			return true;
+		}
+
+		if (!(obj instanceof Supplier)) {
+			return false;
+		}
+
+		return EqualsHelper.equals(getId(), ((Supplier) obj).getId());
+	}
+
+	public int hashCode() {
+		return HashCodeHelper.hashCode(getId());
 	}
 
 }
