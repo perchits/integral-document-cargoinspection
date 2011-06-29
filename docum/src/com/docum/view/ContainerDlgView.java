@@ -45,7 +45,7 @@ public class ContainerDlgView extends AbstractDlgView implements Serializable {
 	private List<Port> ports;
 	private List<Article> articles;
 	private List<Supplier> suppliers;
-	private Cargo cargo;
+	private Cargo cargo;	
 	
 	private ArticleService articleService;	 
 
@@ -152,7 +152,7 @@ public class ContainerDlgView extends AbstractDlgView implements Serializable {
 	public List<Supplier> getSuppliers() {
 		return suppliers;
 	}
-
+	
 	public ContainerDlgView(Container container, InvoiceService invoiceService,
 			PurchaseOrderService orderService, BillOfLadingService billService,
 			BaseService baseService, ArticleService articleService) {

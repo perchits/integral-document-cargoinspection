@@ -237,6 +237,9 @@ public class ContainerView extends BaseView implements Serializable,
 
 	@Override
 	public void handleAction(AbstractDlgView dialog, DialogActionEnum action) {
+		//TODO
+		addCallbackParam("dontClose", true);
+		showErrorMessage("Фиг закроешь :)");
 		if (dialog instanceof ContainerDlgView) {
 			ContainerDlgView d = (ContainerDlgView) dialog;
 			if (action == DialogActionEnum.ACCEPT) {
