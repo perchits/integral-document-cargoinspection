@@ -1,5 +1,5 @@
 function handleOKRequest(args, widgetVar, dialogId) {
-	if (args.validationFailed) {
+	if (args.validationFailed || args.dontClose) {
 		jQuery('#' + dialogId).parent().effect("shake", {
 			times : 3
 		}, 100);

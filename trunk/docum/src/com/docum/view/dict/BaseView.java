@@ -110,7 +110,7 @@ public abstract class BaseView implements Serializable{
 		return baseService;
 	}
 	
-	protected void addCallbackParam(String paramName, Object paramValue) {
+	public void addCallbackParam(String paramName, Object paramValue) {
 		RequestContext context = RequestContext.getCurrentInstance();
 		context.addCallbackParam(paramName, paramValue);
 	}
