@@ -27,7 +27,9 @@ public class TestODFCreation extends TestCase {
 	}
 	
 	private void processNode(Node node) {
-		System.out.println(node.getNodeName() + " : " + node.getNodeValue());
+		if (node.getNodeValue() != null) {
+			System.out.println(node.getNodeName() + " : " + node.getNodeValue());
+		}
 		if (node instanceof OdfDrawImage) {
 			System.out.println(" " + node.getAttributes().getNamedItem("xlink:href").getNodeValue());
 		}
