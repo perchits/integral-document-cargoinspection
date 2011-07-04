@@ -231,6 +231,8 @@ select {
 
 .container-cargo-panel div {
 	font-size: 11px !important;
+	text-align: left;	
+	overflow: hidden;
 }
 
 .container-cargo-panel .ui-panel-content {
@@ -365,10 +367,21 @@ select {
 .table-title {
 	font-size: 11px;
 	float: left;
-	margin-top: 7px;
+	margin-top: 1px;
 	font-weight: bold;
 }
 
 .table-btns {
 	float: right;
+	margin-top: -3px;
+}
+
+.table-btns button {
+	width: 22px !important;
+	height: 22px !important;
+}
+
+.table-header {
+	font-family: monospace;
+	font-size: 16px;	
 }
