@@ -92,10 +92,19 @@
 
 				</p:panel>
 				<h:panelGroup id="infoPanel" layout="block">
-				<p:panel style="text-align:center" rendered="#{containerBean.container != null}">
+				<p:panel styleClass="container-cargo-panel" rendered="#{containerBean.container != null}">
+					
 					<f:facet name="header">
-						<h:outputText value="#{containerBean.container.number}" />
+								<h:panelGroup styleClass="table-header">
+								<h:outputText value="#{containerBean.container.number}" />
+								</h:panelGroup>
+								<h:panelGroup styleClass="table-btns" id="table-btns">
+									<p:commandButton title="Добавить груз" image="ui-icon-plusthick" process="table-btns"
+										
+										update="cargo-list,cargo-info" />								
+								</h:panelGroup>
 					</f:facet>
+					
 					<h:panelGroup id="lazyContainerInfo" layout="block"
 						rendered="#{containerBean.isSelected}">
 						<h:outputText styleClass="olive-color" value="Статус: " />
@@ -147,8 +156,22 @@
 						</h:panelGroup>
 					</h:panelGroup>
 					<ui:repeat value="#{containerBean.containerCargoes}" var="wcargo">
-						<p:panel header="#{wcargo.article}, #{wcargo.articleCategory}"
-							styleClass="container-cargo-panel">
+						<p:panel styleClass="container-cargo-panel">							
+							<f:facet name="header">
+								<h:panelGroup styleClass="table-title">
+								#{wcargo.article}, #{wcargo.articleCategory}
+								</h:panelGroup>
+								<h:panelGroup styleClass="table-btns" id="table-btns">
+									<p:commandButton title="Редактировать груз" image="ui-icon-wrench" process="table-btns"
+										
+										update="cargo-list,cargo-info" />
+									<p:commandButton title="Удалить груз" image="ui-icon-minusthick"
+										process="table-btns" 
+										
+										update="cargo-list,cargo-info" />
+								</h:panelGroup>
+							</f:facet>
+							
 							<h:outputText styleClass="olive-color" value="Поставщик: " />
 							<h:outputText value="#{wcargo.supplier}" />
 							<ul>
