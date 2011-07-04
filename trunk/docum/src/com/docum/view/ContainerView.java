@@ -238,8 +238,8 @@ public class ContainerView extends BaseView implements Serializable,
 	@Override
 	public void handleAction(AbstractDlgView dialog, DialogActionEnum action) {
 		//TODO
-		addCallbackParam("dontClose", true);
-		showErrorMessage("Фиг закроешь :)");
+//		addCallbackParam("dontClose", true);
+//		showErrorMessage("Фиг закроешь :)");
 		if (dialog instanceof ContainerDlgView) {
 			ContainerDlgView d = (ContainerDlgView) dialog;
 			if (action == DialogActionEnum.ACCEPT) {
@@ -247,7 +247,17 @@ public class ContainerView extends BaseView implements Serializable,
 				invoiceService.save(d.getInvoices(container));
 				orderService.save(d.getOrders(container));
 				billService.save(d.getBills(container));
-				refreshObjects();
+				
+				loadContainer(container);
+				ContainerPresentation cp = new ContainerPresentation(container);
+				int index = containers.indexOf(cp);
+				if(index != -1) {
+					containers.remove(index);
+					containers.add(index, cp);
+				} else {
+					containers.add(cp);
+				}
+				//refreshObjects();
 			}
 		}
 	}
