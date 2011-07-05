@@ -2,6 +2,7 @@ package com.docum.view;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -209,8 +210,8 @@ public class ContainerDlgView extends AbstractDlgView implements Serializable {
 				+ container.toString() : "Новый контейнер";
 	}
 
-	public ContainerStateEnum[] getContainerStates() {
-		return ContainerStateEnum.values();
+	public List<ContainerStateEnum> getContainerStates() {
+		return Arrays.asList(ContainerStateEnum.values());
 	}
 
 	public void setSelectedOrder(PurchaseOrder selectedOrder) {
