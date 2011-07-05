@@ -1,4 +1,4 @@
-package com.docum.view;
+package com.docum.view.container;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -25,6 +25,9 @@ import com.docum.service.InvoiceService;
 import com.docum.service.PurchaseOrderService;
 import com.docum.util.AlgoUtil;
 import com.docum.util.FacesUtil;
+import com.docum.view.AbstractDlgView;
+import com.docum.view.DialogActionEnum;
+import com.docum.view.DialogActionHandler;
 import com.docum.view.dict.BaseView;
 import com.docum.view.param.FlashParamKeys;
 import com.docum.view.wrapper.CargoPresentation;

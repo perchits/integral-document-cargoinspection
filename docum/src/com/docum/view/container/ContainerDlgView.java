@@ -1,4 +1,4 @@
-package com.docum.view;
+package com.docum.view.container;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -26,6 +26,8 @@ import com.docum.service.BillOfLadingService;
 import com.docum.service.InvoiceService;
 import com.docum.service.PurchaseOrderService;
 import com.docum.util.ListHandler;
+import com.docum.view.AbstractDlgView;
+import com.docum.view.DialogActionEnum;
 
 public class ContainerDlgView extends AbstractDlgView implements Serializable {
 	private static final long serialVersionUID = 8476485603392082763L;
