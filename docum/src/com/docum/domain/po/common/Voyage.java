@@ -37,7 +37,7 @@ import com.docum.domain.po.IdentifiedEntity;
 public class Voyage extends IdentifiedEntity{
 	private static final long serialVersionUID = 8878667599057177012L;
 	
-	@ManyToOne
+	@ManyToOne(optional=false)
 	private Vessel vessel;
 	
 	private String number;
