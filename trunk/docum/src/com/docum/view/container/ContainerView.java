@@ -49,7 +49,7 @@ public class ContainerView extends BaseView implements Serializable,
 	private static final int MAX_LIST_SIZE = 10;
 	private Container container;
 	private ContainerDlgView containerDlg;
-	private CargoDlgView cargoDlgView;
+	private CargoDlgView cargoDlg;
 	
 	private boolean reloadContainer = true;
 	private VoyagePresentation selectedVoyage;
@@ -240,8 +240,8 @@ public class ContainerView extends BaseView implements Serializable,
 		return containerDlg;
 	}
 	
-	public CargoDlgView getCargoDlgView() {
-		return cargoDlgView;
+	public CargoDlgView getCargoDlg() {
+		return cargoDlg;
 	}	
 
 	public void setContainerDlg(ContainerDlgView containerDlg) {
@@ -255,8 +255,8 @@ public class ContainerView extends BaseView implements Serializable,
 	}
 	
 	private void prepareCargoDialog() {
-		cargoDlgView  = new CargoDlgView(cargo, articleService);
-		cargoDlgView.addHandler(this);
+		cargoDlg  = new CargoDlgView(cargo, articleService, getBaseService());
+		cargoDlg.addHandler(this);
 	}
 
 	public void addCargo() {
@@ -285,13 +285,12 @@ public class ContainerView extends BaseView implements Serializable,
 	public void handleAction(AbstractDlgView dialog, DialogActionEnum action) {
 		if (dialog instanceof ContainerDlgView) {
 			ContainerDlgView d = (ContainerDlgView) dialog;
-			if (action == DialogActionEnum.ACCEPT) {
+			if (DialogActionEnum.ACCEPT.equals(action)) {
 				container = containerService.save(container);
 				invoiceService.save(d.getInvoices(container));
 				orderService.save(d.getOrders(container));
 				billService.save(d.getBills(container));
-
-				loadContainer(container);
+//				loadContainer(container);
 				ContainerPresentation cp = new ContainerPresentation(container);
 				int index = containers.indexOf(cp);
 				if (index != -1) {
@@ -300,6 +299,12 @@ public class ContainerView extends BaseView implements Serializable,
 				} else {
 					containers.add(cp);
 				}
+			}
+		} else if (dialog instanceof CargoDlgView) {
+			if (DialogActionEnum.ACCEPT.equals(action)) {
+				getBaseService().save(cargo.getActualCondition());
+				getBaseService().save(cargo.getDeclaredCondition());
+				container = containerService.save(container);				
 			}
 		}
 	}

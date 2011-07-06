@@ -10,14 +10,12 @@ import java.util.Set;
 
 import com.docum.domain.ContainerStateEnum;
 import com.docum.domain.po.IdentifiedEntity;
-import com.docum.domain.po.common.Article;
 import com.docum.domain.po.common.BillOfLading;
 import com.docum.domain.po.common.City;
 import com.docum.domain.po.common.Container;
 import com.docum.domain.po.common.Invoice;
 import com.docum.domain.po.common.Port;
 import com.docum.domain.po.common.PurchaseOrder;
-import com.docum.domain.po.common.Supplier;
 import com.docum.service.BaseService;
 import com.docum.service.BillOfLadingService;
 import com.docum.service.InvoiceService;
@@ -43,8 +41,8 @@ public class ContainerDlgView extends AbstractDlgView implements Serializable {
 	private BillBinder billBinder;
 	private List<City> cities;
 	private List<Port> ports;
-	private List<Article> articles;
-	private List<Supplier> suppliers;
+	
+	
 		 
 
 	public Container getContainer() {
@@ -142,14 +140,6 @@ public class ContainerDlgView extends AbstractDlgView implements Serializable {
 	public List<Port> getPorts() {
 		return ports;
 	}
-
-	public List<Article> getArticles() {
-		return articles;
-	}
-	
-	public List<Supplier> getSuppliers() {
-		return suppliers;
-	}
 	
 	public ContainerDlgView(Container container, InvoiceService invoiceService,
 			PurchaseOrderService orderService, BillOfLadingService billService,
@@ -157,9 +147,7 @@ public class ContainerDlgView extends AbstractDlgView implements Serializable {
 		this.container = container;
 				
 		cities = baseService.getAll(City.class, null);
-		ports = baseService.getAll(Port.class, null);
-		articles = baseService.getAll(Article.class, null);
-		suppliers = baseService.getAll(Supplier.class, null);
+		ports = baseService.getAll(Port.class, null);			
 
 		Set<Invoice> freeInvoices = new HashSet<Invoice>(
 				invoiceService.getInvoicesByVoyage(container.getVoyage()
