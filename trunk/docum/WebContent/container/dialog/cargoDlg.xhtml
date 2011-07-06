@@ -1,72 +1,55 @@
-<p:tabView styleClass="container-tab">
-<p:tab title="Состояние по документам">
-				<p:commandButton value="validate" update="growl" />
-				<h:panelGrid columns="2" cellpadding="2"
-					styleClass="container-cargo">
-					<p:dataTable selectionMode="single" id="cargo-list"
-						value="#{bean.container.cargoes}" var="wcargo"
-						selection="#{bean.cargo}" update="cargo-info,growl">
-						<p:column>
-							<f:facet name="header">
-								<h:panelGroup styleClass="table-title">Товар</h:panelGroup>
-								<h:panelGroup styleClass="table-btns" id="table-btns">
-									<p:commandButton image="ui-icon-plusthick" process="table-btns"
-										actionListener="#{bean.addCargo}"
-										update="cargo-list,cargo-info" />
-									<p:commandButton image="ui-icon-minusthick"
-										process="table-btns" actionListener="#{bean.deleteCargo}"
-										update="cargo-list,cargo-info" />
-								</h:panelGroup>
-							</f:facet>
-							<h:outputText value="#{wcargo.article.name}" />
-							<h:outputText rendered="#{wcargo.articleCategory.name != null}"
-								value=", " />
-							<h:outputText value="#{wcargo.articleCategory.name}" />
-						</p:column>
-					</p:dataTable>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
 
 
-					<h:panelGroup id="cargo-info" layout="block">
-						<p:panel rendered="#{bean.cargo != null}"
-							styleClass="container-dlg-cargo-panel">
+<p:commandButton value="validate" update="growl" />
+<h:panelGrid columns="2" cellpadding="2" styleClass="container-cargo">
+	
 
-							<h:selectOneMenu id="article" label="Товары"
-								styleClass="ui-inputfield ui-widget ui-state-default ui-corner-all"
-								value="#{bean.cargo.article}">
-								<f:converter converterId="articleConverter" />
-								<f:selectItem itemLabel="Выберите товар..." itemValue=""
-									noSelectionOption="true" itemDisabled="true" />
-								<f:selectItems value="#{bean.articles}" var="article"
-									itemLabel="#{article.name}" />
-								<p:ajax update="articleCategory,cargo-list"
-									listener="#{bean.articleChange}" />
-							</h:selectOneMenu>
+	<h:panelGroup id="cargo-info" layout="block">
+		<p:panel rendered="#{bean.cargo != null}"
+			styleClass="container-dlg-cargo-panel">
 
-							<p:outputPanel id="articleCategory">
-								<h:selectOneMenu label="Категории"
-									styleClass="ui-inputfield ui-widget ui-state-default ui-corner-all"
-									value="#{bean.cargo.articleCategory}">
-									<f:converter converterId="articleCategoryConverter" />
-									<f:selectItem itemLabel="Выберите категорию..." itemValue=""
-										noSelectionOption="true" itemDisabled="true" />
-									<f:selectItems value="#{bean.articleCategories}" var="artcat"
-										itemLabel="#{artcat.name}" />
-									<p:ajax update="cargo-list" />
-								</h:selectOneMenu>
-							</p:outputPanel>
-							<h:outputText styleClass="olive-color" value="Поставщик: " />
-							<h:selectOneMenu label="Поставщик" required="true"
-								styleClass="ui-inputfield ui-widget ui-state-default ui-corner-all"
-								value="#{bean.cargo.supplier}">
-								<f:converter converterId="supplierConverter" />
-								<f:selectItem itemLabel="Выберите поставщика..." itemValue=""
-									noSelectionOption="true" itemDisabled="true" />
-								<f:selectItems value="#{bean.suppliers}" var="supplier"
-									itemLabel="#{supplier.company.name}" />
-								<p:ajax update="cargo-list" />
-							</h:selectOneMenu>
+			<h:selectOneMenu id="article" label="Товары"
+				styleClass="ui-inputfield ui-widget ui-state-default ui-corner-all"
+				value="#{bean.cargo.article}">
+				<f:converter converterId="articleConverter" />
+				<f:selectItem itemLabel="Выберите товар..." itemValue=""
+					noSelectionOption="true" itemDisabled="true" />
+				<f:selectItems value="#{bean.articles}" var="article"
+					itemLabel="#{article.name}" />
+				<p:ajax update="articleCategory,cargo-list"
+					listener="#{bean.articleChange}" />
+			</h:selectOneMenu>
 
-							<!-- 
+			<p:outputPanel id="articleCategory">
+				<h:selectOneMenu label="Категории"
+					styleClass="ui-inputfield ui-widget ui-state-default ui-corner-all"
+					value="#{bean.cargo.articleCategory}">
+					<f:converter converterId="articleCategoryConverter" />
+					<f:selectItem itemLabel="Выберите категорию..." itemValue=""
+						noSelectionOption="true" itemDisabled="true" />
+					<f:selectItems value="#{bean.articleCategories}" var="artcat"
+						itemLabel="#{artcat.name}" />
+					<p:ajax update="cargo-list" />
+				</h:selectOneMenu>
+			</p:outputPanel>
+			<h:outputText styleClass="olive-color" value="Поставщик: " />
+			<h:selectOneMenu label="Поставщик" required="true"
+				styleClass="ui-inputfield ui-widget ui-state-default ui-corner-all"
+				value="#{bean.cargo.supplier}">
+				<f:converter converterId="supplierConverter" />
+				<f:selectItem itemLabel="Выберите поставщика..." itemValue=""
+					noSelectionOption="true" itemDisabled="true" />
+				<f:selectItems value="#{bean.suppliers}" var="supplier"
+					itemLabel="#{supplier.company.name}" />
+				<p:ajax update="cargo-list" />
+			</h:selectOneMenu>
+
+			<!-- 
 							<ul>
 								<ui:repeat value="#{wcargo.features}" var="feature">
 									<li><h:outputText styleClass="olive-color"
@@ -76,9 +59,10 @@
 								</ui:repeat>
 							</ul> -->
 
-						</p:panel>
-					</h:panelGroup>
+		</p:panel>
+	</h:panelGroup>
 
-				</h:panelGrid>
-			</p:tab>
-		</p:tabView>	
+</h:panelGrid>
+
+
+</html>

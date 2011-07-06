@@ -59,7 +59,8 @@ public class ContainerView extends BaseView implements Serializable,
 	@Autowired
 	private BillOfLadingService billService;
 	@Autowired
-	private	ArticleService articleService;
+	private ArticleService articleService;
+	private Cargo cargo;
 
 	private ArrayList<ContainerPresentation> containers;
 
@@ -207,7 +208,7 @@ public class ContainerView extends BaseView implements Serializable,
 		} else {
 			container = new Container();
 			container.setVoyage(selectedVoyage.getVoyage());
-			prepareDialog();
+			prepareContainerDialog();
 		}
 	}
 
@@ -215,16 +216,18 @@ public class ContainerView extends BaseView implements Serializable,
 	public void editObject(ActionEvent actionEvent) {
 		super.editObject(actionEvent);
 		if (selectedVoyage != null) {
-			prepareDialog();
+			prepareContainerDialog();
 		}
 	}
-	
+
 	public void deleteObject() {
 		super.deleteObject();
 		setContainer(null);
 	}
 
 	public ContainerDlgView getContainerDlg() {
+		
+		
 		return containerDlg;
 	}
 
@@ -232,17 +235,35 @@ public class ContainerView extends BaseView implements Serializable,
 		this.containerDlg = containerDlg;
 	}
 
-	private void prepareDialog() {
+	private void prepareContainerDialog() {
 		containerDlg = new ContainerDlgView(container, invoiceService,
-				orderService, billService, getBaseService(),articleService);
+				orderService, billService, getBaseService());
 		containerDlg.addHandler(this);
+	}
+	
+	private void prepareCargoDialog() {
+		CargoDlgView d = new CargoDlgView(cargo, articleService);
+		d.addHandler(this);
+	}
+
+	public void addCargo() {
+		cargo = new Cargo();
+		cargo.setContainer(container);
+		container.getCargoes().add(cargo);
+		prepareCargoDialog();
+	}
+
+	public void editCargo() {
+		prepareCargoDialog();
+	}
+	
+	public void deleteCargo() {
+		container.getCargoes().remove(cargo);
+		cargo = null;
 	}
 
 	@Override
 	public void handleAction(AbstractDlgView dialog, DialogActionEnum action) {
-		//TODO
-//		addCallbackParam("dontClose", true);
-//		showErrorMessage("Фиг закроешь :)");
 		if (dialog instanceof ContainerDlgView) {
 			ContainerDlgView d = (ContainerDlgView) dialog;
 			if (action == DialogActionEnum.ACCEPT) {
@@ -250,17 +271,16 @@ public class ContainerView extends BaseView implements Serializable,
 				invoiceService.save(d.getInvoices(container));
 				orderService.save(d.getOrders(container));
 				billService.save(d.getBills(container));
-				
+
 				loadContainer(container);
 				ContainerPresentation cp = new ContainerPresentation(container);
 				int index = containers.indexOf(cp);
-				if(index != -1) {
+				if (index != -1) {
 					containers.remove(index);
 					containers.add(index, cp);
 				} else {
 					containers.add(cp);
 				}
-				//refreshObjects();
 			}
 		}
 	}
