@@ -1,0 +1,21 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+
+<p:outputPanel id="reportDlgPanel">
+	<h:form prependId="false">
+		<p:dialog width="320" id="reportDlgId" widgetVar="reportVar" modal="true"
+				  header="Отчет по контейнеру #{containerBean.container.number}">
+			<h:panelGrid width="100%" columns="1" cellpadding="1">
+				<h:outputLink value="../resources/reporting/resultReport.odt" styleClass="olive-color" >
+				   <h:outputText value="Нажмите сюда для получения отчета" />
+				</h:outputLink>   
+			</h:panelGrid>
+		</p:dialog>
+	</h:form>
+</p:outputPanel>
+
+</html>

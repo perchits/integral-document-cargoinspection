@@ -23,7 +23,9 @@ import com.docum.service.BillOfLadingService;
 import com.docum.service.ContainerService;
 import com.docum.service.InvoiceService;
 import com.docum.service.PurchaseOrderService;
+import com.docum.service.ReportingService;
 import com.docum.util.AlgoUtil;
+import com.docum.util.DocumLogger;
 import com.docum.util.FacesUtil;
 import com.docum.view.AbstractDlgView;
 import com.docum.view.DialogActionEnum;
@@ -63,6 +65,8 @@ public class ContainerView extends BaseView implements Serializable,
 	private ArticleService articleService;
 	private Cargo cargo;
 	
+	@Autowired
+	ReportingService reportingService;
 
 	private ArrayList<ContainerPresentation> containers;
 
@@ -298,6 +302,11 @@ public class ContainerView extends BaseView implements Serializable,
 				}
 			}
 		}
+	}
+	
+	public void createReport() {
+		DocumLogger.log("Создание отчета для контейнера: " + this.container.getNumber());
+		reportingService.createReport(container);
 	}
 
 }
