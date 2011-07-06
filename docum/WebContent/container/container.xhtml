@@ -97,124 +97,132 @@
 
 				</p:panel>
 				<h:panelGroup id="infoPanel" layout="block">
-				<p:panel styleClass="container-cargo-panel" rendered="#{containerBean.container != null}">
-					
-					<f:facet name="header">
-								<h:panelGroup styleClass="table-header">
+					<p:panel styleClass="container-cargo-panel"
+						rendered="#{containerBean.container != null}">
+
+						<f:facet name="header">
+							<h:panelGroup styleClass="table-header">
 								<h:outputText value="#{containerBean.container.number}" />
-								</h:panelGroup>
-								<h:panelGroup styleClass="table-btns" id="table-btns">
-									<p:commandButton title="Добавить груз" image="ui-icon-plusthick" process="table-btns"
-										
-										update="cargo-list,cargo-info" />								
-								</h:panelGroup>
-					</f:facet>
-					
-					<h:panelGroup id="lazyContainerInfo" layout="block"
-						rendered="#{containerBean.isSelected}">
-						<h:outputText styleClass="olive-color" value="Статус: " />
-						<h:outputText value="#{containerBean.container.state}" />						
-						
-						<h:panelGroup rendered="#{containerBean.container.invoiceInLine != null}">
-						<br />
-						<h:outputText styleClass="olive-color" value="Инвойс: " />
-						<h:outputText value="#{containerBean.container.invoiceInLine}" />
+							</h:panelGroup>
+							<h:panelGroup styleClass="table-btns" id="table-btns">
+								<p:commandButton title="Добавить груз" image="ui-icon-plusthick"
+									actionListener="#{containerBean.addCargo}"
+									oncomplete="beforeShow(infoPanelVar,args)"
+									update="infoPanelDlgPanel,growl" />
+							</h:panelGroup>
+						</f:facet>
+
+						<h:panelGroup id="lazyContainerInfo" layout="block"
+							rendered="#{containerBean.isSelected}">
+							<h:outputText styleClass="olive-color" value="Статус: " />
+							<h:outputText value="#{containerBean.container.state}" />
+
+							<h:panelGroup
+								rendered="#{containerBean.container.invoiceInLine != null}">
+								<br />
+								<h:outputText styleClass="olive-color" value="Инвойс: " />
+								<h:outputText value="#{containerBean.container.invoiceInLine}" />
+							</h:panelGroup>
+
+							<h:panelGroup
+								rendered="#{containerBean.container.orderInLine != null}">
+								<br />
+								<h:outputText styleClass="olive-color" value="Заказ: " />
+								<h:outputText value="#{containerBean.container.orderInLine}" />
+							</h:panelGroup>
+
+							<h:panelGroup
+								rendered="#{containerBean.container.billOfLadingInLine != null}">
+								<br />
+								<h:outputText styleClass="olive-color" value="Коносамент: " />
+								<h:outputText
+									value="#{containerBean.container.billOfLadingInLine}" />
+							</h:panelGroup>
+
+							<h:panelGroup rendered="#{containerBean.container.city != null}">
+								<br />
+								<h:outputText styleClass="olive-color" value="Город: " />
+								<h:outputText value="#{containerBean.container.city}" />
+							</h:panelGroup>
+
+							<h:panelGroup
+								rendered="#{containerBean.container.loadingPort != null}">
+								<br />
+								<h:outputText styleClass="olive-color" value="Погрузка: " />
+								<h:outputText value="#{containerBean.container.loadingPort}" />
+								<h:outputText value=", " />
+								<h:outputText value="#{containerBean.container.loadingDate}">
+									<f:convertDateTime dateStyle="medium" type="date" />
+								</h:outputText>
+							</h:panelGroup>
+
+							<h:panelGroup
+								rendered="#{containerBean.container.dischargePort != null}">
+								<br />
+								<h:outputText styleClass="olive-color" value="Выгрузка: " />
+								<h:outputText value="#{containerBean.container.dischargePort}" />
+								<h:outputText value=", " />
+								<h:outputText value="#{containerBean.container.dischargeDate}">
+									<f:convertDateTime dateStyle="medium" type="date" />
+								</h:outputText>
+							</h:panelGroup>
 						</h:panelGroup>
-						
-						<h:panelGroup rendered="#{containerBean.container.orderInLine != null}">
-						<br />
-						<h:outputText styleClass="olive-color" value="Заказ: " />
-						<h:outputText value="#{containerBean.container.orderInLine}" />
-						</h:panelGroup>
-						
-						<h:panelGroup rendered="#{containerBean.container.billOfLadingInLine != null}">
-						<br />
-						<h:outputText styleClass="olive-color" value="Коносамент: " />
-						<h:outputText
-							value="#{containerBean.container.billOfLadingInLine}" />
-						</h:panelGroup>	
-						
-						<h:panelGroup rendered="#{containerBean.container.city != null}">
-						<br />
-						<h:outputText styleClass="olive-color" value="Город: " />
-						<h:outputText value="#{containerBean.container.city}" />
-						</h:panelGroup>
-						
-						<h:panelGroup rendered="#{containerBean.container.loadingPort != null}">
-						<br />
-						<h:outputText styleClass="olive-color" value="Погрузка: " />
-						<h:outputText value="#{containerBean.container.loadingPort}" />
-						<h:outputText value=", " />
-						<h:outputText value="#{containerBean.container.loadingDate}">
-							<f:convertDateTime dateStyle="medium" type="date" />
-						</h:outputText>
-						</h:panelGroup>
-						
-						<h:panelGroup rendered="#{containerBean.container.dischargePort != null}">
-						<br />
-						<h:outputText styleClass="olive-color" value="Выгрузка: " />
-						<h:outputText value="#{containerBean.container.dischargePort}" />
-						<h:outputText value=", " />
-						<h:outputText value="#{containerBean.container.dischargeDate}">
-							<f:convertDateTime dateStyle="medium" type="date" />
-						</h:outputText>
-						</h:panelGroup>
-					</h:panelGroup>
-					<ui:repeat value="#{containerBean.containerCargoes}" var="wcargo">					
-						<p:panel styleClass="container-cargo-panel">							
-							<f:facet name="header">
-								<h:panelGroup styleClass="table-title">
+						<ui:repeat value="#{containerBean.containerCargoes}" var="wcargo">
+							<p:panel styleClass="container-cargo-panel">
+								<f:facet name="header">
+									<h:panelGroup styleClass="table-title">
 								#{wcargo.article}, #{wcargo.articleCategory}
 								</h:panelGroup>
-								<h:panelGroup styleClass="table-btns" id="table-btns">
-									<p:commandButton title="Редактировать груз" 
-									image="ui-icon-wrench"																			
-										update="cargo-list,cargo-info" >										
+									<h:panelGroup styleClass="table-btns" id="table-btns">
+										<p:commandButton title="Редактировать груз"
+											image="ui-icon-wrench" update="cargo-list,cargo-info">
 										</p:commandButton>
-									<p:commandButton title="Удалить груз" 
-										image="ui-icon-minusthick"										
-										oncomplete="beforeShow(infoPanelConfirmVar,args)"										
-										update="infoPanelConfirmId" >
-										<f:setPropertyActionListener target="#{containerBean.cargo}" value="#{wcargo}" />
+										<p:commandButton title="Удалить груз"
+											image="ui-icon-minusthick"
+											oncomplete="beforeShow(infoPanelConfirmVar,args)"
+											update="infoPanelConfirmId">
+											<f:setPropertyActionListener target="#{containerBean.cargo}"
+												value="#{wcargo}" />
 										</p:commandButton>
-								</h:panelGroup>
-							</f:facet>
-							
-							<h:outputText styleClass="olive-color" value="Поставщик: " />
-							<h:outputText value="#{wcargo.supplier}" />
-							<ul>
-								<ui:repeat value="#{wcargo.features}" var="feature">
-									<li><h:outputText styleClass="olive-color"
-											value="#{feature.feature.name}: " /> <h:outputText
-											value="#{feature.value}" /></li>
-								</ui:repeat>
-							</ul>
+									</h:panelGroup>
+								</f:facet>
+
+								<h:outputText styleClass="olive-color" value="Поставщик: " />
+								<h:outputText value="#{wcargo.supplier}" />
+								<ul>
+									<ui:repeat value="#{wcargo.features}" var="feature">
+										<li><h:outputText styleClass="olive-color"
+												value="#{feature.feature.name}: " /> <h:outputText
+												value="#{feature.value}" />
+										</li>
+									</ui:repeat>
+								</ul>
 							Упаковка
 							<ul>
-								<ui:repeat value="#{wcargo.activeCargoCondition.cargoPackages}"
-									var="pack">
-									<li><h:outputText styleClass="olive-color"
-											value="#{pack.measure.name}: " /> <h:outputText
-											value="#{pack.count}">
-											<f:convertNumber maxFractionDigits="2" />
-										</h:outputText> <h:panelGroup rendered="#{not empty pack.calibres}">
-											<ul>
-												<ui:repeat value="#{pack.calibres}" var="calibre">
-													<li><h:outputText styleClass="olive-color"
-															value="#{calibre.calibreValue}: " /> <h:outputText
-															value="#{calibre.packageCount}">
-															<f:convertNumber maxFractionDigits="2" />
-														</h:outputText></li>
-												</ui:repeat>
-											</ul>
-										</h:panelGroup>
-									</li>
-								</ui:repeat>
-							</ul>
-						</p:panel>
-					</ui:repeat>
+									<ui:repeat value="#{wcargo.activeCargoCondition.cargoPackages}"
+										var="pack">
+										<li><h:outputText styleClass="olive-color"
+												value="#{pack.measure.name}: " /> <h:outputText
+												value="#{pack.count}">
+												<f:convertNumber maxFractionDigits="2" />
+											</h:outputText> <h:panelGroup rendered="#{not empty pack.calibres}">
+												<ul>
+													<ui:repeat value="#{pack.calibres}" var="calibre">
+														<li><h:outputText styleClass="olive-color"
+																value="#{calibre.calibreValue}: " /> <h:outputText
+																value="#{calibre.packageCount}">
+																<f:convertNumber maxFractionDigits="2" />
+															</h:outputText>
+														</li>
+													</ui:repeat>
+												</ul>
+											</h:panelGroup></li>
+									</ui:repeat>
+								</ul>
+							</p:panel>
+						</ui:repeat>
 
-				</p:panel>
+					</p:panel>
 				</h:panelGroup>
 			</h:panelGrid>
 		</h:form>
@@ -225,28 +233,36 @@
 			<ui:param name="gridId" value="containers" />
 			<ui:param name="title" value="title" />
 			<ui:param name="update" value="infoPanel" />
-			<ui:param name="rendered" value="#{containerBean.containerDlg != null}" />
+			<ui:param name="rendered"
+				value="#{containerBean.containerDlg != null}" />
 		</ui:include>
-		
+
+		<ui:include src="/container/dialog/cargoDlg.xhtml">
+			<ui:param name="bean" value="#{containerBean.cargoDlg}" />
+			<ui:param name="gridId" value="infoPanel" />
+			<ui:param name="title" value="title" />
+			<ui:param name="rendered" value="#{containerBean.cargoDlg != null}" />
+		</ui:include>
+
 		<ui:include src="/WEB-INF/includes/deleteConfirmation.xhtml">
 			<ui:param name="message"
 				value="Удалить контейнер '#{containerBean.container.number}'?" />
 			<ui:param name="gridId" value="containers" />
 			<ui:param name="bean" value="#{containerBean}" />
 			<ui:param name="update" value="infoPanel" />
-			<ui:param name="deleteObject" value="deleteObject" />	
+			<ui:param name="deleteObject" value="deleteObject" />
 		</ui:include>
 
 		<ui:include src="/WEB-INF/includes/deleteConfirmation.xhtml">
 			<ui:param name="message"
 				value="Удалить груз '#{containerBean.cargoName}'?" />
 			<ui:param name="gridId" value="infoPanel" />
-			<ui:param name="bean" value="#{containerBean}" />			
-			<ui:param name="deleteObject" value="deleteCargo" />	
+			<ui:param name="bean" value="#{containerBean}" />
+			<ui:param name="deleteObject" value="deleteCargo" />
 		</ui:include>
 
 
 	</ui:define>
-	
+
 </ui:composition>
 </html>

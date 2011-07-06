@@ -40,9 +40,8 @@ public class Cargo extends IdentifiedEntity {
 	
 	@OneToMany(cascade=CascadeType.ALL, orphanRemoval=true, fetch=FetchType.EAGER)
 	@OrderColumn(nullable=false)
-	private List<CargoCondition> conditions = new ArrayList<CargoCondition>(
-			Arrays.asList(new CargoCondition[] { new CargoCondition(this, 0.0),
-					new CargoCondition(this, 0.0) }));
+	private List<CargoCondition> conditions = Arrays.asList(new CargoCondition[] { new CargoCondition(this, 0.0),
+					new CargoCondition(this, 0.0) });
 
 	public Cargo(){
 		super();
