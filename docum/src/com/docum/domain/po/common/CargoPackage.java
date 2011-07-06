@@ -1,12 +1,19 @@
 package com.docum.domain.po.common;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import com.docum.domain.po.IdentifiedEntity;
+import com.docum.util.EqualsHelper;
+import com.docum.util.HashCodeHelper;
 
 @Entity
 public class CargoPackage extends IdentifiedEntity {
@@ -20,8 +27,8 @@ public class CargoPackage extends IdentifiedEntity {
 
 	private double count;
 	
-	@OneToMany(mappedBy="cargoPackage")
-	private List<CargoPackageCalibre> calibres;
+	@OneToMany(mappedBy="cargoPackage", cascade=CascadeType.ALL, orphanRemoval=true, fetch=FetchType.EAGER)
+	private Set<CargoPackageCalibre> calibres = new HashSet<CargoPackageCalibre>();
 
 	public CargoPackage() {
 	}
@@ -58,11 +65,27 @@ public class CargoPackage extends IdentifiedEntity {
 	}
 
 	public List<CargoPackageCalibre> getCalibres() {
-		return calibres;
+		return new ArrayList<CargoPackageCalibre>(calibres);
 	}
 
 	public void setCalibres(List<CargoPackageCalibre> calibres) {
-		this.calibres = calibres;
+		this.calibres.clear();
+		this.calibres.addAll(calibres);
 	}
 
+	public boolean equals(Object obj) {
+		if (obj == this) {
+			return true;
+		}
+
+		if (!(obj instanceof CargoPackage)) {
+			return false;
+		}
+
+		return EqualsHelper.equals(getId(), ((CargoPackage) obj).getId());
+	}
+
+	public int hashCode() {
+		return HashCodeHelper.hashCode(getId());
+	}
 }
