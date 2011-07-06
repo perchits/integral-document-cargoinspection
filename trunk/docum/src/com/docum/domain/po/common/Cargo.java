@@ -2,7 +2,9 @@ package com.docum.domain.po.common;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -27,8 +29,8 @@ public class Cargo extends IdentifiedEntity {
 	@ManyToOne
 	private ArticleCategory articleCategory;
 
-	@OneToMany(mappedBy="cargo")
-	private List<CargoArticleFeature> features;
+	@OneToMany(mappedBy="cargo", cascade=CascadeType.ALL, orphanRemoval=true, fetch=FetchType.EAGER)
+	private Set<CargoArticleFeature> features = new HashSet<CargoArticleFeature>();
 	
 	@ManyToOne(optional=false)
 	private Supplier supplier;
@@ -104,11 +106,12 @@ public class Cargo extends IdentifiedEntity {
 	}
 
 	public List<CargoArticleFeature> getFeatures() {
-		return features;
+		return new ArrayList <CargoArticleFeature>(features);
 	}
 
-	public void setFeatures(List<CargoArticleFeature> features) {
-		this.features = features;
+	public void setFeatures(List<CargoArticleFeature> features) {		
+		this.features.clear();
+		this.features.addAll(features);
 	}
    
 	@Override
