@@ -11,16 +11,13 @@ import java.util.Set;
 import com.docum.domain.ContainerStateEnum;
 import com.docum.domain.po.IdentifiedEntity;
 import com.docum.domain.po.common.Article;
-import com.docum.domain.po.common.ArticleCategory;
 import com.docum.domain.po.common.BillOfLading;
-import com.docum.domain.po.common.Cargo;
 import com.docum.domain.po.common.City;
 import com.docum.domain.po.common.Container;
 import com.docum.domain.po.common.Invoice;
 import com.docum.domain.po.common.Port;
 import com.docum.domain.po.common.PurchaseOrder;
 import com.docum.domain.po.common.Supplier;
-import com.docum.service.ArticleService;
 import com.docum.service.BaseService;
 import com.docum.service.BillOfLadingService;
 import com.docum.service.InvoiceService;
@@ -48,9 +45,7 @@ public class ContainerDlgView extends AbstractDlgView implements Serializable {
 	private List<Port> ports;
 	private List<Article> articles;
 	private List<Supplier> suppliers;
-	private Cargo cargo;	
-	
-	private ArticleService articleService;	 
+		 
 
 	public Container getContainer() {
 		return container;
@@ -158,10 +153,9 @@ public class ContainerDlgView extends AbstractDlgView implements Serializable {
 	
 	public ContainerDlgView(Container container, InvoiceService invoiceService,
 			PurchaseOrderService orderService, BillOfLadingService billService,
-			BaseService baseService, ArticleService articleService) {
+			BaseService baseService) {
 		this.container = container;
-
-		this.articleService = articleService;		
+				
 		cities = baseService.getAll(City.class, null);
 		ports = baseService.getAll(Port.class, null);
 		articles = baseService.getAll(Article.class, null);
@@ -232,38 +226,7 @@ public class ContainerDlgView extends AbstractDlgView implements Serializable {
 		return selectedBill;
 	}
 
-	public void setCargo(Cargo cargo) {
-		this.cargo = cargo;
-	}
-
-	public Cargo getCargo() {
-		return cargo;
-	}
-
-	public void articleChange() {
-		if (cargo != null && cargo.getArticle() != null) {
-			cargo.setArticleCategory(null);
-		}
-	}
 	
-	public List<ArticleCategory> getArticleCategories() {
-		if (cargo != null && cargo.getArticle() != null) {
-		return	articleService
-					.getArticleCategoryByArticle(cargo.getArticle().getId());
-		} else
-			return null;
-	}
-
-	public void addCargo(){
-		cargo = new Cargo();
-		cargo.setContainer(container);
-		container.getCargoes().add(cargo);
-	}
-	
-	public void deleteCargo(){		
-		container.getCargoes().remove(cargo);
-		cargo = null;
-	}
 	
 	private static abstract class DocumentBinder<T extends IdentifiedEntity>
 			implements Serializable {
