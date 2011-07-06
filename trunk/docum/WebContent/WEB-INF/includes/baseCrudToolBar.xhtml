@@ -32,6 +32,10 @@
 				actionListener="#{bean[refreshObjects]}"
 				image="ui-icon ui-icon-arrowreturnthick-1-w" 
 				title="Обновить"/>
+				
+			<p:commandButton type="push" value="Отчет" rendered="#{createReport != null}"
+				actionListener="#{bean[createReport]}"
+				oncomplete="beforeShow(reportVar,args)"/>	
 
 		</p:toolbarGroup>
 	</p:toolbar>
