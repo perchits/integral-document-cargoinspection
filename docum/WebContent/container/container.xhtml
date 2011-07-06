@@ -155,20 +155,23 @@
 						</h:outputText>
 						</h:panelGroup>
 					</h:panelGroup>
-					<ui:repeat value="#{containerBean.containerCargoes}" var="wcargo">
+					<ui:repeat value="#{containerBean.containerCargoes}" var="wcargo">					
 						<p:panel styleClass="container-cargo-panel">							
 							<f:facet name="header">
 								<h:panelGroup styleClass="table-title">
 								#{wcargo.article}, #{wcargo.articleCategory}
 								</h:panelGroup>
 								<h:panelGroup styleClass="table-btns" id="table-btns">
-									<p:commandButton title="Редактировать груз" image="ui-icon-wrench" process="table-btns"
-										
-										update="cargo-list,cargo-info" />
-									<p:commandButton title="Удалить груз" image="ui-icon-minusthick"
-										process="table-btns" 
-										
-										update="cargo-list,cargo-info" />
+									<p:commandButton title="Редактировать груз" 
+									image="ui-icon-wrench"																			
+										update="cargo-list,cargo-info" >										
+										</p:commandButton>
+									<p:commandButton title="Удалить груз" 
+										image="ui-icon-minusthick"										
+										oncomplete="beforeShow(infoPanelConfirmVar,args)"										
+										update="infoPanelConfirmId" >
+										<f:setPropertyActionListener target="#{containerBean.cargo}" value="#{wcargo}" />
+										</p:commandButton>
 								</h:panelGroup>
 							</f:facet>
 							
@@ -227,6 +230,14 @@
 			<ui:param name="bean" value="#{containerBean}" />
 			<ui:param name="update" value="infoPanel" />
 			<ui:param name="deleteObject" value="deleteObject" />	
+		</ui:include>
+
+		<ui:include src="/WEB-INF/includes/deleteConfirmation.xhtml">
+			<ui:param name="message"
+				value="Удалить груз '#{containerBean.cargoName}'?" />
+			<ui:param name="gridId" value="infoPanel" />
+			<ui:param name="bean" value="#{containerBean}" />			
+			<ui:param name="deleteObject" value="deleteCargo" />	
 		</ui:include>
 
 

@@ -47,7 +47,8 @@ public class ContainerView extends BaseView implements Serializable,
 	private static final int MAX_LIST_SIZE = 10;
 	private Container container;
 	private ContainerDlgView containerDlg;
-
+	private CargoDlgView cargoDlgView;
+	
 	private boolean reloadContainer = true;
 	private VoyagePresentation selectedVoyage;
 	@Autowired
@@ -61,6 +62,7 @@ public class ContainerView extends BaseView implements Serializable,
 	@Autowired
 	private ArticleService articleService;
 	private Cargo cargo;
+	
 
 	private ArrayList<ContainerPresentation> containers;
 
@@ -225,11 +227,18 @@ public class ContainerView extends BaseView implements Serializable,
 		setContainer(null);
 	}
 
-	public ContainerDlgView getContainerDlg() {
-		
-		
+	
+	public void setCargo(CargoPresentation cargo) {
+		this.cargo = cargo.getCargo();
+	}
+	
+	public ContainerDlgView getContainerDlg() {		
 		return containerDlg;
 	}
+	
+	public CargoDlgView getCargoDlgView() {
+		return cargoDlgView;
+	}	
 
 	public void setContainerDlg(ContainerDlgView containerDlg) {
 		this.containerDlg = containerDlg;
@@ -242,8 +251,8 @@ public class ContainerView extends BaseView implements Serializable,
 	}
 	
 	private void prepareCargoDialog() {
-		CargoDlgView d = new CargoDlgView(cargo, articleService);
-		d.addHandler(this);
+		cargoDlgView  = new CargoDlgView(cargo, articleService);
+		cargoDlgView.addHandler(this);
 	}
 
 	public void addCargo() {
@@ -259,7 +268,13 @@ public class ContainerView extends BaseView implements Serializable,
 	
 	public void deleteCargo() {
 		container.getCargoes().remove(cargo);
+		containerService.save(container);
 		cargo = null;
+		
+	}
+	
+	public String getCargoName() {
+		return new CargoPresentation(cargo).getArticle();
 	}
 
 	@Override
