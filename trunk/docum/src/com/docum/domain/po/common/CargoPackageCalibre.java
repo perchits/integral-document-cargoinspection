@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
 import com.docum.domain.po.IdentifiedEntity;
+import com.docum.util.EqualsHelper;
+import com.docum.util.HashCodeHelper;
 
 @Entity
 public class CargoPackageCalibre extends IdentifiedEntity{
@@ -50,5 +52,21 @@ public class CargoPackageCalibre extends IdentifiedEntity{
 
 	public void setPackageCount(double packageCount) {
 		this.packageCount = packageCount;
+	}
+
+	public boolean equals(Object obj) {
+		if (obj == this) {
+			return true;
+		}
+
+		if (!(obj instanceof CargoPackageCalibre)) {
+			return false;
+		}
+
+		return EqualsHelper.equals(getId(), ((CargoPackageCalibre) obj).getId());
+	}
+
+	public int hashCode() {
+		return HashCodeHelper.hashCode(getId());
 	}
 }

@@ -1,17 +1,25 @@
 package com.docum.domain.po.common;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.OrderColumn;
 
 import com.docum.domain.po.IdentifiedEntity;
 
 @Entity
 public class Cargo extends IdentifiedEntity {
 	private static final long serialVersionUID = 4275515653210816278L;
+	
+	private static enum ConditionEnum {
+		DECLARED, ACTUAL
+	}
 	
 	@ManyToOne(optional=false)
 	private Article article;
@@ -28,12 +36,12 @@ public class Cargo extends IdentifiedEntity {
 	@ManyToOne(optional=false)
 	private Container container;
 	
-	@OneToOne
-	private CargoCondition declaredCondition;
+	@OneToMany(cascade=CascadeType.ALL, orphanRemoval=true, fetch=FetchType.EAGER)
+	@OrderColumn(nullable=false)
+	private List<CargoCondition> conditions = new ArrayList<CargoCondition>(
+			Arrays.asList(new CargoCondition[] { new CargoCondition(this, 0.0),
+					new CargoCondition(this, 0.0) }));
 
-	@OneToOne
-	private CargoCondition actualCondition;
-	
 	public Cargo(){
 		super();
 	}
@@ -72,19 +80,19 @@ public class Cargo extends IdentifiedEntity {
 	}
 
 	public CargoCondition getDeclaredCondition() {
-		return declaredCondition;
+		return conditions.get(ConditionEnum.DECLARED.ordinal());
 	}
 
 	public void setDeclaredCondition(CargoCondition declaredCondition) {
-		this.declaredCondition = declaredCondition;
+		conditions.set(ConditionEnum.DECLARED.ordinal(), declaredCondition);
 	}
 
 	public CargoCondition getActualCondition() {
-		return actualCondition;
+		return conditions.get(ConditionEnum.ACTUAL.ordinal());
 	}
 
 	public void setActualCondition(CargoCondition actualCondition) {
-		this.actualCondition = actualCondition;
+		conditions.set(ConditionEnum.ACTUAL.ordinal(), actualCondition);
 	}
 
 	public ArticleCategory getArticleCategory() {
