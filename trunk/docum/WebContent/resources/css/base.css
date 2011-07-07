@@ -385,3 +385,15 @@ select {
 	font-family: monospace;
 	font-size: 16px;	
 }
+
+.feature-title {
+	margin: 7px 0;
+}
+
+.inline-delete {	
+	width: 20px !important;
+	height: 16px !important;
+	border: 0 !important;
+	background: white !important;
+	vertical-align: text-bottom;
+}

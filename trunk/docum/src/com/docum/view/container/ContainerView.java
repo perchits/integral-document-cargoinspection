@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import com.docum.domain.SortOrderEnum;
 import com.docum.domain.po.IdentifiedEntity;
 import com.docum.domain.po.common.Cargo;
+import com.docum.domain.po.common.CargoArticleFeature;
 import com.docum.domain.po.common.Container;
 import com.docum.domain.po.common.Voyage;
 import com.docum.service.ArticleService;
@@ -50,7 +51,8 @@ public class ContainerView extends BaseView implements Serializable,
 	private Container container;
 	private ContainerDlgView containerDlg;
 	private CargoDlgView cargoDlg;
-	
+	private FeatureDlgView featureDlg;
+
 	private boolean reloadContainer = true;
 	private VoyagePresentation selectedVoyage;
 	@Autowired
@@ -64,7 +66,8 @@ public class ContainerView extends BaseView implements Serializable,
 	@Autowired
 	private ArticleService articleService;
 	private Cargo cargo;
-	
+	private CargoArticleFeature feature;
+
 	@Autowired
 	ReportingService reportingService;
 
@@ -231,18 +234,22 @@ public class ContainerView extends BaseView implements Serializable,
 		setContainer(null);
 	}
 
-	
 	public void setCargo(CargoPresentation cargo) {
 		this.cargo = cargo.getCargo();
 	}
-	
-	public ContainerDlgView getContainerDlg() {		
+
+	public void setEditCargo(CargoPresentation cargo) {
+		setCargo(cargo);
+		prepareCargoDialog(this.cargo);
+	}
+
+	public ContainerDlgView getContainerDlg() {
 		return containerDlg;
 	}
-	
+
 	public CargoDlgView getCargoDlg() {
 		return cargoDlg;
-	}	
+	}
 
 	public void setContainerDlg(ContainerDlgView containerDlg) {
 		this.containerDlg = containerDlg;
@@ -253,54 +260,84 @@ public class ContainerView extends BaseView implements Serializable,
 				orderService, billService, getBaseService());
 		containerDlg.addHandler(this);
 	}
-	
-	private void prepareCargoDialog() {
-		cargoDlg  = new CargoDlgView(cargo, articleService, getBaseService());
+
+	private void prepareCargoDialog(Cargo cargo) {
+		cargoDlg = new CargoDlgView(cargo, articleService, getBaseService());
 		cargoDlg.addHandler(this);
 	}
 
 	public void addCargo() {
-		cargo = new Cargo();
+		Cargo cargo = new Cargo();
 		cargo.setContainer(container);
 		container.getCargoes().add(cargo);
-		prepareCargoDialog();
+		prepareCargoDialog(cargo);
 	}
 
-	public void editCargo() {
-		prepareCargoDialog();
-	}
-	
 	public void deleteCargo() {
 		container.getCargoes().remove(cargo);
 		containerService.save(container);
 		cargo = null;
-		resreshContainers();		
+		resreshContainers();
 	}
-	
+
 	public String getCargoName() {
 		return new CargoPresentation(cargo).getArticle();
 	}
 
+	public String getFeatureName() {
+		return feature != null ? feature.toString() : ""; 
+	}
+	
+	public FeatureDlgView getFeatureDlg() {
+		return featureDlg;
+	}
+
+	public void addFeature() {
+		CargoArticleFeature feature = new CargoArticleFeature();
+		feature.setCargo(cargo);
+		prepareFeatureDialog(feature);
+	}
+	
+	public void setFeature(CargoArticleFeature feature) {
+		this.feature = feature;
+	}
+	
+	public void deleteFeature() {
+		cargo = feature.getCargo();		
+		cargo.getFeatures().remove(feature);
+		getBaseService().save(cargo);
+//		getBaseService().deleteObject(feature);
+		feature = null;
+		resreshContainers();
+	}
+	
+	private void prepareFeatureDialog(CargoArticleFeature feature) {
+		featureDlg =  new FeatureDlgView(feature, articleService, cargo.getArticle());
+	}
+	
 	@Override
 	public void handleAction(AbstractDlgView dialog, DialogActionEnum action) {
 		if (dialog instanceof ContainerDlgView) {
 			ContainerDlgView d = (ContainerDlgView) dialog;
 			if (DialogActionEnum.ACCEPT.equals(action)) {
-				container = containerService.save(container);
+				container = containerService.save(d.getContainer());
 				invoiceService.save(d.getInvoices(container));
 				orderService.save(d.getOrders(container));
 				billService.save(d.getBills(container));
-				resreshContainers();
 			}
 		} else if (dialog instanceof CargoDlgView) {
 			if (DialogActionEnum.ACCEPT.equals(action)) {
 				container = containerService.save(container);
 			}
 		}
+
+		if (DialogActionEnum.ACCEPT.equals(action)) {
+			resreshContainers();
+		}
 	}
-	
+
 	private void resreshContainers() {
-//		loadContainer(container);
+		loadContainer(container);
 		ContainerPresentation cp = new ContainerPresentation(container);
 		int index = containers.indexOf(cp);
 		if (index != -1) {
@@ -310,9 +347,10 @@ public class ContainerView extends BaseView implements Serializable,
 			containers.add(cp);
 		}
 	}
-	
+
 	public void createReport() {
-		DocumLogger.log("Создание отчета для контейнера: " + this.container.getNumber());
+		DocumLogger.log("Создание отчета для контейнера: "
+				+ this.container.getNumber());
 		reportingService.createReport(container);
 	}
 
