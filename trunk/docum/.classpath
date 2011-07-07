@@ -300,7 +300,6 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="lib/servlet-api.jar"/>
 	<classpathentry kind="lib" path="lib/jasypt-1.5.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
@@ -354,5 +353,6 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="lib/apache/servlet-api.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
