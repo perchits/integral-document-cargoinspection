@@ -212,9 +212,9 @@ public class ContainerView extends BaseView implements Serializable,
 			showErrorMessage(message);
 			addCallbackParam("dontShow", true);
 		} else {
-			container = new Container();
+			Container container = new Container();
 			container.setVoyage(selectedVoyage.getVoyage());
-			prepareContainerDialog();
+			prepareContainerDialog(container);
 		}
 	}
 
@@ -222,7 +222,7 @@ public class ContainerView extends BaseView implements Serializable,
 	public void editObject(ActionEvent actionEvent) {
 		super.editObject(actionEvent);
 		if (selectedVoyage != null) {
-			prepareContainerDialog();
+			prepareContainerDialog(container);
 		}
 	}
 
@@ -248,7 +248,7 @@ public class ContainerView extends BaseView implements Serializable,
 		this.containerDlg = containerDlg;
 	}
 
-	private void prepareContainerDialog() {
+	private void prepareContainerDialog(Container container) {
 		containerDlg = new ContainerDlgView(container, invoiceService,
 				orderService, billService, getBaseService());
 		containerDlg.addHandler(this);
