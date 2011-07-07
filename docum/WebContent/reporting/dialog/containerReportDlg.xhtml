@@ -8,7 +8,7 @@
 <p:outputPanel id="reportDlgPanel">
 	<h:form prependId="false">
 		<p:dialog width="320" id="reportDlgId" widgetVar="reportVar" modal="true"
-				  header="Отчет по контейнеру #{containerBean.container.number}">
+				  header="Отчет по контейнеру #{bean.container.number}">
 			<h:panelGrid width="100%" columns="1" cellpadding="1">
 				<h:outputLink value="../resources/reporting/resultReport.odt" styleClass="olive-color" >
 				   <h:outputText value="Нажмите сюда для получения отчета" />
