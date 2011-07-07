@@ -121,6 +121,9 @@
 		<java classname="org.apache.catalina.startup.Bootstrap" 
 			fork="true" classpathref="tomcat.class.path">
 			<jvmarg value="-Dcatalina.home=${TomcatDir}" />
+			<jvmarg value="-Xms128m" />
+			<jvmarg value="-Xmx512m" />
+			<jvmarg value="-XX:MaxPermSize=512m" />
 		</java>
 	</target>
 	
