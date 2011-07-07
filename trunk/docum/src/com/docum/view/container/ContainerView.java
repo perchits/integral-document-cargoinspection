@@ -274,7 +274,7 @@ public class ContainerView extends BaseView implements Serializable,
 		container.getCargoes().remove(cargo);
 		containerService.save(container);
 		cargo = null;
-		
+		resreshContainers();		
 	}
 	
 	public String getCargoName() {
@@ -290,15 +290,7 @@ public class ContainerView extends BaseView implements Serializable,
 				invoiceService.save(d.getInvoices(container));
 				orderService.save(d.getOrders(container));
 				billService.save(d.getBills(container));
-//				loadContainer(container);
-				ContainerPresentation cp = new ContainerPresentation(container);
-				int index = containers.indexOf(cp);
-				if (index != -1) {
-					containers.remove(index);
-					containers.add(index, cp);
-				} else {
-					containers.add(cp);
-				}
+				resreshContainers();
 			}
 		} else if (dialog instanceof CargoDlgView) {
 			if (DialogActionEnum.ACCEPT.equals(action)) {
@@ -306,6 +298,18 @@ public class ContainerView extends BaseView implements Serializable,
 				getBaseService().save(cargo.getDeclaredCondition());
 				container = containerService.save(container);				
 			}
+		}
+	}
+	
+	private void resreshContainers() {
+//		loadContainer(container);
+		ContainerPresentation cp = new ContainerPresentation(container);
+		int index = containers.indexOf(cp);
+		if (index != -1) {
+			containers.remove(index);
+			containers.add(index, cp);
+		} else {
+			containers.add(cp);
 		}
 	}
 	
