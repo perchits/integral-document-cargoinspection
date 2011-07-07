@@ -58,15 +58,6 @@ public class TestODFCreation extends TestCase {
 				new File("e:/Work/NCSP/Development/docum/project/src/test/testResources/testResult.odt"), 
 				new File("e:/Work/NCSP/Development/docum/project/src/test/testResources/testResult.pdf"));
 			officeConnection.disconnect();
-			
-			/*PropertyValue[] saveProps = new PropertyValue[1];
-			saveProps[0] = new PropertyValue();
-			saveProps[0].Name="FilterName";
-			saveProps[0].Value="writer_pdf_Export";			 
-			XComponentContext xContext = Bootstrap.bootstrap();
-			com.sun.star.lang.XMultiComponentFactory xMCF = xContext.getServiceManager();
-			XStorable myStorable = (XStorable)UnoRuntime.queryInterface(XStorable.class, odt);
-			myStorable.storeToURL("file:///B:/testResult.pdf", saveProps);*/ 
 		} catch(Exception e) {
 			TestCase.fail(e.getMessage());
 		}
