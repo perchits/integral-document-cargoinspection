@@ -120,9 +120,11 @@ public class VoyagePresentation implements Serializable {
 	
 	public static String joinVoyageInfo(Voyage voyage){
 		if (voyage != null && voyage.getVessel() != null) {
-			return String.format("%1$s, %2$s,  %3$td.%3$tm.%3$tY", voyage
-					.getVessel().getName(), voyage.getNumber(), voyage
-					.getArrivalDate());
+			String arrivalDate = voyage.getArrivalDate() != null ?
+					String.format(", %1$td.%1$tm.%1$tY", voyage.getArrivalDate()) : "";
+			
+			return String.format("%1$s, %2$s  %3$s", voyage
+					.getVessel().getName(), voyage.getNumber(), arrivalDate);
 		} else {
 			return "Судозаход не выбран";
 		}

@@ -25,7 +25,7 @@
 			<p:commandButton type="push" value="#{(deleteTitle == null) ? 'Удалить' : deleteTitle}"
 				actionListener="#{bean[beforeDeleteObject]}"
 				oncomplete="beforeShow(#{gridId}ConfirmVar,args)"
-				image="ui-icon ui-icon-minus" update="#{gridId}ConfirmId,growl" 
+				image="ui-icon-trash" update="#{gridId}ConfirmId,growl" 
 				title="Удалить"/>
 
 			<p:commandButton type="push" update="#{gridId},#{update}" value="#{(refreshTitle == null) ? 'Обновить' : refreshTitle}"

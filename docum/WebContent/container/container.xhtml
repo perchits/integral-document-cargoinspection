@@ -28,7 +28,7 @@
 						selectListener="#{containerBean.voyageSelect}"
 						onSelectUpdate="containers,infoPanel,containerTitle">
 					</p:autoComplete>
-					
+
 					<ui:include src="/WEB-INF/includes/baseCrudToolBar.xhtml">
 						<ui:param name="bean" value="#{containerBean}" />
 						<ui:param name="gridId" value="containers" />
@@ -39,11 +39,11 @@
 						<ui:param name="refreshObjects" value="refreshObjects" />
 						<ui:param name="createReport" value="createReport" />
 					</ui:include>
-					
+
 					<ui:include src="/reporting/dialog/containerReportDlg.xhtml">
 						<ui:param name="bean" value="#{containerBean}" />
 					</ui:include>
-					
+
 					<p:dataTable selectionMode="single" styleClass="cellSmallText"
 						id="containers" var="container"
 						value="#{containerBean.containers}"
@@ -105,7 +105,7 @@
 								<h:outputText value="#{containerBean.container.number}" />
 							</h:panelGroup>
 							<h:panelGroup styleClass="table-btns" id="table-btns">
-								<p:commandButton title="Добавить груз" image="ui-icon-plusthick"
+								<p:commandButton title="Добавить груз" image="ui-icon-document"
 									actionListener="#{containerBean.addCargo}"
 									oncomplete="beforeShow(infoPanelVar,args)"
 									update="infoPanelDlgPanel,growl" />
@@ -168,17 +168,21 @@
 							</h:panelGroup>
 						</h:panelGroup>
 						<ui:repeat value="#{containerBean.containerCargoes}" var="wcargo">
-							<p:panel styleClass="container-cargo-panel">
+							<p:panel styleClass="container-cargo-panel"> 
 								<f:facet name="header">
 									<h:panelGroup styleClass="table-title">
 								#{wcargo.article}, #{wcargo.articleCategory}
 								</h:panelGroup>
 									<h:panelGroup styleClass="table-btns" id="table-btns">
 										<p:commandButton title="Редактировать груз"
-											image="ui-icon-wrench" update="cargo-list,cargo-info">
+											image="ui-icon-wrench"
+											oncomplete="beforeShow(infoPanelVar,args)"
+											update="infoPanelDlgPanel,growl">
+											<f:setPropertyActionListener
+												target="#{containerBean.editCargo}" value="#{wcargo}" />
 										</p:commandButton>
 										<p:commandButton title="Удалить груз"
-											image="ui-icon-minusthick"
+											image="ui-icon-trash"
 											oncomplete="beforeShow(infoPanelConfirmVar,args)"
 											update="infoPanelConfirmId">
 											<f:setPropertyActionListener target="#{containerBean.cargo}"
@@ -189,12 +193,35 @@
 
 								<h:outputText styleClass="olive-color" value="Поставщик: " />
 								<h:outputText value="#{wcargo.supplier}" />
+								<br />
+								<h:panelGroup styleClass="feature-title" layout="block">
+									<p:commandLink onmouseover="" value="Характеристики"
+												action="#{containerBean.addFeature}"
+												oncomplete="beforeShow(featureIdVar,args)"
+												update="featureIdDlgPanel,growl">
+												<f:setPropertyActionListener target="#{containerBean.cargo}"
+												value="#{wcargo}" />
+												</p:commandLink>									
+								</h:panelGroup>
+
 								<ul>
 									<ui:repeat value="#{wcargo.features}" var="feature">
-										<li><h:outputText styleClass="olive-color"
-												value="#{feature.feature.name}: " /> <h:outputText
-												value="#{feature.value}" />
-										</li>
+										<li><div><h:outputText styleClass="olive-color"
+												value="#{feature.feature.name}: " /> 
+												<p:commandLink																								
+												value="#{feature.value}" 												
+												oncomplete="beforeShow(featureVar,args)"
+												update="featureDlgPanel,growl"/>	    												
+												<p:commandButton image="ui-icon-trash" 
+												oncomplete="beforeShow(featureIdConfirmVar,args)"
+												update="featureIdConfirmId"
+												title="Удалить характеристику" 
+												styleClass="inline-delete" >
+												<f:setPropertyActionListener target="#{containerBean.feature}"
+												value="#{feature}" />
+												</p:commandButton>
+												</div>
+											</li>
 									</ui:repeat>
 								</ul>
 							Упаковка
@@ -205,7 +232,10 @@
 												value="#{pack.measure.name}: " /> <h:outputText
 												value="#{pack.count}">
 												<f:convertNumber maxFractionDigits="2" />
-											</h:outputText> <h:panelGroup rendered="#{not empty pack.calibres}">
+											</h:outputText>
+											<p:commandButton image="ui-icon-trash" title="Удалить упаковку" styleClass="inline-delete" >
+												</p:commandButton> 
+											<h:panelGroup rendered="#{not empty pack.calibres}">											
 												<ul>
 													<ui:repeat value="#{pack.calibres}" var="calibre">
 														<li><h:outputText styleClass="olive-color"
@@ -213,10 +243,13 @@
 																value="#{calibre.packageCount}">
 																<f:convertNumber maxFractionDigits="2" />
 															</h:outputText>
-														</li>
+															<p:commandButton image="ui-icon-trash" title="Удалить калибр" styleClass="inline-delete" >
+															</p:commandButton>
+															</li>
 													</ui:repeat>
 												</ul>
-											</h:panelGroup></li>
+											</h:panelGroup>
+										</li>
 									</ui:repeat>
 								</ul>
 							</p:panel>
@@ -242,6 +275,7 @@
 			<ui:param name="gridId" value="infoPanel" />
 			<ui:param name="title" value="title" />
 			<ui:param name="rendered" value="#{containerBean.cargoDlg != null}" />
+			<ui:param name="update" value="containers" />
 		</ui:include>
 
 		<ui:include src="/WEB-INF/includes/deleteConfirmation.xhtml">
@@ -261,8 +295,24 @@
 			<ui:param name="deleteObject" value="deleteCargo" />
 			<ui:param name="update" value="containers" />
 		</ui:include>
-
-
+ 
+ 		<ui:include src="/container/dialog/featureDlg.xhtml">
+			<ui:param name="bean" value="#{containerBean.featureDlg}" />
+			<ui:param name="gridId" value="featureId" />
+			<ui:param name="title" value="title" />
+			<ui:param name="rendered" value="#{containerBean.featureDlg != null}" />
+			<ui:param name="update" value="infoPanel" />
+		</ui:include>
+ 
+ 		<ui:include src="/WEB-INF/includes/deleteConfirmation.xhtml">
+			<ui:param name="message"
+				value="Удалить свойство груза '#{containerBean.featureName}'?" />
+			<ui:param name="gridId" value="featureId" />
+			<ui:param name="bean" value="#{containerBean}" />
+			<ui:param name="deleteObject" value="deleteFeature" />
+			<ui:param name="update" value="infoPanel" />
+		</ui:include>
+ 
 	</ui:define>
 
 </ui:composition>
