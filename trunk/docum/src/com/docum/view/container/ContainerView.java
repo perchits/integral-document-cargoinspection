@@ -294,9 +294,7 @@ public class ContainerView extends BaseView implements Serializable,
 			}
 		} else if (dialog instanceof CargoDlgView) {
 			if (DialogActionEnum.ACCEPT.equals(action)) {
-				getBaseService().save(cargo.getActualCondition());
-				getBaseService().save(cargo.getDeclaredCondition());
-				container = containerService.save(container);				
+				container = containerService.save(container);
 			}
 		}
 	}

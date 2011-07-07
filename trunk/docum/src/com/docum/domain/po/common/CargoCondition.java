@@ -8,7 +8,8 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
 
 import com.docum.domain.po.IdentifiedEntity;
@@ -16,12 +17,10 @@ import com.docum.util.EqualsHelper;
 import com.docum.util.HashCodeHelper;
 
 @Entity
-public class CargoCondition extends IdentifiedEntity {
+@Inheritance(strategy=InheritanceType.JOINED)
+public abstract class CargoCondition extends IdentifiedEntity {
 	private static final long serialVersionUID = 6450548355480762800L;
 
-	@ManyToOne(optional=false)
-	private Cargo cargo;
-	
 	@OneToMany(mappedBy="condition", cascade=CascadeType.ALL, orphanRemoval=true, fetch=FetchType.EAGER)
 	private Set<CargoPackage> cargoPackages = new HashSet<CargoPackage>();
 	
@@ -31,19 +30,14 @@ public class CargoCondition extends IdentifiedEntity {
 		super();
 	}
 
-	public CargoCondition(Cargo cargo, Double temperature) {
+	public CargoCondition(Double temperature) {
 		super();
-		this.cargo = cargo;
 		this.temperature = temperature;
 	}
 
-	public Cargo getCargo() {
-		return cargo;
-	}
+	public abstract Cargo getCargo();
 
-	public void setCargo(Cargo cargo) {
-		this.cargo = cargo;
-	}
+	public abstract void setCargo(Cargo cargo);
 	
 	public List<CargoPackage> getCargoPackages() {
 		return new ArrayList<CargoPackage>(cargoPackages);
