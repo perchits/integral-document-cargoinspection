@@ -3,6 +3,7 @@ package com.docum.test.data;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.docum.domain.po.common.ActualCargoCondition;
 import com.docum.domain.po.common.Article;
 import com.docum.domain.po.common.ArticleCategory;
 import com.docum.domain.po.common.ArticleFeature;
@@ -12,6 +13,7 @@ import com.docum.domain.po.common.CargoCondition;
 import com.docum.domain.po.common.CargoPackage;
 import com.docum.domain.po.common.CargoPackageCalibre;
 import com.docum.domain.po.common.Container;
+import com.docum.domain.po.common.DeclaredCargoCondition;
 import com.docum.domain.po.common.Measure;
 import com.docum.domain.po.common.Supplier;
 
@@ -54,8 +56,8 @@ public class CargoDataPreparator {
 			Cargo cargo = new Cargo(articleCounter.next(), supplierCounter.next(),
 					containerCounter.next());
 			persister.persist(cargo);
-			cargo.setDeclaredCondition(prepareCondition(persister, cargo));
-			cargo.setActualCondition(prepareCondition(persister, cargo));
+			cargo.setDeclaredCondition(prepareDeclaredCondition(persister, cargo));
+			cargo.setActualCondition(prepareActualCondition(persister, cargo));
 			cargo.setFeatures(prepareFeatures(persister, cargo));
 			cargo.setArticleCategory(prepareCategory(persister, cargo));
 			result.add(cargo);
@@ -90,13 +92,20 @@ public class CargoDataPreparator {
 		return result;
 	}
 
-	private static CargoCondition prepareCondition(TestDataPersister persister, Cargo cargo) {
-		CargoCondition condition = new CargoCondition(cargo, temperatureCounter.next());
+	private static DeclaredCargoCondition prepareDeclaredCondition(TestDataPersister persister, Cargo cargo) {
+		DeclaredCargoCondition condition = new DeclaredCargoCondition(cargo, temperatureCounter.next());
 		persister.persist(condition);
 		condition.setCargoPackages(preparePackages(persister, condition));
 		return condition;
 	}
 
+	private static ActualCargoCondition prepareActualCondition(TestDataPersister persister, Cargo cargo) {
+		ActualCargoCondition condition = new ActualCargoCondition(cargo, temperatureCounter.next());
+		persister.persist(condition);
+		condition.setCargoPackages(preparePackages(persister, condition));
+		return condition;
+	}
+	
 	private static List<CargoPackage> preparePackages(TestDataPersister persister,
 			CargoCondition condition) {
 		List<CargoPackage> packages = new ArrayList<CargoPackage>();

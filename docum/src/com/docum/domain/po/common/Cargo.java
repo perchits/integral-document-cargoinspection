@@ -1,7 +1,6 @@
 package com.docum.domain.po.common;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -11,17 +10,13 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OrderColumn;
+import javax.persistence.OneToOne;
 
 import com.docum.domain.po.IdentifiedEntity;
 
 @Entity
 public class Cargo extends IdentifiedEntity {
 	private static final long serialVersionUID = 4275515653210816278L;
-	
-	private static enum ConditionEnum {
-		DECLARED, ACTUAL
-	}
 	
 	@ManyToOne(optional=false)
 	private Article article;
@@ -38,11 +33,12 @@ public class Cargo extends IdentifiedEntity {
 	@ManyToOne(optional=false)
 	private Container container;
 	
-	@OneToMany(cascade=CascadeType.ALL, orphanRemoval=true, fetch=FetchType.EAGER)
-	@OrderColumn(nullable=false)
-	private List<CargoCondition> conditions = Arrays.asList(new CargoCondition[] { new CargoCondition(this, 0.0),
-					new CargoCondition(this, 0.0) });
+	@OneToOne
+	private DeclaredCargoCondition declaredCondition;
 
+	@OneToOne
+	private ActualCargoCondition actualCondition;
+	
 	public Cargo(){
 		super();
 	}
@@ -80,20 +76,20 @@ public class Cargo extends IdentifiedEntity {
 		this.supplier = supplier;
 	}
 
-	public CargoCondition getDeclaredCondition() {
-		return conditions.get(ConditionEnum.DECLARED.ordinal());
+	public DeclaredCargoCondition getDeclaredCondition() {
+		return declaredCondition;
 	}
 
-	public void setDeclaredCondition(CargoCondition declaredCondition) {
-		conditions.set(ConditionEnum.DECLARED.ordinal(), declaredCondition);
+	public void setDeclaredCondition(DeclaredCargoCondition declaredCondition) {
+		this.declaredCondition = declaredCondition;
 	}
 
-	public CargoCondition getActualCondition() {
-		return conditions.get(ConditionEnum.ACTUAL.ordinal());
+	public ActualCargoCondition getActualCondition() {
+		return actualCondition;
 	}
 
-	public void setActualCondition(CargoCondition actualCondition) {
-		conditions.set(ConditionEnum.ACTUAL.ordinal(), actualCondition);
+	public void setActualCondition(ActualCargoCondition actualCondition) {
+		this.actualCondition = actualCondition;
 	}
 
 	public ArticleCategory getArticleCategory() {
