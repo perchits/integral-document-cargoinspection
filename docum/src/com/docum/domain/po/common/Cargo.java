@@ -13,6 +13,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import com.docum.domain.po.IdentifiedEntity;
+import com.docum.util.EqualsHelper;
+import com.docum.util.HashCodeHelper;
 
 @Entity
 public class Cargo extends IdentifiedEntity {
@@ -107,6 +109,22 @@ public class Cargo extends IdentifiedEntity {
 	public void setFeatures(List<CargoArticleFeature> features) {		
 		this.features.clear();
 		this.features.addAll(features);
+	}
+	
+	public boolean equals(Object obj) {
+		if (obj == this) {
+			return true;
+		}
+
+		if (!(obj instanceof Cargo)) {
+			return false;
+		}
+
+		return EqualsHelper.equals(getId(), ((Cargo) obj).getId());
+	}
+
+	public int hashCode() {
+		return HashCodeHelper.hashCode(getId());
 	}
    
 	@Override

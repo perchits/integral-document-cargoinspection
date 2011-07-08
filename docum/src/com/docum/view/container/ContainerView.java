@@ -305,8 +305,10 @@ public class ContainerView extends BaseView implements Serializable,
 	public void deleteFeature() {
 		cargo = feature.getCargo();		
 		cargo.getFeatures().remove(feature);
-		getBaseService().save(cargo);
-//		getBaseService().deleteObject(feature);
+		feature.setCargo(null);
+		containerService.save(container);
+//		getBaseService().save(cargo);
+//		getBaseService().deleteObject(feature.getClass(),feature.getId());
 		feature = null;
 		resreshContainers();
 	}

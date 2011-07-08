@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
 import com.docum.domain.po.IdentifiedEntity;
+import com.docum.util.EqualsHelper;
+import com.docum.util.HashCodeHelper;
 
 @Entity
 public class CargoArticleFeature  extends IdentifiedEntity {
@@ -82,4 +84,25 @@ public class CargoArticleFeature  extends IdentifiedEntity {
 	public void setEnglishValue(String englishValue) {
 		this.englishValue = englishValue;
 	}
+	
+	public boolean equals(Object obj) {
+		if (obj == this) {
+			return true;
+		}
+
+		if (!(obj instanceof CargoArticleFeature)) {
+			return false;
+		}
+
+		return EqualsHelper.equals(getId(), ((CargoArticleFeature) obj).getId());
+	}
+
+	public int hashCode() {
+		return HashCodeHelper.hashCode(getId());
+	}
+	
+	public String toString(){		
+		return feature != null ? feature.getName() : "";
+	}
+	
 }
