@@ -103,12 +103,22 @@ public class Cargo extends IdentifiedEntity {
 	}
 
 	public List<CargoArticleFeature> getFeatures() {
-		return new ArrayList <CargoArticleFeature>(features);
+		return new ArrayList<CargoArticleFeature>(features);
 	}
 
 	public void setFeatures(List<CargoArticleFeature> features) {		
 		this.features.clear();
 		this.features.addAll(features);
+	}
+	
+	public void addFeature(CargoArticleFeature feature) {
+		features.add(feature);
+		feature.setCargo(this);
+	}
+
+	public void removeFeature(CargoArticleFeature feature) {
+		features.remove(feature);
+		feature.setCargo(null);
 	}
 	
 	public boolean equals(Object obj) {
