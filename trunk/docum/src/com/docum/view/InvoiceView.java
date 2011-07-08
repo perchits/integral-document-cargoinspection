@@ -48,7 +48,7 @@ public class InvoiceView extends AbstractDocumentView {
 		if (voyage != null) {
 			List<Invoice> invoices = invoiceService.getInvoicesByVoyage(voyage.getId());
 			super.setObjects(invoices);
-			if (invoices != null && invoices.size() >= 0) {
+			if (invoices != null && invoices.size() > 0) {
 				this.invoice = invoices.get(0);
 			}
 		}
