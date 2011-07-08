@@ -71,7 +71,8 @@ public class CargoArticleFeature  extends IdentifiedEntity {
 	}
 
 	public String getValue() {
-		return feature.isList() ? featureInstance.getName() : value;
+		return feature.isList() ? 
+				featureInstance != null ? featureInstance.getName(): "" : value;
 	}
 
 	public void setValue(String featureValue) {

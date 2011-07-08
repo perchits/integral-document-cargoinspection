@@ -206,21 +206,10 @@
 
 								<ul>
 									<ui:repeat value="#{wcargo.features}" var="feature">
-										<li><div><h:outputText styleClass="olive-color"
+										<li>
+										<h:outputText styleClass="olive-color"
 												value="#{feature.feature.name}: " /> 
-												<p:commandLink																								
-												value="#{feature.feature.name}" 												
-												oncomplete="beforeShow(featureVar,args)"
-												update="featureDlgPanel,growl"/>	    												
-												<p:commandButton image="ui-icon-trash" 
-												oncomplete="beforeShow(featureIdConfirmVar,args)"
-												update="featureIdConfirmId"
-												title="Удалить характеристику" 
-												styleClass="inline-delete" >
-												<f:setPropertyActionListener target="#{containerBean.feature}"
-												value="#{feature}" />
-												</p:commandButton>
-												</div>
+												<h:outputText value="#{feature.value}" />										
 											</li>
 									</ui:repeat>
 								</ul>
@@ -233,7 +222,7 @@
 												value="#{pack.count}">
 												<f:convertNumber maxFractionDigits="2" />
 											</h:outputText>
-											<p:commandButton image="ui-icon-trash" title="Удалить упаковку" styleClass="inline-delete" >
+											<p:commandButton style="display:none" image="ui-icon-trash" title="Удалить упаковку" styleClass="inline-delete" >
 												</p:commandButton> 
 											<h:panelGroup rendered="#{not empty pack.calibres}">											
 												<ul>
@@ -243,7 +232,7 @@
 																value="#{calibre.packageCount}">
 																<f:convertNumber maxFractionDigits="2" />
 															</h:outputText>
-															<p:commandButton image="ui-icon-trash" title="Удалить калибр" styleClass="inline-delete" >
+															<p:commandButton style="display:none" image="ui-icon-trash" title="Удалить калибр" styleClass="inline-delete" >
 															</p:commandButton>
 															</li>
 													</ui:repeat>
