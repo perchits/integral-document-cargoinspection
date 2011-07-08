@@ -10,14 +10,14 @@
 	<ui:param name="deleteObject" value="deleteObject" />
 	<ui:define name="dialogBody">
 		<h:outputLabel for="voyageVessel" value="Судно: *" />
-		<h:selectOneMenu id="voyageVessel"
+		<h:selectOneMenu id="voyageVessel" required="true"
 			styleClass="ui-inputfield ui-widget ui-state-default ui-corner-all"
 			value="#{bean[selectedVessel]}">
 			<f:converter converterId="vesselConverter" />
 			<f:selectItem itemLabel="Выберите судно..." itemValue=""
 				noSelectionOption="true" itemDisabled="true" />
 			<f:selectItems value="#{bean[vessels]}" var="vsls"
-				itemLabel="#{vsls.name}" />
+				itemLabel="#{vsls.name}"/>
 		</h:selectOneMenu>
 		<h:outputLabel for="voyageNumber" value="Рейс: *" />
 		<p:inputText size="30" value="#{bean.voyage.number}"
