@@ -28,7 +28,7 @@ public class CargoPresentation implements Serializable {
 		if (cargo != null && cargo.getContainer() != null) {
 			ContainerStateEnum sate = cargo.getContainer().getState();
 			if (ContainerStateEnum.HANDLED.equals(sate)
-					|| ContainerStateEnum.REPORTED.equals(sate)) {
+					|| ContainerStateEnum.FINISHED.equals(sate)) {
 				return cargo.getActualCondition();
 			} else {
 				return cargo.getDeclaredCondition();

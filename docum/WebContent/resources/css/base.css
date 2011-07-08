@@ -107,19 +107,27 @@ table td {
 }
 
 /**/
-.not-handled-color td:nth-child(1) {
+.container-not-handled-color td:nth-child(1) {
 	background: #FFE3E3;
 }
 
-.handled-color td:nth-child(1) {
+.container-handled-color td:nth-child(1) {
+	background: #FFE3FF;
+}
+
+.container-ready-color td:nth-child(1) {
 	background: #FFFFE3;
 }
 
-.reported-color td:nth-child(1) {
+.container-report-ready-color td:nth-child(1) {
+	background: #E3FFFF;
+}
+
+.container-finished-color td:nth-child(1) {
 	background: #E3FFE3;
 }
 
-.abandoned-color td:nth-child(1) {
+.container-abandoned-color td:nth-child(1) {
 	background: #E3E3E3;
 }
 

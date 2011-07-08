@@ -85,7 +85,7 @@ public class CargoArticleFeature  extends IdentifiedEntity {
 	public void setEnglishValue(String englishValue) {
 		this.englishValue = englishValue;
 	}
-	
+
 	public boolean equals(Object obj) {
 		if (obj == this) {
 			return true;
@@ -94,11 +94,17 @@ public class CargoArticleFeature  extends IdentifiedEntity {
 		if (!(obj instanceof CargoArticleFeature)) {
 			return false;
 		}
-
+		
+		if(getId() == null || ((CargoArticleFeature) obj).getId() == null) {
+			return false;
+		}
 		return EqualsHelper.equals(getId(), ((CargoArticleFeature) obj).getId());
 	}
 
 	public int hashCode() {
+		if(getId() == null) {
+			return super.hashCode();
+		}
 		return HashCodeHelper.hashCode(getId());
 	}
 	

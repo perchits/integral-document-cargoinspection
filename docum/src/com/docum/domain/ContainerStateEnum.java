@@ -3,7 +3,9 @@ package com.docum.domain;
 public enum ContainerStateEnum {
 	NOT_HANDLED("Не отработан"),
 	HANDLED("Отработан"),
-	REPORTED("Отчет сдан"),
+	READY("Подготовлен"),
+	REPORT_READY("Отчет готов"),
+	FINISHED("Отчет отправлен"),
 	ABANDONED("Невозможно отработать");
 
 	private final String name;

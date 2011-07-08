@@ -1,6 +1,8 @@
 package com.docum.domain.po.common;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -108,7 +110,13 @@ public class Cargo extends IdentifiedEntity {
 	}
 
 	public List<CargoArticleFeature> getFeatures() {
-		return new ArrayList<CargoArticleFeature>(features);
+		List<CargoArticleFeature> result = new ArrayList<CargoArticleFeature>(features);
+		Collections.sort(result, new Comparator<CargoArticleFeature>(){
+			@Override
+			public int compare(CargoArticleFeature o1, CargoArticleFeature o2) {
+				return o1.getFeature().getName().compareTo(o2.getFeature().getName());
+			}});
+		return result;
 	}
 
 	public void setFeatures(List<CargoArticleFeature> features) {
