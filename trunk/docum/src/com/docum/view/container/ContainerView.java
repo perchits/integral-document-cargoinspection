@@ -267,9 +267,7 @@ public class ContainerView extends BaseView implements Serializable,
 	}
 
 	public void addCargo() {
-		Cargo cargo = new Cargo();
-		cargo.setContainer(container);
-		container.getCargoes().add(cargo);
+		Cargo cargo = new Cargo();				
 		prepareCargoDialog(cargo);
 	}
 
@@ -321,14 +319,17 @@ public class ContainerView extends BaseView implements Serializable,
 	public void handleAction(AbstractDlgView dialog, DialogActionEnum action) {
 		if (dialog instanceof ContainerDlgView) {
 			ContainerDlgView d = (ContainerDlgView) dialog;
-			if (DialogActionEnum.ACCEPT.equals(action)) {
+			if (DialogActionEnum.ACCEPT.equals(action)) {				
 				container = containerService.save(d.getContainer());
 				invoiceService.save(d.getInvoices(container));
 				orderService.save(d.getOrders(container));
 				billService.save(d.getBills(container));
 			}
 		} else if (dialog instanceof CargoDlgView) {
+			CargoDlgView d = (CargoDlgView) dialog;
 			if (DialogActionEnum.ACCEPT.equals(action)) {
+				d.getCargo().setContainer(container);				
+				container.getCargoes().add(d.getCargo());
 				container = containerService.save(container);
 			}
 		}

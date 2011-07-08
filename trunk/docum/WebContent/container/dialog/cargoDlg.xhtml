@@ -11,7 +11,7 @@
 	<ui:define name="dialogBody">
 
 		<h:outputLabel for="article" value="Товар:" />
-		<h:selectOneMenu id="article" label="Товары"
+		<h:selectOneMenu id="article" label="Товары" required="true"
 			styleClass="ui-inputfield ui-widget ui-state-default ui-corner-all"
 			value="#{bean.cargo.article}">
 			<f:converter converterId="articleConverter" />
@@ -25,7 +25,7 @@
 
 		<h:outputLabel for="articleCategory" value="Категория:" />
 		<p:outputPanel id="articleCategory">
-			<h:selectOneMenu label="Категории"
+			<h:selectOneMenu label="Категории" required="true"
 				styleClass="ui-inputfield ui-widget ui-state-default ui-corner-all"
 				value="#{bean.cargo.articleCategory}">
 				<f:converter converterId="articleCategoryConverter" />
