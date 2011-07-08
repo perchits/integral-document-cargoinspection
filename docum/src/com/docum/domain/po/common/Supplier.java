@@ -45,5 +45,10 @@ public class Supplier extends IdentifiedEntity {
 	public int hashCode() {
 		return HashCodeHelper.hashCode(getId());
 	}
+	
+	@Override
+	public String toString(){		
+		return company != null ? company.getName() : "";
+	}
 
 }
