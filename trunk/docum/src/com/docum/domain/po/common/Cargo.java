@@ -1,10 +1,6 @@
 package com.docum.domain.po.common;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -109,19 +105,12 @@ public class Cargo extends IdentifiedEntity {
 		this.articleCategory = articleCategory;
 	}
 
-	public List<CargoArticleFeature> getFeatures() {
-		List<CargoArticleFeature> result = new ArrayList<CargoArticleFeature>(features);
-		Collections.sort(result, new Comparator<CargoArticleFeature>(){
-			@Override
-			public int compare(CargoArticleFeature o1, CargoArticleFeature o2) {
-				return o1.getFeature().getName().compareTo(o2.getFeature().getName());
-			}});
-		return result;
+	public Set<CargoArticleFeature> getFeatures() {		
+		return features;
 	}
 
-	public void setFeatures(List<CargoArticleFeature> features) {
-		this.features.clear();
-		this.features.addAll(features);
+	public void setFeatures(Set<CargoArticleFeature> features) {		
+		this.features= features;
 	}
 
 	public void addFeature(CargoArticleFeature feature) {

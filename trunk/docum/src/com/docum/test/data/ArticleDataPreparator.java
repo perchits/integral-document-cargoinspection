@@ -1,7 +1,9 @@
 package com.docum.test.data;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.docum.domain.po.common.Article;
 import com.docum.domain.po.common.ArticleCategory;
@@ -105,9 +107,9 @@ public class ArticleDataPreparator {
 		return feature;
 	}
 
-	private static List<ArticleCategory> prepareCategories(TestDataPersister persister,
+	private static Set<ArticleCategory> prepareCategories(TestDataPersister persister,
 			Article article, String[][] categoryNames) {
-		List<ArticleCategory> result = new ArrayList<ArticleCategory>();
+		Set<ArticleCategory> result = new HashSet<ArticleCategory>();
 		for(String[] rec : categoryNames) {
 			result.add(new ArticleCategory(article, rec[0], rec[1]));
 		}
