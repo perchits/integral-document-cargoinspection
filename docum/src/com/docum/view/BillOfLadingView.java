@@ -48,7 +48,7 @@ public class BillOfLadingView extends AbstractDocumentView {
 		if (voyage != null) {
 			List<BillOfLading> billOfLadings = billOfLadingService.getBillsByVoyage(voyage.getId()); 
 			super.setObjects(billOfLadings);
-			if (billOfLadings != null && billOfLadings.size() >= 0) {
+			if (billOfLadings != null && billOfLadings.size() > 0) {
 				this.billOfLading = billOfLadings.get(0);
 			}
 		}

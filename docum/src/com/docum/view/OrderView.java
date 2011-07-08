@@ -48,7 +48,7 @@ public class OrderView extends AbstractDocumentView {
 		if (voyage != null) {
 			List<PurchaseOrder> orders = purchaseOrderService.getOrdersByVoyage(voyage.getId());
 			super.setObjects(orders);
-			if (orders != null && orders.size() >= 0) {
+			if (orders != null && orders.size() > 0) {
 				this.order = orders.get(0);
 			}
 		}
