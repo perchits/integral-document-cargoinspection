@@ -2,7 +2,10 @@ package com.docum.service.impl;
 
 import java.io.File;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.faces.context.FacesContext;
 
@@ -86,21 +89,38 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 		String props[] = result.split("\\.");
 		Object propertyValue = XMLUtil.getObjectProperty(container, props[0]);
 		if (propertyValue != null) {
-			if (propertyValue instanceof List) {
+			if (propertyValue instanceof List && props.length == 1) {
 				@SuppressWarnings("unchecked")
 				List<Object> objects = (List<Object>) propertyValue;
-				StringBuffer stringBuffer = new StringBuffer();
+				node.setNodeValue(getResult(objects));
+			} else if (propertyValue instanceof List && props.length == 2) {
+				@SuppressWarnings("unchecked")
+				List<Object> objects = (List<Object>) propertyValue;
+				List<Object> values = new ArrayList<Object>();
 				for (Object object: objects) {
-					stringBuffer.append(object).append(", ");
+					values.add(XMLUtil.propertyUtilsBean.getSimpleProperty(object, props[1]));
 				}
-				int length = stringBuffer.length();
-				stringBuffer.replace(length - 2, length - 1 , "");
-				node.setNodeValue(stringBuffer.toString());
+				node.setNodeValue(getResult(values));
 			} else {
 				node.setNodeValue(
 					XMLUtil.propertyUtilsBean.getNestedProperty(container, result).toString());
 			}
 		}
+	}
+	
+	private String getResult(List<Object> data) {
+		StringBuffer result = new StringBuffer();
+		Set<Object> uniqueObjects = new HashSet<Object>();
+		for (Object object: data) {
+			uniqueObjects.add(object.toString());
+		}
+		for (Object object: uniqueObjects) {
+			result.append(object).append(", ");
+		}
+		int length = result.length();
+		result.replace(length - 2, length - 1 , "");
+		
+		return result.toString();
 	}
 
 }
