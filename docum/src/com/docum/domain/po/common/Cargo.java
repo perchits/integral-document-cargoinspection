@@ -19,36 +19,35 @@ import com.docum.util.HashCodeHelper;
 @Entity
 public class Cargo extends IdentifiedEntity {
 	private static final long serialVersionUID = 4275515653210816278L;
-	
-	@ManyToOne(optional=false)
+
+	@ManyToOne(optional = false)
 	private Article article;
 
 	@ManyToOne
 	private ArticleCategory articleCategory;
 
-	@OneToMany(mappedBy="cargo", cascade=CascadeType.ALL, orphanRemoval=true, fetch=FetchType.EAGER)
+	@OneToMany(mappedBy = "cargo", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	private Set<CargoArticleFeature> features = new HashSet<CargoArticleFeature>();
-	
-	@ManyToOne(optional=false)
+
+	@ManyToOne(optional = false)
 	private Supplier supplier;
-	
-	@ManyToOne(optional=false)
+
+	@ManyToOne(optional = false)
 	private Container container;
-	
+
 	@OneToOne
 	private DeclaredCargoCondition declaredCondition;
 
 	@OneToOne
 	private ActualCargoCondition actualCondition;
-	
-	public Cargo(){
+
+	public Cargo() {
 		super();
 	}
-	
-	public Cargo(Article article, Supplier supplier,
-			Container container) {
+
+	public Cargo(Article article, Supplier supplier, Container container) {
 		super();
-		this.article = article;
+		this.setArticle(article);
 		this.supplier = supplier;
 		this.container = container;
 	}
@@ -57,9 +56,15 @@ public class Cargo extends IdentifiedEntity {
 		return article;
 	}
 
-
-	public void setArticle(Article goods) {
-		this.article = goods;
+	public void setArticle(Article article) {
+		if (article == null || article.equals(this.article)) {
+			return;
+		}
+		this.features.clear();
+		for (ArticleFeature feature : article.getFeatures()) {
+			this.addFeature(new CargoArticleFeature(this, feature));
+		}
+		this.article = article;
 	}
 
 	public Container getContainer() {
@@ -106,11 +111,11 @@ public class Cargo extends IdentifiedEntity {
 		return new ArrayList<CargoArticleFeature>(features);
 	}
 
-	public void setFeatures(List<CargoArticleFeature> features) {		
+	public void setFeatures(List<CargoArticleFeature> features) {
 		this.features.clear();
 		this.features.addAll(features);
 	}
-	
+
 	public void addFeature(CargoArticleFeature feature) {
 		features.add(feature);
 		feature.setCargo(this);
@@ -120,7 +125,7 @@ public class Cargo extends IdentifiedEntity {
 		features.remove(feature);
 		feature.setCargo(null);
 	}
-	
+
 	public boolean equals(Object obj) {
 		if (obj == this) {
 			return true;
@@ -136,9 +141,9 @@ public class Cargo extends IdentifiedEntity {
 	public int hashCode() {
 		return HashCodeHelper.hashCode(getId());
 	}
-   
+
 	@Override
-	public String toString(){		
+	public String toString() {
 		return article != null ? article.getName() : "";
 	}
 }

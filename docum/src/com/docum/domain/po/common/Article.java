@@ -1,9 +1,13 @@
 package com.docum.domain.po.common;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 
 import com.docum.domain.po.IdentifiedEntity;
@@ -16,10 +20,10 @@ public class Article extends IdentifiedEntity {
 
 	private String name;
 	private String englishName;
-	@OneToMany(mappedBy = "article")
-	private List<ArticleCategory> categories = new ArrayList<ArticleCategory>();
-	@OneToMany(mappedBy = "article")
-	private List<ArticleFeature> features = new ArrayList<ArticleFeature>();
+	@OneToMany(mappedBy = "article", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+	private Set<ArticleCategory> categories = new HashSet<ArticleCategory>();
+	@OneToMany(mappedBy = "article", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+	private Set<ArticleFeature> features = new HashSet<ArticleFeature>();
 
 
 	public Article() {
@@ -57,20 +61,42 @@ public class Article extends IdentifiedEntity {
 	}
 
 	public List<ArticleCategory> getCategories() {
-		return categories;
+		return new ArrayList<ArticleCategory>(categories);
 	}
 
 	public void setCategories(List<ArticleCategory> categories) {
-		this.categories = categories;
+		this.categories.clear();
+		this.categories.addAll(categories);		
+	}
+	
+	public void addCategory(ArticleCategory category){
+		categories.add(category);
+		category.setArticle(this);
+	}
+	
+	public void removeCategory(ArticleCategory category){
+		categories.remove(category);
+		category.setArticle(null);
 	}
 
 	public List<ArticleFeature> getFeatures() {
-		return features;
+		return new ArrayList<ArticleFeature>(features);
 	}
 
 	public void setFeatures(List<ArticleFeature> features) {
-		this.features = features;
+		this.features.clear();
+		this.features.addAll(features);
 	}
+	
+	public void addFeature(ArticleFeature feature) {
+		features.add(feature);
+		feature.setArticle(this);
+	}
+
+	public void removeFeature(ArticleFeature feature) {
+		features.remove(feature);
+		feature.setArticle(null);
+	}	
 	
 	public boolean equals(Object obj) {
 		if (obj == this) {
