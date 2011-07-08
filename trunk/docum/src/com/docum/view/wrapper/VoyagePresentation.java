@@ -68,7 +68,9 @@ public class VoyagePresentation implements Serializable {
 			public boolean isIt(ContainerPresentation container) {
 				ContainerStateEnum state = container.getContainer().getState();
 				return (ContainerStateEnum.NOT_HANDLED.equals(state) ||
-						ContainerStateEnum.HANDLED.equals(state));
+						ContainerStateEnum.HANDLED.equals(state) ||
+						ContainerStateEnum.READY.equals(state) ||
+						ContainerStateEnum.REPORT_READY.equals(state));
 			}
 		});
 		return result;

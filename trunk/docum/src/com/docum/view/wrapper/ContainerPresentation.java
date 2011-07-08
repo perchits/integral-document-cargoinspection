@@ -21,10 +21,12 @@ public class ContainerPresentation implements Serializable {
 			ContainerStateEnum.class);
 
 	static {
-		containerStateMap.put(ContainerStateEnum.NOT_HANDLED, "not-handled-color");
-		containerStateMap.put(ContainerStateEnum.HANDLED, "handled-color");
-		containerStateMap.put(ContainerStateEnum.REPORTED, "reported-color");
-		containerStateMap.put(ContainerStateEnum.ABANDONED, "abandoned-color");
+		containerStateMap.put(ContainerStateEnum.NOT_HANDLED, "container-not-handled-color");
+		containerStateMap.put(ContainerStateEnum.HANDLED, "container-handled-color");
+		containerStateMap.put(ContainerStateEnum.READY, "container-ready-color");
+		containerStateMap.put(ContainerStateEnum.REPORT_READY, "container-report-ready-color");
+		containerStateMap.put(ContainerStateEnum.FINISHED, "container-finished-color");
+		containerStateMap.put(ContainerStateEnum.ABANDONED, "container-abandoned-color");
 	}
 
 	public ContainerPresentation(Container container) {
@@ -44,7 +46,8 @@ public class ContainerPresentation implements Serializable {
 	}
 
 	public String getCity() {
-		return (container != null && container.getCity() != null) ? container.getCity().getName() : null;
+		return (container != null && container.getCity() != null) ? container
+				.getCity().getName() : null;
 	}
 
 	public String getState() {
@@ -52,7 +55,8 @@ public class ContainerPresentation implements Serializable {
 	}
 
 	public String getLoadingPort() {
-		return (container != null && container.getLoadingPort() != null) ? container.getLoadingPort().getName() : null;		
+		return (container != null && container.getLoadingPort() != null) ? container
+				.getLoadingPort().getName() : null;
 	}
 
 	public Date getLoadingDate() {
@@ -60,15 +64,17 @@ public class ContainerPresentation implements Serializable {
 	}
 
 	public String getDischargePort() {
-		return (container != null && container.getDischargePort() != null) ? container.getDischargePort().getName() : null;		
+		return (container != null && container.getDischargePort() != null) ? container
+				.getDischargePort().getName() : null;
 	}
 
 	public Date getDischargeDate() {
 		return container != null ? container.getDischargeDate() : null;
 	}
-	
+
 	public String getColor() {
-		return container != null ? containerStateMap.get(container.getState()) : "";
+		return container != null ? containerStateMap.get(container.getState())
+				: "";
 	}
 
 	private String getInvoices() {
@@ -137,7 +143,8 @@ public class ContainerPresentation implements Serializable {
 			return false;
 		}
 
-		return EqualsHelper.equals(container, ((ContainerPresentation) obj).container);
+		return EqualsHelper.equals(container,
+				((ContainerPresentation) obj).container);
 	}
 
 	public int hashCode() {

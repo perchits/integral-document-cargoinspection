@@ -43,7 +43,6 @@ import com.docum.domain.po.common.Supplier;
 import com.docum.domain.po.common.Vessel;
 import com.docum.domain.po.common.Voyage;
 import com.docum.service.CryptoService;
-import com.docum.test.TestUtil;
 import com.docum.util.AlgoUtil;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -120,19 +119,19 @@ public class TestDataPreparator implements TestDataPersister {
 			};
 
 	private String[] vesselNames = new String[] {
-			"Zim Pacific", "Zim India", "Michigan Trader"};
+			"Zim Pacific", "Zim India", "Michigan Trader", "Мerkur Beach"};
 	
 	private String[] voyageNumbers = new String[] {
-			"13/W", "51/E", "40/E"};
+			"13/W", "51/E", "40/E", "1103"};
 
 	private String[] invoiceNumbers = new String[]{
-			"PP11-652", "PP11-678", "TM11-674", "CL11-675"};
+			"PP11-652", "PP11-678", "TM11-674", "CL11-675", "TM11-689"};
 
 	private String[] orderNumbers = new String[]{
-			"12712", "13156", "10892"};
+			"12712", "13156", "10892", "11242"};
 
 	private String[] blNumbers = new String[]{
-			"ZIMUASH032310", "ZIMUHFA00322361", "GHUIR0349578"};
+			"ZIMUASH032310", "ZIMUHFA00322361", "GHUIR0349578", "GHUIR0304874"};
 
 	private String[] cityNames = new String[]{
 			"Новороссийск", "Анапа", "Темрюк", "Волгоград"};
@@ -232,12 +231,14 @@ public class TestDataPreparator implements TestDataPersister {
 
 	private List<Voyage> prepareVoyages(List<Vessel> vessels) {
 		Calendar pastCal = (Calendar) cal.clone();
-		pastCal.add(Calendar.MONTH, -1);
+		pastCal.add(Calendar.MONTH, -2);
 		Calendar futureCal = (Calendar) cal.clone();
 		futureCal.add(Calendar.MONTH, 1);
 		List<Voyage> result = new ArrayList<Voyage>();
 		TestDataEntityCounter<Vessel> vesselCounter = new TestDataEntityCounter<Vessel>(vessels); 
 		TestDataEntityCounter<String> nameCounter = new TestDataEntityCounter<String>(voyageNumbers); 
+		result.add(new Voyage(vesselCounter.next(), nameCounter.next(), pastCal.getTime(), true));
+		pastCal.add(Calendar.MONTH, 1);
 		result.add(new Voyage(vesselCounter.next(), nameCounter.next(), pastCal.getTime(), true));
 		result.add(new Voyage(vesselCounter.next(), nameCounter.next(), cal.getTime(), true));
 		result.add(new Voyage(vesselCounter.next(), nameCounter.next(), futureCal.getTime(), false));
