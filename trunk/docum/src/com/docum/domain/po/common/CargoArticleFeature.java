@@ -29,19 +29,20 @@ public class CargoArticleFeature  extends IdentifiedEntity {
 	}
 	
 	public CargoArticleFeature(Cargo cargo, ArticleFeature feature,
-			String value, String englishValue) {
-		super();
-		this.cargo = cargo;
-		this.feature = feature;
+			String value, String englishValue) {		
+		this(cargo, feature);
 		this.value = value;
 		this.englishValue = englishValue;
 	}
+	
+	public CargoArticleFeature(Cargo cargo, ArticleFeature feature) {		
+		this.cargo = cargo;
+		this.feature = feature;		
+	}
 
 	public CargoArticleFeature(Cargo cargo, ArticleFeature feature,
-			ArticleFeatureInstance featureInstance) {
-		super();
-		this.cargo = cargo;
-		this.feature = feature;
+			ArticleFeatureInstance featureInstance) {		
+		this(cargo, feature);
 		this.featureInstance = featureInstance;
 	}
 	
