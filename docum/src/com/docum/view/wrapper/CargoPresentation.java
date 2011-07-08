@@ -1,6 +1,9 @@
 package com.docum.view.wrapper;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import com.docum.domain.ContainerStateEnum;
@@ -39,18 +42,33 @@ public class CargoPresentation implements Serializable {
 	}
 
 	public String getArticle() {
-		return cargo != null && cargo.getArticle()!= null ? cargo.getArticle().getName() : null;
+		return cargo != null && cargo.getArticle() != null ? cargo.getArticle()
+				.getName() : null;
 	}
 
 	public String getArticleCategory() {
-		return cargo != null && cargo.getArticleCategory() != null ? cargo.getArticleCategory().getName() : null;
+		return cargo != null && cargo.getArticleCategory() != null ? cargo
+				.getArticleCategory().getName() : null;
 	}
 
 	public String getSupplier() {
-		return cargo != null && cargo.getSupplier() != null ? cargo.getSupplier().getCompany().getName() : null;
+		return cargo != null && cargo.getSupplier() != null ? cargo
+				.getSupplier().getCompany().getName() : null;
 	}
 
 	public List<CargoArticleFeature> getFeatures() {
-		return cargo != null ? cargo.getFeatures() : null;
+		if (cargo == null) {
+			return null;
+		}
+		List<CargoArticleFeature> result = new ArrayList<CargoArticleFeature>(
+				cargo.getFeatures());
+		Collections.sort(result, new Comparator<CargoArticleFeature>() {
+			@Override
+			public int compare(CargoArticleFeature o1, CargoArticleFeature o2) {
+				return o1.getFeature().getName()
+						.compareTo(o2.getFeature().getName());
+			}
+		});
+		return result;
 	}
 }

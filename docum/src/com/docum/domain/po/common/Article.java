@@ -1,8 +1,6 @@
 package com.docum.domain.po.common;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -60,13 +58,12 @@ public class Article extends IdentifiedEntity {
 		this.englishName = englishName;
 	}
 
-	public List<ArticleCategory> getCategories() {
-		return new ArrayList<ArticleCategory>(categories);
+	public Set<ArticleCategory> getCategories() {
+		return categories;
 	}
 
-	public void setCategories(List<ArticleCategory> categories) {
-		this.categories.clear();
-		this.categories.addAll(categories);		
+	public void setCategories(Set<ArticleCategory> categories) {		
+		this.categories = categories;		
 	}
 	
 	public void addCategory(ArticleCategory category){
@@ -79,13 +76,12 @@ public class Article extends IdentifiedEntity {
 		category.setArticle(null);
 	}
 
-	public List<ArticleFeature> getFeatures() {
-		return new ArrayList<ArticleFeature>(features);
+	public Set<ArticleFeature> getFeatures() {
+		return features;
 	}
 
-	public void setFeatures(List<ArticleFeature> features) {
-		this.features.clear();
-		this.features.addAll(features);
+	public void setFeatures(Set<ArticleFeature> features) {		
+		this.features = features;
 	}
 	
 	public void addFeature(ArticleFeature feature) {

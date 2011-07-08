@@ -1,6 +1,7 @@
 package com.docum.test.data;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import com.docum.domain.po.common.ActualCargoCondition;
@@ -57,8 +58,8 @@ public class CargoDataPreparator {
 					containerCounter.next());
 			persister.persist(cargo);
 			cargo.setDeclaredCondition(prepareDeclaredCondition(persister, cargo));
-			cargo.setActualCondition(prepareActualCondition(persister, cargo));
-			cargo.setFeatures(prepareFeatures(persister, cargo));
+			cargo.setActualCondition(prepareActualCondition(persister, cargo));			
+			cargo.setFeatures(new HashSet<CargoArticleFeature>(prepareFeatures(persister, cargo)));
 			cargo.setArticleCategory(prepareCategory(persister, cargo));
 			result.add(cargo);
 		}
@@ -70,8 +71,8 @@ public class CargoDataPreparator {
 			Cargo cargo) {
 		Article article = cargo.getArticle();
 		if(categoryCounter >= article.getCategories().size())
-			categoryCounter = 0;
-		return article.getCategories().get(categoryCounter);
+			categoryCounter = 0;		
+		return new ArrayList<ArticleCategory>(article.getCategories()).get(categoryCounter);
 	}
 
 	private static List<CargoArticleFeature> prepareFeatures(
