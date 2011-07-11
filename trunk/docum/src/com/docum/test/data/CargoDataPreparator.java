@@ -8,6 +8,7 @@ import com.docum.domain.po.common.ActualCargoCondition;
 import com.docum.domain.po.common.Article;
 import com.docum.domain.po.common.ArticleCategory;
 import com.docum.domain.po.common.ArticleFeature;
+import com.docum.domain.po.common.ArticleFeatureInstance;
 import com.docum.domain.po.common.Cargo;
 import com.docum.domain.po.common.CargoArticleFeature;
 import com.docum.domain.po.common.CargoCondition;
@@ -82,7 +83,7 @@ public class CargoDataPreparator {
 		for(ArticleFeature feature : cargo.getArticle().getFeatures()) {
 			if(feature.isList()) {
 				cargoArticleFeature =
-					new CargoArticleFeature(cargo, feature, feature.getInstances().get(0));
+					new CargoArticleFeature(cargo, feature, new ArrayList<ArticleFeatureInstance>(feature.getInstances()).get(0));
 			} else {
 				cargoArticleFeature =
 					new CargoArticleFeature(cargo, feature, "2010", "2010");

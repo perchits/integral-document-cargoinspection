@@ -7,6 +7,8 @@ import javax.persistence.NamedQuery;
 
 import com.docum.dao.ArticleDao;
 import com.docum.domain.po.IdentifiedEntity;
+import com.docum.util.EqualsHelper;
+import com.docum.util.HashCodeHelper;
 
 @Entity
 @NamedQueries(
@@ -68,5 +70,27 @@ public class ArticleFeatureInstance extends IdentifiedEntity {
 
 	public void setArticleFeature(ArticleFeature articleFeature) {
 		this.articleFeature = articleFeature;
+	}
+	
+	public boolean equals(Object obj) {
+		if (obj == this) {
+			return true;
+		}
+
+		if (!(obj instanceof ArticleFeatureInstance)) {
+			return false;
+		}
+		
+		if(getId() == null || ((ArticleFeatureInstance) obj).getId() == null) {
+			return false;
+		}
+		return EqualsHelper.equals(getId(), ((ArticleFeatureInstance) obj).getId());
+	}
+
+	public int hashCode() {
+		if(getId() == null) {
+			return super.hashCode();
+		}
+		return HashCodeHelper.hashCode(getId());
 	}
 }

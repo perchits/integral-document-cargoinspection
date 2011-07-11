@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 import javax.faces.event.ActionEvent;
 
@@ -20,6 +21,7 @@ import com.docum.domain.po.common.CargoArticleFeature;
 import com.docum.domain.po.common.Container;
 import com.docum.domain.po.common.Voyage;
 import com.docum.service.ArticleService;
+import com.docum.service.BaseService;
 import com.docum.service.BillOfLadingService;
 import com.docum.service.ContainerService;
 import com.docum.service.InvoiceService;
@@ -240,7 +242,7 @@ public class ContainerView extends BaseView implements Serializable,
 
 	public void setEditCargo(CargoPresentation cargo) {
 		setCargo(cargo);
-		prepareCargoDialog(this.cargo);
+		prepareCargoDialog(new Cargo(this.cargo));
 	}
 
 	public ContainerDlgView getContainerDlg() {
@@ -267,7 +269,7 @@ public class ContainerView extends BaseView implements Serializable,
 	}
 
 	public void addCargo() {
-		Cargo cargo = new Cargo();				
+		Cargo cargo = new Cargo();
 		prepareCargoDialog(cargo);
 	}
 
@@ -283,38 +285,40 @@ public class ContainerView extends BaseView implements Serializable,
 	}
 
 	public String getFeatureName() {
-		return feature != null ? feature.toString() : ""; 
+		return feature != null ? feature.toString() : "";
 	}
-	
+
 	public FeatureDlgView getFeatureDlg() {
 		return featureDlg;
 	}
 
 	public void addFeature() {
-		CargoArticleFeature feature = new CargoArticleFeature();
-		feature.setCargo(cargo);
-		prepareFeatureDialog(feature);
+		//CargoArticleFeature feature = new CargoArticleFeature();
+		//feature.setCargo(cargo);
+		prepareFeatureDialog(cargo.getFeatures());
 	}
-	
+
 	public void setFeature(CargoArticleFeature feature) {
 		this.feature = feature;
 	}
-	
+
 	public void deleteFeature() {
-		feature.getCargo().removeFeature(feature);		
+		feature.getCargo().removeFeature(feature);
 		containerService.save(container);
 		feature = null;
 	}
-	
-	private void prepareFeatureDialog(CargoArticleFeature feature) {
-		featureDlg =  new FeatureDlgView(feature, articleService, cargo.getArticle());
+
+	private void prepareFeatureDialog(Set<CargoArticleFeature> features) {
+		featureDlg = new FeatureDlgView(features, articleService,
+				cargo.getArticle());
+		featureDlg.addHandler(this);
 	}
-	
+
 	@Override
 	public void handleAction(AbstractDlgView dialog, DialogActionEnum action) {
 		if (dialog instanceof ContainerDlgView) {
 			ContainerDlgView d = (ContainerDlgView) dialog;
-			if (DialogActionEnum.ACCEPT.equals(action)) {				
+			if (DialogActionEnum.ACCEPT.equals(action)) {
 				container = containerService.save(d.getContainer());
 				invoiceService.save(d.getInvoices(container));
 				orderService.save(d.getOrders(container));
@@ -323,12 +327,20 @@ public class ContainerView extends BaseView implements Serializable,
 		} else if (dialog instanceof CargoDlgView) {
 			CargoDlgView d = (CargoDlgView) dialog;
 			if (DialogActionEnum.ACCEPT.equals(action)) {
-				Cargo cargo = d.getCargo();  
-				if (cargo.getId() == null) {
-					cargo.setContainer(container);				
-					container.getCargoes().add(cargo);
+				Cargo c = d.getCargo();
+				if (c.getId() == null) {
+					c = d.getCargo();
+					c.setContainer(container);
+					container.getCargoes().add(c);
+				} else {
+					cargo.copy(d.getCargo());
 				}
 				container = containerService.save(container);
+			}
+		} else if (dialog instanceof FeatureDlgView) {
+			FeatureDlgView d = (FeatureDlgView) dialog;
+			if (DialogActionEnum.ACCEPT.equals(action)) {
+				getBaseService().save(d.getCargoFeatures());
 			}
 		}
 
