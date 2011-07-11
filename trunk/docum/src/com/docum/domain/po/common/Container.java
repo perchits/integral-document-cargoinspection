@@ -77,6 +77,11 @@ public class Container extends IdentifiedEntity {
 	@OneToMany(mappedBy = "container",cascade=CascadeType.ALL, orphanRemoval=true)
 	private List<Cargo> cargoes = new ArrayList<Cargo>();
 	
+	@ManyToMany(mappedBy = "containers")
+	private List<Report> reports = new ArrayList<Report>();
+	
+	private boolean reportDone;
+	
 	@ManyToOne
 	private Voyage voyage;
 	
@@ -245,6 +250,22 @@ public class Container extends IdentifiedEntity {
 	@Override
 	public String toString(){
 		return getNumber();
+	}
+
+	public List<Report> getReports() {
+		return reports;
+	}
+
+	public void setReports(List<Report> reports) {
+		this.reports = reports;
+	}
+
+	public boolean isReportDone() {
+		return reportDone;
+	}
+
+	public void setReportDone(boolean reportDone) {
+		this.reportDone = reportDone;
 	}
 	
 }
