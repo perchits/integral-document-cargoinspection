@@ -13,8 +13,8 @@
 						http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
 
 	<context:annotation-config />
-	<context:component-scan base-package="com.docum"/>	
-	
+	<context:component-scan base-package="com.docum"/>
+		
 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="location" value="classpath:database.properties" />
 	</bean>
@@ -37,6 +37,10 @@
 		<property name="url" value="${database.url}" />
 		<property name="username" value="${database.username}" />
 		<property name="password" value="${database.password}" />
+	</bean>
+	
+	<bean id="reportingService" class="com.docum.service.impl.ReportingServiceImpl">
+		<property name="starOfficeConnectionPort" value="8100"/>
 	</bean> 	
 
 	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">

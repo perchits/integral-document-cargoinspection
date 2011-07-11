@@ -31,6 +31,7 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 	
 	private static final String STATEMENT_BEGIN = "{$";
 	private static final String STATEMENT_END = "}";
+	private int starOfficeConnectionPort;
 	
 	private Container container;
 
@@ -48,8 +49,8 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 				processNode(node);
 			}
 			odt.save(location + reportFileName + ".odt");
-			//TODO set as Spring bean property
-			OpenOfficeConnection officeConnection = new SocketOpenOfficeConnection(8100);
+			OpenOfficeConnection officeConnection = 
+				new SocketOpenOfficeConnection(starOfficeConnectionPort);
 			officeConnection.connect();
 			DocumentConverter converter = new OpenOfficeDocumentConverter(officeConnection);
 			converter.convert(
@@ -121,6 +122,14 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 		result.replace(length - 2, length - 1 , "");
 		
 		return result.toString();
+	}
+
+	public int getStarOfficeConnectionPort() {
+		return starOfficeConnectionPort;
+	}
+
+	public void setStarOfficeConnectionPort(int starOfficeConnectionPort) {
+		this.starOfficeConnectionPort = starOfficeConnectionPort;
 	}
 
 }
