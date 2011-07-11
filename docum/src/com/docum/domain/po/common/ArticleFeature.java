@@ -32,6 +32,8 @@ public class ArticleFeature extends IdentifiedEntity {
 	
 	private boolean list;
 	
+	private boolean mandatory;
+	
 	@OneToMany(mappedBy = "articleFeature")
 	private List<ArticleFeatureInstance> instances = new ArrayList<ArticleFeatureInstance>();
 	
@@ -95,5 +97,13 @@ public class ArticleFeature extends IdentifiedEntity {
 
 	public void setInstances(List<ArticleFeatureInstance> instances) {
 		this.instances = instances;
+	}
+
+	public boolean isMandatory() {
+		return mandatory;
+	}
+
+	public void setMandatory(boolean mandatory) {
+		this.mandatory = mandatory;
 	}
 }
