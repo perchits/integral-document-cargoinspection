@@ -1,7 +1,9 @@
 package com.docum.view.container;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import com.docum.domain.po.common.Article;
 import com.docum.domain.po.common.ArticleFeature;
@@ -13,8 +15,8 @@ import com.docum.view.DialogActionEnum;
 
 public class FeatureDlgView extends AbstractDlgView implements Serializable {
 	private static final long serialVersionUID = -3474736648929694055L;
-
-	private CargoArticleFeature cargoFeature;
+	private ArticleService articleService;
+	private Set<CargoArticleFeature> cargoFeatures;
 	private List<ArticleFeatureInstance> featureInstances;
 	private List<ArticleFeature> articleFeatures;
 
@@ -26,28 +28,31 @@ public class FeatureDlgView extends AbstractDlgView implements Serializable {
 		return featureInstances;
 	}
 
-	public void setCargoFeature(CargoArticleFeature feature) {
-		this.cargoFeature = feature;
+	public void setCargoFeature(Set<CargoArticleFeature> features) {
+		this.cargoFeatures = features;
 	}
 
-	public FeatureDlgView(CargoArticleFeature feature,
+	public List<ArticleFeatureInstance> getFeatureInstancesById(Long id){
+		return articleService.getArticleFeatureInstanceByArticle(id);
+	}
+	
+	public FeatureDlgView(Set<CargoArticleFeature> features,
 			ArticleService articleService, Article article) {
-		this.cargoFeature = feature;
+		this.articleService = articleService;
+		this.cargoFeatures = features;
 		featureInstances = articleService
 				.getArticleFeatureInstanceByArticle(article.getId());
 		articleFeatures = articleService.getArticleFeatureByArticle(article
 				.getId());
 	}
 
-	public CargoArticleFeature getCargoFeature() {
-		return cargoFeature;
+	public List<CargoArticleFeature> getCargoFeatures() {
+		return new ArrayList<CargoArticleFeature>(cargoFeatures);
 	}
 
-	public String getTitle() {
-		String result = cargoFeature.getId() != null ? "Редактирование свойства "
-				+ cargoFeature.toString()
-				: "Новое свойство";
-		return result + " для груза " + cargoFeature.getCargo().toString();
+	public String getTitle() {						
+		return "Редактирование свойств для груза " + 
+			getCargoFeatures().get(0).getCargo().toString();
 	}
 
 	public void save() {

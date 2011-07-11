@@ -1,6 +1,7 @@
 package com.docum.view.dict;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -119,7 +120,7 @@ public class ArticleView extends BaseView {
 				this.featureInstance.getClass(), this.featureInstance.getId());
 		this.featureInstances = 
 			articleService.getArticleFeatureInstanceByArticle(this.feature.getId());
-		this.feature.setInstances(this.featureInstances);
+		this.feature.setInstances(new HashSet<ArticleFeatureInstance>(this.featureInstances));
 		super.getBaseService().save(this.feature);
 	}
 	
@@ -174,7 +175,7 @@ public class ArticleView extends BaseView {
 	public void setFeature(ArticleFeature feature) {
 		this.feature = feature;
 		if (this.feature != null) {
-			this.featureInstances = this.feature.getInstances();
+			this.featureInstances = new ArrayList<ArticleFeatureInstance>(this.feature.getInstances());
 		}
 	}
 

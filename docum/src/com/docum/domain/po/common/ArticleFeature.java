@@ -1,9 +1,11 @@
 package com.docum.domain.po.common;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -34,8 +36,8 @@ public class ArticleFeature extends IdentifiedEntity {
 	
 	private boolean mandatory;
 	
-	@OneToMany(mappedBy = "articleFeature")
-	private List<ArticleFeatureInstance> instances = new ArrayList<ArticleFeatureInstance>();
+	@OneToMany(mappedBy = "articleFeature", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+	private Set<ArticleFeatureInstance> instances = new HashSet<ArticleFeatureInstance>();
 	
 	public ArticleFeature() {
 		super();
@@ -91,11 +93,11 @@ public class ArticleFeature extends IdentifiedEntity {
 		this.article = article;
 	}
 
-	public List<ArticleFeatureInstance> getInstances() {
+	public Set<ArticleFeatureInstance> getInstances() {
 		return instances;
 	}
 
-	public void setInstances(List<ArticleFeatureInstance> instances) {
+	public void setInstances(Set<ArticleFeatureInstance> instances) {
 		this.instances = instances;
 	}
 

@@ -7,9 +7,33 @@
 <ui:composition template="/WEB-INF/includes/dialogLayout.xhtml">
 	<ui:param name="width" value="480" />
 	<ui:param name="saveObject" value="save" />
-	<ui:param name="colCount" value="2" />
+	<ui:param name="colCount" value="1" />
 	<ui:define name="dialogBody">
-Редактирование свойств груза...
+
+
+		<h:dataTable width="100%" value="#{bean.cargoFeatures}" var="feature">
+			<h:column>
+				<h:outputText value="#{feature.feature.name}:" />
+			</h:column>
+			<h:column>
+				<p:inputText rendered="#{!feature.feature.list}" size="30"
+					value="#{feature.value}" id="feature-value" required="false"
+					label="Значение" />
+
+				<h:selectOneMenu id="featureInstance" required="false"
+					rendered="#{feature.feature.list}"
+					styleClass="ui-inputfield ui-widget ui-state-default ui-corner-all"
+					value="#{feature.featureInstance}">
+					<f:converter converterId="featureConverter" />
+					<f:selectItem itemLabel="Выберите значение..." itemValue=""
+						noSelectionOption="true" itemDisabled="true" />
+					<f:selectItems value="#{feature.feature.instances}" var="feat"
+						itemLabel="#{feat.name}" />
+				</h:selectOneMenu>
+			</h:column>
+		</h:dataTable>
+
+
 	</ui:define>
 </ui:composition>
 

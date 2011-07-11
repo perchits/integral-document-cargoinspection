@@ -50,6 +50,23 @@ public class Cargo extends IdentifiedEntity {
 		this.container = container;
 	}
 
+	public Cargo(Cargo cargo) {
+		copy(cargo);
+	}
+
+	public void copy(Cargo cargo) {
+		if (cargo != null) {
+			this.setId(cargo.getId());
+			this.article = cargo.article;
+			this.articleCategory = cargo.articleCategory;
+			this.features = cargo.features;
+			this.supplier = cargo.supplier;
+			this.container = cargo.container;
+			this.declaredCondition = cargo.declaredCondition;
+			this.actualCondition = cargo.actualCondition;
+		}
+	}
+
 	public Article getArticle() {
 		return article;
 	}
@@ -105,12 +122,12 @@ public class Cargo extends IdentifiedEntity {
 		this.articleCategory = articleCategory;
 	}
 
-	public Set<CargoArticleFeature> getFeatures() {		
+	public Set<CargoArticleFeature> getFeatures() {
 		return features;
 	}
 
-	public void setFeatures(Set<CargoArticleFeature> features) {		
-		this.features= features;
+	public void setFeatures(Set<CargoArticleFeature> features) {
+		this.features = features;
 	}
 
 	public void addFeature(CargoArticleFeature feature) {
