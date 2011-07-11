@@ -21,7 +21,6 @@ import com.docum.domain.po.common.CargoArticleFeature;
 import com.docum.domain.po.common.Container;
 import com.docum.domain.po.common.Voyage;
 import com.docum.service.ArticleService;
-import com.docum.service.BaseService;
 import com.docum.service.BillOfLadingService;
 import com.docum.service.ContainerService;
 import com.docum.service.InvoiceService;
@@ -292,9 +291,7 @@ public class ContainerView extends BaseView implements Serializable,
 		return featureDlg;
 	}
 
-	public void addFeature() {
-		//CargoArticleFeature feature = new CargoArticleFeature();
-		//feature.setCargo(cargo);
+	public void addFeature() {	
 		prepareFeatureDialog(cargo.getFeatures());
 	}
 
@@ -309,8 +306,7 @@ public class ContainerView extends BaseView implements Serializable,
 	}
 
 	private void prepareFeatureDialog(Set<CargoArticleFeature> features) {
-		featureDlg = new FeatureDlgView(features, articleService,
-				cargo.getArticle());
+		featureDlg = new FeatureDlgView(features);
 		featureDlg.addHandler(this);
 	}
 
