@@ -9,18 +9,16 @@
 	<ui:param name="saveObject" value="save" />
 	<ui:param name="colCount" value="1" />
 	<ui:define name="dialogBody">
-
-
 		<h:dataTable width="100%" value="#{bean.cargoFeatures}" var="feature">
 			<h:column>
 				<h:outputText value="#{feature.feature.name}:" />
 			</h:column>
 			<h:column>
 				<p:inputText rendered="#{!feature.feature.list}" size="30"
-					value="#{feature.value}" id="feature-value" required="false"
-					label="Значение" />
-
-				<h:selectOneMenu id="featureInstance" required="false"
+					value="#{feature.value}" id="feature-value"
+					required="#{feature.feature.mandatory}" label="Xарактеристика «#{feature.feature.name}»" />
+				<h:selectOneMenu id="featureInstance" label="Xарактеристика «#{feature.feature.name}»"
+					required="#{feature.feature.mandatory}"
 					rendered="#{feature.feature.list}"
 					styleClass="ui-inputfield ui-widget ui-state-default ui-corner-all"
 					value="#{feature.featureInstance}">
@@ -32,9 +30,6 @@
 				</h:selectOneMenu>
 			</h:column>
 		</h:dataTable>
-
-
 	</ui:define>
 </ui:composition>
-
 </html>
