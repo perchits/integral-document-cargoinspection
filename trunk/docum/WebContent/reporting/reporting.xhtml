@@ -1,0 +1,72 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+<ui:composition template="/WEB-INF/includes/layout.xhtml">
+<ui:param name="selectedMenuItem" value="5" />
+	<ui:define name="content">
+		<h:form prependId="false">
+			 <p:panel id="reportsMainPanel" header="Отчеты" styleClass="mainBackground">
+				<h:panelGrid columns="2" styleClass="reportsLayoutTable"
+					id="reportsLayoutTable">
+					<p:panel id="reportsPanel"	styleClass="small-panel">
+						<ui:include src="/WEB-INF/includes/crudToolBar.xhtml">
+							<ui:param name="bean" value="#{reportBean}" />
+							<ui:param name="gridId" value="reports" />
+						</ui:include>
+						<p:panel styleClass="small-panel" style="border: none;">
+						<p:dataTable id="reports" var="report"
+							value="#{reportBean.allObjects}" selectionMode="multiple"
+							selection="#{reportBean.report}" update="reportsInfoPanel" >
+							<p:column sortBy="#{report.number}">
+								<f:facet name="header">
+								Номер отчета
+								</f:facet>
+								<h:outputText value="#{report.number}" />
+							</p:column>
+							<p:column sortBy="#{report.date}">
+								<f:facet name="header">
+								Дата отчета
+								</f:facet>
+								<h:outputText value="#{report.date}" />
+							</p:column>
+						</p:dataTable>
+						</p:panel>
+					</p:panel>
+					<p:panel id="reportsInfoPanel" styleClass="docInfoPanel">
+						<f:facet name="header">
+							<h:outputText value="#{invoiceBean.invoice.number}" />
+						</f:facet>
+						<h:panelGrid columns="3" styleClass="infoLayoutTable">
+							<p:panel>
+							<p:panel styleClass="documentPartialDetailPanel borderless">
+								Контейнеры
+								<ul>
+								<ui:repeat value="#{invoiceBean.containers}" var="container">
+									<li class="listContainersInDoc">
+										<p:commandLink styleClass="olive-color" value="#{container.number}" 
+													   action="#{invoiceBean.goToContainer}">
+											<f:setPropertyActionListener 
+												target="#{invoiceBean.selectedContainer}"
+												value="#{container}" 
+											/> 
+										</p:commandLink> 
+									</li>
+								</ui:repeat>
+								</ul>
+							</p:panel>
+							<div class="documentContainersSummary">
+								<h:outputText styleClass="olive-color" value="Всего, шт: " />
+								<h:outputText value="#{invoiceBean.containersAmount}"/>
+							</div>
+							</p:panel>
+						</h:panelGrid>
+					</p:panel>
+				</h:panelGrid>
+			</p:panel>
+		</h:form>	
+	</ui:define>
+	</ui:composition>
+</html>
