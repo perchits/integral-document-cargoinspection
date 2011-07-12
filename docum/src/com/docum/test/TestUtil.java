@@ -26,6 +26,10 @@ public class TestUtil {
 	public static Integer getRandomInteger() {
 		return Math.abs(random.nextInt());
 	}	
+	
+	public static boolean getRandomBoolean() {
+		return random.nextBoolean();
+	}
 
 	public static Integer getRandomInteger(int maximum) {
 		return Math.abs(random.nextInt(maximum));

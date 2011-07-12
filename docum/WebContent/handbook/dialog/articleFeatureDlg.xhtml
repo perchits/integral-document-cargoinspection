@@ -22,6 +22,10 @@
 				id="featureEnglishName" required="true"
 				label="Наименование на англ. яз.">
 			</p:inputText>
+			<h:outputLabel for="featureIsMandatory" value="Обязательое поле:" />
+			<h:selectBooleanCheckbox size="30"
+				value="#{bean.feature.mandatory}" id="featureIsMandatory">
+			</h:selectBooleanCheckbox>
 			<h:outputLabel for="featureIsList" value="Список:" />
 			<h:selectBooleanCheckbox size="30"
 				value="#{bean.feature.list}" id="featureIsList"
