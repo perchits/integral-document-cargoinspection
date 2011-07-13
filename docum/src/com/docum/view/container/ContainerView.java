@@ -18,6 +18,7 @@ import com.docum.domain.SortOrderEnum;
 import com.docum.domain.po.IdentifiedEntity;
 import com.docum.domain.po.common.Cargo;
 import com.docum.domain.po.common.CargoArticleFeature;
+import com.docum.domain.po.common.CargoPackage;
 import com.docum.domain.po.common.Container;
 import com.docum.domain.po.common.Voyage;
 import com.docum.service.ArticleService;
@@ -34,6 +35,7 @@ import com.docum.view.DialogActionEnum;
 import com.docum.view.DialogActionHandler;
 import com.docum.view.dict.BaseView;
 import com.docum.view.param.FlashParamKeys;
+import com.docum.view.wrapper.CargoPackagePresentation;
 import com.docum.view.wrapper.CargoPresentation;
 import com.docum.view.wrapper.CargoTransformer;
 import com.docum.view.wrapper.ContainerPresentation;
@@ -53,6 +55,8 @@ public class ContainerView extends BaseView implements Serializable,
 	private ContainerDlgView containerDlg;
 	private CargoDlgView cargoDlg;
 	private FeatureDlgView featureDlg;
+	private CargoPackageDlgView cargoPackageDlg;
+	private CargoPackage cargoPackage;	
 
 	private boolean reloadContainer = true;
 	private VoyagePresentation selectedVoyage;
@@ -299,7 +303,7 @@ public class ContainerView extends BaseView implements Serializable,
 		this.feature = feature;
 	}
 
-	public void deleteFeature() {
+	public void removeFeature() {
 		feature.getCargo().removeFeature(feature);
 		containerService.save(container);
 		feature = null;
@@ -308,6 +312,44 @@ public class ContainerView extends BaseView implements Serializable,
 	private void prepareFeatureDialog(Set<CargoArticleFeature> features) {
 		featureDlg = new FeatureDlgView(features);
 		featureDlg.addHandler(this);
+	}
+	
+	public CargoPackage getCargoPackage() {
+		return cargoPackage;
+	}
+	
+	public void setWrappedCargoPackage(CargoPackagePresentation cargoPackage) {
+		this.cargoPackage = cargoPackage.getCargoPackage();
+	}
+	
+	public CargoPackageDlgView getCargoPackageDlg() {
+		return cargoPackageDlg;
+	}
+	
+	public void addPackage() {
+		CargoPackage cargoPackage = new CargoPackage();
+		cargo.getDeclaredCondition().addPackage(cargoPackage);
+		prepareCargoPackageDlg(cargoPackage);
+	}
+	
+	public void editPackage() {		
+		prepareCargoPackageDlg(cargoPackage);
+	}
+	
+	public void removePackage(){				
+		cargoPackage.getCondition().removePackage(cargoPackage);		
+		containerService.save(container);		
+		cargoPackage = null;
+	}
+	
+	private void prepareCargoPackageDlg(CargoPackage cargoPackage){
+		cargoPackageDlg = new CargoPackageDlgView(cargoPackage, getBaseService());
+		cargoPackageDlg.addHandler(this);
+	}
+	
+	public String getPackageName(){
+		return cargoPackage != null && cargoPackage.getMeasure() != null ?
+				cargoPackage.getMeasure().getName() : "";
 	}
 
 	@Override
@@ -338,11 +380,17 @@ public class ContainerView extends BaseView implements Serializable,
 			if (DialogActionEnum.ACCEPT.equals(action)) {
 				getBaseService().save(d.getCargoFeatures());
 			}
+		} else if (dialog instanceof CargoPackageDlgView) {
+			CargoPackageDlgView d = (CargoPackageDlgView) dialog;
+			if (DialogActionEnum.ACCEPT.equals(action)) {
+				CargoPackage cargoPackage = d.getCargoPackage(); 
+				getBaseService().save(cargoPackage);				
+			}
 		}
 
 		if (DialogActionEnum.ACCEPT.equals(action)) {
 			resreshContainers();
-		}
+		}						
 	}
 
 	private void resreshContainers() {

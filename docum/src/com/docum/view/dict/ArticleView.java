@@ -108,7 +108,10 @@ public class ArticleView extends BaseView {
 	}
 	
 	public void deleteCategory() {
-		super.getBaseService().deleteObject(this.category.getClass(), this.category.getId());
+		article.getCategories().remove(category);
+		category.setArticle(null);
+		getBaseService().save(article);
+		//super.getBaseService().deleteObject(this.category.getClass(), this.category.getId());
 	}
 	
 	public void deleteFeature() {

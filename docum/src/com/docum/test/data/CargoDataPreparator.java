@@ -97,14 +97,14 @@ public class CargoDataPreparator {
 	private static DeclaredCargoCondition prepareDeclaredCondition(TestDataPersister persister, Cargo cargo) {
 		DeclaredCargoCondition condition = new DeclaredCargoCondition(cargo, temperatureCounter.next());
 		persister.persist(condition);
-		condition.setCargoPackages(preparePackages(persister, condition));
+		condition.setCargoPackages(new HashSet<CargoPackage>(preparePackages(persister, condition)));
 		return condition;
 	}
 
 	private static ActualCargoCondition prepareActualCondition(TestDataPersister persister, Cargo cargo) {
 		ActualCargoCondition condition = new ActualCargoCondition(cargo, temperatureCounter.next());
 		persister.persist(condition);
-		condition.setCargoPackages(preparePackages(persister, condition));
+		condition.setCargoPackages(new HashSet<CargoPackage>(preparePackages(persister, condition)));
 		return condition;
 	}
 	
@@ -117,7 +117,7 @@ public class CargoDataPreparator {
 			persister.persist(pkg);
 			packages.add(pkg);
 			if(i==0) {
-				pkg.setCalibres(prepareCalibres(persister, pkg));
+				pkg.setCalibres(new HashSet<CargoPackageCalibre>(prepareCalibres(persister, pkg)));
 			}
 		}
 		return packages;

@@ -1,0 +1,29 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+<ui:composition template="/WEB-INF/includes/dialogLayout.xhtml">
+	<ui:param name="width" value="480" />
+	<ui:param name="saveObject" value="save" />
+	<ui:param name="colCount" value="2" />
+	<ui:define name="dialogBody">
+		
+		<h:selectOneMenu id="cargoPackageMeasure"
+			label="Вид упаковки"			
+			styleClass="ui-inputfield ui-widget ui-state-default ui-corner-all"
+			value="#{bean.cargoPackage.measure}">
+			<f:converter converterId="measureConverter" />
+			<f:selectItem itemLabel="Выберите значение..." itemValue=""
+				noSelectionOption="true" itemDisabled="true" />
+			<f:selectItems value="#{bean.measures}" var="measure"
+				itemLabel="#{measure.name}" />
+		</h:selectOneMenu>
+		
+		<p:inputText size="30"
+			value="#{bean.cargoPackage.count}" id="package-count"			
+			label="Количество" />
+	</ui:define>
+</ui:composition>
+</html>

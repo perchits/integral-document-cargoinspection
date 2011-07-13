@@ -237,9 +237,12 @@ select {
 	width: 220px;
 }
 
-.container-cargo-panel div {
+.container-cargo-panel div{
 	font-size: 11px !important;
 	text-align: left;	
+}
+
+.container-cargo-panel .ui-panel-titlebar{
 	overflow: hidden;
 }
 
@@ -254,7 +257,18 @@ select {
 }
 
 .olive-color {
-	color: olive;
+	color: olive !important;
+	text-decoration: none !important;	
+}
+
+a.olive-color {	
+	border-bottom: 1px dotted olive;	
+}
+
+a.olive-color:hover {	
+	color : olive !important;	
+	background: #FAFFE8;
+	border-bottom: 1px solid olive;	
 }
 
 .small-panel {
@@ -398,10 +412,14 @@ select {
 	margin: 7px 0;
 }
 
-.inline-delete {	
+.inline-btn {	
 	width: 20px !important;
 	height: 16px !important;
 	border: 0 !important;
 	background: white !important;
 	vertical-align: text-bottom;
 }
+.calibre {
+	display: block;
+	margin: 5px 0 -7px 0;
+}	
