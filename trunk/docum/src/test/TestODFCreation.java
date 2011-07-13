@@ -25,6 +25,8 @@ import com.artofsolving.jodconverter.openoffice.connection.SocketOpenOfficeConne
 import com.artofsolving.jodconverter.openoffice.converter.OpenOfficeDocumentConverter;
 import com.docum.domain.po.common.Container;
 import com.docum.service.BaseService;
+import com.docum.service.ReportingService;
+import com.docum.test.TestUtil;
 import com.docum.util.XMLUtil;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -37,6 +39,8 @@ public class TestODFCreation extends TestCase {
 	
 	@Autowired
 	BaseService baseService;
+	@Autowired
+	ReportingService reportingService;
 	Container container;
 	
 	@Test

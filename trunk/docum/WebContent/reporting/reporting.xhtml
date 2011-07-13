@@ -37,19 +37,19 @@
 					</p:panel>
 					<p:panel id="reportsInfoPanel" styleClass="docInfoPanel">
 						<f:facet name="header">
-							<h:outputText value="#{invoiceBean.invoice.number}" />
+							<h:outputText value="#{reportBean.report.number}" />
 						</f:facet>
 						<h:panelGrid columns="3" styleClass="infoLayoutTable">
 							<p:panel>
 							<p:panel styleClass="documentPartialDetailPanel borderless">
 								Контейнеры
 								<ul>
-								<ui:repeat value="#{invoiceBean.containers}" var="container">
+								<ui:repeat value="#{reportBean.containers}" var="container">
 									<li class="listContainersInDoc">
 										<p:commandLink styleClass="olive-color" value="#{container.number}" 
-													   action="#{invoiceBean.goToContainer}">
+													   action="#{reportBean.goToContainer}">
 											<f:setPropertyActionListener 
-												target="#{invoiceBean.selectedContainer}"
+												target="#{reportBean.selectedContainer}"
 												value="#{container}" 
 											/> 
 										</p:commandLink> 
@@ -59,7 +59,7 @@
 							</p:panel>
 							<div class="documentContainersSummary">
 								<h:outputText styleClass="olive-color" value="Всего, шт: " />
-								<h:outputText value="#{invoiceBean.containersAmount}"/>
+								<h:outputText value="#{reportBean.containersAmount}"/>
 							</div>
 							</p:panel>
 						</h:panelGrid>
