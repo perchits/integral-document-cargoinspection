@@ -1,8 +1,6 @@
 package com.docum.domain.po.common;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -39,13 +37,22 @@ public abstract class CargoCondition extends IdentifiedEntity {
 
 	public abstract void setCargo(Cargo cargo);
 	
-	public List<CargoPackage> getCargoPackages() {
-		return new ArrayList<CargoPackage>(cargoPackages);
+	public void removePackage(CargoPackage cargoPackage){
+		cargoPackages.remove(cargoPackage);
+		cargoPackage.setCondition(null);
+	}
+	
+	public void addPackage(CargoPackage cargoPackage){
+		cargoPackages.add(cargoPackage);
+		cargoPackage.setCondition(this);
+	}
+	
+	public Set<CargoPackage> getCargoPackages() {
+		return cargoPackages;
 	}
 
-	public void setCargoPackages(List<CargoPackage> cargoPackages) {
-		this.cargoPackages.clear();
-		this.cargoPackages.addAll(cargoPackages);
+	public void setCargoPackages(Set<CargoPackage> cargoPackages) {		
+		this.cargoPackages = cargoPackages;
 	}
 
 	public Double getTemperature() {
@@ -64,11 +71,17 @@ public abstract class CargoCondition extends IdentifiedEntity {
 		if (!(obj instanceof CargoCondition)) {
 			return false;
 		}
-
+		
+		if(getId() == null || ((CargoCondition) obj).getId() == null) {
+			return false;
+		}
 		return EqualsHelper.equals(getId(), ((CargoCondition) obj).getId());
 	}
 
 	public int hashCode() {
+		if(getId() == null) {
+			return super.hashCode();
+		}
 		return HashCodeHelper.hashCode(getId());
 	}
 }

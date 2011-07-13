@@ -195,7 +195,8 @@
 								<h:outputText value="#{wcargo.supplier}" />
 								<br />
 								<h:panelGroup styleClass="feature-title" layout="block">
-									<p:commandLink onmouseover="" value="Характеристики"
+									<p:commandLink styleClass="olive-color" title="Правка характеристик" 
+												value="Характеристики"
 												action="#{containerBean.addFeature}"
 												oncomplete="beforeShow(featureIdVar,args)"
 												update="featureIdDlgPanel,growl">
@@ -213,26 +214,55 @@
 											</li>
 									</ui:repeat>
 								</ul>
-							Упаковка
+							<h:outputText value="Упаковка" /> 
+							<p:commandButton 
+								image="ui-icon-document" 
+								title="Добавить упаковку" 
+								styleClass="inline-btn" 								
+								action="#{containerBean.addPackage}"
+								oncomplete="beforeShow(packageIdVar,args)"
+								update="packageIdDlgPanel,growl">
+								<f:setPropertyActionListener target="#{containerBean.cargo}"
+												value="#{wcargo}" />																	
+							</p:commandButton>
 							<ul>
-									<ui:repeat value="#{wcargo.activeCargoCondition.cargoPackages}"
+									<ui:repeat value="#{wcargo.declaredPackages}"
 										var="pack">
-										<li><h:outputText styleClass="olive-color"
-												value="#{pack.measure.name}: " /> <h:outputText
-												value="#{pack.count}">
+										<li><p:commandLink title="Правка упаковки" 
+														   styleClass="olive-color"
+														   action="#{containerBean.editPackage}"
+														   oncomplete="beforeShow(packageIdVar,args)"
+														   update="packageIdDlgPanel,growl">
+														   <h:outputText 
+												value="#{pack.measureName}:" />
+												<f:setPropertyActionListener target="#{containerBean.wrappedCargoPackage}"
+												value="#{pack}" />
+												</p:commandLink>												  
+												<h:outputText value=" " /><h:outputText value="#{pack.cargoPackage.count}">
 												<f:convertNumber maxFractionDigits="2" />
 											</h:outputText>
-											<p:commandButton style="display:none" image="ui-icon-trash" title="Удалить упаковку" styleClass="inline-delete" >
-												</p:commandButton> 
-											<h:panelGroup rendered="#{not empty pack.calibres}">											
+											<p:commandButton 
+											image="ui-icon-trash" 
+											title="Удалить упаковку" styleClass="inline-btn"
+											oncomplete="beforeShow(packageIdConfirmVar,args)"
+											update="packageIdConfirmId">											 
+											
+											<f:setPropertyActionListener target="#{containerBean.wrappedCargoPackage}"
+												value="#{pack}" />
+												</p:commandButton>												
+											<h:panelGroup rendered="#{not empty pack.calibres}">
+											<h:outputText styleClass="calibre" value="Калибры" />																						
 												<ul>
 													<ui:repeat value="#{pack.calibres}" var="calibre">
-														<li><h:outputText styleClass="olive-color"
-																value="#{calibre.calibreValue}: " /> <h:outputText
-																value="#{calibre.packageCount}">
+														<li>
+														<p:commandLink title="Правка калибра" styleClass="olive-color">
+															<h:outputText value="#{calibre.calibreValue}:" />				
+														</p:commandLink>
+																<h:outputText value=" " />												
+																<h:outputText value="#{calibre.packageCount}">																
 																<f:convertNumber maxFractionDigits="2" />
-															</h:outputText>
-															<p:commandButton style="display:none" image="ui-icon-trash" title="Удалить калибр" styleClass="inline-delete" >
+															</h:outputText>														
+															<p:commandButton image="ui-icon-trash" title="Удалить калибр" styleClass="inline-btn" >
 															</p:commandButton>
 															</li>
 													</ui:repeat>
@@ -292,13 +322,30 @@
 			<ui:param name="rendered" value="#{containerBean.featureDlg != null}" />
 			<ui:param name="update" value="infoPanel" />
 		</ui:include>
+		
+		<ui:include src="/container/dialog/CargoPackageDlg.xhtml">
+			<ui:param name="bean" value="#{containerBean.cargoPackageDlg}" />
+			<ui:param name="gridId" value="packageId" />
+			<ui:param name="title" value="title" />
+			<ui:param name="rendered" value="#{containerBean.cargoPackageDlg != null}" />
+			<ui:param name="update" value="infoPanel" />
+		</ui:include>
+		
+		<ui:include src="/WEB-INF/includes/deleteConfirmation.xhtml">
+			<ui:param name="message"
+				value="Удалить упаковку «#{containerBean.packageName}»?" />
+			<ui:param name="gridId" value="packageId" />
+			<ui:param name="bean" value="#{containerBean}" />
+			<ui:param name="deleteObject" value="removePackage" />
+			<ui:param name="update" value="infoPanel" />
+		</ui:include>
  
  		<ui:include src="/WEB-INF/includes/deleteConfirmation.xhtml">
 			<ui:param name="message"
 				value="Удалить свойство груза '#{containerBean.featureName}'?" />
 			<ui:param name="gridId" value="featureId" />
 			<ui:param name="bean" value="#{containerBean}" />
-			<ui:param name="deleteObject" value="deleteFeature" />
+			<ui:param name="deleteObject" value="removeFeature" />
 			<ui:param name="update" value="infoPanel" />
 		</ui:include>
  

@@ -33,11 +33,11 @@ public class Cargo extends IdentifiedEntity {
 	@ManyToOne(optional = false)
 	private Container container;
 
-	@OneToOne
-	private DeclaredCargoCondition declaredCondition;
+	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+	private DeclaredCargoCondition declaredCondition = new DeclaredCargoCondition(this,null);
 
-	@OneToOne
-	private ActualCargoCondition actualCondition;
+	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+	private ActualCargoCondition actualCondition = new ActualCargoCondition(this, null);
 
 	public Cargo() {
 		super();

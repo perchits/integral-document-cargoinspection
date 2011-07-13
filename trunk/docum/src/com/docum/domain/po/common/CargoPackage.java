@@ -1,8 +1,6 @@
 package com.docum.domain.po.common;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -64,13 +62,12 @@ public class CargoPackage extends IdentifiedEntity {
 		this.count = count;
 	}
 
-	public List<CargoPackageCalibre> getCalibres() {
-		return new ArrayList<CargoPackageCalibre>(calibres);
+	public Set<CargoPackageCalibre> getCalibres() {
+		return calibres;
 	}
 
-	public void setCalibres(List<CargoPackageCalibre> calibres) {
-		this.calibres.clear();
-		this.calibres.addAll(calibres);
+	public void setCalibres(Set<CargoPackageCalibre> calibres) {		
+		this.calibres = calibres;
 	}
 
 	public boolean equals(Object obj) {
@@ -87,5 +84,10 @@ public class CargoPackage extends IdentifiedEntity {
 
 	public int hashCode() {
 		return HashCodeHelper.hashCode(getId());
+	}
+	
+	@Override
+	public String toString() {		
+		return getMeasure() != null ? getMeasure().getName() : "Не указано измерение"; 
 	}
 }
