@@ -186,11 +186,11 @@
 	</macrodef>
 		
 	<target name="db-update">
-		<updateDatabase-private dropFirst="false"/>
+		<db-update-private dropFirst="false"/>
 	</target>
 
 	<target name="db-create">
-		<updateDatabase-private dropFirst="true"/>
+		<db-update-private dropFirst="true"/>
 	</target>
 
 	<target name="db-populate" depends="db-create">
