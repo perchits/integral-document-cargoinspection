@@ -385,6 +385,7 @@ public class ContainerView extends BaseView implements Serializable,
 			if (DialogActionEnum.ACCEPT.equals(action)) {
 				CargoPackage cargoPackage = d.getCargoPackage(); 
 				getBaseService().save(cargoPackage);				
+				container = containerService.save(container);
 			}
 		}
 
