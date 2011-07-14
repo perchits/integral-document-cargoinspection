@@ -1,5 +1,6 @@
 package com.docum.view;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,8 @@ import com.docum.domain.po.IdentifiedEntity;
 import com.docum.domain.po.common.Container;
 import com.docum.domain.po.common.Report;
 import com.docum.service.ContainerService;
+import com.docum.service.ReportingService;
+import com.docum.util.DocumLogger;
 import com.docum.view.dict.BaseView;
 
 @Controller("reportBean")
@@ -20,6 +23,8 @@ public class ReportView extends BaseView {
 
 	@Autowired
 	private ContainerService containerService;
+	@Autowired
+	private ReportingService reportingService;
 	private Report report = new Report(); 
 	private Integer containersAmount;
 	private Container selectedContainer;
@@ -55,7 +60,19 @@ public class ReportView extends BaseView {
 	public List<Container> getContainersWithoutReport() {
 		return containerService.getContainersWithoutReport();
 	}
-
+	
+	public void createReport() {
+		DocumLogger.log("Создание отчета для контейнера: " + this.container.getNumber());
+		reportingService.createReport(this.container);
+		List<Container> containers = new ArrayList<Container>();
+		if (this.container != null) {
+			containers.add(this.container);
+			this.report.setContainers(containers);
+			saveObject();
+			this.container.setReportDone(true);
+			super.getBaseService().save(this.container);
+		}
+	}
 
 	public List<Container> getContainers() {
 		return null;
