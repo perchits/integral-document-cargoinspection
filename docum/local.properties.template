@@ -6,6 +6,12 @@ hibernate.connection.url=jdbc:postgresql://localhost/docum
 hibernate.connection.username=user
 hibernate.connection.password=password
 
+database.class=org.postgresql.Driver
+database.url=jdbc:postgresql://localhost/docum
+database.username=user
+database.password=password
+
+
 #AntProperties
 DistDir=dist
 SrcDir=src
