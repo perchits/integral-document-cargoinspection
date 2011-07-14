@@ -13,6 +13,8 @@ import javax.persistence.OneToMany;
 
 import com.docum.dao.ArticleDao;
 import com.docum.domain.po.IdentifiedEntity;
+import com.docum.util.EqualsHelper;
+import com.docum.util.HashCodeHelper;
 
 @Entity
 @NamedQueries(
@@ -107,5 +109,27 @@ public class ArticleFeature extends IdentifiedEntity {
 
 	public void setMandatory(boolean mandatory) {
 		this.mandatory = mandatory;
+	}
+	
+	public boolean equals(Object obj) {
+		if (obj == this) {
+			return true;
+		}
+
+		if (!(obj instanceof ArticleFeature)) {
+			return false;
+		}
+		
+		if(getId() == null || ((ArticleFeature) obj).getId() == null) {
+			return false;
+		}
+		return EqualsHelper.equals(getId(), ((ArticleFeature) obj).getId());
+	}
+
+	public int hashCode() {
+		if(getId() == null) {
+			return super.hashCode();
+		}
+		return HashCodeHelper.hashCode(getId());
 	}
 }

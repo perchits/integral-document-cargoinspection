@@ -38,11 +38,17 @@ public class ActualCargoCondition extends CargoCondition {
 		if (!(obj instanceof ActualCargoCondition)) {
 			return false;
 		}
-
+		
+		if(getId() == null || ((ActualCargoCondition) obj).getId() == null) {
+			return false;
+		}
 		return EqualsHelper.equals(getId(), ((ActualCargoCondition) obj).getId());
 	}
 
 	public int hashCode() {
+		if(getId() == null) {
+			return super.hashCode();
+		}
 		return HashCodeHelper.hashCode(getId());
 	}
 }
