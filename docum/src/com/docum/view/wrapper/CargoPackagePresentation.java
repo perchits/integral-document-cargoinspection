@@ -30,6 +30,11 @@ public class CargoPackagePresentation implements Serializable {
 		if (cargoPackage == null) {
 			return null;
 		}
+		
+		if (cargoPackage.getCalibres() == null){
+			return null;
+		}
+		
 		List<CargoPackageCalibre> result = new ArrayList<CargoPackageCalibre>(
 				cargoPackage.getCalibres());
 		Collections.sort(result, new Comparator<CargoPackageCalibre>() {

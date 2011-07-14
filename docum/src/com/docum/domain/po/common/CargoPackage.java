@@ -69,6 +69,17 @@ public class CargoPackage extends IdentifiedEntity {
 	public void setCalibres(Set<CargoPackageCalibre> calibres) {		
 		this.calibres = calibres;
 	}
+	
+	public void addCalibre(CargoPackageCalibre calibre){
+		calibres.add(calibre);
+		calibre.setCargoPackage(this);
+	}
+	
+	public void removeCalibre(CargoPackageCalibre calibre) {
+		if (calibres.remove(calibre)) {
+			calibre.setCargoPackage(null);
+		}
+	}
 
 	public boolean equals(Object obj) {
 		if (obj == this) {

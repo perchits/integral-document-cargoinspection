@@ -19,6 +19,7 @@ import com.docum.domain.po.IdentifiedEntity;
 import com.docum.domain.po.common.Cargo;
 import com.docum.domain.po.common.CargoArticleFeature;
 import com.docum.domain.po.common.CargoPackage;
+import com.docum.domain.po.common.CargoPackageCalibre;
 import com.docum.domain.po.common.Container;
 import com.docum.domain.po.common.Voyage;
 import com.docum.service.ArticleService;
@@ -56,7 +57,9 @@ public class ContainerView extends BaseView implements Serializable,
 	private FeatureDlgView featureDlg;
 	private CargoPackageDlgView cargoPackageDlg;
 	private CargoPackage cargoPackage;	
-
+	private CalibreDlgView calibreDlg;
+	private CargoPackageCalibre calibre;
+	
 	private boolean reloadContainer = true;
 	private VoyagePresentation selectedVoyage;
 	@Autowired
@@ -350,7 +353,40 @@ public class ContainerView extends BaseView implements Serializable,
 		return cargoPackage != null && cargoPackage.getMeasure() != null ?
 				cargoPackage.getMeasure().getName() : "";
 	}
+	
+	public CalibreDlgView getCalibreDlg() {
+		return calibreDlg;
+	}
+	
+	public CargoPackageCalibre getCalibre() {
+		return calibre;
+	}
 
+	public void setCalibre(CargoPackageCalibre calibre) {
+		this.calibre = calibre;
+	}
+	
+	public void prepareCalibreDlg(CargoPackageCalibre calibre){
+		calibreDlg = new CalibreDlgView(calibre);
+		calibreDlg.addHandler(this);
+	}
+	
+	public void addCalibre(){
+		CargoPackageCalibre calibre = new CargoPackageCalibre();
+		calibre.setCargoPackage(cargoPackage);
+		prepareCalibreDlg(calibre);
+	}
+
+	public void editCalibre(){		
+		prepareCalibreDlg(calibre);
+	}
+	
+	public void removeCalibre(){		
+		calibre.getCargoPackage().removeCalibre(calibre);		
+		containerService.save(container);		
+		calibre = null;
+	}
+	
 	@Override
 	public void handleAction(AbstractDlgView dialog, DialogActionEnum action) {
 		if (dialog instanceof ContainerDlgView) {
@@ -384,6 +420,16 @@ public class ContainerView extends BaseView implements Serializable,
 			if (DialogActionEnum.ACCEPT.equals(action)) {
 				CargoPackage cargoPackage = d.getCargoPackage(); 
 				getBaseService().save(cargoPackage);				
+				container = containerService.save(container);
+			}
+		}  else if (dialog instanceof CalibreDlgView) {
+			CalibreDlgView d = (CalibreDlgView) dialog;
+			if (DialogActionEnum.ACCEPT.equals(action)) {
+				CargoPackageCalibre calibre = d.getCalibre();
+				if (calibre.getId() == null) {
+					cargoPackage.addCalibre(calibre);
+				}
+				getBaseService().save(calibre);
 				container = containerService.save(container);
 			}
 		}
