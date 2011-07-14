@@ -46,7 +46,7 @@
 								<ul>
 								<ui:repeat value="#{reportBean.containers}" var="container">
 									<li class="listContainersInDoc">
-										<h:outputLink value="../resources/reporting/resultReport.pdf" styleClass="olive-color" >
+										<h:outputLink value="../resources/reporting/resultReport_#{container.number}.pdf" styleClass="olive-color" >
 										   <h:outputText value="#{container.number}" />
 										</h:outputLink>
 									</li>
