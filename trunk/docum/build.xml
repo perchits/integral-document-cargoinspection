@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="Docum" default="build">
 	<property file="local.properties" />
+	<property name="DbChangelogDir" value="db/changelog"/>
 
 	<path id="DocumClasspath">
 		<fileset dir="${LibDir}">
@@ -16,6 +17,7 @@
 			<include name="**/*.jar" />
 		</fileset>
 		<pathelement location="${BuildDir}" />
+		<pathelement location="${DbChangelogDir}" />
 	</path>
 
 	<target name="makeDirs">
@@ -64,7 +66,7 @@
 	</target>
 
 	<taskdef name="hibernatetool" classname="org.hibernate.tool.ant.HibernateToolTask" classpathref="ToolsClasspath" />
-	<target name="db-drop" depends="compile">
+	<target name="_db-drop-old" depends="compile">
 		<hibernatetool destdir="">
 			<jpaconfiguration persistenceunit="docum" propertyfile="local.properties" />
 			<hbm2ddl drop="true" create="false" export="true" update="false" />
@@ -73,32 +75,32 @@
 			</classpath>
 		</hibernatetool>
 	</target>
-	<target name="db-create-empty" depends="compile">
+	<target name="_db-create-empty-old" depends="compile">
 		<hibernatetool destdir="">
 			<jpaconfiguration persistenceunit="docum" propertyfile="local.properties" />
 			<hbm2ddl drop="true" create="true" export="true" update="false" />
 		</hibernatetool>
 	</target>
-	<target name="db-create" depends="db-create-empty">
+	<target name="_db-create-old" depends="_db-create-empty-old">
 		<junit>
 			<classpath refid="ToolsClasspath" />
 			<test name="com.docum.test.data.TestDataPreparator" />
 		</junit>
 	</target>
-	<target name="db-update" depends="compile">
+	<target name="_db-update-old" depends="compile">
 		<hibernatetool destdir="">
 			<jpaconfiguration persistenceunit="docum" propertyfile="local.properties" />
 			<hbm2ddl drop="false" create="false" export="true" update="true" />
 		</hibernatetool>
 	</target>
 
-	<target name="db-doc" depends="compile" description="Generate a html description of the mappings">
+	<target name="_db-doc-old" depends="compile" description="Generate a html description of the mappings">
 		<hibernatetool destdir="hibernate-html">
 			<jpaconfiguration persistenceunit="docum" propertyfile="local.properties" />
 			<hbm2doc />
 		</hibernatetool>
 	</target>
-	
+
 	<path id="tomcat.class.path">
 		<fileset dir="${TomcatDir}/lib">
 			<include name="**/*.jar" />
@@ -107,16 +109,16 @@
 		<pathelement location="${TomcatDir}/bin/bootstrap.jar" />
 		<pathelement location="${TomcatDir}/bin/tomcat-juli.jar" />
 	</path>
-	
+
 	<target name="tomcat-stop" depends="tomcat-check-status" if="tomcat.started">
-		    <java classname="org.apache.catalina.startup.Bootstrap" fork="true"
+		<java classname="org.apache.catalina.startup.Bootstrap" fork="true"
 		        classpathref="tomcat.class.path">
-		        <jvmarg value="-Dcatalina.home=${TomcatDir}"/>
-		        <arg line="stop"/>
-		    </java>
-		    <sleep seconds="5"/>
+			<jvmarg value="-Dcatalina.home=${TomcatDir}"/>
+			<arg line="stop"/>
+		</java>
+		<sleep seconds="5"/>
 	</target>
-	
+
 	<target name="tomcat-start" depends="tomcat-stop,build">
 		<java classname="org.apache.catalina.startup.Bootstrap" 
 			fork="true" classpathref="tomcat.class.path">
@@ -126,23 +128,76 @@
 			<jvmarg value="-XX:MaxPermSize=512m" />
 		</java>
 	</target>
-	
+
 	<target name="tomcat-start-debug" depends="tomcat-stop,build">
 		<java classname="org.apache.catalina.startup.Bootstrap"
 			fork="true" classpathref="tomcat.class.path">
 			<jvmarg value="-Dcatalina.home=${TomcatDir}" />
-			<jvmarg value="-Xdebug" />			   
+			<jvmarg value="-Xdebug" />
 			<jvmarg value="-Xrunjdwp:transport=dt_socket,address=8787,server=y,suspend=n" />
 			<jvmarg value="-Xms128m" />
 			<jvmarg value="-Xmx512m" />
 			<jvmarg value="-XX:MaxPermSize=512m" />
 		</java>
 	</target>
-	
+
 	<target name="tomcat-check-status">
-		    <condition property="tomcat.started">
-		        <socket server="localhost" port="8080"/>
-		    </condition>
-		</target>
+		<condition property="tomcat.started">
+			<socket server="localhost" port="8080"/>
+		</condition>
+	</target>
+
+
+  <taskdef resource="liquibasetasks.properties">
+      <classpath refid="ToolsClasspath"/>
+  </taskdef>
 	
+	<target name="db-gen-changelog">
+		<fail unless="database.url">database.url not set</fail>
+		<fail unless="database.username">database.username not set</fail>
+		<fail unless="database.password">database.password not set</fail>
+
+		<generateChangeLog
+	            outputFile="output.xml"
+	            driver="${database.class}"
+	            url="${database.url}"
+	            username="${database.username}"
+	            password="${database.password}"
+							classpathref="ToolsClasspath" />
+	</target>
+
+
+	<macrodef name="db-update-private">
+		<attribute name="dropFirst"/>
+		<sequential>
+	    <fail unless="database.url">database.url not set</fail>
+	    <fail unless="database.username">database.username not set</fail>
+	    <fail unless="database.password">database.password not set</fail>
+	 
+	    <updateDatabase
+	            changeLogFile="changelog-master.xml"
+	            driver="${database.class}"
+	            url="${database.url}"
+	            username="${database.username}"
+	            password="${database.password}"
+	            dropFirst="@{dropFirst}"
+	            classpathref="ToolsClasspath"/>
+		</sequential>
+	</macrodef>
+		
+	<target name="db-update">
+		<updateDatabase-private dropFirst="false"/>
+	</target>
+
+	<target name="db-create">
+		<updateDatabase-private dropFirst="true"/>
+	</target>
+
+	<target name="db-populate" depends="db-create">
+		<junit>
+			<classpath refid="ToolsClasspath" />
+			<test name="com.docum.test.data.TestDataPreparator" />
+		</junit>
+	</target>
+
 </project>

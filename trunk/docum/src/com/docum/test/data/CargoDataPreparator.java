@@ -60,7 +60,7 @@ public class CargoDataPreparator {
 			persister.persist(cargo);
 			cargo.setDeclaredCondition(prepareDeclaredCondition(persister, cargo));
 			cargo.setActualCondition(prepareActualCondition(persister, cargo));			
-			cargo.setFeatures(new HashSet<CargoArticleFeature>(prepareFeatures(persister, cargo)));
+			prepareFeatures(persister, cargo);
 			cargo.setArticleCategory(prepareCategory(persister, cargo));
 			result.add(cargo);
 		}
@@ -76,22 +76,16 @@ public class CargoDataPreparator {
 		return new ArrayList<ArticleCategory>(article.getCategories()).get(categoryCounter);
 	}
 
-	private static List<CargoArticleFeature> prepareFeatures(
-			TestDataPersister persister, Cargo cargo) {
-		List<CargoArticleFeature> result = new ArrayList<CargoArticleFeature>();
-		CargoArticleFeature cargoArticleFeature;
-		for(ArticleFeature feature : cargo.getArticle().getFeatures()) {
-			if(feature.isList()) {
-				cargoArticleFeature =
-					new CargoArticleFeature(cargo, feature, new ArrayList<ArticleFeatureInstance>(feature.getInstances()).get(0));
+	private static void prepareFeatures(TestDataPersister persister, Cargo cargo) {
+		for(CargoArticleFeature cargoArticleFeature : cargo.getFeatures()) {
+			if(cargoArticleFeature.getFeature().isList()) {
+				cargoArticleFeature.setFeatureInstance(cargoArticleFeature.getFeature().getInstances().iterator().next());
 			} else {
-				cargoArticleFeature =
-					new CargoArticleFeature(cargo, feature, "2010", "2010");
+				cargoArticleFeature.setValue("2010");
+				cargoArticleFeature.setEnglishValue("2010");
 			}
-			result.add(cargoArticleFeature);
 		}
-		persister.persist(result);
-		return result;
+		persister.persist(cargo);
 	}
 
 	private static DeclaredCargoCondition prepareDeclaredCondition(TestDataPersister persister, Cargo cargo) {
