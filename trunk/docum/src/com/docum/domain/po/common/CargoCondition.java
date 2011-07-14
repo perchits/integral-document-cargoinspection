@@ -38,8 +38,9 @@ public abstract class CargoCondition extends IdentifiedEntity {
 	public abstract void setCargo(Cargo cargo);
 	
 	public void removePackage(CargoPackage cargoPackage){
-		cargoPackages.remove(cargoPackage);
-		cargoPackage.setCondition(null);
+		if(cargoPackages.remove(cargoPackage)) {
+			cargoPackage.setCondition(null);
+		}
 	}
 	
 	public void addPackage(CargoPackage cargoPackage){
