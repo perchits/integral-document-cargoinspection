@@ -81,11 +81,17 @@ public class ArticleCategory extends IdentifiedEntity {
 		if (!(obj instanceof ArticleCategory)) {
 			return false;
 		}
-
+		
+		if(getId() == null || ((ArticleCategory) obj).getId() == null) {
+			return false;
+		}
 		return EqualsHelper.equals(getId(), ((ArticleCategory) obj).getId());
 	}
 
 	public int hashCode() {
+		if(getId() == null) {
+			return super.hashCode();
+		}
 		return HashCodeHelper.hashCode(getId());
 	}
 }

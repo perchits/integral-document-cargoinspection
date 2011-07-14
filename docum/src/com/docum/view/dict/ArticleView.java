@@ -79,12 +79,15 @@ public class ArticleView extends BaseView {
 	}
 	
 	public void saveCategory() {
-		if (this.category != null) {
-			if (this.category.getId() == null) {
-				this.category.setArticle(this.article);
-			}
-			super.getBaseService().save(this.category);
+		if (category != null) {
+		//	if (this.category.getId() == null) {
+		//		this.category.setArticle(this.article);
+		//	}
+		//	super.getBaseService().save(this.category);
+			article.addCategory(category); 
+			article = getBaseService().save(article);
 		}
+			
 	}
 	
 	public void saveFeature() {
@@ -108,9 +111,8 @@ public class ArticleView extends BaseView {
 	}
 	
 	public void deleteCategory() {
-		article.getCategories().remove(category);
-		category.setArticle(null);
-		getBaseService().save(article);
+		article.removeCategory(category);		
+		article = getBaseService().save(article);
 		//super.getBaseService().deleteObject(this.category.getClass(), this.category.getId());
 	}
 	

@@ -72,8 +72,9 @@ public class Article extends IdentifiedEntity {
 	}
 	
 	public void removeCategory(ArticleCategory category){
-		categories.remove(category);
-		category.setArticle(null);
+		if (categories.remove(category)) {
+			category.setArticle(null);
+		}
 	}
 
 	public Set<ArticleFeature> getFeatures() {
@@ -90,8 +91,10 @@ public class Article extends IdentifiedEntity {
 	}
 
 	public void removeFeature(ArticleFeature feature) {
-		features.remove(feature);
-		feature.setArticle(null);
+		if (features.remove(feature)) {
+			feature.setArticle(null);
+		}
+		
 	}	
 	
 	public boolean equals(Object obj) {
@@ -102,11 +105,17 @@ public class Article extends IdentifiedEntity {
 		if (!(obj instanceof Article)) {
 			return false;
 		}
-
+		
+		if(getId() == null || ((Article) obj).getId() == null) {
+			return false;
+		}
 		return EqualsHelper.equals(getId(), ((Article) obj).getId());
 	}
 
 	public int hashCode() {
+		if(getId() == null) {
+			return super.hashCode();
+		}
 		return HashCodeHelper.hashCode(getId());
 	}
 }
