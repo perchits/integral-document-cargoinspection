@@ -75,7 +75,7 @@ public class ReportView extends BaseView {
 	}
 
 	public List<Container> getContainers() {
-		return null;
+		return containerService.getContainersByReport(this.report.getId());
 	}
 
 	public Integer getContainersAmount() {
