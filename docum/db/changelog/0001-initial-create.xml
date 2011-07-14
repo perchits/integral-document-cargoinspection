@@ -1,0 +1,641 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+	<changeSet author="pepper" id="0001-initial-create">
+		<createTable tableName="actualcargocondition">
+			<column name="id" type="int8">
+				<constraints nullable="false" primaryKey="true"
+					primaryKeyName="actualcargocondition_pkey" />
+			</column>
+		</createTable>
+		<createTable tableName="article">
+			<column autoIncrement="true" name="id" type="bigserial">
+				<constraints nullable="false" primaryKey="true"
+					primaryKeyName="article_pkey" />
+			</column>
+			<column name="englishname" type="VARCHAR(255)" />
+			<column name="name" type="VARCHAR(255)" />
+		</createTable>
+		<createTable tableName="articlecategory">
+			<column autoIncrement="true" name="id" type="bigserial">
+				<constraints nullable="false" primaryKey="true"
+					primaryKeyName="articlecategory_pkey" />
+			</column>
+			<column name="englishname" type="VARCHAR(255)" />
+			<column name="name" type="VARCHAR(255)" />
+			<column name="article_id" type="int8">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		<createTable tableName="articlefeature">
+			<column autoIncrement="true" name="id" type="bigserial">
+				<constraints nullable="false" primaryKey="true"
+					primaryKeyName="articlefeature_pkey" />
+			</column>
+			<column name="englishname" type="VARCHAR(255)" />
+			<column name="list" type="bool">
+				<constraints nullable="false" />
+			</column>
+			<column name="mandatory" type="bool">
+				<constraints nullable="false" />
+			</column>
+			<column name="name" type="VARCHAR(255)" />
+			<column name="article_id" type="int8">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		<createTable tableName="articlefeatureinstance">
+			<column autoIncrement="true" name="id" type="bigserial">
+				<constraints nullable="false" primaryKey="true"
+					primaryKeyName="articlefeatureinstance_pkey" />
+			</column>
+			<column name="englishname" type="VARCHAR(255)" />
+			<column name="name" type="VARCHAR(255)" />
+			<column name="articlefeature_id" type="int8">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		<createTable tableName="billoflading">
+			<column autoIncrement="true" name="id" type="bigserial">
+				<constraints nullable="false" primaryKey="true"
+					primaryKeyName="billoflading_pkey" />
+			</column>
+			<column name="number" type="VARCHAR(255)" />
+			<column name="voyage_id" type="int8">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		<createTable tableName="billoflading_container">
+			<column name="billofladings_id" type="int8">
+				<constraints nullable="false" />
+			</column>
+			<column name="containers_id" type="int8">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		<createTable tableName="cargo">
+			<column autoIncrement="true" name="id" type="bigserial">
+				<constraints nullable="false" primaryKey="true"
+					primaryKeyName="cargo_pkey" />
+			</column>
+			<column name="actualcondition_id" type="int8" />
+			<column name="article_id" type="int8">
+				<constraints nullable="false" />
+			</column>
+			<column name="articlecategory_id" type="int8" />
+			<column name="container_id" type="int8">
+				<constraints nullable="false" />
+			</column>
+			<column name="declaredcondition_id" type="int8" />
+			<column name="supplier_id" type="int8">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		<createTable tableName="cargoarticlefeature">
+			<column autoIncrement="true" name="id" type="bigserial">
+				<constraints nullable="false" primaryKey="true"
+					primaryKeyName="cargoarticlefeature_pkey" />
+			</column>
+			<column name="englishvalue" type="VARCHAR(255)" />
+			<column name="value" type="VARCHAR(255)" />
+			<column name="cargo_id" type="int8">
+				<constraints nullable="false" />
+			</column>
+			<column name="feature_id" type="int8">
+				<constraints nullable="false" />
+			</column>
+			<column name="featureinstance_id" type="int8" />
+		</createTable>
+		<createTable tableName="cargocondition">
+			<column autoIncrement="true" name="id" type="bigserial">
+				<constraints nullable="false" primaryKey="true"
+					primaryKeyName="cargocondition_pkey" />
+			</column>
+			<column name="temperature" type="FLOAT8(17)" />
+		</createTable>
+		<createTable tableName="cargopackage">
+			<column autoIncrement="true" name="id" type="bigserial">
+				<constraints nullable="false" primaryKey="true"
+					primaryKeyName="cargopackage_pkey" />
+			</column>
+			<column name="count" type="FLOAT8(17)">
+				<constraints nullable="false" />
+			</column>
+			<column name="condition_id" type="int8">
+				<constraints nullable="false" />
+			</column>
+			<column name="measure_id" type="int8">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		<createTable tableName="cargopackagecalibre">
+			<column autoIncrement="true" name="id" type="bigserial">
+				<constraints nullable="false" primaryKey="true"
+					primaryKeyName="cargopackagecalibre_pkey" />
+			</column>
+			<column name="calibrevalue" type="VARCHAR(255)" />
+			<column name="packagecount" type="FLOAT8(17)">
+				<constraints nullable="false" />
+			</column>
+			<column name="cargopackage_id" type="int8">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		<createTable tableName="city">
+			<column autoIncrement="true" name="id" type="bigserial">
+				<constraints nullable="false" primaryKey="true"
+					primaryKeyName="city_pkey" />
+			</column>
+			<column name="name" type="VARCHAR(255)" />
+			<column name="our" type="bool" />
+		</createTable>
+		<createTable tableName="company">
+			<column autoIncrement="true" name="id" type="bigserial">
+				<constraints nullable="false" primaryKey="true"
+					primaryKeyName="company_pkey" />
+			</column>
+			<column name="address" type="VARCHAR(500)" />
+			<column name="englishaddress" type="VARCHAR(500)" />
+			<column name="englishname" type="VARCHAR(255)" />
+			<column name="englishshortname" type="VARCHAR(255)" />
+			<column name="name" type="VARCHAR(255)" />
+			<column name="shortname" type="VARCHAR(255)" />
+		</createTable>
+		<createTable tableName="container">
+			<column autoIncrement="true" name="id" type="bigserial">
+				<constraints nullable="false" primaryKey="true"
+					primaryKeyName="container_pkey" />
+			</column>
+			<column name="actualseal" type="VARCHAR(255)" />
+			<column name="declaredseal" type="VARCHAR(255)" />
+			<column name="dischargedate" type="TIMESTAMP WITH TIME ZONE" />
+			<column name="loadingdate" type="TIMESTAMP WITH TIME ZONE" />
+			<column name="number" type="VARCHAR(255)" />
+			<column name="reportdone" type="bool">
+				<constraints nullable="false" />
+			</column>
+			<column name="state" type="int4" />
+			<column name="city_id" type="int8" />
+			<column name="dischargeport_id" type="int8" />
+			<column name="loadingport_id" type="int8" />
+			<column name="voyage_id" type="int8" />
+		</createTable>
+		<createTable tableName="customer">
+			<column autoIncrement="true" name="id" type="bigserial">
+				<constraints nullable="false" primaryKey="true"
+					primaryKeyName="customer_pkey" />
+			</column>
+			<column name="company_id" type="int8" />
+		</createTable>
+		<createTable tableName="declaredcargocondition">
+			<column name="id" type="int8">
+				<constraints nullable="false" primaryKey="true"
+					primaryKeyName="declaredcargocondition_pkey" />
+			</column>
+		</createTable>
+		<createTable tableName="invoice">
+			<column autoIncrement="true" name="id" type="bigserial">
+				<constraints nullable="false" primaryKey="true"
+					primaryKeyName="invoice_pkey" />
+			</column>
+			<column name="number" type="VARCHAR(255)" />
+			<column name="voyage_id" type="int8">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		<createTable tableName="invoice_container">
+			<column name="invoices_id" type="int8">
+				<constraints nullable="false" />
+			</column>
+			<column name="containers_id" type="int8">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		<createTable tableName="measure">
+			<column autoIncrement="true" name="id" type="bigserial">
+				<constraints nullable="false" primaryKey="true"
+					primaryKeyName="measure_pkey" />
+			</column>
+			<column name="name" type="VARCHAR(255)" />
+		</createTable>
+		<createTable tableName="port">
+			<column autoIncrement="true" name="id" type="bigserial">
+				<constraints nullable="false" primaryKey="true"
+					primaryKeyName="port_pkey" />
+			</column>
+			<column name="englishname" type="VARCHAR(255)" />
+			<column name="name" type="VARCHAR(255)" />
+		</createTable>
+		<createTable tableName="purchaseorder">
+			<column autoIncrement="true" name="id" type="bigserial">
+				<constraints nullable="false" primaryKey="true"
+					primaryKeyName="purchaseorder_pkey" />
+			</column>
+			<column name="number" type="VARCHAR(255)" />
+			<column name="voyage_id" type="int8">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		<createTable tableName="purchaseorder_container">
+			<column name="orders_id" type="int8">
+				<constraints nullable="false" />
+			</column>
+			<column name="containers_id" type="int8">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		<createTable tableName="report">
+			<column autoIncrement="true" name="id" type="bigserial">
+				<constraints nullable="false" primaryKey="true"
+					primaryKeyName="report_pkey" />
+			</column>
+			<column name="date" type="TIMESTAMP WITH TIME ZONE" />
+			<column name="number" type="VARCHAR(255)" />
+		</createTable>
+		<createTable tableName="report_container">
+			<column name="reports_id" type="int8">
+				<constraints nullable="false" />
+			</column>
+			<column name="containers_id" type="int8">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		<createTable tableName="securityrole">
+			<column autoIncrement="true" name="id" type="bigserial">
+				<constraints nullable="false" primaryKey="true"
+					primaryKeyName="securityrole_pkey" />
+			</column>
+			<column name="role" type="VARCHAR(255)" />
+		</createTable>
+		<createTable tableName="securityuser">
+			<column autoIncrement="true" name="id" type="bigserial">
+				<constraints nullable="false" primaryKey="true"
+					primaryKeyName="securityuser_pkey" />
+			</column>
+			<column name="description" type="VARCHAR(255)" />
+			<column name="fullname" type="VARCHAR(255)" />
+			<column name="login" type="VARCHAR(255)" />
+			<column name="password" type="VARCHAR(255)" />
+		</createTable>
+		<createTable tableName="securityuser_securityrole">
+			<column name="securityuser_id" type="int8">
+				<constraints nullable="false" />
+			</column>
+			<column name="securityroles_id" type="int8">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		<createTable tableName="supplier">
+			<column autoIncrement="true" name="id" type="bigserial">
+				<constraints nullable="false" primaryKey="true"
+					primaryKeyName="supplier_pkey" />
+			</column>
+			<column name="company_id" type="int8" />
+		</createTable>
+		<createTable tableName="vessel">
+			<column autoIncrement="true" name="id" type="bigserial">
+				<constraints nullable="false" primaryKey="true"
+					primaryKeyName="vessel_pkey" />
+			</column>
+			<column name="name" type="VARCHAR(255)" />
+		</createTable>
+		<createTable tableName="voyage">
+			<column autoIncrement="true" name="id" type="bigserial">
+				<constraints nullable="false" primaryKey="true"
+					primaryKeyName="voyage_pkey" />
+			</column>
+			<column name="arrivaldate" type="TIMESTAMP WITH TIME ZONE" />
+			<column name="finished" type="bool">
+				<constraints nullable="false" />
+			</column>
+			<column name="number" type="VARCHAR(255)" />
+			<column name="vessel_id" type="int8">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+
+		<addUniqueConstraint columnNames="login"
+			constraintName="securityuser_login_key" deferrable="false" disabled="false"
+			initiallyDeferred="false" tableName="securityuser" />
+		<addForeignKeyConstraint baseColumnNames="id"
+			baseTableName="actualcargocondition" baseTableSchemaName="public"
+			constraintName="fkab52720da4106ccd" deferrable="false"
+			initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+			referencedColumnNames="id" referencedTableName="cargocondition"
+			referencedTableSchemaName="public" referencesUniqueColumn="false" />
+		<addForeignKeyConstraint baseColumnNames="article_id"
+			baseTableName="articlecategory" baseTableSchemaName="public"
+			constraintName="fkc9ff4ff492e49a67" deferrable="false"
+			initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+			referencedColumnNames="id" referencedTableName="article"
+			referencedTableSchemaName="public" referencesUniqueColumn="false" />
+		<addForeignKeyConstraint baseColumnNames="article_id"
+			baseTableName="articlefeature" baseTableSchemaName="public"
+			constraintName="fk47ecb14092e49a67" deferrable="false"
+			initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+			referencedColumnNames="id" referencedTableName="article"
+			referencedTableSchemaName="public" referencesUniqueColumn="false" />
+		<addForeignKeyConstraint baseColumnNames="articlefeature_id"
+			baseTableName="articlefeatureinstance" baseTableSchemaName="public"
+			constraintName="fk22b869f579cac88d" deferrable="false"
+			initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+			referencedColumnNames="id" referencedTableName="articlefeature"
+			referencedTableSchemaName="public" referencesUniqueColumn="false" />
+		<addForeignKeyConstraint baseColumnNames="voyage_id"
+			baseTableName="billoflading" baseTableSchemaName="public"
+			constraintName="fk52e339f1ec27734d" deferrable="false"
+			initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+			referencedColumnNames="id" referencedTableName="voyage"
+			referencedTableSchemaName="public" referencesUniqueColumn="false" />
+		<addForeignKeyConstraint baseColumnNames="billofladings_id"
+			baseTableName="billoflading_container" baseTableSchemaName="public"
+			constraintName="fk7070a7939f3ceafc" deferrable="false"
+			initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+			referencedColumnNames="id" referencedTableName="billoflading"
+			referencedTableSchemaName="public" referencesUniqueColumn="false" />
+		<addForeignKeyConstraint baseColumnNames="containers_id"
+			baseTableName="billoflading_container" baseTableSchemaName="public"
+			constraintName="fk7070a793bf1f9616" deferrable="false"
+			initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+			referencedColumnNames="id" referencedTableName="container"
+			referencedTableSchemaName="public" referencesUniqueColumn="false" />
+		<addForeignKeyConstraint baseColumnNames="actualcondition_id"
+			baseTableName="cargo" baseTableSchemaName="public" constraintName="fk3ddf79c79f6b1ed"
+			deferrable="false" initiallyDeferred="false" onDelete="NO ACTION"
+			onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="actualcargocondition"
+			referencedTableSchemaName="public" referencesUniqueColumn="false" />
+		<addForeignKeyConstraint baseColumnNames="article_id"
+			baseTableName="cargo" baseTableSchemaName="public" constraintName="fk3ddf79c92e49a67"
+			deferrable="false" initiallyDeferred="false" onDelete="NO ACTION"
+			onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="article"
+			referencedTableSchemaName="public" referencesUniqueColumn="false" />
+		<addForeignKeyConstraint baseColumnNames="articlecategory_id"
+			baseTableName="cargo" baseTableSchemaName="public" constraintName="fk3ddf79c45fff8c7"
+			deferrable="false" initiallyDeferred="false" onDelete="NO ACTION"
+			onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="articlecategory"
+			referencedTableSchemaName="public" referencesUniqueColumn="false" />
+		<addForeignKeyConstraint baseColumnNames="container_id"
+			baseTableName="cargo" baseTableSchemaName="public" constraintName="fk3ddf79cc97c0347"
+			deferrable="false" initiallyDeferred="false" onDelete="NO ACTION"
+			onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="container"
+			referencedTableSchemaName="public" referencesUniqueColumn="false" />
+		<addForeignKeyConstraint baseColumnNames="declaredcondition_id"
+			baseTableName="cargo" baseTableSchemaName="public" constraintName="fk3ddf79ce3e00f85"
+			deferrable="false" initiallyDeferred="false" onDelete="NO ACTION"
+			onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="declaredcargocondition"
+			referencedTableSchemaName="public" referencesUniqueColumn="false" />
+		<addForeignKeyConstraint baseColumnNames="supplier_id"
+			baseTableName="cargo" baseTableSchemaName="public" constraintName="fk3ddf79c61d3476d"
+			deferrable="false" initiallyDeferred="false" onDelete="NO ACTION"
+			onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="supplier"
+			referencedTableSchemaName="public" referencesUniqueColumn="false" />
+		<addForeignKeyConstraint baseColumnNames="cargo_id"
+			baseTableName="cargoarticlefeature" baseTableSchemaName="public"
+			constraintName="fk3a4327dc60a493e7" deferrable="false"
+			initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+			referencedColumnNames="id" referencedTableName="cargo"
+			referencedTableSchemaName="public" referencesUniqueColumn="false" />
+		<addForeignKeyConstraint baseColumnNames="feature_id"
+			baseTableName="cargoarticlefeature" baseTableSchemaName="public"
+			constraintName="fk3a4327dce13d3717" deferrable="false"
+			initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+			referencedColumnNames="id" referencedTableName="articlefeature"
+			referencedTableSchemaName="public" referencesUniqueColumn="false" />
+		<addForeignKeyConstraint baseColumnNames="featureinstance_id"
+			baseTableName="cargoarticlefeature" baseTableSchemaName="public"
+			constraintName="fk3a4327dca42a2a17" deferrable="false"
+			initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+			referencedColumnNames="id" referencedTableName="articlefeatureinstance"
+			referencedTableSchemaName="public" referencesUniqueColumn="false" />
+		<addForeignKeyConstraint baseColumnNames="condition_id"
+			baseTableName="cargopackage" baseTableSchemaName="public"
+			constraintName="fk1c234d0a5c618a71" deferrable="false"
+			initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+			referencedColumnNames="id" referencedTableName="cargocondition"
+			referencedTableSchemaName="public" referencesUniqueColumn="false" />
+		<addForeignKeyConstraint baseColumnNames="measure_id"
+			baseTableName="cargopackage" baseTableSchemaName="public"
+			constraintName="fk1c234d0a5cc4e167" deferrable="false"
+			initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+			referencedColumnNames="id" referencedTableName="measure"
+			referencedTableSchemaName="public" referencesUniqueColumn="false" />
+		<addForeignKeyConstraint baseColumnNames="cargopackage_id"
+			baseTableName="cargopackagecalibre" baseTableSchemaName="public"
+			constraintName="fkd3b28d709164dd0d" deferrable="false"
+			initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+			referencedColumnNames="id" referencedTableName="cargopackage"
+			referencedTableSchemaName="public" referencesUniqueColumn="false" />
+		<addForeignKeyConstraint baseColumnNames="city_id"
+			baseTableName="container" baseTableSchemaName="public"
+			constraintName="fk5ef36c61637dc08d" deferrable="false"
+			initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+			referencedColumnNames="id" referencedTableName="city"
+			referencedTableSchemaName="public" referencesUniqueColumn="false" />
+		<addForeignKeyConstraint baseColumnNames="dischargeport_id"
+			baseTableName="container" baseTableSchemaName="public"
+			constraintName="fk5ef36c61bf805dcb" deferrable="false"
+			initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+			referencedColumnNames="id" referencedTableName="port"
+			referencedTableSchemaName="public" referencesUniqueColumn="false" />
+		<addForeignKeyConstraint baseColumnNames="loadingport_id"
+			baseTableName="container" baseTableSchemaName="public"
+			constraintName="fk5ef36c619879e411" deferrable="false"
+			initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+			referencedColumnNames="id" referencedTableName="port"
+			referencedTableSchemaName="public" referencesUniqueColumn="false" />
+		<addForeignKeyConstraint baseColumnNames="voyage_id"
+			baseTableName="container" baseTableSchemaName="public"
+			constraintName="fk5ef36c61ec27734d" deferrable="false"
+			initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+			referencedColumnNames="id" referencedTableName="voyage"
+			referencedTableSchemaName="public" referencesUniqueColumn="false" />
+		<addForeignKeyConstraint baseColumnNames="company_id"
+			baseTableName="customer" baseTableSchemaName="public" constraintName="fk27fbe3febad79907"
+			deferrable="false" initiallyDeferred="false" onDelete="NO ACTION"
+			onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="company"
+			referencedTableSchemaName="public" referencesUniqueColumn="false" />
+		<addForeignKeyConstraint baseColumnNames="id"
+			baseTableName="declaredcargocondition" baseTableSchemaName="public"
+			constraintName="fk8c478bb9a4106ccd" deferrable="false"
+			initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+			referencedColumnNames="id" referencedTableName="cargocondition"
+			referencedTableSchemaName="public" referencesUniqueColumn="false" />
+		<addForeignKeyConstraint baseColumnNames="voyage_id"
+			baseTableName="invoice" baseTableSchemaName="public" constraintName="fkd80edb0dec27734d"
+			deferrable="false" initiallyDeferred="false" onDelete="NO ACTION"
+			onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="voyage"
+			referencedTableSchemaName="public" referencesUniqueColumn="false" />
+		<addForeignKeyConstraint baseColumnNames="containers_id"
+			baseTableName="invoice_container" baseTableSchemaName="public"
+			constraintName="fkd94a95afbf1f9616" deferrable="false"
+			initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+			referencedColumnNames="id" referencedTableName="container"
+			referencedTableSchemaName="public" referencesUniqueColumn="false" />
+		<addForeignKeyConstraint baseColumnNames="invoices_id"
+			baseTableName="invoice_container" baseTableSchemaName="public"
+			constraintName="fkd94a95aff639b4ae" deferrable="false"
+			initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+			referencedColumnNames="id" referencedTableName="invoice"
+			referencedTableSchemaName="public" referencesUniqueColumn="false" />
+		<addForeignKeyConstraint baseColumnNames="voyage_id"
+			baseTableName="purchaseorder" baseTableSchemaName="public"
+			constraintName="fkdfd4baadec27734d" deferrable="false"
+			initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+			referencedColumnNames="id" referencedTableName="voyage"
+			referencedTableSchemaName="public" referencesUniqueColumn="false" />
+		<addForeignKeyConstraint baseColumnNames="containers_id"
+			baseTableName="purchaseorder_container" baseTableSchemaName="public"
+			constraintName="fkf5756d4fbf1f9616" deferrable="false"
+			initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+			referencedColumnNames="id" referencedTableName="container"
+			referencedTableSchemaName="public" referencesUniqueColumn="false" />
+		<addForeignKeyConstraint baseColumnNames="orders_id"
+			baseTableName="purchaseorder_container" baseTableSchemaName="public"
+			constraintName="fkf5756d4f9c3b822f" deferrable="false"
+			initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+			referencedColumnNames="id" referencedTableName="purchaseorder"
+			referencedTableSchemaName="public" referencesUniqueColumn="false" />
+		<addForeignKeyConstraint baseColumnNames="containers_id"
+			baseTableName="report_container" baseTableSchemaName="public"
+			constraintName="fkdb130f36bf1f9616" deferrable="false"
+			initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+			referencedColumnNames="id" referencedTableName="container"
+			referencedTableSchemaName="public" referencesUniqueColumn="false" />
+		<addForeignKeyConstraint baseColumnNames="reports_id"
+			baseTableName="report_container" baseTableSchemaName="public"
+			constraintName="fkdb130f36498f12c2" deferrable="false"
+			initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+			referencedColumnNames="id" referencedTableName="report"
+			referencedTableSchemaName="public" referencesUniqueColumn="false" />
+		<addForeignKeyConstraint baseColumnNames="securityroles_id"
+			baseTableName="securityuser_securityrole" baseTableSchemaName="public"
+			constraintName="fke11f06ad20af8a6" deferrable="false"
+			initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+			referencedColumnNames="id" referencedTableName="securityrole"
+			referencedTableSchemaName="public" referencesUniqueColumn="false" />
+		<addForeignKeyConstraint baseColumnNames="securityuser_id"
+			baseTableName="securityuser_securityrole" baseTableSchemaName="public"
+			constraintName="fke11f06a752aedad" deferrable="false"
+			initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+			referencedColumnNames="id" referencedTableName="securityuser"
+			referencedTableSchemaName="public" referencesUniqueColumn="false" />
+		<addForeignKeyConstraint baseColumnNames="company_id"
+			baseTableName="supplier" baseTableSchemaName="public" constraintName="fka0b65decbad79907"
+			deferrable="false" initiallyDeferred="false" onDelete="NO ACTION"
+			onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="company"
+			referencedTableSchemaName="public" referencesUniqueColumn="false" />
+		<addForeignKeyConstraint baseColumnNames="vessel_id"
+			baseTableName="voyage" baseTableSchemaName="public" constraintName="fk9915703fbe0527ed"
+			deferrable="false" initiallyDeferred="false" onDelete="NO ACTION"
+			onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="vessel"
+			referencedTableSchemaName="public" referencesUniqueColumn="false" />
+
+		<createIndex tableName="articlecategory" indexName="articlecategory_article_fk_idx">
+			<column name="article_id"></column>
+		</createIndex>
+		<createIndex tableName="articlefeature" indexName="articlefeature_article_fk_idx">
+			<column name="article_id"></column>
+		</createIndex>
+		<createIndex tableName="articlefeatureinstance" indexName="articlefeatureinstance_articlefeature_fk_idx">
+			<column name="articlefeature_id"></column>
+		</createIndex>
+		<createIndex tableName="billoflading" indexName="billoflading_voyage_fk_idx">
+			<column name="voyage_id"></column>
+		</createIndex>
+		<createIndex tableName="billoflading_container" indexName="billoflading_container_billofladings_fk_idx">
+			<column name="billofladings_id"></column>
+		</createIndex>
+		<createIndex tableName="billoflading_container" indexName="billoflading_container_containers_fk_idx">
+			<column name="containers_id"></column>
+		</createIndex>
+		<createIndex tableName="cargo" indexName="cargo_actualcondition_fk_idx">
+			<column name="actualcondition_id"></column>
+		</createIndex>
+		<createIndex tableName="cargo" indexName="cargo_article_fk_idx">
+			<column name="article_id"></column>
+		</createIndex>
+		<createIndex tableName="cargo" indexName="cargo_articlecategory_fk_idx">
+			<column name="articlecategory_id"></column>
+		</createIndex>
+		<createIndex tableName="cargo" indexName="cargo_container_fk_idx">
+			<column name="container_id"></column>
+		</createIndex>
+		<createIndex tableName="cargo" indexName="cargo_declaredcondition_fk_idx">
+			<column name="declaredcondition_id"></column>
+		</createIndex>
+		<createIndex tableName="cargo" indexName="cargo_supplier_fk_idx">
+			<column name="supplier_id"></column>
+		</createIndex>
+		<createIndex tableName="cargoarticlefeature" indexName="cargoarticlefeature_cargo_fk_idx">
+			<column name="cargo_id"></column>
+		</createIndex>
+		<createIndex tableName="cargoarticlefeature" indexName="cargoarticlefeature_feature_fk_idx">
+			<column name="feature_id"></column>
+		</createIndex>
+		<createIndex tableName="cargoarticlefeature" indexName="cargoarticlefeature_featureinstance_fk_idx">
+			<column name="featureinstance_id"></column>
+		</createIndex>
+		<createIndex tableName="cargopackage" indexName="cargopackage_condition_fk_idx">
+			<column name="condition_id"></column>
+		</createIndex>
+		<createIndex tableName="cargopackage" indexName="cargopackage_measure_fk_idx">
+			<column name="measure_id"></column>
+		</createIndex>
+		<createIndex tableName="cargopackagecalibre" indexName="cargopackagecalibre_cargopackage_fk_idx">
+			<column name="cargopackage_id"></column>
+		</createIndex>
+		<createIndex tableName="container" indexName="container_city_fk_idx">
+			<column name="city_id"></column>
+		</createIndex>
+		<createIndex tableName="container" indexName="container_dischargeport_fk_idx">
+			<column name="dischargeport_id"></column>
+		</createIndex>
+		<createIndex tableName="container" indexName="container_loadingport_fk_idx">
+			<column name="loadingport_id"></column>
+		</createIndex>
+		<createIndex tableName="container" indexName="container_voyage_fk_idx">
+			<column name="voyage_id"></column>
+		</createIndex>
+		<createIndex tableName="customer" indexName="customer_company_fk_idx">
+			<column name="company_id"></column>
+		</createIndex>
+		<createIndex tableName="invoice" indexName="invoice_voyage_fk_idx">
+			<column name="voyage_id"></column>
+		</createIndex>
+		<createIndex tableName="invoice_container" indexName="invoice_container_invoices_fk_idx">
+			<column name="invoices_id"></column>
+		</createIndex>
+		<createIndex tableName="invoice_container" indexName="invoice_container_containers_fk_idx">
+			<column name="containers_id"></column>
+		</createIndex>
+		<createIndex tableName="purchaseorder" indexName="purchaseorder_voyage_fk_idx">
+			<column name="voyage_id"></column>
+		</createIndex>
+		<createIndex tableName="purchaseorder_container" indexName="purchaseorder_container_orders_fk_idx">
+			<column name="orders_id"></column>
+		</createIndex>
+		<createIndex tableName="purchaseorder_container" indexName="purchaseorder_container_containers_fk_idx">
+			<column name="containers_id"></column>
+		</createIndex>
+		<createIndex tableName="report_container" indexName="report_container_reports_fk_idx">
+			<column name="reports_id"></column>
+		</createIndex>
+		<createIndex tableName="report_container" indexName="report_container_containers_fk_idx">
+			<column name="containers_id"></column>
+		</createIndex>
+		<createIndex tableName="securityuser_securityrole" indexName="securityuser_securityrole_securityusers_fk_idx">
+			<column name="securityuser_id"></column>
+		</createIndex>
+		<createIndex tableName="securityuser_securityrole" indexName="securityuser_securityrole_securityroles_fk_idx">
+			<column name="securityroles_id"></column>
+		</createIndex>
+		<createIndex tableName="supplier" indexName="supplier_company_fk_idx">
+			<column name="company_id"></column>
+		</createIndex>
+		<createIndex tableName="voyage" indexName="voyage_vessel_fk_idx">
+			<column name="vessel_id"></column>
+		</createIndex>
+
+	</changeSet>
+</databaseChangeLog>
