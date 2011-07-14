@@ -39,7 +39,7 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 	public void createReport(Container container) {
 		try {
 			this.container = container;
-			String reportFileName = "/resultReport";
+			String reportFileName = "/resultReport_" + container.getNumber();
 			String location = FacesContext.getCurrentInstance().getExternalContext()
 				.getRealPath("/") +	"/resources/reporting"; 
 			OdfTextDocument odt = OdfTextDocument.loadDocument(location + "/documTemplate.odt");
