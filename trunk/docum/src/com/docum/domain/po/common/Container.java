@@ -55,6 +55,11 @@ import com.docum.util.HashCodeHelper;
 //					"LEFT JOIN FETCH c.cargoes crg " +
 //					"LEFT JOIN FETCH crg.features " +
 					"WHERE c.id=:containerId"
+		),
+		@NamedQuery(
+				name = ContainerDao.GET_CONTAINERS_WITHOUT_REPORT_QUERY,
+				query = "SELECT DISTINCT c FROM Container c " +
+					"WHERE c.reportDone=false"
 		)
 })
 public class Container extends IdentifiedEntity {

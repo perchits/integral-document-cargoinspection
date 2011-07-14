@@ -76,5 +76,12 @@ public class ContainerDaoImpl extends BaseDaoImpl implements ContainerDao {
 		}
 		return result;
 	}
-
+	
+	@Override
+	public List<Container> getContainersWithoutReport() {
+		Query query = entityManager.createNamedQuery(GET_CONTAINERS_WITHOUT_REPORT_QUERY);
+		@SuppressWarnings("unchecked")
+		List<Container> result = query.getResultList();
+		return result;
+	}
 }

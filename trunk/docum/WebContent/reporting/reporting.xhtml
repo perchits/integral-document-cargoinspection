@@ -18,7 +18,7 @@
 						</ui:include>
 						<p:panel styleClass="small-panel" style="border: none;">
 						<p:dataTable id="reports" var="report"
-							value="#{reportBean.allObjects}" selectionMode="multiple"
+							value="#{reportBean.allObjects}" selectionMode="single"
 							selection="#{reportBean.report}" update="reportsInfoPanel" >
 							<p:column sortBy="#{report.number}">
 								<f:facet name="header">
@@ -67,6 +67,11 @@
 				</h:panelGrid>
 			</p:panel>
 		</h:form>	
+		<ui:include src="/reporting/dialog/selectContainersDlg.xhtml">
+			<ui:param name="bean" value="#{reportBean}" />
+			<ui:param name="gridId" value="reports" />
+			<ui:param name="title" value="title" />
+		</ui:include>
 	</ui:define>
 	</ui:composition>
 </html>
