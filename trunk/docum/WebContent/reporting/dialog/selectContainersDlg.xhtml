@@ -11,9 +11,9 @@
 	<ui:define name="dialogBody">
 		<p:panel styleClass="small-panel" style="border: none;">
 			<h:outputLabel for="reportNumber" value="Номер отчета:" />
-			<p:inputText value="#{bean.report.number}" id="reportNumber" label="Номер отчета" />
+			<p:inputText value="#{bean.report.number}" id="reportNumber" label="Номер отчета" required="true" />
 			<h:outputLabel for="reportDate" value="Дата отчета:" />
-			<p:calendar value="#{bean.report.date}" id="reportDate"
+			<p:calendar value="#{bean.report.date}" id="reportDate" required="true"
 				label="Дата отчета" pattern="dd.MM.yyyy" />
 			<p:dataTable id="containersWithoutReport" var="containerWoReport"
 				value="#{reportBean.containersWithoutReport}" selectionMode="single"

@@ -32,6 +32,11 @@
 								</f:facet>
 								<h:outputText value="#{report.date}" />
 							</p:column>
+							<p:column sortBy="#{report.date}">
+								<h:outputLink value="../resources/reporting/resultReport_#{report.id}.pdf" styleClass="olive-color" >
+								   <h:outputText value="Нажмите для просмотра" />
+								</h:outputLink>
+							</p:column>
 						</p:dataTable>
 						</p:panel>
 					</p:panel>
@@ -46,9 +51,13 @@
 								<ul>
 								<ui:repeat value="#{reportBean.containers}" var="container">
 									<li class="listContainersInDoc">
-										<h:outputLink value="../resources/reporting/resultReport_#{container.number}.pdf" styleClass="olive-color" >
-										   <h:outputText value="#{container.number}" />
-										</h:outputLink>
+										<p:commandLink styleClass="olive-color" value="#{container.number}" 
+													   action="#{reportBean.goToContainer}">
+											<f:setPropertyActionListener 
+												target="#{reportBean.selectedContainer}"
+												value="#{container}" 
+											/> 
+										</p:commandLink> 
 									</li>
 								</ui:repeat>
 								</ul>
