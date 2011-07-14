@@ -1,0 +1,31 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+<ui:composition template="/WEB-INF/includes/dialogLayout.xhtml">
+	<ui:param name="width" value="360" />
+	<ui:param name="saveObject" value="saveObject" />
+	<ui:param name="deleteObject" value="deleteObject" />
+	<ui:define name="dialogBody">
+		<p:panel styleClass="small-panel" style="border: none;">
+			<p:dataTable id="containersWithoutReport" var="containerWoReport"
+				value="#{reportBean.containersWithoutReport}" selectionMode="single"
+				selection="#{reportBean.container}">
+				<p:column sortBy="#{containerWoReport.number}">
+					<f:facet name="header">
+					Номер контейнера
+					</f:facet>
+					<h:outputText value="#{containerWoReport.number}" />
+				</p:column>
+			</p:dataTable>
+		</p:panel>
+	</ui:define>	
+	<ui:define name="deleteConfirmation">
+		<ui:include src="/WEB-INF/includes/deleteConfirmation.xhtml">
+			<ui:param name="message" value="Удалить отчет '#{bean.report.number}'?" />
+		</ui:include>
+	</ui:define>
+</ui:composition>
+</html>
