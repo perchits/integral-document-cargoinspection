@@ -28,7 +28,6 @@ import com.docum.service.InvoiceService;
 import com.docum.service.PurchaseOrderService;
 import com.docum.service.ReportingService;
 import com.docum.util.AlgoUtil;
-import com.docum.util.DocumLogger;
 import com.docum.util.FacesUtil;
 import com.docum.view.AbstractDlgView;
 import com.docum.view.DialogActionEnum;
@@ -405,11 +404,4 @@ public class ContainerView extends BaseView implements Serializable,
 			containers.add(cp);
 		}
 	}
-
-	public void createReport() {
-		DocumLogger.log("Создание отчета для контейнера: "
-				+ this.container.getNumber());
-		reportingService.createReport(container);
-	}
-
 }

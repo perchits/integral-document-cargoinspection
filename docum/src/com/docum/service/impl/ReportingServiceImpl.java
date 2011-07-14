@@ -36,10 +36,13 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 	private Container container;
 
 	@Override
-	public void createReport(Container container) {
+	public void createReport(Container container, Long reportId) {
 		try {
+			if (reportId == null) {
+				throw new Exception("Id отчета не может быть пустым при создании файла");
+			}
 			this.container = container;
-			String reportFileName = "/resultReport_" + container.getNumber();
+			String reportFileName = "/resultReport_" + reportId;
 			String location = FacesContext.getCurrentInstance().getExternalContext()
 				.getRealPath("/") +	"/resources/reporting"; 
 			OdfTextDocument odt = OdfTextDocument.loadDocument(location + "/documTemplate.odt");

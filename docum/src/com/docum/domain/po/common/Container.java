@@ -65,7 +65,7 @@ import com.docum.util.HashCodeHelper;
 				name = ContainerDao.GET_CONTAINERS_BY_REPORT_QUERY,
 				query = "SELECT DISTINCT c FROM Container c " +
 				"JOIN c.reports r " +
-				"WHERE r.id=:reportId"
+				"WHERE r.id=:reportId "
 		)
 })
 public class Container extends IdentifiedEntity {

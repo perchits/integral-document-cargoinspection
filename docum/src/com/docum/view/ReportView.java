@@ -13,7 +13,10 @@ import com.docum.domain.po.common.Report;
 import com.docum.service.ContainerService;
 import com.docum.service.ReportingService;
 import com.docum.util.DocumLogger;
+import com.docum.util.FacesUtil;
 import com.docum.view.dict.BaseView;
+import com.docum.view.navigation.ViewNavigation;
+import com.docum.view.param.FlashParamKeys;
 
 @Controller("reportBean")
 @Scope("session")
@@ -61,9 +64,19 @@ public class ReportView extends BaseView {
 		return containerService.getContainersWithoutReport();
 	}
 	
+	@Override
+	public void deleteObject() {
+		List<Container> containers = containerService.getContainersByReport(this.report.getId()); 
+		for (Container container: containers) {
+			container.setReportDone(false);
+		}
+		super.getBaseService().save(containers);
+		super.getBaseService().deleteObject(getBeanObject().getClass(), getBeanObject().getId());
+		refreshObjects();
+	}
+	
 	public void createReport() {
 		DocumLogger.log("Создание отчета для контейнера: " + this.container.getNumber());
-		reportingService.createReport(this.container);
 		List<Container> containers = new ArrayList<Container>();
 		if (this.container != null) {
 			containers.add(this.container);
@@ -71,7 +84,13 @@ public class ReportView extends BaseView {
 			saveObject();
 			this.container.setReportDone(true);
 			super.getBaseService().save(this.container);
+			reportingService.createReport(this.container, this.report.getId());
 		}
+	}
+	
+	public String goToContainer() {
+		FacesUtil.putFlashParam(FlashParamKeys.CONTAINER, selectedContainer);
+		return ViewNavigation.CONTAINERS_VIEW;
 	}
 
 	public List<Container> getContainers() {
