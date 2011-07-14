@@ -5,7 +5,7 @@
 	xmlns:p="http://primefaces.prime.com.tr/ui">
 
 <ui:composition template="/WEB-INF/includes/dialogLayout.xhtml">
-	<ui:param name="width" value="360" />
+	<ui:param name="width" value="460" />
 	<ui:param name="saveObject" value="createReport" />
 	<ui:param name="deleteObject" value="deleteObject" />
 	<ui:define name="dialogBody">
@@ -23,6 +23,18 @@
 					Номер контейнера
 					</f:facet>
 					<h:outputText value="#{containerWoReport.number}" />
+				</p:column>
+				<p:column sortBy="#{containerWoReport.voyage.vessel.name}">
+					<f:facet name="header">
+					Судозаход
+					</f:facet>
+					<h:outputText value="#{containerWoReport.voyage.vessel.name}" />
+				</p:column>
+				<p:column sortBy="#{containerWoReport.voyage.arrivalDate}">
+					<f:facet name="header">
+					Дата судозахода
+					</f:facet>
+					<h:outputText value="#{containerWoReport.voyage.arrivalDate}" />
 				</p:column>
 			</p:dataTable>
 		</p:panel>

@@ -46,13 +46,9 @@
 								<ul>
 								<ui:repeat value="#{reportBean.containers}" var="container">
 									<li class="listContainersInDoc">
-										<p:commandLink styleClass="olive-color" value="#{container.number}" 
-													   action="#{reportBean.goToContainer}">
-											<f:setPropertyActionListener 
-												target="#{reportBean.selectedContainer}"
-												value="#{container}" 
-											/> 
-										</p:commandLink> 
+										<h:outputLink value="../resources/reporting/resultReport.pdf" styleClass="olive-color" >
+										   <h:outputText value="#{container.number}" />
+										</h:outputLink>
 									</li>
 								</ui:repeat>
 								</ul>
