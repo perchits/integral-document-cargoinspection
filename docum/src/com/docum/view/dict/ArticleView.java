@@ -20,7 +20,7 @@ import com.docum.service.ArticleService;
 public class ArticleView extends BaseView {
 	private static final long serialVersionUID = -3958815651039578018L;
 	private static final String sign = "Товар";
-		
+
 	@Autowired
 	ArticleService articleService;
 
@@ -28,8 +28,8 @@ public class ArticleView extends BaseView {
 	private Article article = new Article();
 	private ArticleCategory category = new ArticleCategory();
 	private ArticleFeature feature = new ArticleFeature();
-	private List<ArticleFeature> features =new ArrayList<ArticleFeature>();
-	private List<ArticleFeatureInstance> featureInstances =new ArrayList<ArticleFeatureInstance>();
+	private List<ArticleFeature> features = new ArrayList<ArticleFeature>();
+	private List<ArticleFeatureInstance> featureInstances = new ArrayList<ArticleFeatureInstance>();
 	private ArticleFeatureInstance featureInstance = new ArticleFeatureInstance();
 
 	public Article getArticle() {
@@ -58,38 +58,35 @@ public class ArticleView extends BaseView {
 
 	@Override
 	public IdentifiedEntity getBeanObject() {
-		return article != null ? this.article : new Article(); 
+		return article != null ? this.article : new Article();
 	}
-	
+
 	public List<ArticleCategory> getCategories() {
 		if (this.article == null || this.article.getId() == null) {
 			return null;
 		} else {
-			return articleService.getArticleCategoryByArticle(this.article.getId());
+			return articleService.getArticleCategoryByArticle(this.article
+					.getId());
 		}
 	}
-	
+
 	public List<ArticleFeature> getFeatures() {
 		if (this.article == null || this.article.getId() == null) {
 			return null;
 		} else {
-			this.features = articleService.getArticleFeatureByArticle(this.article.getId()); 
-			return this.features;  
+			this.features = articleService
+					.getArticleFeatureByArticle(this.article.getId());
+			return this.features;
 		}
 	}
-	
+
 	public void saveCategory() {
-		if (category != null) {
-		//	if (this.category.getId() == null) {
-		//		this.category.setArticle(this.article);
-		//	}
-		//	super.getBaseService().save(this.category);
-			article.addCategory(category); 
-			article = getBaseService().save(article);
+		if (category.getId() == null) {
+			article.addCategory(category);
 		}
-			
+		article = getBaseService().save(article);
 	}
-	
+
 	public void saveFeature() {
 		if (this.feature != null) {
 			if (this.feature.getId() == null) {
@@ -98,7 +95,7 @@ public class ArticleView extends BaseView {
 			super.getBaseService().save(this.feature);
 		}
 	}
-	
+
 	public void saveFeatureInstance() {
 		if (this.featureInstance != null) {
 			if (this.featureInstance.getId() == null) {
@@ -106,44 +103,45 @@ public class ArticleView extends BaseView {
 			}
 			super.getBaseService().save(this.featureInstance);
 		}
-		this.featureInstances = 
-			articleService.getArticleFeatureInstanceByArticle(this.feature.getId()); 
+		this.featureInstances = articleService
+				.getArticleFeatureInstanceByArticle(this.feature.getId());
 	}
-	
+
 	public void deleteCategory() {
-		article.removeCategory(category);		
-		article = getBaseService().save(article);
-		//super.getBaseService().deleteObject(this.category.getClass(), this.category.getId());
+		article.removeCategory(category);
+		article = getBaseService().save(article);		
 	}
-	
+
 	public void deleteFeature() {
-		super.getBaseService().deleteObject(this.feature.getClass(), this.feature.getId());
+		super.getBaseService().deleteObject(this.feature.getClass(),
+				this.feature.getId());
 	}
-	
+
 	public void deleteFeatureInstance() {
-		super.getBaseService().deleteObject(
-				this.featureInstance.getClass(), this.featureInstance.getId());
-		this.featureInstances = 
-			articleService.getArticleFeatureInstanceByArticle(this.feature.getId());
-		this.feature.setInstances(new HashSet<ArticleFeatureInstance>(this.featureInstances));
+		super.getBaseService().deleteObject(this.featureInstance.getClass(),
+				this.featureInstance.getId());
+		this.featureInstances = articleService
+				.getArticleFeatureInstanceByArticle(this.feature.getId());
+		this.feature.setInstances(new HashSet<ArticleFeatureInstance>(
+				this.featureInstances));
 		super.getBaseService().save(this.feature);
 	}
-	
+
 	public void refreshFeatureInstances() {
-		this.featureInstances = 
-			articleService.getArticleFeatureInstanceByArticle(this.feature.getId()); 
+		this.featureInstances = articleService
+				.getArticleFeatureInstanceByArticle(this.feature.getId());
 	}
-	
+
 	public void newCategory() {
 		setTitle("Новая категория");
-		this.category = new ArticleCategory();
+		category = new ArticleCategory();
 	}
-	
+
 	public void newFeature() {
 		setTitle("Новая характеристика");
 		this.feature = new ArticleFeature();
 	}
-	
+
 	public void newFeatureInstance() {
 		setTitle("Новая характеристика");
 		this.featureInstance = new ArticleFeatureInstance();
@@ -180,7 +178,8 @@ public class ArticleView extends BaseView {
 	public void setFeature(ArticleFeature feature) {
 		this.feature = feature;
 		if (this.feature != null) {
-			this.featureInstances = new ArrayList<ArticleFeatureInstance>(this.feature.getInstances());
+			this.featureInstances = new ArrayList<ArticleFeatureInstance>(
+					this.feature.getInstances());
 		}
 	}
 
