@@ -7,11 +7,33 @@ import java.util.Set;
 
 import com.docum.domain.po.common.Article;
 import com.docum.domain.po.common.ArticleCategory;
+import com.docum.domain.po.common.ArticleDefect;
 import com.docum.domain.po.common.ArticleFeature;
 import com.docum.domain.po.common.ArticleFeatureInstance;
 
 public class ArticleDataPreparator {
-	
+	private static String[][][] articleDefectNames = new String[][][]
+	{
+		{
+			{"Незначительные дефекты формы, окраски", "Insignificant defects of shape and colouring"},
+			{"Незначительные дефекты кожицы, незначительные помятости, зарубцевавшиеся трещины более 1 см", "Defects of skin, insignificant bruises, mechanical damages cicatrize cracks more 1 cm"},
+			{"Опробковение рыльца более 1 кв. см", "Suberization of stigma more 1 cm"}
+		},
+		{
+			{"Дефекты кожицы, помятости без серьезных повреждений, зарубцевавшиеся трещины более 3 см", "Defects of skin, bruises without heavy damages, cicatrize crack more 3 cm"},
+			{"Перезревшие, признаки сморщивания (вялые плоды)", "Overriped / Signs of corrugation (sleepy fruits)"},
+			{"Следы посторонних веществ", "Signs of strange substance"}
+		},
+		{
+			{"Наличие солнечных и земляных ожогов; повреждения насекомыми", "Presence of sunburns and mud burns and damages by insects"},
+			{"С посторонним запахом и/или привкусом", "With strange smell or smack"},
+			{"Продукт, подверженный гниению или порче, непригодный к употреблению", "Product subject to molding or spoiling, that unsuitable to usage"},
+			{"Сильные механические повреждения", "Strong mechanical damages"}
+		}
+	};
+	private static TestDataEntityCounter<String[][]> articleDefectCounter =
+		new TestDataEntityCounter<String[][]>(articleDefectNames);
+
 	public static List<Article> prepareArticles(TestDataPersister persister) {
 		List<Article> result = new ArrayList<Article>();
 		result.add(prepareApples(persister));
@@ -28,8 +50,7 @@ public class ArticleDataPreparator {
 		article.setCategories(prepareCategories(persister, article, new String[][] {
 				{"Сорт 1", "Class I"},
 				{"Сорт 2", "Class II"},
-				{"Сорт 1", "Cat 1"},
-				{"Сорт 2", "Cat 2"}}));
+				{"Брак", "Waste"}}));
 		article.getFeatures().add(prepareArticleFeature(persister, article, "Вид", "Variety",
 				new String[][] {
 				{"Делишес", "Delicious"},
@@ -46,8 +67,7 @@ public class ArticleDataPreparator {
 		article.setCategories(prepareCategories(persister, article, new String[][] {
 				{"Сорт 1", "Class I"},
 				{"Сорт 2", "Class II"},
-				{"Сорт 1", "Cat 1"},
-				{"Сорт 2", "Cat 2"}}));
+				{"Брак", "Waste"}}));
 		article.getFeatures().add(prepareArticleFeature(persister, article, "Вид", "Variety",
 				new String[][] {
 				{"Конференц", "Conference"},
@@ -65,8 +85,7 @@ public class ArticleDataPreparator {
 		article.setCategories(prepareCategories(persister, article, new String[][] {
 				{"Сорт 1", "Class I"},
 				{"Сорт 2", "Class II"},
-				{"Сорт 1", "Cat 1"},
-				{"Сорт 2", "Cat 2"}}));
+				{"Брак", "Waste"}}));
 		article.getFeatures().add(prepareArticleFeature(persister, article,
 				"Страна происхождения", "Origin", new String[][] {
 				{"Россия", "Russia"},
@@ -111,9 +130,26 @@ public class ArticleDataPreparator {
 			Article article, String[][] categoryNames) {
 		Set<ArticleCategory> result = new HashSet<ArticleCategory>();
 		for(String[] rec : categoryNames) {
-			result.add(new ArticleCategory(article, rec[0], rec[1]));
+			ArticleCategory category = new ArticleCategory(article, rec[0], rec[1]);
+			category.setDefects(prepareDefects(persister, category));
+			result.add(category);
 		}
 		persister.persist(result);
+		return result;
+	}
+
+	private static Set<ArticleDefect> prepareDefects(TestDataPersister persister,
+			ArticleCategory category) {
+		Set<ArticleDefect> result = new HashSet<ArticleDefect>();
+		String[][] defectNames = articleDefectCounter.next();
+		for(String[] rec : defectNames) {
+			ArticleDefect defect = new ArticleDefect(category);
+			defect.setName(rec[0]);
+			defect.setEnglishName(rec[1]);
+			result.add(defect);
+		}
+		//нельзя вызывать, так как еще не сохранена категория, сохранится автоматом
+		//persister.persist(result);
 		return result;
 	}
 }
