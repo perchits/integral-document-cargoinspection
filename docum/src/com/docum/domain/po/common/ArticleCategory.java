@@ -1,9 +1,16 @@
 package com.docum.domain.po.common;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 
 import com.docum.dao.ArticleDao;
 import com.docum.domain.po.IdentifiedEntity;
@@ -28,6 +35,10 @@ public class ArticleCategory extends IdentifiedEntity {
 	private String name;
 
 	private String englishName;
+	
+	@OneToMany(mappedBy="category", cascade=CascadeType.ALL, orphanRemoval=true, fetch=FetchType.EAGER)
+	@OrderBy(value="name")
+	private Set<ArticleDefect> defects = new HashSet<ArticleDefect>(); 
 	
 	public ArticleCategory() {
 		super();
@@ -72,6 +83,27 @@ public class ArticleCategory extends IdentifiedEntity {
 	public void setArticle(Article article) {
 		this.article = article;
 	}
+
+	public Set<ArticleDefect> getDefects() {
+		return defects;
+	}
+
+	public void setDefects(Set<ArticleDefect> defects) {
+		this.defects = defects;
+	}
+
+	public void addDefect(ArticleDefect defect) {
+		if(defect != null) {
+			defects.add(defect);
+			defect.setCategory(this);
+		}
+	}
+
+	public void removeDefect(ArticleDefect defect) {
+		if(defect != null && defects.remove(defect)) {
+			defect.setCategory(null);
+		}
+	}
 	
 	public boolean equals(Object obj) {
 		if (obj == this) {
@@ -94,4 +126,5 @@ public class ArticleCategory extends IdentifiedEntity {
 		}
 		return HashCodeHelper.hashCode(getId());
 	}
+
 }
