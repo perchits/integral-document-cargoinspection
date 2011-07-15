@@ -1,6 +1,8 @@
 package com.docum.view.dict;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 
@@ -65,8 +67,9 @@ public class ArticleView extends BaseView {
 		if (this.article == null || this.article.getId() == null) {
 			return null;
 		} else {
-			return articleService.getArticleCategoryByArticle(this.article
-					.getId());
+			List<ArticleCategory> result = new ArrayList<ArticleCategory>(article.getCategories());
+			Collections.sort(result, new ArticleCategoryComparator());
+			return result;
 		}
 	}
 
@@ -74,9 +77,23 @@ public class ArticleView extends BaseView {
 		if (this.article == null || this.article.getId() == null) {
 			return null;
 		} else {
-			this.features = articleService
-					.getArticleFeatureByArticle(this.article.getId());
+			this.features = new ArrayList<ArticleFeature>(article.getFeatures());
+			Collections.sort(this.features, new ArticleFeatureComparator());
 			return this.features;
+		}
+	}
+
+	private static class ArticleCategoryComparator implements Comparator<ArticleCategory> {
+		@Override
+		public int compare(ArticleCategory o1, ArticleCategory o2) {
+			return o1.getName().compareTo(o2.getName());
+		}
+	}
+
+	private static class ArticleFeatureComparator implements Comparator<ArticleFeature> {
+		@Override
+		public int compare(ArticleFeature o1, ArticleFeature o2) {
+			return o1.getName().compareTo(o2.getName());
 		}
 	}
 
@@ -85,6 +102,8 @@ public class ArticleView extends BaseView {
 			article.addCategory(category);
 		}
 		article = getBaseService().save(article);
+		category = null;
+		feature = null;
 	}
 
 	public void saveFeature() {
