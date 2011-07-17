@@ -26,8 +26,41 @@ public class SurveyPlace extends IdentifiedEntity {
 		this.russianName = russianName;
 	}
 	
+	public String getEnglishName()	{
+		return this.englishName;
+	}
+	
+	public void setEnglishName(String englishName){
+		this.englishName = englishName;
+	}
+	
+	public String getRussianName()	{
+		return this.russianName;
+	}
+	
+	public void setRussianName(String russianName){
+		this.russianName = russianName;
+	}
+	
+	public void copy(SurveyPlace sp){
+		this.englishName = sp.englishName;
+		this.russianName = sp.russianName;
+	}
+	
+	public boolean equals(Object obj) {
+		if (obj == this) {
+			return true;
+		}
 
+		if (!(obj instanceof SurveyPlace)) {
+			return false;
+		}
+
+		return EqualsHelper.equals(getId(), ((SurveyPlace) obj).getId());
+	}
 	
-	
+	public int hashCode() {
+		return HashCodeHelper.hashCode(getId());
+	}
 	
 }
