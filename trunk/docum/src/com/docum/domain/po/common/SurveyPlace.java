@@ -21,6 +21,10 @@ public class SurveyPlace extends IdentifiedEntity {
 		copy(sp);
 	}
 	
+	public SurveyPlace(String englishName, String russianName) {
+		this.englishName = englishName;
+		this.russianName = russianName;
+	}
 	
 
 	
