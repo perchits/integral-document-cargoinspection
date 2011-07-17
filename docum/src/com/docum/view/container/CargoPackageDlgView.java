@@ -34,9 +34,8 @@ public class CargoPackageDlgView extends AbstractDlgView implements Serializable
 
 	public String getTitle() {						
 		return String.format("Редактирование упаковки для груза «%1$s»" , 
-				cargoPackage != null && cargoPackage.getCondition() != null && 
-				cargoPackage.getCondition().getCargo()!= null ? 
-						cargoPackage.getCondition().getCargo().toString() : "" );
+				cargoPackage != null && cargoPackage.getCargo() != null ? 
+						cargoPackage.getCargo().toString() : "" );
 	}
 
 	public void save() {

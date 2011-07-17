@@ -1,10 +1,12 @@
 package com.docum.view.wrapper;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.EnumMap;
 
 import com.docum.domain.ContainerStateEnum;
+import com.docum.domain.po.common.Cargo;
 import com.docum.domain.po.common.Container;
 import com.docum.util.EqualsHelper;
 import com.docum.util.HashCodeHelper;
@@ -93,7 +95,7 @@ public class ContainerPresentation implements Serializable {
 	}
 
 	private String getCargoes() {
-		return container != null ? ListHandler.join(container.getCargoes(),
+		return container != null ? ListHandler.join(new ArrayList<Cargo>(container.getDeclaredCondition().getCargoes()),
 				", ") : null;
 	}
 

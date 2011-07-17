@@ -19,8 +19,8 @@ import com.docum.util.HashCodeHelper;
 public abstract class CargoCondition extends IdentifiedEntity {
 	private static final long serialVersionUID = 6450548355480762800L;
 
-	@OneToMany(mappedBy="condition", cascade=CascadeType.ALL, orphanRemoval=true, fetch=FetchType.EAGER)
-	private Set<CargoPackage> cargoPackages = new HashSet<CargoPackage>();
+	@OneToMany(mappedBy = "condition", cascade=CascadeType.ALL, orphanRemoval=true, fetch=FetchType.EAGER)
+	private Set<Cargo> cargoes = new HashSet<Cargo>();
 	
 	Double temperature;
 
@@ -33,29 +33,10 @@ public abstract class CargoCondition extends IdentifiedEntity {
 		this.temperature = temperature;
 	}
 
-	public abstract Cargo getCargo();
+	public abstract Container getContainer();
 
-	public abstract void setCargo(Cargo cargo);
+	public abstract void setContainer(Container container);
 	
-	public void removePackage(CargoPackage cargoPackage){
-		if(cargoPackages.remove(cargoPackage)) {
-			cargoPackage.setCondition(null);
-		}
-	}
-	
-	public void addPackage(CargoPackage cargoPackage){
-		cargoPackages.add(cargoPackage);
-		cargoPackage.setCondition(this);
-	}
-	
-	public Set<CargoPackage> getCargoPackages() {
-		return cargoPackages;
-	}
-
-	public void setCargoPackages(Set<CargoPackage> cargoPackages) {		
-		this.cargoPackages = cargoPackages;
-	}
-
 	public Double getTemperature() {
 		return temperature;
 	}
@@ -64,6 +45,28 @@ public abstract class CargoCondition extends IdentifiedEntity {
 		this.temperature = temperature;
 	}
 
+	public Set<Cargo> getCargoes() {
+		return cargoes;
+	}
+
+	public void setCargoes(Set<Cargo> cargoes) {
+		this.cargoes = cargoes;
+	}
+
+	public void addCargo(Cargo cargo) {
+		if(cargo != null) {
+			cargoes.add(cargo);
+			cargo.setCondition(this);
+		}
+	}
+
+	public void removeCargo(Cargo cargo) {
+		if(cargo != null && cargoes.remove(cargo)) {
+			cargoes.remove(cargo);
+			cargo.setCondition(null);
+		}
+	}
+	
 	public boolean equals(Object obj) {
 		if (obj == this) {
 			return true;

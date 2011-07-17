@@ -1,5 +1,6 @@
 package com.docum.domain.po.common;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
@@ -14,8 +15,10 @@ public class ArticleDefect extends IdentifiedEntity {
 	@ManyToOne(optional=false)
 	private ArticleCategory category;
 	
+	@Column(length=512)
 	private String name;
 	
+	@Column(length=512)
 	private String englishName;
 
 	public ArticleDefect() {

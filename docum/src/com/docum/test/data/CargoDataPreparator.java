@@ -7,8 +7,6 @@ import java.util.List;
 import com.docum.domain.po.common.ActualCargoCondition;
 import com.docum.domain.po.common.Article;
 import com.docum.domain.po.common.ArticleCategory;
-import com.docum.domain.po.common.ArticleFeature;
-import com.docum.domain.po.common.ArticleFeatureInstance;
 import com.docum.domain.po.common.Cargo;
 import com.docum.domain.po.common.CargoArticleFeature;
 import com.docum.domain.po.common.CargoCondition;
@@ -55,13 +53,15 @@ public class CargoDataPreparator {
 		
 		List<Cargo> result = new ArrayList<Cargo>();
 		for (int i = 0; i < 20; i++) {
-			Cargo cargo = new Cargo(articleCounter.next(), supplierCounter.next(),
-					containerCounter.next());
-			persister.persist(cargo);
-			cargo.setDeclaredCondition(prepareDeclaredCondition(persister, cargo));
-			cargo.setActualCondition(prepareActualCondition(persister, cargo));			
+			Container container = containerCounter.next();
+			CargoCondition condition = container.getDeclaredCondition();
+			Cargo cargo = new Cargo(articleCounter.next(), supplierCounter.next(), condition);
+//			persister.persist(cargo);
+			cargo.setCargoPackages(new HashSet<CargoPackage>(preparePackages(persister, cargo)));
 			prepareFeatures(persister, cargo);
 			cargo.setArticleCategory(prepareCategory(persister, cargo));
+			container.setDeclaredCondition(prepareDeclaredCondition(persister, container));
+			container.setActualCondition(prepareActualCondition(persister, container));			
 			result.add(cargo);
 		}
 		persister.persist(result);
@@ -88,27 +88,25 @@ public class CargoDataPreparator {
 		persister.persist(cargo);
 	}
 
-	private static DeclaredCargoCondition prepareDeclaredCondition(TestDataPersister persister, Cargo cargo) {
-		DeclaredCargoCondition condition = new DeclaredCargoCondition(cargo, temperatureCounter.next());
+	private static DeclaredCargoCondition prepareDeclaredCondition(TestDataPersister persister, Container container) {
+		DeclaredCargoCondition condition = container.getDeclaredCondition();
+		condition.setTemperature(temperatureCounter.next());
 		persister.persist(condition);
-		condition.setCargoPackages(new HashSet<CargoPackage>(preparePackages(persister, condition)));
 		return condition;
 	}
 
-	private static ActualCargoCondition prepareActualCondition(TestDataPersister persister, Cargo cargo) {
-		ActualCargoCondition condition = new ActualCargoCondition(cargo, temperatureCounter.next());
-		persister.persist(condition);
-		condition.setCargoPackages(new HashSet<CargoPackage>(preparePackages(persister, condition)));
+	private static ActualCargoCondition prepareActualCondition(TestDataPersister persister, Container container) {
+		ActualCargoCondition condition = container.getActualCondition();
+		condition.setTemperature(temperatureCounter.next());
 		return condition;
 	}
 	
-	private static List<CargoPackage> preparePackages(TestDataPersister persister,
-			CargoCondition condition) {
+	private static List<CargoPackage> preparePackages(TestDataPersister persister, Cargo cargo) {
 		List<CargoPackage> packages = new ArrayList<CargoPackage>();
 		for (int i = 0; i<3; i++) {
-			CargoPackage pkg = new CargoPackage(condition, measureCounter.next(),
+			CargoPackage pkg = new CargoPackage(cargo, measureCounter.next(),
 					countCounter.next());
-			persister.persist(pkg);
+			//persister.persist(pkg);
 			packages.add(pkg);
 			if(i==0) {
 				pkg.setCalibres(new HashSet<CargoPackageCalibre>(prepareCalibres(persister, pkg)));
@@ -123,7 +121,7 @@ public class CargoDataPreparator {
 		for (int i = 0; i<2; i++) {
 			CargoPackageCalibre calibre = new CargoPackageCalibre(pkg, calibreCounter.next(),
 					pkg.getCount()/3*(i+1));
-			persister.persist(calibre);
+			//persister.persist(calibre);
 			calibres.add(calibre);
 		}
 		return calibres;

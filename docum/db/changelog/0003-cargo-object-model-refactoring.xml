@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+	<changeSet author="pepper" id="0003-cargo-object-model-refactoring">
+
+		<dropForeignKeyConstraint baseTableName="cargo"	constraintName="fk3ddf79c79f6b1ed" />
+
+		<dropForeignKeyConstraint baseTableName="cargo" constraintName="fk3ddf79cc97c0347" />
+
+		<dropForeignKeyConstraint baseTableName="cargo" constraintName="fk3ddf79ce3e00f85" />
+
+		<dropForeignKeyConstraint baseTableName="cargopackage" constraintName="fk1c234d0a5c618a71" />
+
+		<addColumn tableName="actualcargocondition">
+			<column name="container_id" type="BIGINT">
+				<constraints nullable="false" />
+			</column>
+		</addColumn>
+
+		<addColumn tableName="declaredcargocondition">
+			<column name="container_id" type="BIGINT">
+				<constraints nullable="false" />
+			</column>
+		</addColumn>
+
+		<dropColumn tableName="cargo" columnName="actualcondition_id" />
+
+		<dropColumn tableName="cargo" columnName="declaredcondition_id" />
+
+		<dropColumn tableName="cargo" columnName="container_id" />
+
+		<addColumn tableName="cargo">
+			<column name="condition_id" type="BIGINT">
+				<constraints nullable="false" />
+			</column>
+		</addColumn>
+
+		<addColumn tableName="cargopackage">
+			<column name="cargo_id" type="BIGINT">
+				<constraints nullable="false" />
+			</column>
+		</addColumn>
+
+		<dropColumn tableName="cargopackage" columnName="condition_id" />
+
+		<createTable tableName="surveyplace">
+			<column autoIncrement="true" name="id" type="bigserial">
+				<constraints nullable="false" primaryKey="true"
+					primaryKeyName="surveyplace_pkey" />
+			</column>
+			<column name="englishname" type="VARCHAR(255)" />
+			<column name="russianname" type="VARCHAR(255)" />
+		</createTable>
+
+		<addForeignKeyConstraint constraintName="cargo_cargocondition_fk"
+			baseTableName="cargo"	baseColumnNames="condition_id"
+			referencedTableName="cargocondition" referencedColumnNames="id" />
+
+		<createIndex tableName="cargo" indexName="cargo_cargocondition_fk_idx">
+			<column name="condition_id" />
+		</createIndex>
+
+		<addForeignKeyConstraint constraintName="actualcargocondition_container_fk"
+			baseTableName="actualcargocondition" baseColumnNames="container_id"
+			referencedTableName="container" referencedColumnNames="id" />
+
+		<createIndex tableName="actualcargocondition" indexName="actualcargocondition_container_fk_idx">
+			<column name="container_id" />
+		</createIndex>
+
+		<addForeignKeyConstraint constraintName="declaredcargocondition_container_fk"
+			baseTableName="declaredcargocondition" baseColumnNames="container_id"
+			referencedTableName="container" referencedColumnNames="id" />
+
+		<createIndex tableName="declaredcargocondition" indexName="declaredcargocondition_container_fk_idx">
+			<column name="container_id" />
+		</createIndex>
+
+		<addForeignKeyConstraint constraintName="cargopackage_cargo_fk"
+			baseTableName="cargopackage" baseColumnNames="cargo_id"
+			referencedTableName="cargo" referencedColumnNames="id" />
+
+		<createIndex tableName="cargopackage" indexName="cargopackage_cargo_fk_idx">
+			<column name="cargo_id" />
+		</createIndex>
+
+	</changeSet>
+</databaseChangeLog>
