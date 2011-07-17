@@ -7,7 +7,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import com.docum.domain.ContainerStateEnum;
 import com.docum.domain.po.common.Cargo;
 import com.docum.domain.po.common.CargoArticleFeature;
 import com.docum.domain.po.common.CargoCondition;
@@ -31,17 +30,7 @@ public class CargoPresentation implements Serializable {
 	}
 
 	public CargoCondition getActiveCargoCondition() {
-		if (cargo != null && cargo.getContainer() != null) {
-			ContainerStateEnum sate = cargo.getContainer().getState();
-			if (ContainerStateEnum.HANDLED.equals(sate)
-					|| ContainerStateEnum.FINISHED.equals(sate)) {
-				return cargo.getActualCondition();
-			} else {
-				return cargo.getDeclaredCondition();
-			}
-		} else {
-			return null;
-		}
+		return cargo.getCondition();
 	}
 
 	public String getArticle() {
@@ -80,7 +69,7 @@ public class CargoPresentation implements Serializable {
 			return null;
 		}
 		
-		Collection<CargoPackage> cp = cargo.getDeclaredCondition().getCargoPackages();
+		Collection<CargoPackage> cp = cargo.getCargoPackages();
 		
 		List<CargoPackagePresentation> result = new ArrayList<CargoPackagePresentation>(
 				cp.size());

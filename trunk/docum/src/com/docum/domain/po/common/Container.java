@@ -11,7 +11,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import com.docum.dao.ContainerDao;
 import com.docum.domain.ContainerStateEnum;
@@ -85,8 +85,11 @@ public class Container extends IdentifiedEntity {
 	@ManyToMany(mappedBy = "containers")
 	private List<BillOfLading> billOfLadings = new ArrayList<BillOfLading>();
 
-	@OneToMany(mappedBy = "container",cascade=CascadeType.ALL, orphanRemoval=true)
-	private List<Cargo> cargoes = new ArrayList<Cargo>();
+	@OneToOne(mappedBy="container", cascade = CascadeType.ALL, orphanRemoval = true)
+	private DeclaredCargoCondition declaredCondition = new DeclaredCargoCondition(this);
+
+	@OneToOne(mappedBy="container", cascade = CascadeType.ALL, orphanRemoval = true)
+	private ActualCargoCondition actualCondition = new ActualCargoCondition(this);
 	
 	@ManyToMany(mappedBy = "containers")
 	private List<Report> reports = new ArrayList<Report>();
@@ -170,12 +173,20 @@ public class Container extends IdentifiedEntity {
 		this.billOfLadings = billOfLadings;
 	}
 
-	public List<Cargo> getCargoes() {
-		return cargoes;
+	public DeclaredCargoCondition getDeclaredCondition() {
+		return declaredCondition;
 	}
 
-	public void setCargoes(List<Cargo> cargoes) {
-		this.cargoes = cargoes;
+	public void setDeclaredCondition(DeclaredCargoCondition declaredCondition) {
+		this.declaredCondition = declaredCondition;
+	}
+
+	public ActualCargoCondition getActualCondition() {
+		return actualCondition;
+	}
+
+	public void setActualCondition(ActualCargoCondition actualCondition) {
+		this.actualCondition = actualCondition;
 	}
 
 	public Voyage getVoyage() {

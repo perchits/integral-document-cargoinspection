@@ -8,7 +8,6 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 
 import com.docum.domain.po.IdentifiedEntity;
 import com.docum.util.EqualsHelper;
@@ -27,27 +26,24 @@ public class Cargo extends IdentifiedEntity {
 	@OneToMany(mappedBy = "cargo", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	private Set<CargoArticleFeature> features = new HashSet<CargoArticleFeature>();
 
+	@OneToMany(mappedBy="cargo", cascade=CascadeType.ALL, orphanRemoval=true, fetch=FetchType.EAGER)
+	private Set<CargoPackage> cargoPackages = new HashSet<CargoPackage>();
+	
 	@ManyToOne(optional = false)
 	private Supplier supplier;
 
 	@ManyToOne(optional = false)
-	private Container container;
-
-	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-	private DeclaredCargoCondition declaredCondition = new DeclaredCargoCondition(this,null);
-
-	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-	private ActualCargoCondition actualCondition = new ActualCargoCondition(this, null);
+	private CargoCondition condition;
 
 	public Cargo() {
 		super();
 	}
 
-	public Cargo(Article article, Supplier supplier, Container container) {
+	public Cargo(Article article, Supplier supplier, CargoCondition condition) {
 		super();
 		this.setArticle(article);
 		this.supplier = supplier;
-		this.container = container;
+		this.condition = condition;
 	}
 
 	public Cargo(Cargo cargo) {
@@ -61,9 +57,8 @@ public class Cargo extends IdentifiedEntity {
 			this.articleCategory = cargo.articleCategory;
 			this.features = cargo.features;
 			this.supplier = cargo.supplier;
-			this.container = cargo.container;
-			this.declaredCondition = cargo.declaredCondition;
-			this.actualCondition = cargo.actualCondition;
+			this.condition = cargo.condition;
+			this.cargoPackages = cargo.cargoPackages;
 		}
 	}
 
@@ -82,12 +77,12 @@ public class Cargo extends IdentifiedEntity {
 		this.article = article;
 	}
 
-	public Container getContainer() {
-		return container;
+	public CargoCondition getCondition() {
+		return condition;
 	}
 
-	public void setContainer(Container container) {
-		this.container = container;
+	public void setCondition(CargoCondition condition) {
+		this.condition = condition;
 	}
 
 	public Supplier getSupplier() {
@@ -96,22 +91,6 @@ public class Cargo extends IdentifiedEntity {
 
 	public void setSupplier(Supplier supplier) {
 		this.supplier = supplier;
-	}
-
-	public DeclaredCargoCondition getDeclaredCondition() {
-		return declaredCondition;
-	}
-
-	public void setDeclaredCondition(DeclaredCargoCondition declaredCondition) {
-		this.declaredCondition = declaredCondition;
-	}
-
-	public ActualCargoCondition getActualCondition() {
-		return actualCondition;
-	}
-
-	public void setActualCondition(ActualCargoCondition actualCondition) {
-		this.actualCondition = actualCondition;
 	}
 
 	public ArticleCategory getArticleCategory() {
@@ -131,15 +110,40 @@ public class Cargo extends IdentifiedEntity {
 	}
 
 	public void addFeature(CargoArticleFeature feature) {
-		features.add(feature);
-		feature.setCargo(this);
+		if(feature != null) {
+			features.add(feature);
+			feature.setCargo(this);
+		}
 	}
 
 	public void removeFeature(CargoArticleFeature feature) {
-		features.remove(feature);
-		feature.setCargo(null);
+		if(feature != null && features.remove(feature)) {
+			features.remove(feature);
+			feature.setCargo(null);
+		}
 	}
 
+	public Set<CargoPackage> getCargoPackages() {
+		return cargoPackages;
+	}
+
+	public void setCargoPackages(Set<CargoPackage> cargoPackages) {		
+		this.cargoPackages = cargoPackages;
+	}
+
+	public void removePackage(CargoPackage cargoPackage){
+		if(cargoPackage != null && cargoPackages.remove(cargoPackage)) {
+			cargoPackage.setCargo(null);
+		}
+	}
+	
+	public void addPackage(CargoPackage cargoPackage){
+		if(cargoPackage != null) {
+			cargoPackages.add(cargoPackage);
+			cargoPackage.setCargo(this);
+		}
+	}
+	
 	public boolean equals(Object obj) {
 		if (obj == this) {
 			return true;

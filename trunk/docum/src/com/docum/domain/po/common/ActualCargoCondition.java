@@ -10,24 +10,29 @@ import com.docum.util.HashCodeHelper;
 public class ActualCargoCondition extends CargoCondition {
 	private static final long serialVersionUID = -6128268661397690352L;
 
-	@OneToOne(mappedBy="actualCondition")
-	private Cargo cargo;
+	@OneToOne(optional=false)
+	private Container container;
 	
 	public ActualCargoCondition() {
 		super();
 	}
 
-	public ActualCargoCondition(Cargo cargo, Double temperature) {
+	public ActualCargoCondition(Container container) {
+		this();
+		this.container = container;
+	}
+
+	public ActualCargoCondition(Container container, Double temperature) {
 		super(temperature);
-		this.cargo = cargo;
+		this.container = container;
 	}
 
-	public Cargo getCargo() {
-		return cargo;
+	public Container getContainer() {
+		return container;
 	}
 
-	public void setCargo(Cargo cargo) {
-		this.cargo = cargo;
+	public void setContainer(Container container) {
+		this.container = container;
 	}
 	
 	public boolean equals(Object obj) {

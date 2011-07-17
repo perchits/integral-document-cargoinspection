@@ -18,7 +18,7 @@ public class CargoPackage extends IdentifiedEntity {
 	private static final long serialVersionUID = 1238283870788720201L;
 
 	@ManyToOne(optional=false)
-	private	CargoCondition condition;
+	private	Cargo cargo;
 	
 	@ManyToOne(optional=false)
 	private Measure measure;
@@ -31,19 +31,19 @@ public class CargoPackage extends IdentifiedEntity {
 	public CargoPackage() {
 	}
 
-	public CargoPackage(CargoCondition condition, Measure measure, Double count) {
+	public CargoPackage(Cargo cargo, Measure measure, Double count) {
 		super();
-		this.setCondition(condition);
+		this.setCargo(cargo);
 		this.measure = measure;
 		this.count = count;
 	}
 
-	public CargoCondition getCondition() {
-		return condition;
+	public Cargo getCargo() {
+		return cargo;
 	}
 
-	public void setCondition(CargoCondition condition) {
-		this.condition = condition;
+	public void setCargo(Cargo cargo) {
+		this.cargo = cargo;
 	}
 
 	public Measure getMeasure() {

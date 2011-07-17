@@ -193,7 +193,7 @@ public class ContainerView extends BaseView implements Serializable,
 
 	public List<CargoPresentation> getContainerCargoes() {
 		if (container != null) {
-			Collection<Cargo> c = container.getCargoes();
+			Collection<Cargo> c = container.getDeclaredCondition().getCargoes();
 			List<CargoPresentation> result = new ArrayList<CargoPresentation>(
 					c.size());
 			AlgoUtil.transform(result, c, new CargoTransformer());
@@ -279,7 +279,7 @@ public class ContainerView extends BaseView implements Serializable,
 	}
 
 	public void deleteCargo() {
-		container.getCargoes().remove(cargo);
+		container.getDeclaredCondition().getCargoes().remove(cargo);
 		containerService.save(container);
 		cargo = null;
 		resreshContainers();
@@ -330,7 +330,7 @@ public class ContainerView extends BaseView implements Serializable,
 	
 	public void addPackage() {
 		CargoPackage cargoPackage = new CargoPackage();
-		cargo.getDeclaredCondition().addPackage(cargoPackage);
+		cargo.addPackage(cargoPackage);
 		prepareCargoPackageDlg(cargoPackage);
 	}
 	
@@ -339,7 +339,7 @@ public class ContainerView extends BaseView implements Serializable,
 	}
 	
 	public void removePackage(){				
-		cargoPackage.getCondition().removePackage(cargoPackage);		
+		cargoPackage.getCargo().removePackage(cargoPackage);		
 		containerService.save(container);		
 		cargoPackage = null;
 	}
@@ -403,8 +403,8 @@ public class ContainerView extends BaseView implements Serializable,
 				Cargo c = d.getCargo();
 				if (c.getId() == null) {
 					c = d.getCargo();
-					c.setContainer(container);
-					container.getCargoes().add(c);
+					c.getCondition().setContainer(container);
+					container.getActualCondition().getCargoes().add(c);
 				} else {
 					cargo.copy(d.getCargo());
 				}
