@@ -45,6 +45,17 @@ public class ArticleFeature extends IdentifiedEntity {
 		super();
 	}
 
+	public void addInstance(ArticleFeatureInstance instance){
+		instances.add(instance);
+		instance.setArticleFeature(this);
+	}
+	
+	public void removeInstance(ArticleFeatureInstance instance) {
+		if (instances.remove(instance)) {
+			instance.setArticleFeature(null);
+		}
+	}
+	
 	public ArticleFeature(Article article, String name, String englishName, boolean list) {
 		this.article = article;
 		this.name = name;

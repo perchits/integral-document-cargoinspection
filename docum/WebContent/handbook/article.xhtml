@@ -17,8 +17,8 @@
 				<p:panel header="#{articleBean.sign}" styleClass="small-panel">
 	
 					<p:dataTable id="articleGrid" var="article"
-						value="#{articleBean.allObjects}" selectionMode="single"
-						selection="#{articleBean.article}" 
+						value="#{articleBean.articles}" selectionMode="single"
+						selection="#{articleBean.wrappedArticle}" 
 						update="categoriesGrid, characteristics, featuresGrid">
 						<p:column sortBy="#{article.name}" filterBy="#{article.name}"
 							filterMatchMode="contains">
@@ -78,9 +78,9 @@
 							<ui:param name="refreshTitle" value="" />
 						</ui:include>
 						<p:dataTable id="featuresGrid" var="feature" selectionMode="single"
-							value="#{articleBean.features}" selection="#{articleBean.feature}">
+							value="#{articleBean.features}" selection="#{articleBean.wrappedFeature}">
 							<p:column style="width:16px">  
-					            <p:rowToggler rendered="#{feature.list}"/>  
+					            <p:rowToggler rendered="#{feature.articleFeature.list}"/>  
 					        </p:column>
 							<p:column>
 								<h:outputText value="#{feature.name}" />

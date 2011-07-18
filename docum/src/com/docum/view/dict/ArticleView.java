@@ -1,9 +1,7 @@
 package com.docum.view.dict;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashSet;
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +14,10 @@ import com.docum.domain.po.common.ArticleCategory;
 import com.docum.domain.po.common.ArticleFeature;
 import com.docum.domain.po.common.ArticleFeatureInstance;
 import com.docum.service.ArticleService;
+import com.docum.util.AlgoUtil;
+import com.docum.view.wrapper.ArticleFeaturePresentation;
+import com.docum.view.wrapper.ArticlePresentation;
+import com.docum.view.wrapper.ArticleTransformer;
 
 @Controller("articleBean")
 @Scope("session")
@@ -28,18 +30,44 @@ public class ArticleView extends BaseView {
 
 	private String categoryTitle;
 	private Article article = new Article();
+	private List<ArticlePresentation> articles;
 	private ArticleCategory category = new ArticleCategory();
 	private ArticleFeature feature = new ArticleFeature();
-	private List<ArticleFeature> features = new ArrayList<ArticleFeature>();
-	private List<ArticleFeatureInstance> featureInstances = new ArrayList<ArticleFeatureInstance>();
 	private ArticleFeatureInstance featureInstance = new ArticleFeatureInstance();
 
 	public Article getArticle() {
 		return article;
 	}
 
-	public void setArticle(Article article) {
-		this.article = article;
+	public ArticlePresentation getWrappedArticle(){
+		return new ArticlePresentation(article);
+	}
+	
+	public void setWrappedArticle(ArticlePresentation article){		
+		this.article = article != null ? article.getArticle() : null;				
+	}
+	
+	public List<ArticleCategory> getCategories() {
+		return getWrappedArticle().getCategories();
+	}
+
+	public List<ArticleFeaturePresentation> getFeatures() {
+		return getWrappedArticle().getFeatures();
+	}
+
+	public List<ArticleFeatureInstance> getInstances() {
+		return new ArticleFeaturePresentation(feature).getInstances();
+	}
+
+	public List<ArticlePresentation> getArticles() {
+		Collection<Article> c = articleService.getAll(Article.class, null);
+		articles = new ArrayList<ArticlePresentation>(c.size());
+		AlgoUtil.transform(articles, c, new ArticleTransformer());
+		return articles;
+	}
+
+	public void setArticle(Article article) {				
+		this.article = article;			
 	}
 
 	@Override
@@ -63,92 +91,41 @@ public class ArticleView extends BaseView {
 		return article != null ? this.article : new Article();
 	}
 
-	public List<ArticleCategory> getCategories() {
-		if (this.article == null || this.article.getId() == null) {
-			return null;
-		} else {
-			List<ArticleCategory> result = new ArrayList<ArticleCategory>(article.getCategories());
-			Collections.sort(result, new ArticleCategoryComparator());
-			return result;
-		}
-	}
-
-	public List<ArticleFeature> getFeatures() {
-		if (this.article == null || this.article.getId() == null) {
-			return null;
-		} else {
-			this.features = new ArrayList<ArticleFeature>(article.getFeatures());
-			Collections.sort(this.features, new ArticleFeatureComparator());
-			return this.features;
-		}
-	}
-
-	private static class ArticleCategoryComparator implements Comparator<ArticleCategory> {
-		@Override
-		public int compare(ArticleCategory o1, ArticleCategory o2) {
-			return o1.getName().compareTo(o2.getName());
-		}
-	}
-
-	private static class ArticleFeatureComparator implements Comparator<ArticleFeature> {
-		@Override
-		public int compare(ArticleFeature o1, ArticleFeature o2) {
-			return o1.getName().compareTo(o2.getName());
-		}
-	}
-
 	public void saveCategory() {
 		if (category.getId() == null) {
 			article.addCategory(category);
 		}
 		article = getBaseService().save(article);
-		category = null;
-		feature = null;
 	}
 
 	public void saveFeature() {
-		if (this.feature != null) {
-			if (this.feature.getId() == null) {
-				this.feature.setArticle(this.article);
-			}
-			super.getBaseService().save(this.feature);
+		if (feature.getId() == null) {
+			article.addFeature(feature);
 		}
+		article = getBaseService().save(article);
 	}
 
 	public void saveFeatureInstance() {
-		if (this.featureInstance != null) {
-			if (this.featureInstance.getId() == null) {
-				this.featureInstance.setArticleFeature(this.feature);
-			}
-			super.getBaseService().save(this.featureInstance);
+		if (featureInstance.getId() == null) {
+			feature.addInstance(featureInstance);
 		}
-		this.featureInstances = articleService
-				.getArticleFeatureInstanceByArticle(this.feature.getId());
+		feature = getBaseService().save(feature);
+		article = getBaseService().save(article);
 	}
 
 	public void deleteCategory() {
 		article.removeCategory(category);
-		article = getBaseService().save(article);		
+		article = getBaseService().save(article);
 	}
 
 	public void deleteFeature() {
-		super.getBaseService().deleteObject(this.feature.getClass(),
-				this.feature.getId());
+		article.removeFeature(feature);
+		article = getBaseService().save(article);
 	}
 
 	public void deleteFeatureInstance() {
-		super.getBaseService().deleteObject(this.featureInstance.getClass(),
-				this.featureInstance.getId());
-		this.featureInstances = articleService
-				.getArticleFeatureInstanceByArticle(this.feature.getId());
-		this.feature.setInstances(new HashSet<ArticleFeatureInstance>(
-				this.featureInstances));
-		super.getBaseService().save(this.feature);
-	}
-
-	public void refreshFeatureInstances() {
-		this.featureInstances = articleService
-				.getArticleFeatureInstanceByArticle(this.feature.getId());
+		feature.removeInstance(featureInstance);
+		feature = getBaseService().save(feature);
 	}
 
 	public void newCategory() {
@@ -193,17 +170,17 @@ public class ArticleView extends BaseView {
 	public ArticleFeature getFeature() {
 		return feature;
 	}
-
+	
 	public void setFeature(ArticleFeature feature) {
-		this.feature = feature;
-		if (this.feature != null) {
-			this.featureInstances = new ArrayList<ArticleFeatureInstance>(
-					this.feature.getInstances());
-		}
+		this.feature =  feature;
 	}
 
-	public List<ArticleFeatureInstance> getFeatureInstances() {
-		return featureInstances;
+	public void setWrappedFeature(ArticleFeaturePresentation feature) {		
+		this.feature = feature !=  null ? feature.getArticleFeature() : null;
+	}
+	
+	public ArticleFeaturePresentation getWrappedFeature() {
+		return new ArticleFeaturePresentation(feature);
 	}
 
 }
