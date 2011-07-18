@@ -1,0 +1,42 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+
+<p:outputPanel id="inspectionBriefDlgPanel">
+	<h:form prependId="false">
+		<p:dialog width="590" id="inspectionBriefDlgId" widgetVar="inspectionBriefVar" modal="true"
+				  header="Результаты инспекции по контейнеру #{bean.container.number}">
+			<h:panelGrid width="100%" columns="2" cellpadding="2">
+				<p:panel header="Русский язык">
+					<h:outputLabel for="inspectionPlace" value="Место инспекции:" />
+					<p:inputText id="inspectionPlace" required="true" />
+					<h:outputLabel for="unloadingPlace" value="Выгрузка:" />
+					<p:inputText id="unloadingPlace"/>
+					<h:outputLabel for="packingType" value="Упаковка:" />
+					<p:inputText id="packingType"/>
+					<h:outputLabel for="palletsFormation" value="Формирование паллет:" />
+					<p:inputTextarea id="palletsFormation" style="width:260px;height:100px;"/>
+					<h:outputLabel for="a4Sticker" value="Стикер A4:" />
+					<p:inputText id="a4Sticker"/>
+				</p:panel>
+				<p:panel header="English">
+					<h:outputLabel for="inspectionPlaceEng" value="Place of survey:" />
+					<p:inputText id="inspectionPlaceEng" required="true" />
+					<h:outputLabel for="unloadingPlaceEng" value="Unloading:" />
+					<p:inputText id="unloadingPlaceEng"/>
+					<h:outputLabel for="packingTypeEng" value="Packing type:" />
+					<p:inputText id="packingTypeEng"/>
+					<h:outputLabel for="palletsFormationEng" value="Pallets formation:" />
+					<p:inputTextarea id="palletsFormationEng" style="width:260px;height:100px;"/>
+					<h:outputLabel for="a4StickerEng" value="A4 Sticker:" />
+					<p:inputText id="a4StickerEng"/>
+				</p:panel> 
+			</h:panelGrid>
+		</p:dialog>
+	</h:form>
+</p:outputPanel>
+
+</html>

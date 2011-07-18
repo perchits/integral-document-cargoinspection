@@ -26,7 +26,8 @@
 						itemValue="#{voyage}" itemLabel="#{voyage.voyageInfo}"
 						forceSelection="true" converter="voyagePresentationConverter"
 						selectListener="#{containerBean.voyageSelect}"
-						onSelectUpdate="containers,infoPanel,containerTitle">
+						onSelectUpdate="containers,infoPanel,containerTitle"
+						style="width: 200px !important;">
 					</p:autoComplete>
 
 					<ui:include src="/WEB-INF/includes/baseCrudToolBar.xhtml">
@@ -37,6 +38,11 @@
 						<ui:param name="editObject" value="editObject" />
 						<ui:param name="beforeDeleteObject" value="beforeDeleteObject" />
 						<ui:param name="refreshObjects" value="refreshObjects" />
+						<ui:param name="inspectionBrief" value="true" />
+					</ui:include>
+					
+					<ui:include src="/container/dialog/inspectionBriefDlg.xhtml">
+						<ui:param name="bean" value="#{containerBean}" />
 					</ui:include>
 
 					<p:dataTable selectionMode="single" styleClass="cellSmallText"

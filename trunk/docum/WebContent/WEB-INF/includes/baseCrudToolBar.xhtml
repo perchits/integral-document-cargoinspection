@@ -32,6 +32,9 @@
 				actionListener="#{bean[refreshObjects]}"
 				image="ui-icon ui-icon-arrowreturnthick-1-w" 
 				title="Обновить"/>
+			
+			<p:commandButton type="push" value="Рез-т инспекции" rendered="#{inspectionBrief != null}"
+				oncomplete="beforeShow(inspectionBriefVar,args)"/>
 		</p:toolbarGroup>
 	</p:toolbar>
 </h:panelGroup>
