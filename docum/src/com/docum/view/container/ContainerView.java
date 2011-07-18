@@ -462,4 +462,8 @@ public class ContainerView extends BaseView implements Serializable,
 			containers.add(cp);
 		}
 	}
+	
+	public void updateInspectionBrief() {
+		
+	}
 }
