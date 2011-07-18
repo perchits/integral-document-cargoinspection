@@ -37,8 +37,8 @@ public class ArticleView extends BaseView {
 
 	public Article getArticle() {
 		return article;
-	}
-
+	}	
+	
 	public ArticlePresentation getWrappedArticle(){
 		return new ArticlePresentation(article);
 	}
@@ -60,10 +60,17 @@ public class ArticleView extends BaseView {
 	}
 
 	public List<ArticlePresentation> getArticles() {
+		if (articles == null) {
+			refreshObjects();
+		}
+		return articles;
+	}
+	
+	@Override
+	public void refreshObjects() {
 		Collection<Article> c = articleService.getAll(Article.class, null);
 		articles = new ArrayList<ArticlePresentation>(c.size());
-		AlgoUtil.transform(articles, c, new ArticleTransformer());
-		return articles;
+		AlgoUtil.transform(articles, c, new ArticleTransformer());		
 	}
 
 	public void setArticle(Article article) {				

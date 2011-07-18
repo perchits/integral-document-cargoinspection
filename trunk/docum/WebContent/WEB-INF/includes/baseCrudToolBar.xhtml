@@ -28,7 +28,7 @@
 				image="ui-icon-trash" update="#{gridId}ConfirmId,growl" 
 				title="Удалить"/>
 
-			<p:commandButton type="push" update="#{gridId},#{update}" value="#{(refreshTitle == null) ? 'Обновить' : refreshTitle}"
+			<p:commandButton process="#{gridId}" type="push" update="#{gridId},#{update}" value="#{(refreshTitle == null) ? 'Обновить' : refreshTitle}"
 				actionListener="#{bean[refreshObjects]}"
 				image="ui-icon ui-icon-arrowreturnthick-1-w" 
 				title="Обновить"/>
