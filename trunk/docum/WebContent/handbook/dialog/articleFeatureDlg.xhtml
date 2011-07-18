@@ -44,7 +44,7 @@
 				<ui:param name="refreshTitle" value="" />
 			</ui:include>
 			<p:dataTable id="featuresDetailsEditGrid" var="fde" 
-				value="#{bean.featureInstances}" selectionMode="single" selection="#{bean.featureInstance}">
+				value="#{bean.instances}" selectionMode="single" selection="#{bean.featureInstance}">
 				<p:column>
 					<h:outputText value="#{fde.name}" />
 				</p:column>
