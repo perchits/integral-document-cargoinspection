@@ -21,6 +21,7 @@ import com.docum.domain.po.common.CargoArticleFeature;
 import com.docum.domain.po.common.CargoPackage;
 import com.docum.domain.po.common.CargoPackageCalibre;
 import com.docum.domain.po.common.Container;
+import com.docum.domain.po.common.Measure;
 import com.docum.domain.po.common.Voyage;
 import com.docum.service.ArticleService;
 import com.docum.service.BillOfLadingService;
@@ -329,13 +330,22 @@ public class ContainerView extends BaseView implements Serializable,
 	}
 	
 	public void addPackage() {
-		CargoPackage cargoPackage = new CargoPackage();
-		cargo.addPackage(cargoPackage);
-		prepareCargoPackageDlg(cargoPackage);
+		CargoPackage cargoPackage = new CargoPackage(cargo);
+		List<Measure> measures = getBaseService().getAll(Measure.class);
+		for(CargoPackage cp : cargo.getCargoPackages()) {
+			measures.remove(cp.getMeasure());
+		}
+		prepareCargoPackageDlg(cargoPackage, measures);
 	}
 	
 	public void editPackage() {		
-		prepareCargoPackageDlg(cargoPackage);
+		List<Measure> measures = getBaseService().getAll(Measure.class);
+		for(CargoPackage cp : cargoPackage.getCargo().getCargoPackages()) {
+			if(!cp.equals(cargoPackage)) {
+				measures.remove(cp.getMeasure());
+			}
+		}
+		prepareCargoPackageDlg(cargoPackage, measures);
 	}
 	
 	public void removePackage(){				
@@ -344,8 +354,8 @@ public class ContainerView extends BaseView implements Serializable,
 		cargoPackage = null;
 	}
 	
-	private void prepareCargoPackageDlg(CargoPackage cargoPackage){
-		cargoPackageDlg = new CargoPackageDlgView(cargoPackage, getBaseService());
+	private void prepareCargoPackageDlg(CargoPackage cargoPackage, List<Measure> measures){
+		cargoPackageDlg = new CargoPackageDlgView(cargoPackage, measures);
 		cargoPackageDlg.addHandler(this);
 	}
 	
@@ -372,8 +382,7 @@ public class ContainerView extends BaseView implements Serializable,
 	}
 	
 	public void addCalibre(){
-		CargoPackageCalibre calibre = new CargoPackageCalibre();
-		calibre.setCargoPackage(cargoPackage);
+		CargoPackageCalibre calibre = new CargoPackageCalibre(cargoPackage);
 		prepareCalibreDlg(calibre);
 	}
 
@@ -419,7 +428,10 @@ public class ContainerView extends BaseView implements Serializable,
 			CargoPackageDlgView d = (CargoPackageDlgView) dialog;
 			if (DialogActionEnum.ACCEPT.equals(action)) {
 				CargoPackage cargoPackage = d.getCargoPackage(); 
-				getBaseService().save(cargoPackage);				
+				if(cargoPackage.getId() == null) {
+					cargo.addPackage(cargoPackage);
+				}
+//				getBaseService().save(cargoPackage);				
 				container = containerService.save(container);
 			}
 		}  else if (dialog instanceof CalibreDlgView) {
@@ -429,7 +441,7 @@ public class ContainerView extends BaseView implements Serializable,
 				if (calibre.getId() == null) {
 					cargoPackage.addCalibre(calibre);
 				}
-				getBaseService().save(calibre);
+//				getBaseService().save(calibre);
 				container = containerService.save(container);
 			}
 		}
