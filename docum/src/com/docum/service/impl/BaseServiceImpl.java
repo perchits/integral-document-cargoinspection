@@ -37,6 +37,11 @@ public class BaseServiceImpl implements BaseService {
 	}
 
 	@Override
+	public <T extends IdentifiedEntity> List<T> getAll(Class<T> clazz) {
+		return baseDao.getAll(clazz, null);
+	}
+
+	@Override
 	public <T extends IdentifiedEntity> List<T> getAll(Class<T> clazz,
 			Map<String, SortOrderEnum> sortFields) {
 		return baseDao.getAll(clazz, sortFields);

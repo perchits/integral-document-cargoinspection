@@ -29,10 +29,16 @@ public class CargoPackage extends IdentifiedEntity {
 	private Set<CargoPackageCalibre> calibres = new HashSet<CargoPackageCalibre>();
 
 	public CargoPackage() {
+		super();
 	}
 
+	public CargoPackage(Cargo cargo) {
+		this();
+		this.setCargo(cargo);
+	}
+	
 	public CargoPackage(Cargo cargo, Measure measure, Double count) {
-		super();
+		this();
 		this.setCargo(cargo);
 		this.measure = measure;
 		this.count = count;

@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.docum.domain.po.common.CargoPackage;
 import com.docum.domain.po.common.Measure;
-import com.docum.service.BaseService;
 import com.docum.view.AbstractDlgView;
 import com.docum.view.DialogActionEnum;
 
@@ -15,8 +14,8 @@ public class CargoPackageDlgView extends AbstractDlgView implements Serializable
 	private CargoPackage cargoPackage;
 	private List<Measure> measures; 
 
-	public CargoPackageDlgView(CargoPackage cargoPackage, BaseService baseService) {
-		measures = baseService.getAll(Measure.class,null);
+	public CargoPackageDlgView(CargoPackage cargoPackage, List<Measure> measures) {
+		this.measures = measures;
 		this.cargoPackage = cargoPackage;
 	}
 	

@@ -21,10 +21,15 @@ public class CargoPackageCalibre extends IdentifiedEntity{
 	public CargoPackageCalibre() {
 		super();
 	}
+
+	public CargoPackageCalibre(CargoPackage cargoPackage) {
+		this();
+		this.cargoPackage = cargoPackage;
+	}
 	
 	public CargoPackageCalibre(CargoPackage cargoPackage, String calibreValue,
 			double packageCount) {
-		super();
+		this();
 		this.cargoPackage = cargoPackage;
 		this.calibreValue = calibreValue;
 		this.packageCount = packageCount;
