@@ -55,8 +55,6 @@
 		</copy>
 	</target>
 
-	<target name="build" depends="clean, createWar, copyToDeployDir" />
-
 	<target name="createWar" depends="compile">
 		<war warfile="${DistDir}/${WarFile}" webxml="${WebContentDir}/WEB-INF/web.xml">
 			<fileset dir="${WebContentDir}" />
@@ -65,7 +63,20 @@
 		</war>
 	</target>
 
-	<taskdef name="hibernatetool" classname="org.hibernate.tool.ant.HibernateToolTask" classpathref="ToolsClasspath" />
+	<target name="build" depends="clean, createWar, copyToDeployDir" />
+
+	<target name="createVersionedWar" depends="compile, createVersion">
+		<war warfile="${DistDir}/${WarFile}" webxml="${WebContentDir}/WEB-INF/web.xml">
+			<fileset dir="${WebContentDir}" />
+			<lib dir="${LibDir}" excludes="**/src/**" />
+			<classes dir="${BuildDir}" excludes="**/com.docum.test/**" />
+		</war>
+	</target>
+
+	<target name="buildVersioned" depends="clean, createVersionedWar, copyToDeployDir" />
+	
+	<taskdef name="hibernatetool" classname="org.hibernate.tool.ant.HibernateToolTask"
+		classpathref="ToolsClasspath" />
 	<target name="_db-drop-old" depends="compile">
 		<hibernatetool destdir="">
 			<jpaconfiguration persistenceunit="docum" propertyfile="local.properties" />
@@ -119,7 +130,7 @@
 		<sleep seconds="5"/>
 	</target>
 
-	<target name="tomcat-start" depends="tomcat-stop,build">
+	<target name="tomcat-start" depends="tomcat-stop, buildVersioned">
 		<java classname="org.apache.catalina.startup.Bootstrap" 
 			fork="true" classpathref="tomcat.class.path">
 			<jvmarg value="-Dcatalina.home=${TomcatDir}" />
@@ -129,7 +140,7 @@
 		</java>
 	</target>
 
-	<target name="tomcat-start-debug" depends="tomcat-stop,build">
+	<target name="tomcat-start-debug" depends="tomcat-stop, buildVersioned">
 		<java classname="org.apache.catalina.startup.Bootstrap"
 			fork="true" classpathref="tomcat.class.path">
 			<jvmarg value="-Dcatalina.home=${TomcatDir}" />
@@ -200,4 +211,10 @@
 		</junit>
 	</target>
 
+	<target name="createVersion">
+		<taskdef name="svnbuildnumber" classname="org.codebistro.tools.BuildNumberTask"
+			classpathref="ToolsClasspath"/>
+		<svnbuildnumber baseDir="${basedir}" outputPath="${BuildDir}/buildnumber.properties"/>
+	</target>
+	
 </project>
