@@ -40,10 +40,6 @@
 						<ui:param name="refreshObjects" value="refreshObjects" />
 						<ui:param name="inspectionBrief" value="true" />
 					</ui:include>
-					
-					<ui:include src="/container/dialog/inspectionBriefDlg.xhtml">
-						<ui:param name="bean" value="#{containerBean}" />
-					</ui:include>
 
 					<p:dataTable selectionMode="single" styleClass="cellSmallText"
 						id="containers" var="container"
@@ -363,6 +359,10 @@
 			<ui:param name="title" value="title" />
 			<ui:param name="rendered" value="#{containerBean.calibreDlg != null}" />
 			<ui:param name="update" value="infoPanel" />
+		</ui:include>
+		
+		<ui:include src="/container/dialog/inspectionBriefDlg.xhtml">
+			<ui:param name="bean" value="#{containerBean}" />
 		</ui:include>
 		
 		<ui:include src="/WEB-INF/includes/deleteConfirmation.xhtml">
