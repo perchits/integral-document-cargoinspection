@@ -6,5 +6,6 @@
   <include file="0001-initial-create.xml"/> 
   <include file="0002-add-articledefect.xml"/> 
   <include file="0003-cargo-object-model-refactoring.xml"/> 
+  <include file="0004-add-inspection.xml"/> 
 
 </databaseChangeLog>
