@@ -6,6 +6,7 @@
 	xmlns:p="http://primefaces.prime.com.tr/ui"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 <f:view contentType="text/html" encoding="UTF-8">
+<f:loadBundle basename="buildnumber" var="buildnumber"/>
 	<h:head>
 		<h:outputStylesheet name="base.css" library="css" />
 		<h:outputScript name="base.js" library="js" />
@@ -22,6 +23,7 @@
 				</h:panelGroup>	
 				<!-- </h:panelGrid> -->
 				<h:panelGroup layout="block" id="footer">
+					<h:outputText value="Версия программы: 0.1.#{buildnumber['build.number']}" />
 					<ui:insert name="footer">
 					</ui:insert>
 				</h:panelGroup>
