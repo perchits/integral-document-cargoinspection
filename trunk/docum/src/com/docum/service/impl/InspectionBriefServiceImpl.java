@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.docum.dao.InspectionBriefDao;
-import com.docum.domain.po.common.Container;
 import com.docum.domain.po.common.InspectionBrief;
 import com.docum.service.InspectionBriefService;
 
@@ -21,8 +20,8 @@ public class InspectionBriefServiceImpl extends BaseServiceImpl implements Inspe
 	InspectionBriefDao inspectionBriefDao;
 
 	@Override
-	public InspectionBrief getInspectionBriefByContainer(Container container) {
-		return inspectionBriefDao.getInspectionBriefByContainer(container);
+	public InspectionBrief getInspectionBriefByContainer(Long containerId) {
+		return inspectionBriefDao.getInspectionBriefByContainer(containerId);
 	}
 
 }

@@ -34,7 +34,8 @@
 				title="Обновить"/>
 			
 			<p:commandButton type="push" value="Рез-т инспекции" rendered="#{inspectionBrief != null}"
-				oncomplete="beforeShow(inspectionBriefVar,args)"/>
+				oncomplete="beforeShow(inspectionBriefVar,args)"
+				actionListener="#{containerBean.editInspection}"/>
 		</p:toolbarGroup>
 	</p:toolbar>
 </h:panelGroup>
