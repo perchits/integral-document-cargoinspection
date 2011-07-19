@@ -3,6 +3,7 @@ package com.docum.domain.po;
 public enum SecurityRoleEnum {
 	SUPERUSER("Все права"),
 	USER("Обычный пользователь"),
+	DEVELOPER("Разработчик"),
 	GUEST("Гость");
 	
 	private String name;

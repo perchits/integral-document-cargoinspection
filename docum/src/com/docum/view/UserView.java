@@ -104,6 +104,10 @@ public class UserView extends BaseView {
 	public boolean getAdministrationPermited() {
 		return loginService.getAdministrationPermited();
 	}
+	
+	public boolean getDevelopmentPermited() {
+		return loginService.getDevelopmentPermited();
+	}
 
 	public SecurityRole getAvailableRole() {
 		return availableRole;

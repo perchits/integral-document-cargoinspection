@@ -15,7 +15,7 @@
     	<custom-filter before="FORM_LOGIN_FILTER" ref="authenticationFilter" />
     	<intercept-url pattern="/resources/**" access="permitAll" />
     	<intercept-url pattern="/login.jsf" access="permitAll" />
-    	<intercept-url pattern="/**" access="hasAnyRole('USER', 'SUPERUSER')" />
+    	<intercept-url pattern="/**" access="hasAnyRole('USER', 'SUPERUSER', 'DEVELOPER')" />
         <form-login login-page="/login.jsf"/>
         <logout />
     </http>
