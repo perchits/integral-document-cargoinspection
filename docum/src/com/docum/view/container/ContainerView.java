@@ -412,8 +412,7 @@ public class ContainerView extends BaseView implements Serializable,
 				Cargo c = d.getCargo();
 				if (c.getId() == null) {
 					c = d.getCargo();
-					c.getCondition().setContainer(container);
-					container.getActualCondition().getCargoes().add(c);
+					container.getDeclaredCondition().addCargo(c);
 				} else {
 					cargo.copy(d.getCargo());
 				}
