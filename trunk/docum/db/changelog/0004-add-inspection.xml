@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+	<changeSet author="pepper" id="0004-add-inspection">
+
+		<createTable tableName="inspection">
+			<column name="id" type="bigserial" autoIncrement="true">
+				<constraints primaryKeyName="inspection_pkey" primaryKey="true"
+					 nullable="false" />
+			</column>
+			<column name="a4sticker" type="VARCHAR(255)" />
+			<column name="a4stickereng" type="VARCHAR(255)" />
+			<column name="inspectionplace" type="VARCHAR(255)" />
+			<column name="inspectionplaceeng" type="VARCHAR(255)" />
+			<column name="normativepaper" type="VARCHAR(255)" />
+			<column name="normativepapereng" type="VARCHAR(255)" />
+			<column name="palletsformation" type="VARCHAR(255)" />
+			<column name="palletsformationeng" type="VARCHAR(255)" />
+			<column name="shippingmark" type="VARCHAR(255)" />
+			<column name="shippingmarkeng" type="VARCHAR(255)" />
+			<column name="unloadingplace" type="VARCHAR(255)" />
+			<column name="unloadingplaceeng" type="VARCHAR(255)" />
+			<column name="container_id" type="BIGINT">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+
+		<addForeignKeyConstraint constraintName="inspection_container_fk"
+			baseTableName="inspection" baseColumnNames="container_id"
+			referencedTableName="container" referencedColumnNames="id" />
+
+		<createIndex tableName="inspection" indexName="inspection_container_fk_idx">
+			<column name="container_id" />
+		</createIndex>
+
+	</changeSet>
+</databaseChangeLog>

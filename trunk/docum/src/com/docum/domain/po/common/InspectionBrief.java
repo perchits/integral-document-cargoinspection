@@ -2,10 +2,12 @@ package com.docum.domain.po.common;
 
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 import com.docum.domain.po.IdentifiedEntity;
 
 @Entity
+@Table(name="inspection")
 public class InspectionBrief extends IdentifiedEntity {
 	private static final long serialVersionUID = -6382871159976843122L;
 
