@@ -26,6 +26,7 @@ import com.docum.domain.po.common.Voyage;
 import com.docum.service.ArticleService;
 import com.docum.service.BillOfLadingService;
 import com.docum.service.ContainerService;
+import com.docum.service.InspectionBriefService;
 import com.docum.service.InvoiceService;
 import com.docum.service.PurchaseOrderService;
 import com.docum.service.ReportingService;
@@ -57,6 +58,7 @@ public class ContainerView extends BaseView implements Serializable,
 	private CargoDlgView cargoDlg;
 	private FeatureDlgView featureDlg;
 	private CargoPackageDlgView cargoPackageDlg;
+	private InspectionBriefDlgView inspectionBriefDlg;
 	private CargoPackage cargoPackage;	
 	private CalibreDlgView calibreDlg;
 	private CargoPackageCalibre calibre;
@@ -73,6 +75,8 @@ public class ContainerView extends BaseView implements Serializable,
 	private BillOfLadingService billService;
 	@Autowired
 	private ArticleService articleService;
+	@Autowired
+	private InspectionBriefService inspectionBriefService;
 	private Cargo cargo;
 	private CargoArticleFeature feature;
 
@@ -346,6 +350,16 @@ public class ContainerView extends BaseView implements Serializable,
 			}
 		}
 		prepareCargoPackageDlg(cargoPackage, measures);
+	}
+	
+	public void editInspection() {		
+		prepareInspectionDlg(this.container, this.inspectionBriefService);
+	}
+	
+	private void prepareInspectionDlg(
+			Container container, InspectionBriefService inspectionBriefService){
+		this.inspectionBriefDlg = new InspectionBriefDlgView(container, inspectionBriefService);
+		this.inspectionBriefDlg.addHandler(this);
 	}
 	
 	public void removePackage(){				

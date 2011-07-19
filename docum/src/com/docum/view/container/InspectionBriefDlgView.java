@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import com.docum.domain.po.common.Container;
 import com.docum.domain.po.common.InspectionBrief;
-import com.docum.service.BaseService;
+import com.docum.service.InspectionBriefService;
 import com.docum.view.AbstractDlgView;
 import com.docum.view.DialogActionEnum;
 
@@ -15,9 +15,10 @@ public class InspectionBriefDlgView extends AbstractDlgView implements
 	private Container container;
 	private InspectionBrief inspectionBrief;
 
-	public InspectionBriefDlgView(Container container, BaseService baseService) {
+	public InspectionBriefDlgView(Container container, InspectionBriefService inspectionBriefService) {
 		this.container = container;
-		// this.inspectionBrief = baseService.getAll(InspectionBrief.class);
+		this.inspectionBrief = 
+			inspectionBriefService.getInspectionBriefByContainer(container.getId());
 	}
 
 	public String getTitle() {

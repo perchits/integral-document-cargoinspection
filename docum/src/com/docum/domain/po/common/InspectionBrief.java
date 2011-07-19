@@ -1,13 +1,24 @@
 package com.docum.domain.po.common;
 
 import javax.persistence.Entity;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.docum.dao.InspectionBriefDao;
 import com.docum.domain.po.IdentifiedEntity;
 
 @Entity
 @Table(name="inspection")
+@NamedQueries({
+		@NamedQuery(
+				name = InspectionBriefDao.GET_INSPECTION_BRIEF_BY_CONTAINER_QUERY,
+				query = "SELECT ib FROM InspectionBrief ib " +
+					"JOIN ib.container c " +
+					"WHERE c.id=:containerId"
+		)
+})
 public class InspectionBrief extends IdentifiedEntity {
 	private static final long serialVersionUID = -6382871159976843122L;
 
