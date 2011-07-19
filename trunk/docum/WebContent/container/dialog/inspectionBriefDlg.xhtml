@@ -35,6 +35,9 @@
 					<p:inputText id="a4StickerEng" />
 				</p:panel> 
 			</h:panelGrid>
+			<p:commandButton actionListener="#{containerBean.saveObject}" value="OK"
+				update="#{gridId},growl,#{update}"
+				oncomplete="handleOKRequest(args,inspectionBriefVar,'#{gridId}Id')" />
 		</p:dialog>
 	</h:form>
 </p:outputPanel>
