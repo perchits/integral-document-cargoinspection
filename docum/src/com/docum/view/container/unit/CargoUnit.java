@@ -88,7 +88,7 @@ public class CargoUnit implements Serializable, DialogActionHandler {
 		container.getDeclaredCondition().getCargoes().remove(cargo);
 		containerHolder.saveContainer();
 		cargo = null;
-		// resreshContainers();
+		containerHolder.resreshContainerList();
 	}
 
 	public ContainerPresentation getContainer() {
@@ -124,6 +124,7 @@ public class CargoUnit implements Serializable, DialogActionHandler {
 					cargo.copy(d.getCargo());
 				}
 				containerHolder.saveContainer();
+				containerHolder.resreshContainerList();
 			}
 		}
 	}

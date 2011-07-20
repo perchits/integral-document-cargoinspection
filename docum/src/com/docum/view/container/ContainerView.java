@@ -254,11 +254,10 @@ public class ContainerView extends BaseView implements Serializable,
 				invoiceService.save(d.getInvoices(container));
 				orderService.save(d.getOrders(container));
 				billService.save(d.getBills(container));
+				resreshContainers();
 			}
 		}
-		if (DialogActionEnum.ACCEPT.equals(action)) {
-			resreshContainers();
-		}
+		
 	}
 
 	private void resreshContainers() {
@@ -280,5 +279,10 @@ public class ContainerView extends BaseView implements Serializable,
 	@Override
 	public void saveContainer() {
 		containerService.save(container);
+	}
+
+	@Override
+	public void resreshContainerList() {
+		resreshContainers();		
 	}
 }
