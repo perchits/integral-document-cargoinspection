@@ -1,0 +1,131 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+<p:panel styleClass="container-cargo-panel"
+	rendered="#{cargobean.container != null}">
+
+	<f:facet name="header">
+		<h:panelGroup styleClass="table-header">
+			<h:outputText value="#{cargobean.container.number}" />
+		</h:panelGroup>
+		<h:panelGroup styleClass="table-btns" id="table-btns">
+			<p:commandButton title="Добавить груз" image="ui-icon-document"
+				actionListener="#{cargobean.addCargo}"
+				oncomplete="beforeShow(infoPanelVar,args)"
+				update="infoPanelDlgPanel,growl" />
+		</h:panelGroup>
+	</f:facet>
+
+	<h:panelGroup id="lazyContainerInfo" layout="block"
+		rendered="#{cargobean.container != null}">
+		<h:outputText styleClass="olive-color" value="Статус: " />
+		<h:outputText value="#{cargobean.container.state}" />
+
+		<h:panelGroup rendered="#{cargobean.container.invoiceInLine != null}">
+			<br />
+			<h:outputText styleClass="olive-color" value="Инвойс: " />
+			<h:outputText value="#{cargobean.container.invoiceInLine}" />
+		</h:panelGroup>
+
+		<h:panelGroup rendered="#{cargobean.container.orderInLine != null}">
+			<br />
+			<h:outputText styleClass="olive-color" value="Заказ: " />
+			<h:outputText value="#{cargobean.container.orderInLine}" />
+		</h:panelGroup>
+
+		<h:panelGroup
+			rendered="#{cargobean.container.billOfLadingInLine != null}">
+			<br />
+			<h:outputText styleClass="olive-color" value="Коносамент: " />
+			<h:outputText value="#{cargobean.container.billOfLadingInLine}" />
+		</h:panelGroup>
+
+		<h:panelGroup rendered="#{cargobean.container.city != null}">
+			<br />
+			<h:outputText styleClass="olive-color" value="Город: " />
+			<h:outputText value="#{cargobean.container.city}" />
+		</h:panelGroup>
+
+		<h:panelGroup rendered="#{cargobean.container.loadingPort != null}">
+			<br />
+			<h:outputText styleClass="olive-color" value="Погрузка: " />
+			<h:outputText value="#{cargobean.container.loadingPort}" />
+			<h:outputText value=", " />
+			<h:outputText value="#{cargobean.container.loadingDate}">
+				<f:convertDateTime dateStyle="medium" type="date" />
+			</h:outputText>
+		</h:panelGroup>
+
+		<h:panelGroup rendered="#{cargobean.container.dischargePort != null}">
+			<br />
+			<h:outputText styleClass="olive-color" value="Выгрузка: " />
+			<h:outputText value="#{cargobean.container.dischargePort}" />
+			<h:outputText value=", " />
+			<h:outputText value="#{cargobean.container.dischargeDate}">
+				<f:convertDateTime dateStyle="medium" type="date" />
+			</h:outputText>
+		</h:panelGroup>
+	</h:panelGroup>
+	<ui:repeat value="#{cargobean.containerCargoes}" var="wcargo">
+		<p:panel styleClass="container-cargo-panel">
+			<f:facet name="header">
+				<h:panelGroup styleClass="table-title">
+								#{wcargo.article}, #{wcargo.articleCategory}
+								</h:panelGroup>
+				<h:panelGroup styleClass="table-btns" id="table-btns">
+					<p:commandButton title="Редактировать груз" image="ui-icon-wrench"
+						oncomplete="beforeShow(infoPanelVar,args)"
+						update="infoPanelDlgPanel,growl">
+						<f:setPropertyActionListener target="#{cargobean.editCargo}"
+							value="#{wcargo}" />
+					</p:commandButton>
+					<p:commandButton title="Удалить груз" image="ui-icon-trash"
+						oncomplete="beforeShow(infoPanelConfirmVar,args)"
+						update="infoPanelConfirmId">
+						<f:setPropertyActionListener target="#{cargobean.cargo}"
+							value="#{wcargo}" />
+					</p:commandButton>
+				</h:panelGroup>
+			</f:facet>
+
+			<h:outputText styleClass="olive-color" value="Поставщик: " />
+			<h:outputText value="#{wcargo.supplier}" />
+			<br />
+			<h:panelGroup styleClass="feature-title" layout="block">
+				<p:commandLink styleClass="olive-color" title="Правка характеристик"
+					value="Характеристики" action="#{cargobean.addFeature}"
+					oncomplete="beforeShow(featureIdVar,args)"
+					update="featureIdDlgPanel,growl">
+					<f:setPropertyActionListener target="#{cargobean.cargo}"
+						value="#{wcargo}" />
+				</p:commandLink>
+			</h:panelGroup>
+
+			<ul>
+				<ui:repeat value="#{wcargo.features}" var="feature">
+					<li><h:outputText styleClass="olive-color"
+							value="#{feature.feature.name}: " /> <h:outputText
+							value="#{feature.value}" /></li>
+				</ui:repeat>
+			</ul>
+			<h:outputText value="Упаковка" />
+			<p:commandButton image="ui-icon-document" title="Добавить упаковку"
+				styleClass="inline-btn" action="#{cargobean.addPackage}"
+				oncomplete="beforeShow(packageIdVar,args)"
+				update="packageIdDlgPanel,growl">
+				<f:setPropertyActionListener target="#{cargobean.cargo}"
+					value="#{wcargo}" />
+			</p:commandButton>
+			<ul>
+				<ui:include src="/container/include/packageUnit.xhtml">
+						<ui:param name="packagebean" value="#{cargobean.packageUnit}" />
+				</ui:include>
+			</ul>
+		</p:panel>
+	</ui:repeat>
+
+</p:panel>
+
+</html>

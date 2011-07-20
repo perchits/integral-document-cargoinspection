@@ -7,7 +7,7 @@
 <ui:composition template="/WEB-INF/includes/dialogLayout.xhtml">
 	<ui:param name="width" value="480" />
 	<ui:param name="saveObject" value="save" />
-	<ui:param name="colCount" value="2" />
+	<ui:param name="colCount" value="2" />	
 	<ui:define name="dialogBody">
 
 		<h:outputLabel for="article" value="Товар:" />
@@ -48,8 +48,8 @@
 				itemLabel="#{supplier.company.name}" />
 			<p:ajax update="cargo-list" />
 		</h:selectOneMenu>
-
-	</ui:define>
+	</ui:define>					
+	
 </ui:composition>
 
 </html>

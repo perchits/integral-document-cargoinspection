@@ -10,7 +10,7 @@ public class CalibreDlgView extends AbstractDlgView implements Serializable {
 	private static final long serialVersionUID = -8167987929961469160L;
 	private CargoPackageCalibre calibre;
 	
-	CalibreDlgView(CargoPackageCalibre calibre) {
+	public CalibreDlgView(CargoPackageCalibre calibre) {
 		this.calibre = calibre;
 	}
 	

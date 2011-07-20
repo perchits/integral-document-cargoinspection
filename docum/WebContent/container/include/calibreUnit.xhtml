@@ -1,0 +1,25 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+<ui:repeat value="#{pack.calibres}" var="calibre">
+	<li><p:commandLink title="Правка калибра" styleClass="olive-color"
+			action="#{calibrebean.editCalibre}"
+			oncomplete="beforeShow(calibreIdVar,args)"
+			update="calibreIdDlgPanel,growl">
+			<f:setPropertyActionListener target="#{calibrebean.calibre}"
+				value="#{calibre}" />
+			<h:outputText value="#{calibre.calibreValue}:" />
+		</p:commandLink> <h:outputText value=" " /> <h:outputText
+			value="#{calibre.packageCount}">
+			<f:convertNumber maxFractionDigits="2" />
+		</h:outputText> <p:commandButton image="ui-icon-trash" title="Удалить калибр"
+			styleClass="inline-btn"
+			oncomplete="beforeShow(calibreIdConfirmVar,args)"
+			update="calibreIdConfirmId">
+			<f:setPropertyActionListener target="#{calibrebean.calibre}"
+				value="#{calibre}" />
+		</p:commandButton></li>
+</ui:repeat>
+</html>
