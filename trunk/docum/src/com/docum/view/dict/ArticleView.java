@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import javax.faces.event.ActionEvent;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -188,6 +190,26 @@ public class ArticleView extends BaseView {
 	
 	public ArticleFeaturePresentation getWrappedFeature() {
 		return new ArticleFeaturePresentation(feature);
+	}
+	
+	public void editCategory(ActionEvent actionEvent) {
+		if (this.category != null) {
+			setTitle("Правка: " + this.category.getName());
+		} else {
+			String message = "Категория для редактирования не выбрана";
+			showErrorMessage(message);
+			addCallbackParam("dontShow", true);
+		}
+	}
+	
+	public void editFeature(ActionEvent actionEvent) {
+		if (this.feature != null) {
+			setTitle("Правка: " + this.feature.getName());
+		} else {
+			String message = "Характеристика для редактирования не выбрана";
+			showErrorMessage(message);
+			addCallbackParam("dontShow", true);
+		}
 	}
 
 }
