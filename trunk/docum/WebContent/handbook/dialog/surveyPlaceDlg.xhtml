@@ -1,0 +1,27 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+<ui:composition template="/WEB-INF/includes/dialogLayout.xhtml">
+	<ui:param name="width" value="380" />
+	<ui:param name="saveObject" value="saveObject" />
+	<ui:param name="deleteObject" value="deleteObject" />
+	<ui:define name="dialogBody">
+		<h:outputLabel for="englishName" value="Английское название: " />
+		<p:inputText value="#{bean.surveyPlace.englishName}" id="englishName"
+			required="true" label="Английское название">
+		</p:inputText>
+		<h:outputLabel for="russianName" value="Русское название: " />
+		<p:inputText value="#{bean.surveyPlace.russianName}" id="russianName"
+			required="true" label="Русское название">
+		</p:inputText>
+	</ui:define>
+	<ui:define name="deleteConfirmation">
+		<ui:include src="/WEB-INF/includes/deleteConfirmation.xhtml">
+			<ui:param name="message" value="Удалить место '#{bean.sp.englishName}'?" />
+		</ui:include>
+	</ui:define>
+</ui:composition>
+</html>
