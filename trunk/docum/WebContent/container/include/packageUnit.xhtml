@@ -1,0 +1,42 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+<ui:repeat value="#{wcargo.declaredPackages}" var="pack">
+	<li><p:commandLink title="Правка упаковки"
+			styleClass="olive-color" action="#{packagebean.editPackage}"
+			oncomplete="beforeShow(packageIdVar,args)"
+			update="packageIdDlgPanel,growl">
+			<h:outputText value="#{pack.measureName}:" />
+			<f:setPropertyActionListener
+				target="#{packagebean.wrappedCargoPackage}" value="#{pack}" />
+		</p:commandLink> <h:outputText value=" " /> <h:outputText
+			value="#{pack.cargoPackage.count}">
+			<f:convertNumber maxFractionDigits="2" />
+		</h:outputText> <p:commandButton image="ui-icon-trash" title="Удалить упаковку"
+			styleClass="inline-btn"
+			oncomplete="beforeShow(packageIdConfirmVar,args)"
+			update="packageIdConfirmId">
+
+			<f:setPropertyActionListener
+				target="#{packagebean.wrappedCargoPackage}" value="#{pack}" />
+		</p:commandButton> <p:commandButton image="ui-icon-document" title="Добавить калибр"
+			styleClass="inline-btn" action="#{packagebean.addCalibre}"
+			oncomplete="beforeShow(calibreIdVar,args)"
+			update="calibreIdDlgPanel,growl">
+			<f:setPropertyActionListener
+				target="#{packagebean.wrappedCargoPackage}" value="#{pack}" />
+		</p:commandButton> <h:panelGroup rendered="#{not empty pack.calibres}">
+			<h:panelGroup styleClass="calibre">
+				<h:outputText value="Калибры" />
+			</h:panelGroup>
+			<ul>
+				<ui:include src="/container/include/calibreUnit.xhtml">
+					<ui:param name="calibrebean" value="#{packagebean.calibreUnit}" />
+				</ui:include>
+			</ul>
+		</h:panelGroup>
+	</li>
+</ui:repeat>
+</html>

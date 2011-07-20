@@ -38,6 +38,7 @@
 						<ui:param name="editObject" value="editObject" />
 						<ui:param name="beforeDeleteObject" value="beforeDeleteObject" />
 						<ui:param name="refreshObjects" value="refreshObjects" />
+						<ui:param name="inspectionBrief" value="true" />
 					</ui:include>
 
 					<p:dataTable selectionMode="single" styleClass="cellSmallText"
@@ -93,213 +94,15 @@
 
 				</p:panel>
 				<h:panelGroup id="infoPanel" layout="block">
-					<p:panel styleClass="container-cargo-panel"
-						rendered="#{containerBean.container != null}">
-
-						<f:facet name="header">
-							<h:panelGroup styleClass="table-header">
-								<h:outputText value="#{containerBean.container.number}" />
-							</h:panelGroup>
-							<h:panelGroup styleClass="table-btns" id="table-btns">
-								<p:commandButton title="Добавить груз" image="ui-icon-document"
-									actionListener="#{containerBean.addCargo}"
-									oncomplete="beforeShow(infoPanelVar,args)"
-									update="infoPanelDlgPanel,growl" />
-							</h:panelGroup>
-						</f:facet>
-
-						<h:panelGroup id="lazyContainerInfo" layout="block"
-							rendered="#{containerBean.isSelected}">
-							<h:outputText styleClass="olive-color" value="Статус: " />
-							<h:outputText value="#{containerBean.container.state}" />
-
-							<h:panelGroup
-								rendered="#{containerBean.container.invoiceInLine != null}">
-								<br />
-								<h:outputText styleClass="olive-color" value="Инвойс: " />
-								<h:outputText value="#{containerBean.container.invoiceInLine}" />
-							</h:panelGroup>
-
-							<h:panelGroup
-								rendered="#{containerBean.container.orderInLine != null}">
-								<br />
-								<h:outputText styleClass="olive-color" value="Заказ: " />
-								<h:outputText value="#{containerBean.container.orderInLine}" />
-							</h:panelGroup>
-
-							<h:panelGroup
-								rendered="#{containerBean.container.billOfLadingInLine != null}">
-								<br />
-								<h:outputText styleClass="olive-color" value="Коносамент: " />
-								<h:outputText
-									value="#{containerBean.container.billOfLadingInLine}" />
-							</h:panelGroup>
-
-							<h:panelGroup rendered="#{containerBean.container.city != null}">
-								<br />
-								<h:outputText styleClass="olive-color" value="Город: " />
-								<h:outputText value="#{containerBean.container.city}" />
-							</h:panelGroup>
-
-							<h:panelGroup
-								rendered="#{containerBean.container.loadingPort != null}">
-								<br />
-								<h:outputText styleClass="olive-color" value="Погрузка: " />
-								<h:outputText value="#{containerBean.container.loadingPort}" />
-								<h:outputText value=", " />
-								<h:outputText value="#{containerBean.container.loadingDate}">
-									<f:convertDateTime dateStyle="medium" type="date" />
-								</h:outputText>
-							</h:panelGroup>
-
-							<h:panelGroup
-								rendered="#{containerBean.container.dischargePort != null}">
-								<br />
-								<h:outputText styleClass="olive-color" value="Выгрузка: " />
-								<h:outputText value="#{containerBean.container.dischargePort}" />
-								<h:outputText value=", " />
-								<h:outputText value="#{containerBean.container.dischargeDate}">
-									<f:convertDateTime dateStyle="medium" type="date" />
-								</h:outputText>
-							</h:panelGroup>
-						</h:panelGroup>
-						<ui:repeat value="#{containerBean.containerCargoes}" var="wcargo">
-							<p:panel styleClass="container-cargo-panel"> 
-								<f:facet name="header">
-									<h:panelGroup styleClass="table-title">
-								#{wcargo.article}, #{wcargo.articleCategory}
-								</h:panelGroup>
-									<h:panelGroup styleClass="table-btns" id="table-btns">
-										<p:commandButton title="Редактировать груз"
-											image="ui-icon-wrench"
-											oncomplete="beforeShow(infoPanelVar,args)"
-											update="infoPanelDlgPanel,growl">
-											<f:setPropertyActionListener
-												target="#{containerBean.editCargo}" value="#{wcargo}" />
-										</p:commandButton>
-										<p:commandButton title="Удалить груз"
-											image="ui-icon-trash"
-											oncomplete="beforeShow(infoPanelConfirmVar,args)"
-											update="infoPanelConfirmId">
-											<f:setPropertyActionListener target="#{containerBean.cargo}"
-												value="#{wcargo}" />
-										</p:commandButton>
-									</h:panelGroup>
-								</f:facet>
-
-								<h:outputText styleClass="olive-color" value="Поставщик: " />
-								<h:outputText value="#{wcargo.supplier}" />
-								<br />
-								<h:panelGroup styleClass="feature-title" layout="block">
-									<p:commandLink styleClass="olive-color" title="Правка характеристик" 
-												value="Характеристики"
-												action="#{containerBean.addFeature}"
-												oncomplete="beforeShow(featureIdVar,args)"
-												update="featureIdDlgPanel,growl">
-												<f:setPropertyActionListener target="#{containerBean.cargo}"
-												value="#{wcargo}" />
-												</p:commandLink>									
-								</h:panelGroup>
-
-								<ul>
-									<ui:repeat value="#{wcargo.features}" var="feature">
-										<li>
-										<h:outputText styleClass="olive-color"
-												value="#{feature.feature.name}: " /> 
-												<h:outputText value="#{feature.value}" />										
-											</li>
-									</ui:repeat>
-								</ul>
-							<h:outputText value="Упаковка" /> 
-							<p:commandButton 
-								image="ui-icon-document" 
-								title="Добавить упаковку" 
-								styleClass="inline-btn" 								
-								action="#{containerBean.addPackage}"
-								oncomplete="beforeShow(packageIdVar,args)"
-								update="packageIdDlgPanel,growl">
-								<f:setPropertyActionListener target="#{containerBean.cargo}"
-												value="#{wcargo}" />																	
-							</p:commandButton>
-							<ul>
-									<ui:repeat value="#{wcargo.declaredPackages}"
-										var="pack">
-										<li><p:commandLink title="Правка упаковки" 
-														   styleClass="olive-color"
-														   action="#{containerBean.editPackage}"
-														   oncomplete="beforeShow(packageIdVar,args)"
-														   update="packageIdDlgPanel,growl">
-														   <h:outputText 
-												value="#{pack.measureName}:" />
-												<f:setPropertyActionListener target="#{containerBean.wrappedCargoPackage}"
-												value="#{pack}" />
-												</p:commandLink>												  
-												<h:outputText value=" " /><h:outputText value="#{pack.cargoPackage.count}">
-												<f:convertNumber maxFractionDigits="2" />
-											</h:outputText>
-											<p:commandButton 
-											image="ui-icon-trash" 
-											title="Удалить упаковку" styleClass="inline-btn"
-											oncomplete="beforeShow(packageIdConfirmVar,args)"
-											update="packageIdConfirmId">											 
-											
-											<f:setPropertyActionListener target="#{containerBean.wrappedCargoPackage}"
-												value="#{pack}" />
-												</p:commandButton>
-												<p:commandButton 
-												image="ui-icon-document" 
-												title="Добавить калибр" 
-												styleClass="inline-btn" 								
-												action="#{containerBean.addCalibre}"
-												oncomplete="beforeShow(calibreIdVar,args)"
-												update="calibreIdDlgPanel,growl">
-												<f:setPropertyActionListener target="#{containerBean.wrappedCargoPackage}"
-												value="#{pack}" />																	
-											</p:commandButton>
-												<!--  rendered="#{not empty pack.calibres}" -->												
-											<h:panelGroup rendered="#{not empty pack.calibres}">
-											<h:panelGroup styleClass="calibre">
-											<h:outputText value="Калибры" />											
-											</h:panelGroup>																						
-												<ul>
-													<ui:repeat value="#{pack.calibres}" var="calibre">
-														<li>
-														<p:commandLink title="Правка калибра" styleClass="olive-color"
-														action="#{containerBean.editCalibre}"
-														   oncomplete="beforeShow(calibreIdVar,args)"
-														   update="calibreIdDlgPanel,growl">
-														   <f:setPropertyActionListener target="#{containerBean.calibre}"
-																value="#{calibre}" />
-															<h:outputText value="#{calibre.calibreValue}:" />				
-														</p:commandLink>
-																<h:outputText value=" " />												
-																<h:outputText value="#{calibre.packageCount}">																
-																<f:convertNumber maxFractionDigits="2" />
-															</h:outputText>														
-															<p:commandButton 
-															image="ui-icon-trash" 
-															title="Удалить калибр" 
-															styleClass="inline-btn" 
-															oncomplete="beforeShow(calibreIdConfirmVar,args)"
-															update="calibreIdConfirmId">
-															<f:setPropertyActionListener target="#{containerBean.calibre}"
-																value="#{calibre}" />
-															</p:commandButton>
-															</li>
-													</ui:repeat>
-												</ul>
-											</h:panelGroup>
-										</li>
-									</ui:repeat>
-								</ul>
-							</p:panel>
-						</ui:repeat>
-
-					</p:panel>
+					<ui:include src="/container/include/cargoUnit.xhtml">
+						<ui:param name="cargobean" value="#{containerBean.cargoUnit}" />
+					</ui:include>
 				</h:panelGroup>
 			</h:panelGrid>
+
 		</h:form>
 
+		<!-- Контейнер  -->
 
 		<ui:include src="/container/dialog/containerDlg.xhtml">
 			<ui:param name="bean" value="#{containerBean.containerDlg}" />
@@ -308,14 +111,6 @@
 			<ui:param name="update" value="infoPanel" />
 			<ui:param name="rendered"
 				value="#{containerBean.containerDlg != null}" />
-		</ui:include>
-
-		<ui:include src="/container/dialog/cargoDlg.xhtml">
-			<ui:param name="bean" value="#{containerBean.cargoDlg}" />
-			<ui:param name="gridId" value="infoPanel" />
-			<ui:param name="title" value="title" />
-			<ui:param name="rendered" value="#{containerBean.cargoDlg != null}" />
-			<ui:param name="update" value="containers" />
 		</ui:include>
 
 		<ui:include src="/WEB-INF/includes/deleteConfirmation.xhtml">
@@ -327,73 +122,92 @@
 			<ui:param name="deleteObject" value="deleteObject" />
 		</ui:include>
 
+		<!-- Груз  -->
+
+		<ui:include src="/container/dialog/cargoDlg.xhtml">
+			<ui:param name="bean" value="#{containerBean.cargoUnit.cargoDlg}" />
+			<ui:param name="gridId" value="infoPanel" />
+			<ui:param name="title" value="title" />
+			<ui:param name="rendered"
+				value="#{containerBean.cargoUnit.cargoDlg != null}" />
+			<ui:param name="update" value="containers" />
+		</ui:include>
+
 		<ui:include src="/WEB-INF/includes/deleteConfirmation.xhtml">
 			<ui:param name="message"
-				value="Удалить груз '#{containerBean.cargoName}'?" />
+				value="Удалить груз '#{containerBean.cargoUnit.cargoName}'?" />
 			<ui:param name="gridId" value="infoPanel" />
-			<ui:param name="bean" value="#{containerBean}" />
+			<ui:param name="bean" value="#{containerBean.cargoUnit}" />
 			<ui:param name="deleteObject" value="deleteCargo" />
 			<ui:param name="update" value="containers" />
 		</ui:include>
- 
- 		<ui:include src="/container/dialog/featureDlg.xhtml">
-			<ui:param name="bean" value="#{containerBean.featureDlg}" />
+
+		<!-- Категории  -->
+
+		<ui:include src="/container/dialog/featureDlg.xhtml">
+			<ui:param name="bean"
+				value="#{containerBean.cargoFeatureUnit.featureDlg}" />
 			<ui:param name="gridId" value="featureId" />
 			<ui:param name="title" value="title" />
-			<ui:param name="rendered" value="#{containerBean.featureDlg != null}" />
+			<ui:param name="rendered"
+				value="#{containerBean.cargoFeatureUnit.featureDlg != null}" />
 			<ui:param name="update" value="infoPanel" />
 		</ui:include>
-		
-		<ui:include src="/container/dialog/CargoPackageDlg.xhtml">
-			<ui:param name="bean" value="#{containerBean.cargoPackageDlg}" />
-			<ui:param name="gridId" value="packageId" />
-			<ui:param name="title" value="title" />
-			<ui:param name="rendered" value="#{containerBean.cargoPackageDlg != null}" />
-			<ui:param name="update" value="infoPanel" />
-		</ui:include>
-		
-		<ui:include src="/container/dialog/calibreDlg.xhtml">
-			<ui:param name="bean" value="#{containerBean.calibreDlg}" />
-			<ui:param name="gridId" value="calibreId" />
-			<ui:param name="title" value="title" />
-			<ui:param name="rendered" value="#{containerBean.calibreDlg != null}" />
-			<ui:param name="update" value="infoPanel" />
-		</ui:include>
-		
-		<ui:include src="/container/dialog/inspectionBriefDlg.xhtml">
-			<ui:param name="bean" value="#{containerBean}" />
-			<ui:param name="gridId" value="containers" />
-			<ui:param name="title" value="title" />
-			<ui:param name="update" value="infoPanel" />
-		</ui:include>
-		
+
 		<ui:include src="/WEB-INF/includes/deleteConfirmation.xhtml">
 			<ui:param name="message"
-				value="Удалить упаковку «#{containerBean.packageName}»?" />
-			<ui:param name="gridId" value="packageId" />
-			<ui:param name="bean" value="#{containerBean}" />
-			<ui:param name="deleteObject" value="removePackage" />
-			<ui:param name="update" value="infoPanel" />
-		</ui:include>
- 
- 		<ui:include src="/WEB-INF/includes/deleteConfirmation.xhtml">
-			<ui:param name="message"
-				value="Удалить свойство груза '#{containerBean.featureName}'?" />
+				value="Удалить свойство груза '#{containerBean.cargoFeatureUnit.featureName}'?" />
 			<ui:param name="gridId" value="featureId" />
-			<ui:param name="bean" value="#{containerBean}" />
+			<ui:param name="bean" value="#{containerBean.cargoFeatureUnit}" />
 			<ui:param name="deleteObject" value="removeFeature" />
 			<ui:param name="update" value="infoPanel" />
 		</ui:include>
- 
- 		<ui:include src="/WEB-INF/includes/deleteConfirmation.xhtml">
+
+		<!-- Упаковка  -->
+
+		<ui:include src="/container/dialog/CargoPackageDlg.xhtml">
+			<ui:param name="bean" value="#{containerBean.cargoPackageUnit.cargoPackageDlg}" />
+			<ui:param name="gridId" value="packageId" />
+			<ui:param name="title" value="title" />
+			<ui:param name="rendered"
+				value="#{containerBean.cargoPackageUnit.cargoPackageDlg != null}" />
+			<ui:param name="update" value="infoPanel" />
+		</ui:include>
+
+		<ui:include src="/WEB-INF/includes/deleteConfirmation.xhtml">
 			<ui:param name="message"
-				value="Удалить калибр '#{containerBean.calibre.calibreValue}'?" />
+				value="Удалить упаковку «#{containerBean.cargoPackageUnit.packageName}»?" />
+			<ui:param name="gridId" value="packageId" />
+			<ui:param name="bean" value="#{containerBean.cargoPackageUnit}" />
+			<ui:param name="deleteObject" value="removePackage" />
+			<ui:param name="update" value="infoPanel" />
+		</ui:include>
+
+		<!-- Калибры  -->
+
+		<ui:include src="/container/dialog/calibreDlg.xhtml">
+			<ui:param name="bean" value="#{containerBean.calibreUnit.calibreDlg}" />
 			<ui:param name="gridId" value="calibreId" />
-			<ui:param name="bean" value="#{containerBean}" />
+			<ui:param name="title" value="title" />
+			<ui:param name="rendered" value="#{containerBean.calibreUnit.calibreDlg != null}" />
+			<ui:param name="update" value="infoPanel" />
+		</ui:include>
+
+		<ui:include src="/WEB-INF/includes/deleteConfirmation.xhtml">
+			<ui:param name="message"
+				value="Удалить калибр '#{containerBean.calibreUnit.calibre.calibreValue}'?" />
+			<ui:param name="gridId" value="calibreId" />
+			<ui:param name="bean" value="#{containerBean.calibreUnit}" />
 			<ui:param name="deleteObject" value="removeCalibre" />
 			<ui:param name="update" value="infoPanel" />
 		</ui:include>
- 
+
+		<!-- Инспекция  -->
+
+		<ui:include src="/container/dialog/inspectionBriefDlg.xhtml">
+			<ui:param name="bean" value="#{containerBean}" />
+		</ui:include>
+
 	</ui:define>
 
 </ui:composition>
