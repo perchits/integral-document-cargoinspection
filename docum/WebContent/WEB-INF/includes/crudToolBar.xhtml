@@ -6,7 +6,7 @@
 
 <ui:include src="/WEB-INF/includes/baseCrudToolBar.xhtml">	
 	<ui:param name="newObject" value="#{(newObject == null) ? 'newObject' : newObject}" />
-	<ui:param name="editObject" value="editObject" />
+	<ui:param name="editObject" value="#{(editObject == null) ? 'editObject' : editObject}" />
 	<ui:param name="beforeDeleteObject" value="beforeDeleteObject" />
 	<ui:param name="refreshObjects" value="#{(refreshObjects == null) ? 'refreshObjects' : refreshObjects}" />
 </ui:include>
