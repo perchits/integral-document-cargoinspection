@@ -21,13 +21,13 @@
 					selectionMode="single" selection="#{surveyPlaceBean.sp}">
 					<p:column sortBy="#{sp.englishName}" filterBy="#{sp.englishName}"
 						filterMatchMode="contains">
-						<f:facet name="header">Англ. название</f:facet>
+						<f:facet name="header">Название на английском языке</f:facet>
 						<h:outputText value="#{sp.englishName}" />
 					</p:column>
 
 					<p:column sortBy="#{sp.russianName}" filterBy="#{sp.russianName}"
 						filterMatchMode="contains">
-						<f:facet name="header">Рус. название</f:facet>
+						<f:facet name="header">Название на русском языке</f:facet>
 						<h:outputText value="#{sp.russianName}" />
 					</p:column>
 				</p:dataTable>
