@@ -13,3 +13,14 @@ function beforeShow(widgetVar, args) {
 		widgetVar.show();
 	}	
 }
+
+function checkIfArticleList(articleListPanelId) {
+	var result=document.getElementById('featureIsList').checked;
+	if (result == true) {
+		document.getElementById(articleListPanelId).style.display = "block";
+	} else {
+		document.getElementById(articleListPanelId).style.display = "none";
+	}
+	document.getElementById('featuresGridDlgPanel').style.display = "none";
+	document.getElementById('featuresGridDlgPanel').style.display = "block";
+}
