@@ -8,8 +8,8 @@ import com.docum.view.AbstractDlgView;
 import com.docum.view.DialogActionEnum;
 import com.docum.view.DialogActionHandler;
 import com.docum.view.container.CalibreDlgView;
-import com.docum.view.container.ContainerContext;
 import com.docum.view.container.ContainerHolder;
+import com.docum.view.wrapper.CargoPackagePresentation;
 
 public class CalibreUnit implements Serializable, DialogActionHandler {
 	private static final long serialVersionUID = -8081015094463275260L;
@@ -22,11 +22,15 @@ public class CalibreUnit implements Serializable, DialogActionHandler {
 	public CalibreUnit(ContainerHolder containerHolder) {
 		this.containerHolder = containerHolder;
 	}
-
-	public void setContext(ContainerContext context) {
-		cargoPackage = context.getCargoPackage();
+	
+	public void setCargoPackage(CargoPackagePresentation cargoPackage){
+		this.cargoPackage = cargoPackage.getCargoPackage();
 	}
-
+	
+	public CargoPackagePresentation getCargoPackage() {		
+		return new CargoPackagePresentation(cargoPackage);
+	}
+	
 	public CalibreDlgView getCalibreDlg() {
 		return calibreDlg;
 	}

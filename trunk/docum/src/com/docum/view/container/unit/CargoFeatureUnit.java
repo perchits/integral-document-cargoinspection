@@ -12,6 +12,7 @@ import com.docum.view.DialogActionHandler;
 import com.docum.view.container.ContainerContext;
 import com.docum.view.container.ContainerHolder;
 import com.docum.view.container.FeatureDlgView;
+import com.docum.view.wrapper.CargoPresentation;
 
 public class CargoFeatureUnit implements Serializable, DialogActionHandler {
 	private static final long serialVersionUID = -8975590625480426959L;
@@ -25,8 +26,17 @@ public class CargoFeatureUnit implements Serializable, DialogActionHandler {
 		this.containerHolder = containerHolder;		
 	}
 	
+	public CargoPresentation getCargo(){
+		return new CargoPresentation(cargo); 
+	}
+	
+	public void setCargo(CargoPresentation cargo){	
+		if (cargo != null && cargo.getCargo() != null) {
+			this.cargo = cargo.getCargo();
+		}		 
+	}
+	
 	public void setContext(ContainerContext context) {
-		cargo = context.getCargo();
 		baseService = context.getBaseService();
 	}
 	

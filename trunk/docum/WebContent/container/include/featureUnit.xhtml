@@ -1,0 +1,22 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+<h:panelGroup styleClass="feature-title" layout="block">
+	<p:commandLink styleClass="olive-color" title="Правка характеристик"
+		value="Характеристики" action="#{featurebean.addFeature}"
+		oncomplete="beforeShow(featureIdVar,args)"
+		update="featureIdDlgPanel,growl">
+		<f:setPropertyActionListener target="#{featurebean.cargo}"
+			value="#{wcargo}" />
+	</p:commandLink>
+</h:panelGroup>
+<ul>
+	<ui:repeat value="#{wcargo.features}" var="feature">
+		<li><h:outputText styleClass="olive-color"
+				value="#{feature.feature.name}: " /> <h:outputText
+				value="#{feature.value}" /></li>
+	</ui:repeat>
+</ul>
+</html>

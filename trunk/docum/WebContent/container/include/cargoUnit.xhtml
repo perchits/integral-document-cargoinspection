@@ -93,36 +93,14 @@
 			<h:outputText styleClass="olive-color" value="Поставщик: " />
 			<h:outputText value="#{wcargo.supplier}" />
 			<br />
-			<h:panelGroup styleClass="feature-title" layout="block">
-				<p:commandLink styleClass="olive-color" title="Правка характеристик"
-					value="Характеристики" action="#{cargobean.addFeature}"
-					oncomplete="beforeShow(featureIdVar,args)"
-					update="featureIdDlgPanel,growl">
-					<f:setPropertyActionListener target="#{cargobean.cargo}"
-						value="#{wcargo}" />
-				</p:commandLink>
-			</h:panelGroup>
-
-			<ul>
-				<ui:repeat value="#{wcargo.features}" var="feature">
-					<li><h:outputText styleClass="olive-color"
-							value="#{feature.feature.name}: " /> <h:outputText
-							value="#{feature.value}" /></li>
-				</ui:repeat>
-			</ul>
-			<h:outputText value="Упаковка" />
-			<p:commandButton image="ui-icon-document" title="Добавить упаковку"
-				styleClass="inline-btn" action="#{cargobean.addPackage}"
-				oncomplete="beforeShow(packageIdVar,args)"
-				update="packageIdDlgPanel,growl">
-				<f:setPropertyActionListener target="#{cargobean.cargo}"
-					value="#{wcargo}" />
-			</p:commandButton>
-			<ul>
-				<ui:include src="/container/include/packageUnit.xhtml">
-						<ui:param name="packagebean" value="#{cargobean.packageUnit}" />
-				</ui:include>
-			</ul>
+			<ui:include src="/container/include/featureUnit.xhtml">
+						<ui:param name="featurebean" value="#{cargobean.cargoFeatureUnit}" />
+			</ui:include>		
+			
+			<ui:include src="/container/include/packageUnit.xhtml">
+						<ui:param name="packagebean" value="#{cargobean.cargoPackageUnit}" />
+			</ui:include>
+			
 		</p:panel>
 	</ui:repeat>
 

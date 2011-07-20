@@ -14,6 +14,7 @@ import com.docum.view.container.CargoPackageDlgView;
 import com.docum.view.container.ContainerContext;
 import com.docum.view.container.ContainerHolder;
 import com.docum.view.wrapper.CargoPackagePresentation;
+import com.docum.view.wrapper.CargoPresentation;
 
 public class CargoPackageUnit implements Serializable, DialogActionHandler {
 	private static final long serialVersionUID = 7333408655523733042L;
@@ -30,14 +31,20 @@ public class CargoPackageUnit implements Serializable, DialogActionHandler {
 	}
 
 	public void setContext(ContainerContext context) {
-		baseService = context.getBaseService();
-		cargo = context.getCargo();
+		baseService = context.getBaseService();		
 	}
 	
-	public CalibreUnit getCalibreUnit() {
-		ContainerContext context = new ContainerContext();
-		context.setCargoPackage(cargoPackage);
-		calibreUnit.setContext(context);
+	public CargoPresentation getCargo(){
+		return new CargoPresentation(cargo); 
+	}
+	
+	public void setCargo(CargoPresentation cargo){	
+		if (cargo != null && cargo.getCargo() != null) {
+			this.cargo = cargo.getCargo();
+		}		 
+	}
+	
+	public CalibreUnit getCalibreUnit() {		
 		return calibreUnit;
 	}
 
