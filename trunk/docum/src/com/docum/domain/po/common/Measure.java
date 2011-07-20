@@ -13,12 +13,15 @@ public class Measure extends IdentifiedEntity {
 
 	private String name;
 
+	private String englishName;
+	
 	public Measure() {
 
 	}
 
-	public Measure(String name) {
+	public Measure(String name, String englishName) {
 		this.name = name;
+		this.englishName = englishName;
 	}
 
 	public String getName() {
@@ -27,6 +30,14 @@ public class Measure extends IdentifiedEntity {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getEnglishName() {
+		return englishName;
+	}
+
+	public void setEnglishName(String englishName) {
+		this.englishName = englishName;
 	}
 	
 	public boolean equals(Object obj) {

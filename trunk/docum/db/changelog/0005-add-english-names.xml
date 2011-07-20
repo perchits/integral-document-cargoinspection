@@ -3,10 +3,15 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
 
-  <include file="0001-initial-create.xml"/> 
-  <include file="0002-add-articledefect.xml"/> 
-  <include file="0003-cargo-object-model-refactoring.xml"/> 
-  <include file="0004-add-inspection.xml"/>
-  <include file="0005-add-english-names.xml"/>
+	<changeSet author="pepper" id="0005-add-english-names">
 
+		<addColumn tableName="city">
+			<column name="englishname" type="VARCHAR(255)" />
+		</addColumn>
+
+		<addColumn tableName="measure">
+			<column name="englishname" type="VARCHAR(255)" />
+		</addColumn>
+
+	</changeSet>
 </databaseChangeLog>
