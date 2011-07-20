@@ -1,0 +1,46 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+	
+<ui:composition template="/WEB-INF/includes/layout.xhtml">
+<ui:param name="selectedMenuItem" value="6" />
+	<ui:define name="content">
+
+		<h:form prependId="false">
+
+			<ui:include src="/WEB-INF/includes/crudToolBar.xhtml">
+				<ui:param name="bean" value="#{cityBean}" />
+				<ui:param name="gridId" value="cityGrid" />
+			</ui:include>
+
+			<p:panel header="#{cityBean.sign}" styleClass="small-panel">
+
+				<p:dataTable id="cityGrid" var="city" value="#{cityBean.allObjects}"
+					selectionMode="single" selection="#{cityBean.city}">
+					<p:column sortBy="#{city.name}" filterBy="#{city.name}"
+						filterMatchMode="contains">
+						<f:facet name="header">Наименование</f:facet>
+						<h:outputText value="#{city.name}" />
+					</p:column>
+
+					<p:column sortBy="#{city.our}" filterBy="#{city.our}"
+						filterMatchMode="contains">
+						<f:facet name="header">Обслуживаемый</f:facet>
+						<h:selectBooleanCheckbox disabled="true" styleClass="centered-col" value="#{city.our}" />
+					</p:column>
+				</p:dataTable>
+
+			</p:panel>
+		</h:form>
+
+		<ui:include src="/handbook/dialog/cityDlg.xhtml">
+			<ui:param name="gridId" value="cityGrid" />
+			<ui:param name="bean" value="#{cityBean}" />
+			<ui:param name="title" value="title" />
+		</ui:include>		
+
+	</ui:define>
+</ui:composition>
+</html>
