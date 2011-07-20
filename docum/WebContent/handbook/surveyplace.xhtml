@@ -11,33 +11,33 @@
 		<h:form prependId="false">
 
 			<ui:include src="/WEB-INF/includes/crudToolBar.xhtml">
-				<ui:param name="bean" value="#{cityBean}" />
-				<ui:param name="gridId" value="cityGrid" />
+				<ui:param name="bean" value="#{surveyPlaceBean}" />
+				<ui:param name="gridId" value="surveyPlaceGrid" />
 			</ui:include>
 
-			<p:panel header="#{cityBean.sign}" styleClass="small-panel">
+			<p:panel header="#{surveyPlaceBean.sign}" styleClass="small-panel">
 
-				<p:dataTable id="cityGrid" var="city" value="#{cityBean.allObjects}"
-					selectionMode="single" selection="#{cityBean.city}">
-					<p:column sortBy="#{city.name}" filterBy="#{city.name}"
+				<p:dataTable id="surveyPlaceGrid" var="sp" value="#{surveyPlaceBean.allObjects}"
+					selectionMode="single" selection="#{surveyPlaceBean.sp}">
+					<p:column sortBy="#{sp.englishName}" filterBy="#{sp.englishName}"
 						filterMatchMode="contains">
-						<f:facet name="header">Наименование</f:facet>
-						<h:outputText value="#{city.name}" />
+						<f:facet name="header">Англ. название</f:facet>
+						<h:outputText value="#{sp.englishName}" />
 					</p:column>
 
-					<p:column sortBy="#{city.our}" filterBy="#{city.our}"
+					<p:column sortBy="#{sp.russianName}" filterBy="#{sp.russianName}"
 						filterMatchMode="contains">
-						<f:facet name="header">Обслуживаемый</f:facet>
-						<h:selectBooleanCheckbox disabled="true" styleClass="centered-col" value="#{city.our}" />
+						<f:facet name="header">Рус. название</f:facet>
+						<h:outputText value="#{sp.russianName}" />
 					</p:column>
 				</p:dataTable>
 
 			</p:panel>
 		</h:form>
 
-		<ui:include src="/handbook/dialog/cityDlg.xhtml">
-			<ui:param name="gridId" value="cityGrid" />
-			<ui:param name="bean" value="#{cityBean}" />
+		<ui:include src="/handbook/dialog/surveyPlaceDlg.xhtml">
+			<ui:param name="gridId" value="surveyPlaceGrid" />
+			<ui:param name="bean" value="#{surveyPlaceBean}" />
 			<ui:param name="title" value="title" />
 		</ui:include>		
 
