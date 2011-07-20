@@ -43,12 +43,19 @@
 						</f:facet>
 						<h:outputText value="#{measure.name}" />
 					</p:column>
+					<p:column sortBy="#{measure.englishName}" filterBy="#{measure.englishName}"
+						filterMatchMode="contains">
+						<f:facet name="header">
+							Наименование на англ. яз.  
+						</f:facet>
+						<h:outputText value="#{measure.englishName}" />
+					</p:column>
 				</p:dataTable>
 			</p:panel>
 		</h:form>
 		<p:outputPanel id="dialogPanel">
 			<h:form prependId="false" id="dialogForm">
-				<p:dialog width="480" id="dialog" widgetVar="dialog" modal="true"
+				<p:dialog width="550" id="dialog" widgetVar="dialog" modal="true"
 					header="#{measureBean.title}">
 					<p:outputPanel id="dialogContent">
 						<h:panelGroup>
@@ -56,6 +63,10 @@
 								<h:outputLabel for="measureName" value="Наименование: *" />
 								<p:inputText size="60" value="#{measureBean.measure.name}"
 									id="measureName" required="true" label="Наименование">
+								</p:inputText>
+								<h:outputLabel for="measureEnglishName" value="Наименование на англ. яз.: *" />
+								<p:inputText size="60" value="#{measureBean.measure.englishName}"
+									id="measureEnglishName" required="true" label="Наименование на англ. яз.">
 								</p:inputText>
 
 								<f:facet name="footer">

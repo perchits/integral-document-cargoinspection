@@ -19,7 +19,7 @@ public class TestView implements Serializable{
 	BaseService baseService;
 	
 	public Object save() {
-		City city = new City("Питер", false);
+		City city = new City("Питер", "Piter", false);
 		baseService.save(city);
 		return "test";
 	}

@@ -10,6 +10,7 @@ import com.docum.util.HashCodeHelper;
 public class City extends IdentifiedEntity {
 	private static final long serialVersionUID = -8223280387401163563L;
 	private String name;
+	private String englishName;
 	private Boolean our = false;
 
 	public City() {
@@ -19,8 +20,9 @@ public class City extends IdentifiedEntity {
 		copy(city);
 	}
 
-	public City(String name, Boolean our) {
+	public City(String name, String englishName, Boolean our) {
 		this.name = name;
+		this.englishName = englishName;
 		this.our = our;
 	}
 
@@ -31,18 +33,27 @@ public class City extends IdentifiedEntity {
 	public void setName(String name) {
 		this.name = name;
 	}
+
+	public String getEnglishName() {
+		return this.englishName;
+	}
+
+	public void setEnglishName(String englishName) {
+		this.englishName = englishName;
+	}
 	
-	public void copy(City city) {
-		this.name = city.name;
-		this.our = city.our;
+	public Boolean getOur() {
+		return our;
 	}
 
 	public void setOur(Boolean our) {
 		this.our = our;
 	}
 
-	public Boolean getOur() {
-		return our;
+	public void copy(City city) {
+		this.name = city.name;
+		this.englishName = city.englishName;
+		this.our = city.our;
 	}
 	
 	public boolean equals(Object obj) {

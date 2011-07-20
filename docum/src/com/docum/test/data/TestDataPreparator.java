@@ -133,13 +133,15 @@ public class TestDataPreparator implements TestDataPersister {
 	private String[] blNumbers = new String[]{
 			"ZIMUASH032310", "ZIMUHFA00322361", "GHUIR0349578", "GHUIR0304874"};
 
-	private String[] cityNames = new String[]{
-			"Новороссийск", "Анапа", "Темрюк", "Волгоград"};
+	private String[][] cityNames = new String[][]{
+			{"Новороссийск", "Novorossiysk"}, {"Анапа", "Anapa"}, {"Темрюк", "Temryuk"}, {"Волгоград", "Volgograd"}};
 	private boolean ourCity = true;
 	
-	private String[] measureNames = new String[]{
-			"Паллеты, обернутые пленкой", "Ящики деревянные без верха", "Мешки полиэтиленовые",
-			"Общий вес в килограммах"};
+	private String[][] measureNames = new String[][]{
+			{"Паллеты, обернутые пленкой", "Wrapped pallets"},
+			{"Ящики деревянные без верха", "Topless wooden boxes"}, 
+			{"Мешки полиэтиленовые", "Polyethylene bags"},
+			{"Общий вес в килограммах", "Total weight"}};
 	
 	private String[][] companyNames = new String[][] {
 			{"Кингдао Юнлонг","Кингдао",
@@ -286,9 +288,9 @@ public class TestDataPreparator implements TestDataPersister {
 
 	private List<City> prepareCities() {
 		return TestDataPrepareUtil.prepareDictionary(this, cityNames,
-				new TestDataEntityConstructor<City, String>() {
-					public City construct(String name) {
-						City city = new City(name, ourCity);
+				new TestDataEntityConstructor<City, String[]>() {
+					public City construct(String[] names) {
+						City city = new City(names[0], names[1], ourCity);
 						ourCity = !ourCity;
 						return city;
 					}
@@ -297,9 +299,9 @@ public class TestDataPreparator implements TestDataPersister {
 	
 	private List<Measure> prepareMesures() {
 		return TestDataPrepareUtil.prepareDictionary(this, measureNames,
-				new TestDataEntityConstructor<Measure, String>() {
-					public Measure construct(String name) {
-						return new Measure(name);
+				new TestDataEntityConstructor<Measure, String[]>() {
+					public Measure construct(String[] names) {
+						return new Measure(names[0], names[1]);
 					}
 				});
 	}
