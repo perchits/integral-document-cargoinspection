@@ -18,7 +18,7 @@
 			<p:panel header="#{surveyPlaceBean.sign}" styleClass="small-panel">
 
 				<p:dataTable id="surveyPlaceGrid" var="sp" value="#{surveyPlaceBean.allObjects}"
-					selectionMode="single" selection="#{surveyPlaceBean.sp}">
+					selectionMode="single" selection="#{surveyPlaceBean.SurveyPlace}">
 					<p:column sortBy="#{sp.englishName}" filterBy="#{sp.englishName}"
 						filterMatchMode="contains">
 						<f:facet name="header">Название на английском языке</f:facet>
