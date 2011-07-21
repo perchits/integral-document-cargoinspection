@@ -14,11 +14,25 @@
 			<h:panelGrid columns="2" styleClass="containersLayoutTable"
 				id="voyagesLayoutTable">
 
-				<p:panel id="containersPanel" style="text-align:center"
+				<p:panel id="containersPanel" style="text-align:left"
 					styleClass="toggle-panel">
 					<f:facet name="header">
 						<h:outputText id="containerTitle"
 							value="#{containerBean.containersTitle}" />
+
+						<h:panelGroup id="containercrud"
+							styleClass="table-btns container-btns">
+							<ui:include src="/WEB-INF/includes/easyCrudToolBar.xhtml">
+								<ui:param name="bean" value="#{containerBean}" />
+								<ui:param name="gridId" value="containers" />
+								<ui:param name="update" value="infoPanel" />
+								<ui:param name="newObject" value="newObject" />
+								<ui:param name="editObject" value="editObject" />
+								<ui:param name="beforeDeleteObject" value="beforeDeleteObject" />
+								<ui:param name="refreshObjects" value="refreshObjects" />
+								<ui:param name="inspectionBrief" value="true" />
+							</ui:include>
+						</h:panelGroup>
 					</f:facet>
 					<p:autoComplete id="VoyageSearchBoxId"
 						value="#{containerBean.selectedVoyage}"
@@ -26,77 +40,126 @@
 						itemValue="#{voyage}" itemLabel="#{voyage.voyageInfo}"
 						forceSelection="true" converter="voyagePresentationConverter"
 						selectListener="#{containerBean.voyageSelect}"
-						onSelectUpdate="containers,infoPanel,containerTitle"
-						style="width: 200px !important;">
+						onSelectUpdate="containers,infoPanel,containerTitle">
 					</p:autoComplete>
-
-					<ui:include src="/WEB-INF/includes/baseCrudToolBar.xhtml">
-						<ui:param name="bean" value="#{containerBean}" />
-						<ui:param name="gridId" value="containers" />
-						<ui:param name="update" value="infoPanel" />
-						<ui:param name="newObject" value="newObject" />
-						<ui:param name="editObject" value="editObject" />
-						<ui:param name="beforeDeleteObject" value="beforeDeleteObject" />
-						<ui:param name="refreshObjects" value="refreshObjects" />
-						<ui:param name="inspectionBrief" value="true" />
-					</ui:include>
-
-					<p:dataTable selectionMode="single" styleClass="cellSmallText"
-						id="containers" var="container"
-						value="#{containerBean.containers}"
+					<p:dataTable selectionMode="single"
+						styleClass="cellSmallText containers" id="containers"
+						var="container" value="#{containerBean.containers}"
 						selection="#{containerBean.container}"
 						rowStyleClass="#{container.color}" update="infoPanel">
 
-						<p:column sortBy="#{container.number}"
+						<p:column styleClass="c-number" sortBy="#{container.number}"
 							filterBy="#{container.number}" filterMatchMode="contains">
 							<f:facet name="header">Номер</f:facet>
 							<h:outputText value="#{container.number}" />
 						</p:column>
 
-						<p:column sortBy="#{container.invoiceInLine}"
-							filterBy="#{container.invoiceInLine}" filterMatchMode="contains">
-							<f:facet name="header">Инвойс</f:facet>
-							<h:outputText value="#{container.invoiceInLine}" />
-						</p:column>
-
-						<p:column sortBy="#{container.orderInLine}"
-							filterBy="#{container.orderInLine}" filterMatchMode="contains">
-							<f:facet name="header">Заказ</f:facet>
-							<h:outputText value="#{container.orderInLine}" />
-						</p:column>
-
-						<p:column sortBy="#{container.billOfLadingInLine}"
+						<p:column styleClass="c-bill"
+							sortBy="#{container.billOfLadingInLine}"
 							filterBy="#{container.billOfLadingInLine}"
 							filterMatchMode="contains">
 							<f:facet name="header">Коносамент</f:facet>
 							<h:outputText value="#{container.billOfLadingInLine}" />
 						</p:column>
 
-						<p:column sortBy="#{container.cargoInLine}"
+						<p:column styleClass="c-cargo" sortBy="#{container.cargoInLine}"
 							filterBy="#{container.cargoInLine}" filterMatchMode="contains">
 							<f:facet name="header">Груз</f:facet>
 							<h:outputText value="#{container.cargoInLine}" />
 						</p:column>
 
-						<p:column sortBy="#{container.city}" filterBy="#{container.city}"
-							filterMatchMode="contains">
-							<f:facet name="header">Город</f:facet>
-							<h:outputText value="#{container.city}" />
-						</p:column>
-
-						<p:column sortBy="#{container.state}"
-							filterBy="#{container.state}">
-							<f:facet name="header">Статус</f:facet>
-							<h:outputText value="#{container.state}" />
-						</p:column>
-
 					</p:dataTable>
 
 				</p:panel>
+
 				<h:panelGroup id="infoPanel" layout="block">
-					<ui:include src="/container/include/cargoUnit.xhtml">
-						<ui:param name="cargobean" value="#{containerBean.cargoUnit}" />
-					</ui:include>
+					<p:panel styleClass="container-cargo-panel"
+						rendered="#{containerBean.container != null}">
+
+						<f:facet name="header">
+							<h:panelGroup styleClass="table-header">
+								<h:outputText value="#{containerBean.container.number}" />
+							</h:panelGroup>
+						</f:facet>
+
+						<h:panelGrid columns="2" id="inspection-splitter">
+
+							<h:panelGroup id="declared">
+
+
+								<h:panelGroup id="lazyContainerInfo" layout="block"
+									rendered="#{containerBean.container != null}">
+									<h:outputText styleClass="olive-color" value="Статус: " />
+									<h:outputText value="#{containerBean.container.state}" />
+
+									<h:panelGroup
+										rendered="#{containerBean.container.invoiceInLine != null}">
+										<br />
+										<h:outputText styleClass="olive-color" value="Инвойс: " />
+										<h:outputText value="#{containerBean.container.invoiceInLine}" />
+									</h:panelGroup>
+
+									<h:panelGroup
+										rendered="#{containerBean.container.orderInLine != null}">
+										<br />
+										<h:outputText styleClass="olive-color" value="Заказ: " />
+										<h:outputText value="#{containerBean.container.orderInLine}" />
+									</h:panelGroup>
+
+									<h:panelGroup
+										rendered="#{containerBean.container.billOfLadingInLine != null}">
+										<br />
+										<h:outputText styleClass="olive-color" value="Коносамент: " />
+										<h:outputText
+											value="#{containerBean.container.billOfLadingInLine}" />
+									</h:panelGroup>
+
+									<h:panelGroup
+										rendered="#{containerBean.container.city != null}">
+										<br />
+										<h:outputText styleClass="olive-color" value="Город: " />
+										<h:outputText value="#{containerBean.container.city}" />
+									</h:panelGroup>
+
+									<h:panelGroup
+										rendered="#{containerBean.container.loadingPort != null}">
+										<br />
+										<h:outputText styleClass="olive-color" value="Погрузка: " />
+										<h:outputText value="#{containerBean.container.loadingPort}" />
+										<h:outputText value=", " />
+										<h:outputText value="#{containerBean.container.loadingDate}">
+											<f:convertDateTime dateStyle="medium" type="date" />
+										</h:outputText>
+									</h:panelGroup>
+
+									<h:panelGroup
+										rendered="#{containerBean.container.dischargePort != null}">
+										<br />
+										<h:outputText styleClass="olive-color" value="Выгрузка: " />
+										<h:outputText value="#{containerBean.container.dischargePort}" />
+										<h:outputText value=", " />
+										<h:outputText value="#{containerBean.container.dischargeDate}">
+											<f:convertDateTime dateStyle="medium" type="date" />
+										</h:outputText>
+									</h:panelGroup>
+								</h:panelGroup>
+							</h:panelGroup>
+
+							<h:panelGroup id="inpection">
+							<!-- ИНСПЕКЦИЯ 
+							  <ui:include src="/container/include/inspectionUnit.xhtml">
+								<ui:param name="inspectionbean" value="#{containerBean.inspectionUnit}" />
+							</ui:include>
+							 -->
+							</h:panelGroup>
+
+						</h:panelGrid>
+
+						<ui:include src="/container/include/cargoUnit.xhtml">
+							<ui:param name="cargobean" value="#{containerBean.cargoUnit}" />
+						</ui:include>
+
+					</p:panel>
 				</h:panelGroup>
 			</h:panelGrid>
 
@@ -166,7 +229,8 @@
 		<!-- Упаковка  -->
 
 		<ui:include src="/container/dialog/CargoPackageDlg.xhtml">
-			<ui:param name="bean" value="#{containerBean.cargoPackageUnit.cargoPackageDlg}" />
+			<ui:param name="bean"
+				value="#{containerBean.cargoPackageUnit.cargoPackageDlg}" />
 			<ui:param name="gridId" value="packageId" />
 			<ui:param name="title" value="title" />
 			<ui:param name="rendered"
@@ -189,7 +253,8 @@
 			<ui:param name="bean" value="#{containerBean.calibreUnit.calibreDlg}" />
 			<ui:param name="gridId" value="calibreId" />
 			<ui:param name="title" value="title" />
-			<ui:param name="rendered" value="#{containerBean.calibreUnit.calibreDlg != null}" />
+			<ui:param name="rendered"
+				value="#{containerBean.calibreUnit.calibreDlg != null}" />
 			<ui:param name="update" value="infoPanel" />
 		</ui:include>
 

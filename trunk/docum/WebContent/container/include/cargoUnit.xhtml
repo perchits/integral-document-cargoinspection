@@ -3,107 +3,52 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.prime.com.tr/ui">
-<p:panel styleClass="container-cargo-panel"
-	rendered="#{cargobean.container != null}">
 
-	<f:facet name="header">
-		<h:panelGroup styleClass="table-header">
-			<h:outputText value="#{cargobean.container.number}" />
-		</h:panelGroup>
-		<h:panelGroup styleClass="table-btns" id="table-btns">
-			<p:commandButton title="Добавить груз" image="ui-icon-document"
-				actionListener="#{cargobean.addCargo}"
-				oncomplete="beforeShow(infoPanelVar,args)"
-				update="infoPanelDlgPanel,growl" />
-		</h:panelGroup>
-	</f:facet>
+<h:panelGrid columns="2" styleClass="add-cargo-title">
+<h:outputText value="Груз в контейнере" />
+<p:commandButton image="ui-icon-document" title="Добавить груз"
+	styleClass="inline-btn" 
+	action="#{cargobean.addCargo}"
+	oncomplete="beforeShow(infoPanelVar,args)"
+	update="infoPanelDlgPanel,growl" >	
+</p:commandButton>
+</h:panelGrid>
 
-	<h:panelGroup id="lazyContainerInfo" layout="block"
-		rendered="#{cargobean.container != null}">
-		<h:outputText styleClass="olive-color" value="Статус: " />
-		<h:outputText value="#{cargobean.container.state}" />
-
-		<h:panelGroup rendered="#{cargobean.container.invoiceInLine != null}">
-			<br />
-			<h:outputText styleClass="olive-color" value="Инвойс: " />
-			<h:outputText value="#{cargobean.container.invoiceInLine}" />
-		</h:panelGroup>
-
-		<h:panelGroup rendered="#{cargobean.container.orderInLine != null}">
-			<br />
-			<h:outputText styleClass="olive-color" value="Заказ: " />
-			<h:outputText value="#{cargobean.container.orderInLine}" />
-		</h:panelGroup>
-
-		<h:panelGroup
-			rendered="#{cargobean.container.billOfLadingInLine != null}">
-			<br />
-			<h:outputText styleClass="olive-color" value="Коносамент: " />
-			<h:outputText value="#{cargobean.container.billOfLadingInLine}" />
-		</h:panelGroup>
-
-		<h:panelGroup rendered="#{cargobean.container.city != null}">
-			<br />
-			<h:outputText styleClass="olive-color" value="Город: " />
-			<h:outputText value="#{cargobean.container.city}" />
-		</h:panelGroup>
-
-		<h:panelGroup rendered="#{cargobean.container.loadingPort != null}">
-			<br />
-			<h:outputText styleClass="olive-color" value="Погрузка: " />
-			<h:outputText value="#{cargobean.container.loadingPort}" />
-			<h:outputText value=", " />
-			<h:outputText value="#{cargobean.container.loadingDate}">
-				<f:convertDateTime dateStyle="medium" type="date" />
-			</h:outputText>
-		</h:panelGroup>
-
-		<h:panelGroup rendered="#{cargobean.container.dischargePort != null}">
-			<br />
-			<h:outputText styleClass="olive-color" value="Выгрузка: " />
-			<h:outputText value="#{cargobean.container.dischargePort}" />
-			<h:outputText value=", " />
-			<h:outputText value="#{cargobean.container.dischargeDate}">
-				<f:convertDateTime dateStyle="medium" type="date" />
-			</h:outputText>
-		</h:panelGroup>
-	</h:panelGroup>
-	<ui:repeat value="#{cargobean.containerCargoes}" var="wcargo">
-		<p:panel styleClass="container-cargo-panel">
-			<f:facet name="header">
-				<h:panelGroup styleClass="table-title">
+<ui:repeat value="#{cargobean.containerCargoes}" var="wcargo">
+	<p:panel styleClass="container-cargo-panel">
+		<f:facet name="header">
+			<h:panelGroup styleClass="table-title">
 								#{wcargo.article}, #{wcargo.articleCategory}
 								</h:panelGroup>
-				<h:panelGroup styleClass="table-btns" id="table-btns">
-					<p:commandButton title="Редактировать груз" image="ui-icon-wrench"
-						oncomplete="beforeShow(infoPanelVar,args)"
-						update="infoPanelDlgPanel,growl">
-						<f:setPropertyActionListener target="#{cargobean.editCargo}"
-							value="#{wcargo}" />
-					</p:commandButton>
-					<p:commandButton title="Удалить груз" image="ui-icon-trash"
-						oncomplete="beforeShow(infoPanelConfirmVar,args)"
-						update="infoPanelConfirmId">
-						<f:setPropertyActionListener target="#{cargobean.cargo}"
-							value="#{wcargo}" />
-					</p:commandButton>
-				</h:panelGroup>
-			</f:facet>
+			<h:panelGroup styleClass="table-btns" id="table-btns">
+				<p:commandButton title="Редактировать груз" image="ui-icon-wrench"
+					oncomplete="beforeShow(infoPanelVar,args)"
+					update="infoPanelDlgPanel,growl">
+					<f:setPropertyActionListener target="#{cargobean.editCargo}"
+						value="#{wcargo}" />
+				</p:commandButton>
+				<p:commandButton title="Удалить груз" image="ui-icon-trash"
+					oncomplete="beforeShow(infoPanelConfirmVar,args)"
+					update="infoPanelConfirmId">
+					<f:setPropertyActionListener target="#{cargobean.cargo}"
+						value="#{wcargo}" />
+				</p:commandButton>
+			</h:panelGroup>
+		</f:facet>
 
-			<h:outputText styleClass="olive-color" value="Поставщик: " />
-			<h:outputText value="#{wcargo.supplier}" />
-			<br />
-			<ui:include src="/container/include/featureUnit.xhtml">
-						<ui:param name="featurebean" value="#{cargobean.cargoFeatureUnit}" />
-			</ui:include>		
-			
-			<ui:include src="/container/include/packageUnit.xhtml">
-						<ui:param name="packagebean" value="#{cargobean.cargoPackageUnit}" />
-			</ui:include>
-			
-		</p:panel>
-	</ui:repeat>
+		<h:outputText styleClass="olive-color" value="Поставщик: " />
+		<h:outputText value="#{wcargo.supplier}" />
+		<br />
+		<ui:include src="/container/include/featureUnit.xhtml">
+			<ui:param name="featurebean" value="#{cargobean.cargoFeatureUnit}" />
+		</ui:include>
 
-</p:panel>
+		<ui:include src="/container/include/packageUnit.xhtml">
+			<ui:param name="packagebean" value="#{cargobean.cargoPackageUnit}" />
+		</ui:include>
+
+	</p:panel>
+</ui:repeat>
+
 
 </html>
