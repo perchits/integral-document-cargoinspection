@@ -193,6 +193,10 @@ public class ContainerView extends BaseView implements Serializable,
 
 	}
 
+	public Boolean getIsNullContainer(){
+		return container == null ? true : false;
+	}
+	
 	public void loadPage() {
 		Container container = (Container) FacesUtil
 				.getFlashParam(FlashParamKeys.CONTAINER);
