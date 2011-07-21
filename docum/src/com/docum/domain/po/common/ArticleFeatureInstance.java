@@ -7,6 +7,7 @@ import javax.persistence.NamedQuery;
 
 import com.docum.dao.ArticleDao;
 import com.docum.domain.po.IdentifiedEntity;
+import com.docum.domain.po.NamedEntity.GenderEnum;
 import com.docum.util.EqualsHelper;
 import com.docum.util.HashCodeHelper;
 
@@ -92,5 +93,15 @@ public class ArticleFeatureInstance extends IdentifiedEntity {
 			return super.hashCode();
 		}
 		return HashCodeHelper.hashCode(getId());
+	}
+	
+	@Override
+	public String getEntityName() {
+		return "Характеристика";
+	}
+	
+	@Override
+	public GenderEnum getEntityGender() {
+		return GenderEnum.FEMALE;
 	}
 }

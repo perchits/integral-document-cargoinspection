@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
-public abstract class IdentifiedEntity implements Serializable {
+public abstract class IdentifiedEntity extends NamedEntity implements Serializable {
 
 	private static final long serialVersionUID = 8647183098509121405L;
 	

@@ -126,5 +126,15 @@ public class ArticleCategory extends IdentifiedEntity {
 		}
 		return HashCodeHelper.hashCode(getId());
 	}
+	
+	@Override
+	public String getEntityName() {
+		return "Категория";
+	}
+	
+	@Override
+	public GenderEnum getEntityGender() {
+		return GenderEnum.FEMALE;
+	}
 
 }

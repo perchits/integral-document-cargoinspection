@@ -11,12 +11,14 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import com.docum.domain.po.IdentifiedEntity;
+import com.docum.domain.po.NamedEntity;
 import com.docum.domain.po.common.Article;
 import com.docum.domain.po.common.ArticleCategory;
 import com.docum.domain.po.common.ArticleFeature;
 import com.docum.domain.po.common.ArticleFeatureInstance;
 import com.docum.service.ArticleService;
 import com.docum.util.AlgoUtil;
+import com.docum.util.DocumLogger;
 import com.docum.view.wrapper.ArticleFeaturePresentation;
 import com.docum.view.wrapper.ArticlePresentation;
 import com.docum.view.wrapper.ArticleTransformer;
@@ -124,25 +126,45 @@ public class ArticleView extends BaseView {
 		article.removeCategory(category);
 		article = getBaseService().save(article);
 	}
+	
+	public void beforeDeleteCategory(ActionEvent actionEvent) {
+		validateAction(this.category, ArticleCategory.class);
+	}
+	
+	public void beforeDeleteFeature() {
+		validateAction(this.feature, ArticleFeature.class);
+	}
+	
+	public void beforeDeleteFeatureInstance() {
+		validateAction(this.featureInstance, ArticleFeatureInstance.class);
+	}
 
 	public void deleteFeature() {
-		article.removeFeature(feature);
-		article = getBaseService().save(article);
+		if (validateAction(this.feature, ArticleFeature.class)) {
+			article.removeFeature(feature);
+			article = getBaseService().save(article);
+		}
 	}
 
 	public void deleteFeatureInstance() {
-		feature.removeInstance(featureInstance);
-		feature = getBaseService().save(feature);
+		if (validateAction(this.featureInstance, ArticleFeatureInstance.class)) {
+			feature.removeInstance(featureInstance);
+			feature = getBaseService().save(feature);
+		}
 	}
 
 	public void newCategory() {
-		setTitle("Новая категория");
-		category = new ArticleCategory();
+		if (validateAction(this.article, Article.class)) {
+			setTitle("Новая категория");
+			category = new ArticleCategory();
+		} 
 	}
 
 	public void newFeature() {
-		setTitle("Новая характеристика");
-		this.feature = new ArticleFeature();
+		if (validateAction(this.article, Article.class)) {
+			setTitle("Новая характеристика");
+			this.feature = new ArticleFeature();
+		}
 	}
 
 	public void newFeatureInstance() {
@@ -191,22 +213,40 @@ public class ArticleView extends BaseView {
 	}
 	
 	public void editCategory(ActionEvent actionEvent) {
-		if (this.category != null) {
+		if (validateAction(this.category, ArticleCategory.class)) {
 			setTitle("Правка: " + this.category.getName());
-		} else {
-			String message = "Категория для редактирования не выбрана";
-			showErrorMessage(message);
-			addCallbackParam("dontShow", true);
 		}
 	}
 	
 	public void editFeature(ActionEvent actionEvent) {
-		if (this.feature != null) {
+		if (validateAction(this.feature, ArticleFeature.class)) {
 			setTitle("Правка: " + this.feature.getName());
-		} else {
-			String message = "Характеристика для редактирования не выбрана";
-			showErrorMessage(message);
-			addCallbackParam("dontShow", true);
+		}
+	}
+	
+	public void editFeatureInstance() {
+		if (validateAction(this.featureInstance, ArticleFeatureInstance.class)) {
+			setTitle("Правка: " + this.featureInstance.getName());
+		}
+	}
+	
+	private <T extends IdentifiedEntity> boolean validateAction(T identifiedEntity, Class<T> clazz) {
+		try {
+			if (identifiedEntity != null && identifiedEntity.getId() != null) {
+				return true;
+			} else {
+				T t = clazz.newInstance();
+				String message = t.getEntityName() + " для редактирования не выбран";
+				if (t.getEntityGender().equals(NamedEntity.GenderEnum.FEMALE)) {
+					message += "а";
+				}
+				showErrorMessage(message);
+				addCallbackParam("dontShow", true);
+				return false;
+			}
+		} catch (Exception e) {
+			DocumLogger.log(e);
+			return false;
 		}
 	}
 

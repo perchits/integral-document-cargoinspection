@@ -118,4 +118,14 @@ public class Article extends IdentifiedEntity {
 		}
 		return HashCodeHelper.hashCode(getId());
 	}
+	
+	@Override
+	public String getEntityName() {
+		return "Товар";
+	}
+	
+	@Override
+	public GenderEnum getEntityGender() {
+		return GenderEnum.MALE;
+	}
 }

@@ -143,4 +143,14 @@ public class ArticleFeature extends IdentifiedEntity {
 		}
 		return HashCodeHelper.hashCode(getId());
 	}
+	
+	@Override
+	public String getEntityName() {
+		return "Характеристика";
+	}
+	
+	@Override
+	public GenderEnum getEntityGender() {
+		return GenderEnum.FEMALE;
+	}
 }
