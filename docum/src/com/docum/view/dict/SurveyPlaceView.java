@@ -15,11 +15,11 @@ public class SurveyPlaceView extends BaseView {
 	
 	private SurveyPlace sp = new SurveyPlace();
 	
-	public SurveyPlace getSurveyPlace() {
+	public SurveyPlace getSp() {
 		return sp;
 	}
 
-	public void setSurveyPlace(SurveyPlace sp) {
+	public void setSp(SurveyPlace sp) {
 		this.sp = sp;
 	}
 
