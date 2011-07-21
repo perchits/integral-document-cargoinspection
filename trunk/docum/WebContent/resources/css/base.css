@@ -437,7 +437,9 @@ a.olive-color:hover {
 	text-align: left;
 	font-family: verdana, tahoma, sans-serif;
 	font-size : 10px;
-	padding : 10px 0 0 3px
+	padding : 10px 0 0 3px;
+	clear: both;
+	color : olive;	
 }
 
 #containerTitle {

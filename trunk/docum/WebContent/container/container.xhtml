@@ -74,7 +74,7 @@
 
 				<h:panelGroup id="infoPanel" layout="block">
 					<p:panel styleClass="container-cargo-panel"
-						rendered="#{containerBean.container != null}">
+						rendered="#{!containerBean.isNullContainer}">
 
 						<f:facet name="header">
 							<h:panelGroup styleClass="table-header">
@@ -87,8 +87,7 @@
 							<h:panelGroup layout="block" id="declared">
 
 
-								<h:panelGroup id="lazyContainerInfo" layout="block"
-									rendered="#{containerBean.container != null}">
+								<h:panelGroup id="lazyContainerInfo" layout="block" >
 									<h:outputText styleClass="olive-color" value="Статус: " />
 									<h:outputText value="#{containerBean.container.state}" />
 
