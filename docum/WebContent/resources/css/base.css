@@ -209,15 +209,19 @@ select {
 	width: 60px !important;
 }
 
-#containersPanel {
-	min-width: 656px;
+#containersPanel {	
+	font-size: 11px !important;
+}
+
+#containersPanel_header {
+	overflow: hidden;
+	padding: 6px 5px 1px 4px;	
 }
 
 #VoyageSearchBoxId input,#DocumentsVoyageSearchBoxInId input {
-	font-size: 11px !important;
-	float: right;
-	width: 250px !important;
-	margin-top: 1px;
+	font-size: 11px !important;	
+	width: 300px !important;
+	margin: 0 0 2px 0;
 	box-shadow: 0 0 0 0;
 	border-radius: 3px 3px 3px 3px;
 }
@@ -422,4 +426,36 @@ a.olive-color:hover {
 .calibre {
 	display: block;
 	margin: 2px 0 -7px 0;	
+}
+
+.container-btns {
+	margin-top: -3px;
+}
+
+#footer{
+	text-align: left;
+	font-family: verdana, tahoma, sans-serif;
+	font-size : 10px;
+	padding : 10px 0 0 3px
+}
+
+#containerTitle {
+	margin: 5px 0 0 4px !important;
+} 
+
+.add-cargo-title {
+	font-weight: bold !important;
+	margin: -5px 0 3px 0;
+}
+
+#inspection-splitter td:FIRST-CHILD {
+	border-right: 1px dotted olive;
 }	
+
+#inspection-splitter td {
+	padding : 0 6px 0 3px;
+}
+
+.containersLayoutTable {
+	/* */
+}
