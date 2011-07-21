@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+	<changeSet author="pepper" id="0006-add-cargodefect">
+
+		<createTable tableName="cargodefect">
+			<column name="id" type="bigserial" autoIncrement="true">
+				<constraints primaryKeyName="cargodefect_pkey"
+					primaryKey="true" nullable="false" />
+			</column>
+			<column name="englishname" type="VARCHAR(512)" />
+			<column name="name" type="VARCHAR(512)" />
+			<column name="percentage" type="FLOAT8(17)">
+				<constraints nullable="false" />
+			</column>
+			<column name="articledefect_id" type="BIGINT" />
+			<column name="cargo_id" type="BIGINT">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+
+		<addForeignKeyConstraint constraintName="cargodefect_articledefect_fk"
+			baseTableName="cargodefect" baseColumnNames="articledefect_id"
+			referencedTableName="articledefect" referencedColumnNames="id" />
+
+		<addForeignKeyConstraint constraintName="cargodefect_cargo_fk"
+			baseTableName="cargodefect" baseColumnNames="cargo_id"
+			referencedTableName="cargo" referencedColumnNames="id" />
+
+		<createIndex tableName="cargodefect" indexName="cargodefect_articledefect_fk_idx">
+			<column name="articledefect_id" />
+		</createIndex>
+
+		<createIndex tableName="cargodefect" indexName="cargodefect_cargo_fk_idx">
+			<column name="cargo_id" />
+		</createIndex>
+
+	</changeSet>
+</databaseChangeLog>

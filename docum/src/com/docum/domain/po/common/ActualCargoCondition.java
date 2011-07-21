@@ -34,6 +34,10 @@ public class ActualCargoCondition extends CargoCondition {
 	public void setContainer(Container container) {
 		this.container = container;
 	}
+
+	public boolean hasDefects() {
+		return true;
+	}
 	
 	public boolean equals(Object obj) {
 		if (obj == this) {

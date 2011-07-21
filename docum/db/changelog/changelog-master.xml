@@ -8,5 +8,6 @@
   <include file="0003-cargo-object-model-refactoring.xml"/> 
   <include file="0004-add-inspection.xml"/>
   <include file="0005-add-english-names.xml"/>
-
+  <include file="0006-add-cargodefect.xml"/>
+  
 </databaseChangeLog>
