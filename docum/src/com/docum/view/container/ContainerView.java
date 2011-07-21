@@ -189,7 +189,7 @@ public class ContainerView extends BaseView implements Serializable,
 	public String getContainersTitle() {
 		return selectedVoyage != null ? 
 				selectedVoyage.getVoyageInfo()
-				: "Выберите не судозаход...";
+				: "Выберите судозаход...";
 
 	}
 

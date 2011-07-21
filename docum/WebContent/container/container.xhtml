@@ -82,9 +82,9 @@
 							</h:panelGroup>
 						</f:facet>
 
-						<h:panelGrid columns="2" id="inspection-splitter">
+						<h:panelGrid columns="3" id="inspection-splitter">
 
-							<h:panelGroup id="declared">
+							<h:panelGroup layout="block" id="declared">
 
 
 								<h:panelGroup id="lazyContainerInfo" layout="block"
@@ -143,22 +143,30 @@
 										</h:outputText>
 									</h:panelGroup>
 								</h:panelGroup>
-							</h:panelGroup>
+							
 
-							<h:panelGroup id="inpection">
+							
+
+						
+
+						<ui:include src="/container/include/cargoUnit.xhtml">
+							<ui:param name="cargobean" value="#{containerBean.cargoUnit}" />
+						</ui:include>
+					
+					</h:panelGroup>
+					
+					<h:panelGroup id="splitter" />
+					
+					<h:panelGroup layout="block" id="inspection">Инспекция 
 							<!-- ИНСПЕКЦИЯ 
 							  <ui:include src="/container/include/inspectionUnit.xhtml">
 								<ui:param name="inspectionbean" value="#{containerBean.inspectionUnit}" />
 							</ui:include>
 							 -->
 							</h:panelGroup>
-
-						</h:panelGrid>
-
-						<ui:include src="/container/include/cargoUnit.xhtml">
-							<ui:param name="cargobean" value="#{containerBean.cargoUnit}" />
-						</ui:include>
-
+					</h:panelGrid>
+					
+					
 					</p:panel>
 				</h:panelGroup>
 			</h:panelGrid>
