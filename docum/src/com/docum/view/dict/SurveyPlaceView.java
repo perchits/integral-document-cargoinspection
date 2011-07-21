@@ -19,7 +19,7 @@ public class SurveyPlaceView extends BaseView {
 		return sp;
 	}
 
-	public void setCity(SurveyPlace sp) {
+	public void setSurveyPlace(SurveyPlace sp) {
 		this.sp = sp;
 	}
 
