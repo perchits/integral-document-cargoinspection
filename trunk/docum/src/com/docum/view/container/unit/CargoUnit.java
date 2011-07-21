@@ -6,7 +6,7 @@ import java.util.Collection;
 import java.util.List;
 
 import com.docum.domain.po.common.Cargo;
-import com.docum.domain.po.common.Container;
+import com.docum.domain.po.common.CargoCondition;
 import com.docum.service.ArticleService;
 import com.docum.service.BaseService;
 import com.docum.util.AlgoUtil;
@@ -18,28 +18,26 @@ import com.docum.view.container.ContainerContext;
 import com.docum.view.container.ContainerHolder;
 import com.docum.view.wrapper.CargoPresentation;
 import com.docum.view.wrapper.CargoTransformer;
-import com.docum.view.wrapper.ContainerPresentation;
 
 public class CargoUnit implements Serializable, DialogActionHandler {
 	private static final long serialVersionUID = 4121556886204075852L;
 	private CargoDlgView cargoDlg;
 	private Cargo cargo;
-	private Container container;
 	
 	private BaseService baseService;
 	private ArticleService articleService;
 	private ContainerHolder containerHolder;
 	private CargoFeatureUnit cargoFeatureUnit;
 	private CargoPackageUnit cargoPackageUnit;
-	
+	private CargoCondition cargoCondition;
+
 	public CargoUnit(ContainerHolder containerHolder) {
 		this.containerHolder = containerHolder;
 		cargoFeatureUnit = new CargoFeatureUnit(containerHolder);
 		cargoPackageUnit = new CargoPackageUnit(containerHolder);
 	}
 
-	public void setContext(ContainerContext context) {
-		container = context.getContainer();
+	public void setContext(ContainerContext context) {		
 		baseService = context.getBaseService();
 		articleService = context.getArticleService();
 	}
@@ -51,6 +49,10 @@ public class CargoUnit implements Serializable, DialogActionHandler {
 		return context;
 	}
 
+	public void setCargoCondition(CargoCondition cargoCondition) {
+		this.cargoCondition = cargoCondition;
+	}
+	
 	public CargoFeatureUnit getCargoFeatureUnit() {		
 		cargoFeatureUnit.setContext(populateContext());
 		return cargoFeatureUnit;
@@ -85,23 +87,19 @@ public class CargoUnit implements Serializable, DialogActionHandler {
 	}
 
 	public void deleteCargo() {
-		container.getDeclaredCondition().getCargoes().remove(cargo);
+		cargoCondition.getCargoes().remove(cargo);
 		containerHolder.saveContainer();
 		cargo = null;
 		containerHolder.resreshContainerList();
 	}
 
-	public ContainerPresentation getContainer() {
-		return new ContainerPresentation(container);
-	}
-	
 	public String getCargoName() {
 		return new CargoPresentation(cargo).getArticle();
 	}
 	
 	public List<CargoPresentation> getContainerCargoes() {
-		if (container != null) {
-			Collection<Cargo> c = container.getDeclaredCondition().getCargoes();
+		if (cargoCondition != null) {
+			Collection<Cargo> c = cargoCondition.getCargoes();
 			List<CargoPresentation> result = new ArrayList<CargoPresentation>(
 					c.size());
 			AlgoUtil.transform(result, c, new CargoTransformer());
@@ -119,7 +117,7 @@ public class CargoUnit implements Serializable, DialogActionHandler {
 				Cargo c = d.getCargo();
 				if (c.getId() == null) {
 					c = d.getCargo();
-					container.getDeclaredCondition().addCargo(c);
+					cargoCondition.addCargo(c);
 				} else {
 					cargo.copy(d.getCargo());
 				}

@@ -13,6 +13,5 @@ public interface ContainerService extends BaseService {
 	public List<Container> getContainersByPurchaseOrder(Long orderId);
 	public List<Container> getContainersByBillOfLading(Long billOfLadingId);
 	public List<Container> getContainersWithoutReport();
-	public List<Container> getContainersByReport(Long reportId);
-	public Container getContainer(Long containerId);
+	public List<Container> getContainersByReport(Long reportId);	
 }
