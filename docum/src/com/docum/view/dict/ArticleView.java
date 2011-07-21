@@ -118,8 +118,6 @@ public class ArticleView extends BaseView {
 		if (featureInstance.getId() == null) {
 			feature.addInstance(featureInstance);
 		}
-		feature = getBaseService().save(feature);
-		article = getBaseService().save(article);
 	}
 
 	public void deleteCategory() {
