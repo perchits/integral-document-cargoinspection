@@ -65,11 +65,13 @@ public class ContainerView extends BaseView implements Serializable,
 	private CargoUnit cargoUnit = new CargoUnit(this);
 
 	public CargoUnit getCargoUnit() {
-		ContainerContext context = new ContainerContext();
-		context.setContainer(container);
-		context.setArticleService(articleService);
-		context.setBaseService(getBaseService());
-		cargoUnit.setContext(context);
+		if (container != null) {
+			ContainerContext context = new ContainerContext();
+			context.setArticleService(articleService);
+			context.setBaseService(getBaseService());
+			cargoUnit.setContext(context);
+			cargoUnit.setCargoCondition(container.getDeclaredCondition());
+		}
 		return cargoUnit;
 	}
 
@@ -187,16 +189,15 @@ public class ContainerView extends BaseView implements Serializable,
 	}
 
 	public String getContainersTitle() {
-		return selectedVoyage != null ? 
-				selectedVoyage.getVoyageInfo()
+		return selectedVoyage != null ? selectedVoyage.getVoyageInfo()
 				: "Выберите судозаход...";
 
 	}
 
-	public Boolean getIsNullContainer(){
+	public Boolean getIsNullContainer() {
 		return container == null ? true : false;
 	}
-	
+
 	public void loadPage() {
 		Container container = (Container) FacesUtil
 				.getFlashParam(FlashParamKeys.CONTAINER);
@@ -261,7 +262,7 @@ public class ContainerView extends BaseView implements Serializable,
 				resreshContainers();
 			}
 		}
-		
+
 	}
 
 	private void resreshContainers() {
@@ -287,6 +288,6 @@ public class ContainerView extends BaseView implements Serializable,
 
 	@Override
 	public void resreshContainerList() {
-		resreshContainers();		
+		resreshContainers();
 	}
 }

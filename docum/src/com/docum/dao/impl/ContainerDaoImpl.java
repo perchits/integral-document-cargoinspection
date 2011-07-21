@@ -49,24 +49,7 @@ public class ContainerDaoImpl extends BaseDaoImpl implements ContainerDao {
 		@SuppressWarnings("unchecked")
 		List<Container> result = query.getResultList();
 		return result;
-	}
-
-	@Override
-	public Container getContainer(Long containerId) {
-//		TypedQuery<Container> query =
-//			entityManager.createNamedQuery(GET_FULL_CONTAINER_QUERY, Container.class);
-//		query.setParameter("containerId", containerId);
-//		Container result = query.getSingleResult();
-//		return result;
-//TODO: решить вопрос с GET_FULL_CONTAINER_QUERY
-		Container result = getObject(Container.class, containerId);
-		result.getInvoices().size();
-		result.getBillOfLadings().size();
-		result.getOrders().size();
-		result.getDeclaredCondition().getId();
-		result.getActualCondition().getId();
-		return result;
-	}
+	}	
 	
 	@Override
 	public List<Container> getContainersWithoutReport() {

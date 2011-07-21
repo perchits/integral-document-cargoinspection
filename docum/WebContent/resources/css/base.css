@@ -198,7 +198,7 @@ select {
 }
 
 .infoLayoutTable,#infoPanel {
-	min-width: 600px;
+	/*min-width: 600px;*/
 }
 
 .cellSmallText td {

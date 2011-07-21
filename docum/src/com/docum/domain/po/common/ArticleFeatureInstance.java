@@ -7,7 +7,6 @@ import javax.persistence.NamedQuery;
 
 import com.docum.dao.ArticleDao;
 import com.docum.domain.po.IdentifiedEntity;
-import com.docum.domain.po.NamedEntity.GenderEnum;
 import com.docum.util.EqualsHelper;
 import com.docum.util.HashCodeHelper;
 
