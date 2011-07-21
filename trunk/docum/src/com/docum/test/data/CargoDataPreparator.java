@@ -56,7 +56,6 @@ public class CargoDataPreparator {
 			Container container = containerCounter.next();
 			CargoCondition condition = container.getDeclaredCondition();
 			Cargo cargo = new Cargo(articleCounter.next(), supplierCounter.next(), condition);
-//			persister.persist(cargo);
 			cargo.setCargoPackages(new HashSet<CargoPackage>(preparePackages(persister, cargo)));
 			prepareFeatures(persister, cargo);
 			cargo.setArticleCategory(prepareCategory(persister, cargo));
@@ -106,7 +105,6 @@ public class CargoDataPreparator {
 		for (int i = 0; i<3; i++) {
 			CargoPackage pkg = new CargoPackage(cargo, measureCounter.next(),
 					countCounter.next());
-			//persister.persist(pkg);
 			packages.add(pkg);
 			if(i==0) {
 				pkg.setCalibres(new HashSet<CargoPackageCalibre>(prepareCalibres(persister, pkg)));
@@ -121,7 +119,6 @@ public class CargoDataPreparator {
 		for (int i = 0; i<2; i++) {
 			CargoPackageCalibre calibre = new CargoPackageCalibre(pkg, calibreCounter.next(),
 					pkg.getCount()/3*(i+1));
-			//persister.persist(calibre);
 			calibres.add(calibre);
 		}
 		return calibres;

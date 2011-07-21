@@ -28,6 +28,9 @@ public class Cargo extends IdentifiedEntity {
 
 	@OneToMany(mappedBy="cargo", cascade=CascadeType.ALL, orphanRemoval=true, fetch=FetchType.EAGER)
 	private Set<CargoPackage> cargoPackages = new HashSet<CargoPackage>();
+
+	@OneToMany(mappedBy = "cargo", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+	private Set<CargoDefect> defects = new HashSet<CargoDefect>();
 	
 	@ManyToOne(optional = false)
 	private Supplier supplier;
@@ -98,6 +101,15 @@ public class Cargo extends IdentifiedEntity {
 	}
 
 	public void setArticleCategory(ArticleCategory articleCategory) {
+		if (articleCategory == null || articleCategory.equals(this.articleCategory)) {
+			return;
+		}
+		if(condition.hasDefects()) {
+			defects.clear();
+			for(ArticleDefect articleDefect : articleCategory.getDefects()) {
+				defects.add(new CargoDefect(this, articleDefect));
+			}
+		}
 		this.articleCategory = articleCategory;
 	}
 
@@ -131,16 +143,38 @@ public class Cargo extends IdentifiedEntity {
 		this.cargoPackages = cargoPackages;
 	}
 
+	public void addPackage(CargoPackage cargoPackage){
+		if(cargoPackage != null) {
+			cargoPackages.add(cargoPackage);
+			cargoPackage.setCargo(this);
+		}
+	}
+
 	public void removePackage(CargoPackage cargoPackage){
 		if(cargoPackage != null && cargoPackages.remove(cargoPackage)) {
 			cargoPackage.setCargo(null);
 		}
 	}
 	
-	public void addPackage(CargoPackage cargoPackage){
-		if(cargoPackage != null) {
-			cargoPackages.add(cargoPackage);
-			cargoPackage.setCargo(this);
+	public Set<CargoDefect> getDefects() {
+		return defects;
+	}
+
+	public void setDefects(Set<CargoDefect> defects) {
+		this.defects = defects;
+	}
+
+	public void addDefect(CargoDefect defect){
+		if(defect != null && defect.getArticleDefect() == null) {
+			defects.add(defect);
+			defect.setCargo(this);
+		}
+	}
+
+	public void removeDefect(CargoDefect defect){
+		if(defect != null && defect.getArticleDefect() == null &&
+				cargoPackages.remove(defect)) {
+			defect.setCargo(null);
 		}
 	}
 	
