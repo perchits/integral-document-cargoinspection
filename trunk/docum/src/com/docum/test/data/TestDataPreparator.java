@@ -213,6 +213,7 @@ public class TestDataPreparator implements TestDataPersister {
 		List<SecurityRole> adminRoles = new ArrayList<SecurityRole>();
 		adminRoles.add(roles.get(0));
 		List<SecurityRole> developerRoles = new ArrayList<SecurityRole>();
+		developerRoles.add(roles.get(0));
 		developerRoles.add(roles.get(1));
 		List<SecurityRole> userRoles = new ArrayList<SecurityRole>();
 		userRoles.add(roles.get(2));
