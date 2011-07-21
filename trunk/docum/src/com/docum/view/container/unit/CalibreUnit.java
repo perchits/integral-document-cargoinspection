@@ -46,6 +46,7 @@ public class CalibreUnit implements Serializable, DialogActionHandler {
 	public void prepareCalibreDlg(CargoPackageCalibre calibre) {
 		calibreDlg = new CalibreDlgView(calibre);
 		calibreDlg.addHandler(this);
+		containerHolder.setDlgCalibreUnit(this);
 	}
 
 	public void addCalibre() {

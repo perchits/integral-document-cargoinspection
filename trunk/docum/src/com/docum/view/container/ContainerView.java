@@ -60,33 +60,71 @@ public class ContainerView extends BaseView implements Serializable,
 	@Autowired
 	private BillOfLadingService billService;
 	@Autowired
-	private ArticleService articleService;
+	private ArticleService articleService;	
+	
+	private CargoUnit actualCargoUnit = new CargoUnit(this);
+	private CargoUnit declaredCargoUnit = new CargoUnit(this);
+	
+	private CargoUnit dlgCargoUnit;
+	private CargoFeatureUnit dlgFeatureUnit;
+	private CargoPackageUnit dlgPackageUnit;
+	private CalibreUnit dlgCalibreUnit;
+	
+	public CalibreUnit getDlgCalibreUnit() {
+		return dlgCalibreUnit;
+	}
 
-	private CargoUnit cargoUnit = new CargoUnit(this);
+	public void setDlgCalibreUnit(CalibreUnit dlgCalibreUnit) {
+		this.dlgCalibreUnit = dlgCalibreUnit;
+	}
 
-	public CargoUnit getCargoUnit() {
+	public CargoPackageUnit getDlgPackageUnit() {
+		return dlgPackageUnit;
+	}
+
+	public void setDlgPackageUnit(CargoPackageUnit dlgPackageUnit) {
+		this.dlgPackageUnit = dlgPackageUnit;
+	}
+
+	public CargoFeatureUnit getDlgFeatureUnit() {
+		return dlgFeatureUnit;
+	}
+
+	public void setDlgFeatureUnit(CargoFeatureUnit dlgFeatureUnit) {
+		this.dlgFeatureUnit = dlgFeatureUnit;
+	}
+
+	public CargoUnit getDlgCargoUnit() {
+		return dlgCargoUnit;
+	}
+
+	public void setDlgCargoUnit(CargoUnit dlgCargoUnit) {
+		this.dlgCargoUnit = dlgCargoUnit;
+	}
+
+	public CargoUnit getActualCargoUnit() {
+		return getCargoUnit(true, actualCargoUnit);
+	}
+
+	public CargoUnit getDeclaredCargoUnit() {
+		return getCargoUnit(false, declaredCargoUnit);
+	}
+	
+	public CargoUnit getCargoUnit(Boolean isActual, CargoUnit cargoUnit) {		
 		if (container != null) {
 			ContainerContext context = new ContainerContext();
 			context.setArticleService(articleService);
 			context.setBaseService(getBaseService());
 			cargoUnit.setContext(context);
-			cargoUnit.setCargoCondition(container.getDeclaredCondition());
+			if (isActual) {
+				cargoUnit.setCargoCondition(container.getActualCondition());
+			} else {
+				cargoUnit.setCargoCondition(container.getDeclaredCondition());
+			}				
 		}
 		return cargoUnit;
 	}
-
-	public CargoFeatureUnit getCargoFeatureUnit() {
-		return getCargoUnit().getCargoFeatureUnit();
-	}
-
-	public CargoPackageUnit getCargoPackageUnit() {
-		return getCargoUnit().getCargoPackageUnit();
-	}
-
-	public CalibreUnit getCalibreUnit() {
-		return getCargoPackageUnit().getCalibreUnit();
-	}
-
+	
 	@Override
 	public String getSign() {
 		return sign;
@@ -284,10 +322,7 @@ public class ContainerView extends BaseView implements Serializable,
 	@Override
 	public void saveContainer() {
 		containerService.save(container);
-	}
-
-	@Override
-	public void resreshContainerList() {
 		resreshContainers();
 	}
+
 }
