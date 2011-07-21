@@ -89,6 +89,7 @@ public class CargoPackageUnit implements Serializable, DialogActionHandler {
 			List<Measure> measures) {
 		cargoPackageDlg = new CargoPackageDlgView(cargoPackage, measures);
 		cargoPackageDlg.addHandler(this);
+		containerHolder.setDlgPackageUnit(this);
 	}
 
 	public String getPackageName() {

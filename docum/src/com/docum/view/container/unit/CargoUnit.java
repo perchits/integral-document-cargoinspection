@@ -43,8 +43,7 @@ public class CargoUnit implements Serializable, DialogActionHandler {
 	}
 	
 	public ContainerContext populateContext(){
-		ContainerContext context = new ContainerContext();
-		context.setCargo(cargo);
+		ContainerContext context = new ContainerContext();		
 		context.setBaseService(baseService);
 		return context;
 	}
@@ -53,8 +52,7 @@ public class CargoUnit implements Serializable, DialogActionHandler {
 		this.cargoCondition = cargoCondition;
 	}
 	
-	public CargoFeatureUnit getCargoFeatureUnit() {		
-		cargoFeatureUnit.setContext(populateContext());
+	public CargoFeatureUnit getCargoFeatureUnit() {	
 		return cargoFeatureUnit;
 	}
 
@@ -76,9 +74,10 @@ public class CargoUnit implements Serializable, DialogActionHandler {
 		return cargoDlg;
 	}
 
-	private void prepareCargoDialog(Cargo cargo) {
+	private void prepareCargoDialog(Cargo cargo) {		
 		cargoDlg = new CargoDlgView(cargo, articleService, baseService);
 		cargoDlg.addHandler(this);
+		containerHolder.setDlgCargoUnit(this);
 	}
 
 	public void addCargo() {
@@ -89,8 +88,7 @@ public class CargoUnit implements Serializable, DialogActionHandler {
 	public void deleteCargo() {
 		cargoCondition.getCargoes().remove(cargo);
 		containerHolder.saveContainer();
-		cargo = null;
-		containerHolder.resreshContainerList();
+		cargo = null;		
 	}
 
 	public String getCargoName() {
@@ -121,8 +119,7 @@ public class CargoUnit implements Serializable, DialogActionHandler {
 				} else {
 					cargo.copy(d.getCargo());
 				}
-				containerHolder.saveContainer();
-				containerHolder.resreshContainerList();
+				containerHolder.saveContainer();				
 			}
 		}
 	}

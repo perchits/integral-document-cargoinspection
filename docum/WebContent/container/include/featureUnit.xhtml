@@ -3,15 +3,17 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.prime.com.tr/ui">
-<h:panelGroup styleClass="feature-title" layout="block">
-	<p:commandLink styleClass="olive-color" title="Правка характеристик"
-		value="Характеристики" action="#{featurebean.addFeature}"
-		oncomplete="beforeShow(featureIdVar,args)"
-		update="featureIdDlgPanel,growl">
-		<f:setPropertyActionListener target="#{featurebean.cargo}"
-			value="#{wcargo}" />
-	</p:commandLink>
-</h:panelGroup>
+<h:form prependId="false">
+	<h:panelGroup styleClass="feature-title" layout="block">
+		<p:commandLink styleClass="olive-color" title="Правка характеристик"
+			value="Характеристики" action="#{featurebean.addFeature}"
+			oncomplete="beforeShow(featureIdVar,args)"
+			update="featureIdDlgPanel,growl">
+			<f:setPropertyActionListener target="#{featurebean.cargo}"
+				value="#{wcargo}" />
+		</p:commandLink>
+	</h:panelGroup>
+</h:form>
 <ul>
 	<ui:repeat value="#{wcargo.features}" var="feature">
 		<li><h:outputText styleClass="olive-color"
@@ -19,4 +21,7 @@
 				value="#{feature.value}" /></li>
 	</ui:repeat>
 </ul>
+
+
+
 </html>

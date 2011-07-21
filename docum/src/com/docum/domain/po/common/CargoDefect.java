@@ -94,11 +94,11 @@ public class CargoDefect extends IdentifiedEntity{
 			return true;
 		}
 
-		if (!(obj instanceof CargoCategory)) {
+		if (!(obj instanceof CargoDefect)) {
 			return false;
 		}
 
-		return EqualsHelper.equals(getId(), ((CargoCategory) obj).getId());
+		return EqualsHelper.equals(getId(), ((CargoDefect) obj).getId());
 	}
 
 	public int hashCode() {

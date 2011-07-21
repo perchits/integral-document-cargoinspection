@@ -4,37 +4,45 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.prime.com.tr/ui">
 
-<p:commandButton image="ui-icon-document" title="Добавить калибр"
-	styleClass="inline-btn" action="#{calibrebean.addCalibre}"
-	oncomplete="beforeShow(calibreIdVar,args)"
-	update="calibreIdDlgPanel,growl">
-	<f:setPropertyActionListener
-		target="#{calibrebean.cargoPackage}" value="#{pack}" />
-</p:commandButton>
+<h:form prependId="false" style="display:inline">
+	<p:commandButton image="ui-icon-document" title="Добавить калибр"
+		styleClass="inline-btn" action="#{calibrebean.addCalibre}"
+		oncomplete="beforeShow(calibreIdVar,args)"
+		update="calibreIdDlgPanel,growl">
+		<f:setPropertyActionListener target="#{calibrebean.cargoPackage}"
+			value="#{pack}" />
+	</p:commandButton>
+</h:form>
 <h:panelGroup rendered="#{not empty pack.calibres}">
 	<h:panelGroup styleClass="calibre">
 		<h:outputText value="Калибры" />
 	</h:panelGroup>
 	<ul>
 		<ui:repeat value="#{pack.calibres}" var="calibre">
-			<li><p:commandLink title="Правка калибра"
-					styleClass="olive-color" action="#{calibrebean.editCalibre}"
-					oncomplete="beforeShow(calibreIdVar,args)"
-					update="calibreIdDlgPanel,growl">
-					<f:setPropertyActionListener target="#{calibrebean.calibre}"
-						value="#{calibre}" />
-					<h:outputText value="#{calibre.calibreValue}:" />
-				</p:commandLink> <h:outputText value=" " /> <h:outputText
-					value="#{calibre.packageCount}">
-					<f:convertNumber maxFractionDigits="2" />
-				</h:outputText> <p:commandButton image="ui-icon-trash" title="Удалить калибр"
-					styleClass="inline-btn"
-					oncomplete="beforeShow(calibreIdConfirmVar,args)"
-					update="calibreIdConfirmId">
-					<f:setPropertyActionListener target="#{calibrebean.calibre}"
-						value="#{calibre}" />
-				</p:commandButton></li>
+			<li><h:form prependId="false">
+					<p:commandLink title="Правка калибра" styleClass="olive-color"
+						action="#{calibrebean.editCalibre}"
+						oncomplete="beforeShow(calibreIdVar,args)"
+						update="calibreIdDlgPanel,growl">
+						<f:setPropertyActionListener target="#{calibrebean.calibre}"
+							value="#{calibre}" />
+						<h:outputText value="#{calibre.calibreValue}:" />
+					</p:commandLink>
+					<h:outputText value=" " />
+					<h:outputText value="#{calibre.packageCount}">
+						<f:convertNumber maxFractionDigits="2" />
+					</h:outputText>
+					<p:commandButton image="ui-icon-trash" title="Удалить калибр"
+						styleClass="inline-btn"
+						oncomplete="beforeShow(calibreIdConfirmVar,args)"
+						update="calibreIdConfirmId">
+						<f:setPropertyActionListener target="#{calibrebean.calibre}"
+							value="#{calibre}" />
+					</p:commandButton>
+				</h:form>
+			</li>
 		</ui:repeat>
 	</ul>
 </h:panelGroup>
+
 </html>

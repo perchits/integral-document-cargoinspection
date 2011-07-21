@@ -414,7 +414,7 @@ a.olive-color:hover {
 }
 
 .feature-title {
-	margin: 7px 0;
+	margin: 7px 0 0 0;
 }
 
 .inline-btn {	
@@ -426,7 +426,7 @@ a.olive-color:hover {
 }
 .calibre {
 	display: block;
-	margin: 2px 0 -7px 0;	
+	margin: 3px 0 -7px 0;	
 }
 
 .container-btns {
@@ -450,7 +450,7 @@ a.olive-color:hover {
 	font-weight: bold !important;	
 }
 
-#inspection-splitter td:nth-child(odd) {
+#inspection-splitter > td:nth-child(odd) {
 	border: 1px dotted #E4F0B6;
 	background: #FCFFF0;		
 }	
@@ -466,6 +466,7 @@ a.olive-color:hover {
 	border-top: 1px solid #E4F0B6;
 	border-bottom: 1px dotted #D0D9A3;
 	background: #FAFFE8;
+	margin: 2px 0 4px 0;
 }
 
 .border-btn {
@@ -479,4 +480,12 @@ a.olive-color:hover {
 #declared, #inspection {
 	width: 290px !important;
 	overflow: hidden;	
+}
+
+.cargo-package {
+	margin : -3px 0 -5px 0;	
+}
+.container-cargo-panel {
+	display: block;	
+	padding-bottom: 2px !important;
 }
