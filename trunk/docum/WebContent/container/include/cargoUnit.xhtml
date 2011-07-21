@@ -4,51 +4,56 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.prime.com.tr/ui">
 
-<h:panelGrid columns="2" styleClass="add-cargo-title">
-<h:outputText value="Груз в контейнере" />
-<p:commandButton image="ui-icon-document" title="Добавить груз"
-	styleClass="inline-btn" 
-	action="#{cargobean.addCargo}"
-	oncomplete="beforeShow(infoPanelVar,args)"
-	update="infoPanelDlgPanel,growl" >	
-</p:commandButton>
-</h:panelGrid>
+<p:panel>
+	<f:facet name="header">
+		<h:outputText value="Груз по документам" />
+		<h:panelGroup styleClass="table-btns">
+			<p:commandButton image="ui-icon-document" title="Добавить груз"
+				action="#{cargobean.addCargo}"
+				oncomplete="beforeShow(infoPanelVar,args)"
+				update="infoPanelDlgPanel,growl">
+			</p:commandButton>
+		</h:panelGroup>
+	</f:facet>
 
-<ui:repeat value="#{cargobean.containerCargoes}" var="wcargo">
-	<p:panel styleClass="container-cargo-panel">
-		<f:facet name="header">
-			<h:panelGroup styleClass="table-title">
+	<ui:repeat value="#{cargobean.containerCargoes}" var="wcargo">
+		<h:panelGroup styleClass="container-cargo-panel">
+
+			<h:panelGroup styleClass="cargo-header" layout="block">
+				<h:panelGroup styleClass="table-title">
 								#{wcargo.article}, #{wcargo.articleCategory}
 								</h:panelGroup>
-			<h:panelGroup styleClass="table-btns" id="table-btns">
-				<p:commandButton title="Редактировать груз" image="ui-icon-wrench"
-					oncomplete="beforeShow(infoPanelVar,args)"
-					update="infoPanelDlgPanel,growl">
-					<f:setPropertyActionListener target="#{cargobean.editCargo}"
-						value="#{wcargo}" />
-				</p:commandButton>
-				<p:commandButton title="Удалить груз" image="ui-icon-trash"
-					oncomplete="beforeShow(infoPanelConfirmVar,args)"
-					update="infoPanelConfirmId">
-					<f:setPropertyActionListener target="#{cargobean.cargo}"
-						value="#{wcargo}" />
-				</p:commandButton>
+				<h:panelGroup styleClass="cargo-btn-panel">
+					<p:commandButton styleClass="inline-btn border-btn"
+						title="Редактировать груз" image="ui-icon-wrench"
+						oncomplete="beforeShow(infoPanelVar,args)"
+						update="infoPanelDlgPanel,growl">
+						<f:setPropertyActionListener target="#{cargobean.editCargo}"
+							value="#{wcargo}" />
+					</p:commandButton>
+					<p:commandButton styleClass="inline-btn border-btn"
+						title="Удалить груз" image="ui-icon-trash"
+						oncomplete="beforeShow(infoPanelConfirmVar,args)"
+						update="infoPanelConfirmId">
+						<f:setPropertyActionListener target="#{cargobean.cargo}"
+							value="#{wcargo}" />
+					</p:commandButton>
+				</h:panelGroup>
 			</h:panelGroup>
-		</f:facet>
 
-		<h:outputText styleClass="olive-color" value="Поставщик: " />
-		<h:outputText value="#{wcargo.supplier}" />
-		<br />
-		<ui:include src="/container/include/featureUnit.xhtml">
-			<ui:param name="featurebean" value="#{cargobean.cargoFeatureUnit}" />
-		</ui:include>
+			<h:outputText styleClass="olive-color" value="Поставщик: " />
+			<h:outputText value="#{wcargo.supplier}" />
+			<br />
+			<ui:include src="/container/include/featureUnit.xhtml">
+				<ui:param name="featurebean" value="#{cargobean.cargoFeatureUnit}" />
+			</ui:include>
 
-		<ui:include src="/container/include/packageUnit.xhtml">
-			<ui:param name="packagebean" value="#{cargobean.cargoPackageUnit}" />
-		</ui:include>
+			<ui:include src="/container/include/packageUnit.xhtml">
+				<ui:param name="packagebean" value="#{cargobean.cargoPackageUnit}" />
+			</ui:include>
 
-	</p:panel>
-</ui:repeat>
-
+		</h:panelGroup>
+	</ui:repeat>
+</p:panel>
 
 </html>

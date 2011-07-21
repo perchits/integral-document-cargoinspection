@@ -198,7 +198,7 @@ select {
 }
 
 .infoLayoutTable,#infoPanel {
-	min-width: 320px;
+	min-width: 600px;
 }
 
 .cellSmallText td {
@@ -253,6 +253,7 @@ select {
 .container-cargo-panel .ui-panel-content {
 	text-align: left;
 }
+
 
 #lazyContainerInfo {
 	text-align: left;
@@ -444,18 +445,36 @@ a.olive-color:hover {
 } 
 
 .add-cargo-title {
-	font-weight: bold !important;
-	margin: -5px 0 3px 0;
+	font-weight: bold !important;	
 }
 
-#inspection-splitter td:FIRST-CHILD {
-	border-right: 1px dotted olive;
+#inspection-splitter td:nth-child(odd) {
+	border: 1px dotted #E4F0B6;
+	background: #FCFFF0;		
 }	
 
+       
 #inspection-splitter td {
-	padding : 0 6px 0 3px;
+	padding : 2px 4px 4px 3px;
 }
 
-.containersLayoutTable {
-	/* */
+.cargo-header {
+	padding : 3px 0 3px 3px;
+	display: block;		
+	border-top: 1px solid #E4F0B6;
+	border-bottom: 1px dotted #D0D9A3;
+	background: #FAFFE8;
+}
+
+.border-btn {
+	border : 1px solid #D4DEAB !important;
+}
+
+.cargo-btn-panel {
+	margin: 0 0 0 5px;
+}
+
+#declared, #inspection {
+	width: 290px !important;
+	overflow: hidden;	
 }
