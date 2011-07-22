@@ -255,9 +255,9 @@ select {
 }
 
 
-#lazyContainerInfo {
+#lazyContainerInfo, #inspectionInfo {
 	text-align: left;
-	margin: 4px 0 7px 4px;
+	margin: 2px 0 7px 4px;
 	line-height: 16px;
 }
 
@@ -450,7 +450,7 @@ a.olive-color:hover {
 	font-weight: bold !important;	
 }
 
-#inspection-splitter > td:nth-child(odd) {
+#inspection-splitter  td:nth-child(odd) {
 	border: 1px dotted #E4F0B6;
 	background: #FCFFF0;		
 }	
@@ -477,7 +477,7 @@ a.olive-color:hover {
 	margin: 0 0 0 5px;
 }
 
-#declared, #inspection {
+.declared, .inspection {
 	width: 290px !important;
 	overflow: hidden;	
 }
