@@ -489,3 +489,7 @@ a.olive-color:hover {
 	display: block;	
 	padding-bottom: 2px !important;
 }
+
+.cargo-title {
+	display: inline;
+}
