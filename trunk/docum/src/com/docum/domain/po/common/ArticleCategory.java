@@ -32,6 +32,8 @@ public class ArticleCategory extends IdentifiedEntity {
 	@ManyToOne(optional=false)
 	private Article article;
 	
+	private int ord;
+	
 	private String name;
 
 	private String englishName;
@@ -82,6 +84,14 @@ public class ArticleCategory extends IdentifiedEntity {
 
 	public void setArticle(Article article) {
 		this.article = article;
+	}
+
+	public int getOrd() {
+		return ord;
+	}
+
+	public void setOrd(int ord) {
+		this.ord = ord;
 	}
 
 	public Set<ArticleDefect> getDefects() {

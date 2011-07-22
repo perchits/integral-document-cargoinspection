@@ -74,7 +74,7 @@
 	</target>
 
 	<target name="buildVersioned" depends="clean, createVersionedWar, copyToDeployDir" />
-	
+
 	<taskdef name="hibernatetool" classname="org.hibernate.tool.ant.HibernateToolTask"
 		classpathref="ToolsClasspath" />
 	<target name="_db-drop-old" depends="compile">
@@ -159,33 +159,48 @@
 	</target>
 
 
-  <taskdef resource="liquibasetasks.properties">
-      <classpath refid="ToolsClasspath"/>
-  </taskdef>
-	
+	<taskdef resource="liquibasetasks.properties">
+		<classpath refid="ToolsClasspath"/>
+	</taskdef>
+
 	<target name="db-gen-changelog">
 		<fail unless="database.url">database.url not set</fail>
 		<fail unless="database.username">database.username not set</fail>
 		<fail unless="database.password">database.password not set</fail>
 
 		<generateChangeLog
-	            outputFile="output.xml"
-	            driver="${database.class}"
-	            url="${database.url}"
-	            username="${database.username}"
-	            password="${database.password}"
-							classpathref="ToolsClasspath" />
+			outputFile="liquibase-full-changelog.xml"
+			driver="${database.class}"
+			url="${database.url}"
+			username="${database.username}"
+			password="${database.password}"
+			classpathref="ToolsClasspath" />
 	</target>
 
+	<target name="db-diff">
+		<fail unless="database.url">database.url not set</fail>
+		<fail unless="database.username">database.username not set</fail>
+		<fail unless="database.password">database.password not set</fail>
+
+		<diffDatabaseToChangeLog
+			outputFile="liquibase-diff.xml"
+			loglevel="debug"
+			driver="${database.class}"
+			referenceUrl="hibernate:liquibase-hibernate.cfg.xml"
+			url="${database.url}"
+			username="${database.username}"
+			password="${database.password}"
+			classpathref="ToolsClasspath" />
+	</target>
 
 	<macrodef name="db-update-private">
 		<attribute name="dropFirst"/>
 		<sequential>
-	    <fail unless="database.url">database.url not set</fail>
-	    <fail unless="database.username">database.username not set</fail>
-	    <fail unless="database.password">database.password not set</fail>
-	 
-	    <updateDatabase
+			<fail unless="database.url">database.url not set</fail>
+			<fail unless="database.username">database.username not set</fail>
+			<fail unless="database.password">database.password not set</fail>
+
+			<updateDatabase
 	            changeLogFile="changelog-master.xml"
 	            driver="${database.class}"
 	            url="${database.url}"
@@ -195,7 +210,7 @@
 	            classpathref="ToolsClasspath"/>
 		</sequential>
 	</macrodef>
-		
+
 	<target name="db-update">
 		<db-update-private dropFirst="false"/>
 	</target>
@@ -216,5 +231,5 @@
 			classpathref="ToolsClasspath"/>
 		<svnbuildnumber baseDir="${basedir}" outputPath="${BuildDir}/buildnumber.properties"/>
 	</target>
-	
+
 </project>
