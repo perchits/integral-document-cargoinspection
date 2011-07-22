@@ -63,6 +63,7 @@ public class CargoUnit implements Serializable, DialogActionHandler {
 	
 	public void setCargo(CargoPresentation cargo) {
 		this.cargo = cargo.getCargo();
+		containerHolder.setDlgCargoUnit(this);
 	}
 
 	public void setEditCargo(CargoPresentation cargo) {

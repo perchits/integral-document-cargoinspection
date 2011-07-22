@@ -54,6 +54,7 @@ public class CargoPackageUnit implements Serializable, DialogActionHandler {
 
 	public void setWrappedCargoPackage(CargoPackagePresentation cargoPackage) {
 		this.cargoPackage = cargoPackage.getCargoPackage();
+		containerHolder.setDlgPackageUnit(this);
 	}
 
 	public CargoPackageDlgView getCargoPackageDlg() {

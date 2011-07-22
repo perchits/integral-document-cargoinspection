@@ -47,6 +47,7 @@ public class CargoFeatureUnit implements Serializable, DialogActionHandler {
 
 	public void setFeature(CargoArticleFeature feature) {
 		this.feature = feature;
+		containerHolder.setDlgFeatureUnit(this);
 	}
 
 	public void removeFeature() {

@@ -19,9 +19,10 @@
 				<f:facet name="header">
 					<h:outputText id="containerTitle"
 						value="#{containerBean.containersTitle}" />
-					<h:form prependId="false">
+					
 						<h:panelGroup id="containercrud"
 							styleClass="table-btns container-btns">
+							<h:form prependId="false">
 							<ui:include src="/WEB-INF/includes/easyCrudToolBar.xhtml">
 								<ui:param name="bean" value="#{containerBean}" />
 								<ui:param name="gridId" value="containers" />
@@ -32,8 +33,8 @@
 								<ui:param name="refreshObjects" value="refreshObjects" />
 								<ui:param name="inspectionBrief" value="true" />
 							</ui:include>
-						</h:panelGroup>
-					</h:form>
+							</h:form>
+						</h:panelGroup>					
 				</f:facet>
 				<h:form prependId="false">
 					<p:autoComplete id="VoyageSearchBoxId"
@@ -150,6 +151,7 @@
 							<ui:include src="/container/include/cargoUnit.xhtml">
 								<ui:param name="cargobean"
 									value="#{containerBean.declaredCargoUnit}" />
+									<ui:param name="paneltitle" value="Груз по документам" />
 							</ui:include>
 
 						</h:panelGroup>
@@ -166,6 +168,7 @@
 							<ui:include src="/container/include/cargoUnit.xhtml">
 								<ui:param name="cargobean"
 									value="#{containerBean.actualCargoUnit}" />
+									<ui:param name="paneltitle" value="Груз по инспекции" />
 							</ui:include>
 
 						</h:panelGroup>
@@ -191,92 +194,95 @@
 
 		<ui:include src="/WEB-INF/includes/deleteConfirmation.xhtml">
 			<ui:param name="message"
-				value="Удалить контейнер '#{containerBean.container.number}'?" />
+				value="Удалить контейнер «#{containerBean.container.number}»?" />
 			<ui:param name="gridId" value="containers" />
 			<ui:param name="bean" value="#{containerBean}" />
 			<ui:param name="update" value="infoPanel" />
 			<ui:param name="deleteObject" value="deleteObject" />
 		</ui:include>
 
-<!-- Диалог груз  -->
+		<!-- Диалог груз  -->
 
-	<ui:include src="/container/dialog/cargoDlg.xhtml">
-		<ui:param name="bean"
-			value="#{containerBean.dlgCargoUnit.cargoDlg}" />
-		<ui:param name="gridId" value="cargoId" />
-		<ui:param name="title" value="title" />
-		<ui:param name="rendered"
-			value="#{containerBean.dlgCargoUnit != null}" />
-		<ui:param name="update" value="containers,infoPanel" />
-	</ui:include>
+		<ui:include src="/container/dialog/cargoDlg.xhtml">
+			<ui:param name="bean" value="#{containerBean.dlgCargoUnit.cargoDlg}" />
+			<ui:param name="gridId" value="cargoId" />
+			<ui:param name="title" value="title" />
+			<ui:param name="rendered"
+				value="#{containerBean.dlgCargoUnit != null}" />
+			<ui:param name="update" value="containers,infoPanel" />
+		</ui:include>
 
-	<ui:include src="/WEB-INF/includes/deleteConfirmation.xhtml">
-		<ui:param name="message"
-			value="Удалить груз '#{containerBean.dlgCargoUnit.cargoName}'?" />
-		<ui:param name="gridId" value="cargoId" />
-		<ui:param name="bean" value="#{containerBean.dlgCargoUnit}" />
-		<ui:param name="deleteObject" value="deleteCargo" />
-		<ui:param name="update" value="containers,infoPanel" />
-	</ui:include>
+		<ui:include src="/WEB-INF/includes/deleteConfirmation.xhtml">
+			<ui:param name="message"
+				value="Удалить груз «#{containerBean.dlgCargoUnit.cargoName}»?" />
+			<ui:param name="gridId" value="cargoId" />
+			<ui:param name="bean" value="#{containerBean.dlgCargoUnit}" />
+			<ui:param name="deleteObject" value="deleteCargo" />
+			<ui:param name="update" value="containers,infoPanel" />
+		</ui:include>
 
-<!-- Категории  -->
+		<!-- Категории  -->
 
-<ui:include src="/container/dialog/featureDlg.xhtml">
-	<ui:param name="bean" value="#{containerBean.dlgFeatureUnit.featureDlg}" />
-	<ui:param name="gridId" value="featureId" />
-	<ui:param name="title" value="title" />
-	<ui:param name="rendered" value="#{containerBean.dlgFeatureUnit != null}" />
-	<ui:param name="update" value="infoPanel" />
-</ui:include>
+		<ui:include src="/container/dialog/featureDlg.xhtml">
+			<ui:param name="bean"
+				value="#{containerBean.dlgFeatureUnit.featureDlg}" />
+			<ui:param name="gridId" value="featureId" />
+			<ui:param name="title" value="title" />
+			<ui:param name="rendered"
+				value="#{containerBean.dlgFeatureUnit != null}" />
+			<ui:param name="update" value="infoPanel" />
+		</ui:include>
 
-<ui:include src="/WEB-INF/includes/deleteConfirmation.xhtml">
-	<ui:param name="message"
-		value="Удалить свойство груза '#{containerBean.dlgFeatureUnit.featureName}'?" />
-	<ui:param name="gridId" value="featureId" />
-	<ui:param name="bean" value="#{featurebean}" />
-	<ui:param name="deleteObject" value="removeFeature" />
-	<ui:param name="update" value="infoPanel" />
-</ui:include>
+		<ui:include src="/WEB-INF/includes/deleteConfirmation.xhtml">
+			<ui:param name="message"
+				value="Удалить свойство груза «#{containerBean.dlgFeatureUnit.featureName}»?" />
+			<ui:param name="gridId" value="featureId" />
+			<ui:param name="bean" value="#{containerBean.dlgFeatureUnit}" />
+			<ui:param name="deleteObject" value="removeFeature" />
+			<ui:param name="update" value="infoPanel" />
+		</ui:include>
 
-<!-- Упаковка  -->
+		<!-- Упаковка  -->
 
-<ui:include src="/container/dialog/CargoPackageDlg.xhtml">
-	<ui:param name="bean" value="#{containerBean.dlgPackageUnit.cargoPackageDlg}" />
-	<ui:param name="gridId" value="packageId" />
-	<ui:param name="title" value="title" />
-	<ui:param name="rendered"
-		value="#{containerBean.dlgPackageUnit != null}" />
-	<ui:param name="update" value="infoPanel" />
-</ui:include>
+		<ui:include src="/container/dialog/CargoPackageDlg.xhtml">
+			<ui:param name="bean"
+				value="#{containerBean.dlgPackageUnit.cargoPackageDlg}" />
+			<ui:param name="gridId" value="packageId" />
+			<ui:param name="title" value="title" />
+			<ui:param name="rendered"
+				value="#{containerBean.dlgPackageUnit != null}" />
+			<ui:param name="update" value="infoPanel" />
+		</ui:include>
 
-<ui:include src="/WEB-INF/includes/deleteConfirmation.xhtml">
-	<ui:param name="message"
-		value="Удалить упаковку «#{containerBean.dlgPackageUnit.packageName}»?" />
-	<ui:param name="gridId" value="packageId" />
-	<ui:param name="bean" value="#{packagebean}" />
-	<ui:param name="deleteObject" value="removePackage" />
-	<ui:param name="update" value="infoPanel" />
-</ui:include>
+		<ui:include src="/WEB-INF/includes/deleteConfirmation.xhtml">
+			<ui:param name="message"
+				value="Удалить упаковку «#{containerBean.dlgPackageUnit.packageName}»?" />
+			<ui:param name="gridId" value="packageId" />
+			<ui:param name="bean" value="#{containerBean.dlgPackageUnit}" />
+			<ui:param name="deleteObject" value="removePackage" />
+			<ui:param name="update" value="infoPanel" />
+		</ui:include>
 
-<!-- Калибры  -->
+		<!-- Калибры  -->
 
-<ui:include src="/container/dialog/calibreDlg.xhtml">
-	<ui:param name="bean" value="#{containerBean.dlgCalibreUnit.calibreDlg}" />
-	<ui:param name="gridId" value="calibreId" />
-	<ui:param name="title" value="title" />
-	<ui:param name="rendered"
-		value="#{containerBean.dlgCalibreUnit != null}" />
-	<ui:param name="update" value="infoPanel" />
-</ui:include>
+		<ui:include src="/container/dialog/calibreDlg.xhtml">
+			<ui:param name="bean"
+				value="#{containerBean.dlgCalibreUnit.calibreDlg}" />
+			<ui:param name="gridId" value="calibreId" />
+			<ui:param name="title" value="title" />
+			<ui:param name="rendered"
+				value="#{containerBean.dlgCalibreUnit != null}" />
+			<ui:param name="update" value="infoPanel" />
+		</ui:include>
 
-<ui:include src="/WEB-INF/includes/deleteConfirmation.xhtml">
-	<ui:param name="message"
-		value="Удалить калибр '#{containerBean.dlgCalibreUnit.calibre.calibreValue}'?" />
-	<ui:param name="gridId" value="calibreId" />
-	<ui:param name="bean" value="#{calibrebean}" />
-	<ui:param name="deleteObject" value="removeCalibre" />
-	<ui:param name="update" value="infoPanel" />
-</ui:include>
+		<ui:include src="/WEB-INF/includes/deleteConfirmation.xhtml">
+			<ui:param name="message"
+				value="Удалить калибр «#{containerBean.dlgCalibreUnit.calibre.calibreValue}»?" />
+			<ui:param name="gridId" value="calibreId" />
+			<ui:param name="bean" value="#{containerBean.dlgCalibreUnit}" />
+			<ui:param name="deleteObject" value="removeCalibre" />
+			<ui:param name="update" value="infoPanel" />
+		</ui:include>
 
 	</ui:define>
 
