@@ -41,6 +41,7 @@ public class CalibreUnit implements Serializable, DialogActionHandler {
 
 	public void setCalibre(CargoPackageCalibre calibre) {
 		this.calibre = calibre;
+		containerHolder.setDlgCalibreUnit(this);
 	}
 
 	public void prepareCalibreDlg(CargoPackageCalibre calibre) {
