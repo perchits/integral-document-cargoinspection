@@ -51,18 +51,7 @@ public class ArticlePresentation implements Serializable {
 		if (this.article == null || this.article.getId() == null) {
 			return null;
 		} else {
-			List<ArticleCategory> result = new ArrayList<ArticleCategory>(
-					article.getCategories());
-			Collections.sort(result, new ArticleCategoryComparator());
-			return result;
-		}
-	}
-
-	private static class ArticleCategoryComparator implements
-			Comparator<ArticleCategory> {
-		@Override
-		public int compare(ArticleCategory o1, ArticleCategory o2) {
-			return o1.getName().compareTo(o2.getName());
+			return article.getCategories();
 		}
 	}
 	

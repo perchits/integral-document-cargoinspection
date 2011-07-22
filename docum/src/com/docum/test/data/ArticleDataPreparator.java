@@ -126,11 +126,13 @@ public class ArticleDataPreparator {
 		return feature;
 	}
 
-	private static Set<ArticleCategory> prepareCategories(TestDataPersister persister,
+	private static List<ArticleCategory> prepareCategories(TestDataPersister persister,
 			Article article, String[][] categoryNames) {
-		Set<ArticleCategory> result = new HashSet<ArticleCategory>();
+		List<ArticleCategory> result = new ArrayList<ArticleCategory>();
+		int ord = 0;
 		for(String[] rec : categoryNames) {
 			ArticleCategory category = new ArticleCategory(article, rec[0], rec[1]);
+			category.setOrd(ord++);
 			category.setDefects(prepareDefects(persister, category));
 			result.add(category);
 		}
