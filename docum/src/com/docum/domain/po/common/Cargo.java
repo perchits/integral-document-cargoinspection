@@ -101,7 +101,8 @@ public class Cargo extends IdentifiedEntity {
 	}
 
 	public void setArticleCategory(ArticleCategory articleCategory) {
-		if (articleCategory == null || articleCategory.equals(this.articleCategory)) {
+		if (articleCategory == null || condition == null ||
+				articleCategory.equals(this.articleCategory)) {
 			return;
 		}
 		if(condition.hasDefects()) {
