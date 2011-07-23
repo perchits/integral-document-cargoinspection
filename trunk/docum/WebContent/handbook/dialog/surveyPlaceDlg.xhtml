@@ -9,18 +9,18 @@
 	<ui:param name="saveObject" value="saveObject" />
 	<ui:param name="deleteObject" value="deleteObject" />
 	<ui:define name="dialogBody">
-		<h:outputLabel for="englishName" value="Английское название: *" />
-		<p:inputText value="#{bean.sp.englishName}" id="englishName"
-			required="true" label="Английское название">
-		</p:inputText>
-		<h:outputLabel for="russianName" value="Русское название: " />
+		<h:outputLabel for="russianName" value="Наименование: " />
 		<p:inputText value="#{bean.sp.russianName}" id="russianName"
-			required="true" label="Русское название">
+			required="true" label="Наименование">
+		</p:inputText>
+		<h:outputLabel for="englishName" value="Наименование на англ. языке: " />
+		<p:inputText value="#{bean.sp.englishName}" id="englishName"
+			required="true" label="Наименование на англ. языке">
 		</p:inputText>
 	</ui:define>
 	<ui:define name="deleteConfirmation">
 		<ui:include src="/WEB-INF/includes/deleteConfirmation.xhtml">
-			<ui:param name="message" value="Удалить место '#{bean.sp.englishName}'?" />
+			<ui:param name="message" value="Удалить место '#{bean.sp.russianName}'?" />
 		</ui:include>
 	</ui:define>
 </ui:composition>
