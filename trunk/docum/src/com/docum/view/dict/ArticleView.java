@@ -19,6 +19,8 @@ import com.docum.domain.po.common.ArticleFeatureInstance;
 import com.docum.service.ArticleService;
 import com.docum.util.AlgoUtil;
 import com.docum.util.DocumLogger;
+import com.docum.view.wrapper.ArticleCategoryPresentation;
+import com.docum.view.wrapper.ArticleCategoryTransformer;
 import com.docum.view.wrapper.ArticleFeaturePresentation;
 import com.docum.view.wrapper.ArticlePresentation;
 import com.docum.view.wrapper.ArticleTransformer;
@@ -51,10 +53,16 @@ public class ArticleView extends BaseView {
 		this.article = article != null ? article.getArticle() : null;				
 	}
 	
-	public List<ArticleCategory> getCategories() {
-		return getWrappedArticle().getCategories();
+	public List<ArticleCategoryPresentation> getCategories() {
+		Collection<ArticleCategory> categories = getWrappedArticle().getCategories();
+		List<ArticleCategoryPresentation> result = null;
+		if (categories != null) {
+			result = new ArrayList<ArticleCategoryPresentation>(categories.size());
+			AlgoUtil.transform(result, categories, new ArticleCategoryTransformer());
+		}
+		return result;
 	}
-
+	
 	public List<ArticleFeaturePresentation> getFeatures() {
 		return getWrappedArticle().getFeatures();
 	}
@@ -208,8 +216,16 @@ public class ArticleView extends BaseView {
 		this.feature = feature !=  null ? feature.getArticleFeature() : null;
 	}
 	
+	public void setWrappedCategory(ArticleCategoryPresentation category) {		
+		this.category = category !=  null ? category.getArticleCategory() : null;
+	}
+	
 	public ArticleFeaturePresentation getWrappedFeature() {
 		return new ArticleFeaturePresentation(feature);
+	}
+	
+	public ArticleCategoryPresentation getWrappedCategory() {
+		return new ArticleCategoryPresentation(category);
 	}
 	
 	public void editCategory(ActionEvent actionEvent) {

@@ -55,26 +55,20 @@
 							</h:panelGroup>
 							<h:panelGroup styleClass="custom-panel" layout="block" 
 										  rendered="#{userBean.developmentPermited}">
-								<p:commandButton image="ui-icon-flag" title="Дефекты категории" 
-												 style="font-size: 11px !important;"/>
+								<p:commandButton image="ui-icon-star" title="Порядок категорий" 
+												 style="font-size: 11px !important;"/>				 
 							</h:panelGroup>
 						</h:panelGrid>
 							<p:dataTable id="categoriesGrid" var="category"
 								selectionMode="single" value="#{articleBean.categories}"
-								selection="#{articleBean.category}">
-								<p:column headerText="Категория">
-									<p:cellEditor>
-										<f:facet name="output">
-											<h:outputText value="#{category.name}" />
-										</f:facet>
-										<f:facet name="input">
-											<h:inputText value="#{category.name}" />
-										</f:facet>
-									</p:cellEditor>
+								selection="#{articleBean.wrappedCategory}">
+								<p:column>
+									<f:facet name="header">Категория</f:facet>
+									<h:outputText value="#{category.name}" />
 								</p:column>
 								<p:column>
-									<h:outputText value="#{category.englishName}" />
 									<f:facet name="header">Категория англ.</f:facet>
+									<h:outputText value="#{category.englishName}" />
 								</p:column>
 							</p:dataTable>
 						</p:panel>
