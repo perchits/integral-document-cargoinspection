@@ -9,7 +9,7 @@
 	<h:panelGrid columns="2" styleClass="invoicesLayoutTable"
 		id="invoicesLayoutTable">
 		<p:panel id="invoicesPanel"	styleClass="small-panel">
-			<ui:include src="/WEB-INF/includes/crudToolBar.xhtml">
+			<ui:include src="/WEB-INF/includes/baseCrudToolBar.xhtml">
 				<ui:param name="bean" value="#{invoiceBean}" />
 				<ui:param name="gridId" value="invoices" />
 			</ui:include>

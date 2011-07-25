@@ -33,7 +33,7 @@
 			</h:selectBooleanCheckbox>
 			</p:panel>
 			<p:panel visible="#{bean.feature.list}" id="articleListPanel"> 
-			<ui:include src="/WEB-INF/includes/crudToolBar.xhtml">
+			<ui:include src="/WEB-INF/includes/baseCrudToolBar.xhtml">
 				<ui:param name="bean" value="#{articleBean}" />
 				<ui:param name="gridId" value="featuresDetailsEditGrid" />
 				<ui:param name="newObject" value="newFeatureInstance" />
