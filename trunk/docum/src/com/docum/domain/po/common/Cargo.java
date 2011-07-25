@@ -42,11 +42,15 @@ public class Cargo extends IdentifiedEntity {
 		super();
 	}
 
+	public Cargo(CargoCondition condition) {
+		this();
+		this.condition = condition;
+	}
+
 	public Cargo(Article article, Supplier supplier, CargoCondition condition) {
-		super();
+		this(condition);
 		this.setArticle(article);
 		this.supplier = supplier;
-		this.condition = condition;
 	}
 
 	public Cargo(Cargo cargo) {

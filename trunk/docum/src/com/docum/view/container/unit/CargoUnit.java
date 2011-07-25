@@ -82,7 +82,7 @@ public class CargoUnit implements Serializable, DialogActionHandler {
 	}
 
 	public void addCargo() {
-		Cargo cargo = new Cargo();
+		Cargo cargo = new Cargo(cargoCondition);
 		prepareCargoDialog(cargo);
 	}
 
