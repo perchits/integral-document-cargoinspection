@@ -133,6 +133,10 @@ table td {
 
 /*  */
 
+.toolbar {	
+	margin : -3px 0 -6px 0;
+}
+
 .custom-panel {
 	margin : 4px 0 0 -8px;	
 }	
