@@ -62,6 +62,9 @@
 							<p:dataTable id="categoriesGrid" var="category"
 								selectionMode="single" value="#{articleBean.categories}"
 								selection="#{articleBean.wrappedCategory}">
+								<p:column style="width:16px">
+									<p:rowToggler />
+								</p:column>
 								<p:column>
 									<f:facet name="header">Категория</f:facet>
 									<h:outputText value="#{category.name}" />
@@ -70,6 +73,17 @@
 									<f:facet name="header">Категория англ.</f:facet>
 									<h:outputText value="#{category.englishName}" />
 								</p:column>
+								<p:rowExpansion>
+									<p:dataTable id="articleDefectsGrid" var="articleDefect"
+										value="#{category.defects}" styleClass="articleDefectsGrid">
+										<p:column>
+											<h:outputText value="#{articleDefect.name}" />
+										</p:column>
+										<p:column>
+											<h:outputText value="#{articleDefect.englishName}" />
+										</p:column>
+									</p:dataTable>
+								</p:rowExpansion>
 							</p:dataTable>
 						</p:panel>
 						<p:panel>
