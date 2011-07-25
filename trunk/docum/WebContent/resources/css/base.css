@@ -138,14 +138,10 @@ table td {
 }
 
 .custom-panel {
-	margin : 4px 0 0 -8px;	
+	margin : 4px 0 0 -8px;
 }	
 
-.custom-panel button{	
-	font-size: 11px !important;
-}
-
-.base-crud{
+.base-crud {
 /*	width : 400px;*/
 }
 
