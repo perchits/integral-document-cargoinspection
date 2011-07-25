@@ -9,33 +9,34 @@
 <h:panelGroup layout="block" styleClass="crud-menu" rendered="#{userBean.administrationPermited}">
 	<p:toolbar styleClass="crud-menu">
 		<p:toolbarGroup align="left">
-			<p:commandButton process="#{gridId}" type="push" value="#{(addTitle == null) ? 'Добавить' : addTitle}"
+			<p:commandButton process="#{process == null? (gridId) : process}" type="push" 
+				value="#{hideTitle == null ? ((addTitle == null) ? 'Добавить' : addTitle) : null}"
 				update="#{gridId}DlgPanel,growl" image="ui-icon-document"
 				actionListener="#{bean[newObject]}" 
 				oncomplete="beforeShow(#{gridId}Var,args)"
 				title="Добавить"/>
 
-			<p:commandButton process="#{gridId}" type="push" value="#{(editTitle == null) ? 'Правка' : editTitle}" 
+			<p:commandButton process="#{process == null? (gridId) : process}" type="push" 
+				value="#{hideTitle == null ? ((editTitle == null) ? 'Правка' : editTitle) : null}" 
 				update="#{gridId}DlgPanel,growl"
 				actionListener="#{bean[editObject]}"
 				oncomplete="beforeShow(#{gridId}Var,args)"
 				image="ui-icon ui-icon-wrench"
 				title="Правка"/>
 
-			<p:commandButton process="#{gridId}" type="push" value="#{(deleteTitle == null) ? 'Удалить' : deleteTitle}"
+			<p:commandButton process="#{process == null? (gridId) : process}" type="push" 
+				value="#{hideTitle == null ? ((deleteTitle == null) ? 'Удалить' : deleteTitle) : null}"
 				actionListener="#{bean[beforeDeleteObject]}"
 				oncomplete="beforeShow(#{gridId}ConfirmVar,args)"
 				image="ui-icon-trash" update="#{gridId}ConfirmId,growl" 
 				title="Удалить"/>
 
-			<p:commandButton process="#{gridId}" type="push" update="#{gridId},#{update}" value="#{(refreshTitle == null) ? 'Обновить' : refreshTitle}"
+			<p:commandButton process="#{process == null ? (gridId) : process}" type="push" update="#{gridId},#{update}" 
+				value="#{hideTitle == null ? ((refreshTitle == null) ? 'Обновить' : refreshTitle) : null}"
 				actionListener="#{bean[refreshObjects]}"
 				image="ui-icon ui-icon-arrowreturnthick-1-w" 
-				title="Обновить"/>
+				title="Обновить"/>			
 			
-			<p:commandButton type="push" value="Рез-т инспекции" rendered="#{userBean.developmentPermited}"
-				oncomplete="beforeShow(inspectionBriefVar,args)"
-				actionListener="#{containerBean.editInspection}"/>
 		</p:toolbarGroup>
 	</p:toolbar>
 </h:panelGroup>
