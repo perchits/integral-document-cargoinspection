@@ -1,31 +1,22 @@
 package com.docum.domain.po.common;
 
 import javax.persistence.Entity;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import com.docum.dao.InspectionBriefDao;
 import com.docum.domain.po.IdentifiedEntity;
 
 @Entity
 @Table(name="inspection")
-@NamedQueries({
-		@NamedQuery(
-				name = InspectionBriefDao.GET_INSPECTION_BRIEF_BY_CONTAINER_QUERY,
-				query = "SELECT ib FROM InspectionBrief ib " +
-					"JOIN ib.container c " +
-					"WHERE c.id=:containerId"
-		)
-})
-public class InspectionBrief extends IdentifiedEntity {
+public class Inspection extends IdentifiedEntity {
 	private static final long serialVersionUID = -6382871159976843122L;
 
 	@OneToOne(optional = false)
 	private Container container;
-	private String inspectionPlace;
-	private String inspectionPlaceEng;
+	@ManyToOne(optional = false)
+	private SurveyPlace surveyPlace;
+
 	private String unloadingPlace;
 	private String unloadingPlaceEng;
 	private String palletsFormation;
@@ -36,23 +27,24 @@ public class InspectionBrief extends IdentifiedEntity {
 	private String shippingMarkEng;
 	private String normativePaper;
 	private String normativePaperEng;
-
-	public String getInspectionPlace() {
-		return inspectionPlace;
+	
+	public Inspection(){
+		
 	}
 
-	public void setInspectionPlace(String inspectionPlace) {
-		this.inspectionPlace = inspectionPlace;
+	public Inspection(Container container, SurveyPlace surveyPlace) {
+		this.container = container;
+		this.surveyPlace = surveyPlace;
 	}
 
-	public String getInspectionPlaceEng() {
-		return inspectionPlaceEng;
+	public SurveyPlace getSurveyPlace() {
+		return surveyPlace;
 	}
 
-	public void setInspectionPlaceEng(String inspectionPlaceEng) {
-		this.inspectionPlaceEng = inspectionPlaceEng;
+	public void setSurveyPlace(SurveyPlace surveyPlace) {
+		this.surveyPlace = surveyPlace;
 	}
-
+	
 	public String getUnloadingPlace() {
 		return unloadingPlace;
 	}

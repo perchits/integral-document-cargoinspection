@@ -31,6 +31,7 @@ import com.docum.view.container.unit.CalibreUnit;
 import com.docum.view.container.unit.CargoFeatureUnit;
 import com.docum.view.container.unit.CargoPackageUnit;
 import com.docum.view.container.unit.CargoUnit;
+import com.docum.view.container.unit.InspectionUnit;
 import com.docum.view.dict.BaseView;
 import com.docum.view.param.FlashParamKeys;
 import com.docum.view.wrapper.ContainerPresentation;
@@ -69,6 +70,8 @@ public class ContainerView extends BaseView implements Serializable,
 	private CargoFeatureUnit dlgFeatureUnit;
 	private CargoPackageUnit dlgPackageUnit;
 	private CalibreUnit dlgCalibreUnit;
+	
+	private InspectionUnit inspectionUnit = new InspectionUnit(this); 
 	
 	public CalibreUnit getDlgCalibreUnit() {
 		return dlgCalibreUnit;
@@ -124,6 +127,14 @@ public class ContainerView extends BaseView implements Serializable,
 		}
 		return cargoUnit;
 	}
+	
+	public InspectionUnit getInspectionUnit() {
+		if (container != null) { 
+			inspectionUnit.setInspection(container.getInspection());
+		}
+		return inspectionUnit;
+	}
+
 	
 	@Override
 	public String getSign() {

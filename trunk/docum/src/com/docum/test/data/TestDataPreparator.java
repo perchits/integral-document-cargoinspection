@@ -10,6 +10,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Random;
 import java.util.Set;
 
 import javax.persistence.EntityManager;
@@ -33,6 +34,7 @@ import com.docum.domain.po.common.City;
 import com.docum.domain.po.common.Company;
 import com.docum.domain.po.common.Container;
 import com.docum.domain.po.common.Customer;
+import com.docum.domain.po.common.Inspection;
 import com.docum.domain.po.common.Invoice;
 import com.docum.domain.po.common.Measure;
 import com.docum.domain.po.common.Port;
@@ -40,6 +42,7 @@ import com.docum.domain.po.common.PurchaseOrder;
 import com.docum.domain.po.common.SecurityRole;
 import com.docum.domain.po.common.SecurityUser;
 import com.docum.domain.po.common.Supplier;
+import com.docum.domain.po.common.SurveyPlace;
 import com.docum.domain.po.common.Vessel;
 import com.docum.domain.po.common.Voyage;
 import com.docum.service.CryptoService;
@@ -196,6 +199,8 @@ public class TestDataPreparator implements TestDataPersister {
 		List<PurchaseOrder> order = prepareOrders(voyages, containers);
 		List<SecurityRole> securityRoles = prepareRoles();
 		List<SecurityUser> users = prepareUsers(securityRoles);
+		List<SurveyPlace> surveyPlaces = prepareSurveyPlaces();
+		List<Inspection> inspections = prepareInspections(containers, surveyPlaces);
 	}
 	
 	private List<SecurityRole> prepareRoles() {
@@ -287,6 +292,15 @@ public class TestDataPreparator implements TestDataPersister {
 		return result;
 	}
 
+	private List<SurveyPlace> prepareSurveyPlaces() {
+		List<SurveyPlace> result = new ArrayList<SurveyPlace>();
+		for (String city[] : cityNames) { 
+			result.add(new SurveyPlace(city[1],city[0]));
+		}
+		persist(result);
+		return result;
+	}
+	
 	private List<City> prepareCities() {
 		return TestDataPrepareUtil.prepareDictionary(this, cityNames,
 				new TestDataEntityConstructor<City, String[]>() {
@@ -296,6 +310,21 @@ public class TestDataPreparator implements TestDataPersister {
 						return city;
 					}
 				});
+	}
+	
+	private List<Inspection> prepareInspections(List<Container> containers,List<SurveyPlace> surveyPlaces) {
+		List<Inspection> result = new ArrayList<Inspection>();		
+		for (Container c : containers) {
+			if (c.getId() % 2 == 0) {
+				Random gen = new Random();
+				int index = gen.nextInt(surveyPlaces.size()) + 1;
+				if (index > 0) {
+					result.add(new Inspection(c,surveyPlaces.get(index - 1)));
+				}
+			}
+		}
+		persist(result);
+		return null;		
 	}
 	
 	private List<Measure> prepareMesures() {

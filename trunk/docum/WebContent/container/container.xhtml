@@ -156,13 +156,15 @@
 						<h:panelGroup id="splitter" />
 
 						<h:panelGroup layout="block" styleClass="inspection">
-							<h:panelGroup id="inspectionInfo" layout="block">
+							<h:panelGroup id="inspectionInfo" layout="block" 
+							rendered="#{containerBean.inspectionUnit.inspection != null}">
 						Результаты инспекции 
-							<!-- ИНСПЕКЦИЯ 
-							  <ui:include src="/container/include/inspectionUnit.xhtml">
+							
+							
+							<ui:include src="/container/include/inspectionUnit.xhtml">
 								<ui:param name="inspectionbean" value="#{containerBean.inspectionUnit}" />
 							</ui:include>
-							 -->
+							
 							</h:panelGroup>
 						</h:panelGroup>
 
