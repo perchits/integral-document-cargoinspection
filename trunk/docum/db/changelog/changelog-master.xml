@@ -10,5 +10,5 @@
   <include file="0005-add-english-names.xml"/>
   <include file="0006-add-cargodefect.xml"/>
   <include file="0007-add-articlecategory-order.xml"/>
-  
+  <include file="0008-add-cargodefectgroup.xml"/>
 </databaseChangeLog>

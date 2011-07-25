@@ -13,7 +13,7 @@ public class CargoDefect extends IdentifiedEntity{
 	private static final long serialVersionUID = 4390793129262143235L;
 
 	@ManyToOne(optional=false)
-	private Cargo cargo;
+	private CargoDefectGroup defectGroup;
 	
 	@ManyToOne(optional=true)
 	private ArticleDefect articleDefect;
@@ -30,30 +30,29 @@ public class CargoDefect extends IdentifiedEntity{
 		super();
 	}
 
-	public CargoDefect(Cargo cargo) {
+	public CargoDefect(CargoDefectGroup defectGroup) {
 		this();
-		this.cargo = cargo;
+		this.defectGroup = defectGroup;
 	}
 
-	public CargoDefect(Cargo cargo, ArticleDefect articleDefect) {
-		this();
-		this.cargo = cargo;
+	public CargoDefect(CargoDefectGroup defectGroup, ArticleDefect articleDefect) {
+		this(defectGroup);
 		this.articleDefect = articleDefect;
 	}
 
-	public CargoDefect(Cargo cargo, String name, String englishName) {
+	public CargoDefect(CargoDefectGroup defectGroup, String name, String englishName) {
 		this();
-		this.cargo = cargo;
+		this.defectGroup = defectGroup;
 		this.name = name;
 		this.englishName = englishName;
 	}
 	
-	public Cargo getCargo() {
-		return cargo;
+	public CargoDefectGroup getDefectGroup() {
+		return defectGroup;
 	}
 
-	public void setCargo(Cargo cargo) {
-		this.cargo = cargo;
+	public void setDefectGroup(CargoDefectGroup cargo) {
+		this.defectGroup = cargo;
 	}
 
 	public ArticleDefect getArticleDefect() {

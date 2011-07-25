@@ -1,6 +1,9 @@
 package com.docum.domain.po.common;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
+import java.util.ListIterator;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -8,6 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderColumn;
 
 import com.docum.domain.po.IdentifiedEntity;
 import com.docum.util.EqualsHelper;
@@ -30,7 +34,8 @@ public class Cargo extends IdentifiedEntity {
 	private Set<CargoPackage> cargoPackages = new HashSet<CargoPackage>();
 
 	@OneToMany(mappedBy = "cargo", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-	private Set<CargoDefect> defects = new HashSet<CargoDefect>();
+	@OrderColumn(name="ord")
+	private List<CargoDefectGroup> defectGroups = new ArrayList<CargoDefectGroup>();
 	
 	@ManyToOne(optional = false)
 	private Supplier supplier;
@@ -66,6 +71,7 @@ public class Cargo extends IdentifiedEntity {
 			this.supplier = cargo.supplier;
 			this.condition = cargo.condition;
 			this.cargoPackages = cargo.cargoPackages;
+			this.defectGroups = cargo.defectGroups;
 		}
 	}
 
@@ -106,13 +112,17 @@ public class Cargo extends IdentifiedEntity {
 
 	public void setArticleCategory(ArticleCategory articleCategory) {
 		if (articleCategory == null || condition == null ||
+				!articleCategory.getArticle().equals(article) || //TODO что делать, если article не совпадает?
 				articleCategory.equals(this.articleCategory)) {
 			return;
 		}
 		if(condition.hasDefects()) {
-			defects.clear();
-			for(ArticleDefect articleDefect : articleCategory.getDefects()) {
-				defects.add(new CargoDefect(this, articleDefect));
+			defectGroups.clear();
+			//Получаем все категории, начиная с этой и ниже, и генерим по ним дефекты.
+			ListIterator<ArticleCategory> it =
+				article.getCategories().listIterator(articleCategory.getOrd());
+			while(it.hasNext()) {
+				defectGroups.add(new CargoDefectGroup(this, it.next(), defectGroups.size()));
 			}
 		}
 		this.articleCategory = articleCategory;
@@ -161,25 +171,24 @@ public class Cargo extends IdentifiedEntity {
 		}
 	}
 	
-	public Set<CargoDefect> getDefects() {
-		return defects;
+	public List<CargoDefectGroup> getDefectGroups() {
+		return defectGroups;
 	}
 
-	public void setDefects(Set<CargoDefect> defects) {
-		this.defects = defects;
+	public void setDefectGroups(List<CargoDefectGroup> defectGroups) {
+		this.defectGroups = defectGroups;
 	}
 
-	public void addDefect(CargoDefect defect){
-		if(defect != null && defect.getArticleDefect() == null) {
-			defects.add(defect);
-			defect.setCargo(this);
+	public void addDefectGroup(CargoDefectGroup defectGroup){
+		if(defectGroup != null) {
+			defectGroups.add(defectGroup);
+			defectGroup.setCargo(this);
 		}
 	}
 
-	public void removeDefect(CargoDefect defect){
-		if(defect != null && defect.getArticleDefect() == null &&
-				cargoPackages.remove(defect)) {
-			defect.setCargo(null);
+	public void removeDefectGroup(CargoDefectGroup defectGroup){
+		if(defectGroup != null && defectGroups.remove(defectGroup)) {
+			defectGroup.setCargo(null);
 		}
 	}
 	

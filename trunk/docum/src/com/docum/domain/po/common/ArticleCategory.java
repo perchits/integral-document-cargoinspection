@@ -13,7 +13,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 
 import com.docum.dao.ArticleDao;
-import com.docum.domain.po.IdentifiedEntity;
+import com.docum.domain.po.OrderedEntity;
 import com.docum.util.EqualsHelper;
 import com.docum.util.HashCodeHelper;
 
@@ -26,13 +26,11 @@ import com.docum.util.HashCodeHelper;
 				"ORDER BY ac.id"
 	)
 )
-public class ArticleCategory extends IdentifiedEntity {
+public class ArticleCategory extends OrderedEntity {
 	private static final long serialVersionUID = -3149818615410332097L;
 
 	@ManyToOne(optional=false)
 	private Article article;
-	
-	private int ord;
 	
 	private String name;
 
@@ -84,14 +82,6 @@ public class ArticleCategory extends IdentifiedEntity {
 
 	public void setArticle(Article article) {
 		this.article = article;
-	}
-
-	public int getOrd() {
-		return ord;
-	}
-
-	public void setOrd(int ord) {
-		this.ord = ord;
 	}
 
 	public Set<ArticleDefect> getDefects() {
