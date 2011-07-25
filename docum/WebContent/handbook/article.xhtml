@@ -56,10 +56,7 @@
 								<ui:param name="newObject" value="newCategory" />
 								<ui:param name="editObject" value="editCategory" />
 								<ui:param name="beforeDeleteObject" value="beforeDeleteCategory" />
-								<ui:param name="addTitle" value="" />
-								<ui:param name="editTitle" value="" />
-								<ui:param name="deleteTitle" value="" />
-								<ui:param name="refreshTitle" value="" />
+								<ui:param name="hideTitle" value="true"/>
 							</ui:include>
 							<p:dataTable id="categoriesGrid" var="category"
 								selectionMode="single" value="#{articleBean.categories}"
@@ -87,10 +84,7 @@
 								<ui:param name="newObject" value="newFeature" />
 								<ui:param name="editObject" value="editFeature" />
 								<ui:param name="beforeDeleteObject" value="beforeDeleteFeature" />
-								<ui:param name="addTitle" value="" />
-								<ui:param name="editTitle" value="" />
-								<ui:param name="deleteTitle" value="" />
-								<ui:param name="refreshTitle" value="" />
+								<ui:param name="hideTitle" value="true"/>
 							</ui:include>
 							<p:dataTable id="featuresGrid" var="feature"
 								selectionMode="single" value="#{articleBean.features}"
