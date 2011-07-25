@@ -5,20 +5,29 @@
 	xmlns:p="http://primefaces.prime.com.tr/ui">
 
 <ui:composition template="/WEB-INF/includes/layout.xhtml">
-<ui:param name="selectedMenuItem" value="6" />
+	<ui:param name="selectedMenuItem" value="6" />
 	<ui:define name="content">
 		<h:form prependId="false">
+			<h:panelGrid columns="2" layout="block" styleClass="toolbar">
+				<h:panelGroup>
+					<ui:include src="/WEB-INF/includes/crudToolBar.xhtml">
+						<ui:param name="bean" value="#{articleBean}" />
+						<ui:param name="gridId" value="articleGrid" />
+					</ui:include>
+				</h:panelGroup>
+				<h:panelGroup styleClass="custom-panel" layout="block">
+					<p:commandButton value="Кнопка"></p:commandButton>
+					<p:commandButton value="Кнопка ещё одна"></p:commandButton>
+				</h:panelGroup>
+			</h:panelGrid>
 
-			<ui:include src="/WEB-INF/includes/crudToolBar.xhtml">
-				<ui:param name="bean" value="#{articleBean}" />
-				<ui:param name="gridId" value="articleGrid" />
-			</ui:include>
-			<h:panelGrid columns="2" styleClass="invoicesLayoutTable" id="articlesLayoutTable">
+			<h:panelGrid columns="2" styleClass="invoicesLayoutTable"
+				id="articlesLayoutTable">
 				<p:panel header="#{articleBean.sign}" styleClass="small-panel">
-	
+
 					<p:dataTable id="articleGrid" var="article"
 						value="#{articleBean.articles}" selectionMode="single"
-						selection="#{articleBean.wrappedArticle}" 
+						selection="#{articleBean.wrappedArticle}"
 						update="categoriesGrid, characteristics, featuresGrid">
 						<p:column sortBy="#{article.name}" filterBy="#{article.name}"
 							filterMatchMode="contains">
@@ -30,87 +39,90 @@
 							<f:facet name="header">Наименование на англ. яз.</f:facet>
 							<h:outputText value="#{article.englishName}" />
 						</p:column>
-	
+
 					</p:dataTable>
 				</p:panel>
 				<p:panel id="articlesInfoPanel" styleClass="articleInfoPanel">
 					<f:facet name="header">
-						<h:outputText value="Характеристики #{articleBean.article.name}" id="characteristics"/>
+						<h:outputText value="Характеристики #{articleBean.article.name}"
+							id="characteristics" />
 					</f:facet>
 					<h:panelGrid columns="2" styleClass="infoLayoutTable">
 
 						<p:panel>
 							<ui:include src="/WEB-INF/includes/crudToolBar.xhtml">
-							<ui:param name="bean" value="#{articleBean}" />
-							<ui:param name="gridId" value="categoriesGrid" />
-							<ui:param name="newObject" value="newCategory" />
-							<ui:param name="editObject" value="editCategory" />
-							<ui:param name="beforeDeleteObject" value="beforeDeleteCategory" />
-							<ui:param name="addTitle" value="" />
-							<ui:param name="editTitle" value="" />
-							<ui:param name="deleteTitle" value="" />
-							<ui:param name="refreshTitle" value="" />
-						</ui:include>
-						<p:dataTable id="categoriesGrid" var="category" selectionMode="single"
-							value="#{articleBean.categories}" selection="#{articleBean.category}">
-							<p:column headerText="Категория">
-								<p:cellEditor>
-									<f:facet name="output">
-										<h:outputText value="#{category.name}" />
-									</f:facet>	
-									<f:facet name="input">
-										<h:inputText value="#{category.name}" />
-									</f:facet>
-								</p:cellEditor>	
-							</p:column>
-							<p:column>
-								<h:outputText value="#{category.englishName}" />
-								<f:facet name="header">Категория англ.</f:facet>
-							</p:column>
-						</p:dataTable>
+								<ui:param name="bean" value="#{articleBean}" />
+								<ui:param name="gridId" value="categoriesGrid" />
+								<ui:param name="newObject" value="newCategory" />
+								<ui:param name="editObject" value="editCategory" />
+								<ui:param name="beforeDeleteObject" value="beforeDeleteCategory" />
+								<ui:param name="addTitle" value="" />
+								<ui:param name="editTitle" value="" />
+								<ui:param name="deleteTitle" value="" />
+								<ui:param name="refreshTitle" value="" />
+							</ui:include>
+							<p:dataTable id="categoriesGrid" var="category"
+								selectionMode="single" value="#{articleBean.categories}"
+								selection="#{articleBean.category}">
+								<p:column headerText="Категория">
+									<p:cellEditor>
+										<f:facet name="output">
+											<h:outputText value="#{category.name}" />
+										</f:facet>
+										<f:facet name="input">
+											<h:inputText value="#{category.name}" />
+										</f:facet>
+									</p:cellEditor>
+								</p:column>
+								<p:column>
+									<h:outputText value="#{category.englishName}" />
+									<f:facet name="header">Категория англ.</f:facet>
+								</p:column>
+							</p:dataTable>
 						</p:panel>
 						<p:panel>
-						<ui:include src="/WEB-INF/includes/crudToolBar.xhtml">
-							<ui:param name="bean" value="#{articleBean}" />
-							<ui:param name="gridId" value="featuresGrid" />
-							<ui:param name="newObject" value="newFeature" />
-							<ui:param name="editObject" value="editFeature" />
-							<ui:param name="beforeDeleteObject" value="beforeDeleteFeature" />
-							<ui:param name="addTitle" value="" />
-							<ui:param name="editTitle" value="" />
-							<ui:param name="deleteTitle" value="" />
-							<ui:param name="refreshTitle" value="" />
-						</ui:include>
-						<p:dataTable id="featuresGrid" var="feature" selectionMode="single"
-							value="#{articleBean.features}" selection="#{articleBean.wrappedFeature}">
-							<p:column style="width:16px">  
-					            <p:rowToggler rendered="#{feature.articleFeature.list}"/>  
-					        </p:column>
-							<p:column>
-								<h:outputText value="#{feature.name}" />
-								<f:facet name="header">Характеристика</f:facet>
-							</p:column>
-							<p:column>
-								<f:facet name="header">Характеристика англ.</f:facet>
-								<h:outputText value="#{feature.englishName}" />
-							</p:column>
-							<p:rowExpansion>
-								<p:dataTable id="featuresDetailsGrid" var="f_instance" 
-									value="#{feature.instances}">
-									<p:column>
-										<h:outputText value="#{f_instance.name}" />
-									</p:column>
-									<p:column>
-										<h:outputText value="#{f_instance.englishName}" />
-									</p:column>
-								</p:dataTable>
-					        </p:rowExpansion>
-						</p:dataTable>
+							<ui:include src="/WEB-INF/includes/crudToolBar.xhtml">
+								<ui:param name="bean" value="#{articleBean}" />
+								<ui:param name="gridId" value="featuresGrid" />
+								<ui:param name="newObject" value="newFeature" />
+								<ui:param name="editObject" value="editFeature" />
+								<ui:param name="beforeDeleteObject" value="beforeDeleteFeature" />
+								<ui:param name="addTitle" value="" />
+								<ui:param name="editTitle" value="" />
+								<ui:param name="deleteTitle" value="" />
+								<ui:param name="refreshTitle" value="" />
+							</ui:include>
+							<p:dataTable id="featuresGrid" var="feature"
+								selectionMode="single" value="#{articleBean.features}"
+								selection="#{articleBean.wrappedFeature}">
+								<p:column style="width:16px">
+									<p:rowToggler rendered="#{feature.articleFeature.list}" />
+								</p:column>
+								<p:column>
+									<h:outputText value="#{feature.name}" />
+									<f:facet name="header">Характеристика</f:facet>
+								</p:column>
+								<p:column>
+									<f:facet name="header">Характеристика англ.</f:facet>
+									<h:outputText value="#{feature.englishName}" />
+								</p:column>
+								<p:rowExpansion>
+									<p:dataTable id="featuresDetailsGrid" var="f_instance"
+										value="#{feature.instances}">
+										<p:column>
+											<h:outputText value="#{f_instance.name}" />
+										</p:column>
+										<p:column>
+											<h:outputText value="#{f_instance.englishName}" />
+										</p:column>
+									</p:dataTable>
+								</p:rowExpansion>
+							</p:dataTable>
 						</p:panel>
 
 					</h:panelGrid>
 				</p:panel>
-			</h:panelGrid>	
+			</h:panelGrid>
 		</h:form>
 
 		<ui:include src="/handbook/dialog/articleCategoryDlg.xhtml">

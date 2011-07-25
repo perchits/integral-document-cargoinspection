@@ -89,7 +89,7 @@ table td {
 	
 }
 
-.main-menu-left {
+.main-menu-left{
 	float: left;
 }
 
@@ -132,6 +132,19 @@ table td {
 }
 
 /*  */
+
+.custom-panel {
+	margin : 4px 0 0 -8px;	
+}	
+
+.custom-panel button{	
+	font-size: 11px !important;
+}
+
+.base-crud{
+/*	width : 400px;*/
+}
+
 .crud-menu .wijmo-wijmenu-text,.crud-menu .ui-button {
 	font-size: 11px !important;
 }
