@@ -506,3 +506,7 @@ a.olive-color:hover {
 .cargo-title {
 	display: inline;
 }
+
+.articleDefectsGrid {
+	max-width: 300px;
+}
