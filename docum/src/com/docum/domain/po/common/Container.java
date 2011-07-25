@@ -92,7 +92,7 @@ public class Container extends IdentifiedEntity {
 	private ActualCargoCondition actualCondition = new ActualCargoCondition(this);
 	
 	@OneToOne(mappedBy="container", cascade = CascadeType.ALL, orphanRemoval = true)
-	private InspectionBrief inspectionBrief;
+	private Inspection inspection;
 	
 	@ManyToMany(mappedBy = "containers")
 	private List<Report> reports = new ArrayList<Report>();
@@ -293,12 +293,12 @@ public class Container extends IdentifiedEntity {
 		this.reportDone = reportDone;
 	}
 
-	public InspectionBrief getInspectionBrief() {
-		return inspectionBrief;
+	public Inspection getInspection() {
+		return inspection;
 	}
 
-	public void setInspectionBrief(InspectionBrief inspectionBrief) {
-		this.inspectionBrief = inspectionBrief;
+	public void setInspection(Inspection inspection) {
+		this.inspection = inspection;
 	}
 	
 }
