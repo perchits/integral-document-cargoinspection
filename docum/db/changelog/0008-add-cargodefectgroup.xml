@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+	<changeSet author="pepper" id="0008-add-cargodefectgroup">
+
+		<dropForeignKeyConstraint baseTableName="cargodefect"	constraintName="cargodefect_cargo_fk" />
+
+		<dropIndex tableName="cargodefect" indexName="cargodefect_cargo_fk_idx"/>
+
+		<renameColumn tableName="cargodefect" oldColumnName="cargo_id" newColumnName="defectgroup_id"/>
+
+		<createTable tableName="cargodefectgroup">
+			<column name="id" type="bigserial" autoIncrement="true">
+				<constraints primaryKeyName="cargodefectgroup_pkey"
+					primaryKey="true" nullable="false" />
+			</column>
+			<column name="ord" type="INTEGER">
+				<constraints nullable="false" />
+			</column>
+			<column name="articlecategory_id" type="BIGINT" />
+			<column name="cargo_id" type="BIGINT">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+	
+		<addForeignKeyConstraint constraintName="cargodefectgroup_articlecategory_fk"
+			baseTableName="cargodefectgroup" baseColumnNames="articlecategory_id"
+			referencedTableName="articlecategory" referencedColumnNames="id" />
+	
+		<addForeignKeyConstraint constraintName="cargodefectgroup_cargo_fk"
+			baseTableName="cargodefectgroup" baseColumnNames="cargo_id"
+			referencedTableName="cargo" referencedColumnNames="id" />
+	
+		<addForeignKeyConstraint constraintName="cargodefect_cargodefectgroup_fk"
+			baseTableName="cargodefect" baseColumnNames="defectgroup_id"
+			referencedTableName="cargodefectgroup" referencedColumnNames="id" />
+
+		<createIndex tableName="cargodefectgroup" indexName="cargodefectgroup_articlecategory_fk_idx">
+			<column name="articlecategory_id" />
+		</createIndex>
+
+		<createIndex tableName="cargodefectgroup" indexName="cargodefectgroup_cargo_fk_idx">
+			<column name="cargo_id" />
+		</createIndex>
+
+		<createIndex tableName="cargodefect" indexName="cargodefect_cargodefectgroup_fk_idx">
+			<column name="defectgroup_id" />
+		</createIndex>
+
+	</changeSet>
+</databaseChangeLog>
