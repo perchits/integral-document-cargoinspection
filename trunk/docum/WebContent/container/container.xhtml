@@ -22,8 +22,8 @@
 
 					<h:panelGroup id="containercrud"
 						styleClass="table-btns container-btns">
-						<h:form prependId="false">
-							<ui:include src="/WEB-INF/includes/easyCrudToolBar.xhtml">
+						<h:form prependId="false" id="container-crud">
+							<ui:include src="/WEB-INF/includes/baseCrudToolBar.xhtml">
 								<ui:param name="bean" value="#{containerBean}" />
 								<ui:param name="gridId" value="containers" />
 								<ui:param name="update" value="infoPanel" />
@@ -31,7 +31,11 @@
 								<ui:param name="editObject" value="editObject" />
 								<ui:param name="beforeDeleteObject" value="beforeDeleteObject" />
 								<ui:param name="refreshObjects" value="refreshObjects" />
-								<ui:param name="inspectionBrief" value="true" />
+								<ui:param name="inspectionBrief" value="true"/> 
+								<ui:param name="process" value="container-crud"/>
+								<ui:param name="hideTitle" value="true"/>
+								
+							
 							</ui:include>
 						</h:form>
 					</h:panelGroup>
