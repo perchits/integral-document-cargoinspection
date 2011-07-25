@@ -8,18 +8,10 @@
 	<ui:param name="selectedMenuItem" value="6" />
 	<ui:define name="content">
 		<h:form prependId="false">
-			<h:panelGrid columns="2" layout="block" styleClass="toolbar">
-				<h:panelGroup>
-					<ui:include src="/WEB-INF/includes/crudToolBar.xhtml">
-						<ui:param name="bean" value="#{articleBean}" />
-						<ui:param name="gridId" value="articleGrid" />
-					</ui:include>
-				</h:panelGroup>
-				<h:panelGroup styleClass="custom-panel" layout="block">
-					<p:commandButton value="Кнопка"></p:commandButton>
-					<p:commandButton value="Кнопка ещё одна"></p:commandButton>
-				</h:panelGroup>
-			</h:panelGrid>
+			<ui:include src="/WEB-INF/includes/baseCrudToolBar.xhtml">
+				<ui:param name="bean" value="#{articleBean}" />
+				<ui:param name="gridId" value="articleGrid" />
+			</ui:include>
 
 			<h:panelGrid columns="2" styleClass="invoicesLayoutTable"
 				id="articlesLayoutTable">
@@ -47,10 +39,12 @@
 						<h:outputText value="Характеристики #{articleBean.article.name}"
 							id="characteristics" />
 					</f:facet>
-					<h:panelGrid columns="2" styleClass="infoLayoutTable">
+					<h:panelGrid columns="2" styleClass="infoLayoutTable" style="vertical-align: center !important;">
 
 						<p:panel>
-							<ui:include src="/WEB-INF/includes/crudToolBar.xhtml">
+						<h:panelGrid columns="2" layout="block" styleClass="toolbar">
+							<h:panelGroup>
+								<ui:include src="/WEB-INF/includes/baseCrudToolBar.xhtml">
 								<ui:param name="bean" value="#{articleBean}" />
 								<ui:param name="gridId" value="categoriesGrid" />
 								<ui:param name="newObject" value="newCategory" />
@@ -58,6 +52,13 @@
 								<ui:param name="beforeDeleteObject" value="beforeDeleteCategory" />
 								<ui:param name="hideTitle" value="true"/>
 							</ui:include>
+							</h:panelGroup>
+							<h:panelGroup styleClass="custom-panel" layout="block" 
+										  rendered="#{userBean.developmentPermited}">
+								<p:commandButton image="ui-icon-flag" title="Дефекты категории" 
+												 style="font-size: 11px !important;"/>
+							</h:panelGroup>
+						</h:panelGrid>
 							<p:dataTable id="categoriesGrid" var="category"
 								selectionMode="single" value="#{articleBean.categories}"
 								selection="#{articleBean.category}">
@@ -78,7 +79,7 @@
 							</p:dataTable>
 						</p:panel>
 						<p:panel>
-							<ui:include src="/WEB-INF/includes/crudToolBar.xhtml">
+							<ui:include src="/WEB-INF/includes/baseCrudToolBar.xhtml">
 								<ui:param name="bean" value="#{articleBean}" />
 								<ui:param name="gridId" value="featuresGrid" />
 								<ui:param name="newObject" value="newFeature" />
