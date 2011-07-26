@@ -1,0 +1,55 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+<ui:composition template="/WEB-INF/includes/dialogLayout.xhtml">
+	<ui:param name="width" value="760" />
+	<ui:param name="saveObject" value="save" />
+	<ui:param name="colCount" value="1" />
+	<ui:define name="dialogBody">
+
+		<h:panelGrid width="100%" columns="2" cellpadding="2">
+
+			<h:outputLabel for="inspectionPlace" value="Место инспекции:" />
+			<h:selectOneMenu style="width:250px" id="inspectionPlace"
+				label="Место проведения инспекции"
+				styleClass="ui-inputfield ui-widget ui-state-default ui-corner-all"
+				value="#{bean.inspection.surveyPlace}">
+				<f:converter converterId="surveyPlaceConverter" />
+				<f:selectItem itemLabel="Выберите место провед. инспекции..."
+					itemValue="" noSelectionOption="true" itemDisabled="true" />
+				<f:selectItems value="#{bean.surveyPlaces}" var="survey"
+					itemLabel="#{survey.russianName}" />
+			</h:selectOneMenu>
+
+			<h:outputLabel for="unloadingPlace" value="Выгрузка:" />
+			<h:panelGrid columns="2" styleClass="inpection-input-table">
+				<p:inputText value="#{bean.inspection.unloadingPlace}"
+					id="unloadingPlace" />				
+				<p:inputText id="unloadingPlaceEng" value="#{bean.inspection.unloadingPlaceEng}" />
+			</h:panelGrid>
+			<h:outputLabel for="packingType" value="Упаковка:" />
+			<h:panelGrid columns="2" styleClass="inpection-input-table">
+				<p:inputText id="packingType" />				
+				<p:inputText id="packingTypeEng" />
+			</h:panelGrid>
+			<h:outputLabel for="palletsFormation" value="Формирование паллет:" />
+			<h:panelGrid columns="2" styleClass="inpection-input-table">
+				<p:inputTextarea id="palletsFormation"/>				
+				<p:inputTextarea id="palletsFormationEng"/>
+			</h:panelGrid>
+			<h:outputLabel for="a4Sticker" value="Стикер A4:" />
+			<h:panelGrid columns="2" styleClass="inpection-input-table">
+				<p:inputText id="a4Sticker" />				
+				<p:inputText id="a4StickerEng" />
+			</h:panelGrid>
+
+		</h:panelGrid>
+
+	</ui:define>
+
+</ui:composition>
+
+</html>

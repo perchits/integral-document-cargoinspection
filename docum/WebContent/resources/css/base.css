@@ -510,3 +510,16 @@ a.olive-color:hover {
 .articleDefectsGrid {
 	max-width: 300px;
 }
+
+.inpection-input-table {
+	width: 100%;
+	border-collapse:collapse;
+}
+.inpection-input-table td {
+	padding: 0 3px 0 0 !important;
+	vertical-align: top !important;
+}
+
+#infoPanelForm {
+	display: inline;
+}

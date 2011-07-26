@@ -17,7 +17,13 @@ public class DocumLogger {
 		}
 		
 		StringBuffer sb = new StringBuffer();
-		sb.append(throwable.toString()).append("\n");
+		
+		sb.append(throwable.getMessage());
+		if(throwable.getCause() != null) {
+		  sb.append(" - Cause: ").append(throwable.getCause().getMessage());
+		}
+		sb.append("\n");
+		
 		StackTraceElement[] trace = throwable.getStackTrace();
 		for (int i = 0; i < trace.length; i++) {
 			sb.append(trace[i].toString()).append("\n");
