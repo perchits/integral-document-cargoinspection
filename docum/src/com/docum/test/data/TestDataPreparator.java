@@ -225,7 +225,7 @@ public class TestDataPreparator implements TestDataPersister {
 		List<SecurityRole> guetsRoles = new ArrayList<SecurityRole>();
 		guetsRoles.add(roles.get(3));
 		result.add(new SecurityUser("admin", cryptoService.encryptText("admin"), adminRoles));
-		result.add(new SecurityUser("dev", cryptoService.encryptText("developer"), developerRoles));
+		result.add(new SecurityUser("dev", cryptoService.encryptText("dev"), developerRoles));
 		result.add(new SecurityUser("user", cryptoService.encryptText("user"), userRoles));
 		result.add(new SecurityUser("guest", "", guetsRoles));
 		persist(result);
