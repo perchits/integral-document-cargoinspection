@@ -31,11 +31,11 @@
 								<ui:param name="editObject" value="editObject" />
 								<ui:param name="beforeDeleteObject" value="beforeDeleteObject" />
 								<ui:param name="refreshObjects" value="refreshObjects" />
-								<ui:param name="inspectionBrief" value="true"/> 
-								<ui:param name="process" value="container-crud"/>
-								<ui:param name="hideTitle" value="true"/>
-								
-							
+								<ui:param name="inspectionBrief" value="true" />
+								<ui:param name="process" value="container-crud" />
+								<ui:param name="hideTitle" value="true" />
+
+
 							</ui:include>
 						</h:form>
 					</h:panelGroup>
@@ -87,9 +87,19 @@
 					rendered="#{!containerBean.isNullContainer}">
 
 					<f:facet name="header">
-						<h:panelGroup styleClass="table-header">
-							<h:outputText value="#{containerBean.container.number}" />
-						</h:panelGroup>
+						<h:form prependId="false" id="infoPanelForm">
+							<h:panelGroup styleClass="table-header">
+								<h:outputText value="#{containerBean.container.number}" />
+							</h:panelGroup>
+							<h:panelGroup styleClass="table-btns">
+								<p:commandButton image="ui-icon-cart"
+									title="Результаты инспекции"
+									action="#{containerBean.inspectionUnit.doInspection}"
+									oncomplete="beforeShow(inspectionIdVar,args)"
+									update="inspectionIdDlgPanel,growl">
+								</p:commandButton>
+							</h:panelGroup>
+						</h:form>
 					</f:facet>
 
 					<h:panelGrid columns="3" id="inspection-splitter">
@@ -155,16 +165,26 @@
 
 						<h:panelGroup id="splitter" />
 
-						<h:panelGroup layout="block" styleClass="inspection">
-							<h:panelGroup id="inspectionInfo" layout="block" 
-							rendered="#{containerBean.inspectionUnit.inspection != null}">
-						Результаты инспекции 
+						<h:panelGroup id="inspectionPanel" layout="block" styleClass="inspection">
+							<h:form>
+								<p:commandLink
+									rendered="#{containerBean.inspectionUnit.inspection == null}"
+									title="Провести инспекцию" value="Провести инспекцию"
+									action="#{containerBean.inspectionUnit.doInspection}"
+									oncomplete="beforeShow(inspectionIdVar,args)"
+									update="inspectionIdDlgPanel,growl">
+								</p:commandLink>
+							</h:form>
+							<h:panelGroup id="inspectionInfo" layout="block"
+								rendered="#{containerBean.inspectionUnit.inspection != null}">
+						
 							
 							
 							<ui:include src="/container/include/inspectionUnit.xhtml">
-								<ui:param name="inspectionbean" value="#{containerBean.inspectionUnit}" />
-							</ui:include>
-							
+									<ui:param name="inspectionbean"
+										value="#{containerBean.inspectionUnit}" />
+								</ui:include>
+
 							</h:panelGroup>
 						</h:panelGroup>
 
@@ -302,6 +322,18 @@
 			<ui:param name="bean" value="#{containerBean.dlgCalibreUnit}" />
 			<ui:param name="deleteObject" value="removeCalibre" />
 			<ui:param name="update" value="infoPanel" />
+		</ui:include>
+
+		<!-- Инспекция  -->
+
+		<ui:include src="/container/dialog/inspectionDlg.xhtml">
+			<ui:param name="bean"
+				value="#{containerBean.inspectionUnit.inspectionDlg}" />
+			<ui:param name="gridId" value="inspectionId" />
+			<ui:param name="title" value="title" />
+			<ui:param name="rendered"
+				value="#{containerBean.inspectionUnit != null}" />
+			<ui:param name="update" value="inspectionPanel" />
 		</ui:include>
 
 	</ui:define>

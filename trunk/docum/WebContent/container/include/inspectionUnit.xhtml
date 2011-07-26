@@ -3,8 +3,24 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.prime.com.tr/ui">
-	
-	<h:outputText value="#{inspectionbean.inspection.id}"></h:outputText>
-	<h:outputText value="#{inspectionbean.surveyPlace}"></h:outputText>
-	
-</html>	
+
+
+
+<h:panelGroup>	
+	<h:outputText styleClass="olive-color" value="Место инспекции: " />
+	<h:outputText value="#{inspectionbean.surveyPlace}" />
+</h:panelGroup>
+<h:panelGroup>	
+	<br />
+	<h:outputText styleClass="olive-color" value="Выгрузка: " />
+	<h:outputText value="#{inspectionbean.inspection.unloadingPlace}" />
+</h:panelGroup>
+
+<h:panelGroup>	
+	<br />
+	<h:outputText styleClass="olive-color" value="Формирование паллет: " />
+	<h:outputText value="#{inspectionbean.inspection.palletsFormation}" />
+</h:panelGroup>
+
+
+</html>

@@ -7,7 +7,6 @@ import javax.faces.convert.FacesConverter;
 
 import org.springframework.web.jsf.FacesContextUtils;
 
-import com.docum.domain.po.common.City;
 import com.docum.domain.po.common.SurveyPlace;
 import com.docum.service.BaseService;
 
@@ -26,7 +25,7 @@ public class SurveyPlaceConverter implements Converter{
 			return null;
 		}
 		try {
-			return getBaseService(context).getObject(City.class, Long.parseLong(value));
+			return getBaseService(context).getObject(SurveyPlace.class, Long.parseLong(value));
 		} catch (NumberFormatException e) {
 			return null;
 		}

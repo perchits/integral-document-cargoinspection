@@ -130,7 +130,10 @@ public class ContainerView extends BaseView implements Serializable,
 	
 	public InspectionUnit getInspectionUnit() {
 		if (container != null) { 
-			inspectionUnit.setInspection(container.getInspection());
+			ContainerContext context = new ContainerContext();
+			context.setContainer(container);
+			context.setBaseService(getBaseService());
+			inspectionUnit.setContext(context);
 		}
 		return inspectionUnit;
 	}

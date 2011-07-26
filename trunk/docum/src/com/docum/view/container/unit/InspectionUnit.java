@@ -1,20 +1,35 @@
 package com.docum.view.container.unit;
 
 import java.io.Serializable;
+import java.util.List;
 
+import com.docum.domain.po.common.Container;
 import com.docum.domain.po.common.Inspection;
+import com.docum.domain.po.common.SurveyPlace;
+import com.docum.service.BaseService;
 import com.docum.view.AbstractDlgView;
 import com.docum.view.DialogActionEnum;
 import com.docum.view.DialogActionHandler;
+import com.docum.view.container.ContainerContext;
 import com.docum.view.container.ContainerHolder;
+import com.docum.view.container.InspectionDlgView;
 
 public class InspectionUnit implements Serializable, DialogActionHandler {
 	private static final long serialVersionUID = -3715245363081562382L;
+	private Container container;
 	private ContainerHolder containerHolder;
 	private Inspection inspection; 
-	
+	private InspectionDlgView inspectionDlg; 
+	private BaseService baseService;	
+		
 	public Inspection getInspection() {
 		return inspection;
+	}
+	
+	public void setContext(ContainerContext context) {		
+		container = context.getContainer();
+		inspection = container.getInspection();
+		baseService = context.getBaseService();
 	}
 	
 	public String getSurveyPlace() {
@@ -30,10 +45,46 @@ public class InspectionUnit implements Serializable, DialogActionHandler {
 		this.containerHolder = containerHolder;		
 	}
 
+	public InspectionDlgView getInspectionDlg() {
+		return inspectionDlg;
+	}
+
+	public void setInspectionDlg(InspectionDlgView inspectionDlg) {
+		this.inspectionDlg = inspectionDlg;
+	}
+	
+	public void doInspection(){
+		if (inspection == null) {
+			inspection = new Inspection();
+		}
+		prepareInspectionDialog(inspection);
+	}
+	
+	private void prepareInspectionDialog(Inspection inspection) {
+		List<SurveyPlace> places = baseService.getAll(SurveyPlace.class);
+		inspectionDlg = new InspectionDlgView(inspection, places);
+		inspectionDlg.addHandler(this);		
+	}
+	
+	public String getTitle() {
+		return "Редактирование инспекции...";
+				
+	}
+	
 	@Override
 	public void handleAction(AbstractDlgView dialog, DialogActionEnum action) {
-		// TODO Auto-generated method stub
-		
+		if (dialog instanceof InspectionDlgView) {
+			InspectionDlgView d = (InspectionDlgView) dialog;
+			if (DialogActionEnum.ACCEPT.equals(action)) {
+				Inspection inspection = d.getInspection();
+				if (inspection.getId() == null) {
+					inspection.setContainer(container);
+					container.setInspection(inspection);
+				}
+				containerHolder.saveContainer();
+			}
+		}
+
 	}
 
 }

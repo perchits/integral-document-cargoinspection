@@ -1,19 +1,26 @@
 package com.docum.view.container;
 
 import java.io.Serializable;
+import java.util.List;
 
 import com.docum.domain.po.common.Inspection;
+import com.docum.domain.po.common.SurveyPlace;
 import com.docum.view.AbstractDlgView;
 import com.docum.view.DialogActionEnum;
 
 public class InspectionDlgView extends AbstractDlgView implements
 		Serializable {
-	private static final long serialVersionUID = -6995707358505279412L;
-	
+	private static final long serialVersionUID = -6995707358505279412L;	
 	private Inspection inspection;
+	private List<SurveyPlace> surveyPlaces;
 
-	public InspectionDlgView(Inspection inspection) {		
-		this.inspection = inspection;			
+	public List<SurveyPlace> getSurveyPlaces() {
+		return surveyPlaces;
+	}
+
+	public InspectionDlgView(Inspection inspection, List<SurveyPlace> surveyPlaces) {		
+		this.inspection = inspection;
+		this.surveyPlaces = surveyPlaces;
 	}
 
 	public String getTitle() {
@@ -24,11 +31,11 @@ public class InspectionDlgView extends AbstractDlgView implements
 		fireAction(this, DialogActionEnum.ACCEPT);
 	}	
 
-	public Inspection getInspectionBrief() {
+	public Inspection getInspection() {
 		return inspection;
 	}
 
-	public void setInspectionBrief(Inspection inspection) {
+	public void setInspection(Inspection inspection) {
 		this.inspection = inspection;
 	}
 

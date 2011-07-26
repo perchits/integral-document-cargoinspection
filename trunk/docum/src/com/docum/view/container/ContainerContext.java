@@ -2,6 +2,7 @@ package com.docum.view.container;
 
 import java.io.Serializable;
 
+import com.docum.domain.po.common.Container;
 import com.docum.service.ArticleService;
 import com.docum.service.BaseService;
 
@@ -10,6 +11,15 @@ public class ContainerContext implements Serializable {
 
 	private BaseService baseService;
 	private ArticleService articleService;
+	private Container container;
+
+	public Container getContainer() {
+		return container;
+	}
+
+	public void setContainer(Container container) {
+		this.container = container;
+	}
 
 	public ArticleService getArticleService() {
 		return articleService;
