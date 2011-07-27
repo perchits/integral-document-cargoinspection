@@ -1,5 +1,6 @@
 package com.docum.domain.po.common;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 
 import com.docum.domain.po.IdentifiedEntity;
@@ -11,7 +12,9 @@ public class SurveyPlace extends IdentifiedEntity {
 
 	private static final long serialVersionUID = 3121763126213905142L;
 	
+	@Column(length = 255)
 	private String englishName;
+	@Column(length = 255)
 	private String russianName;
 	
 	public SurveyPlace() {
