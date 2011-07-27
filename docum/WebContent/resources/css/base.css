@@ -34,7 +34,7 @@ body {
 }
 
 .ui-widget,.ui-widget .ui-widget,table tr {
-	font-size: 12px !important;
+	font-size: 12px;
 	font-family: tahoma, sans-serif;
 }
 
@@ -522,4 +522,8 @@ a.olive-color:hover {
 
 #infoPanelForm {
 	display: inline;
+}
+
+.customPanelButton {
+	font-size: 11px !important;
 }
