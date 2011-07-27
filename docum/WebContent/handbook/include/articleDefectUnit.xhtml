@@ -10,7 +10,7 @@
 			<h:outputText value="#{paneltitle}" />
 			<h:panelGroup styleClass="table-btns">
 				<p:commandButton image="ui-icon-document" title="Добавить груз"
-					action="#{cargobean.addCargo}"
+					action="#{bean.addCargo}"
 					oncomplete="beforeShow(cargoIdVar,args)"
 					update="cargoIdDlgPanel,growl">
 				</p:commandButton>
@@ -18,7 +18,7 @@
 		</h:form>
 	</f:facet>
 
-	<ui:repeat value="#{cargobean.containerCargoes}" var="wcargo">
+	<ui:repeat value="#{bean.containerCargoes}" var="wcargo">
 		<h:panelGroup styleClass="container-cargo-panel">
 
 			<h:panelGroup styleClass="cargo-header" layout="block">
@@ -31,14 +31,14 @@
 							title="Редактировать груз" image="ui-icon-wrench"
 							oncomplete="beforeShow(cargoIdVar,args)"
 							update="cargoIdDlgPanel,growl">
-							<f:setPropertyActionListener target="#{cargobean.editCargo}"
+							<f:setPropertyActionListener target="#{bean.editCargo}"
 								value="#{wcargo}" />
 						</p:commandButton>
 						<p:commandButton styleClass="inline-btn border-btn"
 							title="Удалить груз" image="ui-icon-trash"
 							oncomplete="beforeShow(cargoIdConfirmVar,args)"
 							update="cargoIdConfirmId">
-							<f:setPropertyActionListener target="#{cargobean.cargo}"
+							<f:setPropertyActionListener target="#{bean.cargo}"
 								value="#{wcargo}" />
 						</p:commandButton>
 					</h:panelGroup>
@@ -49,11 +49,11 @@
 			<h:outputText value="#{wcargo.supplier}" />
 			<br />
 			<ui:include src="/container/include/featureUnit.xhtml">
-				<ui:param name="featurebean" value="#{cargobean.cargoFeatureUnit}" />
+				<ui:param name="featurebean" value="#{bean.cargoFeatureUnit}" />
 			</ui:include>
 
 			<ui:include src="/container/include/packageUnit.xhtml">
-				<ui:param name="packagebean" value="#{cargobean.cargoPackageUnit}" />
+				<ui:param name="packagebean" value="#{bean.cargoPackageUnit}" />
 			</ui:include>
 
 		</h:panelGroup>
