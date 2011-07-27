@@ -1,0 +1,65 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+<p:panel>
+	<f:facet name="header">
+		<h:form prependId="false" styleClass="cargo-title">
+			<h:outputText value="#{paneltitle}" />
+			<h:panelGroup styleClass="table-btns">
+				<p:commandButton image="ui-icon-document" title="Добавить груз"
+					action="#{cargobean.addCargo}"
+					oncomplete="beforeShow(cargoIdVar,args)"
+					update="cargoIdDlgPanel,growl">
+				</p:commandButton>
+			</h:panelGroup>
+		</h:form>
+	</f:facet>
+
+	<ui:repeat value="#{cargobean.containerCargoes}" var="wcargo">
+		<h:panelGroup styleClass="container-cargo-panel">
+
+			<h:panelGroup styleClass="cargo-header" layout="block">
+				<h:panelGroup styleClass="table-title">
+								#{wcargo.article}, #{wcargo.articleCategory}
+								</h:panelGroup>
+				<h:form prependId="false">
+					<h:panelGroup styleClass="cargo-btn-panel">
+						<p:commandButton styleClass="inline-btn border-btn"
+							title="Редактировать груз" image="ui-icon-wrench"
+							oncomplete="beforeShow(cargoIdVar,args)"
+							update="cargoIdDlgPanel,growl">
+							<f:setPropertyActionListener target="#{cargobean.editCargo}"
+								value="#{wcargo}" />
+						</p:commandButton>
+						<p:commandButton styleClass="inline-btn border-btn"
+							title="Удалить груз" image="ui-icon-trash"
+							oncomplete="beforeShow(cargoIdConfirmVar,args)"
+							update="cargoIdConfirmId">
+							<f:setPropertyActionListener target="#{cargobean.cargo}"
+								value="#{wcargo}" />
+						</p:commandButton>
+					</h:panelGroup>
+				</h:form>
+			</h:panelGroup>
+
+			<h:outputText styleClass="olive-color" value="Поставщик: " />
+			<h:outputText value="#{wcargo.supplier}" />
+			<br />
+			<ui:include src="/container/include/featureUnit.xhtml">
+				<ui:param name="featurebean" value="#{cargobean.cargoFeatureUnit}" />
+			</ui:include>
+
+			<ui:include src="/container/include/packageUnit.xhtml">
+				<ui:param name="packagebean" value="#{cargobean.cargoPackageUnit}" />
+			</ui:include>
+
+		</h:panelGroup>
+	</ui:repeat>
+</p:panel>
+
+
+
+</html>
