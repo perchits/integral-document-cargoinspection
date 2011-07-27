@@ -55,8 +55,8 @@
 							</h:panelGroup>
 							<h:panelGroup styleClass="custom-panel" layout="block" 
 										  rendered="#{userBean.developmentPermited}">
-								<p:commandButton image="ui-icon-star" title="Порядок категорий" 
-												 style="font-size: 11px !important;"/>				 
+								<p:commandButton image="ui-icon-star" title="Порядок категорий"
+											 	 styleClass="customPanelButton"/>				 
 							</h:panelGroup>
 						</h:panelGrid>
 							<p:dataTable id="categoriesGrid" var="category"
@@ -74,15 +74,13 @@
 									<h:outputText value="#{category.englishName}" />
 								</p:column>
 								<p:rowExpansion>
-									<p:dataTable id="articleDefectsGrid" var="articleDefect"
-										value="#{category.defects}" styleClass="articleDefectsGrid">
-										<p:column>
-											<h:outputText value="#{articleDefect.name}" />
-										</p:column>
-										<p:column>
-											<h:outputText value="#{articleDefect.englishName}" />
-										</p:column>
-									</p:dataTable>
+									<h:panelGroup styleClass="declared" layout="block">
+										<ui:include src="/handbook/include/articleDefectUnit.xhtml">
+											<ui:param name="bean"
+												value="#{containerBean.declaredCargoUnit}" />
+											<ui:param name="paneltitle" value="Дефекты" />
+										</ui:include>
+									</h:panelGroup>
 								</p:rowExpansion>
 							</p:dataTable>
 						</p:panel>
