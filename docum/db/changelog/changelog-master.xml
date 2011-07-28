@@ -12,5 +12,6 @@
   <include file="0007-add-articlecategory-order.xml"/>
   <include file="0008-add-cargodefectgroup.xml"/>
   <include file="0009-add-inspectionplace.xml"/>
+  <include file="0010-add-surveyor.xml"/>
   
 </databaseChangeLog>
