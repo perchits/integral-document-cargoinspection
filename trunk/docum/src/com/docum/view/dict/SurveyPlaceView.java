@@ -36,7 +36,7 @@ public class SurveyPlaceView extends BaseView {
 
 	@Override
 	public String getBriefInfo() {
-		return sp.getEnglishName();
+		return sp.getRussianName();
 	}
 
 	@Override
