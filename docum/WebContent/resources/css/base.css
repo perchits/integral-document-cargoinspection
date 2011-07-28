@@ -507,8 +507,9 @@ a.olive-color:hover {
 	display: inline;
 }
 
-.articleDefectsGrid {
+.innerGrid {
 	max-width: 300px;
+	text-align: left;
 }
 
 .inpection-input-table {

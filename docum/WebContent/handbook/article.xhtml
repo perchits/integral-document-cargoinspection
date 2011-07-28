@@ -74,7 +74,7 @@
 									<h:outputText value="#{category.englishName}" />
 								</p:column>
 								<p:rowExpansion>
-									<p:panel styleClass="articleDefectsGrid">
+									<p:panel styleClass="innerGrid">
 										<ul>
 											<ui:repeat var="articleDefect" value="#{category.defects}">
 												<li class="listContainersInDoc">
@@ -113,15 +113,18 @@
 									<h:outputText value="#{feature.englishName}" />
 								</p:column>
 								<p:rowExpansion>
-									<p:dataTable id="featuresDetailsGrid" var="f_instance"
-										value="#{feature.instances}">
-										<p:column>
-											<h:outputText value="#{f_instance.name}" />
-										</p:column>
-										<p:column>
-											<h:outputText value="#{f_instance.englishName}" />
-										</p:column>
-									</p:dataTable>
+									<p:panel styleClass="innerGrid">
+										<ul>
+											<ui:repeat var="f_instance" value="#{feature.instances}">
+												<li class="listContainersInDoc">
+													<h:outputText value="#{f_instance.name}" />
+												</li>
+												<li class="listContainersInDoc">
+													<h:outputText value="#{f_instance.englishName}" />
+												</li>
+											</ui:repeat>
+										</ul>
+									</p:panel>
 								</p:rowExpansion>
 							</p:dataTable>
 						</p:panel>
