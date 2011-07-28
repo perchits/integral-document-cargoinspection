@@ -66,7 +66,7 @@ public class InvoiceView extends AbstractDocumentView {
 	}
 
 	@Override
-	public String getBase() {
+	public String getBriefInfo() {
 		return invoice.getNumber();
 	}
 

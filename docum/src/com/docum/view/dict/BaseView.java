@@ -49,8 +49,7 @@ public abstract class BaseView implements Serializable{
 
 	public abstract String getSign();
 
-	// TODO rename
-	public abstract String getBase();
+	public abstract String getBriefInfo();
 
 	abstract public IdentifiedEntity getBeanObject();
 
@@ -74,7 +73,7 @@ public abstract class BaseView implements Serializable{
 
 	public void editObject(ActionEvent actionEvent) {
 		if (getBeanObject().getId() != null) {
-			setTitle("Правка: " + getBase());
+			setTitle("Правка: " + getBriefInfo());
 		} else {
 			String message = String.format(
 					"%1$s для редактирование не выбран!", getSign());

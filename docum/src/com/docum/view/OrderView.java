@@ -66,7 +66,7 @@ public class OrderView extends AbstractDocumentView {
 	}
 
 	@Override
-	public String getBase() {
+	public String getBriefInfo() {
 		return order.getNumber();
 	}
 

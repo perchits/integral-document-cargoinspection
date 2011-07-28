@@ -51,7 +51,7 @@ public class ReportView extends BaseView {
 	}
 
 	@Override
-	public String getBase() {
+	public String getBriefInfo() {
 		return report.getNumber();
 	}
 

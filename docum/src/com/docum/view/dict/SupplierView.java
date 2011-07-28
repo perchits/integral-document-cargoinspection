@@ -51,7 +51,7 @@ public class SupplierView extends BaseView {
 	}
 
 	@Override
-	public String getBase() {
+	public String getBriefInfo() {
 		return getSelectedCompany().getName();
 	}
 

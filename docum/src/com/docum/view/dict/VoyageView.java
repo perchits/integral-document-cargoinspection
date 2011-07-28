@@ -85,7 +85,7 @@ public class VoyageView extends BaseView {
 	}
 
 	@Override
-	public String getBase() {
+	public String getBriefInfo() {
 		return voyage.getNumber();
 	}
 

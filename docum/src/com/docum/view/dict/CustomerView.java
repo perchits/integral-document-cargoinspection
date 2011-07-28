@@ -43,7 +43,7 @@ public class CustomerView extends BaseView {
 	}
 
 	@Override
-	public String getBase() {
+	public String getBriefInfo() {
 		return getSelectedCompany().getName();
 	}
 

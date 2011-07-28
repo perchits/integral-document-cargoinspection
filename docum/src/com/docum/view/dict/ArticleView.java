@@ -101,7 +101,7 @@ public class ArticleView extends BaseView {
 	}
 
 	@Override
-	public String getBase() {
+	public String getBriefInfo() {
 		return article.getName();
 	}
 

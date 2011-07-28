@@ -20,7 +20,7 @@ public class CompanyView extends BaseView {
 	}
 
 	@Override
-	public String getBase() {
+	public String getBriefInfo() {
 		return company.getName();
 	}
 
