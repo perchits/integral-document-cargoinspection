@@ -143,6 +143,11 @@
 			<ui:param name="bean" value="#{articleBean}" />
 			<ui:param name="title" value="title" />
 		</ui:include>
+		<ui:include src="/handbook/dialog/articleDefectDlg.xhtml">
+			<ui:param name="gridId" value="defectsEditGrid" />
+			<ui:param name="bean" value="#{articleBean}" />
+			<ui:param name="title" value="title" />
+		</ui:include>
 		<ui:include src="/handbook/dialog/articleDlg.xhtml">
 			<ui:param name="gridId" value="articleGrid" />
 			<ui:param name="bean" value="#{articleBean}" />

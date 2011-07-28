@@ -5,21 +5,14 @@
 	xmlns:p="http://primefaces.prime.com.tr/ui">
 
 <ui:composition template="/WEB-INF/includes/dialogLayout.xhtml">
-	<ui:param name="width" value="380" />
+	<ui:param name="width" value="640" />
 	<ui:param name="saveObject" value="saveDefect" />
 	<ui:param name="deleteObject" value="deleteDefect" />
 	<ui:define name="dialogBody">
 		<h:outputLabel for="defectName" value="Наименование: *" />
-		<p:inputText value="#{bean.defect.name}" id="defectName"
-			required="true" label="Наименование">
-		</p:inputText>
-
-		<h:outputLabel for="defectEnglishName"
-			value="Наименование на англ. яз.: *" />
-		<p:inputText value="#{bean.defect.englishName}"
-			id="defectEnglishName" required="true"
-			label="Наименование на англ. яз.">
-		</p:inputText>
+		<p:inputTextarea value="#{bean.defect.name}" id="defectName" required="true"/>
+		<h:outputLabel for="defectEnglishName" value="Наименование на англ. яз.: *" />
+		<p:inputTextarea value="#{bean.defect.englishName}" id="defectEnglishName" required="true"/>
 	</ui:define>
 	<ui:define name="deleteConfirmation">
 		<ui:include src="/WEB-INF/includes/deleteConfirmation.xhtml">

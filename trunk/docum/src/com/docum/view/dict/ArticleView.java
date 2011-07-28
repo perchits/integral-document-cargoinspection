@@ -137,6 +137,10 @@ public class ArticleView extends BaseView {
 			feature.addInstance(featureInstance);
 		}
 	}
+	
+	public void saveDefect() {
+		this.category.addDefect(this.defect);
+	}
 
 	public void deleteCategory() {
 		article.removeCategory(category);
@@ -154,6 +158,10 @@ public class ArticleView extends BaseView {
 	public void beforeDeleteFeatureInstance() {
 		validateAction(this.featureInstance, ArticleFeatureInstance.class);
 	}
+	
+	public void beforeDeleteDefect() {
+		validateAction(this.defect, ArticleDefect.class);
+	}
 
 	public void deleteFeature() {
 		if (validateAction(this.feature, ArticleFeature.class)) {
@@ -166,6 +174,13 @@ public class ArticleView extends BaseView {
 		if (validateAction(this.featureInstance, ArticleFeatureInstance.class)) {
 			feature.removeInstance(featureInstance);
 			feature = getBaseService().save(feature);
+		}
+	}
+	
+	public void deleteDefect() {
+		if (validateAction(this.defect, ArticleDefect.class)) {
+			this.category.removeDefect(this.defect);
+			this.category = getBaseService().save(this.category);
 		}
 	}
 
@@ -186,6 +201,11 @@ public class ArticleView extends BaseView {
 	public void newFeatureInstance() {
 		setTitle("Новая характеристика");
 		this.featureInstance = new ArticleFeatureInstance();
+	}
+	
+	public void newDefect() {
+		setTitle("Новый дефект");
+		this.defect = new ArticleDefect();
 	}
 
 	public String getCategoryTitle() {
@@ -251,6 +271,12 @@ public class ArticleView extends BaseView {
 	public void editFeatureInstance() {
 		if (validateAction(this.featureInstance, ArticleFeatureInstance.class)) {
 			setTitle("Правка: " + this.featureInstance.getName());
+		}
+	}
+	
+	public void editDefect() {
+		if (validateAction(this.defect, ArticleDefect.class)) {
+			setTitle("Правка: " + this.defect.getName());
 		}
 	}
 	
