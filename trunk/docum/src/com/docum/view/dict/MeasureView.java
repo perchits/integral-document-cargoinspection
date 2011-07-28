@@ -20,7 +20,7 @@ public class MeasureView extends BaseView {
 	}
 
 	@Override
-	public String getBase() {
+	public String getBriefInfo() {
 		return measure.getName();
 	}
 

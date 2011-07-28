@@ -20,7 +20,7 @@ public class VesselView extends BaseView {
 	}
 
 	@Override
-	public String getBase() {
+	public String getBriefInfo() {
 		return this.vessel.getName();
 	}
 	

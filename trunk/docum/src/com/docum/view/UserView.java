@@ -59,7 +59,7 @@ public class UserView extends BaseView {
 			this.selectedRoles.addAll(this.user.getSecurityRoles());
 			this.availableRoles.addAll(
 				super.getBaseService().getAll(SecurityRole.class, DEFAULT_SORT_FIELDS));
-			setTitle("Правка: " + getBase());
+			setTitle("Правка: " + getBriefInfo());
 		} else {
 			String message = String.format(
 					"%1$s для редактирование не выбран!", getSign());
@@ -74,7 +74,7 @@ public class UserView extends BaseView {
 	}
 
 	@Override
-	public String getBase() {
+	public String getBriefInfo() {
 		return user.getLogin();
 	}
 

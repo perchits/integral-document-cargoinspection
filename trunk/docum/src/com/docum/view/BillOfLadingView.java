@@ -66,7 +66,7 @@ public class BillOfLadingView extends AbstractDocumentView {
 	}
 
 	@Override
-	public String getBase() {
+	public String getBriefInfo() {
 		return billOfLading.getNumber();
 	}
 

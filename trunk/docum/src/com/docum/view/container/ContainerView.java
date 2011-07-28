@@ -145,7 +145,7 @@ public class ContainerView extends BaseView implements Serializable,
 	}
 
 	@Override
-	public String getBase() {
+	public String getBriefInfo() {
 		return container != null ? container.getNumber() : null;
 	}
 
