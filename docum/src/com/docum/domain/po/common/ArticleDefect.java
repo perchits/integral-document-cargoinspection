@@ -76,4 +76,14 @@ public class ArticleDefect extends IdentifiedEntity {
 		}
 		return HashCodeHelper.hashCode(getId());
 	}
+	
+	@Override
+	public String getEntityName() {
+		return "Дефект";
+	}
+	
+	@Override
+	public GenderEnum getEntityGender() {
+		return GenderEnum.MALE;
+	}
 }
