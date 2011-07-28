@@ -160,7 +160,7 @@ table td {
 }
 
 .ui-dialog-content td {
-	vertical-align: middle;
+	vertical-align: top;
 	text-align: left;
 }
 

@@ -5,10 +5,12 @@
 	xmlns:p="http://primefaces.prime.com.tr/ui">
 
 <ui:composition template="/WEB-INF/includes/dialogLayout.xhtml">
-	<ui:param name="width" value="380" />
+	<ui:param name="width" value="640" />
 	<ui:param name="saveObject" value="saveCategory" />
 	<ui:param name="deleteObject" value="deleteCategory" />
 	<ui:define name="dialogBody">
+	  <h:panelGrid columns="2">
+	   <p:panel>
 		<h:outputLabel for="categoryName" value="Наименование: *" />
 		<p:inputText value="#{bean.category.name}" id="categoryName"
 			required="true" label="Наименование">
@@ -20,6 +22,31 @@
 			id="categoryEnglishName" required="true"
 			label="Наименование на англ. яз.">
 		</p:inputText>
+	   </p:panel>
+	   <p:panel> 
+		<ui:include src="/WEB-INF/includes/baseCrudToolBar.xhtml">
+			<ui:param name="bean" value="#{articleBean}" />
+			<ui:param name="gridId" value="defectsEditGrid" />
+			<ui:param name="newObject" value="newFeatureInstance" />
+			<ui:param name="editObject" value="editFeatureInstance" />
+			<ui:param name="refreshObjects" value="refreshFeatureInstances" />
+			<ui:param name="beforeDeleteObject" value="beforeDeleteFeatureInstance" />
+			<ui:param name="addTitle" value="" />
+			<ui:param name="editTitle" value="" />
+			<ui:param name="deleteTitle" value="" />
+			<ui:param name="refreshTitle" value="" />
+		</ui:include>
+		<p:dataTable id="defectsEditGrid" var="categoryDefect" style="min-width: 400px;"
+			value="#{bean.defects}" selectionMode="single" selection="#{bean.defect}">
+			<p:column>
+				<h:outputText value="#{categoryDefect.name}" />
+			</p:column>
+			<p:column>
+				<h:outputText value="#{categoryDefect.englishName}" />
+			</p:column>
+		</p:dataTable>
+		</p:panel>	
+	  </h:panelGrid>	
 	</ui:define>
 	<ui:define name="deleteConfirmation">
 		<ui:include src="/WEB-INF/includes/deleteConfirmation.xhtml">

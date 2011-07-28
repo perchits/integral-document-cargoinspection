@@ -14,11 +14,13 @@ import com.docum.domain.po.IdentifiedEntity;
 import com.docum.domain.po.NamedEntity;
 import com.docum.domain.po.common.Article;
 import com.docum.domain.po.common.ArticleCategory;
+import com.docum.domain.po.common.ArticleDefect;
 import com.docum.domain.po.common.ArticleFeature;
 import com.docum.domain.po.common.ArticleFeatureInstance;
 import com.docum.service.ArticleService;
 import com.docum.util.AlgoUtil;
 import com.docum.util.DocumLogger;
+import com.docum.view.dict.unit.ArticleDefectUnit;
 import com.docum.view.wrapper.ArticleCategoryPresentation;
 import com.docum.view.wrapper.ArticleCategoryTransformer;
 import com.docum.view.wrapper.ArticleFeaturePresentation;
@@ -40,6 +42,8 @@ public class ArticleView extends BaseView {
 	private ArticleCategory category = new ArticleCategory();
 	private ArticleFeature feature = new ArticleFeature();
 	private ArticleFeatureInstance featureInstance = new ArticleFeatureInstance();
+	private ArticleDefect defect;
+	private ArticleDefectUnit defectUnit;
 
 	public Article getArticle() {
 		return article;
@@ -69,6 +73,10 @@ public class ArticleView extends BaseView {
 
 	public List<ArticleFeatureInstance> getInstances() {
 		return new ArticleFeaturePresentation(feature).getInstances();
+	}
+	
+	public List<ArticleDefect> getDefects() {
+		return new ArticleCategoryPresentation(this.category).getDefects();
 	}
 
 	public List<ArticlePresentation> getArticles() {
@@ -264,6 +272,22 @@ public class ArticleView extends BaseView {
 			DocumLogger.log(e);
 			return false;
 		}
+	}
+
+	public ArticleDefectUnit getDefectUnit() {
+		return defectUnit;
+	}
+
+	public void setDefectUnit(ArticleDefectUnit defectUnit) {
+		this.defectUnit = defectUnit;
+	}
+
+	public ArticleDefect getDefect() {
+		return defect;
+	}
+
+	public void setDefect(ArticleDefect defect) {
+		this.defect = defect;
 	}
 
 }

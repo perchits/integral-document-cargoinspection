@@ -1,0 +1,31 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+<ui:composition template="/WEB-INF/includes/dialogLayout.xhtml">
+	<ui:param name="width" value="380" />
+	<ui:param name="saveObject" value="saveDefect" />
+	<ui:param name="deleteObject" value="deleteDefect" />
+	<ui:define name="dialogBody">
+		<h:outputLabel for="defectName" value="Наименование: *" />
+		<p:inputText value="#{bean.defect.name}" id="defectName"
+			required="true" label="Наименование">
+		</p:inputText>
+
+		<h:outputLabel for="defectEnglishName"
+			value="Наименование на англ. яз.: *" />
+		<p:inputText value="#{bean.defect.englishName}"
+			id="defectEnglishName" required="true"
+			label="Наименование на англ. яз.">
+		</p:inputText>
+	</ui:define>
+	<ui:define name="deleteConfirmation">
+		<ui:include src="/WEB-INF/includes/deleteConfirmation.xhtml">
+			<ui:param name="message" value="Удалить дефект '#{bean.defect.name}'?" />
+			<ui:param name="deleteObject" value="deleteDefect" />	
+		</ui:include>
+	</ui:define>
+</ui:composition>
+</html>
