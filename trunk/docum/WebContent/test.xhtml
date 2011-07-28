@@ -1,15 +1,22 @@
-<ui:composition
-	xmlns="http://www.w3.org/1999/xhtml"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:p="http://primefaces.prime.com.tr/ui">
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	xmlns:t="http://myfaces.apache.org/tomahawk">
 
-		<h:form>
-			<p:commandButton value="Save" action="#{testView.save}"></p:commandButton>
-			<p:commandButton value="Go" action="#{testView.go}">
-			</p:commandButton>
-		</h:form>
+	<h:form enctype="multipart/form-data" prependId="false">
+		<p:growl id="mainMessages" autoUpdate="true" showDetail="true" />
+
+		<t:inputFileUpload value="#{testView.uploadedFile}" />
+		<h:commandButton value="upload" action="#{testView.handleFileUpload}" />
+		<p:messages />
+
+<!-- 		<p:commandButton value="Save" action="#{testView.save}" /> -->
+		<p:commandButton value="Go" action="#{testView.go}" />
+<!-- 		<p:fileUpload fileUploadListener="#{testView.handleFileUpload}" -->
+<!-- 			allowTypes="*.jpg;*.png;*.gif;" description="Images" /> -->
+	</h:form>
+
 
 </ui:composition>
-	
