@@ -28,8 +28,7 @@
 			</h:selectBooleanCheckbox>
 			<h:outputLabel for="featureIsList" value="Список:" />
 			<h:selectBooleanCheckbox size="30" onclick="checkIfArticleList('articleListPanel')"
-				value="#{bean.feature.list}" id="featureIsList"
-				label="Завершено">
+				value="#{bean.feature.list}" id="featureIsList">
 			</h:selectBooleanCheckbox>
 			</p:panel>
 			<p:panel visible="#{bean.feature.list}" id="articleListPanel"> 
@@ -45,7 +44,7 @@
 				<ui:param name="deleteTitle" value="" />
 				<ui:param name="refreshTitle" value="" />
 			</ui:include>
-			<p:dataTable id="featuresDetailsEditGrid" var="fde" 
+			<p:dataTable id="featuresDetailsEditGrid" var="fde" style="min-width: 250px;"
 				value="#{bean.instances}" selectionMode="single" selection="#{bean.featureInstance}">
 				<p:column>
 					<h:outputText value="#{fde.name}" />
