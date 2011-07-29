@@ -40,6 +40,10 @@ public class ArticleCategoryPresentation implements Serializable {
 		return articleCategory != null ? articleCategory.getName() : null; 
 	}
 	
+	public int getOrd() {		
+		return articleCategory != null ? articleCategory.getOrd() : null; 
+	}
+	
 	public String getEnglishName() {		
 		return articleCategory != null ? articleCategory.getEnglishName() : null; 
 	}
