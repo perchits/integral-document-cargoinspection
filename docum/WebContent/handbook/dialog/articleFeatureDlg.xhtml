@@ -39,10 +39,7 @@
 				<ui:param name="editObject" value="editFeatureInstance" />
 				<ui:param name="refreshObjects" value="refreshFeatureInstances" />
 				<ui:param name="beforeDeleteObject" value="beforeDeleteFeatureInstance" />
-				<ui:param name="addTitle" value="" />
-				<ui:param name="editTitle" value="" />
-				<ui:param name="deleteTitle" value="" />
-				<ui:param name="refreshTitle" value="" />
+				<ui:param name="hideTitle" value="true" />
 			</ui:include>
 			<p:dataTable id="featuresDetailsEditGrid" var="fde" style="min-width: 250px;"
 				value="#{bean.instances}" selectionMode="single" selection="#{bean.featureInstance}">

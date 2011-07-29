@@ -31,10 +31,7 @@
 			<ui:param name="editObject" value="editDefect" />
 			<ui:param name="refreshObjects" value="refreshDefects" />
 			<ui:param name="beforeDeleteObject" value="beforeDeleteDefect" />
-			<ui:param name="addTitle" value="" />
-			<ui:param name="editTitle" value="" />
-			<ui:param name="deleteTitle" value="" />
-			<ui:param name="refreshTitle" value="" />
+			<ui:param name="hideTitle" value="true" />
 		</ui:include>
 		<p:dataTable id="defectsEditGrid" var="categoryDefect" style="min-width: 400px;"
 			value="#{bean.defects}" selectionMode="single" selection="#{bean.defect}">
