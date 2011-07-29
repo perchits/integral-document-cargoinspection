@@ -60,4 +60,8 @@ public class TestView implements Serializable{
     public void setUploadedFile(UploadedFile uploadedFile) {
         this.uploadedFile = uploadedFile;
     }
+    
+    public String getLongText() {
+    	return "Однажды в студёную зимнюю пору я из лесу вышел";
+    }
 }
