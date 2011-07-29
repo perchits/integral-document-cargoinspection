@@ -307,13 +307,13 @@ public class ArticleView extends BaseView {
 		this.enableOrdChange = !this.enableOrdChange;
 	}
 	
-	public void ordUp() {
-		this.article.moveCategoryUp(this.category);
+	public void setOrdUp(ArticleCategoryPresentation categoryPresentation) {
+		this.article.moveCategoryUp(categoryPresentation.getArticleCategory());
 		super.getBaseService().save(this.article);
 	}
 	
-	public void ordDown() {
-		this.article.moveCategoryDown(this.category);
+	public void setOrdDown(ArticleCategoryPresentation categoryPresentation) {
+		this.article.moveCategoryDown(categoryPresentation.getArticleCategory());
 		super.getBaseService().save(this.article);
 	}
 
@@ -332,5 +332,8 @@ public class ArticleView extends BaseView {
 	public void setEnableOrdChange(boolean enableOrdChange) {
 		this.enableOrdChange = enableOrdChange;
 	}
-
+	
+	public int getMaxCategoryOrd() {
+		return this.article.getCategories().size() - 1;
+	}
 }

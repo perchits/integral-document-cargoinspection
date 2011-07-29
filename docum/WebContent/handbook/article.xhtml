@@ -76,18 +76,21 @@
 									<h:outputText value="#{category.englishName}" />
 								</p:column>
 								<p:column rendered="#{articleBean.enableOrdChanged}">
-									<f:facet name="header">Порядок</f:facet>
-									<h:outputText value="#{category.ord}" />
 									<p:commandButton title="Вверх" 
 												 image="ui-icon-arrow-1-n"
-												 style="font-size: 11px !important;"
-												 actionListener="#{articleBean.ordUp}"
-												 update="categoriesGrid"/>
+												 styleClass="inline-btn border-btn"
+												 update="categoriesGrid"
+												 rendered="#{category.ord > 0}">
+										<f:setPropertyActionListener target="#{articleBean.ordUp}"
+											value="#{category}" />
+									</p:commandButton>
 									<p:commandButton title="Вниз"
 												 image="ui-icon-arrow-1-s" 
-												 style="font-size: 11px !important;"
-												 actionListener="#{articleBean.ordDown}"
-												 update="categoriesGrid"/>
+												 styleClass="inline-btn border-btn"
+												 update="categoriesGrid">
+										<f:setPropertyActionListener target="#{articleBean.ordDown}"
+											value="#{category}" />		 
+									</p:commandButton>
 								</p:column>
 								<p:rowExpansion>
 									<p:panel styleClass="innerGrid">
