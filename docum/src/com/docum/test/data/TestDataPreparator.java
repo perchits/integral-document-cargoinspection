@@ -37,12 +37,14 @@ import com.docum.domain.po.common.Customer;
 import com.docum.domain.po.common.Inspection;
 import com.docum.domain.po.common.Invoice;
 import com.docum.domain.po.common.Measure;
+import com.docum.domain.po.common.NormativeDocument;
 import com.docum.domain.po.common.Port;
 import com.docum.domain.po.common.PurchaseOrder;
 import com.docum.domain.po.common.SecurityRole;
 import com.docum.domain.po.common.SecurityUser;
 import com.docum.domain.po.common.Supplier;
 import com.docum.domain.po.common.SurveyPlace;
+import com.docum.domain.po.common.Surveyor;
 import com.docum.domain.po.common.Vessel;
 import com.docum.domain.po.common.Voyage;
 import com.docum.service.CryptoService;
@@ -179,6 +181,19 @@ public class TestDataPreparator implements TestDataPersister {
 			{"Нью-Йорк", "New York"},
 			{"Новороссийск", "Novorossiysk"}};
 	
+	private String[][] surveyPlaceNames = new String[][] {
+			{"Контейнерный терминал ОАО «Новороссийский лесной порт»", "Container terminal «NLE»"},
+			{"Контейнерный терминал ОАО «Новороссийский торговый порт»", "Container terminal «NMTP»"}};
+	
+	private String[][] surveyorNames = new String[][] {
+			{"Дмитриева А.", "Dmitrieva А."},
+			{"Петров Д.", "Petrov D."}};
+	
+	private String[][] normDocs = new String[][] {
+			{"Международный стандарт FFV-19", "UN/ЕСE FFV-19"},
+			{"Международный стандарт FFV-20", "UN/ЕСE FFV-20"}};
+	
+	
 	@SuppressWarnings(value="unused")
 	@Test
 	public void prepareData(){
@@ -201,6 +216,8 @@ public class TestDataPreparator implements TestDataPersister {
 		List<SecurityUser> users = prepareUsers(securityRoles);
 		List<SurveyPlace> surveyPlaces = prepareSurveyPlaces();
 		List<Inspection> inspections = prepareInspections(containers, surveyPlaces);
+		List<Surveyor> surveyors = prepareSurveyors();
+		List<NormativeDocument> normDocs = prepareNormDocs();
 	}
 	
 	private List<SecurityRole> prepareRoles() {
@@ -294,8 +311,26 @@ public class TestDataPreparator implements TestDataPersister {
 
 	private List<SurveyPlace> prepareSurveyPlaces() {
 		List<SurveyPlace> result = new ArrayList<SurveyPlace>();
-		for (String city[] : cityNames) { 
-			result.add(new SurveyPlace(city[1],city[0]));
+		for (String place[] : surveyPlaceNames) { 
+			result.add(new SurveyPlace(place[1],place[0]));
+		}
+		persist(result);
+		return result;
+	}
+	
+	private List<Surveyor> prepareSurveyors() {
+		List<Surveyor> result = new ArrayList<Surveyor>();
+		for (String surveyor[] : surveyorNames) { 
+			result.add(new Surveyor(surveyor[0],surveyor[1]));
+		}
+		persist(result);
+		return result;
+	}
+	
+	private List<NormativeDocument> prepareNormDocs() {
+		List<NormativeDocument> result = new ArrayList<NormativeDocument>();
+		for (String doc[] : normDocs) { 
+			result.add(new NormativeDocument(doc[0],doc[1]));
 		}
 		persist(result);
 		return result;
@@ -358,8 +393,7 @@ public class TestDataPreparator implements TestDataPersister {
 						result.setDischargePort(portCounter.next());
 						pastCal.add(Calendar.DAY_OF_MONTH, 5);
 						result.setDischargeDate(cal.getTime());
-						result.setDeclaredSeal(sealCounter.next());
-						result.setActualSeal(result.getDeclaredSeal());
+						result.setDeclaredSeal(sealCounter.next());						
 						return result;
 					}
 		});

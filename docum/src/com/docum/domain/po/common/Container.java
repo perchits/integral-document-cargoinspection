@@ -117,8 +117,6 @@ public class Container extends IdentifiedEntity {
 	
 	private String declaredSeal;
 
-	private String actualSeal;
-	
 	public Container() {
 		super();
 	}
@@ -246,14 +244,6 @@ public class Container extends IdentifiedEntity {
 
 	public void setDeclaredSeal(String declaredSeal) {
 		this.declaredSeal = declaredSeal;
-	}
-
-	public String getActualSeal() {
-		return actualSeal;
-	}
-
-	public void setActualSeal(String actualSeal) {
-		this.actualSeal = actualSeal;
 	}
 
 	public boolean equals(Object obj) {
