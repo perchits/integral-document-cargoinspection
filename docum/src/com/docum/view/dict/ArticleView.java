@@ -42,6 +42,7 @@ public class ArticleView extends BaseView {
 	private ArticleFeature feature = new ArticleFeature();
 	private ArticleFeatureInstance featureInstance = new ArticleFeatureInstance();
 	private ArticleDefect defect;
+	private boolean enableOrdChange = false;
 
 	public Article getArticle() {
 		return article;
@@ -297,6 +298,24 @@ public class ArticleView extends BaseView {
 			return false;
 		}
 	}
+	
+	public boolean getEnableOrdChanged() {
+		return this.enableOrdChange;
+	}
+	
+	public void changeOrds() {
+		this.enableOrdChange = !this.enableOrdChange;
+	}
+	
+	public void ordUp() {
+		this.article.moveCategoryUp(this.category);
+		super.getBaseService().save(this.article);
+	}
+	
+	public void ordDown() {
+		this.article.moveCategoryDown(this.category);
+		super.getBaseService().save(this.article);
+	}
 
 	public ArticleDefect getDefect() {
 		return defect;
@@ -304,6 +323,14 @@ public class ArticleView extends BaseView {
 
 	public void setDefect(ArticleDefect defect) {
 		this.defect = defect;
+	}
+
+	public boolean isEnableOrdChange() {
+		return enableOrdChange;
+	}
+
+	public void setEnableOrdChange(boolean enableOrdChange) {
+		this.enableOrdChange = enableOrdChange;
 	}
 
 }
