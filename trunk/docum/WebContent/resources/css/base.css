@@ -491,8 +491,12 @@ a.olive-color:hover {
 }
 
 .declared, .inspection {
-	width: 290px !important;
+	min-width: 320px !important;*/
 	overflow: hidden;	
+}
+
+#inspectionPanel {
+	max-width : 450px;
 }
 
 .cargo-package {
@@ -513,7 +517,7 @@ a.olive-color:hover {
 }
 
 .inpection-input-table {
-	width: 100%;
+	width: 98%;
 	border-collapse:collapse;
 }
 .inpection-input-table td {

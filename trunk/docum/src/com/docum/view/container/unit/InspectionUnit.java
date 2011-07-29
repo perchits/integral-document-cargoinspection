@@ -1,11 +1,9 @@
 package com.docum.view.container.unit;
 
 import java.io.Serializable;
-import java.util.List;
 
 import com.docum.domain.po.common.Container;
 import com.docum.domain.po.common.Inspection;
-import com.docum.domain.po.common.SurveyPlace;
 import com.docum.service.BaseService;
 import com.docum.view.AbstractDlgView;
 import com.docum.view.DialogActionEnum;
@@ -37,6 +35,16 @@ public class InspectionUnit implements Serializable, DialogActionHandler {
 				inspection.getSurveyPlace().getRussianName() : "Место инспекции не указано";  
 	}
 	
+	public String getNormDocument() {
+		return inspection != null && inspection.getNormativeDocument() != null ? 
+				inspection.getNormativeDocument().getName() : "";  
+	}
+	
+	public String getSurveyor() {
+		return inspection != null && inspection.getSurveyor() != null ? 
+				inspection.getSurveyor().getName() : "";  
+	}
+	
 	public void setInspection(Inspection inspection) {
 		this.inspection = inspection;
 	}
@@ -60,9 +68,8 @@ public class InspectionUnit implements Serializable, DialogActionHandler {
 		prepareInspectionDialog(inspection);
 	}
 	
-	private void prepareInspectionDialog(Inspection inspection) {
-		List<SurveyPlace> places = baseService.getAll(SurveyPlace.class);
-		inspectionDlg = new InspectionDlgView(inspection, places);
+	private void prepareInspectionDialog(Inspection inspection) {		
+		inspectionDlg = new InspectionDlgView(inspection, baseService);
 		inspectionDlg.addHandler(this);		
 	}
 	

@@ -5,7 +5,7 @@
 	xmlns:p="http://primefaces.prime.com.tr/ui">
 
 <p:outputPanel id="#{gridId}DlgPanel">
-	<h:form prependId="false" rendered="#{rendered == null ? true : rendered}">
+	<h:form prependId="false" enctype="multipart/form-data" rendered="#{rendered == null ? true : rendered}">
 		<p:dialog width="#{width}" id="#{gridId}Id" widgetVar="#{gridId}Var"
 			modal="true" header="#{bean[title]}">
 			<h:panelGrid width="100%"

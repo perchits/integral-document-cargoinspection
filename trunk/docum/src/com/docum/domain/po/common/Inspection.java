@@ -1,5 +1,8 @@
 package com.docum.domain.po.common;
 
+import java.util.Date;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
@@ -8,33 +11,82 @@ import javax.persistence.Table;
 import com.docum.domain.po.IdentifiedEntity;
 
 @Entity
-@Table(name="inspection")
+@Table(name = "inspection")
 public class Inspection extends IdentifiedEntity {
 	private static final long serialVersionUID = -6382871159976843122L;
 
 	@OneToOne(optional = false)
 	private Container container;
+	private String actualSeal;
+	private Date surveyRequestDate;
+	private Date surveyDate;
 	@ManyToOne(optional = false)
 	private SurveyPlace surveyPlace;
-
 	private String unloadingPlace;
 	private String unloadingPlaceEng;
-	private String palletsFormation;
-	private String palletsFormationEng;
-	private String a4Sticker;
-	private String a4StickerEng;
-	private String shippingMark;
-	private String shippingMarkEng;
-	private String normativePaper;
-	private String normativePaperEng;
-	
-	public Inspection(){
-		
+	@Column(length = 512)
+	private String packageType;
+	@Column(length = 512)
+	private String packageTypeEng;
+	@Column(length = 512)
+	private String packageForming;
+	@Column(length = 512)
+	private String packageFormingEng;
+	@Column(length = 512)
+	private String packageSate;
+	@Column(length = 512)
+	private String packageSateEng;
+	private String a4StickerUrl;
+	private String shippingMarkUrl;
+	@ManyToOne
+	private NormativeDocument normativeDocument;
+	private Double temperature;
+	private String packageToSurvey;
+	@Column(length = 512)
+	private String surveyorConclusion;
+	private String surveyorConclusionEng;
+	@ManyToOne
+	private Surveyor surveyor;
+
+	public Inspection() {
+
 	}
 
 	public Inspection(Container container, SurveyPlace surveyPlace) {
 		this.container = container;
 		this.surveyPlace = surveyPlace;
+	}
+
+	public Container getContainer() {
+		return container;
+	}
+
+	public void setContainer(Container container) {
+		this.container = container;
+	}
+
+	public String getActualSeal() {
+		return actualSeal;
+	}
+
+	public void setActualSeal(String actualSeal) {
+		this.actualSeal = actualSeal;
+	}
+
+	public Date getSurveyRequestDate() {
+		return surveyRequestDate;
+	}
+
+	public void setSurveyRequestDate(Date surveyRequestDate) {
+		this.surveyRequestDate = surveyRequestDate;
+	}
+
+	public Date getSurveyDate() {
+		return surveyDate;
+	}
+
+	public void setSurveyDate(Date surveyDate) {
+		this.surveyDate = surveyDate;
 	}
 
 	public SurveyPlace getSurveyPlace() {
@@ -44,7 +96,7 @@ public class Inspection extends IdentifiedEntity {
 	public void setSurveyPlace(SurveyPlace surveyPlace) {
 		this.surveyPlace = surveyPlace;
 	}
-	
+
 	public String getUnloadingPlace() {
 		return unloadingPlace;
 	}
@@ -61,75 +113,116 @@ public class Inspection extends IdentifiedEntity {
 		this.unloadingPlaceEng = unloadingPlaceEng;
 	}
 
-	public String getPalletsFormation() {
-		return palletsFormation;
+	public String getPackageType() {
+		return packageType;
 	}
 
-	public void setPalletsFormation(String palletsFormation) {
-		this.palletsFormation = palletsFormation;
+	public void setPackageType(String packageType) {
+		this.packageType = packageType;
 	}
 
-	public String getPalletsFormationEng() {
-		return palletsFormationEng;
+	public String getPackageForming() {
+		return packageForming;
 	}
 
-	public void setPalletsFormationEng(String palletsFormationEng) {
-		this.palletsFormationEng = palletsFormationEng;
+	public void setPackageForming(String packageForming) {
+		this.packageForming = packageForming;
 	}
 
-	public String getA4Sticker() {
-		return a4Sticker;
+	public String getPackageSate() {
+		return packageSate;
 	}
 
-	public void setA4Sticker(String a4Sticker) {
-		this.a4Sticker = a4Sticker;
+	public void setPackageSate(String packageSate) {
+		this.packageSate = packageSate;
 	}
 
-	public String getA4StickerEng() {
-		return a4StickerEng;
+	public String getA4StickerUrl() {
+		return a4StickerUrl;
 	}
 
-	public void setA4StickerEng(String a4StickerEng) {
-		this.a4StickerEng = a4StickerEng;
+	public void setA4StickerUrl(String a4StickerUrl) {
+		this.a4StickerUrl = a4StickerUrl;
 	}
 
-	public String getShippingMark() {
-		return shippingMark;
+	public String getShippingMarkUrl() {
+		return shippingMarkUrl;
 	}
 
-	public void setShippingMark(String shippingMark) {
-		this.shippingMark = shippingMark;
+	public void setShippingMarkUrl(String shippingMarkUrl) {
+		this.shippingMarkUrl = shippingMarkUrl;
 	}
 
-	public String getShippingMarkEng() {
-		return shippingMarkEng;
+	public NormativeDocument getNormativeDocument() {
+		return normativeDocument;
 	}
 
-	public void setShippingMarkEng(String shippingMarkEng) {
-		this.shippingMarkEng = shippingMarkEng;
+	public void setNormativeDocument(NormativeDocument normativeDocument) {
+		this.normativeDocument = normativeDocument;
 	}
 
-	public String getNormativePaper() {
-		return normativePaper;
+	public Double getTemperature() {
+		return temperature;
 	}
 
-	public void setNormativePaper(String normativePaper) {
-		this.normativePaper = normativePaper;
+	public void setTemperature(Double temperature) {
+		this.temperature = temperature;
 	}
 
-	public String getNormativePaperEng() {
-		return normativePaperEng;
+	public String getPackageToSurvey() {
+		return packageToSurvey;
 	}
 
-	public void setNormativePaperEng(String normativePaperEng) {
-		this.normativePaperEng = normativePaperEng;
+	public void setPackageToSurvey(String packageToSurvey) {
+		this.packageToSurvey = packageToSurvey;
 	}
 
-	public Container getContainer() {
-		return container;
+	public String getSurveyorConclusion() {
+		return surveyorConclusion;
 	}
 
-	public void setContainer(Container container) {
-		this.container = container;
+	public void setSurveyorConclusion(String surveyorConclusion) {
+		this.surveyorConclusion = surveyorConclusion;
 	}
+
+	public Surveyor getSurveyor() {
+		return surveyor;
+	}
+
+	public void setSurveyor(Surveyor surveyor) {
+		this.surveyor = surveyor;
+	}
+
+	public String getPackageTypeEng() {
+		return packageTypeEng;
+	}
+
+	public void setPackageTypeEng(String packageTypeEng) {
+		this.packageTypeEng = packageTypeEng;
+	}
+
+	public String getPackageFormingEng() {
+		return packageFormingEng;
+	}
+
+	public void setPackageFormingEng(String packageFormingEng) {
+		this.packageFormingEng = packageFormingEng;
+	}
+
+	public String getPackageSateEng() {
+		return packageSateEng;
+	}
+
+	public void setPackageSateEng(String packageSateEng) {
+		this.packageSateEng = packageSateEng;
+	}
+
+	public String getSurveyorConclusionEng() {
+		return surveyorConclusionEng;
+	}
+
+	public void setSurveyorConclusionEng(String surveyorConclusionEng) {
+		this.surveyorConclusionEng = surveyorConclusionEng;
+	}
+
 }

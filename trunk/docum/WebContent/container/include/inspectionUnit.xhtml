@@ -4,23 +4,87 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.prime.com.tr/ui">
 
+<h:panelGroup>
 
+	<h:outputText styleClass="olive-color" value="Пломба: " />
+	<h:outputText value="#{inspectionbean.inspection.actualSeal}" />
+</h:panelGroup>
 
-<h:panelGroup>	
+<h:panelGroup>
+	<br />
+	<h:outputText styleClass="olive-color"
+		value="Дата заявки на инспекцию: " />
+	<h:outputText value="#{inspectionbean.inspection.surveyRequestDate}">
+		<f:convertDateTime dateStyle="medium" type="date" />
+	</h:outputText>
+</h:panelGroup>
+
+<h:panelGroup>
+	<br />
+	<h:outputText styleClass="olive-color" value="Дата провед. инспекции: " />
+	<h:outputText value="#{inspectionbean.inspection.surveyDate}">
+		<f:convertDateTime dateStyle="medium" type="date" />
+	</h:outputText>
+</h:panelGroup>
+
+<h:panelGroup>
+	<br />
 	<h:outputText styleClass="olive-color" value="Место инспекции: " />
 	<h:outputText value="#{inspectionbean.surveyPlace}" />
 </h:panelGroup>
-<h:panelGroup>	
+
+<h:panelGroup>
 	<br />
-	<h:outputText styleClass="olive-color" value="Выгрузка: " />
+	<h:outputText styleClass="olive-color" value="Вывоз: " />
 	<h:outputText value="#{inspectionbean.inspection.unloadingPlace}" />
 </h:panelGroup>
 
-<h:panelGroup>	
+<h:panelGroup>
 	<br />
-	<h:outputText styleClass="olive-color" value="Формирование паллет: " />
-	<h:outputText value="#{inspectionbean.inspection.palletsFormation}" />
+	<h:outputText styleClass="olive-color" value="Вид упаковки: " />
+	<h:outputText value="#{inspectionbean.inspection.packageType}" />
 </h:panelGroup>
 
+<h:panelGroup>
+	<br />
+	<h:outputText styleClass="olive-color" value="Формирование упаковки: " />
+	<h:outputText value="#{inspectionbean.inspection.packageForming}" />
+</h:panelGroup>
+
+<h:panelGroup>
+	<br />
+	<h:outputText styleClass="olive-color" value="Норм. документ: " />
+	<h:outputText value="#{inspectionbean.normDocument}" />
+</h:panelGroup>
+
+<h:panelGroup>
+	<br />
+	<h:outputText styleClass="olive-color" value="Температура: " />
+	<h:outputText value="#{inspectionbean.inspection.temperature}" />
+</h:panelGroup>
+
+<h:panelGroup>
+	<br />
+	<h:outputText styleClass="olive-color" value="Осмотрено: " />
+	<h:outputText value="#{inspectionbean.inspection.packageToSurvey}" />
+</h:panelGroup>
+
+<h:panelGroup>
+	<br />
+	<h:outputText styleClass="olive-color" value="Состояние упаковки: " />
+	<h:outputText value="#{inspectionbean.inspection.packageSate}" />
+</h:panelGroup>
+
+<h:panelGroup>
+	<br />
+	<h:outputText styleClass="olive-color" value="Заключение: " />
+	<h:outputText value="#{inspectionbean.inspection.surveyorConclusion}" />
+</h:panelGroup>
+
+<h:panelGroup>
+	<br />
+	<h:outputText styleClass="olive-color" value="Инспектор: " />
+	<h:outputText value="#{inspectionbean.surveyor}" />
+</h:panelGroup>
 
 </html>
