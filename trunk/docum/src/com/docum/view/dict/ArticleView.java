@@ -303,10 +303,6 @@ public class ArticleView extends BaseView {
 		return this.enableOrdChange;
 	}
 	
-	public void changeOrds() {
-		this.enableOrdChange = !this.enableOrdChange;
-	}
-	
 	public void setOrdUp(ArticleCategoryPresentation categoryPresentation) {
 		this.article.moveCategoryUp(categoryPresentation.getArticleCategory());
 		super.getBaseService().save(this.article);

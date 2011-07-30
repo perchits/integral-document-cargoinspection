@@ -42,9 +42,7 @@
 					<h:panelGrid columns="2" styleClass="infoLayoutTable" style="vertical-align: center !important;">
 
 						<p:panel>
-						<h:panelGrid columns="2" layout="block" styleClass="toolbar">
-							<h:panelGroup>
-								<ui:include src="/WEB-INF/includes/baseCrudToolBar.xhtml">
+							<ui:include src="/WEB-INF/includes/baseCrudToolBar.xhtml">
 								<ui:param name="bean" value="#{articleBean}" />
 								<ui:param name="gridId" value="categoriesGrid" />
 								<ui:param name="newObject" value="newCategory" />
@@ -52,15 +50,6 @@
 								<ui:param name="beforeDeleteObject" value="beforeDeleteCategory" />
 								<ui:param name="hideTitle" value="true"/>
 							</ui:include>
-							</h:panelGroup>
-							<h:panelGroup styleClass="custom-panel" layout="block" 
-										  rendered="#{userBean.administrationPermited}">
-								<p:commandButton image="ui-icon-star" title="Порядок категорий" 
-												 style="font-size: 11px !important;"
-												 actionListener="#{articleBean.changeOrds}"
-												 update="categoriesGrid"/>				 
-							</h:panelGroup>
-						</h:panelGrid>
 							<p:dataTable id="categoriesGrid" var="category"
 								selectionMode="single" value="#{articleBean.categories}"
 								selection="#{articleBean.wrappedCategory}">
@@ -75,7 +64,7 @@
 									<f:facet name="header">Категория англ.</f:facet>
 									<h:outputText value="#{category.englishName}" />
 								</p:column>
-								<p:column rendered="#{articleBean.enableOrdChanged}">
+								<p:column rendered="#{userBean.administrationPermited}">
 									<p:commandButton title="Вверх" 
 												 image="ui-icon-arrow-1-n"
 												 styleClass="inline-btn border-btn"
