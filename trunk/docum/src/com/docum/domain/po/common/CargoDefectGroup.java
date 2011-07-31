@@ -20,12 +20,12 @@ public class CargoDefectGroup extends OrderedEntity {
 	@ManyToOne(optional=false)
 	private Cargo cargo;
 	
-	@ManyToOne(optional=true)
+	@ManyToOne(optional=false)
 	private ArticleCategory articleCategory;
 
 	@OneToMany(mappedBy = "defectGroup", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	private Set<CargoDefect> defects = new HashSet<CargoDefect>();
-	
+
 	public CargoDefectGroup() {
 		super();
 	}
@@ -62,6 +62,10 @@ public class CargoDefectGroup extends OrderedEntity {
 		for(ArticleDefect articleDefect : articleCategory.getDefects()) {
 			defects.add(new CargoDefect(this, articleDefect));
 		}
+	}
+	
+	public Set<CargoDefect> getDefects() {
+		return defects;
 	}
 
 	public boolean equals(Object obj) {

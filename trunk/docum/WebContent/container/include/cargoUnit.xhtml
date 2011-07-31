@@ -51,7 +51,13 @@
 			<ui:include src="/container/include/featureUnit.xhtml">
 				<ui:param name="featurebean" value="#{cargobean.cargoFeatureUnit}" />
 			</ui:include>
-
+			
+			<h:panelGroup rendered="#{wcargo.actual}">	
+			<ui:include src="/container/include/defectUnit.xhtml">
+				<ui:param name="defectbean" value="#{cargobean.cargoDefectUnit}" />
+			</ui:include>
+			</h:panelGroup>
+					
 			<ui:include src="/container/include/packageUnit.xhtml">
 				<ui:param name="packagebean" value="#{cargobean.cargoPackageUnit}" />
 			</ui:include>

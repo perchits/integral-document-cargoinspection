@@ -4,8 +4,6 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.prime.com.tr/ui">
 
-
-
 <h:form prependId="false" styleClass="cargo-package">
 	<h:outputText value="Упаковка" />
 	<p:commandButton image="ui-icon-document" title="Добавить упаковку"
@@ -17,9 +15,8 @@
 	</p:commandButton>
 </h:form>
 
-
 <ul>
-	<ui:repeat value="#{wcargo.declaredPackages}" var="pack">
+	<ui:repeat value="#{wcargo.packages}" var="pack">
 		<li><h:form prependId="false" style="float:left">
 				<p:commandLink title="Правка упаковки" styleClass="olive-color"
 					action="#{packagebean.editPackage}"
@@ -45,7 +42,6 @@
 			</ui:include></li>
 	</ui:repeat>
 </ul>
-
 
 
 </html>

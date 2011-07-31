@@ -10,6 +10,7 @@ import java.util.List;
 import com.docum.domain.po.common.Cargo;
 import com.docum.domain.po.common.CargoArticleFeature;
 import com.docum.domain.po.common.CargoCondition;
+import com.docum.domain.po.common.CargoDefectGroup;
 import com.docum.domain.po.common.CargoPackage;
 import com.docum.util.AlgoUtil;
 
@@ -64,22 +65,37 @@ public class CargoPresentation implements Serializable {
 		return result;
 	}
 	
-	public List<CargoPackagePresentation> getDeclaredPackages(){
+	public Boolean getActual(){
+		return cargo.getCondition().hasDefects();
+	}
+
+	public List<CargoDefectGroupPresentation> getDefectGroups() {
 		if (cargo == null) {
 			return null;
 		}
-		
+		Collection<CargoDefectGroup> cd = cargo.getDefectGroups();
+		List<CargoDefectGroupPresentation> result = new ArrayList<CargoDefectGroupPresentation>(
+				cd.size());
+		AlgoUtil.transform(result, cd, new CargoDefectGroupTransformer());
+		return result;
+	}
+
+	public List<CargoPackagePresentation> getPackages() {
+		if (cargo == null) {
+			return null;
+		}
+
 		Collection<CargoPackage> cp = cargo.getCargoPackages();
-		
+
 		List<CargoPackagePresentation> result = new ArrayList<CargoPackagePresentation>(
 				cp.size());
-		AlgoUtil.transform(result, cp, new CargoPackageTransformer());		
-		
+		AlgoUtil.transform(result, cp, new CargoPackageTransformer());
+
 		Collections.sort(result, new Comparator<CargoPackagePresentation>() {
 			@Override
-			public int compare(CargoPackagePresentation o1, CargoPackagePresentation o2) {
-				return o1.getMeasureName()
-						.compareTo(o2.getMeasureName());
+			public int compare(CargoPackagePresentation o1,
+					CargoPackagePresentation o2) {
+				return o1.getMeasureName().compareTo(o2.getMeasureName());
 			}
 		});
 		return result;

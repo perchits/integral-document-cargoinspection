@@ -1,0 +1,28 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	xmlns:itg="http://integral-info.ru/jsf">
+
+Дефекты
+<ul>
+	<ui:repeat value="#{wcargo.defectGroups}" var="defectGroup">
+		<li><h:outputText styleClass="olive-color"
+				value="#{defectGroup.title}" />		
+				
+				<ul>
+	<ui:repeat value="#{defectGroup.defects}" var="defect">
+		<li><h:outputText styleClass="olive-color"
+				value="#{itg:truncateString(defect.title, 50, '...')}" />				
+		</li>
+	</ui:repeat>
+</ul>
+						
+		</li>
+	</ui:repeat>
+</ul>
+
+
+
+</html>
