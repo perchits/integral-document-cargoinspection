@@ -20,8 +20,19 @@ public class CargoDefectPresentation implements Serializable {
 		this.cargoDefect = cargoDefect;
 	}
 
+	public Boolean getCustomDefect() {
+		return cargoDefect != null ? cargoDefect.getArticleDefect() != null ? false
+				: true
+				: null;
+	}
+	
 	public String getTitle() {
 		return toString();
+	}
+
+	public String getGroupTitle() {
+		return cargoDefect != null ? new CargoDefectGroupPresentation(
+				cargoDefect.getDefectGroup()).getTitle() : "";
 	}
 
 	public String toString() {

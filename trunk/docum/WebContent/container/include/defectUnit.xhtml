@@ -5,24 +5,49 @@
 	xmlns:p="http://primefaces.prime.com.tr/ui"
 	xmlns:itg="http://integral-info.ru/jsf">
 
-Дефекты
+<h:outputText value="Дефекты" />
 <ul>
 	<ui:repeat value="#{wcargo.defectGroups}" var="defectGroup">
-		<li><h:outputText styleClass="olive-color"
-				value="#{defectGroup.title}" />		
-				
-				<ul>
-	<ui:repeat value="#{defectGroup.defects}" var="defect">
-		<li><h:outputText styleClass="olive-color"
-				value="#{itg:truncateString(defect.title, 50, '...')}" />				
-		</li>
+		<li><h:form styleClass="inline-form">
+				<h:outputText styleClass="olive-color" value="#{defectGroup.title}" />
+				<p:commandButton title="Добавить дефект" styleClass="inline-btn"
+					image="ui-icon-document" action="#{defectbean.addDefect}"
+					oncomplete="beforeShow(defectIdVar,args)"
+					update="defectIdDlgPanel,growl">
+					<f:setPropertyActionListener
+						target="#{defectbean.wrappedCargoDefectGroup}"
+						value="#{defectGroup}" />
+				</p:commandButton>
+			</h:form>
+
+			<ul>
+				<ui:repeat value="#{defectGroup.defects}" var="defect">
+					<li><h:form>
+							<p:commandLink title="Правка дефекта" styleClass="olive-color"
+								action="#{defectbean.editDefect}"
+								oncomplete="beforeShow(defectIdVar,args)"
+								update="defectIdDlgPanel,growl">
+								<f:setPropertyActionListener
+									target="#{defectbean.wrappedCargoDefect}" value="#{defect}" />
+								<h:outputText title="#{defect.title}"
+									value="#{itg:truncateString(defect.title, 38, '...')}:" />
+							</p:commandLink>
+							<h:outputText value=" " />
+							<h:outputText value="#{defect.cargoDefect.percentage}"></h:outputText>
+
+							<p:commandButton image="ui-icon-trash" title="Удалить дефект"
+								rendered="#{defect.customDefect}" styleClass="inline-btn"
+								oncomplete="beforeShow(defectIdConfirmVar,args)"
+								update="defectIdConfirmId">
+								<f:setPropertyActionListener
+									target="#{defectbean.wrappedCargoDefect}" value="#{defect}" />
+							</p:commandButton>
+
+						</h:form>
+					</li>
+				</ui:repeat>
+			</ul></li>
 	</ui:repeat>
 </ul>
-						
-		</li>
-	</ui:repeat>
-</ul>
-
-
 
 </html>

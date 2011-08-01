@@ -17,10 +17,10 @@ import com.docum.util.HashCodeHelper;
 public class CargoDefectGroup extends OrderedEntity {
 	private static final long serialVersionUID = -1289620501327722936L;
 
-	@ManyToOne(optional=false)
+	@ManyToOne(optional = false)
 	private Cargo cargo;
-	
-	@ManyToOne(optional=false)
+
+	@ManyToOne(optional = false)
 	private ArticleCategory articleCategory;
 
 	@OneToMany(mappedBy = "defectGroup", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
@@ -35,7 +35,8 @@ public class CargoDefectGroup extends OrderedEntity {
 		this.cargo = cargo;
 	}
 
-	public CargoDefectGroup(Cargo cargo, ArticleCategory articleCategory, int ord) {
+	public CargoDefectGroup(Cargo cargo, ArticleCategory articleCategory,
+			int ord) {
 		this(cargo);
 		setArticleCategory(articleCategory);
 		setOrd(ord);
@@ -54,18 +55,30 @@ public class CargoDefectGroup extends OrderedEntity {
 	}
 
 	public void setArticleCategory(ArticleCategory articleCategory) {
-		if (articleCategory == null || articleCategory.equals(this.articleCategory)) {
+		if (articleCategory == null
+				|| articleCategory.equals(this.articleCategory)) {
 			return;
 		}
 		this.articleCategory = articleCategory;
 		defects.clear();
-		for(ArticleDefect articleDefect : articleCategory.getDefects()) {
+		for (ArticleDefect articleDefect : articleCategory.getDefects()) {
 			defects.add(new CargoDefect(this, articleDefect));
 		}
 	}
-	
+
 	public Set<CargoDefect> getDefects() {
 		return defects;
+	}
+
+	public void addDefect(CargoDefect defect) {
+		defects.add(defect);
+		defect.setDefectGroup(this);
+	}
+
+	public void removeDefect(CargoDefect defect) {
+		if (defects.remove(defect)) {
+			defect.setDefectGroup(null);
+		}
 	}
 
 	public boolean equals(Object obj) {

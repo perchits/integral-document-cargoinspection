@@ -1,0 +1,32 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+<ui:composition template="/WEB-INF/includes/dialogLayout.xhtml">
+	<ui:param name="width" value="700" />
+	<ui:param name="saveObject" value="save" />
+	<ui:param name="colCount" value="2" />
+	<ui:define name="dialogBody">	
+		
+		<h:outputText 
+			rendered="#{!bean.customDefect}"
+			value="#{bean.defectName}" id="defect-name"			
+			label="Дефект" />
+		
+		<p:inputText 
+		    style="min-width:550px"
+			rendered="#{bean.customDefect}"
+			value="#{bean.cargoDefect.name}" id="defect-custom-name"			
+			label="Дефект" />
+		
+		<p:inputText 
+			style="min-width:70px"
+			value="#{bean.cargoDefect.percentage}" id="defect-count"			
+			label="Процент" >
+		<f:convertNumber maxFractionDigits="2" />
+		</p:inputText>	
+	</ui:define>
+</ui:composition>
+</html>
