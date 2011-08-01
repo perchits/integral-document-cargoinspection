@@ -1,0 +1,46 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+	
+<ui:composition template="/WEB-INF/includes/layout.xhtml">
+<ui:param name="selectedMenuItem" value="6" />
+	<ui:define name="content">
+
+		<h:form prependId="false">
+
+			<ui:include src="/WEB-INF/includes/baseCrudToolBar.xhtml">
+				<ui:param name="bean" value="#{surveyorBean}" />
+				<ui:param name="gridId" value="surveyorGrid" />
+			</ui:include>
+
+			<p:panel header="#{surveyorBean.sign}" styleClass="small-panel">
+
+				<p:dataTable id="surveyorGrid" var="sp" value="#{surveyorBean.allObjects}"
+					selectionMode="single" selection="#{surveyorBean.s}">
+					<p:column sortBy="#{s.name}" filterBy="#{s.name}"
+						filterMatchMode="contains">
+						<f:facet name="header">Наименование</f:facet>
+						<h:outputText value="#{s.name}" />
+					</p:column>
+
+					<p:column sortBy="#{s.englishName}" filterBy="#{s.englishName}"
+						filterMatchMode="contains">
+						<f:facet name="header">Наименование на англ. языке</f:facet>
+						<h:outputText value="#{s.englishName}" />
+					</p:column>
+				</p:dataTable>
+
+			</p:panel>
+		</h:form>
+
+		<ui:include src="/handbook/dialog/surveyorDlg.xhtml">
+			<ui:param name="gridId" value="surveyorGrid" />
+			<ui:param name="bean" value="#{surveyorBean}" />
+			<ui:param name="title" value="title" />
+		</ui:include>		
+
+	</ui:define>
+</ui:composition>
+</html>
