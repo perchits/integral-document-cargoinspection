@@ -28,6 +28,7 @@ import com.docum.view.AbstractDlgView;
 import com.docum.view.DialogActionEnum;
 import com.docum.view.DialogActionHandler;
 import com.docum.view.container.unit.CalibreUnit;
+import com.docum.view.container.unit.CargoDefectUnit;
 import com.docum.view.container.unit.CargoFeatureUnit;
 import com.docum.view.container.unit.CargoPackageUnit;
 import com.docum.view.container.unit.CargoUnit;
@@ -70,6 +71,7 @@ public class ContainerView extends BaseView implements Serializable,
 	private CargoFeatureUnit dlgFeatureUnit;
 	private CargoPackageUnit dlgPackageUnit;
 	private CalibreUnit dlgCalibreUnit;
+	private CargoDefectUnit dlgDefectUnit;
 	
 	private InspectionUnit inspectionUnit = new InspectionUnit(this); 
 	
@@ -105,6 +107,14 @@ public class ContainerView extends BaseView implements Serializable,
 		this.dlgCargoUnit = dlgCargoUnit;
 	}
 
+	public CargoDefectUnit getDlgDefectUnit() {
+		return dlgDefectUnit;
+	}
+
+	public void setDlgDefectUnit(CargoDefectUnit dlgDefectUnit) {
+		this.dlgDefectUnit = dlgDefectUnit;
+	}
+	
 	public CargoUnit getActualCargoUnit() {
 		return getCargoUnit(true, actualCargoUnit);
 	}

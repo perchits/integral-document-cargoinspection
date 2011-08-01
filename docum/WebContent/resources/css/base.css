@@ -207,7 +207,7 @@ select {
 #infoPanel ul {
 	margin: 5px;
 	padding-left: 15px;
-	line-height: 14px;
+	line-height: 16px;
 }
 
 .infoLayoutTable,#infoPanel {
@@ -435,8 +435,13 @@ a.olive-color:hover {
 	height: 16px !important;
 	border: 0 !important;
 	background: white !important;
-	vertical-align: text-bottom;
+	vertical-align: text-bottom;	
 }
+
+.inline-form {	
+	margin : 5px 0 -2px 0 !important;	
+}
+
 .calibre {
 	display: block;
 	margin: 3px 0 -7px 0;	
@@ -499,9 +504,6 @@ a.olive-color:hover {
 	max-width : 450px;
 }
 
-.cargo-package {
-	margin : -3px 0 -5px 0;	
-}
 .container-cargo-panel {
 	display: block;	
 	padding-bottom: 2px !important;

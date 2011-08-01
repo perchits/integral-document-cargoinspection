@@ -30,11 +30,13 @@ public class CargoUnit implements Serializable, DialogActionHandler {
 	private CargoFeatureUnit cargoFeatureUnit;
 	private CargoPackageUnit cargoPackageUnit;
 	private CargoCondition cargoCondition;
+	private CargoDefectUnit cargoDefectUnit;
 
 	public CargoUnit(ContainerHolder containerHolder) {
 		this.containerHolder = containerHolder;
 		cargoFeatureUnit = new CargoFeatureUnit(containerHolder);
 		cargoPackageUnit = new CargoPackageUnit(containerHolder);
+		cargoDefectUnit = new CargoDefectUnit(containerHolder);
 	}
 
 	public void setContext(ContainerContext context) {		
@@ -59,6 +61,10 @@ public class CargoUnit implements Serializable, DialogActionHandler {
 	public CargoPackageUnit getCargoPackageUnit() {		
 		cargoPackageUnit.setContext(populateContext());
 		return cargoPackageUnit;
+	}
+	
+	public CargoDefectUnit getCargoDefectUnit() {
+		return cargoDefectUnit;
 	}
 	
 	public void setCargo(CargoPresentation cargo) {
