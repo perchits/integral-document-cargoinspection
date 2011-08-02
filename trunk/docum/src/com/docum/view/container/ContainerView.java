@@ -246,6 +246,7 @@ public class ContainerView extends BaseView implements Serializable,
 	}
 
 	public void voyageSelect(SelectEvent event) {
+		setSelectedVoyage((VoyagePresentation)event.getObject());
 		refreshObjects();
 		setContainer(new ContainerPresentation(null));
 	}
