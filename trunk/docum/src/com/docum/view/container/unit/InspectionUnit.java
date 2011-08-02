@@ -1,14 +1,12 @@
 package com.docum.view.container.unit;
 
-import java.io.IOException;
 import java.io.Serializable;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.faces.event.AjaxBehaviorEvent;
 
-import org.apache.commons.io.FilenameUtils;
 import org.apache.myfaces.custom.fileupload.UploadedFile;
+import org.primefaces.event.FileUploadEvent;
 
 import com.docum.domain.po.common.Container;
 import com.docum.domain.po.common.Inspection;
@@ -111,19 +109,25 @@ public class InspectionUnit implements Serializable, DialogActionHandler {
 	public void setStickerImage(UploadedFile stickerImage) {
 		this.stickerImage = stickerImage;
 	}
+	
+//	public void uploadStickerImage() throws IOException {  
+//        if(stickerImage == null) {
+//        	return;
+//        }
+//		String fileName = FilenameUtils.getName(stickerImage.getName());
+//        String contentType = stickerImage.getContentType();
+//        byte[] bytes = stickerImage.getBytes();
+//
+//        // Now you can save bytes in DB (and also content type?)
+//
+//        FacesContext.getCurrentInstance().addMessage(null, 
+//            new FacesMessage(String.format("File '%s' of type '%s' successfully uploaded!", fileName, contentType)));
+//    }  	
 
-	public void uploadStickerImage() throws IOException {  
-        if(stickerImage == null) {
-        	return;
-        }
-		String fileName = FilenameUtils.getName(stickerImage.getName());
-        String contentType = stickerImage.getContentType();
-        byte[] bytes = stickerImage.getBytes();
-
-        // Now you can save bytes in DB (and also content type?)
-
-        FacesContext.getCurrentInstance().addMessage(null, 
-            new FacesMessage(String.format("File '%s' of type '%s' successfully uploaded!", fileName, contentType)));
-    }  	
+	public void uploadStickerImage(FileUploadEvent event) {
+		FacesMessage msg = new FacesMessage("Succesful", event.getFile()
+				.getFileName() + " is uploaded.");
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+	}
 
 }
