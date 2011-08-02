@@ -13,14 +13,15 @@
 				<ui:param name="gridId" value="articleGrid" />
 			</ui:include>
 
-			<h:panelGrid columns="2" styleClass="invoicesLayoutTable"
+			<h:panelGrid columns="2" columnClasses="article-list," styleClass="invoicesLayoutTable"
 				id="articlesLayoutTable">
 				<p:panel header="#{articleBean.sign}" styleClass="small-panel">
 
 					<p:dataTable id="articleGrid" var="article"
 						value="#{articleBean.articles}" selectionMode="single"
-						selection="#{articleBean.wrappedArticle}"
-						update="categoriesGrid, characteristics, featuresGrid">
+						selection="#{articleBean.wrappedArticle}">
+						<p:ajax event="rowSelect"
+							update="categoriesGrid, characteristics, featuresGrid" />
 						<p:column sortBy="#{article.name}" filterBy="#{article.name}"
 							filterMatchMode="contains">
 							<f:facet name="header">Наименование</f:facet>
@@ -39,7 +40,8 @@
 						<h:outputText value="Характеристики #{articleBean.article.name}"
 							id="characteristics" />
 					</f:facet>
-					<h:panelGrid columns="2" styleClass="infoLayoutTable" style="vertical-align: center !important;">
+					<h:panelGrid columns="2" styleClass="infoLayoutTable"
+						style="vertical-align: center !important;">
 
 						<p:panel>
 							<ui:include src="/WEB-INF/includes/baseCrudToolBar.xhtml">
@@ -48,13 +50,13 @@
 								<ui:param name="newObject" value="newCategory" />
 								<ui:param name="editObject" value="editCategory" />
 								<ui:param name="beforeDeleteObject" value="beforeDeleteCategory" />
-								<ui:param name="hideTitle" value="true"/>
+								<ui:param name="hideTitle" value="true" />
 							</ui:include>
 							<p:dataTable id="categoriesGrid" var="category"
 								selectionMode="single" value="#{articleBean.categories}"
 								selection="#{articleBean.wrappedCategory}">
-								<p:column style="width:16px">
-									<p:rowToggler />
+								<p:column styleClass="expended-col">									
+									<p:rowToggler />									
 								</p:column>
 								<p:column>
 									<f:facet name="header">Категория</f:facet>
@@ -65,29 +67,24 @@
 									<h:outputText value="#{category.englishName}" />
 								</p:column>
 								<p:column rendered="#{userBean.administrationPermited}">
-									<p:commandButton title="Вверх" 
-												 image="ui-icon-arrow-1-n"
-												 styleClass="inline-btn border-btn"
-												 update="categoriesGrid"
-												 rendered="#{category.ord > 0}">
+									<p:commandButton title="Вверх" image="ui-icon-arrow-1-n"
+										styleClass="inline-btn border-btn" update="categoriesGrid"
+										rendered="#{category.ord > 0}">
 										<f:setPropertyActionListener target="#{articleBean.ordUp}"
 											value="#{category}" />
 									</p:commandButton>
-									<p:commandButton title="Вниз"
-												 image="ui-icon-arrow-1-s" 
-												 styleClass="inline-btn border-btn"
-												 update="categoriesGrid">
+									<p:commandButton title="Вниз" image="ui-icon-arrow-1-s"
+										styleClass="inline-btn border-btn" update="categoriesGrid">
 										<f:setPropertyActionListener target="#{articleBean.ordDown}"
-											value="#{category}" />		 
+											value="#{category}" />
 									</p:commandButton>
 								</p:column>
 								<p:rowExpansion>
 									<p:panel styleClass="innerGrid">
 										<ul>
 											<ui:repeat var="articleDefect" value="#{category.defects}">
-												<li class="listContainersInDoc">
-													<h:outputText value="#{articleDefect.name}" />
-												</li>
+												<li class="listContainersInDoc"><h:outputText
+														value="#{articleDefect.name}" /></li>
 											</ui:repeat>
 										</ul>
 									</p:panel>
@@ -101,12 +98,12 @@
 								<ui:param name="newObject" value="newFeature" />
 								<ui:param name="editObject" value="editFeature" />
 								<ui:param name="beforeDeleteObject" value="beforeDeleteFeature" />
-								<ui:param name="hideTitle" value="true"/>
+								<ui:param name="hideTitle" value="true" />
 							</ui:include>
 							<p:dataTable id="featuresGrid" var="feature"
 								selectionMode="single" value="#{articleBean.features}"
 								selection="#{articleBean.wrappedFeature}">
-								<p:column style="width:16px">
+								<p:column styleClass="expended-col">
 									<p:rowToggler rendered="#{feature.articleFeature.list}" />
 								</p:column>
 								<p:column>
@@ -121,9 +118,8 @@
 									<p:panel styleClass="innerGrid">
 										<ul>
 											<ui:repeat var="f_instance" value="#{feature.instances}">
-												<li class="listContainersInDoc">
-													<h:outputText value="#{f_instance.name}" />
-												</li>
+												<li class="listContainersInDoc"><h:outputText
+														value="#{f_instance.name}" /></li>
 											</ui:repeat>
 										</ul>
 									</p:panel>

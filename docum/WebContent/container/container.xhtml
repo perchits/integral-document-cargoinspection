@@ -12,7 +12,7 @@
 	<ui:define name="content">
 
 		<h:panelGrid columns="2" styleClass="containersLayoutTable"
-			id="voyagesLayoutTable">
+			id="voyagesLayoutTable" columnClasses="container-list,">
 
 			<p:panel id="containersPanel" style="text-align:left"
 				styleClass="toggle-panel">
@@ -51,7 +51,7 @@
 				</h:form>
 
 				<h:form prependId="false">
-					<p:dataTable selectionMode="single"
+					<p:dataTable selectionMode="single" 
 						styleClass="cellSmallText containers" id="containers"
 						var="container" value="#{containerBean.containers}"
 						selection="#{containerBean.container}"

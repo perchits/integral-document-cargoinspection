@@ -29,8 +29,8 @@ body {
 	padding: 5px;
 	border-left: 1px solid #B1A635;
 	border-right: 1px solid #B1A635;
-	border-bottom: 1px solid #B1A635;
-	min-width: 1000px;
+	border-bottom: 1px solid #B1A635;	
+	width: 1000px;
 }
 
 .ui-widget,.ui-widget .ui-widget,table tr {
@@ -193,7 +193,11 @@ select {
 }
 
 .voyagesLayoutTable,.infoLayoutTable,.invoicesLayoutTable {
-	width: 100%;
+	width: 100%;	
+}
+
+.article-list {
+	width : 317px;	
 }
 
 #voyagesPanel .crud-menu div,#containersPanel .crud-menu div {
@@ -223,11 +227,11 @@ select {
 }
 
 #containers{
-	width : 310px;
+	width: 100%;
 }
 
 #containersPanel {	
-	font-size: 11px !important;
+	font-size: 11px !important;	
 }
 
 #containersPanel_header {
@@ -237,7 +241,7 @@ select {
 
 #VoyageSearchBoxId input,#DocumentsVoyageSearchBoxInId input {
 	font-size: 11px !important;	
-	width: 300px !important;
+	width: 97% !important;
 	margin: 0 0 2px 0;
 	box-shadow: 0 0 0 0;
 	border-radius: 3px 3px 3px 3px;
@@ -293,6 +297,7 @@ a.olive-color:hover {
 	border-bottom: 1px solid olive;	
 }
 
+
 .small-panel {
 	display: inline-block;
 	float: left;
@@ -315,7 +320,7 @@ a.olive-color:hover {
 }
 
 .docInfoPanel,.articleInfoPanel {
-	min-width: 683px;
+	/*min-width: 683px;*/
 }
 
 .borderless {
@@ -473,7 +478,7 @@ a.olive-color:hover {
 }
 
 #inspection-splitter {
-	width: 658px;
+	width: 100%;
 }
 
 #inspection-splitter  td:nth-child(odd) {
@@ -504,8 +509,8 @@ a.olive-color:hover {
 }
 
 .inspection {
-	min-width: 320px !important;
-	max-width: 353px !important;
+	min-width: 250px !important;
+	/*max-width: 353px !important;*/
 	overflow: hidden;	
 }
 
@@ -548,3 +553,21 @@ a.olive-color:hover {
 .customPanelButton {
 	font-size: 11px !important;
 }
+
+.containersLayoutTable {
+	width : 100%;
+}
+
+.container-list {
+	width : 333px;
+}
+
+.expended-col {
+	width: 32px;
+	padding : 0 !important;	
+}
+
+.expended-col span {
+	margin: 4px 0 0 7px !important;
+}
+	

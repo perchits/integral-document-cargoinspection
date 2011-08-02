@@ -13,7 +13,9 @@
 				<ui:insert name="dialogBody">
 				</ui:insert>
 				<f:facet name="footer">
-					<p:commandButton action="#{bean[saveObject]}" value="OK"
+					<p:commandButton
+						process="#{(process == null) ? '@form' : process}" 
+						action="#{bean[saveObject]}" value="OK"
 						update="#{gridId},growl,#{update}"
 						oncomplete="handleOKRequest(args,#{gridId}Var,'#{gridId}Id')" />
 					<p:commandButton type="reset" value="Отмена" update="growl"
