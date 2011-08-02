@@ -7,25 +7,30 @@
 	xmlns:itg="http://integral-info.ru/jsf">
 
 	<h:form enctype="multipart/form-data" prependId="false">
-		<p:growl id="mainMessages" autoUpdate="true" showDetail="true" />
-		<t:inputFileUpload value="#{testView.uploadedFile}" />
-		<h:commandButton value="upload" action="#{testView.handleFileUpload}" />
-		<p:messages />
+<!-- 		<p:growl id="mainMessages" autoUpdate="true" showDetail="true" /> -->
+
+		<p:fileUpload
+			fileUploadListener="#{testView.uploadFileNew}"
+			update="stickerPanelId,growl" description="Only xml" />
+
+<!-- 		<t:inputFileUpload value="#{testView.uploadedFile}" /> -->
+<!-- 		<h:commandButton value="upload" action="#{testView.handleFileUpload}" /> -->
+<!-- 		<p:messages /> -->
 
 <!-- 		<p:commandButton value="Save" action="#{testView.save}" /> -->
-		<p:commandButton value="Go" action="#{testView.go}" />
+<!-- 		<p:commandButton value="Go" action="#{testView.go}" /> -->
 <!-- 		<p:fileUpload fileUploadListener="#{testView.handleFileUpload}" -->
 <!-- 			allowTypes="*.jpg;*.png;*.gif;" description="Images" /> -->
-		<t:htmlTag value="br"/>
-		<h:outputText value="#{itg:truncateString(testView.longText, 21, '...')}"/>
-		<t:htmlTag value="br"/>
-		<h:outputText value="#{itg:truncateString('12345', 4, '...')}"/>
-		<t:htmlTag value="br"/>
-		<h:outputText value="#{itg:truncateString('12345', 5, '...')}"/>
-		<t:htmlTag value="br"/>
-		<h:outputText value="#{itg:truncateString('1234', 3, '...')}"/>
-		<t:htmlTag value="br"/>
-		<h:outputText value="#{itg:truncateString('1234', 3, '')}"/>
+<!-- 		<t:htmlTag value="br"/> -->
+<!-- 		<h:outputText value="#{itg:truncateString(testView.longText, 21, '...')}"/> -->
+<!-- 		<t:htmlTag value="br"/> -->
+<!-- 		<h:outputText value="#{itg:truncateString('12345', 4, '...')}"/> -->
+<!-- 		<t:htmlTag value="br"/> -->
+<!-- 		<h:outputText value="#{itg:truncateString('12345', 5, '...')}"/> -->
+<!-- 		<t:htmlTag value="br"/> -->
+<!-- 		<h:outputText value="#{itg:truncateString('1234', 3, '...')}"/> -->
+<!-- 		<t:htmlTag value="br"/> -->
+<!-- 		<h:outputText value="#{itg:truncateString('1234', 3, '')}"/> -->
 	</h:form>
 
 

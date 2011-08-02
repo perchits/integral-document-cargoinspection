@@ -356,7 +356,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/apache/servlet-api.jar"/>
-	<classpathentry kind="lib" path="lib/commons-fileupload-1.2.2.jar">
+	<classpathentry kind="lib" path="lib/commons-fileupload-1.2.2.jar" sourcepath="lib/src/commons-fileupload-1.2.2-sources.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>

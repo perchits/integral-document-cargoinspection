@@ -64,4 +64,10 @@ public class TestView implements Serializable{
     public String getLongText() {
     	return "Однажды в студёную зимнюю пору я из лесу вышел";
     }
+
+	public void uploadFileNew(FileUploadEvent event) {
+		FacesMessage msg = new FacesMessage("Succesful", event.getFile()
+				.getFileName() + " is uploaded.");
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+	}
 }
