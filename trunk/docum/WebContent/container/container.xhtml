@@ -45,9 +45,8 @@
 						value="#{containerBean.selectedVoyage}"
 						completeMethod="#{containerBean.voyageAutocomplete}" var="voyage"
 						itemValue="#{voyage}" itemLabel="#{voyage.voyageInfo}"
-						forceSelection="true" converter="voyagePresentationConverter"
-						selectListener="#{containerBean.voyageSelect}"
-						onSelectUpdate="containers,infoPanel,containerTitle">
+						forceSelection="true" converter="voyagePresentationConverter">
+						<p:ajax event="itemSelect" update="containers,infoPanel,containerTitle"/>  
 					</p:autoComplete>
 				</h:form>
 

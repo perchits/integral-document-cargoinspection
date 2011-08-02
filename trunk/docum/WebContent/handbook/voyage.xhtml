@@ -19,7 +19,8 @@
 					</ui:include>
 					<p:dataTable id="voyages" var="voyage"
 						value="#{voyageBean.voyages}" selectionMode="single"
-						selection="#{voyageBean.voyagePresentation}" update="infoPanel">
+						selection="#{voyageBean.voyagePresentation}">
+						<p:ajax event="rowSelect" update="infoPanel" />  
 						<p:column sortBy="#{voyage.vessel}" filterBy="#{voyage.vessel}"
 							filterMatchMode="contains">
 							<f:facet name="header">

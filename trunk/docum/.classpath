@@ -366,12 +366,12 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="lib/primefaces-2.2.1.jar" sourcepath="lib/src/primefaces-2.2.1-sources.jar">
+	<classpathentry kind="lib" path="lib/tomahawk20-1.1.11.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="lib/tomahawk20-1.1.11.jar">
+	<classpathentry kind="lib" path="lib/primefaces-3.0.M2.jar" sourcepath="lib/src/primefaces-3.0.M2-sources.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
