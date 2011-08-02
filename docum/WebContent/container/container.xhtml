@@ -41,12 +41,12 @@
 					</h:panelGroup>
 				</f:facet>
 				<h:form prependId="false">
-					<p:autoComplete id="VoyageSearchBoxId"
+					<p:autoComplete id="VoyageSearchBoxId"						
 						value="#{containerBean.selectedVoyage}"
 						completeMethod="#{containerBean.voyageAutocomplete}" var="voyage"
 						itemValue="#{voyage}" itemLabel="#{voyage.voyageInfo}"
 						forceSelection="true" converter="voyagePresentationConverter">
-						<p:ajax event="itemSelect" update="containers,infoPanel,containerTitle"/>  
+						<p:ajax event="itemSelect" listener="#{containerBean.voyageSelect}" update="containers,infoPanel,containerTitle"/>  
 					</p:autoComplete>
 				</h:form>
 
@@ -55,7 +55,8 @@
 						styleClass="cellSmallText containers" id="containers"
 						var="container" value="#{containerBean.containers}"
 						selection="#{containerBean.container}"
-						rowStyleClass="#{container.color}" update="infoPanel">
+						rowStyleClass="#{container.color}">
+						<p:ajax event="rowSelect" update="infoPanel" />  
 
 						<p:column styleClass="c-number" sortBy="#{container.number}"
 							filterBy="#{container.number}" filterMatchMode="contains">
