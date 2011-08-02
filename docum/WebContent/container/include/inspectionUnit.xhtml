@@ -2,6 +2,7 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
 	xmlns:p="http://primefaces.prime.com.tr/ui">
 
 <h:panelGroup>
@@ -86,5 +87,20 @@
 	<h:outputText styleClass="olive-color" value="Инспектор: " />
 	<h:outputText value="#{inspectionbean.surveyor}" />
 </h:panelGroup>
+
+<!--
+<h:panelGroup id="stickerPanelId">
+	<h:form enctype="multipart/form-data" prependId="false">
+	<br />
+		<t:inputFileUpload value="#{inspectionbean.stickerImage}" />
+ 		<h:commandButton value="upload" action="#{inspectionbean.uploadStickerImage}">
+ 			<f:ajax render="stickerPanelId" listener="#{inspectionbean.uploadStickerImage1}" />
+ 		</h:commandButton>
+		<p:commandButton title="Загрузить" styleClass="inline-btn"
+			image="ui-icon-document" action="#{inspectionbean.uploadStickerImage}"
+			update="stickerPanelId,growl"/>
+	</h:form>
+</h:panelGroup>
+-->
 
 </html>

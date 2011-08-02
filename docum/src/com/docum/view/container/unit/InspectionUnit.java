@@ -1,6 +1,14 @@
 package com.docum.view.container.unit;
 
+import java.io.IOException;
 import java.io.Serializable;
+
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+import javax.faces.event.AjaxBehaviorEvent;
+
+import org.apache.commons.io.FilenameUtils;
+import org.apache.myfaces.custom.fileupload.UploadedFile;
 
 import com.docum.domain.po.common.Container;
 import com.docum.domain.po.common.Inspection;
@@ -19,7 +27,9 @@ public class InspectionUnit implements Serializable, DialogActionHandler {
 	private Inspection inspection; 
 	private InspectionDlgView inspectionDlg; 
 	private BaseService baseService;	
-		
+
+	private UploadedFile stickerImage;
+
 	public Inspection getInspection() {
 		return inspection;
 	}
@@ -93,5 +103,27 @@ public class InspectionUnit implements Serializable, DialogActionHandler {
 		}
 
 	}
+
+	public UploadedFile getStickerImage() {
+		return stickerImage;
+	}
+
+	public void setStickerImage(UploadedFile stickerImage) {
+		this.stickerImage = stickerImage;
+	}
+
+	public void uploadStickerImage() throws IOException {  
+        if(stickerImage == null) {
+        	return;
+        }
+		String fileName = FilenameUtils.getName(stickerImage.getName());
+        String contentType = stickerImage.getContentType();
+        byte[] bytes = stickerImage.getBytes();
+
+        // Now you can save bytes in DB (and also content type?)
+
+        FacesContext.getCurrentInstance().addMessage(null, 
+            new FacesMessage(String.format("File '%s' of type '%s' successfully uploaded!", fileName, contentType)));
+    }  	
 
 }
