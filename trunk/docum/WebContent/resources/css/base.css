@@ -222,6 +222,10 @@ select {
 	width: 60px !important;
 }
 
+#containers{
+	width : 310px;
+}
+
 #containersPanel {	
 	font-size: 11px !important;
 }
@@ -468,6 +472,10 @@ a.olive-color:hover {
 	font-weight: bold !important;	
 }
 
+#inspection-splitter {
+	width: 658px;
+}
+
 #inspection-splitter  td:nth-child(odd) {
 	border: 1px dotted #E4F0B6;
 	background: #FCFFF0;		
@@ -495,13 +503,19 @@ a.olive-color:hover {
 	margin: 0 0 0 5px;
 }
 
-.declared, .inspection {
-	min-width: 320px !important;*/
+.inspection {
+	min-width: 320px !important;
+	max-width: 353px !important;
 	overflow: hidden;	
 }
 
+.declared {
+ min-width: 220px !important;
+ max-width:  320px !important;
+}
+
 #inspectionPanel {
-	max-width : 450px;
+	max-width : 354px;
 }
 
 .container-cargo-panel {
