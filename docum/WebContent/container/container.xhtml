@@ -110,36 +110,32 @@
 								<h:outputText styleClass="olive-color" value="Статус: " />
 								<h:outputText value="#{containerBean.container.state}" />
 
-								<h:panelGroup
-									rendered="#{containerBean.container.invoiceInLine != null}">
+								<h:panelGroup>
 									<br />
 									<h:outputText styleClass="olive-color" value="Инвойс: " />
 									<h:outputText value="#{containerBean.container.invoiceInLine}" />
 								</h:panelGroup>
 
-								<h:panelGroup
-									rendered="#{containerBean.container.orderInLine != null}">
+								<h:panelGroup>
 									<br />
 									<h:outputText styleClass="olive-color" value="Заказ: " />
 									<h:outputText value="#{containerBean.container.orderInLine}" />
 								</h:panelGroup>
 
-								<h:panelGroup
-									rendered="#{containerBean.container.billOfLadingInLine != null}">
+								<h:panelGroup>
 									<br />
 									<h:outputText styleClass="olive-color" value="Коносамент: " />
 									<h:outputText
 										value="#{containerBean.container.billOfLadingInLine}" />
 								</h:panelGroup>
 
-								<h:panelGroup rendered="#{containerBean.container.city != null}">
+								<h:panelGroup>
 									<br />
 									<h:outputText styleClass="olive-color" value="Город: " />
 									<h:outputText value="#{containerBean.container.city}" />
 								</h:panelGroup>
 
-								<h:panelGroup
-									rendered="#{containerBean.container.loadingPort != null}">
+								<h:panelGroup>
 									<br />
 									<h:outputText styleClass="olive-color" value="Погрузка: " />
 									<h:outputText value="#{containerBean.container.loadingPort}" />
@@ -149,8 +145,7 @@
 									</h:outputText>
 								</h:panelGroup>
 
-								<h:panelGroup
-									rendered="#{containerBean.container.dischargePort != null}">
+								<h:panelGroup>
 									<br />
 									<h:outputText styleClass="olive-color" value="Выгрузка: " />
 									<h:outputText value="#{containerBean.container.dischargePort}" />
