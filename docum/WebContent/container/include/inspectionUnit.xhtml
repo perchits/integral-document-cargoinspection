@@ -89,20 +89,15 @@
 
 <h:panelGroup id="stickerPanelId">
 	<h:form enctype="multipart/form-data">
-		<br />
-		<p:fileUpload label="Стикер" uploadLabel="Загрузить" cancelLabel="Отменить"
+		<h:outputText styleClass="olive-color" value="Стикер: " />
+
+		<p:commandButton title="Удалить стикер" styleClass="inline-btn"
+			image="ui-icon-trash" action="#{inspectionbean.deleteStickerImage}"
+			update="stickerPanelId,growl"
+			rendered="#{inspectionbean.stickerImage != null}" />
+		<p:fileUpload style="width:20;height:20" mode="advanced" auto="true" label="Загрузить"
 			fileUploadListener="#{inspectionbean.uploadStickerImage}"
-			update="stickerPanelId,growl" multiple="false" mode="advanced" customUI="true"/>
-<!-- 		<t:inputFileUpload value="#{inspectionbean.stickerImage}" /> -->
-<!-- 		<h:commandButton value="upload" -->
-<!-- 			action="#{inspectionbean.uploadStickerImage}"> -->
-<!-- 			<f:ajax render="stickerPanelId" -->
-<!-- 				listener="#{inspectionbean.uploadStickerImage1}" /> -->
-<!-- 		</h:commandButton> -->
-<!-- 		<p:commandButton title="Загрузить" styleClass="inline-btn" -->
-<!-- 			image="ui-icon-document" -->
-<!-- 			action="#{inspectionbean.uploadStickerImage}" -->
-<!-- 			update="stickerPanelId,growl" /> -->
+			update="stickerPanelId,growl" customUI="true" />
 	</h:form>
 </h:panelGroup>
 
