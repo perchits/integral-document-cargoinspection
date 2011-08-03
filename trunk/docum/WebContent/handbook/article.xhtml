@@ -68,8 +68,7 @@
 								</p:column>
 								<p:column rendered="#{userBean.administrationPermited}">
 									<p:commandButton title="Вверх" image="ui-icon-arrow-1-n"
-										styleClass="inline-btn border-btn" update="categoriesGrid"
-										rendered="#{category.ord > 0}">
+										styleClass="inline-btn border-btn" update="categoriesGrid">
 										<f:setPropertyActionListener target="#{articleBean.ordUp}"
 											value="#{category}" />
 									</p:commandButton>
