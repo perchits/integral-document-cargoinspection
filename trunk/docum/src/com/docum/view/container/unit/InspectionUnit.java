@@ -42,11 +42,6 @@ public class InspectionUnit implements Serializable, DialogActionHandler {
 				inspection.getSurveyPlace().getRussianName() : "Место инспекции не указано";  
 	}
 	
-	public String getNormDocument() {
-		return inspection != null && inspection.getNormativeDocument() != null ? 
-				inspection.getNormativeDocument().getName() : "";  
-	}
-	
 	public String getSurveyor() {
 		return inspection != null && inspection.getSurveyor() != null ? 
 				inspection.getSurveyor().getName() : "";  
@@ -109,20 +104,6 @@ public class InspectionUnit implements Serializable, DialogActionHandler {
 		this.stickerImage = stickerImage;
 	}
 	
-//	public void uploadStickerImage() throws IOException {  
-//        if(stickerImage == null) {
-//        	return;
-//        }
-//		String fileName = FilenameUtils.getName(stickerImage.getName());
-//        String contentType = stickerImage.getContentType();
-//        byte[] bytes = stickerImage.getBytes();
-//
-//        // Now you can save bytes in DB (and also content type?)
-//
-//        FacesContext.getCurrentInstance().addMessage(null, 
-//            new FacesMessage(String.format("File '%s' of type '%s' successfully uploaded!", fileName, contentType)));
-//    }  	
-
 	public void uploadStickerImage(FileUploadEvent event) {
 		stickerImage = event.getFile().getFileName();
 		FacesMessage msg = new FacesMessage("Succesful", stickerImage + " is uploaded.");

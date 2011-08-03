@@ -1,9 +1,6 @@
 package com.docum.domain.po.common;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
-import java.util.ListIterator;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -11,7 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OrderColumn;
+import javax.persistence.OneToOne;
 
 import com.docum.domain.po.IdentifiedEntity;
 import com.docum.util.EqualsHelper;
@@ -33,10 +30,9 @@ public class Cargo extends IdentifiedEntity {
 	@OneToMany(mappedBy="cargo", cascade=CascadeType.ALL, orphanRemoval=true, fetch=FetchType.EAGER)
 	private Set<CargoPackage> cargoPackages = new HashSet<CargoPackage>();
 
-	@OneToMany(mappedBy = "cargo", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-	@OrderColumn(name="ord")
-	private List<CargoDefectGroup> defectGroups = new ArrayList<CargoDefectGroup>();
-	
+	@OneToOne(mappedBy="cargo", cascade = CascadeType.ALL, orphanRemoval = true)
+	private CargoInspectionInfo inspectionInfo;
+
 	@ManyToOne(optional = false)
 	private Supplier supplier;
 
@@ -49,7 +45,7 @@ public class Cargo extends IdentifiedEntity {
 
 	public Cargo(CargoCondition condition) {
 		this();
-		this.condition = condition;
+		setCondition(condition);
 	}
 
 	public Cargo(Article article, Supplier supplier, CargoCondition condition) {
@@ -71,7 +67,7 @@ public class Cargo extends IdentifiedEntity {
 			this.supplier = cargo.supplier;
 			this.condition = cargo.condition;
 			this.cargoPackages = cargo.cargoPackages;
-			this.defectGroups = cargo.defectGroups;
+			this.inspectionInfo = cargo.inspectionInfo;
 		}
 	}
 
@@ -94,8 +90,21 @@ public class Cargo extends IdentifiedEntity {
 		return condition;
 	}
 
+	public static <T> boolean checkEquality(final T first, final T second) {
+		if(first != null) {
+			return first.equals(second);
+		} else if(second != null) {
+			return second.equals(first);
+		} else {
+			return false;
+		}
+	}
 	public void setCondition(CargoCondition condition) {
-		this.condition = condition;
+		if(!checkEquality(this.condition, condition)) {
+			inspectionInfo = (condition == null || !condition.isSurveyable()) ? null
+					: new CargoInspectionInfo(this);
+			this.condition = condition;
+		}
 	}
 
 	public Supplier getSupplier() {
@@ -116,14 +125,8 @@ public class Cargo extends IdentifiedEntity {
 				articleCategory.equals(this.articleCategory)) {
 			return;
 		}
-		if(condition.hasDefects()) {
-			defectGroups.clear();
-			//Получаем все категории, начиная с этой и ниже, и генерим по ним дефекты.
-			ListIterator<ArticleCategory> it =
-				article.getCategories().listIterator(articleCategory.getOrd());
-			while(it.hasNext()) {
-				defectGroups.add(new CargoDefectGroup(this, it.next(), defectGroups.size()));
-			}
+		if(condition.isSurveyable()) {
+			inspectionInfo.resetArticleCategory(articleCategory);
 		}
 		this.articleCategory = articleCategory;
 	}
@@ -171,27 +174,14 @@ public class Cargo extends IdentifiedEntity {
 		}
 	}
 	
-	public List<CargoDefectGroup> getDefectGroups() {
-		return defectGroups;
+	public CargoInspectionInfo getInspectionInfo() {
+		return inspectionInfo;
 	}
 
-	public void setDefectGroups(List<CargoDefectGroup> defectGroups) {
-		this.defectGroups = defectGroups;
+	public void setInspectionInfo(CargoInspectionInfo inspectionInfo) {
+		this.inspectionInfo = inspectionInfo;
 	}
 
-	public void addDefectGroup(CargoDefectGroup defectGroup){
-		if(defectGroup != null) {
-			defectGroups.add(defectGroup);
-			defectGroup.setCargo(this);
-		}
-	}
-
-	public void removeDefectGroup(CargoDefectGroup defectGroup){
-		if(defectGroup != null && defectGroups.remove(defectGroup)) {
-			defectGroup.setCargo(null);
-		}
-	}
-	
 	public boolean equals(Object obj) {
 		if (obj == this) {
 			return true;

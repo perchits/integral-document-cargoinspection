@@ -35,7 +35,7 @@ public class ActualCargoCondition extends CargoCondition {
 		this.container = container;
 	}
 
-	public boolean hasDefects() {
+	public boolean isSurveyable() {
 		return true;
 	}
 	

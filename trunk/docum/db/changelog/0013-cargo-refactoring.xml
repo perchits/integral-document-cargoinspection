@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+	<changeSet author="pepper" id="0013-cargo-refactoring">
+
+		<dropIndex indexName="cargodefectgroup_cargo_fk_idx" tableName="cargodefectgroup" />
+
+		<dropIndex indexName="inspection_normativedocument_fk_idx" tableName="inspection" />
+
+		<dropForeignKeyConstraint constraintName="cargodefectgroup_cargo_fk"
+			baseTableName="cargodefectgroup"/>
+
+		<dropForeignKeyConstraint constraintName="inspection_normativedocument_fk"
+			baseTableName="inspection"/>
+		
+		<renameColumn tableName="cargodefectgroup" oldColumnName="cargo_id"
+			newColumnName="inspectioninfo_id"/>
+
+		<createTable tableName="cargoinspectioninfo">
+			<column name="id" type="bigserial" autoIncrement="true">
+				<constraints primaryKeyName="cargoinspectioninfo_pkey"
+					primaryKey="true" nullable="false" />
+			</column>
+			<column name="shippingmarkurl" type="VARCHAR(255)"/>
+			<column name="shippingmarkurleng" type="VARCHAR(255)"/>
+			<column name="stickerurl" type="VARCHAR(255)"/>
+			<column name="stickerurleng" type="VARCHAR(255)"/>
+			<column name="cargo_id" type="BIGINT">
+				<constraints nullable="false"/>
+			</column>
+			<column name="normativedocument_id" type="BIGINT"/>
+		</createTable>
+
+		<dropColumn tableName="inspection" columnName="a4stickerurl"/>
+		<dropColumn tableName="inspection" columnName="shippingmarkurl"/>
+		<dropColumn tableName="inspection" columnName="normativedocument_id"/>
+		<renameColumn tableName="inspection" oldColumnName="packagesate" newColumnName="packagestate"/>
+		<renameColumn tableName="inspection" oldColumnName="packagesateeng" newColumnName="packagestateeng"/>
+
+
+		<addNotNullConstraint tableName="cargodefectgroup" columnName="articlecategory_id"/>
+
+		<addForeignKeyConstraint constraintName="cargoinspectioninfo_cargo_fk"
+			baseTableName="cargoinspectioninfo" baseColumnNames="cargo_id"
+			referencedTableName="cargo" referencedColumnNames="id"/>
+		
+		<addForeignKeyConstraint constraintName="cargodefectgroup_inspectioninfo_fk"
+			baseTableName="cargodefectgroup" baseColumnNames="inspectioninfo_id"
+			referencedTableName="cargoinspectioninfo" referencedColumnNames="id" />
+
+		<addForeignKeyConstraint constraintName="cargoinspectioninfo_normativedocument_fk"
+			baseTableName="cargoinspectioninfo" baseColumnNames="normativedocument_id"
+			referencedTableName="normativedocument" referencedColumnNames="id"/>
+
+		<createIndex tableName="cargoinspectioninfo" indexName="cargoinspectioninfo_cargo_fk_idx">
+			<column name="cargo_id"/>
+		</createIndex>
+
+		<createIndex tableName="cargodefectgroup" indexName="cargodefectgroup_inspectioninfo_fk_idx">
+			<column name="inspectioninfo_id"/>
+		</createIndex>
+
+		<createIndex tableName="cargoinspectioninfo"
+				indexName="cargoinspectioninfo_normativedocument_fk_idx">
+			<column name="normativedocument_id"/>
+		</createIndex>
+
+	</changeSet>
+</databaseChangeLog>
