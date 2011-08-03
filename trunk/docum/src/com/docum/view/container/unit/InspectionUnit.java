@@ -5,7 +5,6 @@ import java.io.Serializable;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
-import org.apache.myfaces.custom.fileupload.UploadedFile;
 import org.primefaces.event.FileUploadEvent;
 
 import com.docum.domain.po.common.Container;
@@ -26,7 +25,7 @@ public class InspectionUnit implements Serializable, DialogActionHandler {
 	private InspectionDlgView inspectionDlg; 
 	private BaseService baseService;	
 
-	private UploadedFile stickerImage;
+	private String stickerImage;
 
 	public Inspection getInspection() {
 		return inspection;
@@ -102,11 +101,11 @@ public class InspectionUnit implements Serializable, DialogActionHandler {
 
 	}
 
-	public UploadedFile getStickerImage() {
+	public String getStickerImage() {
 		return stickerImage;
 	}
 
-	public void setStickerImage(UploadedFile stickerImage) {
+	public void setStickerImage(String stickerImage) {
 		this.stickerImage = stickerImage;
 	}
 	
@@ -125,8 +124,8 @@ public class InspectionUnit implements Serializable, DialogActionHandler {
 //    }  	
 
 	public void uploadStickerImage(FileUploadEvent event) {
-		FacesMessage msg = new FacesMessage("Succesful", event.getFile()
-				.getFileName() + " is uploaded.");
+		stickerImage = event.getFile().getFileName();
+		FacesMessage msg = new FacesMessage("Succesful", stickerImage + " is uploaded.");
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 
