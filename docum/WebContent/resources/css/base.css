@@ -186,6 +186,10 @@ select {
 	margin: 0 !important;
 }
 
+.ui-datatable tr {
+	border-color : #B1A635 !important;	
+}
+
 .ui-selected {
 	background: #ebfb83
 		url("#{resource['primefaces-olive:images/ui-bg_glass_75_ebfb83_1x400.png']}")
@@ -570,4 +574,31 @@ a.olive-color:hover {
 .expended-col span {
 	margin: 4px 0 0 7px !important;
 }
-	
+
+.ui-expanded-row-content td, .ui-expanded-row-content tr {
+	background : white !important;
+	cursor: auto;		
+}
+
+.ui-expanded-row-content div {
+	border : 0 !important;
+	padding : 0 !important;
+}
+
+.ui-expanded-row-content ul {
+	padding : 4px 3px 6px 16px !important;
+	margin: 0 !important;
+}
+
+.ui-fileupload div {
+	width : 70px !important;
+	height: 20px !important;
+}
+
+.ui-fileupload-browser {
+	line-height: 19px !important;	 
+}
+
+.ui-fileupload-browser div {
+	text-align: center !important;
+}
