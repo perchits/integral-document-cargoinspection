@@ -222,6 +222,16 @@ select {
 	/*min-width: 600px;*/
 }
 
+.infoLayoutTable ul {
+	margin: 3px 20px;
+    padding: 0;
+}	
+
+.infoLayoutTable ul li{	
+    padding: 2px 0;
+}	
+
+
 .cellSmallText td {
 	font-size: 11px;
 }
@@ -495,7 +505,7 @@ a.olive-color:hover {
 	padding : 2px 4px 4px 3px;
 }
 
-.cargo-header {
+.cargo-header, .white-dotted-header {
 	padding : 3px 0 3px 3px;
 	display: block;		
 	border-top: 1px solid #E4F0B6;
@@ -602,3 +612,29 @@ a.olive-color:hover {
 .ui-fileupload-browser div {
 	text-align: center !important;
 }
+
+.doc-table-left, .doc-table-right{	
+	border: 1px solid #E0E8BE;
+	background: white;
+}
+
+.doc-table-left {
+	width : 30%;
+	padding: 0 5px;
+	min-width: 200px; 
+}
+
+.panel-dotted {
+	background: #FCFFF0;
+    border: 1px dotted #E4F0B6;
+}
+
+.white-dotted-header {
+	background: white;	
+	border-color: #CCD69A;
+}
+
+.space {
+	margin: 3px 0 3px 0 !important;
+}
+	

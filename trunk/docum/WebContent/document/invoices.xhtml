@@ -4,19 +4,22 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.prime.com.tr/ui">
 
- <p:panel id="invoicesMainPanel" header="Инвойсы" toggleable="true" collapsed="false" 
- 		toggleSpeed="300" styleClass="mainBackground">
-	<h:panelGrid columns="2" styleClass="invoicesLayoutTable"
+<p:panel id="invoicesMainPanel" header="Инвойсы" toggleable="true"
+	collapsed="false" toggleSpeed="300" styleClass="mainBackground space">
+	<h:panelGrid columns="2" styleClass="doc-table"
+		columnClasses="doc-table-left,doc-table-right"
 		id="invoicesLayoutTable">
-		<p:panel id="invoicesPanel"	styleClass="small-panel">
+		<h:panelGroup id="invoicesPanel">
 			<ui:include src="/WEB-INF/includes/baseCrudToolBar.xhtml">
 				<ui:param name="bean" value="#{invoiceBean}" />
 				<ui:param name="gridId" value="invoices" />
+				<ui:param name="hideTitle" value="true" />
 			</ui:include>
-			<p:panel styleClass="small-panel" style="border: none;">
+
 			<p:dataTable id="invoices" var="invoice"
 				value="#{invoiceBean.allObjects}" selectionMode="single"
-				selection="#{invoiceBean.invoice}" update="invoicesInfoPanel" >
+				emptyMessage="Пусто" selection="#{invoiceBean.invoice}">
+				<p:ajax event="rowSelect" update="invoicesInfoPanel" process="invoices" />
 				<p:column sortBy="#{invoice.number}">
 					<f:facet name="header">
 					Номер инвойса 
@@ -24,56 +27,58 @@
 					<h:outputText value="#{invoice.number}" />
 				</p:column>
 			</p:dataTable>
-			</p:panel>
-		</p:panel>
-		<p:panel id="invoicesInfoPanel" styleClass="docInfoPanel">
+
+		</h:panelGroup>
+		<p:panel id="invoicesInfoPanel" styleClass="borderless">
 			<f:facet name="header">
 				<h:outputText value="#{invoiceBean.invoice.number}" />
 			</f:facet>
 			<h:panelGrid columns="3" styleClass="infoLayoutTable">
-				<p:panel>
-				<p:panel styleClass="documentPartialDetailPanel borderless">
-					Контейнеры
+				<p:panel
+					styleClass="documentPartialDetailPanel borderless panel-dotted">
+					<h:outputText value="Контейнеры" styleClass="white-dotted-header" />
 					<ul>
-					<ui:repeat value="#{invoiceBean.containers}" var="container">
-						<li class="listContainersInDoc">
-							<p:commandLink styleClass="olive-color" value="#{container.number}" 
-										   action="#{invoiceBean.goToContainer}">
-								<f:setPropertyActionListener 
-									target="#{invoiceBean.selectedContainer}"
-									value="#{container}" 
-								/> 
-							</p:commandLink> 
-						</li>
-					</ui:repeat>
+						<ui:repeat value="#{invoiceBean.containers}" var="container">
+							<li class="listContainersInDoc"><p:commandLink
+									styleClass="olive-color" value="#{container.number}"
+									action="#{invoiceBean.goToContainer}">
+									<f:setPropertyActionListener
+										target="#{invoiceBean.selectedContainer}" value="#{container}" />
+								</p:commandLink>
+							</li>
+						</ui:repeat>
+					</ul>
+					<div class="documentContainersSummary">
+						<h:outputText styleClass="olive-color" value="Всего, шт: " />
+						<h:outputText value="#{invoiceBean.containersAmount}" />
+					</div>
+				</p:panel>
+				<p:panel
+					styleClass="documentPartialDetailPanel borderless panel-dotted">
+					<h:outputText value="Заказы" styleClass="white-dotted-header" />
+					<ul>
+						<ui:repeat value="#{invoiceBean.purchaseOrders}"
+							var="purchaseOrder">
+							<li><h:outputText styleClass="olive-color"
+									value="#{purchaseOrder.number}" />
+							</li>
+						</ui:repeat>
 					</ul>
 				</p:panel>
-				<div class="documentContainersSummary">
-					<h:outputText styleClass="olive-color" value="Всего, шт: " />
-					<h:outputText value="#{invoiceBean.containersAmount}"/>
-				</div>
-				</p:panel>
-				<p:panel styleClass="documentPartialDetailPanel">
-					Заказы
+				<p:panel
+					styleClass="documentPartialDetailPanel borderless panel-dotted">
+					<h:outputText value="Коносаменты" styleClass="white-dotted-header" />
 					<ul>
-					<ui:repeat value="#{invoiceBean.purchaseOrders}" var="purchaseOrder">
-						<li><h:outputText styleClass="olive-color" value="#{purchaseOrder.number}" /> 
-						</li>
-					</ui:repeat>
-					</ul>
-				</p:panel>
-				<p:panel styleClass="documentPartialDetailPanel">
-					Коносаменты
-					<ul>
-					<ui:repeat value="#{invoiceBean.billOfLadings}" var="billOfLading">
-						<li><h:outputText styleClass="olive-color" value="#{billOfLading.number}" /> 
-						</li>
-					</ui:repeat>
+						<ui:repeat value="#{invoiceBean.billOfLadings}" var="billOfLading">
+							<li><h:outputText styleClass="olive-color"
+									value="#{billOfLading.number}" />
+							</li>
+						</ui:repeat>
 					</ul>
 				</p:panel>
 			</h:panelGrid>
 		</p:panel>
 	</h:panelGrid>
-</p:panel>	
+</p:panel>
 
 </html>

@@ -9,15 +9,17 @@
 	<ui:define name="content">
 		<h:form prependId="false">
 			<p:panel id="selectVoyagePanel" header="Выберите судозаход" 
-				toggleable="false" styleClass="mainBackground" style="height: 50px; text-align: left;">
+				toggleable="false" styleClass="mainBackground space" style="height: 50px; text-align: left;">
  				<p:autoComplete id="DocumentsVoyageSearchBoxInId"
 					value="#{documentBean.selectedVoyage}"
 					completeMethod="#{documentBean.voyageAutocomplete}" var="voyage"
 					itemValue="#{voyage}" itemLabel="#{voyage.voyageInfo}"
-					forceSelection="true" converter="voyagePresentationConverter"
-					selectListener="#{documentBean.voyageSelect}"
-					onSelectUpdate="invoices, invoicesInfoPanel, orders, ordersInfoPanel, blsGrid, billOfLadingInfoPanel">
+					forceSelection="true" converter="voyagePresentationConverter">					
+					<p:ajax event="itemSelect" 
+					listener="#{documentBean.voyageSelect}" 
+					update="invoices, invoicesInfoPanel, orders, ordersInfoPanel, blsGrid, billOfLadingInfoPanel"/>					
 				</p:autoComplete>
+				
  			</p:panel>	
 			<ui:include src="/document/invoices.xhtml"/>
 			<ui:include src="/document/orders.xhtml"/>
