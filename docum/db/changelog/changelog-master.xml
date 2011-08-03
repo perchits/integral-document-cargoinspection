@@ -15,5 +15,6 @@
   <include file="0010-inspection-moveseal.xml"/>
   <include file="0011-add-surveyor.xml"/>
   <include file="0012-inspection-refactor.xml"/>    
+  <include file="0013-cargo-refactoring.xml"/>    
   
 </databaseChangeLog>

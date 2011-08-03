@@ -66,14 +66,14 @@ public class CargoPresentation implements Serializable {
 	}
 	
 	public Boolean getActual(){
-		return cargo.getCondition().hasDefects();
+		return cargo.getCondition().isSurveyable();
 	}
 
 	public List<CargoDefectGroupPresentation> getDefectGroups() {
 		if (cargo == null) {
 			return null;
 		}
-		Collection<CargoDefectGroup> cd = cargo.getDefectGroups();
+		Collection<CargoDefectGroup> cd = cargo.getInspectionInfo().getDefectGroups();
 		List<CargoDefectGroupPresentation> result = new ArrayList<CargoDefectGroupPresentation>(
 				cd.size());
 		AlgoUtil.transform(result, cd, new CargoDefectGroupTransformer());

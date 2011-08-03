@@ -33,13 +33,9 @@ public class Inspection extends IdentifiedEntity {
 	@Column(length = 512)
 	private String packageFormingEng;
 	@Column(length = 512)
-	private String packageSate;
+	private String packageState;
 	@Column(length = 512)
-	private String packageSateEng;
-	private String a4StickerUrl;
-	private String shippingMarkUrl;
-	@ManyToOne
-	private NormativeDocument normativeDocument;
+	private String packageStateEng;
 	private Double temperature;
 	private String packageToSurvey;
 	@Column(length = 512)
@@ -129,36 +125,12 @@ public class Inspection extends IdentifiedEntity {
 		this.packageForming = packageForming;
 	}
 
-	public String getPackageSate() {
-		return packageSate;
+	public String getPackageState() {
+		return packageState;
 	}
 
-	public void setPackageSate(String packageSate) {
-		this.packageSate = packageSate;
-	}
-
-	public String getA4StickerUrl() {
-		return a4StickerUrl;
-	}
-
-	public void setA4StickerUrl(String a4StickerUrl) {
-		this.a4StickerUrl = a4StickerUrl;
-	}
-
-	public String getShippingMarkUrl() {
-		return shippingMarkUrl;
-	}
-
-	public void setShippingMarkUrl(String shippingMarkUrl) {
-		this.shippingMarkUrl = shippingMarkUrl;
-	}
-
-	public NormativeDocument getNormativeDocument() {
-		return normativeDocument;
-	}
-
-	public void setNormativeDocument(NormativeDocument normativeDocument) {
-		this.normativeDocument = normativeDocument;
+	public void setPackageState(String packageSate) {
+		this.packageState = packageSate;
 	}
 
 	public Double getTemperature() {
@@ -209,12 +181,12 @@ public class Inspection extends IdentifiedEntity {
 		this.packageFormingEng = packageFormingEng;
 	}
 
-	public String getPackageSateEng() {
-		return packageSateEng;
+	public String getPackageStateEng() {
+		return packageStateEng;
 	}
 
-	public void setPackageSateEng(String packageSateEng) {
-		this.packageSateEng = packageSateEng;
+	public void setPackageStateEng(String packageSateEng) {
+		this.packageStateEng = packageSateEng;
 	}
 
 	public String getSurveyorConclusionEng() {

@@ -35,7 +35,7 @@ public class DeclaredCargoCondition extends CargoCondition {
 		this.container = container;
 	}
 
-	public boolean hasDefects() {
+	public boolean isSurveyable() {
 		return false;
 	}
 	

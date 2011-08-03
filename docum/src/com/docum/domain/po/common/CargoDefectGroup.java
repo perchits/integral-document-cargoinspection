@@ -18,7 +18,7 @@ public class CargoDefectGroup extends OrderedEntity {
 	private static final long serialVersionUID = -1289620501327722936L;
 
 	@ManyToOne(optional = false)
-	private Cargo cargo;
+	private CargoInspectionInfo inspectionInfo;
 
 	@ManyToOne(optional = false)
 	private ArticleCategory articleCategory;
@@ -30,24 +30,24 @@ public class CargoDefectGroup extends OrderedEntity {
 		super();
 	}
 
-	public CargoDefectGroup(Cargo cargo) {
+	public CargoDefectGroup(CargoInspectionInfo inspectionInfo) {
 		this();
-		this.cargo = cargo;
+		this.inspectionInfo = inspectionInfo;
 	}
 
-	public CargoDefectGroup(Cargo cargo, ArticleCategory articleCategory,
+	public CargoDefectGroup(CargoInspectionInfo inspectionInfo, ArticleCategory articleCategory,
 			int ord) {
-		this(cargo);
+		this(inspectionInfo);
 		setArticleCategory(articleCategory);
 		setOrd(ord);
 	}
 
-	public Cargo getCargo() {
-		return cargo;
+	public CargoInspectionInfo getInspectionInfo() {
+		return inspectionInfo;
 	}
 
-	public void setCargo(Cargo cargo) {
-		this.cargo = cargo;
+	public void setInspectionInfo(CargoInspectionInfo inspectionInfo) {
+		this.inspectionInfo = inspectionInfo;
 	}
 
 	public ArticleCategory getArticleCategory() {

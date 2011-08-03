@@ -37,7 +37,7 @@ public abstract class CargoCondition extends IdentifiedEntity {
 
 	public abstract void setContainer(Container container);
 	
-	public abstract boolean hasDefects();
+	public abstract boolean isSurveyable();
 	
 	public Double getTemperature() {
 		return temperature;

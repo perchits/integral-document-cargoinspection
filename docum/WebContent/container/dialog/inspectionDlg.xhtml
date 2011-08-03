@@ -57,17 +57,6 @@
 				<p:inputTextarea value="#{bean.inspection.packageFormingEng}" />
 			</h:panelGrid>
 
-			<h:outputLabel for="surveyor" value="Норм. документы:" />
-			<h:selectOneMenu id="normdoc" label="Норм. документы"
-				styleClass="ui-inputfield ui-widget ui-state-default ui-corner-all"
-				value="#{bean.inspection.normativeDocument}">
-				<f:converter converterId="normativeDocumentConvertor" />
-				<f:selectItem itemLabel="Выберите документ..." itemValue=""
-					noSelectionOption="true" itemDisabled="true" />
-				<f:selectItems value="#{bean.documents}" var="doc"
-					itemLabel="#{doc.name}" />
-			</h:selectOneMenu>
-
 			<h:outputLabel for="temperatureId" value="Температура:" />
 			<p:inputText id="temperatureId"
 				value="#{bean.inspection.temperature}" />
@@ -76,11 +65,11 @@
 			<p:inputText id="packageToSurveyId"
 				value="#{bean.inspection.packageToSurvey}" />
 
-			<h:outputLabel for="packageSateId" value="Состояние упаковки:" />
+			<h:outputLabel for="packageStateId" value="Состояние упаковки:" />
 			<h:panelGrid columns="2" styleClass="inpection-input-table">
-				<p:inputTextarea id="packageSateId"
-					value="#{bean.inspection.packageSate}" />
-				<p:inputTextarea value="#{bean.inspection.packageSateEng}" />
+				<p:inputTextarea id="packageStateId"
+					value="#{bean.inspection.packageState}" />
+				<p:inputTextarea value="#{bean.inspection.packageStateEng}" />
 			</h:panelGrid>
 
 			<h:outputLabel for="surveyorConclusionId" value="Заключение:" />
