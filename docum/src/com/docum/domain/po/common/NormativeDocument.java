@@ -3,6 +3,7 @@ package com.docum.domain.po.common;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 
 import com.docum.domain.po.IdentifiedEntity;
 import com.docum.util.EqualsHelper;
@@ -14,6 +15,9 @@ public class NormativeDocument extends IdentifiedEntity implements Serializable 
 	private static final long serialVersionUID = -6892861541305786883L;
 	private String name;
 	private String englishName;
+	
+	@ManyToOne(optional=false)
+	private Article article;
 	
 
 	public NormativeDocument() {
@@ -38,6 +42,14 @@ public class NormativeDocument extends IdentifiedEntity implements Serializable 
 
 	public void setEnglishName(String englishName) {
 		this.englishName = englishName;
+	}
+	
+	public Article getArticle() {
+		return this.article;
+	}
+	
+	public void setArticle(Article article) {
+		this.article = article;
 	}
 	
 	public boolean equals(Object obj) {
