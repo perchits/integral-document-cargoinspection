@@ -5,12 +5,14 @@ import java.io.Serializable;
 import com.docum.domain.po.common.Container;
 import com.docum.service.ArticleService;
 import com.docum.service.BaseService;
+import com.docum.service.FileProcessingService;
 
 public class ContainerContext implements Serializable {
 	private static final long serialVersionUID = -8618919955694844921L;
 
 	private BaseService baseService;
 	private ArticleService articleService;
+	private FileProcessingService fileService;
 	private Container container;
 
 	public Container getContainer() {
@@ -37,4 +39,11 @@ public class ContainerContext implements Serializable {
 		this.baseService = baseService;
 	}
 
+	public FileProcessingService getFileService() {
+		return fileService;
+	}
+
+	public void setFileService(FileProcessingService fileService) {
+		this.fileService = fileService;
+	}
 }
