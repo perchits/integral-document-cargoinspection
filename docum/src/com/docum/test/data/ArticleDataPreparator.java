@@ -10,6 +10,7 @@ import com.docum.domain.po.common.ArticleCategory;
 import com.docum.domain.po.common.ArticleDefect;
 import com.docum.domain.po.common.ArticleFeature;
 import com.docum.domain.po.common.ArticleFeatureInstance;
+import com.docum.domain.po.common.NormativeDocument;
 
 public class ArticleDataPreparator {
 	private static String[][][] articleDefectNames = new String[][][]
@@ -31,6 +32,10 @@ public class ArticleDataPreparator {
 			{"Сильные механические повреждения", "Strong mechanical damages"}
 		}
 	};
+	private static String[][] normDocs = new String[][] {
+			{"Международный стандарт FFV-19", "UN/ЕСE FFV-19"},
+			{"Международный стандарт FFV-20", "UN/ЕСE FFV-20"}};
+
 	private static TestDataEntityCounter<String[][]> articleDefectCounter =
 		new TestDataEntityCounter<String[][]>(articleDefectNames);
 
@@ -57,6 +62,7 @@ public class ArticleDataPreparator {
 				{"Голден", "Golden"},
 				{"Ред Чиф", "Red Cheaf"}}));
 		article.getFeatures().add(prepareArticleFeature(persister, article, "Урожай", "Crop", null));
+		article.getDocuments().addAll(prepareNormDocs(article));
 		persister.persist(article);
 		return article;
 	}
@@ -152,6 +158,14 @@ public class ArticleDataPreparator {
 		}
 		//нельзя вызывать, так как еще не сохранена категория, сохранится автоматом
 		//persister.persist(result);
+		return result;
+	}
+	
+	private static List<NormativeDocument> prepareNormDocs(Article article) {
+		List<NormativeDocument> result = new ArrayList<NormativeDocument>();
+		for (String doc[] : normDocs) { 
+			result.add(new NormativeDocument(article, doc[0], doc[1]));
+		}
 		return result;
 	}
 }

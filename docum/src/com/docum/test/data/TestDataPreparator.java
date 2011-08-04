@@ -189,9 +189,6 @@ public class TestDataPreparator implements TestDataPersister {
 			{"Дмитриева А.", "Dmitrieva А."},
 			{"Петров Д.", "Petrov D."}};
 	
-	private String[][] normDocs = new String[][] {
-			{"Международный стандарт FFV-19", "UN/ЕСE FFV-19"},
-			{"Международный стандарт FFV-20", "UN/ЕСE FFV-20"}};
 	
 	
 	@SuppressWarnings(value="unused")
@@ -217,7 +214,6 @@ public class TestDataPreparator implements TestDataPersister {
 		List<SurveyPlace> surveyPlaces = prepareSurveyPlaces();
 		List<Inspection> inspections = prepareInspections(containers, surveyPlaces);
 		List<Surveyor> surveyors = prepareSurveyors();
-		List<NormativeDocument> normDocs = prepareNormDocs();
 	}
 	
 	private List<SecurityRole> prepareRoles() {
@@ -322,15 +318,6 @@ public class TestDataPreparator implements TestDataPersister {
 		List<Surveyor> result = new ArrayList<Surveyor>();
 		for (String surveyor[] : surveyorNames) { 
 			result.add(new Surveyor(surveyor[0],surveyor[1]));
-		}
-		persist(result);
-		return result;
-	}
-	
-	private List<NormativeDocument> prepareNormDocs() {
-		List<NormativeDocument> result = new ArrayList<NormativeDocument>();
-		for (String doc[] : normDocs) { 
-			result.add(new NormativeDocument(doc[0],doc[1]));
 		}
 		persist(result);
 		return result;
