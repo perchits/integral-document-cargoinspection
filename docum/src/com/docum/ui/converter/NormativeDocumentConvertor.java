@@ -1,4 +1,4 @@
-package com.docum.ui.converter;
+/*package com.docum.ui.converter;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -43,3 +43,4 @@ public class NormativeDocumentConvertor implements Converter {
 		}
 	}
 }
+*/
