@@ -24,7 +24,8 @@ public class NormativeDocument extends IdentifiedEntity implements Serializable 
 		super();
 	} 
 		
-	public NormativeDocument(String name, String englishName) {
+	public NormativeDocument(Article article, String name, String englishName) {
+		this.article = article;
 		this.name = name;
 		this.englishName = englishName;
 	}

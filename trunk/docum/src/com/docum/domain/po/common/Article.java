@@ -27,6 +27,8 @@ public class Article extends IdentifiedEntity {
 	private List<ArticleCategory> categories = new ArrayList<ArticleCategory>();
 	@OneToMany(mappedBy = "article", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	private Set<ArticleFeature> features = new HashSet<ArticleFeature>();
+	@OneToMany(mappedBy = "article", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+	private Set<NormativeDocument> documents = new HashSet<NormativeDocument>();
 
 
 	public Article() {
@@ -71,6 +73,14 @@ public class Article extends IdentifiedEntity {
 		this.categories = categories;		
 	}
 	
+	public Set<NormativeDocument> getDocuments() {
+		return documents;
+	}
+
+	public void setDocuments(Set<NormativeDocument> documents) {
+		this.documents = documents;
+	}
+
 	public void addCategory(ArticleCategory category){
 		category.setArticle(this);
 		OrderedEntityUtil.add(category, categories);
@@ -145,4 +155,5 @@ public class Article extends IdentifiedEntity {
 	public GenderEnum getEntityGender() {
 		return GenderEnum.MALE;
 	}
+
 }
