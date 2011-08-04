@@ -1,5 +1,6 @@
 package com.docum.view;
 
+import java.io.File;
 import java.io.IOException;
 
 import org.apache.log4j.Logger;
@@ -26,6 +27,6 @@ public class FileUploadUtil {
 			return null;
 		}
 		FacesUtil.message("Загрузка файла", fileName + " сохранен.");
-		return result;
+		return path + File.separator + result;
 	}
 }
