@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+	<changeSet author="andrey" id="0014-normativedocument-add-article_id-column">
+	
+	<addColumn tableName="normativedocument">
+			<column name="article_id" type="BIGINT" />
+	</addColumn>
+	
+	<addForeignKeyConstraint baseTableName="normativedocument"
+			constraintName="normativedocument_article_fk" baseColumnNames="article_id"
+			referencedTableName="article" referencedColumnNames="id" />
+	
+	<createIndex tableName="normativedocument"
+			indexName="normativedocument_article_fk_idx">
+			<column name="article_id" />
+	</createIndex>
+
+	</changeSet>
+</databaseChangeLog>
