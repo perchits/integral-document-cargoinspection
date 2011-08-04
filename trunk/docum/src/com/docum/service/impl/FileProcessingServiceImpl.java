@@ -72,6 +72,6 @@ public class FileProcessingServiceImpl implements FileProcessingService {
 		}
 		String absolutFileName = path + SEP + fileName;
 		saveFile(absolutFileName, istream);
-		return absolutFileName;
+		return fileName;
 	}
 }
