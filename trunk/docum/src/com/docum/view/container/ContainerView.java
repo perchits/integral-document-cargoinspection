@@ -20,6 +20,7 @@ import com.docum.domain.po.common.Voyage;
 import com.docum.service.ArticleService;
 import com.docum.service.BillOfLadingService;
 import com.docum.service.ContainerService;
+import com.docum.service.FileProcessingService;
 import com.docum.service.InvoiceService;
 import com.docum.service.PurchaseOrderService;
 import com.docum.util.AlgoUtil;
@@ -63,7 +64,9 @@ public class ContainerView extends BaseView implements Serializable,
 	private BillOfLadingService billService;
 	@Autowired
 	private ArticleService articleService;	
-	
+	@Autowired
+	private FileProcessingService fileService;	
+		
 	private CargoUnit actualCargoUnit = new CargoUnit(this);
 	private CargoUnit declaredCargoUnit = new CargoUnit(this);
 	
@@ -143,6 +146,7 @@ public class ContainerView extends BaseView implements Serializable,
 			ContainerContext context = new ContainerContext();
 			context.setContainer(container);
 			context.setBaseService(getBaseService());
+			context.setFileService(fileService);
 			inspectionUnit.setContext(context);
 		}
 		return inspectionUnit;

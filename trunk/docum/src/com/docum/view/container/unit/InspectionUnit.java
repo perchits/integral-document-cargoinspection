@@ -1,29 +1,33 @@
 package com.docum.view.container.unit;
 
+import java.io.IOException;
 import java.io.Serializable;
 
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
-
+import org.apache.log4j.Logger;
 import org.primefaces.event.FileUploadEvent;
 
 import com.docum.domain.po.common.Container;
 import com.docum.domain.po.common.Inspection;
 import com.docum.service.BaseService;
+import com.docum.service.FileProcessingService;
+import com.docum.util.FacesUtil;
 import com.docum.view.AbstractDlgView;
 import com.docum.view.DialogActionEnum;
 import com.docum.view.DialogActionHandler;
+import com.docum.view.FileUploadUtil;
 import com.docum.view.container.ContainerContext;
 import com.docum.view.container.ContainerHolder;
 import com.docum.view.container.InspectionDlgView;
 
 public class InspectionUnit implements Serializable, DialogActionHandler {
 	private static final long serialVersionUID = -3715245363081562382L;
+	private static final Logger logger = Logger.getLogger(InspectionUnit.class); 
 	private Container container;
 	private ContainerHolder containerHolder;
 	private Inspection inspection; 
 	private InspectionDlgView inspectionDlg; 
-	private BaseService baseService;	
+	private BaseService baseService;
+	private FileProcessingService fileService;
 
 	private String stickerImage;
 
@@ -35,6 +39,7 @@ public class InspectionUnit implements Serializable, DialogActionHandler {
 		container = context.getContainer();
 		inspection = container.getInspection();
 		baseService = context.getBaseService();
+		fileService = context.getFileService();
 	}
 	
 	public String getSurveyPlace() {
@@ -105,9 +110,7 @@ public class InspectionUnit implements Serializable, DialogActionHandler {
 	}
 	
 	public void uploadStickerImage(FileUploadEvent event) {
-		stickerImage = event.getFile().getFileName();
-		FacesMessage msg = new FacesMessage("Succesful", stickerImage + " is uploaded.");
-		FacesContext.getCurrentInstance().addMessage(null, msg);
+		stickerImage = FileUploadUtil.handleUploadedFile(fileService, container, event);
 	}
 
 }
