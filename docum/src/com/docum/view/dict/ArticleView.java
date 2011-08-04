@@ -17,6 +17,7 @@ import com.docum.domain.po.common.ArticleCategory;
 import com.docum.domain.po.common.ArticleDefect;
 import com.docum.domain.po.common.ArticleFeature;
 import com.docum.domain.po.common.ArticleFeatureInstance;
+import com.docum.domain.po.common.NormativeDocument;
 import com.docum.service.ArticleService;
 import com.docum.util.AlgoUtil;
 import com.docum.util.DocumLogger;
@@ -25,6 +26,8 @@ import com.docum.view.wrapper.ArticleCategoryTransformer;
 import com.docum.view.wrapper.ArticleFeaturePresentation;
 import com.docum.view.wrapper.ArticlePresentation;
 import com.docum.view.wrapper.ArticleTransformer;
+import com.docum.view.wrapper.NormativeDocumentPresentation;
+import com.docum.view.wrapper.NormativeDocumentTransformer;
 
 @Controller("articleBean")
 @Scope("session")
@@ -42,6 +45,7 @@ public class ArticleView extends BaseView {
 	private ArticleFeature feature = new ArticleFeature();
 	private ArticleFeatureInstance featureInstance = new ArticleFeatureInstance();
 	private ArticleDefect defect;
+	private NormativeDocument normativeDocument;
 	private boolean enableOrdChange = false;
 
 	public Article getArticle() {
@@ -68,6 +72,16 @@ public class ArticleView extends BaseView {
 	
 	public List<ArticleFeaturePresentation> getFeatures() {
 		return getWrappedArticle().getFeatures();
+	}
+	
+	public List<NormativeDocumentPresentation> getNormativeDocuments() {
+		Collection<NormativeDocument> normativeDocuments = getWrappedArticle().getNormativeDocuments();
+		List<NormativeDocumentPresentation> result = null;
+		if (normativeDocuments != null) {
+			result = new ArrayList<NormativeDocumentPresentation>(normativeDocuments.size());
+			AlgoUtil.transform(result, normativeDocuments, new NormativeDocumentTransformer());
+		}
+		return result;
 	}
 
 	public List<ArticleFeatureInstance> getInstances() {
@@ -130,6 +144,13 @@ public class ArticleView extends BaseView {
 		}
 		article = getBaseService().save(article);
 	}
+	
+	public void saveNormativeDocument() {
+		if (normativeDocument.getId() == null) {
+			article.addNormativeDocument(normativeDocument);
+		}
+		normativeDocument = getBaseService().save(normativeDocument);
+	}
 
 	public void saveFeatureInstance() {
 		if (featureInstance.getId() == null) {
@@ -145,9 +166,18 @@ public class ArticleView extends BaseView {
 		article.removeCategory(category);
 		article = getBaseService().save(article);
 	}
-	
+		
 	public void beforeDeleteCategory(ActionEvent actionEvent) {
 		validateAction(this.category, ArticleCategory.class);
+	}
+	
+	public void deleteNormativeDocument() {
+		article.removeNormativeDocument(normativeDocument);
+		article = getBaseService().save(article);
+	}
+	
+	public void beforeDeleteNormativeDocument() {
+		validateAction(this.normativeDocument, NormativeDocument.class);
 	}
 	
 	public void beforeDeleteFeature() {
@@ -189,6 +219,13 @@ public class ArticleView extends BaseView {
 			category = new ArticleCategory();
 		} 
 	}
+	
+	public void newNormativeDocument() {
+		if (validateAction(this.article, Article.class)) {
+			setTitle("Новый документ");
+			this.normativeDocument = new NormativeDocument();
+		}
+	}
 
 	public void newFeature() {
 		if (validateAction(this.article, Article.class)) {
@@ -222,6 +259,14 @@ public class ArticleView extends BaseView {
 	public void setCategory(ArticleCategory category) {
 		this.category = category;
 	}
+	
+	public NormativeDocument getNormativeDocument() {
+		return normativeDocument;
+	}
+	
+	public void setNormativeDocument(NormativeDocument normativeDocument) {
+		this.normativeDocument = normativeDocument;
+	}
 
 	public ArticleFeatureInstance getFeatureInstance() {
 		return featureInstance;
@@ -247,6 +292,10 @@ public class ArticleView extends BaseView {
 		this.category = category !=  null ? category.getArticleCategory() : null;
 	}
 	
+	public void setWrappedNormativeDocument(NormativeDocumentPresentation normativeDocument) {
+		this.normativeDocument = normativeDocument != null ? normativeDocument.getNormativeDocument() :null;
+	}
+	
 	public ArticleFeaturePresentation getWrappedFeature() {
 		return new ArticleFeaturePresentation(feature);
 	}
@@ -255,9 +304,19 @@ public class ArticleView extends BaseView {
 		return new ArticleCategoryPresentation(category);
 	}
 	
+	public NormativeDocumentPresentation getWrappedNormativeDocument() {
+		return new NormativeDocumentPresentation(normativeDocument);
+	}
+	
 	public void editCategory(ActionEvent actionEvent) {
 		if (validateAction(this.category, ArticleCategory.class)) {
 			setTitle("Правка: " + this.category.getName());
+		}
+	}
+	
+	public void editNormativeDocument(ActionEvent actionEvent) {
+		if (validateAction(this.normativeDocument, NormativeDocument.class)) {
+			setTitle("Правка: " + this.normativeDocument.getName());
 		}
 	}
 	
