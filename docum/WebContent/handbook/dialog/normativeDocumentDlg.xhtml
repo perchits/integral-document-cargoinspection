@@ -1,0 +1,35 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+<ui:composition template="/WEB-INF/includes/dialogLayout.xhtml">
+	<ui:param name="width" value="640" />
+	<ui:param name="saveObject" value="saveNormativeDocument" />
+	<ui:param name="deleteObject" value="deleteNormativeDocument" />
+	<ui:define name="dialogBody">
+	  <h:panelGrid columns="2">
+	   <p:panel>
+		<h:outputLabel for="normativeDocumentName" value="Название: *" />
+		<p:inputText value="#{bean.normativeDocument.name}" id="normativeDocumentName"
+			required="true" label="Название">
+		</p:inputText>
+
+		<h:outputLabel for="normativeDocumentEnglishName"
+			value="Название на англ. яз.: *" />
+		<p:inputText value="#{bean.normativeDocument.englishName}"
+			id="categoryEnglishName" required="true"
+			label="Название на англ. яз.">
+		</p:inputText>
+	   </p:panel>
+ 	  </h:panelGrid>	
+	</ui:define>
+	<ui:define name="deleteConfirmation">
+		<ui:include src="/WEB-INF/includes/deleteConfirmation.xhtml">
+			<ui:param name="message" value="Удалить документ '#{bean.normativeDocument.name}'?" />
+			<ui:param name="deleteObject" value="deleteNormativeDocument" />	
+		</ui:include>
+	</ui:define>
+</ui:composition>
+</html>
