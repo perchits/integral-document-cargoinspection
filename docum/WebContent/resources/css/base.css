@@ -457,8 +457,12 @@ a.olive-color:hover {
 	width: 20px !important;
 	height: 16px !important;
 	border: 0 !important;
-	background: white !important;
+	background: transparent !important;
 	vertical-align: text-bottom;	
+}
+
+.inline-btn:hover {
+	background-color: #E0E8BE !important;
 }
 
 .inline-form {	
@@ -600,17 +604,20 @@ a.olive-color:hover {
 	margin: 0 !important;
 }
 
-.ui-fileupload div {
-	width : 70px !important;
-	height: 20px !important;
+.inline-auto-upload .ui-fileupload div {	
+	width : 20px !important;
+	height: 16px !important;		
+	border : 0 !important;	
+	background: url("#{resource['primefaces-olive:images/ui-icons_81873a_256x240.png']}") transparent !important;
+	background-position: -207px -128px !important;	
 }
 
-.ui-fileupload-browser {
-	line-height: 19px !important;	 
+.inline-auto-upload .ui-fileupload-files {
+	display :none;
 }
 
-.ui-fileupload-browser div {
-	text-align: center !important;
+.inline-auto-upload .ui-fileupload div:hover {		
+	background-color: #E0E8BE !important;	
 }
 
 .doc-table-left, .doc-table-right{	
@@ -637,4 +644,14 @@ a.olive-color:hover {
 .space {
 	margin: 3px 0 3px 0 !important;
 }
+
+.inline-table {
+	border-collapse : collapse;	
+}
+
+.inline-table td {
+	padding: 0 !important;	
+	border: 0 !important;
+	font-size: 11px;
+}	
 	
