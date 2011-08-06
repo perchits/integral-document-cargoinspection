@@ -37,7 +37,7 @@ import com.docum.domain.po.common.Customer;
 import com.docum.domain.po.common.Inspection;
 import com.docum.domain.po.common.Invoice;
 import com.docum.domain.po.common.Measure;
-import com.docum.domain.po.common.NormativeDocument;
+//import com.docum.domain.po.common.NormativeDocument;
 import com.docum.domain.po.common.Port;
 import com.docum.domain.po.common.PurchaseOrder;
 import com.docum.domain.po.common.SecurityRole;
