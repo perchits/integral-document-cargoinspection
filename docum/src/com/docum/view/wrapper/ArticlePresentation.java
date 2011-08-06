@@ -57,11 +57,13 @@ public class ArticlePresentation implements Serializable {
 	}
 	
 	public List<NormativeDocument> getNormativeDocuments() {
-		if (this.article == null || this.article.getId() == null) {
-			return null;
-		} else {
-			return article.getNormativeDocuments();
-		}
+		return null;
+//TODO исправить несобираемый код
+//		if (this.article == null || this.article.getId() == null) {
+//			return null;
+//		} else {
+//			return article.getNormativeDocuments();
+//		}
 	}
 	
 	public String getName() {		

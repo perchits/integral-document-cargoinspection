@@ -147,7 +147,8 @@ public class ArticleView extends BaseView {
 	
 	public void saveNormativeDocument() {
 		if (normativeDocument.getId() == null) {
-			article.addNormativeDocument(normativeDocument);
+//TODO исправить некомпилируемый код
+//			article.addNormativeDocument(normativeDocument);
 		}
 		normativeDocument = getBaseService().save(normativeDocument);
 	}
@@ -172,7 +173,7 @@ public class ArticleView extends BaseView {
 	}
 	
 	public void deleteNormativeDocument() {
-		article.removeNormativeDocument(normativeDocument);
+//		article.removeNormativeDocument(normativeDocument);
 		article = getBaseService().save(article);
 	}
 	
