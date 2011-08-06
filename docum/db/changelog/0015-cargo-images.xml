@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+	<changeSet author="pepper" id="0015-cargo-images">
+	
+		<dropColumn tableName="cargoinspectioninfo" columnName="shippingmarkurl" />
+		<dropColumn tableName="cargoinspectioninfo" columnName="shippingmarkurleng" />
+		<dropColumn tableName="cargoinspectioninfo" columnName="stickerurl" />
+		<dropColumn tableName="cargoinspectioninfo" columnName="stickerurleng" />
+	
+		<addColumn tableName="cargoinspectioninfo">
+			<column name="shippingmark_id" type="BIGINT" />
+		</addColumn>
+	
+		<addColumn tableName="cargoinspectioninfo">
+			<column name="shippingmarkeng_id" type="BIGINT" />
+		</addColumn>
+	
+		<addColumn tableName="cargoinspectioninfo">
+			<column name="sticker_id" type="BIGINT" />
+		</addColumn>
+	
+		<addColumn tableName="cargoinspectioninfo">
+			<column name="stickereng_id" type="BIGINT" />
+		</addColumn>
+	
+		<addNotNullConstraint tableName="normativedocument" columnName="article_id"/>
+	
+		<createTable tableName="cargoinspectioninfo_fileurl">
+			<column name="cargoinspectioninfo_id" type="BIGINT">
+				<constraints nullable="false" />
+			</column>
+			<column name="ord" type="INTEGER">
+				<constraints nullable="false" />
+			</column>
+			<column name="images_id" type="BIGINT">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+	
+		<createTable tableName="fileurl">
+			<column name="id" type="bigserial" autoIncrement="true">
+				<constraints primaryKeyName="fileurl_pkey"
+					primaryKey="true" nullable="false" />
+			</column>
+			<column name="value" type="VARCHAR(512)">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+
+		<addForeignKeyConstraint constraintName="cargoinspectioninfo_fileurl__cargoinspectioninfo_fk"
+			baseTableName="cargoinspectioninfo_fileurl"	baseColumnNames="cargoinspectioninfo_id"
+			referencedTableName="cargoinspectioninfo" referencedColumnNames="id" />
+	
+		<addForeignKeyConstraint constraintName="cargoinspectioninfo_fileurl__images_fk"
+			baseTableName="cargoinspectioninfo_fileurl" baseColumnNames="images_id"
+			referencedTableName="fileurl" referencedColumnNames="id" />
+
+		<addForeignKeyConstraint constraintName="cargoinspectioninfo__shippingmark_fk"
+			baseTableName="cargoinspectioninfo" baseColumnNames="shippingmark_id"
+			referencedTableName="fileurl" referencedColumnNames="id" />
+	
+		<addForeignKeyConstraint constraintName="cargoinspectioninfo__shippingmarkeng_fk"
+			baseTableName="cargoinspectioninfo"	baseColumnNames="shippingmarkeng_id"
+			referencedTableName="fileurl" referencedColumnNames="id" />
+	
+		<addForeignKeyConstraint constraintName="cargoinspectioninfo__sticker_fk"
+			baseTableName="cargoinspectioninfo" baseColumnNames="sticker_id"
+			referencedTableName="fileurl" referencedColumnNames="id" />
+	
+		<addForeignKeyConstraint constraintName="cargoinspectioninfo__stickereng_fk"
+			baseTableName="cargoinspectioninfo" baseColumnNames="stickereng_id"
+			referencedTableName="fileurl" referencedColumnNames="id" />
+	
+		<createIndex indexName="cargoinspectioninfo_fileurl__cargoinspectioninfo_fk_idx"
+			tableName="cargoinspectioninfo_fileurl">
+			<column name="cargoinspectioninfo_id"/>
+		</createIndex>
+
+		<createIndex indexName="cargoinspectioninfo_fileurl__images_fk_idx"
+			tableName="cargoinspectioninfo_fileurl">
+			<column name="images_id"/>
+		</createIndex>
+
+		<createIndex indexName="cargoinspectioninfo__shippingmark_fk_idx"
+			tableName="cargoinspectioninfo">
+			<column name="shippingmark_id"/>
+		</createIndex>
+
+		<createIndex indexName="cargoinspectioninfo__shippingmarkeng_fk_idx"
+			tableName="cargoinspectioninfo">
+			<column name="shippingmarkeng_id"/>
+		</createIndex>
+
+		<createIndex indexName="cargoinspectioninfo__sticker_fk_idx"
+			tableName="cargoinspectioninfo">
+			<column name="sticker_id"/>
+		</createIndex>
+
+		<createIndex indexName="cargoinspectioninfo__stickereng_fk_idx"
+			tableName="cargoinspectioninfo">
+			<column name="stickereng_id"/>
+		</createIndex>
+
+	</changeSet>
+</databaseChangeLog>

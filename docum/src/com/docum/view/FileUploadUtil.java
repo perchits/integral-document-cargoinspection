@@ -16,7 +16,7 @@ public class FileUploadUtil {
 
 	public static String handleUploadedFile(FileProcessingService svc, Container container,
 			FileUploadEvent event) {
-		String path = String.format("%08d", container.getId()) + "-" + container.getNumber();
+		String path = makePath(container);
 		String fileName = event.getFile().getFileName();
 		String result = null;
 		try {
@@ -28,5 +28,9 @@ public class FileUploadUtil {
 		}
 		FacesUtil.message("Загрузка файла", fileName + " сохранен.");
 		return path + File.separator + result;
+	}
+	
+	public static String makePath(Container container) {
+		return String.format("%08d", container.getId()) + "-" + container.getNumber();
 	}
 }

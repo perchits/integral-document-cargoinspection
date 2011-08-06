@@ -58,7 +58,7 @@ public class ArticlePresentation implements Serializable {
 	
 	public List<NormativeDocument> getNormativeDocuments() {
 		return null;
-//TODO исправить несобираемый код
+//TODO РёСЃРїСЂР°РІРёС‚СЊ РЅРµРєРѕРјРїРёР»РёСЂСѓРµРјС‹Р№ РєРѕРґ
 //		if (this.article == null || this.article.getId() == null) {
 //			return null;
 //		} else {

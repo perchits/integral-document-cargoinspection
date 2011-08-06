@@ -28,10 +28,21 @@ public class CargoInspectionInfo extends IdentifiedEntity {
 	@ManyToOne
 	private NormativeDocument normativeDocument;
 
-	private String stickerUrl;
-	private String stickerUrlEng;
-	private String shippingMarkUrl;
-	private String shippingMarkUrlEng;
+	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+	private FileUrl sticker;
+	
+	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+	private FileUrl stickerEng;
+	
+	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+	private FileUrl shippingMark;
+
+	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+	private FileUrl shippingMarkEng;
+	
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+	@OrderColumn(name="ord")
+	private List<FileUrl> images = new ArrayList<FileUrl>();
 	
 	public CargoInspectionInfo() {
 	}
@@ -87,36 +98,67 @@ public class CargoInspectionInfo extends IdentifiedEntity {
 		this.normativeDocument = normativeDocument;
 	}
 
-	public String getStickerUrl() {
-		return stickerUrl;
+	public FileUrl getSticker() {
+		return sticker;
 	}
 
-	public void setStickerUrl(String stickerUrl) {
-		this.stickerUrl = stickerUrl;
+	public void setStickerUrl(FileUrl stickerUrl) {
+		this.sticker = stickerUrl;
 	}
 
-	public String getStickerUrlEng() {
-		return stickerUrlEng;
+	public FileUrl getStickerEng() {
+		return stickerEng;
 	}
 
-	public void setStickerUrlEng(String stickerUrlEng) {
-		this.stickerUrlEng = stickerUrlEng;
+	public void setStickerUrlEng(FileUrl stickerUrlEng) {
+		this.stickerEng = stickerUrlEng;
 	}
 
-	public String getShippingMarkUrl() {
-		return shippingMarkUrl;
+	public FileUrl getShippingMark() {
+		return shippingMark;
 	}
 
-	public void setShippingMarkUrl(String shippingMarkUrl) {
-		this.shippingMarkUrl = shippingMarkUrl;
+	public void setShippingMarkUrl(FileUrl shippingMarkUrl) {
+		this.shippingMark = shippingMarkUrl;
 	}
 	
-	public String getShippingMarkUrlEng() {
-		return shippingMarkUrlEng;
+	public FileUrl getShippingMarkEng() {
+		return shippingMarkEng;
 	}
 
-	public void setShippingMarkUrlEng(String shippingMarkUrlEng) {
-		this.shippingMarkUrlEng = shippingMarkUrlEng;
+	public void setShippingMarkUrlEng(FileUrl shippingMarkUrlEng) {
+		this.shippingMarkEng = shippingMarkUrlEng;
 	}
 
+	public List<FileUrl> getImages() {
+		return images;
+	}
+
+	public void setImages(List<FileUrl> images) {
+		this.images = images;
+	}
+	
+	public void addImage(FileUrl url) {
+		images.add(url);
+	}
+	
+	public void removeImage(FileUrl url) {
+		images.remove(url);
+	}
+	
+	public void moveImageUp(FileUrl url) {
+		int index = images.indexOf(url);
+		if(index > 0 && index < images.size()) {
+			images.remove(index);
+			images.add(index-1, url);
+		}
+	}
+
+	public void moveImageDown(FileUrl url) {
+		int index = images.indexOf(url);
+		if(index >= 0 && index < images.size()-1) {
+			images.remove(index);
+			images.add(index+1, url);
+		}
+	}
 }
