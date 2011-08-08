@@ -351,6 +351,16 @@
 			<ui:param name="deleteObject" value="removeDefect" />
 			<ui:param name="update" value="infoPanel" />
 		</ui:include>
+		
+		<!-- Картинки -->
+		<ui:include src="/WEB-INF/includes/deleteConfirmation.xhtml">
+			<ui:param name="message"
+				value="Удалить изображение?" />
+			<ui:param name="gridId" value="fileUrlId" />
+			<ui:param name="bean" value="#{containerBean.dlgCargoUnit}" />
+			<ui:param name="deleteObject" value="#{containerBean.dlgCargoUnit.removeFunctionName}" />
+			<ui:param name="update" value="infoPanel" />
+		</ui:include>
 
 	</ui:define>
 

@@ -1,16 +1,13 @@
 package com.docum.view.container.unit;
 
-import java.io.IOException;
 import java.io.Serializable;
 
-import org.apache.log4j.Logger;
 import org.primefaces.event.FileUploadEvent;
 
 import com.docum.domain.po.common.Container;
 import com.docum.domain.po.common.Inspection;
 import com.docum.service.BaseService;
 import com.docum.service.FileProcessingService;
-import com.docum.util.FacesUtil;
 import com.docum.view.AbstractDlgView;
 import com.docum.view.DialogActionEnum;
 import com.docum.view.DialogActionHandler;
@@ -21,7 +18,7 @@ import com.docum.view.container.InspectionDlgView;
 
 public class InspectionUnit implements Serializable, DialogActionHandler {
 	private static final long serialVersionUID = -3715245363081562382L;
-	private static final Logger logger = Logger.getLogger(InspectionUnit.class); 
+//	private static final Logger logger = Logger.getLogger(InspectionUnit.class); 
 	private Container container;
 	private ContainerHolder containerHolder;
 	private Inspection inspection; 
