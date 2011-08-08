@@ -17,6 +17,10 @@ public class FileUrl extends IdentifiedEntity {
 	public FileUrl() {
 		super();
 	}
+	
+	public FileUrl(String value) {
+		this.value = value;		
+	}
 
 	public String getValue() {
 		return value;

@@ -131,6 +131,7 @@ public class ContainerView extends BaseView implements Serializable,
 			ContainerContext context = new ContainerContext();
 			context.setArticleService(articleService);
 			context.setBaseService(getBaseService());
+			context.setFileService(fileService);
 			cargoUnit.setContext(context);
 			if (isActual) {
 				cargoUnit.setCargoCondition(container.getActualCondition());

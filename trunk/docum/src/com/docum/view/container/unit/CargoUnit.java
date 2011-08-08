@@ -5,14 +5,19 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.primefaces.event.FileUploadEvent;
+
 import com.docum.domain.po.common.Cargo;
 import com.docum.domain.po.common.CargoCondition;
+import com.docum.domain.po.common.FileUrl;
 import com.docum.service.ArticleService;
 import com.docum.service.BaseService;
+import com.docum.service.FileProcessingService;
 import com.docum.util.AlgoUtil;
 import com.docum.view.AbstractDlgView;
 import com.docum.view.DialogActionEnum;
 import com.docum.view.DialogActionHandler;
+import com.docum.view.FileUploadUtil;
 import com.docum.view.container.CargoDlgView;
 import com.docum.view.container.ContainerContext;
 import com.docum.view.container.ContainerHolder;
@@ -30,7 +35,9 @@ public class CargoUnit implements Serializable, DialogActionHandler {
 	private CargoFeatureUnit cargoFeatureUnit;
 	private CargoPackageUnit cargoPackageUnit;
 	private CargoCondition cargoCondition;
-	private CargoDefectUnit cargoDefectUnit;
+	private CargoDefectUnit cargoDefectUnit;	
+	private FileProcessingService fileService;
+	private String removeFunctionName;	
 
 	public CargoUnit(ContainerHolder containerHolder) {
 		this.containerHolder = containerHolder;
@@ -42,6 +49,7 @@ public class CargoUnit implements Serializable, DialogActionHandler {
 	public void setContext(ContainerContext context) {		
 		baseService = context.getBaseService();
 		articleService = context.getArticleService();
+		fileService = context.getFileService();
 	}
 	
 	public ContainerContext populateContext(){
@@ -113,7 +121,59 @@ public class CargoUnit implements Serializable, DialogActionHandler {
 			return null;
 		}
 	}
+	
+	public String getRemoveFunctionName() {
+		return removeFunctionName;
+	}
 
+	public void setRemoveFunctionName(String removeFunctionName) {
+		this.removeFunctionName = removeFunctionName;
+	}	
+
+	public void uploadSticker(FileUploadEvent event) {		
+		FileUrl sticker = new FileUrl(FileUploadUtil.handleUploadedFile(fileService, cargo.getCondition().getContainer(), event));
+		cargo.getInspectionInfo().setSticker(sticker);
+		containerHolder.saveContainer();
+	}
+	
+	public void removeSticker() {		
+		cargo.getInspectionInfo().setSticker(null);
+		containerHolder.saveContainer();
+	}	
+	
+	public void uploadStickerEng(FileUploadEvent event) {		
+		FileUrl sticker = new FileUrl(FileUploadUtil.handleUploadedFile(fileService, cargo.getCondition().getContainer(), event));
+		cargo.getInspectionInfo().setStickerEng(sticker);
+		containerHolder.saveContainer();
+	}
+	
+	public void removeStickerEng() {		
+		cargo.getInspectionInfo().setStickerEng(null);
+		containerHolder.saveContainer();
+	}
+
+	public void uploadShippingMark(FileUploadEvent event) {		
+		FileUrl shippingMark = new FileUrl(FileUploadUtil.handleUploadedFile(fileService, cargo.getCondition().getContainer(), event));
+		cargo.getInspectionInfo().setShippingMark(shippingMark);
+		containerHolder.saveContainer();
+	}
+	
+	public void removeShippingMark() {		
+		cargo.getInspectionInfo().setShippingMark(null);
+		containerHolder.saveContainer();
+	}
+	
+	public void uploadShippingMarkEng(FileUploadEvent event) {		
+		FileUrl shippingMark = new FileUrl(FileUploadUtil.handleUploadedFile(fileService, cargo.getCondition().getContainer(), event));
+		cargo.getInspectionInfo().setShippingMarkEng(shippingMark);
+		containerHolder.saveContainer();
+	}
+	
+	public void removeShippingMarkEng() {		
+		cargo.getInspectionInfo().setShippingMarkEng(null);
+		containerHolder.saveContainer();
+	}
+	
 	@Override
 	public void handleAction(AbstractDlgView dialog, DialogActionEnum action) {
 		if (dialog instanceof CargoDlgView) {

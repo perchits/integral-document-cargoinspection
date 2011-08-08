@@ -48,16 +48,66 @@
 			<h:outputText styleClass="olive-color" value="Поставщик: " />
 			<h:outputText value="#{wcargo.supplier}" />
 			<br />
+
 			<ui:include src="/container/include/featureUnit.xhtml">
 				<ui:param name="featurebean" value="#{cargobean.cargoFeatureUnit}" />
 			</ui:include>
-			
-			<h:panelGroup rendered="#{wcargo.actual}">	
-			<ui:include src="/container/include/defectUnit.xhtml">
-				<ui:param name="defectbean" value="#{cargobean.cargoDefectUnit}" />
-			</ui:include>
+
+
+			<h:panelGrid columns="2" rendered="#{wcargo.actual}"
+				styleClass="inline-table upload-table">
+				<p:outputPanel>
+					<ui:include src="/container/include/uploadbutton.xhtml">
+						<ui:param name="caption" value="Стикер рус.: " />
+						<ui:param name="hint" value="cтикер" />
+						<ui:param name="uploadListener" value="uploadSticker" />
+						<ui:param name="fileId" value="stickerId" />
+						<ui:param name="value" value="#{wcargo.sticker}" />
+						<ui:param name="removeListener" value="removeSticker" />
+					</ui:include>
+				</p:outputPanel>
+				<h:panelGroup>
+					<ui:include src="/container/include/uploadbutton.xhtml">
+						<ui:param name="caption" value=" англ.: " />
+						<ui:param name="hint" value="cтикер на английском языке" />
+						<ui:param name="uploadListener" value="uploadStickerEng" />
+						<ui:param name="fileId" value="stickerEngId" />
+						<ui:param name="value" value="#{wcargo.stickerEng}" />
+						<ui:param name="removeListener" value="removeStickerEng" />
+					</ui:include>
+				</h:panelGroup>
+			</h:panelGrid>
+
+			<h:panelGrid columns="2" rendered="#{wcargo.actual}"
+				styleClass="inline-table upload-table">
+				<p:outputPanel>
+					<ui:include src="/container/include/uploadbutton.xhtml">
+						<ui:param name="caption" value="Маркировка рус.: " />
+						<ui:param name="hint" value="маркировка" />
+						<ui:param name="uploadListener" value="uploadShippingMark" />
+						<ui:param name="fileId" value="shippingMarkId" />
+						<ui:param name="value" value="#{wcargo.shippingMark}" />
+						<ui:param name="removeListener" value="removeShippingMark" />
+					</ui:include>
+				</p:outputPanel>
+				<h:panelGroup>
+					<ui:include src="/container/include/uploadbutton.xhtml">
+						<ui:param name="caption" value=" англ.: " />
+						<ui:param name="hint" value="маркировка на английском языке" />
+						<ui:param name="uploadListener" value="uploadShippingMarkEng" />
+						<ui:param name="fileId" value="shippingMarkEngId" />
+						<ui:param name="value" value="#{wcargo.shippingMarkEng}" />
+						<ui:param name="removeListener" value="removeShippingMarkEng" />
+					</ui:include>
+				</h:panelGroup>
+			</h:panelGrid>
+
+			<h:panelGroup rendered="#{wcargo.actual}">
+				<ui:include src="/container/include/defectUnit.xhtml">
+					<ui:param name="defectbean" value="#{cargobean.cargoDefectUnit}" />
+				</ui:include>
 			</h:panelGroup>
-					
+
 			<ui:include src="/container/include/packageUnit.xhtml">
 				<ui:param name="packagebean" value="#{cargobean.cargoPackageUnit}" />
 			</ui:include>
