@@ -7,71 +7,50 @@
 <ui:composition template="/WEB-INF/includes/layout.xhtml">
 <ui:param name="selectedMenuItem" value="5" />
 	<ui:define name="content">
-		<h:form prependId="false">
-			 <p:panel id="reportsMainPanel" header="Отчеты" styleClass="mainBackground">
-				<h:panelGrid columns="2" styleClass="reportsLayoutTable"
-					id="reportsLayoutTable">
-					<p:panel id="reportsPanel"	styleClass="small-panel">
+		 <p:panel id="reportsMainPanel" styleClass="toggle-panel"
+		 	style="text-align:left; width: 640px; font-size: 11px !important;">
+		 	<f:facet name="header">
+		 		<h:outputText id="reportsVoyage" value="#{reportBean.reportsVoyage}" />
+		 		<h:panelGroup id="reportsCrud" style="margin-top: -10px !important" styleClass="table-btns container-btns">
+					<h:form prependId="false" id="reports-crud">
 						<ui:include src="/WEB-INF/includes/baseCrudToolBar.xhtml">
 							<ui:param name="bean" value="#{reportBean}" />
 							<ui:param name="gridId" value="reports" />
+							<ui:param name="hideTitle" value="true" />
 						</ui:include>
-						<p:panel styleClass="small-panel" style="border: none;">
-						<p:dataTable id="reports" var="report"
-							value="#{reportBean.allObjects}" selectionMode="single"
-							selection="#{reportBean.report}" update="reportsInfoPanel" >
-							<p:column sortBy="#{report.number}">
-								<f:facet name="header">
-								Номер отчета
-								</f:facet>
-								<h:outputText value="#{report.number}" />
-							</p:column>
-							<p:column sortBy="#{report.date}">
-								<f:facet name="header">
-								Дата отчета
-								</f:facet>
-								<h:outputText value="#{report.date}" />
-							</p:column>
-							<p:column sortBy="#{report.date}">
-								<h:outputLink value="../resources/reporting/resultReport_#{report.id}.pdf" styleClass="olive-color" >
-								   <h:outputText value="Нажмите для просмотра" />
-								</h:outputLink>
-							</p:column>
-						</p:dataTable>
-						</p:panel>
-					</p:panel>
-					<p:panel id="reportsInfoPanel" styleClass="docInfoPanel">
+					</h:form>
+				</h:panelGroup>
+		 	</f:facet>
+		 	<h:form prependId="false">
+				<p:autoComplete id="VoyageSearchBoxId"						
+					value="#{reportBean.selectedVoyage}">
+					  
+				</p:autoComplete>
+			</h:form>
+			<h:form prependId="false">
+				<p:dataTable id="reports" var="report"
+					value="#{reportBean.allObjects}" selectionMode="single"
+					selection="#{reportBean.report}" >
+					<p:column sortBy="#{report.number}">
 						<f:facet name="header">
-							<h:outputText value="#{reportBean.report.number}" />
+						Номер отчета
 						</f:facet>
-						<h:panelGrid columns="3" styleClass="infoLayoutTable">
-							<p:panel>
-							<p:panel styleClass="documentPartialDetailPanel borderless">
-								Контейнеры
-								<ul>
-								<ui:repeat value="#{reportBean.containers}" var="container">
-									<li class="listContainersInDoc">
-										<p:commandLink styleClass="olive-color" value="#{container.number}" 
-													   action="#{reportBean.goToContainer}">
-											<f:setPropertyActionListener 
-												target="#{reportBean.selectedContainer}"
-												value="#{container}" 
-											/> 
-										</p:commandLink> 
-									</li>
-								</ui:repeat>
-								</ul>
-							</p:panel>
-							<div class="documentContainersSummary">
-								<h:outputText styleClass="olive-color" value="Всего, шт: " />
-								<h:outputText value="#{reportBean.containersAmount}"/>
-							</div>
-							</p:panel>
-						</h:panelGrid>
-					</p:panel>
-				</h:panelGrid>
-			</p:panel>
-		</h:form>	
+						<h:outputText value="#{report.number}" />
+					</p:column>
+					<p:column sortBy="#{report.date}">
+						<f:facet name="header">
+						Дата отчета
+						</f:facet>
+						<h:outputText value="#{report.date}" />
+					</p:column>
+					<p:column sortBy="#{report.date}">
+						<h:outputLink value="../resources/reporting/resultReport_#{report.id}.pdf" styleClass="olive-color" >
+						   <h:outputText value="Нажмите для просмотра" />
+						</h:outputLink>
+					</p:column>
+				</p:dataTable>
+			</h:form>	
+		 </p:panel>
 		<ui:include src="/reporting/dialog/selectContainersDlg.xhtml">
 			<ui:param name="bean" value="#{reportBean}" />
 			<ui:param name="gridId" value="reports" />

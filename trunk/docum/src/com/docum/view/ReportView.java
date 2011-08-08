@@ -17,6 +17,7 @@ import com.docum.util.FacesUtil;
 import com.docum.view.dict.BaseView;
 import com.docum.view.navigation.ViewNavigation;
 import com.docum.view.param.FlashParamKeys;
+import com.docum.view.wrapper.VoyagePresentation;
 
 @Controller("reportBean")
 @Scope("session")
@@ -32,6 +33,7 @@ public class ReportView extends BaseView {
 	private Integer containersAmount;
 	private Container selectedContainer;
 	private Container container;
+	private VoyagePresentation selectedVoyage;
 
 	@Override
 	public void saveObject() {
@@ -84,7 +86,7 @@ public class ReportView extends BaseView {
 			saveObject();
 			this.container.setReportDone(true);
 			super.getBaseService().save(this.container);
-			reportingService.createReport(this.container, this.report.getId());
+			//reportingService.createReport(this.container, this.report.getId());
 		}
 	}
 	
@@ -95,6 +97,12 @@ public class ReportView extends BaseView {
 
 	public List<Container> getContainers() {
 		return containerService.getContainersByReport(this.report.getId());
+	}
+	
+	public String getReportsVoyage() {
+		return selectedVoyage != null ? selectedVoyage.getVoyageInfo()
+				: "Выберите судозаход...";
+
 	}
 
 	public Integer getContainersAmount() {
@@ -123,5 +131,13 @@ public class ReportView extends BaseView {
 
 	public void setContainer(Container container) {
 		this.container = container;
+	}
+
+	public VoyagePresentation getSelectedVoyage() {
+		return selectedVoyage;
+	}
+
+	public void setSelectedVoyage(VoyagePresentation selectedVoyage) {
+		this.selectedVoyage = selectedVoyage;
 	}
 }
