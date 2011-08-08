@@ -1,0 +1,40 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+<h:panelGrid columns="4" styleClass="inline-table">
+	<h:outputText value="#{caption}" />
+	<h:form rendered="#{value == null}" onclick="setCargo()" styleClass="inline-auto-upload" title="Загрузить #{hint}"
+		enctype="multipart/form-data">
+		<p:fileUpload style="width:20;height:20" mode="advanced" auto="true"
+			label="" 
+			fileUploadListener="#{cargobean[uploadListener]}" update="growl,infoPanel"
+			customUI="true">
+		</p:fileUpload>
+		<p:remoteCommand name="setCargo">
+			<f:setPropertyActionListener target="#{cargobean.cargo}"
+				value="#{wcargo}" />
+		</p:remoteCommand>
+	</h:form>
+	<h:form rendered="#{value != null}">
+	<p:lightBox  transition="fade" opacity="0.4">  
+    <h:outputLink value="#{value}" title="Показать #{hint}">  
+        <span class="ui-icon ui-icon image-view-button"></span>		
+	</h:outputLink>
+	</p:lightBox>	
+	</h:form>
+	<h:form rendered="#{value != null}">
+		<p:commandButton styleClass="inline-btn" title="Удалить #{hint}"
+			image="ui-icon-trash"
+			action="#{cargobean[removeListener]}"
+			update="#{fileId}ConfirmId,infoPanel">
+			<f:setPropertyActionListener target="#{cargobean.cargo}"
+				value="#{wcargo}" />
+			<f:setPropertyActionListener target="#{cargobean.removeFunctionName}"
+				value="#{removeListener}" />	
+		</p:commandButton>
+	</h:form>
+</h:panelGrid>
+</html>

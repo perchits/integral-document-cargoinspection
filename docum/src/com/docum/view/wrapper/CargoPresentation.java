@@ -79,6 +79,38 @@ public class CargoPresentation implements Serializable {
 		AlgoUtil.transform(result, cd, new CargoDefectGroupTransformer());
 		return result;
 	}
+	
+	public String getSticker(){
+		if (cargo == null || cargo.getInspectionInfo() == null) {
+			return null;
+		}
+		return cargo.getInspectionInfo().getSticker() != null ?
+				cargo.getInspectionInfo().getSticker().getValue() : null;
+	}
+	
+	public String getStickerEng(){
+		if (cargo == null || cargo.getInspectionInfo() == null) {
+			return null;
+		}		
+		return cargo.getInspectionInfo().getStickerEng() != null ?
+				cargo.getInspectionInfo().getStickerEng().getValue() : null;
+	}
+	
+	public String getShippingMark(){
+		if (cargo == null || cargo.getInspectionInfo() == null) {
+			return null;
+		}
+		return cargo.getInspectionInfo().getShippingMark() != null ?
+				cargo.getInspectionInfo().getShippingMark().getValue() : null;
+	}
+	
+	public String getShippingMarkEng(){
+		if (cargo == null || cargo.getInspectionInfo() == null) {
+			return null;
+		}
+		return cargo.getInspectionInfo().getShippingMarkEng() != null ?
+				cargo.getInspectionInfo().getShippingMarkEng().getValue() : null;
+	}
 
 	public List<CargoPackagePresentation> getPackages() {
 		if (cargo == null) {

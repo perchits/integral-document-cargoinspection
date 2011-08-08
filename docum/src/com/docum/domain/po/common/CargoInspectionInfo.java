@@ -102,31 +102,31 @@ public class CargoInspectionInfo extends IdentifiedEntity {
 		return sticker;
 	}
 
-	public void setStickerUrl(FileUrl stickerUrl) {
-		this.sticker = stickerUrl;
+	public void setSticker(FileUrl sticker) {
+		this.sticker = sticker;
 	}
 
 	public FileUrl getStickerEng() {
 		return stickerEng;
 	}
 
-	public void setStickerUrlEng(FileUrl stickerUrlEng) {
-		this.stickerEng = stickerUrlEng;
+	public void setStickerEng(FileUrl stickerEng) {
+		this.stickerEng = stickerEng;
 	}
 
 	public FileUrl getShippingMark() {
 		return shippingMark;
 	}
 
-	public void setShippingMarkUrl(FileUrl shippingMarkUrl) {
-		this.shippingMark = shippingMarkUrl;
+	public void setShippingMark(FileUrl shippingMark) {
+		this.shippingMark = shippingMark;
 	}
 	
 	public FileUrl getShippingMarkEng() {
 		return shippingMarkEng;
 	}
 
-	public void setShippingMarkUrlEng(FileUrl shippingMarkUrlEng) {
+	public void setShippingMarkEng(FileUrl shippingMarkUrlEng) {
 		this.shippingMarkEng = shippingMarkUrlEng;
 	}
 
