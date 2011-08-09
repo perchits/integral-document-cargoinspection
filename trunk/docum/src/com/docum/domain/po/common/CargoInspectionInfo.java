@@ -13,6 +13,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.OrderColumn;
 
 import com.docum.domain.po.IdentifiedEntity;
+import com.docum.util.OrderedEntityUtil;
 
 @Entity
 public class CargoInspectionInfo extends IdentifiedEntity {
@@ -147,18 +148,10 @@ public class CargoInspectionInfo extends IdentifiedEntity {
 	}
 	
 	public void moveImageUp(FileUrl url) {
-		int index = images.indexOf(url);
-		if(index > 0 && index < images.size()) {
-			images.remove(index);
-			images.add(index-1, url);
-		}
+		OrderedEntityUtil.moveUp(url, images);
 	}
 
 	public void moveImageDown(FileUrl url) {
-		int index = images.indexOf(url);
-		if(index >= 0 && index < images.size()-1) {
-			images.remove(index);
-			images.add(index+1, url);
-		}
+		OrderedEntityUtil.moveDown(url, images);
 	}
 }
