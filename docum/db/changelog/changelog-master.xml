@@ -18,5 +18,6 @@
   <include file="0013-cargo-refactoring.xml"/>
   <include file="0014-normativedocument-add-article_id-column.xml"/>    
   <include file="0015-cargo-images.xml"/>    
+  <include file="0016-inspection-images.xml"/>    
   
 </databaseChangeLog>

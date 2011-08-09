@@ -1,5 +1,6 @@
 package com.docum.util;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -40,5 +41,18 @@ public class OrderedEntityUtil {
 	}
 	public static <T extends OrderedEntity> void moveDown(T entity, List<T> list) {
 		setOrd(entity, list, entity.getOrd()+1);
+	}
+
+	public static <T> void moveUp(T entity, List<T> list) {
+		int index = list.indexOf(entity);
+		if(index > 0 && index < list.size()) {
+			Collections.swap(list, index, index-1);
+		}
+	}
+	public static <T> void moveDown(T entity, List<T> list) {
+		int index = list.indexOf(entity);
+		if(index >= 0 && index < list.size()-1) {
+			Collections.swap(list, index, index+1);
+		}
 	}
 }

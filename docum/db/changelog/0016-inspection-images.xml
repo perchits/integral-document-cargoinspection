@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+	<changeSet author="pepper" id="0016-inspection-images">
+
+		<addPrimaryKey tableName="cargoinspectioninfo_fileurl"
+			constraintName="cargoinspectioninfo_fileurl_pkey" columnNames="cargoinspectioninfo_id" />
+
+		<createTable tableName="inspection_fileurl">
+			<column name="inspection_id" type="BIGINT">
+				<constraints primaryKeyName="inspection_fileurl_pkey"
+					primaryKey="true" nullable="false" />
+			</column>
+			<column name="ord" type="INTEGER">
+				<constraints nullable="false" />
+			</column>
+			<column name="images_id" type="BIGINT">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+
+		<addForeignKeyConstraint
+			constraintName="inspection_fileurl__inspection_fk"
+			baseTableName="inspection_fileurl" baseColumnNames="inspection_id"
+			referencedTableName="inspection" referencedColumnNames="id" />
+
+		<addForeignKeyConstraint constraintName="inspection_fileurl__images_fk"
+			baseTableName="inspection_fileurl" baseColumnNames="images_id"
+			referencedTableName="fileurl" referencedColumnNames="id" />
+
+		<createIndex indexName="inspection_fileurl__inspection_fk_idx"
+			tableName="inspection_fileurl">
+			<column name="inspection_id" />
+		</createIndex>
+
+		<createIndex indexName="inspection_fileurl__images_fk_idx"
+			tableName="inspection_fileurl">
+			<column name="images_id" />
+		</createIndex>
+
+	</changeSet>
+</databaseChangeLog>
