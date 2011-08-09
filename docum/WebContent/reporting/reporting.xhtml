@@ -11,7 +11,7 @@
 		 	style="text-align:left; width: 640px; font-size: 11px !important;">
 		 	<f:facet name="header">
 		 		<h:outputText id="reportsVoyage" value="#{reportBean.reportsVoyage}" />
-		 		<h:panelGroup id="reportsCrud" style="margin-top: -10px !important" styleClass="table-btns container-btns">
+		 		<h:panelGroup id="reportsCrud" style="margin-top: -10px;" styleClass="table-btns container-btns">
 					<h:form prependId="false" id="reports-crud">
 						<ui:include src="/WEB-INF/includes/baseCrudToolBar.xhtml">
 							<ui:param name="bean" value="#{reportBean}" />
@@ -23,13 +23,17 @@
 		 	</f:facet>
 		 	<h:form prependId="false">
 				<p:autoComplete id="VoyageSearchBoxId"						
-					value="#{reportBean.selectedVoyage}">
+					value="#{reportBean.selectedVoyage}"
+					completeMethod="#{reportBean.voyageAutocomplete}" var="voyage"
+					itemValue="#{voyage}" itemLabel="#{voyage.voyageInfo}"
+					forceSelection="true" converter="voyagePresentationConverter">
+					<p:ajax event="itemSelect" listener="#{reportBean.voyageSelect}" update="reports"/>
 					  
 				</p:autoComplete>
 			</h:form>
 			<h:form prependId="false">
 				<p:dataTable id="reports" var="report"
-					value="#{reportBean.allObjects}" selectionMode="single"
+					value="#{reportBean.reports}" selectionMode="single"
 					selection="#{reportBean.report}" >
 					<p:column sortBy="#{report.number}">
 						<f:facet name="header">

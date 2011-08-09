@@ -1,35 +1,47 @@
 package com.docum.view;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 
+import org.primefaces.event.SelectEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
+import com.docum.domain.SortOrderEnum;
 import com.docum.domain.po.IdentifiedEntity;
 import com.docum.domain.po.common.Container;
 import com.docum.domain.po.common.Report;
+import com.docum.domain.po.common.Voyage;
 import com.docum.service.ContainerService;
 import com.docum.service.ReportingService;
+import com.docum.util.AlgoUtil;
 import com.docum.util.DocumLogger;
 import com.docum.util.FacesUtil;
 import com.docum.view.dict.BaseView;
 import com.docum.view.navigation.ViewNavigation;
 import com.docum.view.param.FlashParamKeys;
+import com.docum.view.wrapper.ContainerPresentation;
+import com.docum.view.wrapper.ContainerTransformer;
 import com.docum.view.wrapper.VoyagePresentation;
+import com.docum.view.wrapper.VoyageTransformer;
 
 @Controller("reportBean")
 @Scope("session")
 public class ReportView extends BaseView {
 	private static final long serialVersionUID = -6034143364888144075L;
 	private static final String sign = "Отчет";
+	private static final int MAX_LIST_SIZE = 10;
 
 	@Autowired
 	private ContainerService containerService;
 	@Autowired
 	private ReportingService reportingService;
-	private Report report = new Report(); 
+	
+	private Report report = new Report();
+	private List<Report> reports;
 	private Integer containersAmount;
 	private Container selectedContainer;
 	private Container container;
@@ -45,6 +57,14 @@ public class ReportView extends BaseView {
 	public void newObject() {
 		super.newObject();
 		this.report = new Report();
+	}
+	
+	@Override
+	public void refreshObjects() {
+		if (this.selectedVoyage != null) {
+			this.reports = 
+				reportingService.getReportsByVoyage(this.selectedVoyage.getVoyage().getId());
+		}
 	}
 
 	@Override
@@ -102,7 +122,37 @@ public class ReportView extends BaseView {
 	public String getReportsVoyage() {
 		return selectedVoyage != null ? selectedVoyage.getVoyageInfo()
 				: "Выберите судозаход...";
-
+	}
+	
+	public List<VoyagePresentation> voyageAutocomplete(Object suggest) throws Exception {
+		String pref = (String) suggest;
+		ArrayList<VoyagePresentation> result = new ArrayList<VoyagePresentation>();
+		for (VoyagePresentation voyage : getVoyages()) {
+			if ((voyage.getVoyageInfo() != null && voyage.getVoyageInfo()
+					.toLowerCase().indexOf(pref.toLowerCase()) >= 0)
+					|| "".equals(pref)) {
+				result.add(voyage);
+				if (result.size() >= MAX_LIST_SIZE)
+					break;
+			}
+		}
+		return result;
+	}
+	
+	public List<VoyagePresentation> getVoyages() {
+		HashMap<String, SortOrderEnum> sortFields = new HashMap<String, SortOrderEnum>();
+		sortFields.put("arrivalDate", SortOrderEnum.DESC);
+		List<Voyage> voyages = (List<Voyage>) getBaseService().getAll(
+				Voyage.class, sortFields);
+		List<VoyagePresentation> result = new ArrayList<VoyagePresentation>(
+				voyages.size());
+		AlgoUtil.transform(result, voyages, new VoyageTransformer(false));
+		return result;
+	}
+	
+	public void voyageSelect(SelectEvent event) {
+		setSelectedVoyage((VoyagePresentation)event.getObject());
+		refreshObjects();
 	}
 
 	public Integer getContainersAmount() {
@@ -139,5 +189,16 @@ public class ReportView extends BaseView {
 
 	public void setSelectedVoyage(VoyagePresentation selectedVoyage) {
 		this.selectedVoyage = selectedVoyage;
+	}
+
+	public List<Report> getReports() {
+		if (this.reports == null) {
+			refreshObjects();
+		}
+		return reports;
+	}
+
+	public void setReports(List<Report> reports) {
+		this.reports = reports;
 	}
 }
