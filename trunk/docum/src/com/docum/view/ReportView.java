@@ -1,6 +1,7 @@
 package com.docum.view;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -22,6 +23,8 @@ import com.docum.util.FacesUtil;
 import com.docum.view.dict.BaseView;
 import com.docum.view.navigation.ViewNavigation;
 import com.docum.view.param.FlashParamKeys;
+import com.docum.view.wrapper.ContainerPresentation;
+import com.docum.view.wrapper.ContainerTransformer;
 import com.docum.view.wrapper.VoyagePresentation;
 import com.docum.view.wrapper.VoyageTransformer;
 
@@ -79,10 +82,13 @@ public class ReportView extends BaseView {
 		return this.report != null ? this.report : new Report();
 	}
 	
-	public List<Container> getContainersWithoutReport() {
+	public ArrayList<ContainerPresentation> getContainersWithoutReport() {
 		if (selectedVoyage != null) {
-			return containerService.getContainersWithoutReportByVoyage(
+			Collection<Container> c = containerService.getContainersWithoutReportByVoyage(
 					this.selectedVoyage.getVoyage().getId());
+			ArrayList<ContainerPresentation> result = new ArrayList<ContainerPresentation>(c.size());
+			AlgoUtil.transform(result, c, new ContainerTransformer());
+			return result;
 		} else {
 			return null;
 		}
