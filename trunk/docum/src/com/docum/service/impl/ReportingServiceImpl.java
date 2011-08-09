@@ -10,6 +10,7 @@ import java.util.Set;
 import javax.faces.context.FacesContext;
 
 import org.odftoolkit.odfdom.doc.OdfTextDocument;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.w3c.dom.Node;
@@ -19,7 +20,9 @@ import com.artofsolving.jodconverter.DocumentConverter;
 import com.artofsolving.jodconverter.openoffice.connection.OpenOfficeConnection;
 import com.artofsolving.jodconverter.openoffice.connection.SocketOpenOfficeConnection;
 import com.artofsolving.jodconverter.openoffice.converter.OpenOfficeDocumentConverter;
+import com.docum.dao.ReportingDao;
 import com.docum.domain.po.common.Container;
+import com.docum.domain.po.common.Report;
 import com.docum.service.ReportingService;
 import com.docum.util.DocumLogger;
 import com.docum.util.XMLUtil;
@@ -28,6 +31,9 @@ import com.docum.util.XMLUtil;
 @Transactional
 public class ReportingServiceImpl implements Serializable, ReportingService {
 	private static final long serialVersionUID = -4974869292960516986L;
+	
+	@Autowired
+	ReportingDao reportingDao;
 	
 	private static final String STATEMENT_BEGIN = "{$";
 	private static final String STATEMENT_END = "}";
@@ -133,6 +139,11 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 
 	public void setStarOfficeConnectionPort(int starOfficeConnectionPort) {
 		this.starOfficeConnectionPort = starOfficeConnectionPort;
+	}
+	
+	@Override
+	public List<Report> getReportsByVoyage(Long voyageId) {
+		return reportingDao.getReportsByVoyage(voyageId);
 	}
 
 }

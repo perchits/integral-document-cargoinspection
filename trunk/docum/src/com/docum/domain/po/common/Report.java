@@ -6,10 +6,22 @@ import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
+import com.docum.dao.ReportingDao;
 import com.docum.domain.po.IdentifiedEntity;
 
 @Entity
+@NamedQueries({
+	@NamedQuery(
+			name = ReportingDao.GET_REPORTS_BY_VOYAGE_QUERY,
+			query = "select rep from Report rep join rep.containers c " +
+				"join c.voyage v " +
+				"where v.id = :voyageId " +
+				"order by rep.id"
+	)
+})
 public class Report extends IdentifiedEntity{
 	private static final long serialVersionUID = 4735988174583929581L;
 
