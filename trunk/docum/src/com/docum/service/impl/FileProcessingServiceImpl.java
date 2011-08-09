@@ -50,13 +50,17 @@ public class FileProcessingServiceImpl implements FileProcessingService {
 		return false;
 	}
 
-	protected String ensureUniqueFileName(String path, String fileName) {
-		File file = new File(path + SEP + fileName);
+//TODO Придумать механизм выбора опции сохранения расширения в нижнем регистре.
+// Сейчас это необходимо, иначе не будет определен mime тип при загрузке файла.
+// Также нужно иметь в виду, что в Windows регистр в имени файла не имеет значения.
+	protected String fixFileName(String path, String fileName) {
+		String base = FilenameUtils.getBaseName(fileName);
+		String ext = FilenameUtils.getExtension(fileName).toLowerCase();
+		String result = base + EXT_SEP + ext;
+		File file = new File(path + SEP + result);
 		Integer i = 0;
-		String result = fileName;
 		while(file.exists()) {
-			result = FilenameUtils.getBaseName(fileName) + "(" + i + ")" +
-				EXT_SEP + FilenameUtils.getExtension(fileName);
+			result = base + "(" + i + ")" + EXT_SEP + ext;
 			file = new File(path + SEP + result);
 			i++;
 		}
@@ -67,11 +71,15 @@ public class FileProcessingServiceImpl implements FileProcessingService {
 	public String saveImage(String path, String fileName, InputStream istream)
 			throws IOException {
 		path = config.getImagesStoragePath() + SEP + path;
-		if(!createDirectory(path)) {
-			fileName = ensureUniqueFileName(path, fileName);
-		}
+		createDirectory(path);
+		fileName = fixFileName(path, fileName);
 		String absolutFileName = path + SEP + fileName;
 		saveFile(absolutFileName, istream);
 		return fileName;
+	}
+
+	@Override
+	public boolean deleteImage(String fileName) {
+		return new File(config.getImagesStoragePath() + SEP + fileName).delete();
 	}
 }

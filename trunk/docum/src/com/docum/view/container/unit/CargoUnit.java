@@ -131,45 +131,53 @@ public class CargoUnit implements Serializable, DialogActionHandler {
 	}	
 
 	public void uploadSticker(FileUploadEvent event) {		
-		FileUrl sticker = new FileUrl(FileUploadUtil.handleUploadedFile(fileService, cargo.getCondition().getContainer(), event));
+		FileUrl sticker = new FileUrl(FileUploadUtil.handleUploadedFile(fileService, cargo
+				.getCondition().getContainer(), event));
 		cargo.getInspectionInfo().setSticker(sticker);
 		containerHolder.saveContainer();
 	}
 	
 	public void removeSticker() {		
+		fileService.deleteImage(cargo.getInspectionInfo().getSticker().getValue());
 		cargo.getInspectionInfo().setSticker(null);
 		containerHolder.saveContainer();
 	}	
 	
 	public void uploadStickerEng(FileUploadEvent event) {		
-		FileUrl sticker = new FileUrl(FileUploadUtil.handleUploadedFile(fileService, cargo.getCondition().getContainer(), event));
+		FileUrl sticker = new FileUrl(FileUploadUtil.handleUploadedFile(fileService, cargo
+				.getCondition().getContainer(), event));
 		cargo.getInspectionInfo().setStickerEng(sticker);
 		containerHolder.saveContainer();
 	}
 	
 	public void removeStickerEng() {		
+		fileService.deleteImage(cargo.getInspectionInfo().getStickerEng().getValue());
 		cargo.getInspectionInfo().setStickerEng(null);
 		containerHolder.saveContainer();
 	}
 
 	public void uploadShippingMark(FileUploadEvent event) {		
-		FileUrl shippingMark = new FileUrl(FileUploadUtil.handleUploadedFile(fileService, cargo.getCondition().getContainer(), event));
+		FileUrl shippingMark = new FileUrl(FileUploadUtil.handleUploadedFile(fileService, cargo
+				.getCondition().getContainer(), event));
 		cargo.getInspectionInfo().setShippingMark(shippingMark);
 		containerHolder.saveContainer();
 	}
 	
 	public void removeShippingMark() {		
+		fileService.deleteImage(cargo.getInspectionInfo().getShippingMark().getValue());
 		cargo.getInspectionInfo().setShippingMark(null);
 		containerHolder.saveContainer();
 	}
 	
 	public void uploadShippingMarkEng(FileUploadEvent event) {		
-		FileUrl shippingMark = new FileUrl(FileUploadUtil.handleUploadedFile(fileService, cargo.getCondition().getContainer(), event));
+		FileUrl shippingMark = new FileUrl(FileUploadUtil.handleUploadedFile(fileService, cargo
+				.getCondition().getContainer(), event));
 		cargo.getInspectionInfo().setShippingMarkEng(shippingMark);
 		containerHolder.saveContainer();
 	}
 	
 	public void removeShippingMarkEng() {		
+		fileService.deleteImage(cargo.getInspectionInfo().getShippingMarkEng().getValue());
 		cargo.getInspectionInfo().setShippingMarkEng(null);
 		containerHolder.saveContainer();
 	}
