@@ -12,6 +12,7 @@ public interface ContainerDao extends BaseDao {
 	public static final String GET_CONTAINERS_BY_BILL_OF_LADING_QUERY = "getContainersByBillOfLading";
 	public static final String GET_FULL_CONTAINER_QUERY = "getFullContainer";
 	public static final String GET_CONTAINERS_WITHOUT_REPORT_QUERY = "getContainersWithoutReport";
+	public static final String GET_CONTAINERS_WITHOUT_REPORT_BY_VOYAGE_QUERY = "getContainersWithoutReportByVoyage";
 	public static final String GET_CONTAINERS_BY_REPORT_QUERY = "getContainersByReport";
 
 	public List<Container> getContainersByVoyage(Long voyageId);
@@ -19,5 +20,6 @@ public interface ContainerDao extends BaseDao {
 	public List<Container> getContainersByPurchaseOrder(Long orderId);
 	public List<Container> getContainersByBillOfLading(Long billOfLadingId);
 	public List<Container> getContainersWithoutReport();
-	public List<Container> getContainersByReport(Long reportId);	
+	public List<Container> getContainersByReport(Long reportId);
+	public List<Container> getContainersWithoutReportByVoyage(Long voyageId);
 }

@@ -1,7 +1,6 @@
 package com.docum.view;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -23,8 +22,6 @@ import com.docum.util.FacesUtil;
 import com.docum.view.dict.BaseView;
 import com.docum.view.navigation.ViewNavigation;
 import com.docum.view.param.FlashParamKeys;
-import com.docum.view.wrapper.ContainerPresentation;
-import com.docum.view.wrapper.ContainerTransformer;
 import com.docum.view.wrapper.VoyagePresentation;
 import com.docum.view.wrapper.VoyageTransformer;
 
@@ -83,7 +80,12 @@ public class ReportView extends BaseView {
 	}
 	
 	public List<Container> getContainersWithoutReport() {
-		return containerService.getContainersWithoutReport();
+		if (selectedVoyage != null) {
+			return containerService.getContainersWithoutReportByVoyage(
+					this.selectedVoyage.getVoyage().getId());
+		} else {
+			return null;
+		}
 	}
 	
 	@Override

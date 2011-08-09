@@ -66,6 +66,11 @@ import com.docum.util.HashCodeHelper;
 				query = "SELECT DISTINCT c FROM Container c " +
 				"JOIN c.reports r " +
 				"WHERE r.id=:reportId "
+		),
+		@NamedQuery(
+				name = ContainerDao.GET_CONTAINERS_WITHOUT_REPORT_BY_VOYAGE_QUERY,
+				query = "SELECT DISTINCT c FROM Container c " +
+					"WHERE c.voyage.id=:voyageId and c.reportDone=false"
 		)
 })
 public class Container extends IdentifiedEntity {

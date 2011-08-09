@@ -49,4 +49,9 @@ public class ContainerServiceImpl extends BaseServiceImpl implements ContainerSe
 	public List<Container> getContainersByReport(Long reportId) {
 		return containerDao.getContainersByReport(reportId);
 	}
+	
+	@Override
+	public List<Container> getContainersWithoutReportByVoyage(Long voyageId) {
+		return containerDao.getContainersWithoutReportByVoyage(voyageId);
+	}
 }
