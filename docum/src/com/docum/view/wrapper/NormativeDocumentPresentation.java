@@ -8,10 +8,10 @@ public class NormativeDocumentPresentation implements Serializable {
 	
 	private static final long serialVersionUID = -2987782777885981208L;
 
-	private NormativeDocument normativeDocument;
+	private NormativeDocument document;
 	
 	public NormativeDocumentPresentation(NormativeDocument normativeDocument) {
-		this.normativeDocument = normativeDocument;
+		this.document = normativeDocument;
 	}
 	
 	public String toString() {
@@ -19,19 +19,19 @@ public class NormativeDocumentPresentation implements Serializable {
 	}
 	
 	public String getName() {		
-		return normativeDocument != null ? normativeDocument.getName() : null; 
+		return document != null ? document.getName() : null; 
 	}
 
 	public String getEnglishName() {		
-		return normativeDocument != null ? normativeDocument.getEnglishName() : null; 
+		return document != null ? document.getEnglishName() : null; 
 	}
 
 	public NormativeDocument getNormativeDocument() {
-		return normativeDocument;
+		return document;
 	}
 
 	public void setNormativeDocument(NormativeDocument normativeDocument) {
-		this.normativeDocument = normativeDocument;
+		this.document = normativeDocument;
 	}
 	
 }
