@@ -16,7 +16,7 @@ import com.docum.domain.po.IdentifiedEntity;
 @NamedQueries({
 	@NamedQuery(
 			name = ReportingDao.GET_REPORTS_BY_VOYAGE_QUERY,
-			query = "select rep from Report rep join rep.containers c " +
+			query = "select distinct rep from Report rep join rep.containers c " +
 				"join c.voyage v " +
 				"where v.id = :voyageId " +
 				"order by rep.id"
