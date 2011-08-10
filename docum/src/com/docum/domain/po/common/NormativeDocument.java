@@ -17,8 +17,8 @@ import com.docum.util.HashCodeHelper;
 @NamedQueries(
 	@NamedQuery(
 			name = ArticleDao.GET_ARTICLE_DOCUMENTS_BY_ARTICLE_QUERY,
-			query = "SELECT DISTINCT ad FROM NormativeDocument nd " +
-			"WHERE nd.article.id=:articleId ORDER BY nd.id"
+			query = "SELECT DISTINCT d FROM NormativeDocument d " +
+			" WHERE d.article.id=:articleId ORDER BY d.id "
 	)
 )
 public class NormativeDocument extends IdentifiedEntity implements Serializable {

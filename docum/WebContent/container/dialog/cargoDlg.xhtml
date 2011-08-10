@@ -19,7 +19,7 @@
 				noSelectionOption="true" itemDisabled="true" />
 			<f:selectItems value="#{bean.articles}" var="article"
 				itemLabel="#{article.name}" />
-			<p:ajax update="articleCategory,cargo-list"
+			<p:ajax update="articleCategory,normDoc,cargo-list"
 				listener="#{bean.articleChange}" />
 		</h:selectOneMenu>
 
@@ -34,6 +34,21 @@
 				<f:selectItems value="#{bean.articleCategories}" var="artcat"
 					itemLabel="#{artcat.name}" />
 				<p:ajax update="cargo-list" />
+			</h:selectOneMenu>
+		</p:outputPanel>
+		
+		<h:outputLabel for="normDoc" value="Норм. документ:"
+		rendered="#{bean.cargo.inspectionInfo != null}" />
+		<p:outputPanel id="normDoc" rendered="#{bean.cargo.inspectionInfo != null}">
+			<h:selectOneMenu label="Норм. документы" required="true"
+				styleClass="ui-inputfield ui-widget ui-state-default ui-corner-all"
+				value="#{bean.cargo.inspectionInfo.normativeDocument}">
+				<f:converter converterId="normativeDocumentConverter" />
+				<f:selectItem itemLabel="Выберите документ..." itemValue=""
+					noSelectionOption="true" itemDisabled="true" />
+				<f:selectItems value="#{bean.normativeDocuments}" var="normdoc"
+					itemLabel="#{normdoc.name}" />	
+				<p:ajax update="cargo-list" />				
 			</h:selectOneMenu>
 		</p:outputPanel>
 

@@ -6,6 +6,7 @@ import java.util.List;
 import com.docum.domain.po.common.Article;
 import com.docum.domain.po.common.ArticleCategory;
 import com.docum.domain.po.common.Cargo;
+import com.docum.domain.po.common.NormativeDocument;
 import com.docum.domain.po.common.Supplier;
 import com.docum.service.ArticleService;
 import com.docum.service.BaseService;
@@ -18,13 +19,13 @@ public class CargoDlgView extends AbstractDlgView implements Serializable {
 	private Cargo cargo;
 	private ArticleService articleService;	 
 	private List<Supplier> suppliers;
-	private List<Article> articles;
+	private List<Article> articles;	 
 
 	public CargoDlgView(Cargo cargo, ArticleService articleService, BaseService baseService) {
 		this.cargo = cargo;
 		this.articleService = articleService;
 		suppliers = baseService.getAll(Supplier.class, null);
-		articles = baseService.getAll(Article.class, null);
+		articles = baseService.getAll(Article.class, null);			
 	}
 
 	public void setCargo(Cargo cargo) {
@@ -38,12 +39,23 @@ public class CargoDlgView extends AbstractDlgView implements Serializable {
 	public void articleChange() {
 		if (cargo != null && cargo.getArticle() != null) {
 			cargo.setArticleCategory(null);
+			if (cargo.getInspectionInfo() != null) {
+				cargo.getInspectionInfo().setNormativeDocument(null);
+			}
 		}
 	}
 
 	public List<ArticleCategory> getArticleCategories() {
 		if (cargo != null && cargo.getArticle() != null) {
 			return articleService.getArticleCategoryByArticle(cargo
+					.getArticle().getId());
+		} else
+			return null;
+	}
+	
+	public List<NormativeDocument> getNormativeDocuments(){
+		if (cargo != null && cargo.getArticle() != null) {
+			return articleService.getNormativeDocumentByArticle(cargo
 					.getArticle().getId());
 		} else
 			return null;
