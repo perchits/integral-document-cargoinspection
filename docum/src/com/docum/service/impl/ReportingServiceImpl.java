@@ -3,9 +3,7 @@ package com.docum.service.impl;
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.faces.context.FacesContext;
 
@@ -25,6 +23,7 @@ import com.docum.domain.po.common.Container;
 import com.docum.domain.po.common.Report;
 import com.docum.service.ReportingService;
 import com.docum.util.DocumLogger;
+import com.docum.util.ListHandler;
 import com.docum.util.XMLUtil;
 
 @Service(ReportingService.SERVICE_NAME)
@@ -102,7 +101,7 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 			if (propertyValue instanceof List && props.length == 1) {
 				@SuppressWarnings("unchecked")
 				List<Object> objects = (List<Object>) propertyValue;
-				node.setNodeValue(getResult(objects));
+				node.setNodeValue(ListHandler.getUniqueResult(objects));
 			} else if (propertyValue instanceof List && props.length == 2) {
 				@SuppressWarnings("unchecked")
 				List<Object> objects = (List<Object>) propertyValue;
@@ -110,7 +109,7 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 				for (Object object: objects) {
 					values.add(XMLUtil.propertyUtilsBean.getSimpleProperty(object, props[1]));
 				}
-				node.setNodeValue(getResult(values));
+				node.setNodeValue(ListHandler.getUniqueResult(values));
 			} else {
 				node.setNodeValue(
 					XMLUtil.propertyUtilsBean.getNestedProperty(container, result).toString());
@@ -118,21 +117,6 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 		}
 	}
 	
-	private String getResult(List<Object> data) {
-		StringBuffer result = new StringBuffer();
-		Set<Object> uniqueObjects = new HashSet<Object>();
-		for (Object object: data) {
-			uniqueObjects.add(object.toString());
-		}
-		for (Object object: uniqueObjects) {
-			result.append(object).append(", ");
-		}
-		int length = result.length();
-		result.replace(length - 2, length - 1 , "");
-		
-		return result.toString();
-	}
-
 	public int getStarOfficeConnectionPort() {
 		return starOfficeConnectionPort;
 	}

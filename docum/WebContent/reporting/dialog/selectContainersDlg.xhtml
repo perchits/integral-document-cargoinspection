@@ -24,17 +24,17 @@
 					</f:facet>
 					<h:outputText value="#{containerWoReport.number}" />
 				</p:column>
-				<p:column sortBy="#{containerWoReport.voyage}">
-					<f:facet name="header">
-					Судозаход
-					</f:facet>
-					<h:outputText value="#{containerWoReport.voyage}" />
-				</p:column>
 				<p:column sortBy="#{containerWoReport.voyage.arrivalDate}">
 					<f:facet name="header">
 					Груз
 					</f:facet>
 					<h:outputText value="#{containerWoReport.cargoInLine}" />
+				</p:column>
+				<p:column sortBy="#{containerWoReport.cargoSuppliers}">
+					<f:facet name="header">
+					Поставщик
+					</f:facet>
+					<h:outputText value="#{containerWoReport.cargoSuppliers}" />
 				</p:column>
 			</p:dataTable>
 		</p:panel>

@@ -1,7 +1,9 @@
 package com.docum.util;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class ListHandler {
 	public static String join(List<?> list, String delim) {
@@ -27,5 +29,20 @@ public class ListHandler {
 				src.remove(o);
 			}
 		}
+	}
+	
+	public static String getUniqueResult(List<Object> data) {
+		StringBuffer result = new StringBuffer();
+		Set<Object> uniqueObjects = new HashSet<Object>();
+		for (Object object: data) {
+			uniqueObjects.add(object.toString());
+		}
+		for (Object object: uniqueObjects) {
+			result.append(object).append(", ");
+		}
+		int length = result.length();
+		result.replace(length - 2, length - 1 , "");
+		
+		return result.toString();
 	}
 }
