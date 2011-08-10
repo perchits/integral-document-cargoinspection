@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.EnumMap;
+import java.util.List;
 
 import com.docum.domain.ContainerStateEnum;
 import com.docum.domain.po.common.Cargo;
@@ -97,6 +98,18 @@ public class ContainerPresentation implements Serializable {
 	private String getCargoes() {
 		return container != null ? ListHandler.join(new ArrayList<Cargo>(container.getDeclaredCondition().getCargoes()),
 				", ") : null;
+	}
+	
+	public String getCargoSuppliers() {
+		if (this.container == null) {
+			return null;
+		} else {
+			List<Object> cargoSuppliers = new ArrayList<Object>();
+			for (Cargo cargo: this.container.getDeclaredCondition().getCargoes()) {
+				cargoSuppliers.add(cargo.getSupplier());
+			}
+			return ListHandler.getUniqueResult(cargoSuppliers);
+		}
 	}
 
 	public void setInvoiceInLine(String invoiceInLine) {

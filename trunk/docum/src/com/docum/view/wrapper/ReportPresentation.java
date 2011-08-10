@@ -3,7 +3,6 @@ package com.docum.view.wrapper;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -52,11 +51,11 @@ public class ReportPresentation implements Serializable {
 	}
 
 	public String getCargo() {
-		return getUniqueResult(this.cargoes);
+		return ListHandler.getUniqueResult(this.cargoes);
 	}
 
 	public String getCargoSupplier() {
-		return getUniqueResult(this.cargoSuppliers);
+		return ListHandler.getUniqueResult(this.cargoSuppliers);
 	}
 
 	public String getReportedContainers() {
@@ -87,20 +86,4 @@ public class ReportPresentation implements Serializable {
 			return null;
 		}
 	}
-	
-	private String getUniqueResult(List<Object> data) {
-		StringBuffer result = new StringBuffer();
-		Set<Object> uniqueObjects = new HashSet<Object>();
-		for (Object object: data) {
-			uniqueObjects.add(object.toString());
-		}
-		for (Object object: uniqueObjects) {
-			result.append(object).append(", ");
-		}
-		int length = result.length();
-		result.replace(length - 2, length - 1 , "");
-		
-		return result.toString();
-	}
-
 }
