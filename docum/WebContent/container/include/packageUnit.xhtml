@@ -37,7 +37,8 @@
 					<f:setPropertyActionListener
 						target="#{packagebean.wrappedCargoPackage}" value="#{pack}" />
 				</p:commandButton>
-			</h:form> <ui:include src="/container/include/calibreUnit.xhtml">
+			</h:form>			
+			<ui:include src="/container/include/calibreUnit.xhtml">
 				<ui:param name="calibrebean" value="#{packagebean.calibreUnit}" />
 			</ui:include></li>
 	</ui:repeat>

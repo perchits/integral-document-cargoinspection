@@ -1,0 +1,23 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+<ui:composition template="/WEB-INF/includes/dialogLayout.xhtml">
+	<ui:param name="width" value="780" />
+	<ui:param name="saveObject" value="save" />
+	<ui:param name="colCount" value="2" />
+	<ui:define name="dialogBody">
+		<h:panelGrid columns="2">
+			<h:panelGroup id="upload-dlg-left">
+			upload
+			</h:panelGroup>
+			<h:panelGroup id="upload-dlg-right">
+			list
+			</h:panelGroup>
+		</h:panelGrid>
+	</ui:define>
+</ui:composition>
+
+</html>

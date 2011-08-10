@@ -21,6 +21,7 @@ import com.docum.view.FileUploadUtil;
 import com.docum.view.container.CargoDlgView;
 import com.docum.view.container.ContainerContext;
 import com.docum.view.container.ContainerHolder;
+import com.docum.view.container.FileListDlgView;
 import com.docum.view.wrapper.CargoPresentation;
 import com.docum.view.wrapper.CargoTransformer;
 
@@ -38,6 +39,7 @@ public class CargoUnit implements Serializable, DialogActionHandler {
 	private CargoDefectUnit cargoDefectUnit;	
 	private FileProcessingService fileService;
 	private String removeFunctionName;	
+	private FileListDlgView imageListDialog;
 
 	public CargoUnit(ContainerHolder containerHolder) {
 		this.containerHolder = containerHolder;
@@ -180,6 +182,16 @@ public class CargoUnit implements Serializable, DialogActionHandler {
 		fileService.deleteImage(cargo.getInspectionInfo().getShippingMarkEng().getValue());
 		cargo.getInspectionInfo().setShippingMarkEng(null);
 		containerHolder.saveContainer();
+	}
+	
+	public FileListDlgView getImageListDialog() {
+		return imageListDialog;
+	}
+	
+	public void handleImages(){		
+		imageListDialog = new FileListDlgView(cargo.getInspectionInfo().getImages(),
+				"Картинки"); 
+		imageListDialog.addHandler(this);
 	}
 	
 	@Override

@@ -55,7 +55,7 @@ public class CargoDlgView extends AbstractDlgView implements Serializable {
 	
 	public List<NormativeDocument> getNormativeDocuments(){
 		if (cargo != null && cargo.getArticle() != null) {
-			return articleService.getNormativeDocumentByArticle(cargo
+			return articleService.getDocumentByArticle(cargo
 					.getArticle().getId());
 		} else
 			return null;
