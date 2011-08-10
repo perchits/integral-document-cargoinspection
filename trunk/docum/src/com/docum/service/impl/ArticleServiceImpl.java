@@ -35,7 +35,7 @@ public class ArticleServiceImpl extends BaseServiceImpl implements ArticleServic
 	}
 
 	@Override
-	public List<NormativeDocument> getNormativeDocumentByArticle(Long articleId) {
+	public List<NormativeDocument> getDocumentByArticle(Long articleId) {
 		return articleDao.getArticleDocumentByArticle(articleId);
 	}
 

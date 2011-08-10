@@ -12,5 +12,5 @@ public interface ArticleService extends BaseService {
 	public List<ArticleCategory> getArticleCategoryByArticle(Long articleId);
 	public List<ArticleFeature> getArticleFeatureByArticle(Long articleId);
 	public List<ArticleFeatureInstance> getArticleFeatureInstanceByArticle(Long articleFeatureId);
-	public List<NormativeDocument> getNormativeDocumentByArticle(Long articleId);
+	public List<NormativeDocument> getDocumentByArticle(Long articleId);
 }	
