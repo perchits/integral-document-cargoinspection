@@ -1,6 +1,7 @@
 package com.docum.view;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -46,6 +47,7 @@ public class ReportView extends BaseView {
 	private Container selectedContainer;
 	private Container container;
 	private VoyagePresentation selectedVoyage;
+	private ContainerPresentation[] selectedContainers;
 
 	@Override
 	public void saveObject() {
@@ -106,14 +108,16 @@ public class ReportView extends BaseView {
 	}
 	
 	public void createReport() {
-		DocumLogger.log("Создание отчета для контейнера: " + this.container.getNumber());
+		DocumLogger.log("Создание отчета для контейнеров.");
 		List<Container> containers = new ArrayList<Container>();
-		if (this.container != null) {
-			containers.add(this.container);
+		if (this.selectedContainers != null) {
+			for (ContainerPresentation containerPresentation: this.selectedContainers) {
+				containerPresentation.getContainer().setReportDone(true);
+				containers.add(containerPresentation.getContainer());
+			}
 			this.report.setContainers(containers);
 			saveObject();
-			this.container.setReportDone(true);
-			super.getBaseService().save(this.container);
+			super.getBaseService().save(containers);
 			//reportingService.createReport(this.container, this.report.getId());
 		}
 	}
@@ -208,5 +212,13 @@ public class ReportView extends BaseView {
 
 	public void setReports(List<Report> reports) {
 		this.reports = reports;
+	}
+
+	public ContainerPresentation[] getSelectedContainers() {
+		return selectedContainers;
+	}
+
+	public void setSelectedContainers(ContainerPresentation[] selectedContainers) {
+		this.selectedContainers = selectedContainers;
 	}
 }
