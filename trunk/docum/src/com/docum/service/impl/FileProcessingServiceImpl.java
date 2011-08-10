@@ -6,7 +6,6 @@ import java.io.InputStream;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,8 +16,7 @@ import com.docum.service.FileProcessingService;
 @Service
 @Transactional
 public class FileProcessingServiceImpl implements FileProcessingService {
-	private static final long serialVersionUID = -5937179572456645739L;
-	private static final Logger logger = Logger.getLogger(FileProcessingServiceImpl.class);
+	private static final long serialVersionUID = -5937179572456645739L;	
 	private static final String SEP = File.separator;
 	private static final String EXT_SEP = FilenameUtils.EXTENSION_SEPARATOR_STR;
 

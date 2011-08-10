@@ -294,7 +294,7 @@ public class ArticleView extends BaseView {
 	}
 	
 	public void setWrappedNormativeDocument(NormativeDocumentPresentation normativeDocument) {
-		this.normativeDocument = normativeDocument != null ? normativeDocument.getNormativeDocument() :null;
+		this.normativeDocument = normativeDocument != null ? normativeDocument.getDocument() :null;
 	}
 	
 	public ArticleFeaturePresentation getWrappedFeature() {

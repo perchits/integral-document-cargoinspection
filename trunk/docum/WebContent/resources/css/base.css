@@ -607,7 +607,7 @@ a.olive-color:hover {
 	background:
 		url("#{resource['primefaces-olive:images/ui-icons_81873a_256x240.png']}")
 		transparent !important;
-	background-position: -62px -48px !important;
+	background-position: 3px -48px !important;
 }
 
 .image-view-button {

@@ -2,16 +2,12 @@ package com.docum.view.container.unit;
 
 import java.io.Serializable;
 
-import org.primefaces.event.FileUploadEvent;
-
 import com.docum.domain.po.common.Container;
 import com.docum.domain.po.common.Inspection;
 import com.docum.service.BaseService;
-import com.docum.service.FileProcessingService;
 import com.docum.view.AbstractDlgView;
 import com.docum.view.DialogActionEnum;
 import com.docum.view.DialogActionHandler;
-import com.docum.view.FileUploadUtil;
 import com.docum.view.container.ContainerContext;
 import com.docum.view.container.ContainerHolder;
 import com.docum.view.container.InspectionDlgView;
@@ -23,10 +19,7 @@ public class InspectionUnit implements Serializable, DialogActionHandler {
 	private ContainerHolder containerHolder;
 	private Inspection inspection; 
 	private InspectionDlgView inspectionDlg; 
-	private BaseService baseService;
-	private FileProcessingService fileService;
-
-	private String stickerImage;
+	private BaseService baseService;		
 
 	public Inspection getInspection() {
 		return inspection;
@@ -35,8 +28,7 @@ public class InspectionUnit implements Serializable, DialogActionHandler {
 	public void setContext(ContainerContext context) {		
 		container = context.getContainer();
 		inspection = container.getInspection();
-		baseService = context.getBaseService();
-		fileService = context.getFileService();
+		baseService = context.getBaseService();		
 	}
 	
 	public String getSurveyPlace() {
@@ -96,18 +88,6 @@ public class InspectionUnit implements Serializable, DialogActionHandler {
 			}
 		}
 
-	}
-
-	public String getStickerImage() {
-		return stickerImage;
-	}
-
-	public void setStickerImage(String stickerImage) {
-		this.stickerImage = stickerImage;
-	}
-	
-	public void uploadStickerImage(FileUploadEvent event) {
-		stickerImage = FileUploadUtil.handleUploadedFile(fileService, container, event);
-	}
+	}	
 
 }

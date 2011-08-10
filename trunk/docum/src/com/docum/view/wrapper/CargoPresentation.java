@@ -111,6 +111,12 @@ public class CargoPresentation implements Serializable {
 		return cargo.getInspectionInfo().getShippingMarkEng() != null ?
 				cargo.getInspectionInfo().getShippingMarkEng().getValue() : null;
 	}
+	
+	public String getNormativeDoc(){
+		return cargo != null && cargo.getInspectionInfo() != null
+		&& cargo.getInspectionInfo().getNormativeDocument() != null ?
+				cargo.getInspectionInfo().getNormativeDocument().getName(): null;
+	}
 
 	public List<CargoPackagePresentation> getPackages() {
 		if (cargo == null) {

@@ -48,6 +48,13 @@
 			<h:outputText styleClass="olive-color" value="Поставщик: " />
 			<h:outputText value="#{wcargo.supplier}" />
 			<br />
+			
+			<h:panelGroup rendered="#{wcargo.actual}">
+			<h:outputText  
+			 styleClass="olive-color" value="Норм. документ: " />
+			<h:outputText value="#{wcargo.normativeDoc}" />
+			<br />
+			</h:panelGroup>
 
 			<ui:include src="/container/include/featureUnit.xhtml">
 				<ui:param name="featurebean" value="#{cargobean.cargoFeatureUnit}" />

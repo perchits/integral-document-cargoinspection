@@ -9,6 +9,7 @@ import com.docum.dao.ArticleDao;
 import com.docum.domain.po.common.ArticleCategory;
 import com.docum.domain.po.common.ArticleFeature;
 import com.docum.domain.po.common.ArticleFeatureInstance;
+import com.docum.domain.po.common.NormativeDocument;
 import com.docum.service.ArticleService;
 
 @Service(ArticleService.SERVICE_NAME)
@@ -31,6 +32,11 @@ public class ArticleServiceImpl extends BaseServiceImpl implements ArticleServic
 	@Override
 	public List<ArticleFeatureInstance> getArticleFeatureInstanceByArticle(Long articleFeatureId) {
 		return articleDao.getArticleFeatureInstanceByArticle(articleFeatureId);
+	}
+
+	@Override
+	public List<NormativeDocument> getNormativeDocumentByArticle(Long articleId) {
+		return articleDao.getArticleDocumentByArticle(articleId);
 	}
 
 }
