@@ -10,6 +10,7 @@ import com.docum.dao.ArticleDao;
 import com.docum.domain.po.common.ArticleCategory;
 import com.docum.domain.po.common.ArticleFeature;
 import com.docum.domain.po.common.ArticleFeatureInstance;
+import com.docum.domain.po.common.NormativeDocument;
 
 @Repository
 public class ArticleDaoImpl extends BaseDaoImpl implements ArticleDao {
@@ -40,6 +41,15 @@ public class ArticleDaoImpl extends BaseDaoImpl implements ArticleDao {
 		query.setParameter("articleFeatureId", articleFeatureId);
 		@SuppressWarnings("unchecked")
 		List<ArticleFeatureInstance> result = query.getResultList();
+		return result;
+	}
+	
+	@Override
+	public List<NormativeDocument> getArticleDocumentByArticle(Long articleId) {
+		Query query = entityManager.createNamedQuery(GET_ARTICLE_DOCUMENTS_BY_ARTICLE_QUERY);
+		query.setParameter("articleId", articleId);
+		@SuppressWarnings("unchecked")
+		List<NormativeDocument> result = query.getResultList();
 		return result;
 	}
 
