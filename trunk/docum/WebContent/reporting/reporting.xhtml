@@ -34,7 +34,9 @@
 			<h:form prependId="false">
 				<p:dataTable id="reports" var="report"
 					value="#{reportBean.reports}" selectionMode="single"
-					selection="#{reportBean.report}" >
+					selection="#{reportBean.wrappedReport}" >
+					<p:ajax event="rowSelect"/>
+					
 					<p:column sortBy="#{report.number}">
 						<f:facet name="header">
 						Номер отчета
