@@ -1,7 +1,6 @@
 package com.docum.view;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -26,6 +25,8 @@ import com.docum.view.navigation.ViewNavigation;
 import com.docum.view.param.FlashParamKeys;
 import com.docum.view.wrapper.ContainerPresentation;
 import com.docum.view.wrapper.ContainerTransformer;
+import com.docum.view.wrapper.ReportPresentation;
+import com.docum.view.wrapper.ReportTransformer;
 import com.docum.view.wrapper.VoyagePresentation;
 import com.docum.view.wrapper.VoyageTransformer;
 
@@ -42,7 +43,7 @@ public class ReportView extends BaseView {
 	private ReportingService reportingService;
 	
 	private Report report = new Report();
-	private List<Report> reports;
+	private List<ReportPresentation> reports;
 	private Integer containersAmount;
 	private Container selectedContainer;
 	private Container container;
@@ -64,8 +65,10 @@ public class ReportView extends BaseView {
 	@Override
 	public void refreshObjects() {
 		if (this.selectedVoyage != null) {
-			this.reports = 
+			Collection<Report> r = 
 				reportingService.getReportsByVoyage(this.selectedVoyage.getVoyage().getId());
+			this.reports = new ArrayList<ReportPresentation>(r.size()); 
+			AlgoUtil.transform(this.reports, r, new ReportTransformer());
 		}
 	}
 
@@ -203,15 +206,11 @@ public class ReportView extends BaseView {
 		this.selectedVoyage = selectedVoyage;
 	}
 
-	public List<Report> getReports() {
+	public List<ReportPresentation> getReports() {
 		if (this.reports == null) {
 			refreshObjects();
 		}
 		return reports;
-	}
-
-	public void setReports(List<Report> reports) {
-		this.reports = reports;
 	}
 
 	public ContainerPresentation[] getSelectedContainers() {
