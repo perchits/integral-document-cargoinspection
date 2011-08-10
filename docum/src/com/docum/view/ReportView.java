@@ -132,7 +132,7 @@ public class ReportView extends BaseView {
 	public void createReport() {
 		DocumLogger.log("Создание отчета для контейнеров.");
 		List<Container> containers = new ArrayList<Container>();
-		if (this.selectedContainers != null) {
+		if (this.selectedContainers != null && this.selectedContainers.length > 0) {
 			for (ContainerPresentation containerPresentation: this.selectedContainers) {
 				containerPresentation.getContainer().setReportDone(true);
 				containers.add(containerPresentation.getContainer());
@@ -141,6 +141,8 @@ public class ReportView extends BaseView {
 			saveObject();
 			super.getBaseService().save(containers);
 			//reportingService.createReport(this.container, this.report.getId());
+		} else {
+			saveObject();
 		}
 	}
 	
