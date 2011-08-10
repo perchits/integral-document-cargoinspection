@@ -4,13 +4,23 @@ import java.io.Serializable;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
+import com.docum.dao.ArticleDao;
 import com.docum.domain.po.IdentifiedEntity;
 import com.docum.util.EqualsHelper;
 import com.docum.util.HashCodeHelper;
 
 
 @Entity
+@NamedQueries(
+	@NamedQuery(
+			name = ArticleDao.GET_ARTICLE_DOCUMENTS_BY_ARTICLE_QUERY,
+			query = "SELECT DISTINCT ad FROM NormativeDocument nd " +
+			"WHERE nd.article.id=:articleId ORDER BY nd.id"
+	)
+)
 public class NormativeDocument extends IdentifiedEntity implements Serializable {
 	private static final long serialVersionUID = -6892861541305786883L;
 	private String name;
@@ -67,6 +77,16 @@ public class NormativeDocument extends IdentifiedEntity implements Serializable 
 
 	public int hashCode() {
 		return HashCodeHelper.hashCode(getId());
+	}
+	
+	@Override
+	public String getEntityName() {
+		return "Документ";
+	}
+	
+	@Override
+	public GenderEnum getEntityGender() {
+		return GenderEnum.MALE;
 	}
    
 }
