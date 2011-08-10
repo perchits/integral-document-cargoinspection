@@ -10,8 +10,8 @@ public class NormativeDocumentPresentation implements Serializable {
 
 	private NormativeDocument document;
 	
-	public NormativeDocumentPresentation(NormativeDocument normativeDocument) {
-		this.document = normativeDocument;
+	public NormativeDocumentPresentation(NormativeDocument document) {
+		this.document = document;
 	}
 	
 	public String toString() {
@@ -26,12 +26,12 @@ public class NormativeDocumentPresentation implements Serializable {
 		return document != null ? document.getEnglishName() : null; 
 	}
 
-	public NormativeDocument getNormativeDocument() {
+	public NormativeDocument getDocument() {
 		return document;
 	}
 
-	public void setNormativeDocument(NormativeDocument normativeDocument) {
-		this.document = normativeDocument;
+	public void setDocument(NormativeDocument document) {
+		this.document = document;
 	}
 	
 }
