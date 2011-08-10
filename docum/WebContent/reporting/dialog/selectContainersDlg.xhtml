@@ -16,8 +16,8 @@
 			<p:calendar value="#{bean.report.date}" id="reportDate" required="true"
 				label="Дата отчета" pattern="dd.MM.yyyy" />
 			<p:dataTable id="containersWithoutReport" var="containerWoReport"
-				value="#{reportBean.containersWithoutReport}" selectionMode="single"
-				selection="#{reportBean.container}">
+				value="#{reportBean.containersWithoutReport}" selectionMode="multiple"
+				selection="#{reportBean.selectedContainers}">
 				<p:column sortBy="#{containerWoReport.number}">
 					<f:facet name="header">
 					Номер контейнера
