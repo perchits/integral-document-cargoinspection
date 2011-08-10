@@ -87,15 +87,24 @@ public class ReportView extends BaseView {
 		return this.report != null ? this.report : new Report();
 	}
 	
-	public ArrayList<ContainerPresentation> getContainersWithoutReport() {
+	public ArrayList<ContainerPresentation> getContainersForReport() {
+		ArrayList<ContainerPresentation> result = null;
 		if (selectedVoyage != null) {
-			Collection<Container> c = containerService.getContainersWithoutReportByVoyage(
-					this.selectedVoyage.getVoyage().getId());
-			ArrayList<ContainerPresentation> result = new ArrayList<ContainerPresentation>(c.size());
-			AlgoUtil.transform(result, c, new ContainerTransformer());
-			return result;
+			if (this.report != null && this.report.getId() != null) {
+				Collection<Container> c = 
+					containerService.getContainersByReport(this.report.getId());
+				result = new ArrayList<ContainerPresentation>(c.size());
+				AlgoUtil.transform(result, c, new ContainerTransformer());
+				return result;
+			} else {
+				Collection<Container> c = containerService.getContainersWithoutReportByVoyage(
+						this.selectedVoyage.getVoyage().getId());
+				result = new ArrayList<ContainerPresentation>(c.size());
+				AlgoUtil.transform(result, c, new ContainerTransformer());
+				return result;
+			}
 		} else {
-			return null;
+			return result;
 		}
 	}
 	
@@ -219,5 +228,11 @@ public class ReportView extends BaseView {
 
 	public void setSelectedContainers(ContainerPresentation[] selectedContainers) {
 		this.selectedContainers = selectedContainers;
+	}
+
+	public void setWrappedReport(ReportPresentation wrappedReport) {
+		if (wrappedReport != null) {
+			this.report = wrappedReport.getReport();
+		}
 	}
 }

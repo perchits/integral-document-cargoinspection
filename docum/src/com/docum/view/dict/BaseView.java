@@ -76,7 +76,7 @@ public abstract class BaseView implements Serializable{
 			setTitle("Правка: " + getBriefInfo());
 		} else {
 			String message = String.format(
-					"%1$s для редактирование не выбран!", getSign());
+					"%1$s для редактирования не выбран!", getSign());
 			showErrorMessage(message);
 			addCallbackParam("dontShow", true);
 		}
