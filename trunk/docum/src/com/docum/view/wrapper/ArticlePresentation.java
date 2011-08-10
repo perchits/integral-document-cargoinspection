@@ -56,14 +56,20 @@ public class ArticlePresentation implements Serializable {
 		}
 	}
 	
-	public List<NormativeDocument> getNormativeDocuments() {
-		return null;
-//TODO исправить некомпилируемый код
-//		if (this.article == null || this.article.getId() == null) {
-//			return null;
-//		} else {
-//			return article.getNormativeDocuments();
-//		}
+	public List<NormativeDocumentPresentation> getDocuments() {
+		if (article == null) {
+			return null;
+		}
+		Collection<NormativeDocument> c = article.getDocuments();
+		List<NormativeDocumentPresentation> result = new ArrayList<NormativeDocumentPresentation>(c.size());
+		AlgoUtil.transform(result, c, new NormativeDocumentTransformer());
+		Collections.sort(result, new Comparator<NormativeDocumentPresentation>() {
+			@Override
+			public int compare(NormativeDocumentPresentation o1, NormativeDocumentPresentation o2) {
+				return o1.toString().compareTo(o2.toString());
+			}
+		});
+		return result;
 	}
 	
 	public String getName() {		
