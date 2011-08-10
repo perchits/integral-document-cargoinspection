@@ -5,6 +5,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.faces.event.ActionEvent;
+
 import org.primefaces.event.SelectEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -49,6 +51,7 @@ public class ReportView extends BaseView {
 	private Container container;
 	private VoyagePresentation selectedVoyage;
 	private ContainerPresentation[] selectedContainers;
+	private boolean editMode = false;
 
 	@Override
 	public void saveObject() {
@@ -60,6 +63,7 @@ public class ReportView extends BaseView {
 	public void newObject() {
 		super.newObject();
 		this.report = new Report();
+		this.editMode = false;
 	}
 	
 	@Override
@@ -106,6 +110,12 @@ public class ReportView extends BaseView {
 		} else {
 			return result;
 		}
+	}
+	
+	@Override
+	public void editObject(ActionEvent actionEvent) {
+		super.editObject(actionEvent);
+		this.editMode = true;
 	}
 	
 	@Override
@@ -221,6 +231,13 @@ public class ReportView extends BaseView {
 		}
 		return reports;
 	}
+	
+	public void setRemoveContainerFromReport(ContainerPresentation containerPresentation) {
+		this.report.getContainers().remove(containerPresentation.getContainer());
+		containerPresentation.getContainer().setReportDone(false);
+		saveObject();
+		super.getBaseService().save(containerPresentation.getContainer());
+	}
 
 	public ContainerPresentation[] getSelectedContainers() {
 		return selectedContainers;
@@ -234,5 +251,13 @@ public class ReportView extends BaseView {
 		if (wrappedReport != null) {
 			this.report = wrappedReport.getReport();
 		}
+	}
+
+	public void setEditMode(boolean editMode) {
+		this.editMode = editMode;
+	}
+	
+	public boolean getEditMode() {
+		return this.editMode;
 	}
 }

@@ -15,27 +15,34 @@
 			<h:outputLabel for="reportDate" value="Дата отчета:" />
 			<p:calendar value="#{bean.report.date}" id="reportDate" required="true"
 				label="Дата отчета" pattern="dd.MM.yyyy" />
-			<p:dataTable id="containersWithoutReport" var="containerWoReport"
+			<p:dataTable id="containersForReport" var="containerForReport"
 				value="#{reportBean.containersForReport}" selectionMode="multiple"
 				selection="#{reportBean.selectedContainers}">
 				<p:column sortBy="#{containerWoReport.number}">
 					<f:facet name="header">
 					Номер контейнера
 					</f:facet>
-					<h:outputText value="#{containerWoReport.number}" />
+					<h:outputText value="#{containerForReport.number}" />
 				</p:column>
-				<p:column sortBy="#{containerWoReport.voyage.arrivalDate}">
+				<p:column sortBy="#{containerForReport.voyage.arrivalDate}">
 					<f:facet name="header">
 					Груз
 					</f:facet>
-					<h:outputText value="#{containerWoReport.cargoInLine}" />
+					<h:outputText value="#{containerForReport.cargoInLine}" />
 				</p:column>
-				<p:column sortBy="#{containerWoReport.cargoSuppliers}">
+				<p:column sortBy="#{containerForReport.cargoSuppliers}">
 					<f:facet name="header">
 					Поставщик
 					</f:facet>
-					<h:outputText value="#{containerWoReport.cargoSuppliers}" />
+					<h:outputText value="#{containerForReport.cargoSuppliers}" />
 				</p:column>
+				<p:column rendered="#{reportBean.editMode}">
+					<p:commandButton title="Удалить из отчета" image="ui-icon-close"
+						styleClass="inline-btn border-btn" update="containersForReport">
+						<f:setPropertyActionListener target="#{reportBean.removeContainerFromReport}"
+							value="#{containerForReport}" />
+					</p:commandButton>
+				</p:column>					
 			</p:dataTable>
 		</p:panel>
 	</ui:define>	
