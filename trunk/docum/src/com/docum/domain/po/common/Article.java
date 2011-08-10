@@ -113,7 +113,6 @@ public class Article extends IdentifiedEntity {
 		if (features.remove(feature)) {
 			feature.setArticle(null);
 		}
-		
 	}	
 
 	public Set<NormativeDocument> getDocuments() {
