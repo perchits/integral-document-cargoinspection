@@ -47,6 +47,24 @@
 						</f:facet>
 						<h:outputText value="#{report.date}" />
 					</p:column>
+					<p:column sortBy="#{report.reportedContainers}">
+						<f:facet name="header">
+						Контейнеры
+						</f:facet>
+						<h:outputText value="#{report.reportedContainers}" />
+					</p:column>
+					<p:column sortBy="#{report.cargo}">
+						<f:facet name="header">
+						Груз
+						</f:facet>
+						<h:outputText value="#{report.cargo}" />
+					</p:column>
+					<p:column sortBy="#{report.cargoSupplier}">
+						<f:facet name="header">
+						Поставщик
+						</f:facet>
+						<h:outputText value="#{report.cargoSupplier}" />
+					</p:column>
 					<p:column sortBy="#{report.date}">
 						<h:outputLink value="../resources/reporting/resultReport_#{report.id}.pdf" styleClass="olive-color" >
 						   <h:outputText value="Нажмите для просмотра" />
