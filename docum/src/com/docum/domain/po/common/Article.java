@@ -73,14 +73,6 @@ public class Article extends IdentifiedEntity {
 		this.categories = categories;		
 	}
 	
-	public Set<NormativeDocument> getDocuments() {
-		return documents;
-	}
-
-	public void setDocuments(Set<NormativeDocument> documents) {
-		this.documents = documents;
-	}
-
 	public void addCategory(ArticleCategory category){
 		category.setArticle(this);
 		OrderedEntityUtil.add(category, categories);
@@ -123,7 +115,26 @@ public class Article extends IdentifiedEntity {
 		}
 		
 	}	
+
+	public Set<NormativeDocument> getDocuments() {
+		return documents;
+	}
+
+	public void setDocuments(Set<NormativeDocument> documents) {
+		this.documents = documents;
+	}
 	
+	public void addDocument(NormativeDocument document) {
+		documents.add(document);
+		document.setArticle(this);
+	}
+	
+	public void removeDocument(NormativeDocument document) {
+		if (documents.remove(document)) {
+			document.setArticle(null);
+		}
+	}
+		
 	public boolean equals(Object obj) {
 		if (obj == this) {
 			return true;
