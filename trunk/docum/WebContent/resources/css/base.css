@@ -662,3 +662,8 @@ a.olive-color:hover {
 .upload-table td {
 	background: transparent !important;
 }
+
+.report-containers table {
+	min-width: 440px;
+	font-size: 11px !important;
+}
