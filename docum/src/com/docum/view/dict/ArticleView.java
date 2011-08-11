@@ -287,7 +287,7 @@ public class ArticleView extends BaseView {
 		this.category = category !=  null ? category.getArticleCategory() : null;
 	}
 	
-	public void setWrappedNormativeDocument(NormativeDocumentPresentation normativeDocument) {
+	public void setWrappedDocument(NormativeDocumentPresentation normativeDocument) {
 		this.document = normativeDocument != null ? normativeDocument.getDocument() :null;
 	}
 	
@@ -299,7 +299,7 @@ public class ArticleView extends BaseView {
 		return new ArticleCategoryPresentation(category);
 	}
 	
-	public NormativeDocumentPresentation getWrappedNormativeDocument() {
+	public NormativeDocumentPresentation getWrappedDocument() {
 		return new NormativeDocumentPresentation(document);
 	}
 	
@@ -309,7 +309,7 @@ public class ArticleView extends BaseView {
 		}
 	}
 	
-	public void editNormativeDocument(ActionEvent actionEvent) {
+	public void editDocument(ActionEvent actionEvent) {
 		if (validateAction(this.document, NormativeDocument.class)) {
 			setTitle("Правка: " + this.document.getName());
 		}
