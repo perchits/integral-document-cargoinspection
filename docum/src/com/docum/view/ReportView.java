@@ -101,15 +101,23 @@ public class ReportView extends BaseView {
 				AlgoUtil.transform(result, c, new ContainerTransformer());
 				return result;
 			} else {
-				Collection<Container> c = containerService.getContainersWithoutReportByVoyage(
-						this.selectedVoyage.getVoyage().getId());
-				result = new ArrayList<ContainerPresentation>(c.size());
-				AlgoUtil.transform(result, c, new ContainerTransformer());
-				return result;
+				return getContainersWithoutReport();
+				
 			}
 		} else {
 			return result;
 		}
+	}
+	
+	public ArrayList<ContainerPresentation> getContainersWithoutReport() {
+		ArrayList<ContainerPresentation> result = null;
+		if (selectedVoyage != null) {
+			Collection<Container> c = containerService.getContainersWithoutReportByVoyage(
+					this.selectedVoyage.getVoyage().getId());
+			result = new ArrayList<ContainerPresentation>(c.size());
+			AlgoUtil.transform(result, c, new ContainerTransformer());
+		}
+		return result;
 	}
 	
 	@Override
@@ -237,6 +245,13 @@ public class ReportView extends BaseView {
 	public void setRemoveContainerFromReport(ContainerPresentation containerPresentation) {
 		this.report.getContainers().remove(containerPresentation.getContainer());
 		containerPresentation.getContainer().setReportDone(false);
+		saveObject();
+		super.getBaseService().save(containerPresentation.getContainer());
+	}
+	
+	public void setAddContainerToReport(ContainerPresentation containerPresentation) {
+		this.report.getContainers().add(containerPresentation.getContainer());
+		containerPresentation.getContainer().setReportDone(true);
 		saveObject();
 		super.getBaseService().save(containerPresentation.getContainer());
 	}

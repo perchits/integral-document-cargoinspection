@@ -15,35 +15,70 @@
 			<h:outputLabel for="reportDate" value="Дата отчета:" />
 			<p:calendar value="#{bean.report.date}" id="reportDate" required="true"
 				label="Дата отчета" pattern="dd.MM.yyyy" />
-			<p:dataTable id="containersForReport" var="containerForReport"
-				value="#{reportBean.containersForReport}" selectionMode="multiple"
+			<p:panel>
+				<h:outputText rendered="#{reportBean.editMode}" value="Контейнеры в отчете"/>
+				<p:dataTable id="containersForReport" var="containerForReport"
+					value="#{reportBean.containersForReport}" selectionMode="multiple"
+					selection="#{reportBean.selectedContainers}">
+					<p:column sortBy="#{containerForReport.number}">
+						<f:facet name="header">
+						Номер контейнера
+						</f:facet>
+						<h:outputText value="#{containerForReport.number}" />
+					</p:column>
+					<p:column sortBy="#{containerForReport.cargoInLine}">
+						<f:facet name="header">
+						Груз
+						</f:facet>
+						<h:outputText value="#{containerForReport.cargoInLine}" />
+					</p:column>
+					<p:column sortBy="#{containerForReport.cargoSuppliers}">
+						<f:facet name="header">
+						Поставщик
+						</f:facet>
+						<h:outputText value="#{containerForReport.cargoSuppliers}" />
+					</p:column>
+					<p:column rendered="#{reportBean.editMode}">
+						<p:commandButton title="Удалить из отчета" image="ui-icon-close"
+							styleClass="inline-btn border-btn" update="containersForReport, containersWithoutReport">
+							<f:setPropertyActionListener target="#{reportBean.removeContainerFromReport}"
+								value="#{containerForReport}" />
+						</p:commandButton>
+					</p:column>					
+				</p:dataTable>
+			</p:panel>
+			<p:panel rendered="#{reportBean.editMode}">
+				<h:outputText  value="Доступные контейнеры"/>
+				<p:dataTable id="containersWithoutReport" var="containerWoReport"
+				value="#{reportBean.containersWithoutReport}" selectionMode="multiple"
 				selection="#{reportBean.selectedContainers}">
 				<p:column sortBy="#{containerWoReport.number}">
 					<f:facet name="header">
 					Номер контейнера
 					</f:facet>
-					<h:outputText value="#{containerForReport.number}" />
+					<h:outputText value="#{containerWoReport.number}" />
 				</p:column>
-				<p:column sortBy="#{containerForReport.voyage.arrivalDate}">
+				<p:column sortBy="#{containerWoReport.cargoInLine}">
 					<f:facet name="header">
 					Груз
 					</f:facet>
-					<h:outputText value="#{containerForReport.cargoInLine}" />
+					<h:outputText value="#{containerWoReport.cargoInLine}" />
 				</p:column>
-				<p:column sortBy="#{containerForReport.cargoSuppliers}">
+				<p:column sortBy="#{containerWoReport.cargoSuppliers}">
 					<f:facet name="header">
 					Поставщик
 					</f:facet>
-					<h:outputText value="#{containerForReport.cargoSuppliers}" />
+					<h:outputText value="#{containerWoReport.cargoSuppliers}" />
 				</p:column>
 				<p:column rendered="#{reportBean.editMode}">
-					<p:commandButton title="Удалить из отчета" image="ui-icon-close"
-						styleClass="inline-btn border-btn" update="containersForReport">
-						<f:setPropertyActionListener target="#{reportBean.removeContainerFromReport}"
-							value="#{containerForReport}" />
+					<p:commandButton title="Добавить в отчет" image="ui-icon-plus"
+						styleClass="inline-btn border-btn" update="containersForReport, containersWithoutReport">
+						<f:setPropertyActionListener target="#{reportBean.addContainerToReport}"
+							value="#{containerWoReport}" />
 					</p:commandButton>
 				</p:column>					
 			</p:dataTable>
+			</p:panel>
 		</p:panel>
 	</ui:define>	
 	<ui:define name="deleteConfirmation">
