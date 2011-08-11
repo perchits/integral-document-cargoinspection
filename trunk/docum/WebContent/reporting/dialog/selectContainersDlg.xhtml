@@ -20,25 +20,25 @@
 				<p:dataTable id="containersForReport" var="containerForReport"
 					value="#{reportBean.containersForReport}" selectionMode="multiple"
 					selection="#{reportBean.selectedContainers}">
-					<p:column sortBy="#{containerForReport.number}">
+					<p:column sortBy="#{containerForReport.number}" style="width: 80px;">
 						<f:facet name="header">
-						Номер контейнера
+						Контейнера
 						</f:facet>
 						<h:outputText value="#{containerForReport.number}" />
 					</p:column>
-					<p:column sortBy="#{containerForReport.cargoInLine}">
+					<p:column sortBy="#{containerForReport.cargoInLine}" style="width: 160px;">
 						<f:facet name="header">
 						Груз
 						</f:facet>
 						<h:outputText value="#{containerForReport.cargoInLine}" />
 					</p:column>
-					<p:column sortBy="#{containerForReport.cargoSuppliers}">
+					<p:column sortBy="#{containerForReport.cargoSuppliers}"  style="width: 180px;">
 						<f:facet name="header">
 						Поставщик
 						</f:facet>
 						<h:outputText value="#{containerForReport.cargoSuppliers}" />
 					</p:column>
-					<p:column rendered="#{reportBean.editMode}">
+					<p:column rendered="#{reportBean.editMode}" style="width: 22px;">
 						<p:commandButton title="Удалить из отчета" image="ui-icon-close"
 							styleClass="inline-btn border-btn" update="containersForReport, containersWithoutReport">
 							<f:setPropertyActionListener target="#{reportBean.removeContainerFromReport}"
@@ -52,25 +52,25 @@
 				<p:dataTable id="containersWithoutReport" var="containerWoReport"
 				value="#{reportBean.containersWithoutReport}" selectionMode="multiple"
 				selection="#{reportBean.selectedContainers}">
-				<p:column sortBy="#{containerWoReport.number}">
+				<p:column sortBy="#{containerWoReport.number}" style="width: 80px;">
 					<f:facet name="header">
-					Номер контейнера
+					Контейнера
 					</f:facet>
 					<h:outputText value="#{containerWoReport.number}" />
 				</p:column>
-				<p:column sortBy="#{containerWoReport.cargoInLine}">
+				<p:column sortBy="#{containerWoReport.cargoInLine}"  style="width: 160px;">
 					<f:facet name="header">
 					Груз
 					</f:facet>
 					<h:outputText value="#{containerWoReport.cargoInLine}" />
 				</p:column>
-				<p:column sortBy="#{containerWoReport.cargoSuppliers}">
+				<p:column sortBy="#{containerWoReport.cargoSuppliers}"  style="width: 180px;">
 					<f:facet name="header">
 					Поставщик
 					</f:facet>
 					<h:outputText value="#{containerWoReport.cargoSuppliers}" />
 				</p:column>
-				<p:column rendered="#{reportBean.editMode}">
+				<p:column style="width: 22px;">
 					<p:commandButton title="Добавить в отчет" image="ui-icon-plus"
 						styleClass="inline-btn border-btn" update="containersForReport, containersWithoutReport">
 						<f:setPropertyActionListener target="#{reportBean.addContainerToReport}"
