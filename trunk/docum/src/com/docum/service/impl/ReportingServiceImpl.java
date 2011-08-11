@@ -70,6 +70,18 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 		}
 	}
 	
+	public boolean checkStarOfficeConnection() {
+		try {
+			OpenOfficeConnection officeConnection = 
+				new SocketOpenOfficeConnection(starOfficeConnectionPort);
+			officeConnection.connect();
+			officeConnection.disconnect();
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+	
 	private void processNode(Node node) throws Exception {
 		if (node.getNodeValue() != null) {
 			int statementBeginPos = node.getNodeValue().indexOf(STATEMENT_BEGIN);

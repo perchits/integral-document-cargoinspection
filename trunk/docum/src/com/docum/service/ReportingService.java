@@ -10,4 +10,5 @@ public interface ReportingService {
 
 	public void createReport(Container container, Long reportId);
 	public List<Report> getReportsByVoyage(Long voyageId);
+	public boolean checkStarOfficeConnection();
 }

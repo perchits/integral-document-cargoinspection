@@ -5,6 +5,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
 import org.primefaces.event.SelectEvent;
@@ -52,6 +54,7 @@ public class ReportView extends BaseView {
 	private VoyagePresentation selectedVoyage;
 	private ContainerPresentation[] selectedContainers;
 	private boolean editMode = false;
+	private boolean enableReportCreation = true;
 
 	@Override
 	public void saveObject() {
@@ -255,6 +258,18 @@ public class ReportView extends BaseView {
 		saveObject();
 		super.getBaseService().save(containerPresentation.getContainer());
 	}
+	
+	public void checkStarOfficeConnection() {
+		if (!reportingService.checkStarOfficeConnection()) {
+			FacesContext fc = FacesContext.getCurrentInstance();
+			fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, 
+				"Внимание!", 
+				"Отсутствует связь со службой StarOffice. Генерация отчетов невозможна."));
+			this.enableReportCreation = false;
+		} else {
+			this.enableReportCreation = true;
+		}
+	}
 
 	public ContainerPresentation[] getSelectedContainers() {
 		return selectedContainers;
@@ -276,5 +291,9 @@ public class ReportView extends BaseView {
 	
 	public boolean getEditMode() {
 		return this.editMode;
+	}
+	
+	public boolean getEnableReportCreation() {
+		return this.enableReportCreation;
 	}
 }
