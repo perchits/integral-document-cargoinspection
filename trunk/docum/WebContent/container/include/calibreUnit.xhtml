@@ -3,17 +3,7 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.prime.com.tr/ui">
-
-<h:form prependId="false" style="display:inline">
-	<p:commandButton image="ui-icon-document" title="Добавить калибр"
-		styleClass="inline-btn" action="#{calibrebean.addCalibre}"
-		oncomplete="beforeShow(calibreIdVar,args)"
-		update="calibreIdDlgPanel,growl">
-		<f:setPropertyActionListener target="#{calibrebean.cargoPackage}"
-			value="#{pack}" />
-	</p:commandButton>
-</h:form>
-
+	
 <h:panelGroup rendered="#{not empty pack.calibres}">
 
 	<h:panelGroup styleClass="calibre">

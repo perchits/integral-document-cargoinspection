@@ -17,7 +17,7 @@
 
 <ul>
 	<ui:repeat value="#{wcargo.packages}" var="pack">
-		<li><h:form prependId="false" style="float:left">
+		<li><h:form prependId="false">
 				<p:commandLink title="Правка упаковки" styleClass="olive-color"
 					action="#{packagebean.editPackage}"
 					oncomplete="beforeShow(packageIdVar,args)"
@@ -37,10 +37,18 @@
 					<f:setPropertyActionListener
 						target="#{packagebean.wrappedCargoPackage}" value="#{pack}" />
 				</p:commandButton>
-			</h:form>			
-			<ui:include src="/container/include/calibreUnit.xhtml">
+				<p:commandButton image="ui-icon-document" title="Добавить калибр"
+					styleClass="inline-btn"
+					action="#{packagebean.calibreUnit.addCalibre}"
+					oncomplete="beforeShow(calibreIdVar,args)"
+					update="calibreIdDlgPanel,growl">
+					<f:setPropertyActionListener
+						target="#{packagebean.calibreUnit.cargoPackage}" value="#{pack}" />
+				</p:commandButton>
+			</h:form> <ui:include src="/container/include/calibreUnit.xhtml">
 				<ui:param name="calibrebean" value="#{packagebean.calibreUnit}" />
-			</ui:include></li>
+			</ui:include>
+		</li>
 	</ui:repeat>
 </ul>
 

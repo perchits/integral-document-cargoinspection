@@ -667,3 +667,24 @@ a.olive-color:hover {
 	min-width: 440px;
 	font-size: 11px !important;
 }
+
+.ui-fileupload-files td {
+	font-size: 9px !important;
+}
+
+/*
+#upload-dlg-left .ui-fileupload div{	
+	height: 24px !important;	
+	line-height: 24px !important;	
+}
+*/
+
+.upload-dlg-left-col {
+	width: 90px;
+}
+
+.report-containers table {
+	min-width: 440px;
+	font-size: 11px !important;
+}
+	
