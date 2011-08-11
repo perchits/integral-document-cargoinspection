@@ -15,8 +15,8 @@
 			<h:outputLabel for="reportDate" value="Дата отчета:" />
 			<p:calendar value="#{bean.report.date}" id="reportDate" required="true"
 				label="Дата отчета" pattern="dd.MM.yyyy" />
-			<p:panel>
-				<h:outputText rendered="#{reportBean.editMode}" value="Контейнеры в отчете"/>
+			<p:panel styleClass="report-containers">
+				<h:outputText rendered="#{reportBean.editMode}" value="Контейнеры в отчете" style="padding: 4px;"/>
 				<p:dataTable id="containersForReport" var="containerForReport"
 					value="#{reportBean.containersForReport}" selectionMode="multiple"
 					selection="#{reportBean.selectedContainers}">
@@ -47,7 +47,7 @@
 					</p:column>					
 				</p:dataTable>
 			</p:panel>
-			<p:panel rendered="#{reportBean.editMode}">
+			<p:panel rendered="#{reportBean.editMode}" styleClass="report-containers">
 				<h:outputText  value="Доступные контейнеры"/>
 				<p:dataTable id="containersWithoutReport" var="containerWoReport"
 				value="#{reportBean.containersWithoutReport}" selectionMode="multiple"
