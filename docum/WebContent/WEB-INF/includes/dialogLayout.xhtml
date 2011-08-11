@@ -4,27 +4,27 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.prime.com.tr/ui">
 
-<p:outputPanel id="#{gridId}DlgPanel">
-	<h:form prependId="false" enctype="multipart/form-data" rendered="#{rendered == null ? true : rendered}">
-		<p:dialog width="#{width}" id="#{gridId}Id" widgetVar="#{gridId}Var"
-			modal="true" header="#{bean[title]}">
-			<h:panelGrid width="100%"
-				columns="#{(colCount == null) ? 2 : colCount}" cellpadding="1">
-				<ui:insert name="dialogBody">
-				</ui:insert>
-				<f:facet name="footer">
-					<p:commandButton
-						process="#{(process == null) ? '@form' : process}" 
-						action="#{bean[saveObject]}" value="OK"
-						update="#{gridId},growl,#{update}"
-						oncomplete="handleOKRequest(args,#{gridId}Var,'#{gridId}Id')" />
-					<p:commandButton type="reset" value="Отмена" update="growl"
-						onclick="#{gridId}Var.hide()" />
-				</f:facet>
-			</h:panelGrid>
-		</p:dialog>
-	</h:form>
-</p:outputPanel>
+
+<h:form prependId="false" enctype="multipart/form-data"
+	id="#{gridId}DlgPanel">
+	<p:dialog width="#{width}" id="#{gridId}Id" widgetVar="#{gridId}Var"
+		modal="true" header="#{bean[title]}" rendered="#{rendered == null ? true : rendered}">
+		<h:panelGrid width="100%"			
+			columns="#{(colCount == null) ? 2 : colCount}" cellpadding="1">
+			<ui:insert name="dialogBody">
+			</ui:insert>
+			<f:facet name="footer">
+				<p:commandButton process="#{(process == null) ? '@form' : process}"
+					action="#{bean[saveObject]}" value="OK"
+					update="#{gridId},growl,#{update}"
+					oncomplete="handleOKRequest(args,#{gridId}Var,'#{gridId}Id')" />
+				<p:commandButton type="reset" value="Отмена" update="growl"
+					onclick="#{gridId}Var.hide()" />
+			</f:facet>
+		</h:panelGrid>
+	</p:dialog>
+</h:form>
+
 
 <ui:insert name="deleteConfirmation" />
 

@@ -4,20 +4,52 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.prime.com.tr/ui">
 
-<ui:composition template="/WEB-INF/includes/dialogLayout.xhtml">
-	<ui:param name="width" value="780" />
-	<ui:param name="saveObject" value="save" />
-	<ui:param name="colCount" value="2" />
-	<ui:define name="dialogBody">
-		<h:panelGrid columns="2">
-			<h:panelGroup id="upload-dlg-left">
-			upload
-			</h:panelGroup>
-			<h:panelGroup id="upload-dlg-right">
-			list
-			</h:panelGroup>
-		</h:panelGrid>
-	</ui:define>
-</ui:composition>
+<p:outputPanel id="#{gridId}DlgPanel">
+	<h:form prependId="false" enctype="multipart/form-data"
+		rendered="#{rendered == null ? true : rendered}">
+		<p:dialog width="780" id="#{gridId}Id" widgetVar="#{gridId}Var"
+			modal="true" header="#{bean[title]}">
+
+			<h:panelGrid columns="2" width="100%"
+				columnClasses="upload-dlg-left-col,upload-dlg-right-col">
+
+				<h:panelGroup layout="block" id="upload-dlg-left">
+				<h:outputText value="Изображения отсутствуют..." rendered="#{empty bean.fileUrls}"/>
+					<p:lightBox opacity="0.4" height="480" width="640">
+						<h:dataTable value="#{bean.fileUrls}" var="furl">
+							<h:column>
+
+								<h:outputLink
+									value="#{facesContext.externalContext.requestContextPath}/images/#{furl.value}">
+									<p:graphicImage width="40" value="/images/#{furl.value}" />
+								</h:outputLink>
+
+							</h:column>
+							<h:column>
+								<p:commandButton value="OK"></p:commandButton>
+							</h:column>
+
+						</h:dataTable>
+					</p:lightBox>
+
+				</h:panelGroup>
+
+
+				<h:panelGroup id="upload-dlg-right" layout="block">
+
+					<p:fileUpload mode="advanced" cancelLabel="Отмена"
+						uploadLabel="Загрузить" multiple="true" auto="false"
+						label="Добавить фотографии"
+						fileUploadListener="#{bean.uploadImages}"
+						update="growl,upload-dlg-right,infoPanel" customUI="false"
+						allowTypes="gif|GIF|png|PNG|jpg|JPG|jpeg|JPEG">
+					</p:fileUpload>
+
+				</h:panelGroup>
+			</h:panelGrid>
+
+		</p:dialog>
+	</h:form>
+</p:outputPanel>
 
 </html>
