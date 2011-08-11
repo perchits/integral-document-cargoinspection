@@ -11,15 +11,15 @@
 	<ui:define name="dialogBody">
 	  <h:panelGrid columns="2">
 	   <p:panel>
-		<h:outputLabel for="normativeDocumentName" value="Название: *" />
-		<p:inputText value="#{bean.normativeDocument.name}" id="normativeDocumentName"
+		<h:outputLabel for="documentName" value="Название: *" />
+		<p:inputText value="#{bean.document.name}" id="documentName"
 			required="true" label="Название">
 		</p:inputText>
 
-		<h:outputLabel for="normativeDocumentEnglishName"
+		<h:outputLabel for="documentEnglishName"
 			value="Название на англ. яз.: *" />
-		<p:inputText value="#{bean.normativeDocument.englishName}"
-			id="normativeDocumentEnglishName" required="true"
+		<p:inputText value="#{bean.document.englishName}"
+			id="documentEnglishName" required="true"
 			label="Название на англ. яз.">
 		</p:inputText>
 	   </p:panel>
@@ -27,8 +27,8 @@
 	</ui:define>
 	<ui:define name="deleteConfirmation">
 		<ui:include src="/WEB-INF/includes/deleteConfirmation.xhtml">
-			<ui:param name="message" value="Удалить документ '#{bean.normativeDocument.name}'?" />
-			<ui:param name="deleteObject" value="deleteNormativeDocument" />	
+			<ui:param name="message" value="Удалить документ '#{bean.document.name}'?" />
+			<ui:param name="deleteObject" value="deleteDocument" />	
 		</ui:include>
 	</ui:define>
 </ui:composition>

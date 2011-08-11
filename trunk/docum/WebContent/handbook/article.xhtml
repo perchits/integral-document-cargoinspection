@@ -21,7 +21,7 @@
 						value="#{articleBean.articles}" selectionMode="single"
 						selection="#{articleBean.wrappedArticle}">
 						<p:ajax event="rowSelect"
-							update="categoriesGrid, characteristics, featuresGrid" />
+							update="categoriesGrid, characteristics, featuresGrid, documentsGrid" />
 						<p:column sortBy="#{article.name}" filterBy="#{article.name}"
 							filterMatchMode="contains">
 							<f:facet name="header">Наименование</f:facet>
@@ -125,7 +125,31 @@
 								</p:rowExpansion>
 							</p:dataTable>
 						</p:panel>
-
+						<p:panel>
+							<ui:include src="/WEB-INF/includes/baseCrudToolBar.xhtml">
+								<ui:param name="bean" value="#{articleBean}" />
+								<ui:param name="gridId" value="documentsGrid" />
+								<ui:param name="newObject" value="newDocument" />
+								<ui:param name="editObject" value="editDocument" />
+								<ui:param name="beforeDeleteObject" value="beforeDeleteDocument" />
+								<ui:param name="hideTitle" value="true" />
+							</ui:include>
+							<p:dataTable id="documentsGrid" var="document"
+								selectionMode="single" value="#{articleBean.documents}"
+								selection="#{articleBean.wrappedDocument}">
+								<p:column styleClass="expended-col">
+									<p:rowToggler />
+								</p:column>
+								<p:column>
+									<h:outputText value="#{document.name}" />
+									<f:facet name="header">Документ</f:facet>
+								</p:column>
+								<p:column>
+									<f:facet name="header">Документ англ.</f:facet>
+									<h:outputText value="#{document.englishName}" />
+								</p:column>
+							</p:dataTable>
+						</p:panel>
 					</h:panelGrid>
 				</p:panel>
 			</h:panelGrid>
@@ -157,8 +181,8 @@
 			<ui:param name="title" value="title" />
 		</ui:include>
 		<ui:include src="/handbook/dialog/normativeDocumentDlg.xhtml">
-			<ui:param name="gridId" value="normativeDocumentGrid" />
-			<ui:param name="bean" value="#{normativeDocumentBean}" />
+			<ui:param name="gridId" value="documentsGrid" />
+			<ui:param name="bean" value="#{articleBean}" />
 			<ui:param name="title" value="title" />
 		</ui:include>
 
