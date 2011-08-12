@@ -8,6 +8,7 @@ import org.primefaces.event.FileUploadEvent;
 import com.docum.domain.po.common.Container;
 import com.docum.domain.po.common.FileUrl;
 import com.docum.service.FileProcessingService;
+import com.docum.util.AlgoUtil;
 import com.docum.util.OrderedEntityUtil;
 import com.docum.view.AbstractDlgView;
 import com.docum.view.DialogActionEnum;
@@ -59,6 +60,14 @@ public class FileListDlgView extends AbstractDlgView implements Serializable {
 	
 	public void uploadImages(FileUploadEvent event) {
 		fileUrls.add(new FileUrl(FileUploadUtil.handleUploadedFile(fileService, container , event)));
+	}
+	
+	public void removeImage(){
+		AlgoUtil.removeAll(fileUrls, new AlgoUtil.FindPredicate<FileUrl>(){
+			  public boolean isIt(FileUrl c) {
+			    return c.getValue().equals(fileUrl.getValue());
+			 }
+			});		
 	}
 
 	public void save() {
