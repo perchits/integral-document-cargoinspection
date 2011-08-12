@@ -1,0 +1,44 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<f:view contentType="text/html" encoding="UTF-8">
+
+<f:loadBundle basename="buildnumber" var="buildnumber"/>
+	<h:head>
+		<h:outputStylesheet name="base.css" library="css" />		
+	</h:head>
+
+	<h:body>
+		<p:growl id="growl" showDetail="true" />
+		<h:form>
+			<h:panelGrid columns="1" cellpadding="5">
+				<p:commandButton id="basic" value="Basic" onclick="dlg1.show();"
+					type="button" />
+
+				<p:commandButton value="Modal" onclick="dlg2.show();" type="button" />
+
+				<p:commandButton value="Effects" onclick="dlg3.show();"
+					type="button" />
+			</h:panelGrid>
+
+			<p:dialog header="Basic Dialog" id="dlg1ID" widgetVar="dlg1">
+				<h:outputText value="Resistance to PrimeFaces is futile!" />
+			</p:dialog>
+
+			<p:dialog header="Modal Dialog" id="dlg2ID" widgetVar="dlg2"
+				modal="true" height="100">
+				<h:outputText value="This is a Modal Dialog." />
+			</p:dialog>
+
+			<p:dialog header="Effects" id="dlg3ID" widgetVar="dlg3"
+				showEffect="explode" hideEffect="explode" height="100">
+				<h:outputText value="This dialog has nice effects." />
+			</p:dialog>
+		</h:form>
+	</h:body>
+</f:view>
+</html>
+

@@ -687,4 +687,13 @@ a.olive-color:hover {
 	min-width: 440px;
 	font-size: 11px !important;
 }
-	
+
+#upload-dlg-right {
+	padding: 0 0 0 50px;
+}
+
+.image-list-table td {
+	vertical-align: middle;
+	background: #FCFFF0;
+	border: 1px dotted #E4F0B6;
+}

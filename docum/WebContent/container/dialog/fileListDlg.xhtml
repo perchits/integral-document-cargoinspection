@@ -4,52 +4,53 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.prime.com.tr/ui">
 
-<p:outputPanel id="#{gridId}DlgPanel">
+<p:dialog width="780" id="#{gridId}Id" widgetVar="#{gridId}Var"
+	modal="true" header="#{bean[title]}">
 	<h:form prependId="false" enctype="multipart/form-data"
-		rendered="#{rendered == null ? true : rendered}">
-		<p:dialog width="780" id="#{gridId}Id" widgetVar="#{gridId}Var"
-			modal="true" header="#{bean[title]}">
+		id="#{gridId}DlgPanel">
+		<h:panelGrid columns="2" width="100%"
+			rendered="#{rendered == null ? true : rendered}"
+			columnClasses="upload-dlg-left-col,upload-dlg-right-col">
+			<h:panelGroup layout="block" id="upload-dlg-left">
+				<h:outputText value="Изображения отсутствуют..."
+					rendered="#{empty bean.fileUrls}" />
+				<p:lightBox opacity="0.4" height="480" width="640">
+					<h:dataTable styleClass="image-list-table" value="#{bean.fileUrls}" var="furl">
+						<h:column>
 
-			<h:panelGrid columns="2" width="100%"
-				columnClasses="upload-dlg-left-col,upload-dlg-right-col">
+							<h:outputLink
+								value="#{facesContext.externalContext.requestContextPath}/images/#{furl.value}">
+								<p:graphicImage width="50" value="/images/#{furl.value}" />
+							</h:outputLink>
 
-				<h:panelGroup layout="block" id="upload-dlg-left">
-				<h:outputText value="Изображения отсутствуют..." rendered="#{empty bean.fileUrls}"/>
-					<p:lightBox opacity="0.4" height="480" width="640">
-						<h:dataTable value="#{bean.fileUrls}" var="furl">
-							<h:column>
+						</h:column>
+						<h:column>
+							<p:commandButton styleClass="inline-btn" title="Удалить #{hint}"
+								image="ui-icon-trash" action="#{bean.removeImage}"
+								update="upload-dlg-left">
+								<f:setPropertyActionListener target="#{bean.fileUrl}"
+									value="#{furl}" />
+							</p:commandButton>
+						</h:column>
+						
+					</h:dataTable>
+				</p:lightBox>
 
-								<h:outputLink
-									value="#{facesContext.externalContext.requestContextPath}/images/#{furl.value}">
-									<p:graphicImage width="40" value="/images/#{furl.value}" />
-								</h:outputLink>
+			</h:panelGroup>
 
-							</h:column>
-							<h:column>
-								<p:commandButton value="OK"></p:commandButton>
-							</h:column>
-
-						</h:dataTable>
-					</p:lightBox>
-
-				</h:panelGroup>
-
-
-				<h:panelGroup id="upload-dlg-right" layout="block">
-
-					<p:fileUpload mode="advanced" cancelLabel="Отмена"
-						uploadLabel="Загрузить" multiple="true" auto="false"
-						label="Добавить фотографии"
-						fileUploadListener="#{bean.uploadImages}"
-						update="growl,upload-dlg-right,infoPanel" customUI="false"
-						allowTypes="gif|GIF|png|PNG|jpg|JPG|jpeg|JPEG">
-					</p:fileUpload>
-
-				</h:panelGroup>
-			</h:panelGrid>
-
-		</p:dialog>
+			<h:panelGroup id="upload-dlg-right" layout="block">
+				<p:fileUpload mode="advanced" cancelLabel="Отмена"
+					uploadLabel="Загрузить" multiple="true" auto="false"
+					label="Добавить фотографии"
+					fileUploadListener="#{bean.uploadImages}"
+					update="growl,upload-dlg-left" customUI="false"
+					allowTypes="gif|GIF|png|PNG|jpg|JPG|jpeg|JPEG">
+				</p:fileUpload>
+			</h:panelGroup>
+		</h:panelGrid>
 	</h:form>
-</p:outputPanel>
+	<p:ajax event="close" update="growl" listener="#{bean.save}"/>  
+</p:dialog>
+
 
 </html>
