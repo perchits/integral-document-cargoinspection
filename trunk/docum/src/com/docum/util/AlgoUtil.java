@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -203,6 +204,20 @@ public class AlgoUtil
             }
         }
         return null;
+    }
+
+    public static <T> boolean removeAll(Collection<T> c, FindPredicate<T> f)
+    {
+        boolean result = false;
+    	for(Iterator<T> i = c.iterator(); i.hasNext(); )
+        {
+        	if(f.isIt(i.next()))
+            {
+                i.remove();
+                result = true;
+            }
+        }
+        return result;
     }
 
     public static <T> Collection<T> collect(Collection<T> dst, Collection<T> src, FindPredicate<T> f)
