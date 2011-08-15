@@ -2,7 +2,9 @@ package com.docum.domain.po.common;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -82,7 +84,7 @@ public class Container extends IdentifiedEntity {
 	private ContainerStateEnum state = ContainerStateEnum.NOT_HANDLED;
 
 	@ManyToMany(mappedBy = "containers")
-	private List<Invoice> invoices = new ArrayList<Invoice>();
+	private Set<Invoice> invoices = new HashSet<Invoice>();
 	
 	@ManyToMany(mappedBy = "containers")
 	private List<PurchaseOrder> orders = new ArrayList<PurchaseOrder>();
@@ -155,11 +157,11 @@ public class Container extends IdentifiedEntity {
 		this.state = state;
 	}
 	
-	public List<Invoice> getInvoices() {
+	public Set<Invoice> getInvoices() {
 		return invoices;
 	}
 
-	public void setInvoices(List<Invoice> invoices) {
+	public void setInvoices(Set<Invoice> invoices) {
 		this.invoices = invoices;
 	}
 

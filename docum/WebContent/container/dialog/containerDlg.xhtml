@@ -9,7 +9,6 @@
 	<ui:param name="saveObject" value="save" />
 	<ui:param name="deleteObject" value="deleteObject" />
 	<ui:param name="colCount" value="1" />
-	<ui:param name="process" value="container-top-info" />
 	<ui:define name="dialogBody">
 		<h:panelGrid id="container-top-info" width="100%" columns="1"
 			cellpadding="0" styleClass="container-top-info">
@@ -82,14 +81,17 @@
 		<h:panelGrid columns="2" cellpadding="2" styleClass="container-docum">
 			<h:panelGroup>
 				<p:panel header="Инвойсы">
-					<ui:include src="/container/dialog/selectInvoice.xhtml" />
+					<p:pickList value="#{bean.invoiceModel}" var="invoice" itemLabel="#{invoice.number}"
+						 itemValue="#{invoice}" converter="invoiceConverter" iconOnly="true"/>
 				</p:panel>
 				<p:panel header="Заказы" style="margin-top : 6px">
-					<ui:include src="/container/dialog/selectOrder.xhtml" />
+					<p:pickList value="#{bean.orderModel}" var="order" itemLabel="#{order.number}"
+						 itemValue="#{order}" converter="purchaseOrderConverter" iconOnly="true"/>
 				</p:panel>
 			</h:panelGroup>
 			<p:panel header="Коносаменты">
-				<ui:include src="/container/dialog/selectBill.xhtml" />
+					<p:pickList value="#{bean.billModel}" var="bill" itemLabel="#{bill.number}"
+						 itemValue="#{bill}" converter="billOfLadingConverter" iconOnly="true"/>
 			</p:panel>
 
 		</h:panelGrid>

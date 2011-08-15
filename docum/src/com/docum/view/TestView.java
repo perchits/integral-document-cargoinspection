@@ -2,6 +2,7 @@ package com.docum.view;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -9,6 +10,7 @@ import javax.faces.context.FacesContext;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.myfaces.custom.fileupload.UploadedFile;
 import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.DualListModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -69,5 +71,20 @@ public class TestView implements Serializable{
 		FacesMessage msg = new FacesMessage("Succesful", event.getFile()
 				.getFileName() + " is uploaded.");
 		FacesContext.getCurrentInstance().addMessage(null, msg);
+	}
+
+	private DualListModel<City> cityModel;
+	public DualListModel<City> getCityModel() {
+		if(cityModel == null) {
+			cityModel = new DualListModel<City>(baseService.getAll(City.class), new ArrayList<City>());
+		}
+		return cityModel;
+	}
+	public void setCityModel(DualListModel<City> cityModel) {
+		this.cityModel = cityModel;
+	}
+	
+	public Object saveSelection() {
+		return "test";
 	}
 }

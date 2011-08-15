@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 public class ListHandler {
-	public static String join(List<?> list, String delim) {
+	public static String join(Collection<?> list, String delim) {
 		if (!list.isEmpty()) {
 			StringBuilder sb = new StringBuilder();
 			String loopDelim = "";

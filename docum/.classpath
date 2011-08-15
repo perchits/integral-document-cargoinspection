@@ -215,7 +215,7 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="lib/commons-collections-3.2.jar">
+	<classpathentry kind="lib" path="lib/commons-collections-3.2.jar" sourcepath="lib/src/commons-collections-3.2-sources.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>

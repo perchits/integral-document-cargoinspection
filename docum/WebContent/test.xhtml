@@ -5,7 +5,7 @@
 	xmlns:p="http://primefaces.prime.com.tr/ui"
 	xmlns:t="http://myfaces.apache.org/tomahawk"
 	xmlns:itg="http://integral-info.ru/jsf">
-
+	<h:head></h:head>
 	<h:form enctype="multipart/form-data" prependId="false">
 <!-- 		<p:growl id="mainMessages" autoUpdate="true" showDetail="true" /> -->
 
@@ -31,6 +31,13 @@
 <!-- 		<h:outputText value="#{itg:truncateString('1234', 3, '...')}"/> -->
 <!-- 		<t:htmlTag value="br"/> -->
 <!-- 		<h:outputText value="#{itg:truncateString('1234', 3, '')}"/> -->
+<p:commandButton type="button" value="Show" onclick="dlg.show()" />  
+<p:dialog widgetVar="dlg">
+		<p:pickList id="cityList" value="#{testView.cityModel}" var="city" itemLabel="#{city.name}"
+			 itemValue="#{city}" converter="cityConverter" iconOnly="true"/>
+ 		<p:commandButton oncomplete="dlg.hide();" 
+ 				value="Save" action="#{testView.saveSelection}" />
+</p:dialog>
 	</h:form>
 
 
