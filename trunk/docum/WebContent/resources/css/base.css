@@ -672,15 +672,8 @@ a.olive-color:hover {
 	font-size: 9px !important;
 }
 
-/*
-#upload-dlg-left .ui-fileupload div{	
-	height: 24px !important;	
-	line-height: 24px !important;	
-}
-*/
-
 .upload-dlg-left-col {
-	width: 90px;
+	width: 130px;	
 }
 
 .report-containers table {
@@ -688,12 +681,21 @@ a.olive-color:hover {
 	font-size: 11px !important;
 }
 
+/*
+#upload-dlg-left, #upload-dlg-right {
+	max-height : 300px;
+	overflow: auto !important;
+}
+*/
+
 #upload-dlg-right {
 	padding: 0 0 0 50px;
+	max-height: 400px;
 }
 
 .image-list-table td {
 	vertical-align: middle;
+	text-align : center;
 	background: #FCFFF0;
 	border: 1px dotted #E4F0B6;
 }
