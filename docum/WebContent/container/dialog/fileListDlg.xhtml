@@ -17,6 +17,23 @@
 				<p:lightBox opacity="0.4" height="480" width="640">
 					<h:dataTable styleClass="image-list-table" value="#{bean.fileUrls}" var="furl">
 						<h:column>
+						<p:column>
+									<p:commandButton title="Вверх" image="ui-icon-arrow-1-n"
+										action="#{bean.moveUp}"
+										styleClass="inline-btn border-btn" update="upload-dlg-left">
+										<f:setPropertyActionListener target="#{bean.fileUrl}"
+									value="#{furl}" />
+									</p:commandButton>
+									<p:commandButton title="Вниз" image="ui-icon-arrow-1-s"
+										action="#{bean.moveDown}"
+										styleClass="inline-btn border-btn" update="upload-dlg-left">
+										<f:setPropertyActionListener target="#{bean.fileUrl}"
+									value="#{furl}" />
+									</p:commandButton>
+								</p:column>
+						</h:column>
+						
+						<h:column>
 
 							<h:outputLink
 								value="#{facesContext.externalContext.requestContextPath}/images/#{furl.value}">
@@ -47,8 +64,12 @@
 					allowTypes="gif|GIF|png|PNG|jpg|JPG|jpeg|JPEG">
 				</p:fileUpload>
 			</h:panelGroup>
-		</h:panelGrid>
-	</h:form>
+			<f:facet name="footer">				
+				<p:commandButton type="reset" value="Закрыть" update="growl"
+					onclick="#{gridId}Var.hide()" />
+			</f:facet>
+		</h:panelGrid>			
+	</h:form>	
 	<p:ajax event="close" update="growl" listener="#{bean.save}"/>  
 </p:dialog>
 
