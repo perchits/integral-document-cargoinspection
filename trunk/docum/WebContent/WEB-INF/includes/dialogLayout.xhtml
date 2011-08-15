@@ -5,16 +5,15 @@
 	xmlns:p="http://primefaces.prime.com.tr/ui">
 
 
-<h:form prependId="false" enctype="multipart/form-data"
-	id="#{gridId}DlgPanel">
-	<p:dialog width="#{width}" id="#{gridId}Id" widgetVar="#{gridId}Var"
-		modal="true" header="#{bean[title]}" rendered="#{rendered == null ? true : rendered}">
-		<h:panelGrid width="100%"			
+<p:dialog width="#{width}" id="#{gridId}Id" widgetVar="#{gridId}Var"
+	modal="true" header="#{bean[title]}">
+	<h:form prependId="false" enctype="multipart/form-data"	id="#{gridId}DlgPanel">
+		<h:panelGrid width="100%"	rendered="#{rendered == null ? true : rendered}"		
 			columns="#{(colCount == null) ? 2 : colCount}" cellpadding="1">
 			<ui:insert name="dialogBody">
 			</ui:insert>
 			<f:facet name="footer">
-				<p:commandButton process="#{(process == null) ? '@form' : process}"
+				<p:commandButton
 					action="#{bean[saveObject]}" value="OK"
 					update="#{gridId},growl,#{update}"
 					oncomplete="handleOKRequest(args,#{gridId}Var,'#{gridId}Id')" />
@@ -22,8 +21,8 @@
 					onclick="#{gridId}Var.hide()" />
 			</f:facet>
 		</h:panelGrid>
-	</p:dialog>
-</h:form>
+	</h:form>
+</p:dialog>
 
 
 <ui:insert name="deleteConfirmation" />

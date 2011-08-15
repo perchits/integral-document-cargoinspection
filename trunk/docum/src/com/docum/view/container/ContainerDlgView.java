@@ -8,6 +8,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.primefaces.model.DualListModel;
+
 import com.docum.domain.ContainerStateEnum;
 import com.docum.domain.po.IdentifiedEntity;
 import com.docum.domain.po.common.BillOfLading;
@@ -28,23 +30,13 @@ public class ContainerDlgView extends AbstractDlgView implements Serializable {
 	private static final long serialVersionUID = 8476485603392082763L;
 	private Container container;
 
-	private Invoice selectedInvoice;
-	private Invoice freeInvoice;
 	private InvoiceBinder invoiceBinder;
-
-	private PurchaseOrder selectedOrder;
-	private PurchaseOrder freeOrder;
 	private OrderBinder orderBinder;
-
-	private BillOfLading selectedBill;
-	private BillOfLading freeBill;
 	private BillBinder billBinder;
+
 	private List<City> cities;
 	private List<Port> ports;
 	
-	
-		 
-
 	public Container getContainer() {
 		return container;
 	}
@@ -52,87 +44,7 @@ public class ContainerDlgView extends AbstractDlgView implements Serializable {
 	public void setContainer(Container container) {
 		this.container = container;
 	}
-
-	public void setSelectedInvoice(Invoice selectedInvoice) {
-		this.selectedInvoice = selectedInvoice;
-	}
-
-	public Invoice getSelectedInvoice() {
-		return selectedInvoice;
-	}
-
-	public List<Invoice> getFreeInvoices() {
-		return new ArrayList<Invoice>(invoiceBinder.getFreeDocuments());
-	}
-
-	public List<Invoice> getSelectedInvoices() {
-		return new ArrayList<Invoice>(invoiceBinder.getSelectedDocuments());
-	}
-
-	public List<PurchaseOrder> getFreeOrders() {
-		return new ArrayList<PurchaseOrder>(orderBinder.getFreeDocuments());
-	}
-
-	public List<PurchaseOrder> getSelectedOrders() {
-		return new ArrayList<PurchaseOrder>(orderBinder.getSelectedDocuments());
-	}
-
-	public List<BillOfLading> getFreeBills() {
-		return new ArrayList<BillOfLading>(billBinder.getFreeDocuments());
-	}
-
-	public List<BillOfLading> getSelectedBills() {
-		return new ArrayList<BillOfLading>(billBinder.getSelectedDocuments());
-	}
-
-	public void bindInvoice() {
-		invoiceBinder.bind(freeInvoice);
-	}
-
-	public void bindOrder() {
-		orderBinder.bind(freeOrder);
-	}
-
-	public void bindBill() {
-		billBinder.bind(freeBill);
-	}
-
-	public void unBindInvoice() {
-		invoiceBinder.unbind(selectedInvoice);
-	}
-
-	public void unBindOrder() {
-		orderBinder.unbind(selectedOrder);
-	}
-
-	public void unBindBill() {
-		billBinder.unbind(selectedBill);
-	}
-
-	public Invoice getFreeInvoice() {
-		return freeInvoice;
-	}
-
-	public void setFreeInvoice(Invoice freeInvoice) {
-		this.freeInvoice = freeInvoice;
-	}
-
-	public void setFreeOrder(PurchaseOrder freeOrder) {
-		this.freeOrder = freeOrder;
-	}
-
-	public void setFreeBill(BillOfLading freeBill) {
-		this.freeBill = freeBill;
-	}
-
-	public PurchaseOrder getFreeOrder() {
-		return freeOrder;
-	}
-
-	public BillOfLading getFreeBill() {
-		return freeBill;
-	}
-
+	
 	public List<City> getCities() {
 		return cities;
 	}
@@ -152,7 +64,7 @@ public class ContainerDlgView extends AbstractDlgView implements Serializable {
 		Set<Invoice> freeInvoices = new HashSet<Invoice>(
 				invoiceService.getInvoicesByVoyage(container.getVoyage()
 						.getId()));
-		List<Invoice> i = this.container != null ? this.container.getInvoices()
+		Set<Invoice> i = this.container != null ? this.container.getInvoices()
 				: null;
 		ListHandler.sublist(freeInvoices, i);
 		invoiceBinder = new InvoiceBinder(this.container, freeInvoices,
@@ -198,88 +110,52 @@ public class ContainerDlgView extends AbstractDlgView implements Serializable {
 		return Arrays.asList(ContainerStateEnum.values());
 	}
 
-	public void setSelectedOrder(PurchaseOrder selectedOrder) {
-		this.selectedOrder = selectedOrder;
+	public DualListModel<Invoice> getInvoiceModel() {
+		return invoiceBinder.getModel();
 	}
 
-	public PurchaseOrder getSelectedOrder() {
-		return selectedOrder;
+	public void setInvoiceModel(DualListModel<Invoice> model) {
+		invoiceBinder.setModel(model);
 	}
 
-	public void setSelectedBill(BillOfLading selectedBill) {
-		this.selectedBill = selectedBill;
+	public DualListModel<PurchaseOrder> getOrderModel() {
+		return orderBinder.getModel();
 	}
 
-	public BillOfLading getSelectedBill() {
-		return selectedBill;
+	public void setOrderModel(DualListModel<PurchaseOrder> model) {
+		orderBinder.setModel(model);
 	}
 
-	
+	public DualListModel<BillOfLading> getBillModel() {
+		return billBinder.getModel();
+	}
+
+	public void setBillModel(DualListModel<BillOfLading> model) {
+		billBinder.setModel(model);
+	}
 	
 	private static abstract class DocumentBinder<T extends IdentifiedEntity>
 			implements Serializable {
-		private static final long serialVersionUID = 5905102091907209582L;
-		private Set<T> initialFreeDocuments;
-		private Set<T> initialContainerDocuments;
-		private Set<T> selectedDocuments;
-		private Set<T> freeDocuments;
-		private Set<T> bindedDocuments = new HashSet<T>();
-		private Set<T> unbindedDocuments = new HashSet<T>();
+		private static final long serialVersionUID = 1421810586471900554L;
+		private DualListModel<T> model;
+		private Class<T> clazz;
 		private BaseService service;
-		Class<T> clazz;
-
 		public DocumentBinder(Container container, Collection<T> freeDocuments,
 				BaseService service, Class<T> clazz) {
-			initialFreeDocuments = new HashSet<T>(freeDocuments);
-			initialContainerDocuments = new HashSet<T>(
-					getContainerDocuments(container));
-			this.freeDocuments = new HashSet<T>(initialFreeDocuments);
-			this.selectedDocuments = new HashSet<T>(initialContainerDocuments);
+			model = new DualListModel<T>(new ArrayList<T>(freeDocuments),
+					new ArrayList<T>(getContainerDocuments(container)));
 			this.service = service;
 			this.clazz = clazz;
 		}
-
-		public Collection<T> getFreeDocuments() {
-			return freeDocuments;
-		}
-
-		public Collection<T> getSelectedDocuments() {
-			return selectedDocuments;
-		}
-
-		public void bind(T document) {
-			if (document == null) {
-				return;
-			}
-			if (!initialContainerDocuments.contains(document)) {
-				bindedDocuments.add(document);
-			}
-			selectedDocuments.add(document);
-			unbindedDocuments.remove(document);
-			freeDocuments.remove(document);
-		}
-
-		public void unbind(T document) {
-			if (document == null) {
-				return;
-			}
-			if (!initialFreeDocuments.contains(document)) {
-				unbindedDocuments.add(document);
-			}
-			freeDocuments.add(document);
-			bindedDocuments.remove(document);
-			selectedDocuments.remove(document);
-		}
-
 		public Set<T> prepareDocumentsToSave(Container container) {
-			Set<T> result = new HashSet<T>(bindedDocuments.size()
-					+ unbindedDocuments.size());
-			for (T document : bindedDocuments) {
+			Set<T> result = new HashSet<T>(model.getSource().size()
+					+ model.getTarget().size());
+			for (T document : model.getTarget()) {
 				document = loadDocument(document, clazz);
 				bindContainer(document, container);
 				result.add(document);
 			}
-			for (T document : unbindedDocuments) {
+			for (T document : model.getSource()) {
 				document = loadDocument(document, clazz);
 				unbindContainer(document, container);
 				result.add(document);
@@ -292,12 +168,21 @@ public class ContainerDlgView extends AbstractDlgView implements Serializable {
 					.getObject(clazz, document.getId()) : null;
 		}
 
+		public DualListModel<T> getModel() {
+			return model;
+		}
+
+		public void setModel(DualListModel<T> model) {
+			this.model = model;
+		}
+
+		protected abstract Collection<T> getContainerDocuments(
+				Container container);
+
 		protected abstract void bindContainer(T document, Container container);
 
 		protected abstract void unbindContainer(T document, Container container);
 
-		protected abstract Collection<T> getContainerDocuments(
-				Container container);
 	}
 
 	private static class InvoiceBinder extends DocumentBinder<Invoice> {
@@ -332,7 +217,6 @@ public class ContainerDlgView extends AbstractDlgView implements Serializable {
 		public OrderBinder(Container container,
 				Collection<PurchaseOrder> freeDocuments, BaseService service) {
 			super(container, freeDocuments, service, PurchaseOrder.class);
-
 		}
 
 		@Override
@@ -346,7 +230,6 @@ public class ContainerDlgView extends AbstractDlgView implements Serializable {
 				Container container) {
 			document.getContainers().remove(container);
 			container.getOrders().remove(document);
-
 		}
 
 		@Override
@@ -354,7 +237,6 @@ public class ContainerDlgView extends AbstractDlgView implements Serializable {
 				Container container) {
 			return container.getOrders();
 		}
-
 	}
 
 	private static class BillBinder extends DocumentBinder<BillOfLading> {
@@ -363,7 +245,6 @@ public class ContainerDlgView extends AbstractDlgView implements Serializable {
 		public BillBinder(Container container,
 				Collection<BillOfLading> freeDocuments, BaseService service) {
 			super(container, freeDocuments, service, BillOfLading.class);
-
 		}
 
 		@Override
@@ -377,7 +258,6 @@ public class ContainerDlgView extends AbstractDlgView implements Serializable {
 				Container container) {
 			document.getContainers().remove(container);
 			container.getBillOfLadings().remove(document);
-
 		}
 
 		@Override
@@ -385,7 +265,6 @@ public class ContainerDlgView extends AbstractDlgView implements Serializable {
 				Container container) {
 			return container.getBillOfLadings();
 		}
-
 	}
 
 }

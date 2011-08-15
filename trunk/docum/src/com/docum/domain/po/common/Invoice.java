@@ -1,7 +1,8 @@
 package com.docum.domain.po.common;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
@@ -44,7 +45,7 @@ public class Invoice extends IdentifiedEntity{
 	private Voyage voyage;
 
 	@ManyToMany
-	private List<Container> containers = new ArrayList<Container>();
+	private Set<Container> containers = new HashSet<Container>();
 
 	public Invoice() {
 		super();
@@ -72,11 +73,11 @@ public class Invoice extends IdentifiedEntity{
 		this.voyage = voyage;
 	}
 
-	public void setContainers(List<Container> containers) {
+	public void setContainers(Set<Container> containers) {
 		this.containers = containers;
 	}
 
-	public List<Container> getContainers() {
+	public Set<Container> getContainers() {
 		return containers;
 	}
 	
