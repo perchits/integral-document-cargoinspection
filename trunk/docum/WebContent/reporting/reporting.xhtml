@@ -6,9 +6,6 @@
 
 <ui:composition template="/WEB-INF/includes/layout.xhtml">
 <ui:param name="selectedMenuItem" value="5" />
-	<f:metadata>
-		<f:event type="preRenderView" listener="#{reportBean.checkStarOfficeConnection}"></f:event>
-	</f:metadata>
 	<ui:define name="content">
 		 <p:panel id="reportsMainPanel" styleClass="toggle-panel"
 		 	style="text-align:left; width: 640px; font-size: 11px !important;">
@@ -70,10 +67,14 @@
 						</f:facet>
 						<h:outputText value="#{report.cargoSupplier}" />
 					</p:column>
-					<p:column rendered="#{reportBean.enableReportCreation}">
-						<h:outputLink value="../resources/reporting/resultReport_#{report.id}.pdf" styleClass="olive-color" >
-						   <h:outputText value="Нажмите для просмотра" />
-						</h:outputLink>
+					<p:column style="width: 26px; vertical-align: middle; padding: 0 !important;">
+						<p:commandButton title="Просмотр отчета" image="ui-icon-search" 
+							styleClass="table-btns container-btns" style="font-size: 10px !important"
+							actionListener="#{reportBean.renderReport}"
+							update="growl">
+							<f:setPropertyActionListener target="#{reportBean.renderedReport}"
+								value="#{report}" />
+						</p:commandButton>
 					</p:column>
 				</p:dataTable>
 			</h:form>	

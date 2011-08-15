@@ -54,7 +54,7 @@ public class ReportView extends BaseView {
 	private VoyagePresentation selectedVoyage;
 	private ContainerPresentation[] selectedContainers;
 	private boolean editMode = false;
-	private boolean enableReportCreation = true;
+	private ReportPresentation renderedReport;
 
 	@Override
 	public void saveObject() {
@@ -259,15 +259,12 @@ public class ReportView extends BaseView {
 		super.getBaseService().save(containerPresentation.getContainer());
 	}
 	
-	public void checkStarOfficeConnection() {
+	public void renderReport() {
 		if (!reportingService.checkStarOfficeConnection()) {
 			FacesContext fc = FacesContext.getCurrentInstance();
 			fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, 
 				"Внимание!", 
 				"Отсутствует связь со службой StarOffice. Генерация отчетов невозможна."));
-			this.enableReportCreation = false;
-		} else {
-			this.enableReportCreation = true;
 		}
 	}
 
@@ -292,8 +289,12 @@ public class ReportView extends BaseView {
 	public boolean getEditMode() {
 		return this.editMode;
 	}
-	
-	public boolean getEnableReportCreation() {
-		return this.enableReportCreation;
+
+	public ReportPresentation getRenderedReport() {
+		return renderedReport;
+	}
+
+	public void setRenderedReport(ReportPresentation renderedReport) {
+		this.renderedReport = renderedReport;
 	}
 }
