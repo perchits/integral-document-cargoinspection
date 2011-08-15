@@ -38,7 +38,7 @@ public abstract class IdentifiedEntityAbstractConverter <T extends IdentifiedEnt
 
 	public String getAsString(FacesContext context, UIComponent component,
 			Object value) {
-		if (value.getClass().equals(clazz)) {
+		if (value != null && value.getClass().equals(clazz)) {
 			@SuppressWarnings("unchecked")
 			T entity = (T) value;
 			if (entity.getId() == null)
