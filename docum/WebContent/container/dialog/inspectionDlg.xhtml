@@ -27,6 +27,7 @@
 			<h:outputLabel for="inspectionPlace" value="Место инспекции:" />
 			<h:selectOneMenu id="inspectionPlace"
 				label="Место проведения инспекции"
+				required="true"
 				styleClass="ui-inputfield ui-widget ui-state-default ui-corner-all"
 				value="#{bean.inspection.surveyPlace}">
 				<f:converter converterId="surveyPlaceConverter" />

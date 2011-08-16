@@ -10,8 +10,12 @@ function handleOKRequest(args, widgetVar, dialogId) {
 
 function beforeShow(widgetVar, args) {
 	if (!args.dontShow) {
-		widgetVar.show();
+		widgetVar.show();	
 	}	
+}
+
+function setHeader(msg) {	  
+	jQuery('.basic-dialog .ui-dialog-title').html(msg);
 }
 
 function checkIfArticleList(articleListPanelId) {

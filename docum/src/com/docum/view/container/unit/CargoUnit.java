@@ -189,7 +189,7 @@ public class CargoUnit implements Serializable, DialogActionHandler {
 
 	public void handleImages() {
 		imageListDialog = new FileListDlgView(cargo.getInspectionInfo().getImages(),
-				"Весёлые картинки", fileService, cargo.getCondition().getContainer());
+				"Фотографии по грузу", fileService, cargo.getCondition().getContainer());
 		imageListDialog.addHandler(this);
 	}
 

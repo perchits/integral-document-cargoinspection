@@ -372,6 +372,18 @@
 			<ui:param name="update" value="infoPanel" />
 		</ui:include>
 
+		<ui:include src="/container/dialog/fileListDlg.xhtml">
+			<ui:param name="bean"
+				value="#{containerBean.inspectionUnit.inspectionImgDlg}" />
+			<ui:param name="gridId" value="inspectionFilelistId" />
+			<ui:param name="title" value="title" />
+			<ui:param name="rendered"
+				value="#{containerBean.inspectionUnit != null}" />
+			<ui:param name="update" value="infoPanel" />
+		</ui:include>
+
+
+
 	</ui:define>
 
 </ui:composition>

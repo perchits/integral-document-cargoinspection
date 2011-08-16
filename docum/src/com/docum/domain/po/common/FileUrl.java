@@ -38,11 +38,18 @@ public class FileUrl extends IdentifiedEntity {
 		if (!(obj instanceof FileUrl)) {
 			return false;
 		}
-
+		
+		if(getId() == null || ((FileUrl) obj).getId() == null) {
+			return EqualsHelper.equals(getValue(), ((FileUrl) obj).getValue());
+		}
+		
 		return EqualsHelper.equals(getId(), ((FileUrl) obj).getId());
 	}
 
 	public int hashCode() {
+		if(getId() == null) {
+			return HashCodeHelper.hashCode(getValue());
+		}
 		return HashCodeHelper.hashCode(getId());
 	}
 }
