@@ -54,7 +54,6 @@ public class ReportView extends BaseView {
 	private VoyagePresentation selectedVoyage;
 	private ContainerPresentation[] selectedContainers;
 	private boolean editMode = false;
-	private ReportPresentation renderedReport;
 
 	@Override
 	public void saveObject() {
@@ -151,7 +150,6 @@ public class ReportView extends BaseView {
 			this.report.setContainers(containers);
 			saveObject();
 			super.getBaseService().save(containers);
-			//reportingService.createReport(this.container, this.report.getId());
 		} else {
 			saveObject();
 		}
@@ -260,11 +258,24 @@ public class ReportView extends BaseView {
 	}
 	
 	public void renderReport() {
+		FacesContext fc = FacesContext.getCurrentInstance();
 		if (!reportingService.checkStarOfficeConnection()) {
-			FacesContext fc = FacesContext.getCurrentInstance();
 			fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, 
 				"Внимание!", 
 				"Отсутствует связь со службой StarOffice. Генерация отчетов невозможна."));
+		} else {
+			try {
+				reportingService.createReport(
+					super.getBaseService().getObject(
+						Container.class, this.report.getContainers().get(0).getId()),
+					this.report.getId());
+				fc.getExternalContext().redirect(
+					"../resources/reporting/resultReport_" + this.report.getId() + ".pdf");
+			} catch(Exception e) {
+				fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, 
+					"Исключение при создании отчета!", e.getMessage()));
+				DocumLogger.log(e);
+			}
 		}
 	}
 
@@ -288,13 +299,5 @@ public class ReportView extends BaseView {
 	
 	public boolean getEditMode() {
 		return this.editMode;
-	}
-
-	public ReportPresentation getRenderedReport() {
-		return renderedReport;
-	}
-
-	public void setRenderedReport(ReportPresentation renderedReport) {
-		this.renderedReport = renderedReport;
 	}
 }

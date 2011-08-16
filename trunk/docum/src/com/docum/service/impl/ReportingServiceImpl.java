@@ -47,10 +47,10 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 				throw new Exception("Id отчета не может быть пустым при создании файла");
 			}
 			this.container = container;
-			String reportFileName = "/resultReport_" + reportId;
+			String reportFileName = REPORT_FILENAME_PREFIX + reportId;
 			String location = FacesContext.getCurrentInstance().getExternalContext()
-				.getRealPath("/") +	"/resources/reporting"; 
-			OdfTextDocument odt = OdfTextDocument.loadDocument(location + "/documTemplate.odt");
+				.getRealPath("/") +	REPORTS_LOCATION; 
+			OdfTextDocument odt = OdfTextDocument.loadDocument(location + REPORT_TEMPLATE_FILENAME);
 			int l = odt.getContentDom().getChildNodes().getLength();
 			for (int i = 0; i < l; i++) {
 				Node node = odt.getContentDom().getChildNodes().item(i);
