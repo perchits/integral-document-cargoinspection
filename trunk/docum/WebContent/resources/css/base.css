@@ -673,7 +673,7 @@ a.olive-color:hover {
 }
 
 .upload-dlg-left-col {
-	width: 130px;	
+	width: 170px;	
 }
 
 .report-containers table {
@@ -681,21 +681,31 @@ a.olive-color:hover {
 	font-size: 11px !important;
 }
 
-/*
-#upload-dlg-left, #upload-dlg-right {
-	max-height : 300px;
+
+.upload-dlg-left, .upload-dlg-right {
+	max-height : 400px;
 	overflow: auto !important;
 }
-*/
 
-#upload-dlg-right {
+
+.upload-dlg-right {
 	padding: 0 0 0 50px;
-	max-height: 400px;
 }
 
-.image-list-table td {
+.image-list-table td, .basic-dialog th {
 	vertical-align: middle;
 	text-align : center;
 	background: #FCFFF0;
 	border: 1px dotted #E4F0B6;
+}
+
+.ui-picklist .ui-picklist-list {
+	width: 140px !important;
+	height: 160px !important;
+}
+
+.basic-dialog th {
+	text-align: left;
+	color : olive;	
+	padding : 3px;
 }

@@ -11,66 +11,70 @@
 		<h:panelGrid columns="2" width="100%"
 			rendered="#{rendered == null ? true : rendered}"
 			columnClasses="upload-dlg-left-col,upload-dlg-right-col">
-			<h:panelGroup layout="block" id="upload-dlg-left">
+			<h:panelGroup layout="block"  styleClass="upload-dlg-left">
 				<h:outputText value="Изображения отсутствуют..."
 					rendered="#{empty bean.fileUrls}" />
-				<p:lightBox opacity="0.4" height="480" width="640">
-					<h:dataTable styleClass="image-list-table" value="#{bean.fileUrls}" var="furl">
+				<p:lightBox opacity="0.4" height="480" width="640"
+					id="#{gridId}imageList">
+
+					<h:dataTable styleClass="image-list-table" value="#{bean.fileUrls}"
+						var="furl">
 						<h:column>
-						<p:column>
-									<p:commandButton title="Вверх" image="ui-icon-arrow-1-n"
-										action="#{bean.moveUp}"
-										styleClass="inline-btn border-btn" update="upload-dlg-left">
-										<f:setPropertyActionListener target="#{bean.fileUrl}"
-									value="#{furl}" />
-									</p:commandButton>
-									<p:commandButton title="Вниз" image="ui-icon-arrow-1-s"
-										action="#{bean.moveDown}"
-										styleClass="inline-btn border-btn" update="upload-dlg-left">
-										<f:setPropertyActionListener target="#{bean.fileUrl}"
-									value="#{furl}" />
-									</p:commandButton>
-								</p:column>
+							<p:column>
+								<p:commandButton title="Вверх" image="ui-icon-arrow-1-n"
+									action="#{bean.moveUp}" styleClass="inline-btn border-btn"
+									update="#{gridId}imageList">
+									<f:setPropertyActionListener target="#{bean.fileUrl}"
+										value="#{furl}" />
+								</p:commandButton>
+								<p:commandButton title="Вниз" image="ui-icon-arrow-1-s"
+									action="#{bean.moveDown}" styleClass="inline-btn border-btn"
+									update="#{gridId}imageList">
+									<f:setPropertyActionListener target="#{bean.fileUrl}"
+										value="#{furl}" />
+								</p:commandButton>
+							</p:column>
 						</h:column>
-						
+
 						<h:column>
 
 							<h:outputLink
 								value="#{facesContext.externalContext.requestContextPath}/images/#{furl.value}">
-								<p:graphicImage width="50" value="/images/#{furl.value}" />
+								<p:graphicImage width="90" value="/images/#{furl.value}" />
 							</h:outputLink>
 
 						</h:column>
 						<h:column>
 							<p:commandButton styleClass="inline-btn" title="Удалить #{hint}"
 								image="ui-icon-trash" action="#{bean.removeImage}"
-								update="upload-dlg-left">
+								update="#{gridId}imageList">
 								<f:setPropertyActionListener target="#{bean.fileUrl}"
 									value="#{furl}" />
 							</p:commandButton>
 						</h:column>
-						
+
 					</h:dataTable>
+
 				</p:lightBox>
 
 			</h:panelGroup>
 
-			<h:panelGroup id="upload-dlg-right" layout="block">
+			<h:panelGroup  styleClass="upload-dlg-right" layout="block">
 				<p:fileUpload mode="advanced" cancelLabel="Отмена"
 					uploadLabel="Загрузить" multiple="true" auto="false"
 					label="Добавить фотографии"
 					fileUploadListener="#{bean.uploadImages}"
-					update="growl,upload-dlg-left" customUI="false"
+					update="#{gridId}imageList,growl" customUI="false"
 					allowTypes="gif|GIF|png|PNG|jpg|JPG|jpeg|JPEG">
 				</p:fileUpload>
 			</h:panelGroup>
-			<f:facet name="footer">				
+			<f:facet name="footer">
 				<p:commandButton type="reset" value="Закрыть" update="growl"
 					onclick="#{gridId}Var.hide()" />
 			</f:facet>
-		</h:panelGrid>			
-	</h:form>	
-	<p:ajax event="close" update="growl" listener="#{bean.save}"/>  
+		</h:panelGrid>
+	</h:form>
+	<p:ajax event="close" update="growl" listener="#{bean.save}" />
 </p:dialog>
 
 

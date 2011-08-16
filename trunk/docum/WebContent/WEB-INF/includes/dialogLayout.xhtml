@@ -5,13 +5,18 @@
 	xmlns:p="http://primefaces.prime.com.tr/ui">
 
 
-<p:dialog width="#{width}" id="#{gridId}Id" widgetVar="#{gridId}Var"
-	modal="true" header="#{bean[title]}">
-	<h:form prependId="false" enctype="multipart/form-data"	id="#{gridId}DlgPanel">
+<p:dialog  width="#{width}" id="#{gridId}Id" widgetVar="#{gridId}Var"
+	modal="true" header="Правка / Добавление" styleClass="basic-dialog">
+	<h:form prependId="false" enctype="multipart/form-data"	id="#{gridId}DlgPanel">			
 		<h:panelGrid width="100%"	rendered="#{rendered == null ? true : rendered}"		
-			columns="#{(colCount == null) ? 2 : colCount}" cellpadding="1">
+			columns="#{(colCount == null) ? 2 : colCount}" cellpadding="1">						
 			<ui:insert name="dialogBody">
 			</ui:insert>
+			<f:facet name="header">
+			
+			<h:outputText value="#{bean[title]}" />
+				
+			</f:facet>
 			<f:facet name="footer">
 				<p:commandButton
 					action="#{bean[saveObject]}" value="OK"

@@ -5,22 +5,25 @@ import java.io.Serializable;
 import com.docum.domain.po.common.Container;
 import com.docum.domain.po.common.Inspection;
 import com.docum.service.BaseService;
+import com.docum.service.FileProcessingService;
 import com.docum.view.AbstractDlgView;
 import com.docum.view.DialogActionEnum;
 import com.docum.view.DialogActionHandler;
 import com.docum.view.container.ContainerContext;
 import com.docum.view.container.ContainerHolder;
+import com.docum.view.container.FileListDlgView;
 import com.docum.view.container.InspectionDlgView;
 
 public class InspectionUnit implements Serializable, DialogActionHandler {
-	private static final long serialVersionUID = -3715245363081562382L;
-//	private static final Logger logger = Logger.getLogger(InspectionUnit.class); 
+	private static final long serialVersionUID = -3715245363081562382L; 
 	private Container container;
 	private ContainerHolder containerHolder;
 	private Inspection inspection; 
 	private InspectionDlgView inspectionDlg; 
-	private BaseService baseService;		
-
+	private BaseService baseService;	
+	private FileListDlgView inspectionImgDlg;
+	private FileProcessingService fileService;
+	
 	public Inspection getInspection() {
 		return inspection;
 	}
@@ -28,7 +31,8 @@ public class InspectionUnit implements Serializable, DialogActionHandler {
 	public void setContext(ContainerContext context) {		
 		container = context.getContainer();
 		inspection = container.getInspection();
-		baseService = context.getBaseService();		
+		baseService = context.getBaseService();	
+		fileService = context.getFileService();
 	}
 	
 	public String getSurveyPlace() {
@@ -74,6 +78,16 @@ public class InspectionUnit implements Serializable, DialogActionHandler {
 				
 	}
 	
+	public FileListDlgView getInspectionImgDlg() {
+		return inspectionImgDlg;
+	}
+	
+	public void handleImages() {
+		inspectionImgDlg = new FileListDlgView( inspection.getImages(),
+				"Общие фотографии по инспекции", fileService, inspection.getContainer());
+		inspectionImgDlg.addHandler(this);
+	}
+	
 	@Override
 	public void handleAction(AbstractDlgView dialog, DialogActionEnum action) {
 		if (dialog instanceof InspectionDlgView) {
@@ -85,6 +99,12 @@ public class InspectionUnit implements Serializable, DialogActionHandler {
 					container.setInspection(inspection);
 				}
 				containerHolder.saveContainer();
+			}
+		}  else {
+			if (dialog instanceof FileListDlgView) {
+				if (DialogActionEnum.ACCEPT.equals(action)) {
+					containerHolder.saveContainer();
+				}
 			}
 		}
 

@@ -82,4 +82,17 @@
 </h:panelGroup>
 
 
+<h:panelGroup>
+	<br />
+<h:form style="margin: 0 0 6px">
+				<p:commandLink styleClass="olive-color"
+					title="Медиа менеджер. Добавление и удаление фото, изменение порядка"
+					value="Фотографии" 
+					action="#{inspectionbean.handleImages}"
+					oncomplete="beforeShow(inspectionFilelistIdVar,args)"
+					update="inspectionFilelistIdDlgPanel,growl">					
+				</p:commandLink>
+</h:form>
+</h:panelGroup>
+
 </html>
