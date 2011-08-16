@@ -63,9 +63,15 @@ public class ReportView extends BaseView {
 
 	@Override
 	public void newObject() {
-		super.newObject();
-		this.report = new Report();
-		this.editMode = false;
+		if (this.selectedVoyage == null) {
+			String message = "Добавление отчета невозможно пока не выбран судозаход!";
+			showErrorMessage(message);
+			addCallbackParam("dontShow", true);
+		} else {
+			super.newObject();
+			this.report = new Report();
+			this.editMode = false;
+		}
 	}
 	
 	@Override
