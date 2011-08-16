@@ -80,24 +80,63 @@
 
 		<h:panelGrid columns="2" cellpadding="2" styleClass="container-docum">
 			<h:panelGroup>
-				<p:panel header="Инвойсы">
-					<p:pickList value="#{bean.invoiceModel}" var="invoice" itemLabel="#{invoice.number}"
-						 itemValue="#{invoice}" converter="invoiceConverter" iconOnly="true"/>
+				<p:panel>
+					<f:facet name="header">
+						<h:outputText value="Инвойсы" />
+						
+							<h:panelGroup styleClass="table-btns">
+								<p:commandButton image="ui-icon-document"
+									process="@parent"
+									title="Добавить инвойс" 
+									action="#{bean.addInvoice}"
+									oncomplete="beforeShow(invoicesVar,args)"
+									update="invoicesDlgPanel,growl">
+								</p:commandButton>
+							</h:panelGroup>
+						
+
+					</f:facet>
+					<p:pickList  id="#{gridId}invoicesId" 
+						value="#{bean.invoiceModel}" var="invoice"
+						itemLabel="#{invoice.number}" itemValue="#{invoice}"
+						converter="invoiceConverter" iconOnly="true" />
 				</p:panel>
 				<p:panel header="Заказы" style="margin-top : 6px">
-					<p:pickList value="#{bean.orderModel}" var="order" itemLabel="#{order.number}"
-						 itemValue="#{order}" converter="purchaseOrderConverter" iconOnly="true"/>
+					<p:pickList value="#{bean.orderModel}" var="order"
+						itemLabel="#{order.number}" itemValue="#{order}"						
+						converter="purchaseOrderConverter" iconOnly="true" />
 				</p:panel>
 			</h:panelGroup>
-			<p:panel header="Коносаменты">
-					<p:pickList value="#{bean.billModel}" var="bill" itemLabel="#{bill.number}"
-						 itemValue="#{bill}" converter="billOfLadingConverter" iconOnly="true"/>
+			<p:panel header="Коносаменты" styleClass="container-bill">
+				<p:pickList value="#{bean.billModel}" var="bill"
+					itemLabel="#{bill.number}" itemValue="#{bill}"
+					converter="billOfLadingConverter" iconOnly="true" />
 			</p:panel>
 
 		</h:panelGrid>
-		
-	</ui:define>
 
+	</ui:define>
+<ui:define name="subDialog">
+
+<ui:include src="/handbook/dialog/invoiceDlg.xhtml">
+			<ui:param name="bean" value="#{bean}" />
+			<ui:param name="gridId" value="invoices" />
+			<ui:param name="title" value="invoiceTitle" />
+			<ui:param name="saveObject" value="saveInvoice" />
+			<ui:param name="update" value="#{gridId}invoicesId" />			
+		</ui:include>
+		<ui:include src="/handbook/dialog/purchaseOrderDlg.xhtml">
+			<ui:param name="bean" value="#{orderBean}" />
+			<ui:param name="gridId" value="orders" />
+			<ui:param name="title" value="title" />
+		</ui:include>
+		<ui:include src="/handbook/dialog/billOfLadingDlg.xhtml">
+			<ui:param name="bean" value="#{billOfLadingBean}" />
+			<ui:param name="gridId" value="bills" />
+			<ui:param name="title" value="title" />
+		</ui:include>
+
+</ui:define>
 </ui:composition>
 
 </html>

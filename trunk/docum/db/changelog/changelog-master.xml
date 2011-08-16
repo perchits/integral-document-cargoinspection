@@ -21,5 +21,6 @@
   <include file="0016-inspection-images.xml"/>    
   <include file="0017-fix-inspection-images.xml"/>    
   <include file="0018-fix-document-container-bindings.xml"/>    
+  <include file="0019-fix-images.xml"/>
   
 </databaseChangeLog>

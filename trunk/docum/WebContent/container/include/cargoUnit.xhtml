@@ -108,7 +108,8 @@
 				</h:panelGroup>
 			</h:panelGrid>
 
-			<h:form style="margin: 0 0 6px" rendered="#{wcargo.actual}">
+			<h:panelGroup rendered="#{wcargo.actual}">			
+			<h:form style="margin: 0 0 6px">
 				<p:commandLink styleClass="olive-color"
 					title="Медиа менеджер. Добавление и удаление фото, изменение порядка"
 					value="Фотографии" action="#{cargobean.handleImages}"
@@ -118,6 +119,7 @@
 						value="#{wcargo}" />
 				</p:commandLink>
 			</h:form>
+			</h:panelGroup>	
 				
 			<h:panelGroup rendered="#{wcargo.actual}">
 				<ui:include src="/container/include/defectUnit.xhtml">

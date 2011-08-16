@@ -76,7 +76,7 @@ public class ContainerView extends BaseView implements Serializable,
 	private CalibreUnit dlgCalibreUnit;
 	private CargoDefectUnit dlgDefectUnit;
 	
-	private InspectionUnit inspectionUnit = new InspectionUnit(this); 
+	private InspectionUnit inspectionUnit = new InspectionUnit(this);	
 	
 	public CalibreUnit getDlgCalibreUnit() {
 		return dlgCalibreUnit;
