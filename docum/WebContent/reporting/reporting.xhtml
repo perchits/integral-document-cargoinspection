@@ -9,8 +9,8 @@
 	<ui:define name="content">
 		 <p:panel id="reportsMainPanel" styleClass="toggle-panel"
 		 	style="text-align:left; width: 640px; font-size: 11px !important;">
-		 	<f:facet name="header">
-		 		<h:outputText id="reportsVoyage" value="#{reportBean.reportsVoyage}" />
+	 		<h:panelGrid columns="3" style="margin: -1px; height: 16px !important;">
+	 			<h:outputText id="reportsVoyage" value="#{reportBean.reportsVoyage}" style="float: left;"/>
 		 		<h:panelGroup id="reportsCrud" style="margin-top: -10px;" styleClass="table-btns container-btns">
 					<h:form prependId="false" id="reports-crud">
 						<ui:include src="/WEB-INF/includes/baseCrudToolBar.xhtml">
@@ -20,7 +20,16 @@
 						</ui:include>
 					</h:form>
 				</h:panelGroup>
-		 	</f:facet>
+				<h:panelGroup style="float: right; margin: -3px 0px 0px -7px;">
+					<h:form prependId="false" id="report-preview">
+					<p:commandButton title="Просмотр отчета" image="ui-icon-search" 
+						styleClass="table-btns container-btns" 
+						style="font-size: 10px !important; width: 22px; height: 22px;"
+						actionListener="#{reportBean.renderReport}"
+						update="growl"/>						
+					</h:form>
+				</h:panelGroup>
+			</h:panelGrid>
 		 	<h:form prependId="false">
 				<p:autoComplete id="VoyageSearchBoxId"						
 					value="#{reportBean.selectedVoyage}"
@@ -66,15 +75,6 @@
 						Поставщик
 						</f:facet>
 						<h:outputText value="#{report.cargoSupplier}" />
-					</p:column>
-					<p:column style="width: 26px; vertical-align: middle; padding: 0 !important;">
-						<p:commandButton title="Просмотр отчета" image="ui-icon-search" 
-							styleClass="table-btns container-btns" style="font-size: 10px !important"
-							actionListener="#{reportBean.renderReport}"
-							update="growl">
-							<f:setPropertyActionListener target="#{reportBean.renderedReport}"
-								value="#{report}" />
-						</p:commandButton>
 					</p:column>
 				</p:dataTable>
 			</h:form>	
