@@ -4,6 +4,7 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.prime.com.tr/ui">
 
+<ui:param name="deleteObject" value="#{deleteObject == null ? 'deleteObject' : deleteObject}" />
 <p:outputPanel id="#{gridId}ConfirmId">
 	<h:form prependId="false">
 		<p:confirmDialog message="#{message}" header="Удаление..."

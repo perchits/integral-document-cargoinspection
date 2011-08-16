@@ -701,11 +701,19 @@ a.olive-color:hover {
 
 .ui-picklist .ui-picklist-list {
 	width: 140px !important;
-	height: 160px !important;
+	height: 123px !important;
+}
+
+.container-bill .ui-picklist .ui-picklist-list{
+	height: 301px !important;
 }
 
 .basic-dialog th {
 	text-align: left;
 	color : olive;	
 	padding : 3px;
+}
+
+.container-docum div div {
+	overflow: hidden !important;
 }

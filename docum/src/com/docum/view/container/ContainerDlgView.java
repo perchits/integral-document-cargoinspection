@@ -33,9 +33,37 @@ public class ContainerDlgView extends AbstractDlgView implements Serializable {
 	private InvoiceBinder invoiceBinder;
 	private OrderBinder orderBinder;
 	private BillBinder billBinder;
+	private BaseService baseService;
 
 	private List<City> cities;
 	private List<Port> ports;
+	
+	private Invoice invoice;	
+		
+	public Invoice getInvoice() {
+		return invoice;
+	}
+
+	public void setInvoice(Invoice invoice) {
+		this.invoice = invoice;
+	}
+
+	public void addInvoice(){
+		invoice = new Invoice();
+		invoice.setVoyage(container.getVoyage());	
+	}	
+	
+	public void saveInvoice() {
+		invoice = baseService.save(invoice);
+		if (invoice != null) {
+			invoiceBinder.getModel().getSource().add(invoice);
+		}
+	}
+	
+	public String getInvoiceTitle() {
+		return invoice != null ? invoice.getId() == null ? 
+				"Новый инвойс" : "Правка инвойса" : null;
+	}
 	
 	public Container getContainer() {
 		return container;
@@ -56,6 +84,7 @@ public class ContainerDlgView extends AbstractDlgView implements Serializable {
 	public ContainerDlgView(Container container, InvoiceService invoiceService,
 			PurchaseOrderService orderService, BillOfLadingService billService,
 			BaseService baseService) {
+		this.baseService = baseService;
 		this.container = container;
 				
 		cities = baseService.getAll(City.class, null);

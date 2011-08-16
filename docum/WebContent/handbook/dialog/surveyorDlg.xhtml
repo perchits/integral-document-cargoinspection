@@ -5,9 +5,7 @@
 	xmlns:p="http://primefaces.prime.com.tr/ui">
 
 <ui:composition template="/WEB-INF/includes/dialogLayout.xhtml">
-	<ui:param name="width" value="380" />
-	<ui:param name="saveObject" value="saveObject" />
-	<ui:param name="deleteObject" value="deleteObject" />
+	<ui:param name="width" value="380" />	
 	<ui:define name="dialogBody">
 		<h:outputLabel for="name" value="Наименование: " />
 		<p:inputText value="#{bean.s.name}" id="name"

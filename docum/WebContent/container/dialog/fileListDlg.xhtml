@@ -11,12 +11,11 @@
 		<h:panelGrid columns="2" width="100%"
 			rendered="#{rendered == null ? true : rendered}"
 			columnClasses="upload-dlg-left-col,upload-dlg-right-col">
-			<h:panelGroup layout="block"  styleClass="upload-dlg-left">
-				<h:outputText value="Изображения отсутствуют..."
-					rendered="#{empty bean.fileUrls}" />
+			<h:panelGroup layout="block"  styleClass="upload-dlg-left">				
 				<p:lightBox opacity="0.4" height="480" width="640"
 					id="#{gridId}imageList">
-
+<h:outputText value="Изображения отсутствуют..."
+					rendered="#{empty bean.fileUrls}" />
 					<h:dataTable styleClass="image-list-table" value="#{bean.fileUrls}"
 						var="furl">
 						<h:column>

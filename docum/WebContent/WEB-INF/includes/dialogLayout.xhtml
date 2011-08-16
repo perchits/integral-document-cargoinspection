@@ -4,7 +4,7 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.prime.com.tr/ui">
 
-
+<ui:param name="saveObject" value="#{saveObject == null ? 'saveObject' : saveObject}" />
 <p:dialog  width="#{width}" id="#{gridId}Id" widgetVar="#{gridId}Var"
 	modal="true" header="Правка / Добавление" styleClass="basic-dialog">
 	<h:form prependId="false" enctype="multipart/form-data"	id="#{gridId}DlgPanel">			
@@ -29,7 +29,7 @@
 	</h:form>
 </p:dialog>
 
-
+<ui:insert name="subDialog" />
 <ui:insert name="deleteConfirmation" />
 
 </html>
