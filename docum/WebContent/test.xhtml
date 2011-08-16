@@ -13,33 +13,24 @@
 			fileUploadListener="#{testView.uploadFileNew}"
 			update="stickerPanelId,growl" description="Only xml" />
 
-<!-- 		<t:inputFileUpload value="#{testView.uploadedFile}" /> -->
-<!-- 		<h:commandButton value="upload" action="#{testView.handleFileUpload}" /> -->
-<!-- 		<p:messages /> -->
-
-<!-- 		<p:commandButton value="Save" action="#{testView.save}" /> -->
-<!-- 		<p:commandButton value="Go" action="#{testView.go}" /> -->
-<!-- 		<p:fileUpload fileUploadListener="#{testView.handleFileUpload}" -->
-<!-- 			allowTypes="*.jpg;*.png;*.gif;" description="Images" /> -->
-<!-- 		<t:htmlTag value="br"/> -->
-<!-- 		<h:outputText value="#{itg:truncateString(testView.longText, 21, '...')}"/> -->
-<!-- 		<t:htmlTag value="br"/> -->
-<!-- 		<h:outputText value="#{itg:truncateString('12345', 4, '...')}"/> -->
-<!-- 		<t:htmlTag value="br"/> -->
-<!-- 		<h:outputText value="#{itg:truncateString('12345', 5, '...')}"/> -->
-<!-- 		<t:htmlTag value="br"/> -->
-<!-- 		<h:outputText value="#{itg:truncateString('1234', 3, '...')}"/> -->
-<!-- 		<t:htmlTag value="br"/> -->
-<!-- 		<h:outputText value="#{itg:truncateString('1234', 3, '')}"/> -->
-<p:commandButton type="button" value="Show" onclick="dlg.show()" />  
-<p:dialog widgetVar="dlg">
 		<p:pickList id="cityList" value="#{testView.cityModel}" var="city" itemLabel="#{city.name}"
-			 itemValue="#{city}" converter="cityConverter" iconOnly="true"/>
- 		<p:commandButton oncomplete="dlg.hide();" 
- 				value="Save" action="#{testView.saveSelection}" />
-</p:dialog>
+			 itemValue="#{city}" converter="cityConverter" iconOnly="true" widgetVar="pl" />
+ 		<p:commandButton onclick="setHiddenValue('myhidden', pl.selectedSource())" 
+ 				value="Show city" action="#{testView.saveSelection}" update="myText"/>
+	 	<h:inputHidden id="myhidden" value="#{testView.selectedCity}" converter="cityConverter"/>
+	 	<h:outputText id="myText" value="#{testView.selectedCity == null ? '' : testView.selectedCity.name}"/>
 	</h:form>
 
 
+<script type="text/javascript">
+//<![CDATA[
+	function setHiddenValue(hidden, value) {
+	  jQuery('#'+hidden).val(value);
+	}
+	PrimeFaces.widget.PickList.prototype.selectedSource = function() {
+		return this.sourceList.children("li.ui-state-highlight").first().data('itemValue');
+	};
+//]]>
+</script>
 
 </ui:composition>

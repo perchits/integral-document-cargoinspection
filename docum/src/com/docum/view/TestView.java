@@ -87,4 +87,14 @@ public class TestView implements Serializable{
 	public Object saveSelection() {
 		return "test";
 	}
+	
+	private City selectedCity;
+
+	public void setSelectedCity(City city) {
+		this.selectedCity = city;
+	}
+
+	public City getSelectedCity() {
+		return selectedCity;
+	}
 }
