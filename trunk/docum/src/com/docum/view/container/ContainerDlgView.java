@@ -38,11 +38,29 @@ public class ContainerDlgView extends AbstractDlgView implements Serializable {
 	private List<City> cities;
 	private List<Port> ports;
 	
-	private Invoice invoice;	
+	private Invoice invoice;
+	private PurchaseOrder order;
+	private BillOfLading billOfLading; 
 		
+	public BillOfLading getBillOfLading() {
+		return billOfLading;
+	}
+
+	public void setBillOfLading(BillOfLading bill) {
+		this.billOfLading = bill;
+	}
+
+	public PurchaseOrder getOrder() {
+		return order;
+	}
+
+	public void setOrder(PurchaseOrder order) {
+		this.order = order;
+	}
+
 	public Invoice getInvoice() {
 		return invoice;
-	}
+	}	
 
 	public void setInvoice(Invoice invoice) {
 		this.invoice = invoice;
@@ -53,16 +71,89 @@ public class ContainerDlgView extends AbstractDlgView implements Serializable {
 		invoice.setVoyage(container.getVoyage());	
 	}	
 	
-	public void saveInvoice() {
+	public void addOrder() {
+		order = new PurchaseOrder();
+		order.setVoyage(container.getVoyage());		
+	}
+	
+	public void addBill() {
+		billOfLading = new BillOfLading();
+		billOfLading.setVoyage(container.getVoyage());		
+	}
+	
+	public void removeInvoice(){
+		if (invoice.getId() != null) {
+			baseService.deleteObject(Invoice.class,invoice.getId());
+		}		
+		invoiceBinder.getModel().getSource().remove(invoice);		
+		invoice = null;
+	}
+	
+	public void removeOrder(){
+		if (order.getId() != null) {
+			baseService.deleteObject(PurchaseOrder.class,order.getId());
+		}		
+		orderBinder.getModel().getSource().remove(order);		
+		order = null;
+	}
+	
+	public void removeBill(){
+		if (billOfLading.getId() != null) {
+			baseService.deleteObject(BillOfLading.class,billOfLading.getId());
+		}		
+		billBinder.getModel().getSource().remove(billOfLading);		
+		billOfLading = null;
+	}
+	
+	public void saveInvoice() {		
 		invoice = baseService.save(invoice);
 		if (invoice != null) {
-			invoiceBinder.getModel().getSource().add(invoice);
+			int index = invoiceBinder.getModel().getSource().indexOf(invoice); 
+			if (index != -1) {
+				invoiceBinder.getModel().getSource().set(index, invoice);
+			} else {
+				invoiceBinder.getModel().getSource().add(invoice);
+			}
+		}
+	}
+	
+	public void saveOrder() {		
+		order = baseService.save(order);
+		if (order != null) {
+			int index = orderBinder.getModel().getSource().indexOf(order); 
+			if (index != -1) {
+				orderBinder.getModel().getSource().set(index, order);
+			} else {
+				orderBinder.getModel().getSource().add(order);
+			}
+		}
+	}	
+	
+	public void saveBill() {		
+		billOfLading = baseService.save(billOfLading);
+		if (billOfLading != null) {
+			int index = billBinder.getModel().getSource().indexOf(billOfLading); 
+			if (index != -1) {
+				billBinder.getModel().getSource().set(index, billOfLading);
+			} else {
+				billBinder.getModel().getSource().add(billOfLading);
+			}
 		}
 	}
 	
 	public String getInvoiceTitle() {
 		return invoice != null ? invoice.getId() == null ? 
 				"Новый инвойс" : "Правка инвойса" : null;
+	}
+	
+	public String getOrderTitle() {
+		return order != null ? order.getId() == null ? 
+				"Новый заказ" : "Правка заказа" : null;
+	}
+	
+	public String getBillTitle() {
+		return billOfLading != null ? billOfLading.getId() == null ? 
+				"Новый коносамент" : "Правка коносамента" : null;
 	}
 	
 	public Container getContainer() {
