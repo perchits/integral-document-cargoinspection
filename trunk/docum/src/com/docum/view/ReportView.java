@@ -1,7 +1,9 @@
 package com.docum.view;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -40,6 +42,7 @@ public class ReportView extends BaseView {
 	private static final long serialVersionUID = -6034143364888144075L;
 	private static final String sign = "Отчет";
 	private static final int MAX_LIST_SIZE = 10;
+	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
 
 	@Autowired
 	private ContainerService containerService;
@@ -70,6 +73,15 @@ public class ReportView extends BaseView {
 		} else {
 			super.newObject();
 			this.report = new Report();
+			StringBuffer sb = new StringBuffer();
+			Date now = new Date();
+			if (this.reports != null) {
+				sb.append(this.reports.size() + 1).append("-").append(dateFormat.format(now));
+			} else {
+				sb.append("1-").append(now);
+			}
+			this.report.setNumber(sb.toString());
+			this.report.setDate(new Date());
 			this.editMode = false;
 		}
 	}
