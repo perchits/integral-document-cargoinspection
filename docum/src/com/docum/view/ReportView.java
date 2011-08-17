@@ -78,7 +78,7 @@ public class ReportView extends BaseView {
 			if (this.reports != null) {
 				sb.append(this.reports.size() + 1).append("-").append(dateFormat.format(now));
 			} else {
-				sb.append("1-").append(now);
+				sb.append("1-").append(dateFormat.format(now));
 			}
 			this.report.setNumber(sb.toString());
 			this.report.setDate(new Date());
