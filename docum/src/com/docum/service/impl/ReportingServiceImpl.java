@@ -3,7 +3,9 @@ package com.docum.service.impl;
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.faces.context.FacesContext;
 
@@ -21,8 +23,8 @@ import com.artofsolving.jodconverter.openoffice.converter.OpenOfficeDocumentConv
 import com.docum.dao.ReportingDao;
 import com.docum.domain.po.common.Container;
 import com.docum.domain.po.common.Report;
+import com.docum.service.BaseService;
 import com.docum.service.ReportingService;
-import com.docum.util.DocumLogger;
 import com.docum.util.ListHandler;
 import com.docum.util.XMLUtil;
 
@@ -33,46 +35,51 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 	
 	@Autowired
 	ReportingDao reportingDao;
+	@Autowired
+	BaseService baseService;
 	
 	private static final String STATEMENT_BEGIN = "{$";
 	private static final String STATEMENT_END = "}";
 	private int starOfficeConnectionPort;
-	
 	private Container container;
+	private Map<String, Object[]> temlateAccordance = 
+		new HashMap<String, Object[]>();
 
 	@Override
-	public void createReport(Container container, Long reportId) {
-		try {
-			if (reportId == null) {
-				throw new Exception("Id отчета не может быть пустым при создании файла");
-			}
-			this.container = container;
-			String reportFileName = REPORT_FILENAME_PREFIX + reportId;
-			String location = FacesContext.getCurrentInstance().getExternalContext()
-				.getRealPath("/") +	REPORTS_LOCATION; 
-			OdfTextDocument odt = OdfTextDocument.loadDocument(location + REPORT_TEMPLATE_FILENAME);
-			int l = odt.getContentDom().getChildNodes().getLength();
-			for (int i = 0; i < l; i++) {
-				Node node = odt.getContentDom().getChildNodes().item(i);
-				processNode(node);
-			}
-			l = odt.getStylesDom().getChildNodes().getLength();
-			for (int i = 0; i < l; i++) {
-				Node node = odt.getStylesDom().getChildNodes().item(i);
-				processNode(node);
-			}
-			odt.save(location + reportFileName + ".odt");
-			OpenOfficeConnection officeConnection = 
-				new SocketOpenOfficeConnection(starOfficeConnectionPort);
-			officeConnection.connect();
-			DocumentConverter converter = new OpenOfficeDocumentConverter(officeConnection);
-			converter.convert(
-				new File(location + reportFileName + ".odt"), 
-				new File(location + reportFileName + ".pdf"));
-			officeConnection.disconnect();
-	 	} catch (Exception e) {
-			DocumLogger.log(e);
+	public void createReport(Report report) throws Exception {
+		if (report == null || report.getId() == null) {
+			throw new Exception("Id отчета не может быть пустым при создании файла");
 		}
+		this.container = 
+			this.baseService.getObject(Container.class, report.getContainers().get(0).getId());
+		initTemlateAccordance(container, report);
+		String reportFileName = REPORT_FILENAME_PREFIX + report.getId();
+		String location = FacesContext.getCurrentInstance().getExternalContext()
+			.getRealPath("/") +	REPORTS_LOCATION; 
+		OdfTextDocument odt = OdfTextDocument.loadDocument(location + REPORT_TEMPLATE_FILENAME);
+		int l = odt.getContentDom().getChildNodes().getLength();
+		for (int i = 0; i < l; i++) {
+			Node node = odt.getContentDom().getChildNodes().item(i);
+			processNode(node);
+		}
+		l = odt.getStylesDom().getChildNodes().getLength();
+		for (int i = 0; i < l; i++) {
+			Node node = odt.getStylesDom().getChildNodes().item(i);
+			processNode(node);
+		}
+		odt.save(location + reportFileName + ".odt");
+		OpenOfficeConnection officeConnection = 
+			new SocketOpenOfficeConnection(starOfficeConnectionPort);
+		officeConnection.connect();
+		DocumentConverter converter = new OpenOfficeDocumentConverter(officeConnection);
+		converter.convert(
+			new File(location + reportFileName + ".odt"), 
+			new File(location + reportFileName + ".pdf"));
+		officeConnection.disconnect();
+	}
+	
+	private void initTemlateAccordance(final Container container, final Report report) {
+		this.temlateAccordance.put("Report",  new Object[]{report, "number"});
 	}
 	
 	public boolean checkStarOfficeConnection() {
@@ -112,24 +119,30 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 		}
 		String result = processedValue.substring(
 			statementBeginPos + STATEMENT_BEGIN.length(), statementEndPos);
-		String props[] = result.split("\\.");
-		Object propertyValue = XMLUtil.getObjectProperty(container, props[0]);
-		if (propertyValue != null) {
-			if (propertyValue instanceof List && props.length == 1) {
-				@SuppressWarnings("unchecked")
-				List<Object> objects = (List<Object>) propertyValue;
-				node.setNodeValue(ListHandler.getUniqueResult(objects));
-			} else if (propertyValue instanceof List && props.length == 2) {
-				@SuppressWarnings("unchecked")
-				List<Object> objects = (List<Object>) propertyValue;
-				List<Object> values = new ArrayList<Object>();
-				for (Object object: objects) {
-					values.add(XMLUtil.propertyUtilsBean.getSimpleProperty(object, props[1]));
+		if (this.temlateAccordance.keySet().contains(result)) {
+			Object[] o = this.temlateAccordance.get(result);
+			node.setNodeValue(
+				XMLUtil.propertyUtilsBean.getSimpleProperty(o[0], o[1].toString()).toString());
+		} else {
+			String props[] = result.split("\\.");
+			Object propertyValue = XMLUtil.getObjectProperty(container, props[0]);
+			if (propertyValue != null) {
+				if (propertyValue instanceof List && props.length == 1) {
+					@SuppressWarnings("unchecked")
+					List<Object> objects = (List<Object>) propertyValue;
+					node.setNodeValue(ListHandler.getUniqueResult(objects));
+				} else if (propertyValue instanceof List && props.length == 2) {
+					@SuppressWarnings("unchecked")
+					List<Object> objects = (List<Object>) propertyValue;
+					List<Object> values = new ArrayList<Object>();
+					for (Object object: objects) {
+						values.add(XMLUtil.propertyUtilsBean.getSimpleProperty(object, props[1]));
+					}
+					node.setNodeValue(ListHandler.getUniqueResult(values));
+				} else {
+					node.setNodeValue(
+						XMLUtil.propertyUtilsBean.getNestedProperty(container, result).toString());
 				}
-				node.setNodeValue(ListHandler.getUniqueResult(values));
-			} else {
-				node.setNodeValue(
-					XMLUtil.propertyUtilsBean.getNestedProperty(container, result).toString());
 			}
 		}
 	}

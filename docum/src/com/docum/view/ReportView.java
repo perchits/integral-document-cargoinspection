@@ -278,15 +278,13 @@ public class ReportView extends BaseView {
 	public void renderReport() {
 		FacesContext fc = FacesContext.getCurrentInstance();
 		if (!reportingService.checkStarOfficeConnection()) {
-			fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, 
-				"Внимание!", 
-				"Отсутствует связь со службой StarOffice. Генерация отчетов невозможна."));
+			showErrorMessage(
+				"Отсутствует связь со службой StarOffice. Генерация отчетов невозможна.");
+		} else if (this.report == null) {
+			showErrorMessage("Отчета для редактирования не выбран");
 		} else {
 			try {
-				reportingService.createReport(
-					super.getBaseService().getObject(
-						Container.class, this.report.getContainers().get(0).getId()),
-					this.report.getId());
+				reportingService.createReport(this.report);
 				fc.getExternalContext().redirect(
 					"../resources/reporting/resultReport_" + this.report.getId() + ".pdf");
 			} catch(Exception e) {
