@@ -56,6 +56,11 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 				Node node = odt.getContentDom().getChildNodes().item(i);
 				processNode(node);
 			}
+			l = odt.getStylesDom().getChildNodes().getLength();
+			for (int i = 0; i < l; i++) {
+				Node node = odt.getStylesDom().getChildNodes().item(i);
+				processNode(node);
+			}
 			odt.save(location + reportFileName + ".odt");
 			OpenOfficeConnection officeConnection = 
 				new SocketOpenOfficeConnection(starOfficeConnectionPort);
