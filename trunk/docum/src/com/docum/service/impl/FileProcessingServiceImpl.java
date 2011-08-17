@@ -1,8 +1,11 @@
 package com.docum.service.impl;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+
+import javax.imageio.ImageIO;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
@@ -12,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.docum.service.ApplicationConfigService;
 import com.docum.service.FileProcessingService;
+import com.thebuzzmedia.imgscalr.Scalr;
 
 @Service
 @Transactional
@@ -65,19 +69,35 @@ public class FileProcessingServiceImpl implements FileProcessingService {
 		return result;
 	}
 
+	private void saveThumbnail(String absoluteFileName) throws IOException {
+		BufferedImage src = ImageIO.read(new File(absoluteFileName));
+		BufferedImage dest = Scalr.resize(src, Scalr.Method.QUALITY, 90);
+		String thumbName = makeThumbnailName(absoluteFileName);
+		ImageIO.write(dest, "jpeg", new File(thumbName));
+	}
+
+	private String makeThumbnailName(String absoluteFileName) {
+		String thumbName = FilenameUtils.getFullPath(absoluteFileName) +
+			FilenameUtils.getBaseName(absoluteFileName) + "_t" + EXT_SEP + "jpg";
+		return thumbName;
+	}
+	
 	@Override
 	public String saveImage(String path, String fileName, InputStream istream)
 			throws IOException {
 		path = config.getImagesStoragePath() + SEP + path;
 		createDirectory(path);
 		fileName = fixFileName(path, fileName);
-		String absolutFileName = path + SEP + fileName;
-		saveFile(absolutFileName, istream);
+		String absoluteFileName = path + SEP + fileName;
+		saveFile(absoluteFileName, istream);
+		saveThumbnail(absoluteFileName);
 		return fileName;
 	}
 
 	@Override
 	public boolean deleteImage(String fileName) {
-		return new File(config.getImagesStoragePath() + SEP + fileName).delete();
+		String absoluteFileName = config.getImagesStoragePath() + SEP + fileName;
+		new File(makeThumbnailName(absoluteFileName)).delete();
+		return new File(absoluteFileName).delete();
 	}
 }
