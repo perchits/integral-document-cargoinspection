@@ -1,0 +1,31 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+<h:panelGroup styleClass="table-btns">
+	<p:commandButton image="ui-icon-document" 
+		process="containerdocs"
+		title="Добавить #{title}" 
+		action="#{bean[addObject]}"
+		oncomplete="beforeShow(#{gridId}Var,args)"
+		update="#{gridId}DlgPanel,growl">
+	</p:commandButton>
+	<p:commandButton image="ui-icon-wrench" 
+		process="containerdocs"
+		title="Изменить #{title}"
+		oncomplete="if (#{listVar}.selectedSource()) {beforeShow(#{gridId}Var,args);}"
+		onclick="jQuery('##{hiddenId}').val(#{listVar}.selectedSource())"
+		update="#{gridId}DlgPanel,growl">
+	</p:commandButton>
+
+	<p:commandButton image="ui-icon-trash" 
+		process="containerdocs"
+		title="Удалить #{title}"
+		oncomplete="if (#{listVar}.selectedSource()) {beforeShow(#{gridId}ConfirmVar,args);}"
+		onclick="jQuery('##{hiddenId}').val(#{listVar}.selectedSource())"
+		update="#{gridId}ConfirmId,growl">
+	</p:commandButton>
+</h:panelGroup>
+</html>

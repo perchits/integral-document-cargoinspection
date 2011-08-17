@@ -705,7 +705,7 @@ a.olive-color:hover {
 }
 
 .container-bill .ui-picklist .ui-picklist-list{
-	height: 301px !important;
+	height: 320px !important;
 }
 
 .basic-dialog th {
@@ -716,4 +716,9 @@ a.olive-color:hover {
 
 .container-docum div div {
 	overflow: hidden !important;
+}
+
+.container-docum .ui-picklist-caption {
+	font-size: 11px;
+	color: olive;
 }
