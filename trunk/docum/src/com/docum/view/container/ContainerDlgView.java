@@ -8,8 +8,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.swing.text.rtf.RTFEditorKit;
-
 import org.primefaces.model.DualListModel;
 
 import com.docum.domain.ContainerStateEnum;
