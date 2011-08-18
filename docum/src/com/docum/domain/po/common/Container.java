@@ -83,14 +83,14 @@ public class Container extends IdentifiedEntity {
 	@Enumerated
 	private ContainerStateEnum state = ContainerStateEnum.NOT_HANDLED;
 
-	@ManyToMany(mappedBy = "containers")
+	@ManyToMany
 	private Set<Invoice> invoices = new HashSet<Invoice>();
 	
-	@ManyToMany(mappedBy = "containers")
-	private List<PurchaseOrder> orders = new ArrayList<PurchaseOrder>();
+	@ManyToMany
+	private Set<PurchaseOrder> orders = new HashSet<PurchaseOrder>();
 	
-	@ManyToMany(mappedBy = "containers")
-	private List<BillOfLading> billOfLadings = new ArrayList<BillOfLading>();
+	@ManyToMany
+	private Set<BillOfLading> billOfLadings = new HashSet<BillOfLading>();
 
 	@OneToOne(mappedBy="container", cascade = CascadeType.ALL, orphanRemoval = true)
 	private DeclaredCargoCondition declaredCondition = new DeclaredCargoCondition(this);
@@ -165,19 +165,19 @@ public class Container extends IdentifiedEntity {
 		this.invoices = invoices;
 	}
 
-	public List<PurchaseOrder> getOrders() {
+	public Set<PurchaseOrder> getOrders() {
 		return orders;
 	}
 
-	public void setOrders(List<PurchaseOrder> orders) {
+	public void setOrders(Set<PurchaseOrder> orders) {
 		this.orders = orders;
 	}
 
-	public List<BillOfLading> getBillOfLadings() {
+	public Set<BillOfLading> getBillOfLadings() {
 		return billOfLadings;
 	}
 
-	public void setBillOfLadings(List<BillOfLading> billOfLadings) {
+	public void setBillOfLadings(Set<BillOfLading> billOfLadings) {
 		this.billOfLadings = billOfLadings;
 	}
 

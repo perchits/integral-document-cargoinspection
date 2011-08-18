@@ -177,14 +177,14 @@ public class ContainerDlgView extends AbstractDlgView implements Serializable {
 
 		Set<PurchaseOrder> freeOrders = new HashSet<PurchaseOrder>(
 				orderService.getOrdersByVoyage(container.getVoyage().getId()));
-		List<PurchaseOrder> p = this.container != null ? this.container
+		Set<PurchaseOrder> p = this.container != null ? this.container
 				.getOrders() : null;
 		ListHandler.sublist(freeOrders, p);
 		orderBinder = new OrderBinder(this.container, freeOrders, orderService);
 
 		Set<BillOfLading> freeBills = new HashSet<BillOfLading>(
 				billService.getBillsByVoyage(container.getVoyage().getId()));
-		List<BillOfLading> b = this.container != null ? this.container
+		Set<BillOfLading> b = this.container != null ? this.container
 				.getBillOfLadings() : null;
 		ListHandler.sublist(freeBills, b);
 		billBinder = new BillBinder(this.container, freeBills, billService);

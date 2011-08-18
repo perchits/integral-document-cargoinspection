@@ -43,7 +43,7 @@ public class BillOfLading extends IdentifiedEntity{
 	@ManyToOne(optional=false)
 	private Voyage voyage;
 	
-	@ManyToMany
+	@ManyToMany(mappedBy = "billOfLadings")
 	private Set<Container> containers = new HashSet<Container>();
 
 	public BillOfLading() {
