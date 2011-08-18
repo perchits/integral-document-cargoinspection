@@ -80,10 +80,6 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 	
 	private void initTemlateAccordance(final Container container, final Report report) {
 		this.temlateAccordance.put("Report",  new Object[]{report, "number"});
-		this.temlateAccordance.put("seal",  new Object[]{container, "inspection.actualSeal"});
-		this.temlateAccordance.put("voyage.vessel.name",  new Object[]{container, "voyage.vessel.name"});
-		this.temlateAccordance.put("Report",  new Object[]{report, "number"});
-		this.temlateAccordance.put("Report",  new Object[]{report, "number"});
 	}
 	
 	public boolean checkStarOfficeConnection() {
@@ -144,8 +140,8 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 					}
 					node.setNodeValue(ListHandler.getUniqueResult(values));
 				} else {
-					node.setNodeValue(
-						XMLUtil.propertyUtilsBean.getNestedProperty(container, result).toString());
+					Object value = XMLUtil.propertyUtilsBean.getNestedProperty(container, result);
+					node.setNodeValue(value != null ? value.toString() : "");
 				}
 			}
 		}
