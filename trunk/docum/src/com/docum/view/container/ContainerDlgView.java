@@ -8,6 +8,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.swing.text.rtf.RTFEditorKit;
+
 import org.primefaces.model.DualListModel;
 
 import com.docum.domain.ContainerStateEnum;
@@ -81,64 +83,49 @@ public class ContainerDlgView extends AbstractDlgView implements Serializable {
 		billOfLading.setVoyage(container.getVoyage());		
 	}
 	
-	public void removeInvoice(){
-		if (invoice.getId() != null) {
-			baseService.deleteObject(Invoice.class,invoice.getId());
-		}		
-		invoiceBinder.getModel().getSource().remove(invoice);		
-		invoice = null;
+	public void removeInvoice(){				
+		invoice = removeDocument(invoice,invoiceBinder.getModel().getSource());
 	}
 	
-	public void removeOrder(){
-		if (order.getId() != null) {
-			baseService.deleteObject(PurchaseOrder.class,order.getId());
-		}		
-		orderBinder.getModel().getSource().remove(order);		
-		order = null;
+	public void removeOrder(){				
+		order = removeDocument(order,orderBinder.getModel().getSource());
 	}
 	
-	public void removeBill(){
-		if (billOfLading.getId() != null) {
-			baseService.deleteObject(BillOfLading.class,billOfLading.getId());
-		}		
-		billBinder.getModel().getSource().remove(billOfLading);		
-		billOfLading = null;
+	public void removeBill(){				
+		billOfLading = removeDocument(billOfLading,billBinder.getModel().getSource());
 	}
 	
-	public void saveInvoice() {		
-		invoice = baseService.save(invoice);
-		if (invoice != null) {
-			int index = invoiceBinder.getModel().getSource().indexOf(invoice); 
-			if (index != -1) {
-				invoiceBinder.getModel().getSource().set(index, invoice);
-			} else {
-				invoiceBinder.getModel().getSource().add(invoice);
-			}
-		}
+	public <T extends IdentifiedEntity> T removeDocument(T object, List<T> list){
+		if (object.getId() != null) {
+			baseService.deleteObject(object.getClass(),object.getId());
+		}		
+		list.remove(object);		
+		return null;
+	}
+	
+	public void saveInvoice() {				
+		invoice = saveDocument(invoice, invoiceBinder.getModel().getSource());
 	}
 	
 	public void saveOrder() {		
-		order = baseService.save(order);
-		if (order != null) {
-			int index = orderBinder.getModel().getSource().indexOf(order); 
-			if (index != -1) {
-				orderBinder.getModel().getSource().set(index, order);
-			} else {
-				orderBinder.getModel().getSource().add(order);
-			}
-		}
+		order = saveDocument(order, orderBinder.getModel().getSource());		
 	}	
 	
 	public void saveBill() {		
-		billOfLading = baseService.save(billOfLading);
-		if (billOfLading != null) {
-			int index = billBinder.getModel().getSource().indexOf(billOfLading); 
+		billOfLading = saveDocument(billOfLading, billBinder.getModel().getSource());		
+	}
+	
+	public <T extends IdentifiedEntity> T saveDocument(T object, List<T> list){
+		object = baseService.save(object);
+		if (object != null) {
+			int index = list.indexOf(object); 
 			if (index != -1) {
-				billBinder.getModel().getSource().set(index, billOfLading);
+				list.set(index, object);
 			} else {
-				billBinder.getModel().getSource().add(billOfLading);
+				list.add(object);
 			}
 		}
+		return object;
 	}
 	
 	public String getInvoiceTitle() {
