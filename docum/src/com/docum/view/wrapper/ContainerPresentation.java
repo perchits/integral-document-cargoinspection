@@ -100,6 +100,22 @@ public class ContainerPresentation implements Serializable {
 				", ") : null;
 	}
 	
+	public String getActualCargoesName() {
+		List<Object> cargoes = new ArrayList<Object>();
+		for (Cargo cargo: container.getActualCondition().getCargoes()) {
+			cargoes.add(cargo.getArticle().getName());
+		}
+		return ListHandler.getUniqueResult(cargoes);
+	}
+	
+	public String getActualCargoesEnglishName() {
+		List<Object> cargoes = new ArrayList<Object>();
+		for (Cargo cargo: container.getActualCondition().getCargoes()) {
+			cargoes.add(cargo.getArticle().getEnglishName());
+		}
+		return ListHandler.getUniqueResult(cargoes);
+	}
+	
 	public String getCargoSuppliers() {
 		if (this.container == null) {
 			return null;
@@ -107,6 +123,30 @@ public class ContainerPresentation implements Serializable {
 			List<Object> cargoSuppliers = new ArrayList<Object>();
 			for (Cargo cargo: this.container.getDeclaredCondition().getCargoes()) {
 				cargoSuppliers.add(cargo.getSupplier());
+			}
+			return ListHandler.getUniqueResult(cargoSuppliers);
+		}
+	}
+	
+	public String getActualCargoSuppliers() {
+		if (this.container == null) {
+			return null;
+		} else {
+			List<Object> cargoSuppliers = new ArrayList<Object>();
+			for (Cargo cargo: this.container.getActualCondition().getCargoes()) {
+				cargoSuppliers.add(cargo.getSupplier().getCompany().getName());
+			}
+			return ListHandler.getUniqueResult(cargoSuppliers);
+		}
+	}
+	
+	public String getActualCargoSuppliersEng() {
+		if (this.container == null) {
+			return null;
+		} else {
+			List<Object> cargoSuppliers = new ArrayList<Object>();
+			for (Cargo cargo: this.container.getActualCondition().getCargoes()) {
+				cargoSuppliers.add(cargo.getSupplier().getCompany().getEnglishName());
 			}
 			return ListHandler.getUniqueResult(cargoSuppliers);
 		}
