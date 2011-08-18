@@ -42,19 +42,22 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 	private static final String STATEMENT_BEGIN = "{$";
 	private static final String STATEMENT_END = "}";
 	private int starOfficeConnectionPort;
-	private Container container;
-	private ContainerPresentation containerPresentation;
-	private Map<String, Object[]> temlateAccordance = 
-		new HashMap<String, Object[]>();
+	private List<Container> containers;
+	private Map<Container, ContainerPresentation> containerPresentationMap;
+	private Map<String, Object[]> temlateAccordance = new HashMap<String, Object[]>();
 
 	@Override
 	public void createReport(Report report) throws Exception {
 		if (report == null || report.getId() == null) {
 			throw new Exception("Id отчета не может быть пустым при создании файла");
 		}
-		this.container = 
-			this.baseService.getObject(Container.class, report.getContainers().get(0).getId());
-		this.containerPresentation = new ContainerPresentation(container);
+		containers = new ArrayList<Container>();
+		containerPresentationMap = new HashMap<Container, ContainerPresentation>();
+		for (Container container: report.getContainers()) {
+			Container c = this.baseService.getObject(Container.class, container.getId());
+			this.containers.add(c);
+			containerPresentationMap.put(c, new ContainerPresentation(c));
+		}
 		initTemlateAccordance(report);
 		String reportFileName = REPORT_FILENAME_PREFIX + report.getId();
 		String location = FacesContext.getCurrentInstance().getExternalContext()
@@ -84,13 +87,13 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 	private void initTemlateAccordance(final Report report) {
 		this.temlateAccordance.put("Report",  new Object[]{report, "number"});
 		this.temlateAccordance.put("actualCargoesEnglishName",  
-			new Object[]{this.containerPresentation, "actualCargoesEnglishName"});
+			new Object[]{containerPresentationMap, "actualCargoesEnglishName"});
 		this.temlateAccordance.put("actualCargoesName",  
-			new Object[]{this.containerPresentation, "actualCargoesName"});
+			new Object[]{containerPresentationMap, "actualCargoesName"});
 		this.temlateAccordance.put("cargoSuppliers",  
-				new Object[]{this.containerPresentation, "actualCargoSuppliers"});
+				new Object[]{containerPresentationMap, "actualCargoSuppliers"});
 		this.temlateAccordance.put("cargoSuppliersEng",  
-				new Object[]{this.containerPresentation, "actualCargoSuppliersEng"});
+				new Object[]{containerPresentationMap, "actualCargoSuppliersEng"});
 	}
 	
 	public boolean checkStarOfficeConnection() {
@@ -110,8 +113,7 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 			int statementBeginPos = node.getNodeValue().indexOf(STATEMENT_BEGIN);
 			int statementEndPos = node.getNodeValue().indexOf(STATEMENT_END);
 			if (statementBeginPos != -1) {
-				replaceNodeValue(node, node.getNodeValue(), this.container, 
-					statementBeginPos, statementEndPos);
+				replaceNodeValue(node, node.getNodeValue(), statementBeginPos, statementEndPos);
 			}
 		}
 		if (node.hasChildNodes()) {
@@ -124,7 +126,7 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 	}
 	
 	private void replaceNodeValue(Node node, String processedValue, 
-			Container container, int statementBeginPos, int statementEndPos) throws Exception {
+			int statementBeginPos, int statementEndPos) throws Exception {
 		if (statementEndPos == -1) {
 			return;
 		}
@@ -132,29 +134,46 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 			statementBeginPos + STATEMENT_BEGIN.length(), statementEndPos);
 		if (this.temlateAccordance.keySet().contains(result)) {
 			Object[] o = this.temlateAccordance.get(result);
-			Object value = XMLUtil.propertyUtilsBean.getNestedProperty(o[0], o[1].toString());
-			node.setNodeValue(value != null ? value.toString() : "");
+			if (o[0] instanceof Map) {
+				@SuppressWarnings("unchecked")
+				Map<Object, Object> objectsMap = (Map<Object, Object>) o[0];
+				List<Object> propertyValues = new ArrayList<Object>();
+				for (Object keyObject:  objectsMap.keySet()) {
+					Object valueObject = objectsMap.get(keyObject);
+					Object nestedPropertValue = 
+						XMLUtil.propertyUtilsBean.getNestedProperty(valueObject, o[1].toString());
+					propertyValues.add(nestedPropertValue);
+				}
+				node.setNodeValue(ListHandler.getUniqueResult(propertyValues));
+			} else {
+				Object value = XMLUtil.propertyUtilsBean.getNestedProperty(o[0], o[1].toString());
+				node.setNodeValue(value != null ? value.toString() : "");
+			}
 		} else {
 			String props[] = result.split("\\.");
-			Object propertyValue = XMLUtil.getObjectProperty(container, props[0]);
-			if (propertyValue != null) {
-				if (propertyValue instanceof List && props.length == 1) {
-					@SuppressWarnings("unchecked")
-					List<Object> objects = (List<Object>) propertyValue;
-					node.setNodeValue(ListHandler.getUniqueResult(objects));
-				} else if (propertyValue instanceof List && props.length == 2) {
-					@SuppressWarnings("unchecked")
-					List<Object> objects = (List<Object>) propertyValue;
-					List<Object> values = new ArrayList<Object>();
-					for (Object object: objects) {
-						values.add(XMLUtil.propertyUtilsBean.getSimpleProperty(object, props[1]));
+			List<Object> propertyValues = new ArrayList<Object>();
+			for (Container container: this.containers) {
+				Object propertyValue = XMLUtil.getObjectProperty(container, props[0]);
+				if (propertyValue != null) {
+					if (propertyValue instanceof List && props.length == 1) {
+						@SuppressWarnings("unchecked")
+						List<Object> objects = (List<Object>) propertyValue;
+						propertyValues.add(ListHandler.getUniqueResult(objects));
+					} else if (propertyValue instanceof List && props.length == 2) {
+						@SuppressWarnings("unchecked")
+						List<Object> objects = (List<Object>) propertyValue;
+						List<Object> values = new ArrayList<Object>();
+						for (Object object: objects) {
+							values.add(XMLUtil.propertyUtilsBean.getSimpleProperty(object, props[1]));
+						}
+						propertyValues.add(ListHandler.getUniqueResult(objects));
+					} else {
+						Object value = XMLUtil.propertyUtilsBean.getNestedProperty(container, result);
+						propertyValues.add(value != null ? value.toString() : "");
 					}
-					node.setNodeValue(ListHandler.getUniqueResult(values));
-				} else {
-					Object value = XMLUtil.propertyUtilsBean.getNestedProperty(container, result);
-					node.setNodeValue(value != null ? value.toString() : "");
 				}
 			}
+			node.setNodeValue(ListHandler.getUniqueResult(propertyValues));
 		}
 	}
 	
