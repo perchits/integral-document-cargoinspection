@@ -27,6 +27,7 @@ import com.docum.service.BaseService;
 import com.docum.service.ReportingService;
 import com.docum.util.ListHandler;
 import com.docum.util.XMLUtil;
+import com.docum.view.wrapper.ContainerPresentation;
 
 @Service(ReportingService.SERVICE_NAME)
 @Transactional
@@ -42,6 +43,7 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 	private static final String STATEMENT_END = "}";
 	private int starOfficeConnectionPort;
 	private Container container;
+	private ContainerPresentation containerPresentation;
 	private Map<String, Object[]> temlateAccordance = 
 		new HashMap<String, Object[]>();
 
@@ -52,7 +54,8 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 		}
 		this.container = 
 			this.baseService.getObject(Container.class, report.getContainers().get(0).getId());
-		initTemlateAccordance(container, report);
+		this.containerPresentation = new ContainerPresentation(container);
+		initTemlateAccordance(report);
 		String reportFileName = REPORT_FILENAME_PREFIX + report.getId();
 		String location = FacesContext.getCurrentInstance().getExternalContext()
 			.getRealPath("/") +	REPORTS_LOCATION; 
@@ -78,8 +81,16 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 		officeConnection.disconnect();
 	}
 	
-	private void initTemlateAccordance(final Container container, final Report report) {
+	private void initTemlateAccordance(final Report report) {
 		this.temlateAccordance.put("Report",  new Object[]{report, "number"});
+		this.temlateAccordance.put("actualCargoesEnglishName",  
+			new Object[]{this.containerPresentation, "actualCargoesEnglishName"});
+		this.temlateAccordance.put("actualCargoesName",  
+			new Object[]{this.containerPresentation, "actualCargoesName"});
+		this.temlateAccordance.put("cargoSuppliers",  
+				new Object[]{this.containerPresentation, "actualCargoSuppliers"});
+		this.temlateAccordance.put("cargoSuppliersEng",  
+				new Object[]{this.containerPresentation, "actualCargoSuppliersEng"});
 	}
 	
 	public boolean checkStarOfficeConnection() {
