@@ -43,7 +43,7 @@ public class Invoice extends IdentifiedEntity{
 	@ManyToOne(optional=false)
 	private Voyage voyage;
 
-	@ManyToMany
+	@ManyToMany(mappedBy = "invoices")
 	private Set<Container> containers = new HashSet<Container>();
 
 	public Invoice() {

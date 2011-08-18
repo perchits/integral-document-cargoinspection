@@ -43,7 +43,7 @@ public class PurchaseOrder extends IdentifiedEntity {
 	@ManyToOne(optional=false)
 	private Voyage voyage;
 
-	@ManyToMany
+	@ManyToMany(mappedBy = "orders")
 	private Set<Container> containers = new HashSet<Container>();
 
 	public PurchaseOrder() {
