@@ -80,6 +80,10 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 	
 	private void initTemlateAccordance(final Container container, final Report report) {
 		this.temlateAccordance.put("Report",  new Object[]{report, "number"});
+		this.temlateAccordance.put("seal",  new Object[]{container, "inspection.actualSeal"});
+		this.temlateAccordance.put("voyage.vessel.name",  new Object[]{container, "voyage.vessel.name"});
+		this.temlateAccordance.put("Report",  new Object[]{report, "number"});
+		this.temlateAccordance.put("Report",  new Object[]{report, "number"});
 	}
 	
 	public boolean checkStarOfficeConnection() {
@@ -121,8 +125,8 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 			statementBeginPos + STATEMENT_BEGIN.length(), statementEndPos);
 		if (this.temlateAccordance.keySet().contains(result)) {
 			Object[] o = this.temlateAccordance.get(result);
-			node.setNodeValue(
-				XMLUtil.propertyUtilsBean.getSimpleProperty(o[0], o[1].toString()).toString());
+			Object value = XMLUtil.propertyUtilsBean.getNestedProperty(o[0], o[1].toString());
+			node.setNodeValue(value != null ? value.toString() : "");
 		} else {
 			String props[] = result.split("\\.");
 			Object propertyValue = XMLUtil.getObjectProperty(container, props[0]);
