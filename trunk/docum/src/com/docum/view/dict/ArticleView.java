@@ -2,6 +2,7 @@ package com.docum.view.dict;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.faces.event.ActionEvent;
@@ -46,6 +47,12 @@ public class ArticleView extends BaseView {
 	private ArticleDefect defect;
 	private NormativeDocument document;
 	private boolean enableOrdChange = false;
+
+	private void saveArticle() {
+		ArticlePresentation old = new ArticlePresentation(article);
+		article = getBaseService().save(article);
+		Collections.replaceAll(articles, old, new ArticlePresentation(article));
+	}
 
 	public Article getArticle() {
 		return article;
@@ -128,21 +135,21 @@ public class ArticleView extends BaseView {
 		if (category.getId() == null) {
 			article.addCategory(category);
 		}
-		article = getBaseService().save(article);
+		saveArticle();
 	}
 
 	public void saveFeature() {
 		if (feature.getId() == null) {
 			article.addFeature(feature);
 		}
-		article = getBaseService().save(article);
+		saveArticle();
 	}
 	
 	public void saveDocument() {
 		if (document.getId() == null) {
 			article.addDocument(document);
 		}
-		article = getBaseService().save(article);
+		saveArticle();
 	}
 
 	public void saveFeatureInstance() {
@@ -157,7 +164,7 @@ public class ArticleView extends BaseView {
 
 	public void deleteCategory() {
 		article.removeCategory(category);
-		article = getBaseService().save(article);
+		saveArticle();
 	}
 		
 	public void beforeDeleteCategory(ActionEvent actionEvent) {
@@ -167,7 +174,7 @@ public class ArticleView extends BaseView {
 	public void deleteDocument() {
 		if (validateAction(this.document, NormativeDocument.class)) {
 			article.removeDocument(document);
-			article = getBaseService().save(article);
+			saveArticle();
 		}
 	}
 	
@@ -190,7 +197,7 @@ public class ArticleView extends BaseView {
 	public void deleteFeature() {
 		if (validateAction(this.feature, ArticleFeature.class)) {
 			article.removeFeature(feature);
-			article = getBaseService().save(article);
+			saveArticle();
 		}
 	}
 
