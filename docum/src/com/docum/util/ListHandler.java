@@ -32,17 +32,27 @@ public class ListHandler {
 	}
 	
 	public static String getUniqueResult(List<Object> data) {
-		StringBuffer result = new StringBuffer();
-		Set<Object> uniqueObjects = new HashSet<Object>();
-		for (Object object: data) {
-			uniqueObjects.add(object.toString());
+		if (data == null | data.size() == 0) {
+			return "";
+		} else if (data.size() == 1) {
+			return data.get(0).toString();
+		} else {
+			StringBuffer result = new StringBuffer();
+			Set<Object> uniqueObjects = new HashSet<Object>();
+			for (Object object: data) {
+				uniqueObjects.add(object.toString());
+			}
+			if (uniqueObjects.size() == 1) {
+				return uniqueObjects.iterator().next().toString();
+			} else {
+				for (Object object: uniqueObjects) {
+					result.append(object).append(", ");
+				}
+				int length = result.length();
+				result.replace(length - 2, length - 1 , "");
+				
+				return result.toString();
+			}
 		}
-		for (Object object: uniqueObjects) {
-			result.append(object).append(", ");
-		}
-		int length = result.length();
-		result.replace(length - 2, length - 1 , "");
-		
-		return result.toString();
 	}
 }
