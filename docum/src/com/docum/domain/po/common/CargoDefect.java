@@ -96,6 +96,11 @@ public class CargoDefect extends IdentifiedEntity{
 		if (!(obj instanceof CargoDefect)) {
 			return false;
 		}
+		CargoDefect other = (CargoDefect)obj;
+		if((getId() == null || other.getId() == null) &&
+				articleDefect != null && other.articleDefect != null) {
+			return articleDefect.equals(other.articleDefect);
+		}
 
 		return EqualsHelper.equals(getId(), ((CargoDefect) obj).getId());
 	}
