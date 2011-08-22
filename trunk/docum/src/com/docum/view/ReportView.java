@@ -76,9 +76,9 @@ public class ReportView extends BaseView {
 			StringBuffer sb = new StringBuffer();
 			Date now = new Date();
 			if (this.reports != null) {
-				sb.append(this.reports.size() + 1).append("-").append(dateFormat.format(now));
+				sb.append(dateFormat.format(now)).append("/").append(this.reports.size() + 1);
 			} else {
-				sb.append("1-").append(dateFormat.format(now));
+				sb.append(dateFormat.format(now)).append("/1");
 			}
 			this.report.setNumber(sb.toString());
 			this.report.setDate(new Date());
