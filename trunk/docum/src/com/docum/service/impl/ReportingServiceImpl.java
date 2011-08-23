@@ -2,14 +2,22 @@ package com.docum.service.impl;
 
 import java.io.File;
 import java.io.Serializable;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.faces.context.FacesContext;
 
 import org.odftoolkit.odfdom.doc.OdfTextDocument;
+import org.odftoolkit.odfdom.doc.table.OdfTable;
+import org.odftoolkit.odfdom.doc.table.OdfTableCell;
+import org.odftoolkit.odfdom.dom.element.draw.DrawFrameElement;
+import org.odftoolkit.odfdom.dom.element.draw.DrawImageElement;
+import org.odftoolkit.odfdom.dom.element.table.TableTableCellElement;
+import org.odftoolkit.odfdom.dom.element.text.TextPElement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,8 +29,11 @@ import com.artofsolving.jodconverter.openoffice.connection.OpenOfficeConnection;
 import com.artofsolving.jodconverter.openoffice.connection.SocketOpenOfficeConnection;
 import com.artofsolving.jodconverter.openoffice.converter.OpenOfficeDocumentConverter;
 import com.docum.dao.ReportingDao;
+import com.docum.domain.po.common.Cargo;
 import com.docum.domain.po.common.Container;
+import com.docum.domain.po.common.FileUrl;
 import com.docum.domain.po.common.Report;
+import com.docum.service.ApplicationConfigService;
 import com.docum.service.BaseService;
 import com.docum.service.ReportingService;
 import com.docum.util.ListHandler;
@@ -38,6 +49,8 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 	ReportingDao reportingDao;
 	@Autowired
 	BaseService baseService;
+	@Autowired
+	ApplicationConfigService applicationConfigService;
 	
 	private static final String STATEMENT_BEGIN = "{$";
 	private static final String STATEMENT_END = "}";
@@ -73,6 +86,7 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 			Node node = odt.getStylesDom().getChildNodes().item(i);
 			processNode(node);
 		}
+		addMarksImages(odt);
 		odt.save(location + reportFileName + ".odt");
 		OpenOfficeConnection officeConnection = 
 			new SocketOpenOfficeConnection(starOfficeConnectionPort);
@@ -82,6 +96,81 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 			new File(location + reportFileName + ".odt"), 
 			new File(location + reportFileName + ".pdf"));
 		officeConnection.disconnect();
+	}
+	
+	private void addMarksImages(OdfTextDocument odt) throws Exception {
+		String storagePath = "file:///" + applicationConfigService.getImagesStoragePath() + "/";
+		OdfTable odfTable = odt.getTableByName("TableShippingMark");
+		for (Container container: this.containers) {
+			if (container.getActualCondition() == null) {
+				continue;
+			}
+			Set<Cargo> cargoes = container.getActualCondition().getCargoes();
+			if (cargoes == null || cargoes.size() == 0) {
+				int currRow = odfTable.getRowCount() - 1;
+				if ( currRow > 1) {
+					odfTable.appendRow();
+					odfTable.appendRow();
+					currRow += 2;
+				} else {
+					odfTable.appendRow();
+				}
+				odfTable.getCellByPosition(0, currRow).setStringValue(container.getNumber());
+				odfTable.getCellByPosition(0, currRow + 1).setStringValue("UNAVAILABLE");
+				odfTable.getCellByPosition(1, currRow + 1).setStringValue("Нет фотографии");
+				continue;
+			}
+			odfTable.appendRow();
+			int currRow = odfTable.getRowCount() - 1;
+			odfTable.getCellByPosition(0, currRow).setStringValue(container.getNumber());
+			for (Cargo cargo: cargoes) {
+				odfTable.appendRow();
+				currRow = odfTable.getRowCount() - 1;
+				OdfTableCell odfTableCell;
+				FileUrl fileUrl = cargo.getInspectionInfo().getShippingMarkEng();
+				if (fileUrl != null) {
+					odt.getPackage().insert(new URI(storagePath + fileUrl.getValue()), 
+						fileUrl.getValue(), null);
+					odfTableCell = odfTable.getCellByPosition(0, currRow);
+					TableTableCellElement tableCellElement = 
+						(TableTableCellElement) odfTableCell.getOdfElement();
+					TextPElement textPElement = tableCellElement.newTextPElement();
+					initImageAttributes(textPElement.newDrawFrameElement(), fileUrl.getValue());
+				} else {
+					odfTableCell = odfTable.getCellByPosition(0, currRow);
+					odfTableCell.setStringValue("UNAVAILABLE");					
+				}
+				fileUrl = cargo.getInspectionInfo().getShippingMark();
+				if (fileUrl != null) {
+					odt.getPackage().insert(new URI(storagePath + fileUrl.getValue()), 
+						fileUrl.getValue(), null);
+					odfTableCell = odfTable.getCellByPosition(1, currRow);
+					TableTableCellElement tableCellElement = 
+						(TableTableCellElement) odfTableCell.getOdfElement();
+					TextPElement textPElement = tableCellElement.newTextPElement();
+					initImageAttributes(textPElement.newDrawFrameElement(), fileUrl.getValue());
+				} else {
+					odfTableCell = odfTable.getCellByPosition(1, currRow);
+					odfTableCell.setStringValue("Нет фотографии");					
+				}
+			}
+		}
+	}
+	
+	private void initImageAttributes(DrawFrameElement drawFrameElement, String fileUrl)
+			throws Exception{
+		if (fileUrl == null) {
+			throw new Exception("Не указано расположение изображения");
+		}
+		drawFrameElement.setDrawZIndexAttribute(0);
+		drawFrameElement.setDrawStyleNameAttribute("fr1");
+		drawFrameElement.setSvgHeightAttribute("6.283cm");
+		drawFrameElement.setSvgWidthAttribute("8.371cm");
+		DrawImageElement drawImageElement = drawFrameElement.newDrawImageElement();
+		drawImageElement.setXlinkHrefAttribute(fileUrl);
+		drawImageElement.setXlinkActuateAttribute("onLoad");
+		drawImageElement.setXlinkShowAttribute("embed");
+		drawImageElement.setXlinkTypeAttribute("simple");
 	}
 	
 	private void initTemlateAccordance(final Report report) {
