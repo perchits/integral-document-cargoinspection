@@ -99,7 +99,6 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 	}
 	
 	private void addMarksImages(OdfTextDocument odt) throws Exception {
-		String storagePath = "file:///" + applicationConfigService.getImagesStoragePath() + "/";
 		OdfTable odfTable = odt.getTableByName("TableShippingMark");
 		for (Container container: this.containers) {
 			if (container.getActualCondition() == null) {
@@ -129,32 +128,32 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 				OdfTableCell odfTableCell;
 				FileUrl fileUrl = cargo.getInspectionInfo().getShippingMarkEng();
 				if (fileUrl != null) {
-					odt.getPackage().insert(new URI(storagePath + fileUrl.getValue()), 
-						fileUrl.getValue(), null);
-					odfTableCell = odfTable.getCellByPosition(0, currRow);
-					TableTableCellElement tableCellElement = 
-						(TableTableCellElement) odfTableCell.getOdfElement();
-					TextPElement textPElement = tableCellElement.newTextPElement();
-					initImageAttributes(textPElement.newDrawFrameElement(), fileUrl.getValue());
+					addImage(odt, fileUrl, odfTable, 0, currRow);
 				} else {
 					odfTableCell = odfTable.getCellByPosition(0, currRow);
 					odfTableCell.setStringValue("UNAVAILABLE");					
 				}
 				fileUrl = cargo.getInspectionInfo().getShippingMark();
 				if (fileUrl != null) {
-					odt.getPackage().insert(new URI(storagePath + fileUrl.getValue()), 
-						fileUrl.getValue(), null);
-					odfTableCell = odfTable.getCellByPosition(1, currRow);
-					TableTableCellElement tableCellElement = 
-						(TableTableCellElement) odfTableCell.getOdfElement();
-					TextPElement textPElement = tableCellElement.newTextPElement();
-					initImageAttributes(textPElement.newDrawFrameElement(), fileUrl.getValue());
+					addImage(odt, fileUrl, odfTable, 1, currRow);
 				} else {
 					odfTableCell = odfTable.getCellByPosition(1, currRow);
 					odfTableCell.setStringValue("Нет фотографии");					
 				}
 			}
 		}
+	}
+	
+	private void addImage(OdfTextDocument odt, FileUrl imageURL, OdfTable odfTable, 
+			int column, int row) throws Exception {
+		String storagePath = "file:///" + applicationConfigService.getImagesStoragePath() + "/";
+		odt.getPackage().insert(new URI(storagePath + imageURL.getValue()), 
+			imageURL.getValue(), null);
+		OdfTableCell odfTableCell = odfTable.getCellByPosition(column, row);
+		TableTableCellElement tableCellElement = 
+			(TableTableCellElement) odfTableCell.getOdfElement();
+		TextPElement textPElement = tableCellElement.newTextPElement();
+		initImageAttributes(textPElement.newDrawFrameElement(), imageURL.getValue());
 	}
 	
 	private void initImageAttributes(DrawFrameElement drawFrameElement, String fileUrl)
