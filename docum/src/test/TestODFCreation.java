@@ -12,6 +12,11 @@ import junit.framework.TestCase;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.odftoolkit.odfdom.doc.OdfTextDocument;
+import org.odftoolkit.odfdom.doc.table.OdfTableCell;
+import org.odftoolkit.odfdom.dom.element.draw.DrawFrameElement;
+import org.odftoolkit.odfdom.dom.element.draw.DrawImageElement;
+import org.odftoolkit.odfdom.dom.element.table.TableTableCellElement;
+import org.odftoolkit.odfdom.dom.element.text.TextPElement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -24,6 +29,7 @@ import com.artofsolving.jodconverter.openoffice.connection.OpenOfficeConnection;
 import com.artofsolving.jodconverter.openoffice.connection.SocketOpenOfficeConnection;
 import com.artofsolving.jodconverter.openoffice.converter.OpenOfficeDocumentConverter;
 import com.docum.domain.po.common.Container;
+import com.docum.domain.po.common.Report;
 import com.docum.service.BaseService;
 import com.docum.service.ReportingService;
 import com.docum.util.XMLUtil;
@@ -45,17 +51,22 @@ public class TestODFCreation extends TestCase {
 	@Test
 	public void testODFCreation() {
 		try {
-			OdfTextDocument odt = OdfTextDocument.loadDocument(LOCATION + "/testTemplate.odt");
+			Report report = baseService.getObject(Report.class, 1L);
+			if (report != null) {
+				reportingService.createReport(report);
+			} else {
+				TestCase.fail();
+			}
+			/*OdfTextDocument odt = OdfTextDocument.loadDocument(LOCATION + "/testTemplate.odt");
 			odt.save(LOCATION + "/testResult.odt");
 			odt = OdfTextDocument.loadDocument(LOCATION + "/testResult.odt");
 			container = baseService.getObject(Container.class, 3L);
-			odt.getPackage().insert(new URI(LOCATION + "/1.png"), "Pictures/1.png", null);
 			int l = odt.getContentDom().getChildNodes().getLength();
 			for (int i = 0; i < l; i++) {
 				Node node = odt.getContentDom().getChildNodes().item(i);
 				processNode(node);
 			}
-			//odt.getTableByName("HeaderTable").getCellByPosition(1, 1). setStringValue("!!!!");
+			addMarksImages(odt);
 			odt.save(LOCATION + "/testResult.odt");
 			OpenOfficeConnection officeConnection = new SocketOpenOfficeConnection(8100);
 			officeConnection.connect();
@@ -63,10 +74,29 @@ public class TestODFCreation extends TestCase {
 			converter.convert(
 				new File("e:/Work/NCSP/Development/docum/project/src/test/testResources/testResult.odt"), 
 				new File("e:/Work/NCSP/Development/docum/project/src/test/testResources/testResult.pdf"));
-			officeConnection.disconnect();
+			officeConnection.disconnect();*/
 		} catch(Exception e) {
 			TestCase.fail(e.getMessage());
 		}
+	}
+	
+	private void addMarksImages(OdfTextDocument odt) throws Exception {
+		odt.getPackage().insert(
+			new URI("file:///e:/Work/NCSP/Development/docum/project/temp/00000006-ZCSU5846814/smark_eng(0).jpg"), 
+			"Pictures/1.png", null);
+		OdfTableCell odfTableCell = odt.getTableByName("TableShippingMark").getCellByPosition(1, 2);
+		TableTableCellElement tableCellElement = (TableTableCellElement) odfTableCell.getOdfElement();
+		TextPElement textPElement = tableCellElement.newTextPElement();
+		DrawFrameElement drawFrameElement = textPElement.newDrawFrameElement();
+		drawFrameElement.setDrawZIndexAttribute(0);
+		drawFrameElement.setDrawStyleNameAttribute("fr1");
+		drawFrameElement.setSvgHeightAttribute("6.283cm");
+		drawFrameElement.setSvgWidthAttribute("8.371cm");
+		DrawImageElement drawImageElement = drawFrameElement.newDrawImageElement();
+		drawImageElement.setXlinkHrefAttribute("Pictures/11.png");
+		drawImageElement.setXlinkActuateAttribute("onLoad");
+		drawImageElement.setXlinkShowAttribute("embed");
+		drawImageElement.setXlinkTypeAttribute("simple");
 	}
 	
 	private void processNode(Node node) throws Exception {

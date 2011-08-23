@@ -119,8 +119,11 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 				odfTable.getCellByPosition(1, currRow + 1).setStringValue("Нет фотографии");
 				continue;
 			}
-			odfTable.appendRow();
 			int currRow = odfTable.getRowCount() - 1;
+			if (currRow > 1) {
+				odfTable.appendRow();
+				currRow++;
+			}
 			odfTable.getCellByPosition(0, currRow).setStringValue(container.getNumber());
 			for (Cargo cargo: cargoes) {
 				odfTable.appendRow();
