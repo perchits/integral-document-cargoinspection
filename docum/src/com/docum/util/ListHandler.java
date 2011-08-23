@@ -33,7 +33,7 @@ public class ListHandler {
 	
 	public static String getUniqueResult(List<Object> data) {
 		if (data == null | data.size() == 0) {
-			return "";
+			return "No data/Нет данных";
 		} else if (data.size() == 1) {
 			return data.get(0).toString();
 		} else {
