@@ -56,6 +56,7 @@ public class ReportView extends BaseView {
 	private Container container;
 	private VoyagePresentation selectedVoyage;
 	private ContainerPresentation[] selectedContainers;
+	private String reportUrl;
 	private boolean editMode = false;
 
 	@Override
@@ -285,14 +286,17 @@ public class ReportView extends BaseView {
 		} else {
 			try {
 				reportingService.createReport(this.report);
-				fc.getExternalContext().redirect(
-					"../resources/reporting/resultReport_" + this.report.getId() + ".pdf");
+				this.reportUrl = "/docum/resources/reporting/resultReport_" + this.report.getId() + ".pdf";
 			} catch(Exception e) {
 				fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, 
 					"Исключение при создании отчета!", e.getMessage()));
 				DocumLogger.log(e);
 			}
 		}
+	}
+	
+	public String getReportUrl() {
+		return reportUrl;
 	}
 
 	public ContainerPresentation[] getSelectedContainers() {
