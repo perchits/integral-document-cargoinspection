@@ -13,6 +13,10 @@ public class DeclaredCargoCondition extends CargoCondition {
 	@OneToOne(optional=false)
 	private Container container;
 
+	private Double minTemperature;
+	
+	private Double maxTemperature;
+
 	public DeclaredCargoCondition() {
 		super();
 	}
@@ -22,8 +26,10 @@ public class DeclaredCargoCondition extends CargoCondition {
 		this.container = container;
 	}
 
-	public DeclaredCargoCondition(Container container, Double temperature) {
-		super(temperature);
+	public DeclaredCargoCondition(Container container, Double minTemperature,
+			Double maxTemperature) {
+		this.minTemperature = minTemperature;
+		this.maxTemperature = maxTemperature;
 		this.container = container;
 	}
 
@@ -53,5 +59,21 @@ public class DeclaredCargoCondition extends CargoCondition {
 
 	public int hashCode() {
 		return HashCodeHelper.hashCode(getId());
+	}
+
+	public Double getMinTemperature() {
+		return minTemperature;
+	}
+
+	public void setMinTemperature(Double minTemperature) {
+		this.minTemperature = minTemperature;
+	}
+
+	public Double getMaxTemperature() {
+		return maxTemperature;
+	}
+
+	public void setMaxTemperature(Double maxTemperature) {
+		this.maxTemperature = maxTemperature;
 	}
 }

@@ -89,7 +89,8 @@ public class CargoDataPreparator {
 
 	private static DeclaredCargoCondition prepareDeclaredCondition(TestDataPersister persister, Container container) {
 		DeclaredCargoCondition condition = container.getDeclaredCondition();
-		condition.setTemperature(temperatureCounter.next());
+		condition.setMinTemperature(temperatureCounter.next());
+		condition.setMaxTemperature(temperatureCounter.next());
 		persister.persist(condition);
 		return condition;
 	}

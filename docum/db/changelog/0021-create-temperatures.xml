@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+	<changeSet author="pepper" id="0021-create-temperatures">
+
+		<addColumn tableName="actualcargocondition">
+			<column name="hastemperaturespy" type="BOOLEAN" />
+			<column name="hastemperaturespydeviation" type="BOOLEAN" />
+			<column name="hastemperaturetestdeviation" type="BOOLEAN" />
+			<column name="temperature" type="FLOAT8(17)" />
+		</addColumn>
+		<sql>
+			UPDATE actualcargocondition acc
+			SET temperature = cc.temperature
+			FROM cargocondition cc
+			WHERE acc.id = cc.id
+		</sql>
+		<dropColumn tableName="cargocondition" columnName="temperature" />
+
+		<addColumn tableName="declaredcargocondition">
+			<column name="maxtemperature" type="FLOAT8(17)" />
+			<column name="mintemperature" type="FLOAT8(17)" />
+		</addColumn>
+
+		<modifyDataType tableName="inspection" columnName="packageforming"
+			newDataType="VARCHAR(1024)" />
+		<modifyDataType tableName="inspection" columnName="packageformingeng"
+			newDataType="VARCHAR(1024)" />
+		<modifyDataType tableName="inspection" columnName="packagestate"
+			newDataType="VARCHAR(1024)" />
+		<modifyDataType tableName="inspection" columnName="packagestateeng"
+			newDataType="VARCHAR(1024)" />
+		<addColumn tableName="inspection">
+			<column name="packagetosurveyeng" type="VARCHAR(512)" />
+		</addColumn>
+		<modifyDataType tableName="inspection" columnName="packagetosurveyeng"
+			newDataType="VARCHAR(512)" />
+		<modifyDataType tableName="inspection" columnName="surveyorconclusion"
+			newDataType="VARCHAR(1024)" />
+		<modifyDataType tableName="inspection" columnName="surveyorconclusioneng"
+			newDataType="VARCHAR(1024)" />
+		<modifyDataType tableName="inspection" columnName="unloadingplace"
+			newDataType="VARCHAR(512)" />
+		<modifyDataType tableName="inspection" columnName="unloadingplaceeng"
+			newDataType="VARCHAR(512)" />
+		<dropColumn tableName="inspection" columnName="temperature" />
+
+	</changeSet>
+</databaseChangeLog>
