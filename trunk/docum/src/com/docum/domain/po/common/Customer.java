@@ -27,5 +27,10 @@ public class Customer extends IdentifiedEntity {
 	public void setCompany(Company company) {
 		this.company = company;
 	}
+	
+	@Override
+	public String toString() {
+		return this.company != null ? this.company.getName() : null;
+	}
 
 }
