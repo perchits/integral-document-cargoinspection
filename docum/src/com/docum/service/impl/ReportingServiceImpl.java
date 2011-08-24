@@ -183,6 +183,22 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 	
 	private void initTemlateAccordance(final Report report) {
 		this.temlateAccordance.put("Report",  new Object[]{report, "number"});
+		this.temlateAccordance.put("CargoReceiverName",  
+			new Object[]{report, "customer.company.name"});
+		this.temlateAccordance.put("CargoReceiverAddr",  
+			new Object[]{report, "customer.company.address"});
+		this.temlateAccordance.put("CargoReceiverNameEng",  
+			new Object[]{report, "customer.company.englishName"});
+		this.temlateAccordance.put("CargoReceiverAddrEng",  
+			new Object[]{report, "customer.company.englishAddress"});
+		this.temlateAccordance.put("ReportClient",  
+			new Object[]{report, "customer.company.name"});
+		this.temlateAccordance.put("ReportClientAddr",  
+			new Object[]{report, "customer.company.address"});
+		this.temlateAccordance.put("ReportClientEng",  
+			new Object[]{report, "customer.company.englishName"});
+		this.temlateAccordance.put("ReportClientAddrEng",  
+			new Object[]{report, "customer.company.englishAddress"});
 		this.temlateAccordance.put("actualCargoesEnglishName",  
 			new Object[]{containerPresentationMap, "actualCargoesEnglishName"});
 		this.temlateAccordance.put("actualCargoesName",  
