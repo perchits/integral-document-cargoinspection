@@ -64,6 +64,7 @@ public class XMLUtil {
 		try {
 			result = propertyUtilsBean.getSimpleProperty(object, propertyName);
 		} catch (Exception e) {
+			//TODO refactoring
 			return null;
 		}
 		return result;

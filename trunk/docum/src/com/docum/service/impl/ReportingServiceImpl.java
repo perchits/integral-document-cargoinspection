@@ -86,7 +86,10 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 			Node node = odt.getStylesDom().getChildNodes().item(i);
 			processNode(node);
 		}
-		addMarksImages(odt);
+		addImages(odt, "TableShippingMark", "UNAVAILABLE", "Нет фотографии", 
+			"shippingMarkEng", "shippingMark");
+		addImages(odt, "TableStickerA4", "UNAVAILABLE", "Стикер отсутствует", 
+			"stickerEng", "sticker");
 		odt.save(location + reportFileName + ".odt");
 		OpenOfficeConnection officeConnection = 
 			new SocketOpenOfficeConnection(starOfficeConnectionPort);
@@ -98,8 +101,9 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 		officeConnection.disconnect();
 	}
 	
-	private void addMarksImages(OdfTextDocument odt) throws Exception {
-		OdfTable odfTable = odt.getTableByName("TableShippingMark");
+	private void addImages(OdfTextDocument odt, String odfTableName, String engNoImageComment, 
+			String rusNoImageComment, String engImageUrlProperty, String rusImageUrlProperty) throws Exception {
+		OdfTable odfTable = odt.getTableByName(odfTableName);
 		for (Container container: this.containers) {
 			if (container.getActualCondition() == null) {
 				continue;
@@ -115,8 +119,8 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 					odfTable.appendRow();
 				}
 				odfTable.getCellByPosition(0, currRow).setStringValue(container.getNumber());
-				odfTable.getCellByPosition(0, currRow + 1).setStringValue("UNAVAILABLE");
-				odfTable.getCellByPosition(1, currRow + 1).setStringValue("Нет фотографии");
+				odfTable.getCellByPosition(0, currRow + 1).setStringValue(engNoImageComment);
+				odfTable.getCellByPosition(1, currRow + 1).setStringValue(rusNoImageComment);
 				continue;
 			}
 			int currRow = odfTable.getRowCount() - 1;
@@ -129,19 +133,21 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 				odfTable.appendRow();
 				currRow = odfTable.getRowCount() - 1;
 				OdfTableCell odfTableCell;
-				FileUrl fileUrl = cargo.getInspectionInfo().getShippingMarkEng();
+				FileUrl fileUrl = (FileUrl) XMLUtil.getObjectProperty(
+					cargo.getInspectionInfo(), engImageUrlProperty);
 				if (fileUrl != null) {
 					addImage(odt, fileUrl, odfTable, 0, currRow);
 				} else {
 					odfTableCell = odfTable.getCellByPosition(0, currRow);
-					odfTableCell.setStringValue("UNAVAILABLE");					
+					odfTableCell.setStringValue(engNoImageComment);					
 				}
-				fileUrl = cargo.getInspectionInfo().getShippingMark();
+				fileUrl = (FileUrl) XMLUtil.getObjectProperty(
+					cargo.getInspectionInfo(), rusImageUrlProperty);
 				if (fileUrl != null) {
 					addImage(odt, fileUrl, odfTable, 1, currRow);
 				} else {
 					odfTableCell = odfTable.getCellByPosition(1, currRow);
-					odfTableCell.setStringValue("Нет фотографии");					
+					odfTableCell.setStringValue(rusNoImageComment);					
 				}
 			}
 		}
