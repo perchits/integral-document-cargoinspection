@@ -12,6 +12,23 @@ public class ActualCargoCondition extends CargoCondition {
 
 	@OneToOne(optional=false)
 	private Container container;
+
+	Double temperature;
+		
+	/**
+	 * Был ли найден температурный шпион
+	 */
+	Boolean hasTemperatureSpy;
+	
+	/**
+	 * Были ли различия между измеренной температурой и рекомендуемой
+	 */
+	Boolean hasTemperatureTestDeviation;
+
+	/**
+	 * Были ли различия между показаниями шпиона и рекомендуемой температурой
+	 */
+	Boolean hasTemperatureSpyDeviation;
 	
 	public ActualCargoCondition() {
 		super();
@@ -23,7 +40,7 @@ public class ActualCargoCondition extends CargoCondition {
 	}
 
 	public ActualCargoCondition(Container container, Double temperature) {
-		super(temperature);
+		this.temperature = temperature;
 		this.container = container;
 	}
 
@@ -35,6 +52,14 @@ public class ActualCargoCondition extends CargoCondition {
 		this.container = container;
 	}
 
+	public Double getTemperature() {
+		return temperature;
+	}
+
+	public void setTemperature(Double temperature) {
+		this.temperature = temperature;
+	}
+	
 	public boolean isSurveyable() {
 		return true;
 	}
@@ -59,5 +84,29 @@ public class ActualCargoCondition extends CargoCondition {
 			return super.hashCode();
 		}
 		return HashCodeHelper.hashCode(getId());
+	}
+
+	public Boolean getHasTemperatureSpy() {
+		return hasTemperatureSpy;
+	}
+
+	public void setHasTemperatureSpy(Boolean hasTemperatureSpy) {
+		this.hasTemperatureSpy = hasTemperatureSpy;
+	}
+
+	public Boolean getHasTemperatureTestDeviation() {
+		return hasTemperatureTestDeviation;
+	}
+
+	public void setHasTemperatureTestDeviation(Boolean hasTemperatureTestDeviation) {
+		this.hasTemperatureTestDeviation = hasTemperatureTestDeviation;
+	}
+
+	public Boolean getHasTemperatureSpyDeviation() {
+		return hasTemperatureSpyDeviation;
+	}
+
+	public void setHasTemperatureSpyDeviation(Boolean hasTemperatureSpyDeviation) {
+		this.hasTemperatureSpyDeviation = hasTemperatureSpyDeviation;
 	}
 }

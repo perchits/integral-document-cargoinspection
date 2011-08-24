@@ -34,8 +34,10 @@ public class Inspection extends IdentifiedEntity {
 	@ManyToOne(optional = false)
 	private SurveyPlace surveyPlace;
 	
+	@Column(length = 512)
 	private String unloadingPlace;
 	
+	@Column(length = 512)
 	private String unloadingPlaceEng;
 	
 	@Column(length = 512)
@@ -44,25 +46,28 @@ public class Inspection extends IdentifiedEntity {
 	@Column(length = 512)
 	private String packageTypeEng;
 	
-	@Column(length = 512)
+	@Column(length = 1024)
 	private String packageForming;
 	
-	@Column(length = 512)
+	@Column(length = 1024)
 	private String packageFormingEng;
 	
-	@Column(length = 512)
+	@Column(length = 1024)
 	private String packageState;
 	
-	@Column(length = 512)
+	@Column(length = 1024)
 	private String packageStateEng;
 	
-	private Double temperature;
-	
-	private String packageToSurvey;
-	
 	@Column(length = 512)
+	private String packageToSurvey;
+
+	@Column(length = 512)
+	private String packageToSurveyEng;
+	
+	@Column(length = 1024)
 	private String surveyorConclusion;
 	
+	@Column(length = 1024)
 	private String surveyorConclusionEng;
 	
 	@ManyToOne
@@ -161,14 +166,6 @@ public class Inspection extends IdentifiedEntity {
 		this.packageState = packageSate;
 	}
 
-	public Double getTemperature() {
-		return temperature;
-	}
-
-	public void setTemperature(Double temperature) {
-		this.temperature = temperature;
-	}
-
 	public String getPackageToSurvey() {
 		return packageToSurvey;
 	}
@@ -177,6 +174,14 @@ public class Inspection extends IdentifiedEntity {
 		this.packageToSurvey = packageToSurvey;
 	}
 
+	public String getPackageToSurveyEng() {
+		return packageToSurveyEng;
+	}
+
+	public void setPackageToSurveyEng(String packageToSurveyEng) {
+		this.packageToSurveyEng = packageToSurveyEng;
+	}
+	
 	public String getSurveyorConclusion() {
 		return surveyorConclusion;
 	}

@@ -22,15 +22,8 @@ public abstract class CargoCondition extends IdentifiedEntity {
 	@OneToMany(mappedBy = "condition", cascade=CascadeType.ALL, orphanRemoval=true, fetch=FetchType.EAGER)
 	private Set<Cargo> cargoes = new HashSet<Cargo>();
 	
-	Double temperature;
-
 	public CargoCondition() {
 		super();
-	}
-
-	public CargoCondition(Double temperature) {
-		super();
-		this.temperature = temperature;
 	}
 
 	public abstract Container getContainer();
@@ -39,14 +32,6 @@ public abstract class CargoCondition extends IdentifiedEntity {
 	
 	public abstract boolean isSurveyable();
 	
-	public Double getTemperature() {
-		return temperature;
-	}
-
-	public void setTemperature(Double temperature) {
-		this.temperature = temperature;
-	}
-
 	public Set<Cargo> getCargoes() {
 		return cargoes;
 	}
