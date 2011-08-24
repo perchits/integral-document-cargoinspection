@@ -47,7 +47,6 @@
 					value="#{reportBean.reports}" selectionMode="single"
 					selection="#{reportBean.wrappedReport}" >
 					<p:ajax event="rowSelect"/>
-					
 					<p:column sortBy="#{report.number}">
 						<f:facet name="header">
 						Номер отчета
@@ -59,6 +58,12 @@
 						Дата отчета
 						</f:facet>
 						<h:outputText value="#{report.date}" />
+					</p:column>
+					<p:column sortBy="#{report.customer}">
+						<f:facet name="header">
+						Клиент
+						</f:facet>
+						<h:outputText value="#{report.customer}" />
 					</p:column>
 					<p:column sortBy="#{report.reportedContainers}">
 						<f:facet name="header">

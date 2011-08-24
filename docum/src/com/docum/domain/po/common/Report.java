@@ -27,6 +27,7 @@ public class Report extends IdentifiedEntity{
 
 	private String number;
 	private Date date;
+	private Customer customer;
 
 	@ManyToMany
 	private List<Container> containers = new ArrayList<Container>();
@@ -53,5 +54,35 @@ public class Report extends IdentifiedEntity{
 
 	public void setDate(Date date) {
 		this.date = date;
-	}	
+	}
+
+	public Customer getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
+	
+	public String getCustomerFullInfo() {
+		if (this.customer != null && this.customer.getCompany() != null) {
+			Company company = this.customer.getCompany();
+			StringBuffer sb = new StringBuffer(company.getName());
+			sb.append(company.getAddress());
+			return sb.toString();
+		} else {
+			return null;
+		}
+	}
+	
+	public String getCustomerFullInfoEng() {
+		if (this.customer != null && this.customer.getCompany() != null) {
+			Company company = this.customer.getCompany();
+			StringBuffer sb = new StringBuffer(company.getEnglishName());
+			sb.append(company.getEnglishAddress());
+			return sb.toString();
+		} else {
+			return null;
+		}
+	}
 }

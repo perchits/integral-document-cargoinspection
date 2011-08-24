@@ -71,6 +71,15 @@ public class ReportPresentation implements Serializable {
 			
 	}
 	
+	public String getCustomer() {
+		if (this.report != null && this.report.getCustomer() != null) {
+			return this.report.getCustomer().toString();
+		} else {
+			return null;
+		}
+			
+	}
+	
 	public Date getDate() {
 		if (this.report != null) {
 			return this.report.getDate();

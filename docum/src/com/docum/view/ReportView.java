@@ -19,6 +19,7 @@ import org.springframework.stereotype.Controller;
 import com.docum.domain.SortOrderEnum;
 import com.docum.domain.po.IdentifiedEntity;
 import com.docum.domain.po.common.Container;
+import com.docum.domain.po.common.Customer;
 import com.docum.domain.po.common.Report;
 import com.docum.domain.po.common.Voyage;
 import com.docum.service.ContainerService;
@@ -58,6 +59,7 @@ public class ReportView extends BaseView {
 	private ContainerPresentation[] selectedContainers;
 	private String reportUrl;
 	private boolean editMode = false;
+	private Customer customer;
 
 	@Override
 	public void saveObject() {
@@ -166,6 +168,7 @@ public class ReportView extends BaseView {
 				containerPresentation.getContainer().setReportDone(true);
 				containers.add(containerPresentation.getContainer());
 			}
+			this.report.setCustomer(this.customer);
 			this.report.setContainers(containers);
 			saveObject();
 			super.getBaseService().save(containers);
@@ -319,5 +322,17 @@ public class ReportView extends BaseView {
 	
 	public boolean getEditMode() {
 		return this.editMode;
+	}
+	
+	public List<Customer> getCustomers() {				
+		return getBaseService().getAll(Customer.class, DEFAULT_SORT_FIELDS);
+	}
+	
+	public Customer getSelectedCustomer() {
+		return this.customer == null ? null : this.customer;
+	}
+
+	public void setSelectedCustomer(Customer selectedCustomer) {
+		this.customer = selectedCustomer;
 	}
 }
