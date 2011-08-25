@@ -24,5 +24,5 @@
   <include file="0019-fix-images.xml"/>
   <include file="0020-rename-documents.xml"/>
   <include file="0021-create-temperatures.xml"/>
-  
+  <include file="0022-add-customer-to-report.xml"/>  
 </databaseChangeLog>
