@@ -78,6 +78,10 @@ public class InspectionUnit implements Serializable, DialogActionHandler {
 				
 	}
 	
+	public Double getTemperature() {
+		return container.getActualCondition().getTemperature();
+	}
+	
 	public FileListDlgView getInspectionImgDlg() {
 		return inspectionImgDlg;
 	}
