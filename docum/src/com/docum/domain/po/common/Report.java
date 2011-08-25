@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 
@@ -27,8 +28,8 @@ public class Report extends IdentifiedEntity{
 
 	private String number;
 	private Date date;
+	@ManyToOne
 	private Customer customer;
-
 	@ManyToMany
 	private List<Container> containers = new ArrayList<Container>();
 

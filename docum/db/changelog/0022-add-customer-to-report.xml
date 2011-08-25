@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+	<changeSet author="alekseyz" id="0022-add-customer-to-report">
+		<addColumn tableName="report">
+			<column name="customer_id" type="int8">
+				<constraints nullable="false" />
+			</column>
+		</addColumn>
+		<addForeignKeyConstraint baseColumnNames="customer_id"
+			baseTableName="report" baseTableSchemaName="public"
+			constraintName="fk91b141549ca5b62d" deferrable="false"
+			initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+			referencedColumnNames="id" referencedTableName="customer"
+			referencedTableSchemaName="public" referencesUniqueColumn="false" />
+	</changeSet>
+</databaseChangeLog>
