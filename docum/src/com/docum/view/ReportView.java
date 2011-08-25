@@ -285,8 +285,10 @@ public class ReportView extends BaseView {
 		if (!reportingService.checkStarOfficeConnection()) {
 			showErrorMessage(
 				"Отсутствует связь со службой StarOffice. Генерация отчетов невозможна.");
+			addCallbackParam("dontShow", true);
 		} else if (this.report == null) {
 			showErrorMessage("Отчета для редактирования не выбран");
+			addCallbackParam("dontShow", true);
 		} else {
 			try {
 				reportingService.createReport(this.report);
