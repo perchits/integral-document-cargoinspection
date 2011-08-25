@@ -14,6 +14,12 @@ function beforeShow(widgetVar, args) {
 	}	
 }
 
+function openWindow(args) {
+	if (!args.dontShow) {
+		window.open('/docum/reporting/showReport.jsf', 'reportWindow', 'width=1024,height=768');	
+	}	
+}
+
 function setHeader(msg) {	  
 	jQuery('.basic-dialog .ui-dialog-title').html(msg);
 }
