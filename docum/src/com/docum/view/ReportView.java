@@ -24,6 +24,7 @@ import com.docum.domain.po.common.Report;
 import com.docum.domain.po.common.Voyage;
 import com.docum.service.ContainerService;
 import com.docum.service.ReportingService;
+import com.docum.test.TestUtil;
 import com.docum.util.AlgoUtil;
 import com.docum.util.DocumLogger;
 import com.docum.util.FacesUtil;
@@ -299,7 +300,9 @@ public class ReportView extends BaseView {
 	}
 	
 	public String getReportUrl() {
-		return reportUrl;
+		StringBuffer sb = new StringBuffer("?").append("No cache").
+			append(TestUtil.getRandomLong());
+		return reportUrl + sb.toString();
 	}
 
 	public ContainerPresentation[] getSelectedContainers() {
