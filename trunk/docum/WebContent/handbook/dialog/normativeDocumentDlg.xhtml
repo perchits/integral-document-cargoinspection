@@ -11,16 +11,16 @@
 	<ui:define name="dialogBody">
 	  <h:panelGrid columns="2">
 	   <p:panel>
-		<h:outputLabel for="documentName" value="Название: *" />
-		<p:inputText value="#{bean.document.name}" id="documentName"
-			required="true" label="Название">
-		</p:inputText>
-
-		<h:outputLabel for="documentEnglishName"
+	    <h:outputLabel for="documentEnglishName"
 			value="Название на англ. яз.: *" />
 		<p:inputText value="#{bean.document.englishName}"
 			id="documentEnglishName" required="true"
 			label="Название на англ. яз.">
+		</p:inputText>
+		
+		<h:outputLabel for="documentName" value="Название: *" />
+		<p:inputText value="#{bean.document.name}" id="documentName"
+			required="true" label="Название">
 		</p:inputText>
 	   </p:panel>
  	  </h:panelGrid>	

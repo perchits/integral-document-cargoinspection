@@ -9,16 +9,16 @@
 	<ui:param name="saveObject" value="saveFeatureInstance" />
 	<ui:param name="deleteObject" value="deleteFeatureInstance" />
 	<ui:define name="dialogBody">
-		<h:outputLabel for="featureInstanceName" value="Наименование: *" />
-		<p:inputText value="#{bean.featureInstance.name}" id="featureInstanceName"
-			required="true" label="Наименование">
-		</p:inputText>
-
 		<h:outputLabel for="featureInstanceEnglishName"
 			value="Наименование на англ. яз.: *" />
 		<p:inputText value="#{bean.featureInstance.englishName}"
 			id="featureInstanceEnglishName" required="true"
 			label="Наименование на англ. яз.">
+		</p:inputText>
+		
+		<h:outputLabel for="featureInstanceName" value="Наименование: *" />
+		<p:inputText value="#{bean.featureInstance.name}" id="featureInstanceName"
+			required="true" label="Наименование">
 		</p:inputText>
 	</ui:define>
 	<ui:define name="deleteConfirmation">

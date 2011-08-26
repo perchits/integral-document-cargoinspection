@@ -11,16 +11,16 @@
 	<ui:define name="dialogBody">
 		<h:panelGrid columns="2">
 			<p:panel>
-			<h:outputLabel for="featureName" value="Наименование: *" />
-			<p:inputText value="#{bean.feature.name}" id="featureName"
-				required="true" label="Наименование">
-			</p:inputText>
-	
 			<h:outputLabel for="featureEnglishName"
 				value="Наименование на англ. яз.: *" />
 			<p:inputText value="#{bean.feature.englishName}"
 				id="featureEnglishName" required="true"
 				label="Наименование на англ. яз.">
+			</p:inputText>
+			
+			<h:outputLabel for="featureName" value="Наименование: *" />
+			<p:inputText value="#{bean.feature.name}" id="featureName"
+				required="true" label="Наименование">
 			</p:inputText>
 			<h:outputLabel for="featureIsMandatory" value="Обязательное поле:" />
 			<h:selectBooleanCheckbox size="30"
@@ -44,10 +44,10 @@
 			<p:dataTable id="featuresDetailsEditGrid" var="fde" style="min-width: 250px;"
 				value="#{bean.instances}" selectionMode="single" selection="#{bean.featureInstance}">
 				<p:column>
-					<h:outputText value="#{fde.name}" />
+					<h:outputText value="#{fde.englishName}" />
 				</p:column>
 				<p:column>
-					<h:outputText value="#{fde.englishName}" />
+					<h:outputText value="#{fde.name}" />
 				</p:column>
 			</p:dataTable>
 			</p:panel>

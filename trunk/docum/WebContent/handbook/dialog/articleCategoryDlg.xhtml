@@ -11,16 +11,16 @@
 	<ui:define name="dialogBody">
 	  <h:panelGrid columns="2">
 	   <p:panel>
-		<h:outputLabel for="categoryName" value="Наименование: *" />
-		<p:inputText value="#{bean.category.name}" id="categoryName"
-			required="true" label="Наименование">
-		</p:inputText>
-
-		<h:outputLabel for="categoryEnglishName"
+	    <h:outputLabel for="categoryEnglishName"
 			value="Наименование на англ. яз.: *" />
 		<p:inputText value="#{bean.category.englishName}"
 			id="categoryEnglishName" required="true"
 			label="Наименование на англ. яз.">
+		</p:inputText>
+		
+		<h:outputLabel for="categoryName" value="Наименование: *" />
+		<p:inputText value="#{bean.category.name}" id="categoryName"
+			required="true" label="Наименование">
 		</p:inputText>
 	   </p:panel>
 	   <p:panel> 
@@ -36,10 +36,10 @@
 		<p:dataTable id="defectsEditGrid" var="categoryDefect" style="min-width: 400px;"
 			value="#{bean.defects}" selectionMode="single" selection="#{bean.defect}">
 			<p:column>
-				<h:outputText value="#{categoryDefect.name}" />
+				<h:outputText value="#{categoryDefect.englishName}" />
 			</p:column>
 			<p:column>
-				<h:outputText value="#{categoryDefect.englishName}" />
+				<h:outputText value="#{categoryDefect.name}" />
 			</p:column>
 		</p:dataTable>
 		</p:panel>	

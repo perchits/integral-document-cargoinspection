@@ -7,16 +7,16 @@
 <ui:composition template="/WEB-INF/includes/dialogLayout.xhtml">
 	<ui:param name="width" value="380" />	
 	<ui:define name="dialogBody">
-		<h:outputLabel for="articleName" value="Наименование: *" />
-		<p:inputText value="#{bean.article.name}" id="articleName"
-			required="true" label="Наименование">
-		</p:inputText>
-
 		<h:outputLabel for="articleEnglishName"
 			value="Наименование на англ. яз.: *" />
 		<p:inputText value="#{bean.article.englishName}"
 			id="articleEnglishName" required="true"
 			label="Наименование на англ. яз.">
+		</p:inputText>
+		
+		<h:outputLabel for="articleName" value="Наименование: *" />
+		<p:inputText value="#{bean.article.name}" id="articleName"
+			required="true" label="Наименование">
 		</p:inputText>
 	</ui:define>
 	<ui:define name="deleteConfirmation">
