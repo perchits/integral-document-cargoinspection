@@ -18,19 +18,19 @@
 				<p:dataTable id="companyGrid" var="company"
 					value="#{companyBean.allObjects}" selectionMode="single"
 					selection="#{companyBean.company}">
-					<p:column sortBy="#{company.name}" filterBy="#{company.name}"
-						filterMatchMode="contains">
-						<f:facet name="header">
-							Наименование  
-						</f:facet>
-						<h:outputText value="#{company.name}" />
-					</p:column>
 					<p:column sortBy="#{company.englishName}"
 						filterBy="#{company.englishName}" filterMatchMode="contains">
 						<f:facet name="header">
 							Наименование на англ. яз.  
 						</f:facet>
 						<h:outputText value="#{company.englishName}" />
+					</p:column>
+					<p:column sortBy="#{company.name}" filterBy="#{company.name}"
+						filterMatchMode="contains">
+						<f:facet name="header">
+							Наименование  
+						</f:facet>
+						<h:outputText value="#{company.name}" />
 					</p:column>
 				</p:dataTable>
 			</p:panel>
