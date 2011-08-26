@@ -7,13 +7,13 @@
 <ui:composition template="/WEB-INF/includes/dialogLayout.xhtml">
 	<ui:param name="width" value="380" />	
 	<ui:define name="dialogBody">
-		<h:outputLabel for="name" value="Наименование: " />
-		<p:inputText value="#{bean.s.name}" id="name"
-			required="true" label="Наименование">
-		</p:inputText>
 		<h:outputLabel for="englishName" value="Наименование на англ. языке: " />
 		<p:inputText value="#{bean.s.englishName}" id="englishName"
 			required="true" label="Наименование на англ. языке">
+		</p:inputText>
+		<h:outputLabel for="name" value="Наименование: " />
+		<p:inputText value="#{bean.s.name}" id="name"
+			required="true" label="Наименование">
 		</p:inputText>
 	</ui:define>
 	<ui:define name="deleteConfirmation">

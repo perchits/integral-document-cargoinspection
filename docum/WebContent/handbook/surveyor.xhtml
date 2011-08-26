@@ -19,16 +19,15 @@
 
 				<p:dataTable id="surveyorGrid" var="s" value="#{surveyorBean.allObjects}"
 					selectionMode="single" selection="#{surveyorBean.s}">
-					<p:column sortBy="#{s.name}" filterBy="#{s.name}"
-						filterMatchMode="contains">
-						<f:facet name="header">Наименование</f:facet>
-						<h:outputText value="#{s.name}" />
-					</p:column>
-
 					<p:column sortBy="#{s.englishName}" filterBy="#{s.englishName}"
 						filterMatchMode="contains">
 						<f:facet name="header">Наименование на англ. языке</f:facet>
 						<h:outputText value="#{s.englishName}" />
+					</p:column>
+					<p:column sortBy="#{s.name}" filterBy="#{s.name}"
+						filterMatchMode="contains">
+						<f:facet name="header">Наименование</f:facet>
+						<h:outputText value="#{s.name}" />
 					</p:column>
 				</p:dataTable>
 
