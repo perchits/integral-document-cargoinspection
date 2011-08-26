@@ -78,9 +78,29 @@ public class InspectionUnit implements Serializable, DialogActionHandler {
 				
 	}
 	
+	public Double getMinTemperature() {
+		return container.getDeclaredCondition().getMinTemperature();
+	}
+	
+	public Double getMaxTemperature() {
+		return container.getDeclaredCondition().getMaxTemperature();
+	}
+	
+	public Boolean getHasTemperatureTestDeviation() {
+		return container.getActualCondition().getHasTemperatureTestDeviation();
+	}
+	
+	public Boolean getHasTemperatureSpy(){
+		return container.getActualCondition().getHasTemperatureSpy();
+	}
+	
+	public Boolean getHasTemperatureSpyDeviation(){
+		return container.getActualCondition().getHasTemperatureSpyDeviation();
+	}
+	
 	public Double getTemperature() {
 		return container.getActualCondition().getTemperature();
-	}
+	}	
 	
 	public FileListDlgView getInspectionImgDlg() {
 		return inspectionImgDlg;
