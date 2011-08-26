@@ -159,7 +159,7 @@ table td {
 }
 
 .ui-dialog-content td {
-	vertical-align: top;
+	vertical-align: middle;
 	text-align: left;
 }
 
@@ -693,7 +693,7 @@ a.olive-color:hover {
 }
 
 .image-list-table td, .basic-dialog th {
-	vertical-align: middle;
+	vertical-align: middle !important;
 	text-align : center;
 	background: #FCFFF0;
 	border: 1px dotted #E4F0B6;
@@ -722,3 +722,27 @@ a.olive-color:hover {
 	font-size: 11px;
 	color: olive;
 }
+
+.number {
+	min-width : 40px !important;
+	width: 50px !important;
+}
+
+.dialog-line-grid  td{	
+	vertical-align: middle;
+}
+
+.dialog-line-grid .number {
+	margin: 0 30px 0 0;
+}
+
+.temperature {
+	margin-top:2px;
+}
+
+.temperature td{
+	padding : 0 5px 0 5px !important;
+	border: 1px solid #E5E8CA !important;
+}
+	
+	

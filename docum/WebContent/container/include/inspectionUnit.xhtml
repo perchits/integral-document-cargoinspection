@@ -52,13 +52,25 @@
 </h:panelGroup>
 
 <h:panelGroup>
-	<br />
-	<h:outputText styleClass="olive-color" value="Температура: " />
-	<h:outputText value="#{inspectionbean.temperature}" />
+	<br />	
+	<h:panelGrid columns="5" styleClass="inline-table temperature">
+		<h:outputText styleClass="olive-color" value="Температура:" />
+	 	<h:outputText title="Минимальная температура по документам" value="#{inspectionbean.minTemperature}" />
+	 	<h:outputText title="Максимальная температура по документам" value="#{inspectionbean.maxTemperature}" />
+		<h:outputText title="Измеренная температура" value="#{inspectionbean.temperature}" />
+		<h:outputText value="#{inspectionbean.hasTemperatureTestDeviation ? 'Есть отклонение' : 'Нет отклонения'}" />
+	</h:panelGrid>
 </h:panelGroup>
 
-<h:panelGroup>
-	<br />
+<h:panelGroup>		
+	<h:panelGrid columns="3" styleClass="inline-table temperature">
+		<h:outputText styleClass="olive-color" value="Термоединица:" />
+	 	<h:outputText rendered="#{inspectionbean.hasTemperatureSpy}" value="Обнаружена" />	 	
+		<h:outputText value="#{inspectionbean.hasTemperatureSpyDeviation ? 'Есть отклонение' : 'Нет отклонения'}" />
+	</h:panelGrid>
+</h:panelGroup>
+
+<h:panelGroup>	
 	<h:outputText styleClass="olive-color" value="Осмотрено: " />
 	<h:outputText value="#{inspectionbean.inspection.packageToSurvey}" />
 </h:panelGroup>
