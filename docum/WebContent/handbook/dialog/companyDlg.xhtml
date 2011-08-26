@@ -7,16 +7,6 @@
 <ui:composition template="/WEB-INF/includes/dialogLayout.xhtml">
 	<ui:param name="width" value="480" />	
 	<ui:define name="dialogBody">
-		<h:outputLabel for="companyName" value="Наименование: *" />
-		<p:inputText value="#{bean.company.name}" id="companyName"
-			required="true" label="Наименование">
-		</p:inputText>
-
-		<h:outputLabel for="companyShortName" value="Краткое наименование: *" />
-		<p:inputText value="#{bean.company.shortName}"
-			id="companyShortName" required="true" label="Краткое наименование">
-		</p:inputText>
-
 		<h:outputLabel for="companyEName" value="Наименование на англ. яз.: *" />
 		<p:inputText value="#{bean.company.englishName}"
 			id="companyEName" required="true" label="Наименование на англ. яз.">
@@ -28,15 +18,25 @@
 			id="companyEShortName" required="true"
 			label="Краткое наимен. на англ. яз.">
 		</p:inputText>
+		
+		<h:outputLabel for="companyEAddress" value="Адрес на англ. яз.:" />
+		<p:inputTextarea value="#{bean.company.englishAddress}"
+			id="companyEAddress" label="Адрес на англ. яз.">
+		</p:inputTextarea>
+		
+		<h:outputLabel for="companyName" value="Наименование: *" />
+		<p:inputText value="#{bean.company.name}" id="companyName"
+			required="true" label="Наименование">
+		</p:inputText>
+
+		<h:outputLabel for="companyShortName" value="Краткое наименование: *" />
+		<p:inputText value="#{bean.company.shortName}"
+			id="companyShortName" required="true" label="Краткое наименование">
+		</p:inputText>
 
 		<h:outputLabel for="companyAddress" value="Адрес:" />
 		<p:inputTextarea value="#{bean.company.address}"
 			id="companyAddress" label="Адрес">
-		</p:inputTextarea>
-
-		<h:outputLabel for="companyEAddress" value="Адрес на англ. яз.:" />
-		<p:inputTextarea value="#{bean.company.englishAddress}"
-			id="companyEAddress" label="Адрес на англ. яз.">
 		</p:inputTextarea>
 	</ui:define>
 	<ui:define name="deleteConfirmation">

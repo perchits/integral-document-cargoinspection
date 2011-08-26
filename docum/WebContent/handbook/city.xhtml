@@ -19,15 +19,15 @@
 
 				<p:dataTable id="cityGrid" var="city" value="#{cityBean.allObjects}"
 					selectionMode="single" selection="#{cityBean.city}">
-					<p:column sortBy="#{city.name}" filterBy="#{city.name}"
-						filterMatchMode="contains">
-						<f:facet name="header">Наименование</f:facet>
-						<h:outputText value="#{city.name}" />
-					</p:column>
 					<p:column sortBy="#{city.englishName}" filterBy="#{city.englishName}"
 						filterMatchMode="contains">
 						<f:facet name="header">Наименование на англ. яз.</f:facet>
 						<h:outputText value="#{city.englishName}" />
+					</p:column>
+					<p:column sortBy="#{city.name}" filterBy="#{city.name}"
+						filterMatchMode="contains">
+						<f:facet name="header">Наименование</f:facet>
+						<h:outputText value="#{city.name}" />
 					</p:column>
 					<p:column sortBy="#{city.our}" filterBy="#{city.our}"
 						filterMatchMode="contains">
