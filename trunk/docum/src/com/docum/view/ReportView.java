@@ -23,6 +23,7 @@ import com.docum.domain.po.common.Customer;
 import com.docum.domain.po.common.Report;
 import com.docum.domain.po.common.Voyage;
 import com.docum.service.ContainerService;
+import com.docum.service.CustomerService;
 import com.docum.service.ReportingService;
 import com.docum.test.TestUtil;
 import com.docum.util.AlgoUtil;
@@ -50,6 +51,8 @@ public class ReportView extends BaseView {
 	private ContainerService containerService;
 	@Autowired
 	private ReportingService reportingService;
+	@Autowired
+	private CustomerService customerService;
 	
 	private Report report = new Report();
 	private List<ReportPresentation> reports;
@@ -86,6 +89,7 @@ public class ReportView extends BaseView {
 			}
 			this.report.setNumber(sb.toString());
 			this.report.setDate(new Date());
+			this.report.setCustomer(customerService.getDefaultCustomer());
 			this.editMode = false;
 		}
 	}
@@ -334,10 +338,11 @@ public class ReportView extends BaseView {
 	}
 	
 	public Customer getSelectedCustomer() {
-		return this.customer == null ? null : this.customer;
+		return this.report == null ? null : this.report.getCustomer();
 	}
 
 	public void setSelectedCustomer(Customer selectedCustomer) {
 		this.customer = selectedCustomer;
+		this.report.setCustomer(selectedCustomer);
 	}
 }
