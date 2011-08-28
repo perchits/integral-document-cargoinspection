@@ -1,5 +1,6 @@
 package com.docum.domain.po.common;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 
 import com.docum.domain.po.IdentifiedEntity;
@@ -8,13 +9,16 @@ import com.docum.util.HashCodeHelper;
 
 @Entity
 public class Port extends IdentifiedEntity {
+
 	private static final long serialVersionUID = -107225230839559627L;
+
+	@Column(length=50)
 	private String name;
+	@Column(length=50)
 	private String englishName;
 
-
 	public Port() {
-		super();
+	//	super();
 	}
 
 	public Port(String name, String englishName) {
