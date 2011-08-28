@@ -46,7 +46,8 @@ public abstract class IdentifiedEntityAbstractConverter <T extends IdentifiedEnt
 						"Cannot convert " + clazz.getName() + " object with null id.");
 			return entity.getId().toString();
 		} else {
-			return "";
+			throw new IllegalArgumentException("Wrong class - " + value.getClass().getSimpleName() + 
+				", expected - " + clazz.getSimpleName());
 		}
 	}
 }

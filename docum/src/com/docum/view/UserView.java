@@ -3,9 +3,9 @@ package com.docum.view;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
 import javax.faces.event.ActionEvent;
 
+import org.primefaces.model.DualListModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -15,6 +15,7 @@ import com.docum.domain.po.common.SecurityRole;
 import com.docum.domain.po.common.SecurityUser;
 import com.docum.service.CryptoService;
 import com.docum.service.LoginService;
+import com.docum.util.ListHandler;
 import com.docum.view.dict.BaseView;
 
 @Controller("userBean")
@@ -29,20 +30,14 @@ public class UserView extends BaseView {
 	
 	private static final String sign = "Пользователь";
 	private SecurityUser user = new SecurityUser();
-	private SecurityRole availableRole;
-	private SecurityRole selectedRole;
 	private List<SecurityRole> availableRoles = new ArrayList<SecurityRole>();
 	private List<SecurityRole> selectedRoles = new ArrayList<SecurityRole>();
+	private DualListModel<SecurityRole> roles = new DualListModel<SecurityRole>(); 
 	
-	@PostConstruct
-	public void initRoles() {
-		this.availableRoles.addAll( 
-			super.getBaseService().getAll(SecurityRole.class, DEFAULT_SORT_FIELDS));
-	}
-	
+
 	@Override
 	public void saveObject() {
-		this.user.setSecurityRoles(this.selectedRoles);
+		this.user.setSecurityRoles(this.roles.getTarget());
 		String password = this.user.getPassword();
 		if (password != null && !password.equals("")) {
 			this.user.setPassword(cryptoService.encryptText(password)); 
@@ -59,6 +54,9 @@ public class UserView extends BaseView {
 			this.selectedRoles.addAll(this.user.getSecurityRoles());
 			this.availableRoles.addAll(
 				super.getBaseService().getAll(SecurityRole.class, DEFAULT_SORT_FIELDS));
+			ListHandler.sublist(availableRoles, selectedRoles);
+			this.roles.setSource(availableRoles);
+			this.roles.setTarget(selectedRoles);
 			setTitle("Правка: " + getBriefInfo());
 		} else {
 			String message = String.format(
@@ -86,6 +84,8 @@ public class UserView extends BaseView {
 		this.availableRoles.clear();
 		this.availableRoles.addAll(
 			super.getBaseService().getAll(SecurityRole.class, DEFAULT_SORT_FIELDS));
+		this.roles.setSource(availableRoles);
+		this.roles.setTarget(selectedRoles);
 	}
 
 	@Override
@@ -109,44 +109,11 @@ public class UserView extends BaseView {
 		return loginService.getDevelopmentPermited();
 	}
 
-	public SecurityRole getAvailableRole() {
-		return availableRole;
+	public DualListModel<SecurityRole> getRoles() {
+		return roles;
 	}
 
-	public void setAvailableRole(SecurityRole availableRole) {
-		this.availableRole = availableRole;
-	}
-
-	public SecurityRole getSelectedRole() {
-		return selectedRole;
-	}
-
-	public void setSelectedRole(SecurityRole selectedRole) {
-		this.selectedRole = selectedRole;
-	}
-
-	public List<SecurityRole> getAvailableRoles() {
-		if (this.selectedRoles != null) {
-			this.availableRoles.removeAll(this.selectedRoles);
-		}
-		return this.availableRoles;
-	}
-
-	public List<SecurityRole> getSelectedRoles() {
-		return this.selectedRoles;
-	}
-	
-	public void addRole() {
-		if (this.availableRole != null) {
-			this.availableRoles.remove(this.availableRole);
-			this.selectedRoles.add(this.availableRole);
-		}
-	}
-	
-	public void removeRole() {
-		if (this.selectedRole != null) {
-			this.selectedRoles.remove(this.selectedRole);
-			this.availableRoles.add(this.selectedRole);
-		}
+	public void setRoles(DualListModel<SecurityRole> roles) {
+		this.roles = roles;
 	}
 }
