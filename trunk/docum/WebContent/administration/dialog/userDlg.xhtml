@@ -5,7 +5,7 @@
 	xmlns:p="http://primefaces.prime.com.tr/ui">
 
 <ui:composition template="/WEB-INF/includes/dialogLayout.xhtml">
-	<ui:param name="width" value="620" />
+	<ui:param name="width" value="630" />
 	
 	<ui:param name="deleteObject" value="deleteObject" />
 	<ui:define name="dialogBody">
@@ -27,7 +27,14 @@
 		</p:panel>
 		
 		<p:panel header="Роли пользователя" styleClass="container-docum">
-			<ui:include src="/administration/dialog/selectRole.xhtml" />
+			<p:pickList value="#{bean.roles}"  
+		                var="securityRole" iconOnly="true"
+		                itemLabel="#{securityRole.role.name}"  
+		                itemValue="#{securityRole}" 
+		                converter="securityRoleConverter">
+                <f:facet name="sourceCaption">Доступные</f:facet>  
+        		<f:facet name="targetCaption">Выбранные</f:facet>
+            </p:pickList>  
 		</p:panel>
 	</ui:define>
 	<ui:define name="deleteConfirmation">
