@@ -15,5 +15,8 @@
 			initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
 			referencedColumnNames="id" referencedTableName="customer"
 			referencedTableSchemaName="public" referencesUniqueColumn="false" />
+		<createIndex tableName="report" indexName="report_customer_fk_idx">
+			<column name="customer_id" />
+		</createIndex>	
 	</changeSet>
 </databaseChangeLog>
