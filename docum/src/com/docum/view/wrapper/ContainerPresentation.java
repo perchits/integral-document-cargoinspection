@@ -7,13 +7,14 @@ import java.util.EnumMap;
 import java.util.List;
 
 import com.docum.domain.ContainerStateEnum;
+import com.docum.domain.po.IdentifiedEntity;
 import com.docum.domain.po.common.Cargo;
 import com.docum.domain.po.common.Container;
 import com.docum.util.EqualsHelper;
 import com.docum.util.HashCodeHelper;
 import com.docum.util.ListHandler;
 
-public class ContainerPresentation implements Serializable {
+public class ContainerPresentation extends IdentifiedEntity implements Serializable {
 	private static final long serialVersionUID = 3960028459943599183L;
 	private Container container;
 	private String invoiceInLine;
@@ -204,5 +205,21 @@ public class ContainerPresentation implements Serializable {
 
 	public int hashCode() {
 		return HashCodeHelper.hashCode(container);
+	}
+	
+	@Override
+	public Long getId() {
+		return this.container != null ? this.container.getId() : null;
+	}
+	
+	public String getBriefInfo() {
+		if (this.container == null) {
+			return null;
+		} else {
+			StringBuffer result = new StringBuffer(this.container.getNumber());
+			result.append(", ").append(getActualCargoesName()).append(", ").append(
+				getActualCargoSuppliers());
+			return result.toString();
+		}
 	}
 }

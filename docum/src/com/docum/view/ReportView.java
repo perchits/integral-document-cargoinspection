@@ -12,6 +12,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
 import org.primefaces.event.SelectEvent;
+import org.primefaces.model.DualListModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -62,8 +63,9 @@ public class ReportView extends BaseView {
 	private VoyagePresentation selectedVoyage;
 	private ContainerPresentation[] selectedContainers;
 	private String reportUrl;
-	private boolean editMode = false;
 	private Customer customer;
+	private DualListModel<ContainerPresentation> reportContainers = 
+		new DualListModel<ContainerPresentation>();
 
 	@Override
 	public void saveObject() {
@@ -90,7 +92,8 @@ public class ReportView extends BaseView {
 			this.report.setNumber(sb.toString());
 			this.report.setDate(new Date());
 			this.report.setCustomer(customerService.getDefaultCustomer());
-			this.editMode = false;
+			this.reportContainers.setSource(getContainersWithoutReport());
+			this.reportContainers.setTarget(getContainersForReport());
 		}
 	}
 	
@@ -120,7 +123,7 @@ public class ReportView extends BaseView {
 	}
 	
 	public ArrayList<ContainerPresentation> getContainersForReport() {
-		ArrayList<ContainerPresentation> result = null;
+		ArrayList<ContainerPresentation> result = new ArrayList<ContainerPresentation>();
 		if (selectedVoyage != null) {
 			if (this.report != null && this.report.getId() != null) {
 				Collection<Container> c = 
@@ -129,7 +132,7 @@ public class ReportView extends BaseView {
 				AlgoUtil.transform(result, c, new ContainerTransformer());
 				return result;
 			} else {
-				return getContainersWithoutReport();
+				return result;
 				
 			}
 		} else {
@@ -151,7 +154,8 @@ public class ReportView extends BaseView {
 	@Override
 	public void editObject(ActionEvent actionEvent) {
 		super.editObject(actionEvent);
-		this.editMode = true;
+		this.reportContainers.setSource(getContainersWithoutReport());
+		this.reportContainers.setTarget(getContainersForReport());
 	}
 	
 	@Override
@@ -167,19 +171,21 @@ public class ReportView extends BaseView {
 	
 	public void createReport() {
 		DocumLogger.log("Создание отчета для контейнеров.");
-		List<Container> containers = new ArrayList<Container>();
-		if (this.selectedContainers != null && this.selectedContainers.length > 0) {
-			for (ContainerPresentation containerPresentation: this.selectedContainers) {
-				containerPresentation.getContainer().setReportDone(true);
-				containers.add(containerPresentation.getContainer());
-			}
-			this.report.setCustomer(this.customer);
-			this.report.setContainers(containers);
-			saveObject();
-			super.getBaseService().save(containers);
-		} else {
-			saveObject();
+		List<Container> reportDoneContainers = new ArrayList<Container>();
+		for (ContainerPresentation containerPresentation: this.reportContainers.getTarget()) {
+			containerPresentation.getContainer().setReportDone(true);
+			reportDoneContainers.add(containerPresentation.getContainer());
 		}
+		this.report.setCustomer(this.customer);
+		this.report.setContainers(reportDoneContainers);
+		saveObject();
+		super.getBaseService().save(reportDoneContainers);
+		List<Container> noReportContainers = new ArrayList<Container>();
+		for (ContainerPresentation containerPresentation: this.reportContainers.getSource()) {
+			containerPresentation.getContainer().setReportDone(false);
+			noReportContainers.add(containerPresentation.getContainer());
+		}
+		super.getBaseService().save(noReportContainers);
 	}
 	
 	public String goToContainer() {
@@ -325,14 +331,6 @@ public class ReportView extends BaseView {
 		}
 	}
 
-	public void setEditMode(boolean editMode) {
-		this.editMode = editMode;
-	}
-	
-	public boolean getEditMode() {
-		return this.editMode;
-	}
-	
 	public List<Customer> getCustomers() {				
 		return getBaseService().getAll(Customer.class, DEFAULT_SORT_FIELDS);
 	}
@@ -344,5 +342,13 @@ public class ReportView extends BaseView {
 	public void setSelectedCustomer(Customer selectedCustomer) {
 		this.customer = selectedCustomer;
 		this.report.setCustomer(selectedCustomer);
+	}
+
+	public DualListModel<ContainerPresentation> getReportContainers() {
+		return reportContainers;
+	}
+
+	public void setReportContainers(DualListModel<ContainerPresentation> reportContainers) {
+		this.reportContainers = reportContainers;
 	}
 }

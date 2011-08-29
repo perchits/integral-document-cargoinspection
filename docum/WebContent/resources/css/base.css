@@ -704,6 +704,11 @@ a.olive-color:hover {
 	height: 123px !important;
 }
 
+.ui-pickreport .ui-picklist-list {
+	width: 200px !important;
+	height: 200px !important;
+}
+
 .container-bill .ui-picklist .ui-picklist-list{
 	height: 320px !important;
 }

@@ -3,6 +3,10 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.prime.com.tr/ui">
+	
+<h:head>
+	<h:outputStylesheet name="reporting.css" library="css" />
+</h:head>
 
 <ui:composition template="/WEB-INF/includes/dialogLayout.xhtml">
 	<ui:param name="width" value="500" />
@@ -25,69 +29,17 @@
 				<f:selectItems value="#{bean.customers}" var="cstm"
 					itemLabel="#{cstm}" />
 			</h:selectOneMenu>
-			<p:panel styleClass="report-containers">
-				<h:outputText rendered="#{reportBean.editMode}" value="Контейнеры в отчете" style="padding: 4px;"/>
-				<p:dataTable id="containersForReport" var="containerForReport"
-					value="#{reportBean.containersForReport}" selectionMode="multiple"
-					selection="#{reportBean.selectedContainers}">
-					<p:column sortBy="#{containerForReport.number}" style="width: 80px;">
-						<f:facet name="header">
-						Контейнер
-						</f:facet>
-						<h:outputText value="#{containerForReport.number}" />
-					</p:column>
-					<p:column sortBy="#{containerForReport.cargoInLine}" style="width: 160px;">
-						<f:facet name="header">
-						Груз
-						</f:facet>
-						<h:outputText value="#{containerForReport.cargoInLine}" />
-					</p:column>
-					<p:column sortBy="#{containerForReport.cargoSuppliers}"  style="width: 180px;">
-						<f:facet name="header">
-						Поставщик
-						</f:facet>
-						<h:outputText value="#{containerForReport.cargoSuppliers}" />
-					</p:column>
-					<p:column rendered="#{reportBean.editMode}" style="width: 22px;">
-						<p:commandButton title="Удалить из отчета" image="ui-icon-close"
-							styleClass="inline-btn border-btn" update="containersForReport, containersWithoutReport">
-							<f:setPropertyActionListener target="#{reportBean.removeContainerFromReport}"
-								value="#{containerForReport}" />
-						</p:commandButton>
-					</p:column>					
-				</p:dataTable>
-			</p:panel>
-			<p:panel rendered="#{reportBean.editMode}" styleClass="report-containers">
-				<h:outputText  value="Доступные контейнеры"/>
-				<p:dataTable id="containersWithoutReport" var="containerWoReport"
-				value="#{reportBean.containersWithoutReport}" selectionMode="multiple"
-				selection="#{reportBean.selectedContainers}">
-				<p:column sortBy="#{containerWoReport.number}" style="width: 80px;">
-					<f:facet name="header">
-					Контейнер
-					</f:facet>
-					<h:outputText value="#{containerWoReport.number}" />
-				</p:column>
-				<p:column sortBy="#{containerWoReport.cargoInLine}"  style="width: 160px;">
-					<f:facet name="header">
-					Груз
-					</f:facet>
-					<h:outputText value="#{containerWoReport.cargoInLine}" />
-				</p:column>
-				<p:column sortBy="#{containerWoReport.cargoSuppliers}"  style="width: 180px;">
-					<f:facet name="header">
-					Поставщик
-					</f:facet>
-					<h:outputText value="#{containerWoReport.cargoSuppliers}" />
-				</p:column>
-				<p:column style="width: 22px;">
-					<p:commandButton title="Добавить в отчет" image="ui-icon-plus"
-						styleClass="inline-btn border-btn" update="containersForReport, containersWithoutReport">
-						<f:setPropertyActionListener target="#{reportBean.addContainerToReport}"
-							value="#{containerWoReport}" />
-					</p:commandButton>
-				</p:column>					
-			</p:dataTable>
+			<p:panel>
+				<p:pickList id="reportContainersPickList"
+							value="#{bean.reportContainers}"  
+			                var="reportContainer" iconOnly="true"
+			                itemLabel="#{reportContainer.briefInfo}"  
+			                itemValue="#{reportContainer}" 
+			                converter="containerPresentationConverter"
+			                styleClass="ui-pickreport">
+	                <f:facet name="sourceCaption">Доступные</f:facet>  
+	        		<f:facet name="targetCaption">Выбранные</f:facet>
+            	</p:pickList>
 			</p:panel>
 		</p:panel>
 	</ui:define>	
