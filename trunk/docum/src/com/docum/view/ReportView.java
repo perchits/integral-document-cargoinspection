@@ -77,8 +77,15 @@ public class ReportView extends BaseView {
 	public void newObject() {
 		if (this.selectedVoyage == null) {
 			String message = "Добавление отчета невозможно пока не выбран судозаход!";
-			showErrorMessage(message);
+			showMessage(message);
 			addCallbackParam("dontShow", true);
+		} else if (containerService.getContainersWithoutReportByVoyage(
+			this.selectedVoyage.getVoyage().getId()).size() == 0) {
+			String message = "Добавление отчета невозможно, т.к. для всех контейнеров в " +
+				"выбранном судозаходе отчеты созданы!";
+			showMessage(message);
+			addCallbackParam("dontShow", true);
+			
 		} else {
 			super.newObject();
 			this.report = new Report();
@@ -170,6 +177,12 @@ public class ReportView extends BaseView {
 	}
 	
 	public void createReport() {
+		if (this.reportContainers.getTarget().size() == 0) {
+			String message = "Для сохранения отчета необходимо выбрать контейнер(ы).";
+			showMessage(message);
+			addCallbackParam("dontClose", true);
+			return;
+		}
 		DocumLogger.log("Создание отчета для контейнеров.");
 		List<Container> reportDoneContainers = new ArrayList<Container>();
 		for (ContainerPresentation containerPresentation: this.reportContainers.getTarget()) {
