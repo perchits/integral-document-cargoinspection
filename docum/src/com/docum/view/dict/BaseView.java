@@ -96,6 +96,12 @@ public abstract class BaseView implements Serializable{
 		fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
 				"Ошибочка вышла...", message));
 	}
+	
+	protected void showMessage(String message) {
+		FacesContext fc = FacesContext.getCurrentInstance();
+		fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+				"Ошибочка вышла...", message));
+	}
 
 	public List<? extends IdentifiedEntity> getObjects() {
 		return objects;
