@@ -3,11 +3,14 @@ package com.docum.view.container.unit;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.primefaces.event.FileUploadEvent;
 
 import com.docum.domain.po.common.Cargo;
+import com.docum.domain.po.common.CargoArticleFeature;
 import com.docum.domain.po.common.CargoCondition;
 import com.docum.domain.po.common.FileUrl;
 import com.docum.service.ArticleService;
@@ -117,6 +120,12 @@ public class CargoUnit implements Serializable, DialogActionHandler {
 			Collection<Cargo> c = cargoCondition.getCargoes();
 			List<CargoPresentation> result = new ArrayList<CargoPresentation>(c.size());
 			AlgoUtil.transform(result, c, new CargoTransformer());
+			Collections.sort(result, new Comparator<CargoPresentation>() {
+				@Override
+				public int compare(CargoPresentation o1, CargoPresentation o2) {
+					return o1.getId().compareTo(o2.getId());
+				}
+			});
 			return result;
 		} else {
 			return null;
