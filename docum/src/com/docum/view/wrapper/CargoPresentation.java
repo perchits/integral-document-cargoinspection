@@ -65,6 +65,10 @@ public class CargoPresentation implements Serializable {
 		return result;
 	}
 	
+	public Long getId(){
+		return cargo != null ? cargo.getId() : null;
+	}
+	
 	public Boolean getActual(){
 		return cargo.getCondition().isSurveyable();
 	}
