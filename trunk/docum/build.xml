@@ -38,6 +38,12 @@
 		<copy todir="${BuildDir}/META-INF">
 			<fileset dir="${SrcDir}/META-INF" />
 		</copy>
+		<copy todir="${BuildDir}">
+			<fileset dir="${SrcDir}">
+				<include name="*.properties" />
+				<include name="*.xml" />
+			</fileset>
+		</copy>
 	</target>
 
 	<target name="validateCopy">
