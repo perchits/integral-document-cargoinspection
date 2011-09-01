@@ -76,7 +76,7 @@
 	<target name="buildVersioned" depends="clean, createVersionedWar, copyToDeployDir" />
 
 	<target name="run-populate-test" depends="compile">
-		<junit showoutput="true">
+		<junit showoutput="true" haltonfailure="true" printsummary="true">
 			<classpath refid="ToolsClasspath" />
 			<test name="com.docum.test.data.TestDataPreparator" />
 		</junit>
