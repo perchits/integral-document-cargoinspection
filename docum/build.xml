@@ -75,6 +75,13 @@
 
 	<target name="buildVersioned" depends="clean, createVersionedWar, copyToDeployDir" />
 
+	<target name="run-populate-test" depends="compile">
+		<junit showoutput="true">
+			<classpath refid="ToolsClasspath" />
+			<test name="com.docum.test.data.TestDataPreparator" />
+		</junit>
+	</target>
+
 	<taskdef name="hibernatetool" classname="org.hibernate.tool.ant.HibernateToolTask"
 		classpathref="ToolsClasspath" />
 	<target name="_db-drop-old" depends="compile">
@@ -92,12 +99,7 @@
 			<hbm2ddl drop="true" create="true" export="true" update="false" />
 		</hibernatetool>
 	</target>
-	<target name="_db-create-old" depends="_db-create-empty-old">
-		<junit>
-			<classpath refid="ToolsClasspath" />
-			<test name="com.docum.test.data.TestDataPreparator" />
-		</junit>
-	</target>
+	<target name="_db-create-old" depends="_db-create-empty-old, run-populate-test" />
 	<target name="_db-update-old" depends="compile">
 		<hibernatetool destdir="">
 			<jpaconfiguration persistenceunit="docum" propertyfile="local.properties" />
@@ -219,12 +221,7 @@
 		<db-update-private dropFirst="true"/>
 	</target>
 
-	<target name="db-populate" depends="db-create">
-		<junit>
-			<classpath refid="ToolsClasspath" />
-			<test name="com.docum.test.data.TestDataPreparator" />
-		</junit>
-	</target>
+	<target name="db-populate" depends="db-create, run-populate-test" />
 
 	<target name="createVersion">
 		<taskdef name="svnbuildnumber" classname="org.codebistro.tools.BuildNumberTask"
