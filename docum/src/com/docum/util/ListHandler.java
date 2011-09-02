@@ -31,16 +31,16 @@ public class ListHandler {
 		}
 	}
 	
-	public static String getUniqueResult(List<Object> data) {
+	public static <T extends Object>  String getUniqueResult(List<T> data) {
 		if (data == null | data.size() == 0) {
 			return "No data/Нет данных";
 		} else if (data.size() == 1) {
 			return data.get(0).toString();
 		} else {
 			StringBuffer result = new StringBuffer();
-			Set<Object> uniqueObjects = new HashSet<Object>();
-			for (Object object: data) {
-				uniqueObjects.add(object.toString());
+			Set<T> uniqueObjects = new HashSet<T>();
+			for (T object: data) {
+				uniqueObjects.add(object);
 			}
 			if (uniqueObjects.size() == 1) {
 				return uniqueObjects.iterator().next().toString();
