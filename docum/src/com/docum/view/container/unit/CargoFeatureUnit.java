@@ -1,13 +1,18 @@
 package com.docum.view.container.unit;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
+import com.docum.domain.po.common.Article;
+import com.docum.domain.po.common.ArticleFeature;
 import com.docum.domain.po.common.Cargo;
 import com.docum.domain.po.common.CargoArticleFeature;
+import com.docum.util.AlgoUtil;
 import com.docum.view.AbstractDlgView;
 import com.docum.view.DialogActionEnum;
 import com.docum.view.DialogActionHandler;
+import com.docum.view.container.CargoDlgView;
 import com.docum.view.container.ContainerHolder;
 import com.docum.view.container.FeatureDlgView;
 import com.docum.view.wrapper.CargoPresentation;
@@ -42,7 +47,20 @@ public class CargoFeatureUnit implements Serializable, DialogActionHandler {
 	}
 
 	public void addFeature() {
-		prepareFeatureDialog(cargo.getFeatures());
+		Article article = cargo.getArticle();
+		Set<CargoArticleFeature> features = new HashSet<CargoArticleFeature>(cargo.getFeatures());
+		for (final ArticleFeature feature : article.getFeatures()) {
+			CargoArticleFeature res = AlgoUtil.find(cargo.getFeatures(),
+					new AlgoUtil.FindPredicate<CargoArticleFeature>() {
+						public boolean isIt(CargoArticleFeature tmp) {
+							return tmp.getFeature().equals(feature);
+						}
+					});
+			if (res == null) {
+				features.add(new CargoArticleFeature(cargo, feature));
+			}
+		}		
+		prepareFeatureDialog(features);
 	}
 
 	public void setFeature(CargoArticleFeature feature) {
@@ -65,7 +83,9 @@ public class CargoFeatureUnit implements Serializable, DialogActionHandler {
 	@Override
 	public void handleAction(AbstractDlgView dialog, DialogActionEnum action) {
 		if (dialog instanceof FeatureDlgView) {
+			FeatureDlgView d = (FeatureDlgView) dialog;
 			if (DialogActionEnum.ACCEPT.equals(action)) {
+				cargo.setFeatures(new HashSet<CargoArticleFeature>(d.getCargoFeatures()));
 				containerHolder.saveContainer();
 			}
 		}
