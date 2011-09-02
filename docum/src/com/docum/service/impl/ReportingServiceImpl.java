@@ -140,30 +140,36 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 				containersWithoutTempatureSpy.add(container.getNumber());
 			}
 			sb = new StringBuffer();
-			double min = container.getDeclaredCondition().getMinTemperature();
-			double max = container.getDeclaredCondition().getMaxTemperature();
-			double actual = container.getActualCondition().getTemperature();
-			if (min > 0) {
-				sb.append("+");
-			} else if (min < 0) {
-				sb.append("-");
+			Double min = container.getDeclaredCondition().getMinTemperature();
+			Double max = container.getDeclaredCondition().getMaxTemperature();
+			Double actual = container.getActualCondition().getTemperature();
+			if(min != null) {
+				if (min > 0) {
+					sb.append("+");
+				} else if (min < 0) {
+					sb.append("-");
+				}
+				sb.append(min).append("/");
 			}
-			sb.append(min).append("/");
-			if (max > 0) {
-				sb.append("+");
-			} else if (min < 0) {
-				sb.append("-");
+			if(max != null) {
+				if (max > 0) {
+					sb.append("+");
+				} else if (min < 0) {
+					sb.append("-");
+				}
+				sb.append(max);
 			}
-			sb.append(max);
 			odfTable.getCellByPosition(0, currRow).setStringValue(container.getNumber());
 			odfTable.getCellByPosition(1, currRow).setStringValue(sb.toString());
 			sb = new StringBuffer();
-			if (actual > 0) {
-				sb.append("+");
-			} else if (min < 0) {
-				sb.append("-");
+			if(actual != null) {
+				if (actual > 0) {
+					sb.append("+");
+				} else if (min < 0) {
+					sb.append("-");
+				}
+				sb.append(actual);
 			}
-			sb.append(actual);
 			odfTable.getCellByPosition(2, currRow).setStringValue(sb.toString());
 			currRow++;
 		}
