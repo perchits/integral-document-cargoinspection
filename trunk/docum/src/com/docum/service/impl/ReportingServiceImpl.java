@@ -90,6 +90,7 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 			"shippingMarkEng", "shippingMark");
 		addImages(odt, "TableStickerA4", "UNAVAILABLE", "Стикер отсутствует", 
 			"stickerEng", "sticker");
+		addTemperatureData(odt, "TableMeasurementTemperature");
 		odt.save(location + reportFileName + ".odt");
 		OpenOfficeConnection officeConnection = 
 			new SocketOpenOfficeConnection(starOfficeConnectionPort);
@@ -99,6 +100,143 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 			new File(location + reportFileName + ".odt"), 
 			new File(location + reportFileName + ".pdf"));
 		officeConnection.disconnect();
+	}
+	
+	private void addTemperatureData(OdfTextDocument odt, String odfTableName) {
+		OdfTable odfTable = odt.getTableByName(odfTableName);
+		List<String> containersWithTempatureDeviation = new ArrayList<String>();
+		List<String> containersWithoutTempatureDeviation = new ArrayList<String>();
+		List<String> containersWithTempatureSpy = new ArrayList<String>();
+		List<String> containersWithoutTempatureSpy = new ArrayList<String>();
+		int size = this.containers.size() - 1;
+		for (int i = 0; i < size; i ++) {
+			odfTable.appendRow();
+		}
+		int currRow = 2;
+		StringBuffer sb;
+		for (Container container: this.containers) {
+			if (container.getActualCondition() != null && 
+				container.getActualCondition().getHasTemperatureTestDeviation() != null && 
+				container.getActualCondition().getHasTemperatureTestDeviation().equals(Boolean.TRUE)) {
+				containersWithTempatureDeviation.add(container.getNumber());
+			} else if (container.getActualCondition() != null &&
+				container.getActualCondition().getHasTemperatureTestDeviation() != null &&
+				container.getActualCondition().getHasTemperatureTestDeviation().equals(Boolean.FALSE)) {
+				containersWithoutTempatureDeviation.add(container.getNumber());
+			} else if (container.getActualCondition() != null &&
+				container.getActualCondition().getHasTemperatureTestDeviation() == null) {
+				containersWithoutTempatureDeviation.add(container.getNumber());
+			}
+			if (container.getActualCondition() != null && 
+				container.getActualCondition().getHasTemperatureSpy() != null && 
+				container.getActualCondition().getHasTemperatureSpy().equals(Boolean.TRUE)) {
+				containersWithTempatureSpy.add(container.getNumber());
+			} else if (container.getActualCondition() != null &&
+				container.getActualCondition().getHasTemperatureSpy() != null && 
+				container.getActualCondition().getHasTemperatureSpy().equals(Boolean.FALSE)) {
+				containersWithoutTempatureSpy.add(container.getNumber());
+			} else if (container.getActualCondition() != null &&
+				container.getActualCondition().getHasTemperatureSpy() == null) {
+				containersWithoutTempatureSpy.add(container.getNumber());
+			}
+			sb = new StringBuffer();
+			double min = container.getDeclaredCondition().getMinTemperature();
+			double max = container.getDeclaredCondition().getMaxTemperature();
+			double actual = container.getActualCondition().getTemperature();
+			if (min > 0) {
+				sb.append("+");
+			} else if (min < 0) {
+				sb.append("-");
+			}
+			sb.append(min).append("/");
+			if (max > 0) {
+				sb.append("+");
+			} else if (min < 0) {
+				sb.append("-");
+			}
+			sb.append(max);
+			odfTable.getCellByPosition(0, currRow).setStringValue(container.getNumber());
+			odfTable.getCellByPosition(1, currRow).setStringValue(sb.toString());
+			sb = new StringBuffer();
+			if (actual > 0) {
+				sb.append("+");
+			} else if (min < 0) {
+				sb.append("-");
+			}
+			sb.append(actual);
+			odfTable.getCellByPosition(2, currRow).setStringValue(sb.toString());
+			currRow++;
+		}
+		
+		odfTable = odt.getTableByName("TableMobileThermoUnit");
+		currRow = 0;
+		//TODO refactor
+		if (containersWithoutTempatureSpy.size() > 0) {
+			sb = new StringBuffer();
+			sb.append(ListHandler.getUniqueResult(containersWithoutTempatureSpy)).append(" ").
+				append("Mobile Thermo-Unit was not found in cargo.");
+			odfTable.getCellByPosition(0, currRow).setStringValue(sb.toString());
+			odfTable.appendRow();
+			currRow++;
+		}
+		if (containersWithTempatureSpy.size() > 0) {
+			sb = new StringBuffer();
+			sb.append(ListHandler.getUniqueResult(containersWithTempatureSpy)).append(" ").
+				append("Mobile Thermo-Unit was found in cargo.");
+			odfTable.getCellByPosition(0, currRow).setStringValue(sb.toString());
+			odfTable.appendRow();
+			currRow++;
+		}
+		if (containersWithTempatureDeviation.size() > 0) {
+			sb = new StringBuffer();
+			sb.append(ListHandler.getUniqueResult(containersWithTempatureDeviation)).append(" ").
+				append("According actual fixation of temperature on arrival container on the terminal it was exposed deviation of temperature mode.");
+			odfTable.getCellByPosition(0, currRow).setStringValue(sb.toString());
+			odfTable.appendRow();
+			currRow++;
+		}
+		if (containersWithoutTempatureDeviation.size() > 0) {
+			sb = new StringBuffer();
+			sb.append(ListHandler.getUniqueResult(containersWithoutTempatureDeviation)).append(" ").
+				append("According actual fixation of temperature on arrival container on the terminal it was not exposed deviation of temperature mode.");
+			odfTable.getCellByPosition(0, 0);
+			odfTable.getCellByPosition(0, currRow).setStringValue(sb.toString());
+			odfTable.appendRow();
+			currRow++;
+		}
+		if (containersWithoutTempatureSpy.size() > 0) {
+			sb = new StringBuffer();
+			sb.append(ListHandler.getUniqueResult(containersWithoutTempatureSpy)).append(" ").
+				append("Мобильная термо-единица не была найдена в грузе.");
+			odfTable.getCellByPosition(0, currRow).setStringValue(sb.toString());
+			odfTable.appendRow();
+			currRow++;
+		}
+		if (containersWithTempatureSpy.size() > 0) {
+			sb = new StringBuffer();
+			sb.append(ListHandler.getUniqueResult(containersWithTempatureSpy)).append(" ").
+				append("Мобильная термо-единица присутствует в грузе.");
+			odfTable.getCellByPosition(0, currRow).setStringValue(sb.toString());
+			odfTable.appendRow();
+			currRow++;
+		}
+		if (containersWithTempatureDeviation.size() > 0) {
+			sb = new StringBuffer();
+			sb.append(ListHandler.getUniqueResult(containersWithTempatureDeviation)).append(" ").
+				append("По фактической фиксации температуры по приходу контейнера на терминал выявлены отклонения в температурном режиме.");
+			odfTable.getCellByPosition(0, currRow).setStringValue(sb.toString());
+			odfTable.appendRow();
+			currRow++;
+		}
+		if (containersWithoutTempatureDeviation.size() > 0) {
+			sb = new StringBuffer();
+			sb.append(ListHandler.getUniqueResult(containersWithoutTempatureDeviation)).append(" ").
+				append("По фактической фиксации температуры по приходу контейнера на терминал отклонений в температурном режиме не выявлено.");
+			odfTable.getCellByPosition(0, 0);
+			odfTable.getCellByPosition(0, currRow).setStringValue(sb.toString());
+			odfTable.appendRow();
+			currRow++;
+		}
 	}
 	
 	private void addImages(OdfTextDocument odt, String odfTableName, String engNoImageComment, 
