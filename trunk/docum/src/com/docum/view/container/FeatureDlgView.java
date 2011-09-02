@@ -37,7 +37,9 @@ public class FeatureDlgView extends AbstractDlgView implements Serializable {
 
 	public String getTitle() {						
 		return String.format("Редактирование свойств для груза «%1$s»" , 
-			getCargoFeatures().get(0).getCargo().toString());
+				getCargoFeatures().get(0) != null ? 
+				getCargoFeatures().get(0).getCargo().toString() : ""
+				);
 	}
 
 	public void save() {
