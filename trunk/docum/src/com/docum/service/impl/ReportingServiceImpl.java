@@ -91,6 +91,7 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 		addImages(odt, "TableStickerA4", "UNAVAILABLE", "Стикер отсутствует", 
 			"stickerEng", "sticker");
 		addTemperatureData(odt, "TableMeasurementTemperature");
+		processRipe(odt);
 		odt.save(location + reportFileName + ".odt");
 		OpenOfficeConnection officeConnection = 
 			new SocketOpenOfficeConnection(starOfficeConnectionPort);
@@ -440,6 +441,11 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 
 	public void setStarOfficeConnectionPort(int starOfficeConnectionPort) {
 		this.starOfficeConnectionPort = starOfficeConnectionPort;
+	}
+	
+	private void processRipe(OdfTextDocument odt){
+		OdfTable table = odt.getTableByName("TableRipeness");
+		table.remove();
 	}
 	
 	@Override
