@@ -105,10 +105,10 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 	
 	private void addTemperatureData(OdfTextDocument odt, String odfTableName) {
 		OdfTable odfTable = odt.getTableByName(odfTableName);
-		List<String> containersWithTempatureDeviation = new ArrayList<String>();
-		List<String> containersWithoutTempatureDeviation = new ArrayList<String>();
-		List<String> containersWithTempatureSpy = new ArrayList<String>();
-		List<String> containersWithoutTempatureSpy = new ArrayList<String>();
+		List<String> containersWithTemperatureDeviation = new ArrayList<String>();
+		List<String> containersWithoutTemperatureDeviation = new ArrayList<String>();
+		List<String> containersWithTemperatureSpy = new ArrayList<String>();
+		List<String> containersWithoutTemperatureSpy = new ArrayList<String>();
 		int size = this.containers.size() - 1;
 		for (int i = 0; i < size; i ++) {
 			odfTable.appendRow();
@@ -119,21 +119,21 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 			if (container.getActualCondition() != null) {
 				if (container.getActualCondition().getHasTemperatureTestDeviation() != null && 
 					container.getActualCondition().getHasTemperatureTestDeviation().equals(Boolean.TRUE)) {
-					containersWithTempatureDeviation.add(container.getNumber());
+					containersWithTemperatureDeviation.add(container.getNumber());
 				} else if (container.getActualCondition().getHasTemperatureTestDeviation() != null &&
 					container.getActualCondition().getHasTemperatureTestDeviation().equals(Boolean.FALSE)) {
-					containersWithoutTempatureDeviation.add(container.getNumber());
+					containersWithoutTemperatureDeviation.add(container.getNumber());
 				} else if (container.getActualCondition().getHasTemperatureTestDeviation() == null) {
-					containersWithoutTempatureDeviation.add(container.getNumber());
+					containersWithoutTemperatureDeviation.add(container.getNumber());
 				}
 				if (container.getActualCondition().getHasTemperatureSpy() != null && 
 					container.getActualCondition().getHasTemperatureSpy().equals(Boolean.TRUE)) {
-					containersWithTempatureSpy.add(container.getNumber());
+					containersWithTemperatureSpy.add(container.getNumber());
 				} else if (container.getActualCondition().getHasTemperatureSpy() != null && 
 					container.getActualCondition().getHasTemperatureSpy().equals(Boolean.FALSE)) {
-					containersWithoutTempatureSpy.add(container.getNumber());
+					containersWithoutTemperatureSpy.add(container.getNumber());
 				} else if (container.getActualCondition().getHasTemperatureSpy() == null) {
-					containersWithoutTempatureSpy.add(container.getNumber());
+					containersWithoutTemperatureSpy.add(container.getNumber());
 				}
 			}
 			sb = new StringBuffer();
@@ -173,51 +173,51 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 		
 		odfTable = odt.getTableByName("TableMobileThermoUnit");
 		currRow = 0;
-		if (containersWithoutTempatureSpy.size() > 0) {
+		if (containersWithoutTemperatureSpy.size() > 0) {
 			setCellValueExt(odfTable, 0, currRow, 
-				ListHandler.getUniqueResult(containersWithoutTempatureSpy),
+				ListHandler.getUniqueResult(containersWithoutTemperatureSpy),
 				"Mobile Thermo-Unit was not found in cargo.");
 			currRow++;
 		}
-		if (containersWithTempatureSpy.size() > 0) {
+		if (containersWithTemperatureSpy.size() > 0) {
 			setCellValueExt(odfTable, 0, currRow, 
-				ListHandler.getUniqueResult(containersWithTempatureSpy),
+				ListHandler.getUniqueResult(containersWithTemperatureSpy),
 				"Mobile Thermo-Unit was found in cargo.");
 			currRow++;
 		}
-		if (containersWithTempatureDeviation.size() > 0) {
+		if (containersWithTemperatureDeviation.size() > 0) {
 			setCellValueExt(odfTable, 0, currRow, 
-				ListHandler.getUniqueResult(containersWithTempatureDeviation),
+				ListHandler.getUniqueResult(containersWithTemperatureDeviation),
 				"According actual fixation of temperature on arrival container on the terminal it was exposed deviation of temperature mode.");
 			currRow++;
 		}
-		if (containersWithoutTempatureDeviation.size() > 0) {
+		if (containersWithoutTemperatureDeviation.size() > 0) {
 			setCellValueExt(odfTable, 0, currRow, 
-				ListHandler.getUniqueResult(containersWithoutTempatureDeviation),
+				ListHandler.getUniqueResult(containersWithoutTemperatureDeviation),
 				"According actual fixation of temperature on arrival container on the terminal it was not exposed deviation of temperature mode.");
 			currRow++;
 		}
-		if (containersWithoutTempatureSpy.size() > 0) {
+		if (containersWithoutTemperatureSpy.size() > 0) {
 			setCellValueExt(odfTable, 0, currRow, 
-				ListHandler.getUniqueResult(containersWithoutTempatureSpy),
+				ListHandler.getUniqueResult(containersWithoutTemperatureSpy),
 				"Мобильная термо-единица не была найдена в грузе.");
 			currRow++;
 		}
-		if (containersWithTempatureSpy.size() > 0) {
+		if (containersWithTemperatureSpy.size() > 0) {
 			setCellValueExt(odfTable, 0, currRow, 
-				ListHandler.getUniqueResult(containersWithTempatureSpy),
+				ListHandler.getUniqueResult(containersWithTemperatureSpy),
 				"Мобильная термо-единица присутствует в грузе.");
 			currRow++;
 		}
-		if (containersWithTempatureDeviation.size() > 0) {
+		if (containersWithTemperatureDeviation.size() > 0) {
 			setCellValueExt(odfTable, 0, currRow, 
-				ListHandler.getUniqueResult(containersWithTempatureDeviation),
+				ListHandler.getUniqueResult(containersWithTemperatureDeviation),
 				"По фактической фиксации температуры по приходу контейнера на терминал выявлены отклонения в температурном режиме.");
 			currRow++;
 		}
-		if (containersWithoutTempatureDeviation.size() > 0) {
+		if (containersWithoutTemperatureDeviation.size() > 0) {
 			setCellValueExt(odfTable, 0, currRow, 
-				ListHandler.getUniqueResult(containersWithoutTempatureDeviation),
+				ListHandler.getUniqueResult(containersWithoutTemperatureDeviation),
 				"По фактической фиксации температуры по приходу контейнера на терминал отклонений в температурном режиме не выявлено.");
 			currRow++;
 		}
