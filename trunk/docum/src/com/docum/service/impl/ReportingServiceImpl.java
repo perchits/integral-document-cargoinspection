@@ -116,29 +116,25 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 		int currRow = 2;
 		StringBuffer sb;
 		for (Container container: this.containers) {
-			if (container.getActualCondition() != null && 
-				container.getActualCondition().getHasTemperatureTestDeviation() != null && 
-				container.getActualCondition().getHasTemperatureTestDeviation().equals(Boolean.TRUE)) {
-				containersWithTempatureDeviation.add(container.getNumber());
-			} else if (container.getActualCondition() != null &&
-				container.getActualCondition().getHasTemperatureTestDeviation() != null &&
-				container.getActualCondition().getHasTemperatureTestDeviation().equals(Boolean.FALSE)) {
-				containersWithoutTempatureDeviation.add(container.getNumber());
-			} else if (container.getActualCondition() != null &&
-				container.getActualCondition().getHasTemperatureTestDeviation() == null) {
-				containersWithoutTempatureDeviation.add(container.getNumber());
-			}
-			if (container.getActualCondition() != null && 
-				container.getActualCondition().getHasTemperatureSpy() != null && 
-				container.getActualCondition().getHasTemperatureSpy().equals(Boolean.TRUE)) {
-				containersWithTempatureSpy.add(container.getNumber());
-			} else if (container.getActualCondition() != null &&
-				container.getActualCondition().getHasTemperatureSpy() != null && 
-				container.getActualCondition().getHasTemperatureSpy().equals(Boolean.FALSE)) {
-				containersWithoutTempatureSpy.add(container.getNumber());
-			} else if (container.getActualCondition() != null &&
-				container.getActualCondition().getHasTemperatureSpy() == null) {
-				containersWithoutTempatureSpy.add(container.getNumber());
+			if (container.getActualCondition() != null) {
+				if (container.getActualCondition().getHasTemperatureTestDeviation() != null && 
+					container.getActualCondition().getHasTemperatureTestDeviation().equals(Boolean.TRUE)) {
+					containersWithTempatureDeviation.add(container.getNumber());
+				} else if (container.getActualCondition().getHasTemperatureTestDeviation() != null &&
+					container.getActualCondition().getHasTemperatureTestDeviation().equals(Boolean.FALSE)) {
+					containersWithoutTempatureDeviation.add(container.getNumber());
+				} else if (container.getActualCondition().getHasTemperatureTestDeviation() == null) {
+					containersWithoutTempatureDeviation.add(container.getNumber());
+				}
+				if (container.getActualCondition().getHasTemperatureSpy() != null && 
+					container.getActualCondition().getHasTemperatureSpy().equals(Boolean.TRUE)) {
+					containersWithTempatureSpy.add(container.getNumber());
+				} else if (container.getActualCondition().getHasTemperatureSpy() != null && 
+					container.getActualCondition().getHasTemperatureSpy().equals(Boolean.FALSE)) {
+					containersWithoutTempatureSpy.add(container.getNumber());
+				} else if (container.getActualCondition().getHasTemperatureSpy() == null) {
+					containersWithoutTempatureSpy.add(container.getNumber());
+				}
 			}
 			sb = new StringBuffer();
 			Double min = container.getDeclaredCondition().getMinTemperature();
@@ -177,73 +173,61 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 		
 		odfTable = odt.getTableByName("TableMobileThermoUnit");
 		currRow = 0;
-		//TODO refactor
 		if (containersWithoutTempatureSpy.size() > 0) {
-			sb = new StringBuffer();
-			sb.append(ListHandler.getUniqueResult(containersWithoutTempatureSpy)).append(" ").
-				append("Mobile Thermo-Unit was not found in cargo.");
-			odfTable.getCellByPosition(0, currRow).setStringValue(sb.toString());
-			odfTable.appendRow();
+			setCellValueExt(odfTable, 0, currRow, 
+				ListHandler.getUniqueResult(containersWithoutTempatureSpy),
+				"Mobile Thermo-Unit was not found in cargo.");
 			currRow++;
 		}
 		if (containersWithTempatureSpy.size() > 0) {
-			sb = new StringBuffer();
-			sb.append(ListHandler.getUniqueResult(containersWithTempatureSpy)).append(" ").
-				append("Mobile Thermo-Unit was found in cargo.");
-			odfTable.getCellByPosition(0, currRow).setStringValue(sb.toString());
-			odfTable.appendRow();
+			setCellValueExt(odfTable, 0, currRow, 
+				ListHandler.getUniqueResult(containersWithTempatureSpy),
+				"Mobile Thermo-Unit was found in cargo.");
 			currRow++;
 		}
 		if (containersWithTempatureDeviation.size() > 0) {
-			sb = new StringBuffer();
-			sb.append(ListHandler.getUniqueResult(containersWithTempatureDeviation)).append(" ").
-				append("According actual fixation of temperature on arrival container on the terminal it was exposed deviation of temperature mode.");
-			odfTable.getCellByPosition(0, currRow).setStringValue(sb.toString());
-			odfTable.appendRow();
+			setCellValueExt(odfTable, 0, currRow, 
+				ListHandler.getUniqueResult(containersWithTempatureDeviation),
+				"According actual fixation of temperature on arrival container on the terminal it was exposed deviation of temperature mode.");
 			currRow++;
 		}
 		if (containersWithoutTempatureDeviation.size() > 0) {
-			sb = new StringBuffer();
-			sb.append(ListHandler.getUniqueResult(containersWithoutTempatureDeviation)).append(" ").
-				append("According actual fixation of temperature on arrival container on the terminal it was not exposed deviation of temperature mode.");
-			odfTable.getCellByPosition(0, 0);
-			odfTable.getCellByPosition(0, currRow).setStringValue(sb.toString());
-			odfTable.appendRow();
+			setCellValueExt(odfTable, 0, currRow, 
+				ListHandler.getUniqueResult(containersWithoutTempatureDeviation),
+				"According actual fixation of temperature on arrival container on the terminal it was not exposed deviation of temperature mode.");
 			currRow++;
 		}
 		if (containersWithoutTempatureSpy.size() > 0) {
-			sb = new StringBuffer();
-			sb.append(ListHandler.getUniqueResult(containersWithoutTempatureSpy)).append(" ").
-				append("Мобильная термо-единица не была найдена в грузе.");
-			odfTable.getCellByPosition(0, currRow).setStringValue(sb.toString());
-			odfTable.appendRow();
+			setCellValueExt(odfTable, 0, currRow, 
+				ListHandler.getUniqueResult(containersWithoutTempatureSpy),
+				"Мобильная термо-единица не была найдена в грузе.");
 			currRow++;
 		}
 		if (containersWithTempatureSpy.size() > 0) {
-			sb = new StringBuffer();
-			sb.append(ListHandler.getUniqueResult(containersWithTempatureSpy)).append(" ").
-				append("Мобильная термо-единица присутствует в грузе.");
-			odfTable.getCellByPosition(0, currRow).setStringValue(sb.toString());
-			odfTable.appendRow();
+			setCellValueExt(odfTable, 0, currRow, 
+				ListHandler.getUniqueResult(containersWithTempatureSpy),
+				"Мобильная термо-единица присутствует в грузе.");
 			currRow++;
 		}
 		if (containersWithTempatureDeviation.size() > 0) {
-			sb = new StringBuffer();
-			sb.append(ListHandler.getUniqueResult(containersWithTempatureDeviation)).append(" ").
-				append("По фактической фиксации температуры по приходу контейнера на терминал выявлены отклонения в температурном режиме.");
-			odfTable.getCellByPosition(0, currRow).setStringValue(sb.toString());
-			odfTable.appendRow();
+			setCellValueExt(odfTable, 0, currRow, 
+				ListHandler.getUniqueResult(containersWithTempatureDeviation),
+				"По фактической фиксации температуры по приходу контейнера на терминал выявлены отклонения в температурном режиме.");
 			currRow++;
 		}
 		if (containersWithoutTempatureDeviation.size() > 0) {
-			sb = new StringBuffer();
-			sb.append(ListHandler.getUniqueResult(containersWithoutTempatureDeviation)).append(" ").
-				append("По фактической фиксации температуры по приходу контейнера на терминал отклонений в температурном режиме не выявлено.");
-			odfTable.getCellByPosition(0, 0);
-			odfTable.getCellByPosition(0, currRow).setStringValue(sb.toString());
-			odfTable.appendRow();
+			setCellValueExt(odfTable, 0, currRow, 
+				ListHandler.getUniqueResult(containersWithoutTempatureDeviation),
+				"По фактической фиксации температуры по приходу контейнера на терминал отклонений в температурном режиме не выявлено.");
 			currRow++;
 		}
+	}
+	
+	private void setCellValueExt(OdfTable odfTable, int column, int row, 
+			String data, String comment) {
+		StringBuffer sb = new StringBuffer(data).append(" ").append(comment);
+		odfTable.getCellByPosition(column, row).setStringValue(sb.toString());
+		odfTable.appendRow();
 	}
 	
 	private void addImages(OdfTextDocument odt, String odfTableName, String engNoImageComment, 
