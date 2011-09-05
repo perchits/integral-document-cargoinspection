@@ -64,7 +64,8 @@ public class InspectionUnit implements Serializable, DialogActionHandler {
 	public void doInspection(){
 		if (inspection == null) {
 			inspection = new Inspection();
-		}
+			inspection.setContainer(container);
+		}		
 		prepareInspectionDialog(inspection);
 	}
 	
