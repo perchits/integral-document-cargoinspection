@@ -64,9 +64,11 @@
 
 <h:panelGroup>		
 	<h:panelGrid columns="3" styleClass="inline-table temperature">
-		<h:outputText styleClass="olive-color" value="Термоединица:" />
-	 	<h:outputText rendered="#{inspectionbean.hasTemperatureSpy}" value="Обнаружена" />	 	
-		<h:outputText value="#{inspectionbean.hasTemperatureSpyDeviation ? 'Есть отклонение' : 'Нет отклонения'}" />
+		<h:outputText styleClass="olive-color" value="Термодатчик:" />
+		<h:outputText value="#{inspectionbean.temperatureSpyState}" />
+		<h:outputText value="#{inspectionbean.temperatureSpyNumber}" />
+<!-- 	 	<h:outputText rendered="#{inspectionbean.hasTemperatureSpy}" value="Обнаружена" />	 	 -->
+<!-- 		<h:outputText value="#{inspectionbean.hasTemperatureSpyDeviation ? 'Есть отклонение' : 'Нет отклонения'}" /> -->
 	</h:panelGrid>
 </h:panelGroup>
 

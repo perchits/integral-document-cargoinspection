@@ -126,15 +126,16 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 				} else if (container.getActualCondition().getHasTemperatureTestDeviation() == null) {
 					containersWithoutTemperatureDeviation.add(container.getNumber());
 				}
-				if (container.getActualCondition().getHasTemperatureSpy() != null && 
-					container.getActualCondition().getHasTemperatureSpy().equals(Boolean.TRUE)) {
-					containersWithTemperatureSpy.add(container.getNumber());
-				} else if (container.getActualCondition().getHasTemperatureSpy() != null && 
-					container.getActualCondition().getHasTemperatureSpy().equals(Boolean.FALSE)) {
-					containersWithoutTemperatureSpy.add(container.getNumber());
-				} else if (container.getActualCondition().getHasTemperatureSpy() == null) {
-					containersWithoutTemperatureSpy.add(container.getNumber());
-				}
+//TODO Переделать рендеринг по термоединицам
+//				if (container.getActualCondition().getHasTemperatureSpy() != null && 
+//					container.getActualCondition().getHasTemperatureSpy().equals(Boolean.TRUE)) {
+//					containersWithTemperatureSpy.add(container.getNumber());
+//				} else if (container.getActualCondition().getHasTemperatureSpy() != null && 
+//					container.getActualCondition().getHasTemperatureSpy().equals(Boolean.FALSE)) {
+//					containersWithoutTemperatureSpy.add(container.getNumber());
+//				} else if (container.getActualCondition().getHasTemperatureSpy() == null) {
+//					containersWithoutTemperatureSpy.add(container.getNumber());
+//				}
 			}
 			sb = new StringBuffer();
 			Double min = container.getDeclaredCondition().getMinTemperature();

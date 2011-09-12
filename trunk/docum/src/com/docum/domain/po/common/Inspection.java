@@ -31,7 +31,7 @@ public class Inspection extends IdentifiedEntity {
 	
 	private Date surveyDate;
 	
-	@ManyToOne(optional = false)
+	@ManyToOne
 	private SurveyPlace surveyPlace;
 	
 	@Column(length = 512)
@@ -81,9 +81,8 @@ public class Inspection extends IdentifiedEntity {
 
 	}
 
-	public Inspection(Container container, SurveyPlace surveyPlace) {
+	public Inspection(Container container) {
 		this.container = container;
-		this.surveyPlace = surveyPlace;
 	}
 
 	public Container getContainer() {

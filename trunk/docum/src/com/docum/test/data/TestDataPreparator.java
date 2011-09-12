@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Random;
 import java.util.Set;
 
 import javax.persistence.EntityManager;
@@ -27,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.docum.domain.ContainerStateEnum;
 import com.docum.domain.po.IdentifiedEntity;
 import com.docum.domain.po.SecurityRoleEnum;
+import com.docum.domain.po.common.ActualCargoCondition;
 import com.docum.domain.po.common.Article;
 import com.docum.domain.po.common.BillOfLading;
 import com.docum.domain.po.common.Cargo;
@@ -34,10 +35,10 @@ import com.docum.domain.po.common.City;
 import com.docum.domain.po.common.Company;
 import com.docum.domain.po.common.Container;
 import com.docum.domain.po.common.Customer;
+import com.docum.domain.po.common.DeclaredCargoCondition;
 import com.docum.domain.po.common.Inspection;
 import com.docum.domain.po.common.Invoice;
 import com.docum.domain.po.common.Measure;
-//import com.docum.domain.po.common.NormativeDocument;
 import com.docum.domain.po.common.Port;
 import com.docum.domain.po.common.PurchaseOrder;
 import com.docum.domain.po.common.SecurityRole;
@@ -189,6 +190,8 @@ public class TestDataPreparator implements TestDataPersister {
 			{"Дмитриева А.", "Dmitrieva А."},
 			{"Петров Д.", "Petrov D."}};
 	
+	private Double[] temperatures = new Double[] { 4.2, 3.0, 12.5, 6.1,
+		8.9, 4.7, 11.0, 9.3, 6.8, 7.0 };
 	
 	
 	@SuppressWarnings(value="unused")
@@ -203,7 +206,10 @@ public class TestDataPreparator implements TestDataPersister {
 		List<City> cities = prepareCities();
 		List<Measure> measures  = prepareMesures();
 		List<Port> ports = preparePorts();
+		List<SurveyPlace> surveyPlaces = prepareSurveyPlaces();
+		List<Surveyor> surveyors = prepareSurveyors();
 		List<Container> containers = prepareContainers(voyages, cities, ports);
+		List<Inspection> inspections = prepareInspections(containers, surveyPlaces, surveyors);
 		List<Cargo> cargoes = CargoDataPreparator.prepareCargoes(this, articles, suppliers,
 				containers, measures);
 		List<BillOfLading> bills = prepareBillOfLadings(voyages, containers);
@@ -211,9 +217,6 @@ public class TestDataPreparator implements TestDataPersister {
 		List<PurchaseOrder> order = prepareOrders(voyages, containers);
 		List<SecurityRole> securityRoles = prepareRoles();
 		List<SecurityUser> users = prepareUsers(securityRoles);
-		List<SurveyPlace> surveyPlaces = prepareSurveyPlaces();
-		List<Inspection> inspections = prepareInspections(containers, surveyPlaces);
-		List<Surveyor> surveyors = prepareSurveyors();
 	}
 	
 	private List<SecurityRole> prepareRoles() {
@@ -334,19 +337,54 @@ public class TestDataPreparator implements TestDataPersister {
 				});
 	}
 	
-	private List<Inspection> prepareInspections(List<Container> containers,List<SurveyPlace> surveyPlaces) {
+	private List<Inspection> prepareInspections(List<Container> containers,
+			List<SurveyPlace> surveyPlaces, List<Surveyor> surveyors) {
+		final TestDataEntityCounter<SurveyPlace> surveyPlaceCounter =
+			new TestDataEntityCounter<SurveyPlace>(surveyPlaces);
+		final TestDataEntityCounter<Surveyor> surveyorCounter =
+			new TestDataEntityCounter<Surveyor>(surveyors);
+		final TestDataEntityCounter<Double> temperatureCounter =
+			new TestDataEntityCounter<Double>(temperatures);
 		List<Inspection> result = new ArrayList<Inspection>();		
-		for (Container c : containers) {
-			if (c.getId() % 2 == 0) {
-				Random gen = new Random();
-				int index = gen.nextInt(surveyPlaces.size()) + 1;
-				if (index > 0) {
-					result.add(new Inspection(c,surveyPlaces.get(index - 1)));
-				}
-			}
+		for (int i=0; i<containers.size(); i+=3) {
+			Container container = containers.get(i);
+			container.setActualCondition(prepareActualCondition(container, temperatureCounter));
+			result.add(prepareInspection(container, surveyPlaceCounter.next(),
+					surveyorCounter.next()));
 		}
 		persist(result);
 		return null;		
+	}
+
+	private Inspection prepareInspection(Container container, SurveyPlace surveyPlace,
+			Surveyor surveyor) {
+		Inspection inspection = new Inspection(container);
+		inspection.setActualSeal("ML-1199363");
+		inspection.setSurveyRequestDate(new Date(2001, 9, 1));
+		inspection.setSurveyDate(new Date(2001, 9, 15));
+		inspection.setSurveyPlace(surveyPlace);
+		inspection.setUnloadingPlace("На склад");
+		inspection.setUnloadingPlaceEng("To warehouse");
+		inspection.setPackageType(null);
+		inspection.setPackageTypeEng(null);
+		inspection.setPackageForming("Каждая паллета содержащая ящики с грузом была закреплена " +
+				"угловым креплением и пластиковыми ремнями.");
+		inspection.setPackageFormingEng("Every pallet, containing p.cases with cargo, was fixed " +
+				"by angular fastening plastic belts");
+		inspection.setPackageState("В ходе инспекции повреждения упаковки замечено не было.");
+		inspection.setPackageStateEng("During inspection damage of packing it has not " +
+				"been noticed.");
+		inspection.setPackageToSurvey("2350,5619,3894");
+		inspection.setPackageToSurveyEng("2350,5619,3894");
+		inspection.setSurveyorConclusion("На момент осмотра груза найдено пораженных гнилью" +
+				" плодов -0,2%, осыпавшиеся ягоды – 1,4%. Незначительные солнечные ожоги," +
+				" затрагивающие только лишь кожицу -1,7%.");
+		inspection.setSurveyorConclusionEng("As of cargo survey it was find fruits affected by" +
+				" rot -0,2%, loose berries – 1,4%. ");
+		inspection.setSurveyor(surveyor);
+		
+		container.setInspection(inspection);
+		return inspection;
 	}
 	
 	private List<Measure> prepareMesures() {
@@ -365,6 +403,7 @@ public class TestDataPreparator implements TestDataPersister {
 		final TestDataEntityCounter<City> cityCounter = new TestDataEntityCounter<City>(cities);
 		final TestDataEntityCounter<Port> portCounter = new TestDataEntityCounter<Port>(ports);
 		final TestDataEntityCounter<String> sealCounter = new TestDataEntityCounter<String>(sealNames);
+		final TestDataEntityCounter<Double> temperatureCounter = new TestDataEntityCounter<Double>(temperatures);
 		final Calendar pastCal = (Calendar) cal.clone();
 		pastCal.add(Calendar.MONTH, -6);
 
@@ -381,11 +420,13 @@ public class TestDataPreparator implements TestDataPersister {
 						pastCal.add(Calendar.DAY_OF_MONTH, 5);
 						result.setDischargeDate(cal.getTime());
 						result.setDeclaredSeal(sealCounter.next());						
+						result.setDeclaredCondition(prepareDeclaredCondition(result, temperatureCounter));
 						return result;
 					}
 		});
 		
 		persist(result);
+
 		return result;
 	}
 	
@@ -482,6 +523,21 @@ public class TestDataPreparator implements TestDataPersister {
 		return result;
 	}
 
+	private DeclaredCargoCondition prepareDeclaredCondition(Container container,
+			TestDataEntityCounter<Double> temperatureCounter) {
+		DeclaredCargoCondition condition = container.getDeclaredCondition();
+		condition.setMinTemperature(temperatureCounter.next());
+		condition.setMaxTemperature(temperatureCounter.next());
+		return condition;
+	}
+
+	private ActualCargoCondition prepareActualCondition(Container container,
+			TestDataEntityCounter<Double> temperatureCounter) {
+		ActualCargoCondition condition = container.getActualCondition();
+		condition.setTemperature(temperatureCounter.next());
+		return condition;
+	}
+	
 	@Override
 	public <T extends IdentifiedEntity> void persist(T entity) {
 		entityManager.persist(entity);

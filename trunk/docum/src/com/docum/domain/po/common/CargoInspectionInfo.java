@@ -1,8 +1,10 @@
 package com.docum.domain.po.common;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -44,6 +46,9 @@ public class CargoInspectionInfo extends IdentifiedEntity {
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	@OrderColumn(name="ord")
 	private List<FileUrl> images = new ArrayList<FileUrl>();
+	
+	@OneToMany(mappedBy = "inspectionInfo", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+	private Set<CargoInspectionOption> inspectionOptions = new HashSet<CargoInspectionOption>();
 	
 	public CargoInspectionInfo() {
 	}
@@ -153,5 +158,13 @@ public class CargoInspectionInfo extends IdentifiedEntity {
 
 	public void moveImageDown(FileUrl url) {
 		OrderedEntityUtil.moveDown(url, images);
+	}
+
+	public Set<CargoInspectionOption> getInspectionOptions() {
+		return inspectionOptions;
+	}
+
+	public void setInspectionOptions(Set<CargoInspectionOption> inspectionOptions) {
+		this.inspectionOptions = inspectionOptions;
 	}
 }

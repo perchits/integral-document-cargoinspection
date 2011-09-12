@@ -1,8 +1,10 @@
 package com.docum.domain.po.common;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 
+import com.docum.domain.TemperatureSpyStateEnum;
 import com.docum.util.EqualsHelper;
 import com.docum.util.HashCodeHelper;
 
@@ -16,19 +18,17 @@ public class ActualCargoCondition extends CargoCondition {
 	Double temperature;
 		
 	/**
-	 * Был ли найден температурный шпион
-	 */
-	Boolean hasTemperatureSpy;
-	
-	/**
 	 * Были ли различия между измеренной температурой и рекомендуемой
 	 */
 	Boolean hasTemperatureTestDeviation;
 
 	/**
-	 * Были ли различия между показаниями шпиона и рекомендуемой температурой
+	 * Был ли найден температурный шпион и в каком состоянии
 	 */
-	Boolean hasTemperatureSpyDeviation;
+	@Column(nullable=false)
+	TemperatureSpyStateEnum temperatureSpyState = TemperatureSpyStateEnum.UNKNOWN;
+	
+	private String temperatureSpyNumber;
 	
 	public ActualCargoCondition() {
 		super();
@@ -86,14 +86,6 @@ public class ActualCargoCondition extends CargoCondition {
 		return HashCodeHelper.hashCode(getId());
 	}
 
-	public Boolean getHasTemperatureSpy() {
-		return hasTemperatureSpy;
-	}
-
-	public void setHasTemperatureSpy(Boolean hasTemperatureSpy) {
-		this.hasTemperatureSpy = hasTemperatureSpy;
-	}
-
 	public Boolean getHasTemperatureTestDeviation() {
 		return hasTemperatureTestDeviation;
 	}
@@ -102,11 +94,19 @@ public class ActualCargoCondition extends CargoCondition {
 		this.hasTemperatureTestDeviation = hasTemperatureTestDeviation;
 	}
 
-	public Boolean getHasTemperatureSpyDeviation() {
-		return hasTemperatureSpyDeviation;
+	public TemperatureSpyStateEnum getTemperatureSpyState() {
+		return temperatureSpyState;
 	}
 
-	public void setHasTemperatureSpyDeviation(Boolean hasTemperatureSpyDeviation) {
-		this.hasTemperatureSpyDeviation = hasTemperatureSpyDeviation;
+	public void setTemperatureSpyState(TemperatureSpyStateEnum temperatureSpyState) {
+		this.temperatureSpyState = temperatureSpyState;
+	}
+
+	public String getTemperatureSpyNumber() {
+		return temperatureSpyNumber;
+	}
+
+	public void setTemperatureSpyNumber(String temperatureSpyNumber) {
+		this.temperatureSpyNumber = temperatureSpyNumber;
 	}
 }

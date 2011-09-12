@@ -1,8 +1,10 @@
 package com.docum.view.container;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.List;
 
+import com.docum.domain.TemperatureSpyStateEnum;
 import com.docum.domain.po.common.ActualCargoCondition;
 import com.docum.domain.po.common.DeclaredCargoCondition;
 import com.docum.domain.po.common.Inspection;
@@ -45,14 +47,6 @@ public class InspectionDlgView extends AbstractDlgView implements Serializable {
 		getActualCondition().setTemperature(temperature);
 	}
 	
-	public Boolean getHasTemperatureSpy(){
-		return getActualCondition().getHasTemperatureSpy();
-	}
-	
-	public void setHasTemperatureSpy(Boolean hasSpy){
-		getActualCondition().setHasTemperatureSpy(hasSpy);
-	}
-	
 	public Boolean getHasTemperatureTestDeviation(){ 
 		return getActualCondition().getHasTemperatureTestDeviation();
 	}
@@ -61,12 +55,24 @@ public class InspectionDlgView extends AbstractDlgView implements Serializable {
 		getActualCondition().setHasTemperatureTestDeviation(hasTemperatureTestDeviation);
 	}
 
-	public Boolean getHasTemperatureSpyDeviation() {
-		return getActualCondition().getHasTemperatureSpyDeviation();
+	public List<TemperatureSpyStateEnum> getTemperatureSpyStates(){
+		return Arrays.asList(TemperatureSpyStateEnum.values());
 	}
 
-	public void setHasTemperatureSpyDeviation(Boolean hasTemperatureSpyDeviation) {
-		getActualCondition().setHasTemperatureSpyDeviation(hasTemperatureSpyDeviation);
+	public TemperatureSpyStateEnum getTemperatureSpyState() {
+		return getActualCondition().getTemperatureSpyState();
+	}
+
+	public void setTemperatureSpyState(TemperatureSpyStateEnum temperatureSpyState) {
+		getActualCondition().setTemperatureSpyState(temperatureSpyState);
+	}
+
+	public String getTemperatureSpyNumber() {
+		return getActualCondition().getTemperatureSpyNumber();
+	}
+
+	public void setTemperatureSpyNumber(String temperatureSpyNumber) {
+		getActualCondition().setTemperatureSpyNumber(temperatureSpyNumber);
 	}
 	
 	public DeclaredCargoCondition getDeclaredCondition(){
