@@ -79,23 +79,35 @@
 			</h:panelGrid>
 
 
-			<h:outputText value="Мобильная терм. ед.: " />
-			<h:panelGrid columns="4" styleClass="dialog-line-grid">
-				<h:outputLabel for="hasTemperatureSpyId" value="Найдена:" />
-				<h:selectBooleanCheckbox styleClass="number" id="hasTemperatureSpyId"
-					value="#{bean.hasTemperatureSpy}" />
-
-				<h:outputLabel for="hasTemperatureSpyDeviationId"
-					value="Отклонение:" />
-				<h:selectBooleanCheckbox styleClass="number" id="hasTemperatureSpyDeviationId"
-					value="#{bean.hasTemperatureSpyDeviation}" />
+			<h:outputText value="Термодатчик:" />
+			<h:panelGrid columns="2" styleClass="dialog-line-grid">
+				<h:selectOneMenu id="temperatureSpyState"
+					styleClass="ui-inputfield ui-widget ui-state-default ui-corner-all"
+					value="#{bean.temperatureSpyState}">
+					<f:selectItems value="#{bean.temperatureSpyStates}" var="temperatureSpyState"
+						itemLabel="#{temperatureSpyState.name}" />
+				<p:inputText value="#{bean.temperatureSpyNumber}" />
+				</h:selectOneMenu>
+				
 			</h:panelGrid>
+			
+<!-- 			<h:panelGrid columns="4" styleClass="dialog-line-grid"> -->
+<!-- 				<h:outputLabel for="hasTemperatureSpyId" value="Найдена:" /> -->
+				
+<!-- 				<h:selectBooleanCheckbox styleClass="number" id="hasTemperatureSpyId" -->
+<!-- 					value="#{bean.hasTemperatureSpy}" /> -->
+
+<!-- 				<h:outputLabel for="hasTemperatureSpyDeviationId" -->
+<!-- 					value="Отклонение:" /> -->
+<!-- 				<h:selectBooleanCheckbox styleClass="number" id="hasTemperatureSpyDeviationId" -->
+<!-- 					value="#{bean.hasTemperatureSpyDeviation}" /> -->
+<!-- 			</h:panelGrid> -->
 			
 			<h:outputLabel for="packageToSurveyId" value="Осмотрено:" />
 			<h:panelGrid columns="2" styleClass="inpection-input-table">
-			<p:inputText value="#{bean.inspection.packageToSurveyEng}" />
-			<p:inputText id="packageToSurveyId"
-				value="#{bean.inspection.packageToSurvey}" />
+				<p:inputText value="#{bean.inspection.packageToSurveyEng}" />
+				<p:inputText id="packageToSurveyId"
+					value="#{bean.inspection.packageToSurvey}" />
 			</h:panelGrid>	
 
 			<h:outputLabel for="packageStateId" value="Состояние упаковки:" />

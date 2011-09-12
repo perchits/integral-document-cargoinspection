@@ -10,6 +10,7 @@ import com.docum.domain.po.common.ArticleCategory;
 import com.docum.domain.po.common.ArticleDefect;
 import com.docum.domain.po.common.ArticleFeature;
 import com.docum.domain.po.common.ArticleFeatureInstance;
+import com.docum.domain.po.common.ArticleInspectionOption;
 import com.docum.domain.po.common.NormativeDocument;
 
 public class ArticleDataPreparator {
@@ -32,12 +33,32 @@ public class ArticleDataPreparator {
 			{"Сильные механические повреждения", "Strong mechanical damages"}
 		}
 	};
-	private static String[][] normDocs = new String[][] {
+	private static String[][] normDocNames = new String[][] {
 			{"Международный стандарт FFV-19", "UN/ЕСE FFV-19"},
-			{"Международный стандарт FFV-20", "UN/ЕСE FFV-20"}};
+			{"Международный стандарт FFV-20", "UN/ЕСE FFV-20"},
+			{"Международный стандарт FFV-32", "UN/ЕСE FFV-32"},
+			{"Международный стандарт FFV-45", "UN/ЕСE FFV-45"}
+	};
+	
+	private static String[] ripenessNames = new String[] {
+		"Шкала зрелости", "Ripeness Scale"
+	};
+	private static String[][] ripenessItemNames = new String[][] {
+		{"Цвет по OCDE (2-3)", "OCDE color (2-3)"},
+		{"Цвет по OCDE (4-5)", "OCDE color (4-5)"},
+		{"Цвет по OCDE (6-7)", "OCDE color (6-7)"},
+		{"Цвет по OCDE (8-10)", "OCDE color (8-10)"}
+	};
+	
+	private static String[] briksNames = new String[] {
+		"Индекс по шкале Брикса", "Briks scale index"
+	};
 
 	private static TestDataEntityCounter<String[][]> articleDefectCounter =
 		new TestDataEntityCounter<String[][]>(articleDefectNames);
+
+	private static TestDataEntityCounter<String[]> normDocCounter =
+		new TestDataEntityCounter<String[]>(normDocNames);
 
 	public static List<Article> prepareArticles(TestDataPersister persister) {
 		List<Article> result = new ArrayList<Article>();
@@ -62,7 +83,16 @@ public class ArticleDataPreparator {
 				{"Голден", "Golden"},
 				{"Ред Чиф", "Red Cheaf"}}));
 		article.getFeatures().add(prepareArticleFeature(persister, article, "Урожай", "Crop", null));
-		article.getDocuments().addAll(prepareNormDocs(article));
+		String[] docName = normDocCounter.next();
+		article.getDocuments().add(new NormativeDocument(article, docName[0], docName[1]));
+		
+		ArticleInspectionOption ripenessOption = new ArticleInspectionOption(article,
+				ripenessNames[0], ripenessNames[1]);
+		for(String[] item : ripenessItemNames) {
+			ripenessOption.addChild(new ArticleInspectionOption(item[0], item[1]));
+		}
+		article.addInspectionOption(ripenessOption);
+
 		persister.persist(article);
 		return article;
 	}
@@ -81,6 +111,13 @@ public class ArticleDataPreparator {
 				{"Барлет", "Barlett"},
 				{"Анжу", "Anjou"}}));
 		article.getFeatures().add(prepareArticleFeature(persister, article, "Урожай", "Crop", null));
+		String[] docName = normDocCounter.next();
+		article.getDocuments().add(new NormativeDocument(article, docName[0], docName[1]));
+
+		ArticleInspectionOption briksOption = new ArticleInspectionOption(article,
+				briksNames[0], briksNames[1]);
+		article.addInspectionOption(briksOption);
+
 		persister.persist(article);
 		return article;
 	}
@@ -96,6 +133,8 @@ public class ArticleDataPreparator {
 				"Страна происхождения", "Origin", new String[][] {
 				{"Россия", "Russia"},
 				{"Китай", "China"}}));
+		String[] docName = normDocCounter.next();
+		article.getDocuments().add(new NormativeDocument(article, docName[0], docName[1]));
 		persister.persist(article);
 		return article;
 	}
@@ -114,6 +153,8 @@ public class ArticleDataPreparator {
 		article.getFeatures().add(prepareArticleFeature(persister, article, "Год", "Year", 
 				new String[][] {
 				{"2000", "2000"}, {"2001", "2001"}, {"2002", "2002"}}));
+		String[] docName = normDocCounter.next();
+		article.getDocuments().add(new NormativeDocument(article, docName[0], docName[1]));
 		persister.persist(article);
 		return article;
 	}
@@ -161,11 +202,4 @@ public class ArticleDataPreparator {
 		return result;
 	}
 	
-	private static List<NormativeDocument> prepareNormDocs(Article article) {
-		List<NormativeDocument> result = new ArrayList<NormativeDocument>();
-		for (String doc[] : normDocs) { 
-			result.add(new NormativeDocument(article, doc[0], doc[1]));
-		}
-		return result;
-	}
 }

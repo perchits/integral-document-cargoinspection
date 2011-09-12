@@ -21,15 +21,22 @@ public class Article extends IdentifiedEntity {
 	private static final long serialVersionUID = -6988218269163708874L;
 
 	private String name;
+	
 	private String englishName;
+	
 	@OneToMany(mappedBy = "article", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	@OrderColumn(name="ord")
 	private List<ArticleCategory> categories = new ArrayList<ArticleCategory>();
+	
 	@OneToMany(mappedBy = "article", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	private Set<ArticleFeature> features = new HashSet<ArticleFeature>();
+
 	@OneToMany(mappedBy = "article", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	private Set<NormativeDocument> documents = new HashSet<NormativeDocument>();
 
+	@OneToMany(mappedBy = "article", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+	@OrderColumn(name="ord")
+	private List<ArticleInspectionOption> inspectionOptions = new ArrayList<ArticleInspectionOption>();
 
 	public Article() {
 		super();
@@ -132,6 +139,37 @@ public class Article extends IdentifiedEntity {
 		if (documents.remove(document)) {
 			document.setArticle(null);
 		}
+	}
+	
+	public List<ArticleInspectionOption> getInspectionOptions() {
+		return inspectionOptions;
+	}
+
+	public void setInspectionOptions(List<ArticleInspectionOption> inspectionOptions) {		
+		this.inspectionOptions = inspectionOptions;		
+	}
+	
+	public void addInspectionOption(ArticleInspectionOption inspectionOption){
+		inspectionOption.setArticle(this);
+		OrderedEntityUtil.add(inspectionOption, inspectionOptions);
+	}
+	
+	public void removeInspectionOption(ArticleInspectionOption inspectionOption){
+		if(OrderedEntityUtil.remove(inspectionOption, inspectionOptions)) {
+			inspectionOption.setArticle(null);
+		}
+	}
+
+	public void setInspectionOptionOrd(ArticleInspectionOption inspectionOption, int ord) {
+		OrderedEntityUtil.setOrd(inspectionOption, inspectionOptions, ord);
+	}
+
+	public void moveInspectionOptionUp(ArticleInspectionOption inspectionOption) {
+		OrderedEntityUtil.moveUp(inspectionOption, inspectionOptions);
+	}
+
+	public void moveInspectionOptionDown(ArticleInspectionOption inspectionOption) {
+		OrderedEntityUtil.moveDown(inspectionOption, inspectionOptions);
 	}
 		
 	public boolean equals(Object obj) {

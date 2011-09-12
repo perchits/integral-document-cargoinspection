@@ -2,6 +2,7 @@ package com.docum.view.container.unit;
 
 import java.io.Serializable;
 
+import com.docum.domain.TemperatureSpyStateEnum;
 import com.docum.domain.po.common.Container;
 import com.docum.domain.po.common.Inspection;
 import com.docum.service.BaseService;
@@ -91,12 +92,13 @@ public class InspectionUnit implements Serializable, DialogActionHandler {
 		return container.getActualCondition().getHasTemperatureTestDeviation();
 	}
 	
-	public Boolean getHasTemperatureSpy(){
-		return container.getActualCondition().getHasTemperatureSpy();
+	public String getTemperatureSpyState(){
+		TemperatureSpyStateEnum state = container.getActualCondition().getTemperatureSpyState(); 
+		return state == null ? "" : state.getName();
 	}
 	
-	public Boolean getHasTemperatureSpyDeviation(){
-		return container.getActualCondition().getHasTemperatureSpyDeviation();
+	public String getTemperatureSpyNumber(){
+		return container.getActualCondition().getTemperatureSpyNumber();
 	}
 	
 	public Double getTemperature() {

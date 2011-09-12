@@ -7,6 +7,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
+import com.docum.domain.po.common.Article;
+import com.docum.util.EqualsHelper;
+import com.docum.util.HashCodeHelper;
+
 @MappedSuperclass
 public abstract class IdentifiedEntity extends NamedEntity implements Serializable {
 
@@ -25,4 +29,24 @@ public abstract class IdentifiedEntity extends NamedEntity implements Serializab
 	}
 	
 	public <T extends IdentifiedEntity> void copy(T sourceObject) {}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		else if (obj == null || !getClass().equals(obj.getClass())) {
+			return false;
+		}
+		else {
+			return EqualsHelper.equals(getId(), ((Article) obj).getId());
+		}
+	}
+	
+	public int hashCode() {
+		if(getId() == null) {
+			return super.hashCode();
+		}
+		return HashCodeHelper.hashCode(getId());
+	}
 }

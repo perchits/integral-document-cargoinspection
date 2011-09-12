@@ -11,6 +11,11 @@ database.url=jdbc:postgresql://localhost/docum
 database.username=user
 database.password=password
 
+#Параметры подключения к измененной базе для генерации diff файла
+newdatabase.url=jdbc:postgresql://localhost/docum_new
+newdatabase.username=docum
+newdatabase.password=docum
+
 
 #AntProperties
 DistDir=dist

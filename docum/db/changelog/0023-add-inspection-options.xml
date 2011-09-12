@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+	<changeSet author="pepper" id="0023-add-inspection-options">
+
+		<createTable tableName="articleinspectionoption">
+			<column autoIncrement="true" name="id" type="bigserial">
+				<constraints nullable="false" primaryKey="true"
+					primaryKeyName="articleinspectionoption_pkey" />
+			</column>
+			<column name="ord" type="int4">
+				<constraints nullable="false" />
+			</column>
+			<column name="englishname" type="VARCHAR(255)" />
+			<column name="name" type="VARCHAR(255)" />
+			<column name="article_id" type="int8">
+				<constraints nullable="false" />
+			</column>
+			<column name="parent_id" type="int8" />
+		</createTable>
+
+		<createTable tableName="cargoinspectionoption">
+			<column autoIncrement="true" name="id" type="bigserial">
+				<constraints nullable="false" primaryKey="true"
+					primaryKeyName="cargoinspectionoption_pkey" />
+			</column>
+			<column name="value" type="FLOAT8(17)" />
+			<column name="articleinspectionoption_id" type="int8">
+				<constraints nullable="false" />
+			</column>
+			<column name="inspectioninfo_id" type="int8">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		
+		<addColumn tableName="actualcargocondition">
+			<column name="temperaturespynumber" type="VARCHAR(255)" />
+			<column name="temperaturespystate" type="int4" defaultValueNumeric="0">
+				<constraints nullable="false" />
+			</column>
+		</addColumn>
+
+		<dropColumn columnName="hastemperaturespy" tableName="actualcargocondition" />
+		<dropColumn columnName="hastemperaturespydeviation"
+			tableName="actualcargocondition" />
+
+		<dropNotNullConstraint columnDataType="int8"
+			columnName="surveyplace_id" tableName="inspection" />
+		<dropNotNullConstraint columnDataType="int8"
+			columnName="customer_id" tableName="report" />
+
+		<modifyDataType columnName="dischargedate" newDataType="TIMESTAMP WITH TIME ZONE"
+			tableName="container" />
+		<modifyDataType columnName="loadingdate" newDataType="TIMESTAMP WITH TIME ZONE"
+			tableName="container" />
+		<modifyDataType columnName="packagetosurvey"
+			newDataType="VARCHAR(512)" tableName="inspection" />
+		<modifyDataType columnName="surveydate" newDataType="TIMESTAMP WITH TIME ZONE"
+			tableName="inspection" />
+		<modifyDataType columnName="surveyrequestdate"
+			newDataType="TIMESTAMP WITH TIME ZONE" tableName="inspection" />
+		<modifyDataType columnName="englishname" newDataType="VARCHAR(50)"
+			tableName="port" />
+		<modifyDataType columnName="name" newDataType="VARCHAR(50)"
+			tableName="port" />
+		<modifyDataType columnName="date" newDataType="TIMESTAMP WITH TIME ZONE"
+			tableName="report" />
+		<modifyDataType columnName="arrivaldate" newDataType="TIMESTAMP WITH TIME ZONE"
+			tableName="voyage" />
+
+		<dropPrimaryKey constraintName="billoflading_container_pkey"
+			tableName="container_billoflading" />
+		<dropPrimaryKey constraintName="invoice_container_pkey"
+			tableName="container_invoice" />
+		<dropPrimaryKey constraintName="purchaseorder_container_pkey"
+			tableName="container_purchaseorder" />
+
+		<addPrimaryKey columnNames="containers_id, billofladings_id"
+			constraintName="container_billoflading_pkey" tableName="container_billoflading" />
+		<addPrimaryKey columnNames="containers_id, invoices_id"
+			constraintName="container_invoice_pkey" tableName="container_invoice" />
+		<addPrimaryKey columnNames="containers_id, orders_id"
+			constraintName="container_purchaseorder_pkey" tableName="container_purchaseorder" />
+
+		<dropIndex tableName="actualcargocondition" indexName="actualcargocondition_container_fk_idx"/>
+		<addUniqueConstraint columnNames="container_id"
+			constraintName="actualcargocondition_container_id_key" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="actualcargocondition" />
+
+		<dropIndex tableName="cargoinspectioninfo" indexName="cargoinspectioninfo_cargo_fk_idx"/>
+		<addUniqueConstraint columnNames="cargo_id"
+			constraintName="cargoinspectioninfo_cargo_id_key" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="cargoinspectioninfo" />
+
+		<dropIndex tableName="cargoinspectioninfo_fileurl"
+			indexName="cargoinspectioninfo_fileurl__images_fk_idx"/>
+		<addUniqueConstraint columnNames="images_id"
+			constraintName="cargoinspectioninfo_fileurl_images_id_key"
+			deferrable="false" disabled="false" initiallyDeferred="false"
+			tableName="cargoinspectioninfo_fileurl" />
+
+		<dropIndex tableName="declaredcargocondition"
+			indexName="declaredcargocondition_container_fk_idx"/>
+		<addUniqueConstraint columnNames="container_id"
+			constraintName="declaredcargocondition_container_id_key" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="declaredcargocondition" />
+
+		<dropIndex tableName="inspection" indexName="inspection_container_fk_idx"/>
+		<addUniqueConstraint columnNames="container_id"
+			constraintName="inspection_container_id_key" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="inspection" />
+
+		<dropIndex tableName="inspection_fileurl" indexName="inspection_fileurl__images_fk_idx"/>
+		<addUniqueConstraint columnNames="images_id"
+			constraintName="inspection_fileurl_images_id_key" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="inspection_fileurl" />
+
+		<addForeignKeyConstraint constraintName="articleinspectionoption__article_fk"
+			baseTableName="articleinspectionoption"	baseColumnNames="article_id"
+			referencedTableName="article"	referencedColumnNames="id" />
+
+		<createIndex tableName="articleinspectionoption"
+			indexName="articleinspectionoption__article_fk_idx">
+			<column name="article_id"></column>
+		</createIndex>
+		
+		<addForeignKeyConstraint constraintName="articleinspectionoption__parent_fk"
+			baseTableName="articleinspectionoption"	baseColumnNames="parent_id"
+			referencedTableName="articleinspectionoption" referencedColumnNames="id" />
+
+		<createIndex tableName="articleinspectionoption"
+			indexName="articleinspectionoption__parent_fk_idx">
+			<column name="parent_id"></column>
+		</createIndex>
+		
+		<addForeignKeyConstraint constraintName="cargoinspectionoption__articleinspectionoption_fk"
+			baseTableName="cargoinspectionoption"	baseColumnNames="articleinspectionoption_id"
+			referencedTableName="articleinspectionoption" referencedColumnNames="id" />
+
+		<createIndex tableName="cargoinspectionoption"
+			indexName="cargoinspectionoption__articleinspectionoption_fk_idx">
+			<column name="articleinspectionoption_id"></column>
+		</createIndex>
+
+		<addForeignKeyConstraint constraintName="cargoinspectionoption__inspectioninfo_fk"
+			baseTableName="cargoinspectionoption"	baseColumnNames="inspectioninfo_id"
+			referencedTableName="cargoinspectioninfo" referencedColumnNames="id" />
+
+		<createIndex tableName="cargoinspectionoption"
+			indexName="cargoinspectionoption__inspectioninfo_fk_idx">
+			<column name="inspectioninfo_id"></column>
+		</createIndex>
+
+	</changeSet>
+</databaseChangeLog>
