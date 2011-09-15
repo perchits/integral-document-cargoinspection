@@ -1,5 +1,6 @@
 package com.docum.view.wrapper;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,7 +9,8 @@ import org.primefaces.model.TreeNode;
 import com.docum.domain.po.common.Article;
 import com.docum.domain.po.common.ArticleInspectionOption;
 
-public class ArticleInspectionOptionPresentation implements TreeNode {
+public class ArticleInspectionOptionPresentation implements TreeNode, Serializable {
+	private static final long serialVersionUID = -1195279104178916794L;
 
 	public static final String TYPE = "ARTICLE_INSPECTION_OPTION_PRESENTATION";
 
