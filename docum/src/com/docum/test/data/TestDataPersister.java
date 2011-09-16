@@ -6,5 +6,5 @@ import com.docum.domain.po.IdentifiedEntity;
 
 public interface TestDataPersister {
 	public <T extends IdentifiedEntity> void persist(T entity);
-	public <T extends IdentifiedEntity> void persist(Collection<T> entity);
+	public <T extends IdentifiedEntity> void persist(Collection<T> entities);
 }
