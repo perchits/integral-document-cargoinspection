@@ -46,6 +46,11 @@ public class CargoFeatureUnit implements Serializable, DialogActionHandler {
 		return featureDlg;
 	}
 
+	/**
+	 * Этот метод вызывается всегда, когда пользователь вызывает диалог с характеристиками груза.
+	 * Метод проверяет, появились ли новые характеристики у груза и если да, добавляет их в
+	 * список.
+	 */
 	public void addFeature() {
 		Article article = cargo.getArticle();
 		Set<CargoArticleFeature> features = new HashSet<CargoArticleFeature>(cargo.getFeatures());

@@ -80,9 +80,9 @@ public class Cargo extends IdentifiedEntity {
 			return;
 		}
 		this.features.clear();
-		/*for (ArticleFeature feature : article.getFeatures()) {
+		for (ArticleFeature feature : article.getFeatures()) {
 			this.addFeature(new CargoArticleFeature(this, feature));
-		}*/
+		}
 		this.article = article;
 	}
 
