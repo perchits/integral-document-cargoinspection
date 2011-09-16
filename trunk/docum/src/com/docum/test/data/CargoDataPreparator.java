@@ -69,6 +69,7 @@ public class CargoDataPreparator extends AbstractDataPreparator {
 			if(container.getInspection() != null) {
 				Cargo actualCargo = new Cargo(cargo.getArticle(), cargo.getSupplier(),
 						container.getActualCondition());
+				container.getActualCondition().addCargo(actualCargo);
 				actualCargo.setCargoPackages(new HashSet<CargoPackage>(
 						preparePackages(actualCargo)));
 				prepareFeatures(actualCargo);

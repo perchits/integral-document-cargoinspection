@@ -20,7 +20,9 @@ public class StatsHelper {
 			if(group != null) {
 				group.addCargo(cargo);
 			} else {
-				groups.put(info, new StatsCargoGroup(info));
+				group = new StatsCargoGroup(info);
+				group.addCargo(cargo);
+				groups.put(info, group);
 			}
 		}
 		
