@@ -19,28 +19,36 @@ import com.docum.domain.po.common.Container;
 import com.docum.domain.po.common.Measure;
 import com.docum.domain.po.common.Supplier;
 
-public class CargoDataPreparator {
+public class CargoDataPreparator extends AbstractDataPreparator {
 
-	private static Double[] cargoCounts = new Double[] { 12300.0, 22300.0,
+	public static final Double[] cargoCounts = new Double[] { 12300.0, 22300.0,
 			24200.0, 20520.0, 19800.0, 25000.0, 23300.0, 21630.0, 26300.0,
 			8700.0 };
 
-	private static String[] calibreNames = new String[] { "30/40", "20/40",
+	public static final String[] calibreNames = new String[] { "30/40", "20/40",
 		"34mm", "18-32", "25/35"};
 	
-	private static TestDataEntityCounter<Article> articleCounter;
-	private static TestDataEntityCounter<Supplier> supplierCounter;
-	private static TestDataEntityCounter<Container> containerCounter;
-	private static TestDataEntityCounter<Measure> measureCounter;
-	private static TestDataEntityCounter<Double> countCounter =
+	private TestDataEntityCounter<Article> articleCounter;
+	private TestDataEntityCounter<Supplier> supplierCounter;
+	private TestDataEntityCounter<Container> containerCounter;
+	private TestDataEntityCounter<Measure> measureCounter;
+	private TestDataEntityCounter<Double> countCounter =
 		new TestDataEntityCounter<Double>(cargoCounts);
-	private static TestDataEntityCounter<String> calibreCounter =
+	private TestDataEntityCounter<String> calibreCounter =
 		new TestDataEntityCounter<String>(calibreNames);
 
-	private static int categoryCounter = 0;
-	
-	public static List<Cargo> prepareCargoes(TestDataPersister persister,
-			List<Article> articles, List<Supplier> suppliers,
+	private int categoryCounter = 0;
+
+	public CargoDataPreparator() {
+		super();
+	}
+
+	public CargoDataPreparator(TestDataPersister persister) {
+		super(persister);
+	}
+
+
+	public List<Cargo> prepareCargoes(List<Article> articles, List<Supplier> suppliers,
 			List<Container> containers, List<Measure> measures) {
 		
 		articleCounter = new TestDataEntityCounter<Article>(articles);
@@ -53,18 +61,18 @@ public class CargoDataPreparator {
 			Container container = containerCounter.next();
 			CargoCondition condition = container.getDeclaredCondition();
 			Cargo cargo = new Cargo(articleCounter.next(), supplierCounter.next(), condition);
-			cargo.setCargoPackages(new HashSet<CargoPackage>(preparePackages(persister, cargo)));
-			prepareFeatures(persister, cargo);
-			cargo.setArticleCategory(prepareCategory(persister, cargo));
+			cargo.setCargoPackages(new HashSet<CargoPackage>(preparePackages(cargo)));
+			prepareFeatures(cargo);
+			cargo.setArticleCategory(prepareCategory(cargo));
 			result.add(cargo);
 			
 			if(container.getInspection() != null) {
 				Cargo actualCargo = new Cargo(cargo.getArticle(), cargo.getSupplier(),
 						container.getActualCondition());
 				actualCargo.setCargoPackages(new HashSet<CargoPackage>(
-						preparePackages(persister, actualCargo)));
-				prepareFeatures(persister, actualCargo);
-				actualCargo.setArticleCategory(prepareCategory(persister, actualCargo));
+						preparePackages(actualCargo)));
+				prepareFeatures(actualCargo);
+				actualCargo.setArticleCategory(prepareCategory(actualCargo));
 				prepareCargoInspection(actualCargo);
 				result.add(actualCargo);
 			}
@@ -73,7 +81,7 @@ public class CargoDataPreparator {
 		return result;
 	}
 
-	private static void prepareCargoInspection(Cargo cargo) {
+	private void prepareCargoInspection(Cargo cargo) {
 		CargoInspectionInfo info = cargo.getInspectionInfo();
 		
 		List<ArticleInspectionOption> articleInspectionOptions =
@@ -91,7 +99,7 @@ public class CargoDataPreparator {
 		info.setInspectionOptions(options);
 	}
 	
-	private static void getArticleInspectionOptionLeaves(
+	private void getArticleInspectionOptionLeaves(
 			ArticleInspectionOption parent, List<ArticleInspectionOption> leaves) {
 		List<ArticleInspectionOption> children = parent.getChildren();
 		if(children.isEmpty()) {
@@ -104,15 +112,14 @@ public class CargoDataPreparator {
 		}
 	}
 
-	private static ArticleCategory prepareCategory(TestDataPersister persister,
-			Cargo cargo) {
+	private ArticleCategory prepareCategory(Cargo cargo) {
 		Article article = cargo.getArticle();
 		if(categoryCounter >= article.getCategories().size())
 			categoryCounter = 0;		
 		return new ArrayList<ArticleCategory>(article.getCategories()).get(categoryCounter);
 	}
 
-	private static void prepareFeatures(TestDataPersister persister, Cargo cargo) {
+	private void prepareFeatures(Cargo cargo) {
 		for(CargoArticleFeature cargoArticleFeature : cargo.getFeatures()) {
 			if(cargoArticleFeature.getFeature().isList()) {
 				cargoArticleFeature.setFeatureInstance(cargoArticleFeature.getFeature().getInstances().iterator().next());
@@ -125,21 +132,20 @@ public class CargoDataPreparator {
 	}
 
 	
-	private static List<CargoPackage> preparePackages(TestDataPersister persister, Cargo cargo) {
+	private List<CargoPackage> preparePackages(Cargo cargo) {
 		List<CargoPackage> packages = new ArrayList<CargoPackage>();
 		for (int i = 0; i<3; i++) {
 			CargoPackage pkg = new CargoPackage(cargo, measureCounter.next(),
 					countCounter.next());
 			packages.add(pkg);
 			if(i==0) {
-				pkg.setCalibres(new HashSet<CargoPackageCalibre>(prepareCalibres(persister, pkg)));
+				pkg.setCalibres(new HashSet<CargoPackageCalibre>(prepareCalibres(pkg)));
 			}
 		}
 		return packages;
 	}
 
-	private static List<CargoPackageCalibre> prepareCalibres(
-			TestDataPersister persister, CargoPackage pkg) {
+	private List<CargoPackageCalibre> prepareCalibres(CargoPackage pkg) {
 		List<CargoPackageCalibre> calibres = new ArrayList<CargoPackageCalibre>();
 		for (int i = 0; i<2; i++) {
 			CargoPackageCalibre calibre = new CargoPackageCalibre(pkg, calibreCounter.next(),
