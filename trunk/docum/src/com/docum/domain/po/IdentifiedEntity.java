@@ -7,7 +7,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
-import com.docum.domain.po.common.Article;
 import com.docum.util.EqualsHelper;
 import com.docum.util.HashCodeHelper;
 
@@ -39,7 +38,7 @@ public abstract class IdentifiedEntity extends NamedEntity implements Serializab
 			return false;
 		}
 		else {
-			return EqualsHelper.equals(getId(), ((Article) obj).getId());
+			return EqualsHelper.equals(getId(), ((IdentifiedEntity) obj).getId());
 		}
 	}
 	

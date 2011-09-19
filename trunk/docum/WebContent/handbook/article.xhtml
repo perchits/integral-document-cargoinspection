@@ -21,7 +21,7 @@
 						value="#{articleBean.articles}" selectionMode="single"
 						selection="#{articleBean.wrappedArticle}">
 						<p:ajax event="rowSelect"
-							update="categoriesGrid, characteristics, featuresGrid, documentsGrid" />
+							update="categoriesGrid, characteristics, featuresGrid, documentsGrid, optionGrid" />
 						<p:column sortBy="#{article.englishName}"
 							filterBy="#{article.englishName}" filterMatchMode="contains">
 							<f:facet name="header">Наименование на англ. яз.</f:facet>
@@ -146,6 +146,46 @@
 								</p:column>
 							</p:dataTable>
 						</p:panel>
+						
+						<p:panel>
+							<ui:include src="/WEB-INF/includes/baseCrudToolBar.xhtml">
+								<ui:param name="bean" value="#{articleBean}" />
+								<ui:param name="gridId" value="optionGrid" />
+								<ui:param name="newObject" value="wDocument" />
+								<ui:param name="editObject" value="editOption" />
+								<ui:param name="beforeDeleteObject" value="beforeDeleteDocument" />
+								<ui:param name="hideTitle" value="true" />
+							</ui:include>
+							<p:dataTable  var="option"
+								selectionMode="single" value="#{articleBean.options}"
+								selection="#{articleBean.option}">								
+								<p:column>
+									<h:outputText value="#{option.name}" />
+									<f:facet name="header">Свойство</f:facet>
+								</p:column>
+							</p:dataTable>
+							
+							<p:treeTable id="optionGrid" value="#{articleBean.optionNode}" var="option">  
+        <f:facet name="header">  
+            Document Viewer  
+        </f:facet>  
+  
+        <p:column style="width:150px">  
+            <f:facet name="header">  
+                Name  
+            </f:facet>  
+            <h:outputText value="#{option}" />  
+        </p:column>         
+  
+        <p:column style="width:25px">  
+            OLOLO
+        </p:column>  
+    </p:treeTable>  
+							
+							
+							
+						</p:panel>
+						
 					</h:panelGrid>
 				</p:panel>
 			</h:panelGrid>
