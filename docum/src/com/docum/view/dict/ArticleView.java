@@ -1,5 +1,6 @@
 package com.docum.view.dict;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -7,6 +8,7 @@ import java.util.List;
 
 import javax.faces.event.ActionEvent;
 
+import org.primefaces.model.DefaultTreeNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -18,6 +20,7 @@ import com.docum.domain.po.common.ArticleCategory;
 import com.docum.domain.po.common.ArticleDefect;
 import com.docum.domain.po.common.ArticleFeature;
 import com.docum.domain.po.common.ArticleFeatureInstance;
+import com.docum.domain.po.common.ArticleInspectionOption;
 import com.docum.domain.po.common.NormativeDocument;
 import com.docum.service.ArticleService;
 import com.docum.util.AlgoUtil;
@@ -25,13 +28,14 @@ import com.docum.util.DocumLogger;
 import com.docum.view.wrapper.ArticleCategoryPresentation;
 import com.docum.view.wrapper.ArticleCategoryTransformer;
 import com.docum.view.wrapper.ArticleFeaturePresentation;
+import com.docum.view.wrapper.ArticleInspectionOptionPresentation;
 import com.docum.view.wrapper.ArticlePresentation;
 import com.docum.view.wrapper.ArticleTransformer;
 import com.docum.view.wrapper.NormativeDocumentPresentation;
 
 @Controller("articleBean")
 @Scope("session")
-public class ArticleView extends BaseView {
+public class ArticleView extends BaseView implements Serializable {
 	private static final long serialVersionUID = -3958815651039578018L;
 	private static final String sign = "Товар";
 
@@ -46,7 +50,8 @@ public class ArticleView extends BaseView {
 	private ArticleFeatureInstance featureInstance = new ArticleFeatureInstance();
 	private ArticleDefect defect;
 	private NormativeDocument document;
-	private boolean enableOrdChange = false;
+	private boolean enableOrdChange = false;	
+	private ArticleInspectionOption option;	
 
 	private void saveArticle() {
 		ArticlePresentation old = new ArticlePresentation(article);
@@ -346,7 +351,7 @@ public class ArticleView extends BaseView {
 				return true;
 			} else {
 				T t = clazz.newInstance();
-				String message = t.getEntityName() + " для редактирования не выбран";
+				String message = t.getEntityName() + " для редактирования или удаления не выбран!";
 				if (t.getEntityGender().equals(NamedEntity.GenderEnum.FEMALE)) {
 					message += "а";
 				}
@@ -393,4 +398,34 @@ public class ArticleView extends BaseView {
 	public int getMaxCategoryOrd() {
 		return this.article.getCategories().size() - 1;
 	}
+	
+	public List<ArticleInspectionOption> getOptions(){
+		return article != null ? article.getInspectionOptions() : null; 
+	}
+	
+	public ArticleInspectionOption getOption() {
+		return option;
+	}
+
+	public void setOption(ArticleInspectionOption option) {
+		this.option = option;
+	}	
+	
+	public List<ArticleInspectionOptionPresentation> wrapOptionNodes(){
+		List<ArticleInspectionOptionPresentation> result  = 
+			new ArrayList<ArticleInspectionOptionPresentation>();
+		for (ArticleInspectionOption o : article.getInspectionOptions()) {
+			result.add(new ArticleInspectionOptionPresentation(o));
+		}
+		return result;
+	}
+	
+	public  DefaultTreeNode getOptionNode(){
+		DefaultTreeNode root = new DefaultTreeNode("root", null);
+		for (ArticleInspectionOptionPresentation node : wrapOptionNodes()){
+			root.addChild(node);
+		}		
+		return root;
+	}
+	
 }

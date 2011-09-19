@@ -12,7 +12,6 @@ import javax.persistence.OrderColumn;
 
 import com.docum.domain.po.OrderedEntity;
 import com.docum.util.OrderedEntityUtil;
-
 @Entity
 public class ArticleInspectionOption extends OrderedEntity {
 	private static final long serialVersionUID = 2579866812610907991L;
@@ -49,6 +48,16 @@ public class ArticleInspectionOption extends OrderedEntity {
 			ArticleInspectionOption parent) {
 		this(article, name, englishName);
 		this.parent = parent;
+	}	
+	
+	/**
+	 * Копирующий конструктор
+	 */
+	public ArticleInspectionOption(ArticleInspectionOption option) {
+		this(option.article, option.name, option.englishName);		
+		for (ArticleInspectionOption child : option.getChildren()) {
+			addChild(new ArticleInspectionOption(child));
+		}
 	}
 
 	public String getName() {

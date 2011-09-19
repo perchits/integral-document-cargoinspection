@@ -69,7 +69,7 @@ public class ArticleInspectionOptionPresentation implements TreeNode, Serializab
 		if(node instanceof ArticleInspectionOptionPresentation) {
 			ArticleInspectionOptionPresentation parent = (ArticleInspectionOptionPresentation)node;
 			setParentInternal(parent);
-			option.setParent(parent.option.getParent());
+			option.setParent(parent.option);
 		}
 	}
 
