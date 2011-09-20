@@ -34,7 +34,7 @@
 				</p:toolbar>
 			</h:panelGroup>
 			<p:panel header="#{measureBean.sign}" styleClass="small-panel">			
-				<p:dataTable id="measures" var="measure" value="#{measureBean.allObjects}"
+				<p:dataTable id="measures" var="measure" rowKey="#{measure}" value="#{measureBean.allObjects}"
 					selectionMode="single" selection="#{measureBean.measure}">
 					<p:column sortBy="#{measure.englishName}" filterBy="#{measure.englishName}"
 						filterMatchMode="contains">

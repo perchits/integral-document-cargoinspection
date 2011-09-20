@@ -17,7 +17,7 @@
 						<ui:param name="gridId" value="voyages" />
 						<ui:param name="update" value="infoPanel" />
 					</ui:include>
-					<p:dataTable id="voyages" var="voyage"
+					<p:dataTable id="voyages" var="voyage" rowKey="#{voyage}"
 						value="#{voyageBean.voyages}" selectionMode="single"
 						selection="#{voyageBean.voyagePresentation}">
 						<p:ajax event="rowSelect" update="infoPanel" />  

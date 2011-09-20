@@ -17,7 +17,7 @@
 				id="articlesLayoutTable">
 				<p:panel header="#{articleBean.sign}" styleClass="small-panel">
 
-					<p:dataTable id="articleGrid" var="article"
+					<p:dataTable id="articleGrid" var="article" rowKey="#{article}"
 						value="#{articleBean.articles}" selectionMode="single"
 						selection="#{articleBean.wrappedArticle}">
 						<p:ajax event="rowSelect"
@@ -51,7 +51,7 @@
 								<ui:param name="beforeDeleteObject" value="beforeDeleteCategory" />
 								<ui:param name="hideTitle" value="true" />
 							</ui:include>
-							<p:dataTable id="categoriesGrid" var="category"
+							<p:dataTable id="categoriesGrid" var="category" rowKey="#{category}"
 								selectionMode="single" value="#{articleBean.categories}"
 								selection="#{articleBean.wrappedCategory}">
 								<p:column styleClass="expended-col">									
@@ -98,7 +98,7 @@
 								<ui:param name="beforeDeleteObject" value="beforeDeleteFeature" />
 								<ui:param name="hideTitle" value="true" />
 							</ui:include>
-							<p:dataTable id="featuresGrid" var="feature"
+							<p:dataTable id="featuresGrid" var="feature" rowKey="#{feature}"
 								selectionMode="single" value="#{articleBean.features}"
 								selection="#{articleBean.wrappedFeature}">
 								<p:column styleClass="expended-col">
@@ -133,7 +133,7 @@
 								<ui:param name="beforeDeleteObject" value="beforeDeleteDocument" />
 								<ui:param name="hideTitle" value="true" />
 							</ui:include>
-							<p:dataTable id="documentsGrid" var="document"
+							<p:dataTable id="documentsGrid" var="document" rowKey="#{document}"
 								selectionMode="single" value="#{articleBean.documents}"
 								selection="#{articleBean.wrappedDocument}">
 								<p:column>
@@ -156,7 +156,7 @@
 								<ui:param name="beforeDeleteObject" value="beforeDeleteOption" />
 								<ui:param name="hideTitle" value="true" />
 							</ui:include>
-							<p:dataTable id="optionGrid"  var="option"
+							<p:dataTable id="optionGrid"  var="option" rowKey="#{option}"
 								selectionMode="single" value="#{articleBean.options}"
 								selection="#{articleBean.option}">	
 								

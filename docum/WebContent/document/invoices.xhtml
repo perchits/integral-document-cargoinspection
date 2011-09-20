@@ -16,7 +16,7 @@
 				<ui:param name="hideTitle" value="true" />
 			</ui:include>
 
-			<p:dataTable id="invoices" var="invoice"
+			<p:dataTable id="invoices" var="invoice" rowKey="#{invoice}"
 				value="#{invoiceBean.allObjects}" selectionMode="single"
 				emptyMessage="Пусто" selection="#{invoiceBean.invoice}">
 				<p:ajax event="rowSelect" update="invoicesInfoPanel" process="invoices" />

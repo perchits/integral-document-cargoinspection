@@ -15,7 +15,7 @@
 			</ui:include>
 
 			<p:panel header="Суда" styleClass="small-panel">
-				<p:dataTable id="vesselGrid" var="vessel"
+				<p:dataTable id="vesselGrid" var="vessel" rowKey="#{vessel}"
 					value="#{vesselBean.allObjects}" selectionMode="single"
 					selection="#{vesselBean.vessel}">
 					<p:column sortBy="#{vessel.name}" filterBy="#{vessel.name}"

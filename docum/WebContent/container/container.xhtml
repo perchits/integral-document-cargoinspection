@@ -53,7 +53,7 @@
 				<h:form prependId="false">
 					<p:dataTable selectionMode="single" 
 						styleClass="cellSmallText containers" id="containers"
-						var="container" value="#{containerBean.containers}"
+						var="container" rowKey="#{container}" value="#{containerBean.containers}"
 						selection="#{containerBean.container}"
 						rowStyleClass="#{container.color}">
 						<p:ajax event="rowSelect" update="infoPanel" />  
