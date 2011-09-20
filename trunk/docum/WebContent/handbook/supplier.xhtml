@@ -14,7 +14,7 @@
 			</ui:include>
 
 			<p:panel header="Поставщики"  styleClass="small-panel">
-				<p:dataTable id="supplierGrid" var="supplier"
+				<p:dataTable id="supplierGrid" var="supplier" rowKey="#{supplier}"
 					value="#{supplierBean.allObjects}" selectionMode="single"
 					selection="#{supplierBean.supplier}">
 					<p:column sortBy="#{supplier.company.name}"

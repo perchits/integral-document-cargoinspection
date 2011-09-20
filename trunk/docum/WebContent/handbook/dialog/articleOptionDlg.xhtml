@@ -32,7 +32,7 @@
 				<ui:param name="beforeDeleteObject" value="beforeDeleteChildOpt" />
 				<ui:param name="hideTitle" value="true" />
 			</ui:include>
-			<p:dataTable id="childOptGrid" var="childOpt" selectionMode="single"
+			<p:dataTable id="childOptGrid" var="childOpt" rowKey="#{childOpt}" selectionMode="single"
 				value="#{bean.option.children}" selection="#{bean.childOpt}">
 
 				<p:column>

@@ -23,7 +23,9 @@ public class ArticleInspectionOptionPresentation implements TreeNode, Serializab
 	private boolean expanded;
 
     private boolean selected;
-	
+
+    private boolean selectable;
+    
 	public ArticleInspectionOptionPresentation() {
 		option = new ArticleInspectionOption();
 	}
@@ -116,8 +118,18 @@ public class ArticleInspectionOptionPresentation implements TreeNode, Serializab
     }
 
 	@Override
-    public void setSelected(boolean value) {
-        this.selected = value;
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
+
+	@Override
+	public boolean isSelectable() {
+        return this.selectable;
+	}
+
+	@Override
+	public void setSelectable(boolean selectable) {
+        this.selectable = selectable;
+	}
 
 }

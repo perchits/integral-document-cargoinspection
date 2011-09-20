@@ -14,7 +14,7 @@
 				<ui:param name="gridId" value="orders" />
 				<ui:param name="hideTitle" value="true" />
 			</ui:include>
-			<p:dataTable id="orders" var="order" value="#{orderBean.allObjects}"
+			<p:dataTable id="orders" var="order" rowKey="#{order}" value="#{orderBean.allObjects}"
 				selectionMode="single" selection="#{orderBean.order}"
 				emptyMessage="Пусто">
 				<p:ajax event="rowSelect" update="ordersInfoPanel" process="orders" />

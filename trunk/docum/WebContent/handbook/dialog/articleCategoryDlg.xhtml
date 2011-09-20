@@ -33,7 +33,7 @@
 			<ui:param name="beforeDeleteObject" value="beforeDeleteDefect" />
 			<ui:param name="hideTitle" value="true" />
 		</ui:include>
-		<p:dataTable id="defectsEditGrid" var="categoryDefect" style="min-width: 400px;"
+		<p:dataTable id="defectsEditGrid" var="categoryDefect" rowKey="#{categoryDefect}" style="min-width: 400px;"
 			value="#{bean.defects}" selectionMode="single" selection="#{bean.defect}">
 			<p:column>
 				<h:outputText value="#{categoryDefect.englishName}" />

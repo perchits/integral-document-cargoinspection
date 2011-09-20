@@ -16,7 +16,7 @@
 			</ui:include>
 
 			<p:panel header="Клиенты" styleClass="small-panel">
-				<p:dataTable id="customerGrid" var="customer"
+				<p:dataTable id="customerGrid" var="customer" rowKey="#{customer}"
 					value="#{customerBean.allObjects}" selectionMode="single"
 					selection="#{customerBean.customer}">
 					<p:column sortBy="#{customer.company.name}"

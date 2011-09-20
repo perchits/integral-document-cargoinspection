@@ -362,7 +362,7 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="lib/primefaces-3.0.M2.jar" sourcepath="lib/src/primefaces-3.0.M2-sources.jar">
+	<classpathentry kind="lib" path="lib/primefaces-3.0.M3.jar" sourcepath="lib/src/primefaces-3.0.M3-sources.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>

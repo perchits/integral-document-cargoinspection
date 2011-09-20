@@ -15,7 +15,7 @@
 				<ui:param name="hideTitle" value="true" />
 			</ui:include>
 
-			<p:dataTable id="blsGrid" var="billOfLading"
+			<p:dataTable id="blsGrid" var="billOfLading" rowKey="#{billOfLading}"
 				value="#{billOfLadingBean.allObjects}" selectionMode="single"
 				selection="#{billOfLadingBean.billOfLading}" emptyMessage="Пусто">
 				<p:ajax event="rowSelect" update="billOfLadingInfoPanel" process="blsGrid" />

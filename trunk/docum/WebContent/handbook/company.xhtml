@@ -15,7 +15,7 @@
 			</ui:include>
 
 			<p:panel header="#{companyBean.sign}" styleClass="small-panel">
-				<p:dataTable id="companyGrid" var="company"
+				<p:dataTable id="companyGrid" var="company" rowKey="#{company}"
 					value="#{companyBean.allObjects}" selectionMode="single"
 					selection="#{companyBean.company}">
 					<p:column sortBy="#{company.englishName}"

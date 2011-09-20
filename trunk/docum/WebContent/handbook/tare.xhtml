@@ -34,7 +34,7 @@
 			</h:panelGroup>
 			<p:panel header="#{tareBean.sign}" style="text-align:center"
 				styleClass="toggle-panel">			
-				<p:dataTable id="tares" var="tare" value="#{tareBean.allObjects}"
+				<p:dataTable id="tares" var="tare" rowKey="#{tare}" value="#{tareBean.allObjects}"
 					selectionMode="single" selection="#{tareBean.tare}">
 					<p:column sortBy="#{tare.name}" filterBy="#{tare.name}"
 						filterMatchMode="contains">

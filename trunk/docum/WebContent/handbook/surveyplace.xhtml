@@ -17,7 +17,7 @@
 
 			<p:panel header="#{surveyPlaceBean.sign}" styleClass="small-panel">
 
-				<p:dataTable id="surveyPlaceGrid" var="sp" value="#{surveyPlaceBean.allObjects}"
+				<p:dataTable id="surveyPlaceGrid" var="sp" rowKey="#{sp}" value="#{surveyPlaceBean.allObjects}"
 					selectionMode="single" selection="#{surveyPlaceBean.sp}">
 					<p:column sortBy="#{sp.englishName}" filterBy="#{sp.englishName}"
 						filterMatchMode="contains">

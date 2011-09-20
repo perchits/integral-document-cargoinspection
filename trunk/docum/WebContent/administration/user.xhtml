@@ -15,7 +15,7 @@
 			</ui:include>
 
 			<p:panel header="#{userBean.sign}" styleClass="small-panel">
-				<p:dataTable id="userGrid" var="user"
+				<p:dataTable id="userGrid" var="user" rowKey="#{user}"
 					value="#{userBean.allObjects}" selectionMode="single"
 					selection="#{userBean.user}">
 					<p:column sortBy="#{user.fullName}" filterBy="#{user.fullName}"

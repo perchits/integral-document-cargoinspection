@@ -43,7 +43,7 @@
 				</p:autoComplete>
 			</h:form>
 			<h:form prependId="false">
-				<p:dataTable id="reports" var="report"
+				<p:dataTable id="reports" var="report" rowKey="#{report}"
 					value="#{reportBean.reports}" selectionMode="single"
 					selection="#{reportBean.wrappedReport}" >
 					<p:ajax event="rowSelect"/>

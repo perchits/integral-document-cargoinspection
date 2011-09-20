@@ -64,7 +64,7 @@
 					label="Добавить фотографии"
 					fileUploadListener="#{bean.uploadImages}"
 					update="#{gridId}imageList,growl" customUI="false"
-					allowTypes="gif|GIF|png|PNG|jpg|JPG|jpeg|JPEG">
+					allowTypes="/(\.|\/)(gif|jpe?g|png)$/">
 				</p:fileUpload>
 			</h:panelGroup>
 			<f:facet name="footer">
