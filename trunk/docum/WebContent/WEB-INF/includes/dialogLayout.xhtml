@@ -12,10 +12,9 @@
 			columns="#{(colCount == null) ? 2 : colCount}" cellpadding="1">						
 			<ui:insert name="dialogBody">
 			</ui:insert>
-			<f:facet name="header">
-			
-			<h:outputText value="#{bean[title]}" />
-				
+			<ui:insert name="details" />
+			<f:facet name="header">			
+				<h:outputText value="#{bean[title]}" />				
 			</f:facet>
 			<f:facet name="footer">
 				<p:commandButton
@@ -28,7 +27,6 @@
 		</h:panelGrid>
 	</h:form>
 </p:dialog>
-
 <ui:insert name="subDialog" />
 <ui:insert name="deleteConfirmation" />
 

@@ -151,38 +151,49 @@
 							<ui:include src="/WEB-INF/includes/baseCrudToolBar.xhtml">
 								<ui:param name="bean" value="#{articleBean}" />
 								<ui:param name="gridId" value="optionGrid" />
-								<ui:param name="newObject" value="wDocument" />
+								<ui:param name="newObject" value="addOption" />
 								<ui:param name="editObject" value="editOption" />
-								<ui:param name="beforeDeleteObject" value="beforeDeleteDocument" />
+								<ui:param name="beforeDeleteObject" value="beforeDeleteOption" />
 								<ui:param name="hideTitle" value="true" />
 							</ui:include>
-							<p:dataTable  var="option"
+							<p:dataTable id="optionGrid"  var="option"
 								selectionMode="single" value="#{articleBean.options}"
-								selection="#{articleBean.option}">								
+								selection="#{articleBean.option}">	
+								
+								<p:column styleClass="expended-col">									
+									<p:rowToggler rendered="#{not empty option.children}"  />									
+								</p:column>
+															
 								<p:column>
 									<h:outputText value="#{option.name}" />
 									<f:facet name="header">Свойство</f:facet>
 								</p:column>
-							</p:dataTable>
-							
-							<p:treeTable id="optionGrid" value="#{articleBean.optionNode}" var="option">  
-        <f:facet name="header">  
-            Document Viewer  
-        </f:facet>  
-  
-        <p:column style="width:150px">  
-            <f:facet name="header">  
-                Name  
-            </f:facet>  
-            <h:outputText value="#{option}" />  
-        </p:column>         
-  
-        <p:column style="width:25px">  
-            OLOLO
-        </p:column>  
-    </p:treeTable>  
-							
-							
+								
+								<p:column style="width:70px" rendered="#{userBean.administrationPermited}">
+									<p:commandButton title="Вверх" image="ui-icon-arrow-1-n"
+										styleClass="inline-btn border-btn" update="optionGrid">
+										<f:setPropertyActionListener target="#{articleBean.optionUp}"
+											value="#{option}" />
+									</p:commandButton>
+									<p:commandButton title="Вниз" image="ui-icon-arrow-1-s"
+										styleClass="inline-btn border-btn" update="optionGrid">
+										<f:setPropertyActionListener target="#{articleBean.optionDown}"
+											value="#{option}" />
+									</p:commandButton>
+								</p:column>
+								
+								<p:rowExpansion>
+									<p:panel styleClass="innerGrid">
+										<ul>
+											<ui:repeat var="child" value="#{option.children}">
+												<li class="listContainersInDoc"><h:outputText
+														value="#{child.name}" /></li>
+											</ui:repeat>
+										</ul>
+									</p:panel>
+								</p:rowExpansion>
+								
+							</p:dataTable>					
 							
 						</p:panel>
 						
@@ -221,6 +232,17 @@
 			<ui:param name="bean" value="#{articleBean}" />
 			<ui:param name="title" value="title" />
 		</ui:include>
+		<ui:include src="/handbook/dialog/articleOptionDlg.xhtml">
+			<ui:param name="gridId" value="optionGrid" />
+			<ui:param name="bean" value="#{articleBean}" />
+			<ui:param name="title" value="title" />
+		</ui:include>
+		<ui:include src="/handbook/dialog/articleChildOptDlg.xhtml">
+			<ui:param name="gridId" value="childOptGrid" />
+			<ui:param name="bean" value="#{articleBean}" />
+			<ui:param name="title" value="title" />
+		</ui:include>
+
 
 	</ui:define>
 </ui:composition>
