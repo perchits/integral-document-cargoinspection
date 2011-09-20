@@ -8,7 +8,6 @@ import java.util.List;
 
 import javax.faces.event.ActionEvent;
 
-import org.primefaces.model.DefaultTreeNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -28,7 +27,6 @@ import com.docum.util.DocumLogger;
 import com.docum.view.wrapper.ArticleCategoryPresentation;
 import com.docum.view.wrapper.ArticleCategoryTransformer;
 import com.docum.view.wrapper.ArticleFeaturePresentation;
-import com.docum.view.wrapper.ArticleInspectionOptionPresentation;
 import com.docum.view.wrapper.ArticlePresentation;
 import com.docum.view.wrapper.ArticleTransformer;
 import com.docum.view.wrapper.NormativeDocumentPresentation;
@@ -51,7 +49,8 @@ public class ArticleView extends BaseView implements Serializable {
 	private ArticleDefect defect;
 	private NormativeDocument document;
 	private boolean enableOrdChange = false;	
-	private ArticleInspectionOption option;	
+	private ArticleInspectionOption option, childOpt;
+		
 
 	private void saveArticle() {
 		ArticlePresentation old = new ArticlePresentation(article);
@@ -355,6 +354,9 @@ public class ArticleView extends BaseView implements Serializable {
 				if (t.getEntityGender().equals(NamedEntity.GenderEnum.FEMALE)) {
 					message += "а";
 				}
+				if (t.getEntityGender().equals(NamedEntity.GenderEnum.NEUTER)) {
+					message += "о";
+				}
 				showErrorMessage(message);
 				addCallbackParam("dontShow", true);
 				return false;
@@ -411,21 +413,101 @@ public class ArticleView extends BaseView implements Serializable {
 		this.option = option;
 	}	
 	
-	public List<ArticleInspectionOptionPresentation> wrapOptionNodes(){
-		List<ArticleInspectionOptionPresentation> result  = 
-			new ArrayList<ArticleInspectionOptionPresentation>();
-		for (ArticleInspectionOption o : article.getInspectionOptions()) {
-			result.add(new ArticleInspectionOptionPresentation(o));
-		}
-		return result;
+	public ArticleInspectionOption getChildOpt() {
+		return childOpt;
+	}
+
+	public void setChildOpt(ArticleInspectionOption childOpt) {
+		this.childOpt = childOpt;
 	}
 	
-	public  DefaultTreeNode getOptionNode(){
-		DefaultTreeNode root = new DefaultTreeNode("root", null);
-		for (ArticleInspectionOptionPresentation node : wrapOptionNodes()){
-			root.addChild(node);
-		}		
-		return root;
+	public void editOption() {
+		if (validateAction(this.option,  ArticleInspectionOption.class)) {
+			setTitle("Правка: " + this.option.getName());
+		}
 	}
+
+	public void editChildOpt() {
+		if (validateAction(this.childOpt,  ArticleInspectionOption.class)) {
+			setTitle("Правка: " + this.childOpt.getName());
+		}
+	}
+	
+	public void addOption() {
+		setTitle("Новое свойство");
+		this.option = new ArticleInspectionOption();		
+	}
+	
+	public void addChildOpt(){
+		setTitle(String.format("Новое доп. свойство для %1$s",option.getEntityName()));
+		childOpt = new ArticleInspectionOption();
+	}
+
+	public void saveOption() {
+		if (option.getId() == null) {
+			article.addInspectionOption(option);
+		}
+		saveArticle();
+	}
+	
+	public void saveChildOpt(){
+		if (childOpt.getId() == null) {
+			option.addChild(childOpt);
+		}	
+	}
+	
+	public void beforeDeleteOption(){
+		validateAction(this.option,  ArticleInspectionOption.class);
+	}
+	
+	public void beforeDeleteChildOpt(){
+		validateAction(this.childOpt,  ArticleInspectionOption.class);
+	}	
+	
+	public void removeOption() {
+		article.getInspectionOptions().remove(option);
+		saveArticle();
+	}
+	
+	public void removeChildOpt() {
+		option.removeChild(childOpt);
+		saveArticle();
+	}
+	
+	public void setOptionUp(ArticleInspectionOption option) {
+		article.moveInspectionOptionUp(option);
+		super.getBaseService().save(this.article);
+	}
+	
+	public void setChildOptUp(ArticleInspectionOption child) {
+		option.moveChildUp(child);
+	}
+	
+	public void setOptionDown(ArticleInspectionOption option) {
+		article.moveInspectionOptionDown(option);
+		super.getBaseService().save(this.article);
+	}
+	
+	public void setChildOptDown(ArticleInspectionOption child) {
+		option.moveChildDown(child);
+	}
+	
+//	public List<ArticleInspectionOptionPresentation> wrapOptionNodes(){
+//		List<ArticleInspectionOptionPresentation> result  = 
+//			new ArrayList<ArticleInspectionOptionPresentation>();
+//		for (ArticleInspectionOption o : article.getInspectionOptions()) {
+//			result.add(new ArticleInspectionOptionPresentation(o));
+//		}
+//		return result;
+//	}
+//	
+//	public  DefaultTreeNode getOptionNode(){
+//		DefaultTreeNode root = new DefaultTreeNode("root", null);
+//		for (ArticleInspectionOptionPresentation node : wrapOptionNodes()){
+//			root.addChild(node);
+//		}		
+//		return root;
+//	}
+//	
 	
 }

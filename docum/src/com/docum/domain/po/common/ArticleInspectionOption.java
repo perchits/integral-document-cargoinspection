@@ -20,7 +20,7 @@ public class ArticleInspectionOption extends OrderedEntity {
 
 	private String englishName;
 	
-	@ManyToOne(optional=false)
+	@ManyToOne(optional=true)
 	private Article article;
 
 	@ManyToOne
@@ -102,7 +102,8 @@ public class ArticleInspectionOption extends OrderedEntity {
 	
 	public void addChild(ArticleInspectionOption child){
 		child.setParent(this);
-		child.setArticle(article);
+		/*Нельзя назначать товар, ибо хибернейт замапит*/
+		/*child.setArticle(article);*/
 		OrderedEntityUtil.add(child, children);
 	}
 	
@@ -123,4 +124,15 @@ public class ArticleInspectionOption extends OrderedEntity {
 	public void moveChildDown(ArticleInspectionOption child) {
 		OrderedEntityUtil.moveDown(child, children);
 	}
+	
+	@Override
+	public String getEntityName() {
+		return "Свойство";
+	}
+	
+	@Override
+	public GenderEnum getEntityGender() {
+		return GenderEnum.NEUTER;
+	}
+	
 }

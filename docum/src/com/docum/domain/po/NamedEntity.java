@@ -3,7 +3,8 @@ package com.docum.domain.po;
 public abstract class NamedEntity {
 	public static enum GenderEnum {
 		MALE,
-		FEMALE;
+		FEMALE,
+		NEUTER;
 	}
 	
 	public String getEntityName() {return null;}
