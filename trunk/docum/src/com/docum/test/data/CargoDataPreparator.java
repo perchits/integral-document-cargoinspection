@@ -10,6 +10,7 @@ import com.docum.domain.po.common.ArticleCategory;
 import com.docum.domain.po.common.ArticleInspectionOption;
 import com.docum.domain.po.common.Cargo;
 import com.docum.domain.po.common.CargoArticleFeature;
+import com.docum.domain.po.common.CargoCalibreDefect;
 import com.docum.domain.po.common.CargoCondition;
 import com.docum.domain.po.common.CargoInspectionInfo;
 import com.docum.domain.po.common.CargoInspectionOption;
@@ -28,6 +29,10 @@ public class CargoDataPreparator extends AbstractDataPreparator {
 	public static final String[] calibreNames = new String[] { "30/40", "20/40",
 		"34mm", "18-32", "25/35"};
 	
+	public static final Double[] percents = new Double[] { 0.2, 2.3, 1.5, 2.7,
+		0.9, 3.4, 1.2, 3.3, 12.8, 7.2 };
+
+	
 	private TestDataEntityCounter<Article> articleCounter;
 	private TestDataEntityCounter<Supplier> supplierCounter;
 	private TestDataEntityCounter<Container> containerCounter;
@@ -36,6 +41,9 @@ public class CargoDataPreparator extends AbstractDataPreparator {
 		new TestDataEntityCounter<Double>(cargoCounts);
 	private TestDataEntityCounter<String> calibreCounter =
 		new TestDataEntityCounter<String>(calibreNames);
+	private TestDataEntityCounter<Double> percentsCounter =
+		new TestDataEntityCounter<Double>(percents);
+
 
 	private int categoryCounter = 0;
 
@@ -98,6 +106,7 @@ public class CargoDataPreparator extends AbstractDataPreparator {
 			options.add(cio);
 		}
 		info.setInspectionOptions(options);
+		info.setCalibreDefects(prepareCalibreDefects(info));
 		persister.persist(info);
 	}
 	
@@ -155,5 +164,20 @@ public class CargoDataPreparator extends AbstractDataPreparator {
 			calibres.add(calibre);
 		}
 		return calibres;
+	}
+	
+	private Set<CargoCalibreDefect> prepareCalibreDefects(CargoInspectionInfo info) {
+		Cargo cargo = info.getCargo();
+		Set<CargoCalibreDefect> result = new HashSet<CargoCalibreDefect>();
+		for(CargoPackage cp : cargo.getCargoPackages()) {
+			for(CargoPackageCalibre calibre : cp.getCalibres()) {
+				for(ArticleCategory cat : cargo.getArticle().getCategories()) {
+					CargoCalibreDefect defect = new CargoCalibreDefect(info, cat, calibre);
+					defect.setPercentage(percentsCounter.next());
+					result.add(defect);
+				}
+			}
+		}
+		return result;
 	}
 }

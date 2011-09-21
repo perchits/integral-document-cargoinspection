@@ -33,8 +33,7 @@
 									value="#{itg:truncateString(defect.title, 38, '...')}:" />
 							</p:commandLink>
 							<h:outputText value=" " />
-							<h:outputText value="#{defect.cargoDefect.percentage}"></h:outputText>
-
+							
 							<p:commandButton image="ui-icon-trash" title="Удалить дефект"
 								rendered="#{defect.customDefect}" styleClass="inline-btn"
 								oncomplete="beforeShow(defectIdConfirmVar,args)"

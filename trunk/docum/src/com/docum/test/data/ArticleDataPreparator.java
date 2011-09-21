@@ -85,6 +85,7 @@ public class ArticleDataPreparator extends AbstractDataPreparator {
 		article.setCategories(prepareCategories(article, new String[][] {
 				{"Сорт 1", "Class I"},
 				{"Сорт 2", "Class II"},
+				{"Нестандарт", "No class"},
 				{"Брак", "Waste"}}));
 		article.getFeatures().add(prepareArticleFeature(article, "Вид", "Variety",
 				new String[][] {
@@ -112,6 +113,7 @@ public class ArticleDataPreparator extends AbstractDataPreparator {
 		article.setCategories(prepareCategories(article, new String[][] {
 				{"Сорт 1", "Class I"},
 				{"Сорт 2", "Class II"},
+				{"Нестандарт", "No class"},
 				{"Брак", "Waste"}}));
 		article.getFeatures().add(prepareArticleFeature(article, "Вид", "Variety",
 				new String[][] {
@@ -137,6 +139,7 @@ public class ArticleDataPreparator extends AbstractDataPreparator {
 		article.setCategories(prepareCategories(article, new String[][] {
 				{"Сорт 1", "Class I"},
 				{"Сорт 2", "Class II"},
+				{"Нестандарт", "No class"},
 				{"Брак", "Waste"}}));
 		article.getFeatures().add(prepareArticleFeature(article,
 				"Страна происхождения", "Origin", new String[][] {
