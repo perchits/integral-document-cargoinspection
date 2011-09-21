@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+	<changeSet author="pepper" id="0025-add-calibre-defects">
+
+		<createTable tableName="cargocalibredefect">
+			<column autoIncrement="true" name="id" type="bigserial">
+				<constraints nullable="false" primaryKey="true"
+					primaryKeyName="cargocalibredefect_pkey" />
+			</column>
+			<column name="percentage" type="FLOAT8(17)">
+				<constraints nullable="false" />
+			</column>
+			<column name="articlecategory_id" type="int8">
+				<constraints nullable="false" />
+			</column>
+			<column name="calibre_id" type="int8">
+				<constraints nullable="false" />
+			</column>
+			<column name="inspectioninfo_id" type="int8">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+
+		<addForeignKeyConstraint baseColumnNames="articlecategory_id"
+			baseTableName="cargocalibredefect" baseTableSchemaName="public"
+			constraintName="fk423e01af45fff8c7" deferrable="false"
+			initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+			referencedColumnNames="id" referencedTableName="articlecategory"
+			referencedTableSchemaName="public" referencesUniqueColumn="false" />
+		<addForeignKeyConstraint baseColumnNames="calibre_id"
+			baseTableName="cargocalibredefect" baseTableSchemaName="public"
+			constraintName="fk423e01afc554281d" deferrable="false"
+			initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+			referencedColumnNames="id" referencedTableName="cargopackagecalibre"
+			referencedTableSchemaName="public" referencesUniqueColumn="false" />
+		<addForeignKeyConstraint baseColumnNames="inspectioninfo_id"
+			baseTableName="cargocalibredefect" baseTableSchemaName="public"
+			constraintName="fk423e01af15e76e63" deferrable="false"
+			initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+			referencedColumnNames="id" referencedTableName="cargoinspectioninfo"
+			referencedTableSchemaName="public" referencesUniqueColumn="false" />
+
+		<dropColumn columnName="percentage" tableName="cargodefect" />
+
+	</changeSet>
+</databaseChangeLog>

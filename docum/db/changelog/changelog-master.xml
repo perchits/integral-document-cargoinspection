@@ -26,6 +26,7 @@
   <include file="0021-create-temperatures.xml"/>
   <include file="0022-add-customer-to-report.xml"/>
   <include file="0023-add-inspection-options.xml"/>
-  <include file="0024-nulable-article-id-in-options.xml"/>  
+  <include file="0024-nulable-article-id-in-options.xml"/>
+  <include file="0025-add-calibre-defects.xml"/>
     
 </databaseChangeLog>

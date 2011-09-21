@@ -5,8 +5,6 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
 import com.docum.domain.po.IdentifiedEntity;
-import com.docum.util.EqualsHelper;
-import com.docum.util.HashCodeHelper;
 
 @Entity
 public class CargoDefect extends IdentifiedEntity{
@@ -24,8 +22,6 @@ public class CargoDefect extends IdentifiedEntity{
 	@Column(length=512)
 	private String englishName;
 	
-	private double percentage;
-
 	public CargoDefect() {
 		super();
 	}
@@ -77,36 +73,6 @@ public class CargoDefect extends IdentifiedEntity{
 
 	public void setEnglishName(String englishName) {
 		this.englishName = englishName;
-	}
-
-	public double getPercentage() {
-		return percentage;
-	}
-
-	public void setPercentage(double percentage) {
-		this.percentage = percentage;
-	}
-	
-
-	public boolean equals(Object obj) {
-		if (obj == this) {
-			return true;
-		}
-
-		if (!(obj instanceof CargoDefect)) {
-			return false;
-		}
-		CargoDefect other = (CargoDefect)obj;
-		if((getId() == null || other.getId() == null) &&
-				articleDefect != null && other.articleDefect != null) {
-			return articleDefect.equals(other.articleDefect);
-		}
-
-		return EqualsHelper.equals(getId(), ((CargoDefect) obj).getId());
-	}
-
-	public int hashCode() {
-		return HashCodeHelper.hashCode(getId());
 	}
 
 }
