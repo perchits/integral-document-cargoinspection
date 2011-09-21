@@ -343,6 +343,14 @@ public class ReportView extends BaseView {
 			this.report = wrappedReport.getReport();
 		}
 	}
+	
+	public ReportPresentation getWrappedReport() {
+		if (this.report != null && this.report.getId() != null) {
+			return new ReportPresentation(this.report);
+		} else {
+			return null;
+		}
+	}
 
 	public List<Customer> getCustomers() {				
 		return getBaseService().getAll(Customer.class, DEFAULT_SORT_FIELDS);
