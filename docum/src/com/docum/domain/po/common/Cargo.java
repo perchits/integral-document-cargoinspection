@@ -8,7 +8,6 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 
 import com.docum.domain.po.IdentifiedEntity;
 import com.docum.util.EqualsHelper;
@@ -29,9 +28,6 @@ public class Cargo extends IdentifiedEntity {
 
 	@OneToMany(mappedBy="cargo", cascade=CascadeType.ALL, orphanRemoval=true, fetch=FetchType.EAGER)
 	private Set<CargoPackage> cargoPackages = new HashSet<CargoPackage>();
-
-	@OneToOne(mappedBy="cargo", cascade = CascadeType.ALL, orphanRemoval = true)
-	private CargoInspectionInfo inspectionInfo;
 
 	@ManyToOne(optional = false)
 	private Supplier supplier;
@@ -67,7 +63,6 @@ public class Cargo extends IdentifiedEntity {
 			this.supplier = cargo.supplier;
 			this.condition = cargo.condition;
 			this.cargoPackages = cargo.cargoPackages;
-			this.inspectionInfo = cargo.inspectionInfo;
 		}
 	}
 
@@ -101,8 +96,6 @@ public class Cargo extends IdentifiedEntity {
 	}
 	public void setCondition(CargoCondition condition) {
 		if(!checkEquality(this.condition, condition)) {
-			inspectionInfo = (condition == null || !condition.isSurveyable()) ? null
-					: new CargoInspectionInfo(this);
 			this.condition = condition;
 		}
 	}
@@ -125,9 +118,9 @@ public class Cargo extends IdentifiedEntity {
 				articleCategory.equals(this.articleCategory)) {
 			return;
 		}
-		if(condition.isSurveyable()) {
-			inspectionInfo.resetArticleCategory(articleCategory);
-		}
+//		if(condition.isSurveyable()) {
+//			inspectionInfo.resetArticleCategory(articleCategory);
+//		}
 		this.articleCategory = articleCategory;
 	}
 
@@ -174,14 +167,6 @@ public class Cargo extends IdentifiedEntity {
 		}
 	}
 	
-	public CargoInspectionInfo getInspectionInfo() {
-		return inspectionInfo;
-	}
-
-	public void setInspectionInfo(CargoInspectionInfo inspectionInfo) {
-		this.inspectionInfo = inspectionInfo;
-	}
-
 	public boolean equals(Object obj) {
 		if (obj == this) {
 			return true;

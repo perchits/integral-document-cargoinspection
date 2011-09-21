@@ -101,39 +101,39 @@ public class StatsServiceImpl implements StatsService, Serializable {
 
 	public Stats.CargoDefects extractCargoDefects(Cargo cargo) {
 		Stats.CargoDefects cargoDefects = new Stats.CargoDefects();
-		boolean isFirstCategory = true;
-		double categoryPercentage = 0.0;
-		for(CargoDefectGroup defectGroup : cargo.getInspectionInfo().getDefectGroups()) {
-			Stats.CategoryDefects catDefects = new Stats.CategoryDefects(
-					defectGroup.getArticleCategory().getName(),
-					defectGroup.getArticleCategory().getEnglishName());
-			cargoDefects.addCategoryDefects(catDefects);
-			if(isFirstCategory) {
-				//Первую категорию сейчас не считаем. Будет рассчитываться потом.
-				isFirstCategory = false;
-			} else {
-				//Во вторую и последующие категории записываем проценты, рассчитанные в
-				//предыдущих итерациях
-				catDefects.setPercertage(categoryPercentage);
-				categoryPercentage = 0.0;
-			}
-			//Рассчитываем проценты для следующей категории
-			for(CargoDefect defect : defectGroup.getDefects()) {
-				categoryPercentage += defect.getPercentage();
-			}
-		}
-		//Добавляем категорию с браком и рассчитываем первую категорию.
-		//TODO Сделать имена брака настраиваемыми
-		Stats.CategoryDefects wasteDefects = new Stats.CategoryDefects("Брак", "Waste");
-		cargoDefects.addCategoryDefects(wasteDefects);
-		CategoryDefects mainCategory = cargoDefects.getMainCategory();
-		categoryPercentage = 100.0;
-		for(Stats.CategoryDefects category : cargoDefects.getCategoryDefects()) {
-			if(!category.equals(mainCategory)) {
-				categoryPercentage -= category.getPercentage();
-			}
-		}
-		mainCategory.setPercertage(categoryPercentage);
+//		boolean isFirstCategory = true;
+//		double categoryPercentage = 0.0;
+//		for(CargoDefectGroup defectGroup : cargo.getInspectionInfo().getDefectGroups()) {
+//			Stats.CategoryDefects catDefects = new Stats.CategoryDefects(
+//					defectGroup.getArticleCategory().getName(),
+//					defectGroup.getArticleCategory().getEnglishName());
+//			cargoDefects.addCategoryDefects(catDefects);
+//			if(isFirstCategory) {
+//				//Первую категорию сейчас не считаем. Будет рассчитываться потом.
+//				isFirstCategory = false;
+//			} else {
+//				//Во вторую и последующие категории записываем проценты, рассчитанные в
+//				//предыдущих итерациях
+//				catDefects.setPercertage(categoryPercentage);
+//				categoryPercentage = 0.0;
+//			}
+//			//Рассчитываем проценты для следующей категории
+//			for(CargoDefect defect : defectGroup.getDefects()) {
+//				categoryPercentage += defect.getPercentage();
+//			}
+//		}
+//		//Добавляем категорию с браком и рассчитываем первую категорию.
+//		//TODO Сделать имена брака настраиваемыми
+//		Stats.CategoryDefects wasteDefects = new Stats.CategoryDefects("Брак", "Waste");
+//		cargoDefects.addCategoryDefects(wasteDefects);
+//		CategoryDefects mainCategory = cargoDefects.getMainCategory();
+//		categoryPercentage = 100.0;
+//		for(Stats.CategoryDefects category : cargoDefects.getCategoryDefects()) {
+//			if(!category.equals(mainCategory)) {
+//				categoryPercentage -= category.getPercentage();
+//			}
+//		}
+//		mainCategory.setPercertage(categoryPercentage);
 		return cargoDefects;
 	}
 }

@@ -11,12 +11,26 @@ import com.docum.domain.po.common.Cargo;
 import com.docum.domain.po.common.CargoArticleFeature;
 import com.docum.domain.po.common.CargoCondition;
 import com.docum.domain.po.common.CargoDefectGroup;
+import com.docum.domain.po.common.CargoInspectionInfo;
 import com.docum.domain.po.common.CargoPackage;
+import com.docum.service.CargoService;
 import com.docum.util.AlgoUtil;
 
 public class CargoPresentation implements Serializable {
 	private static final long serialVersionUID = -3161032049705097594L;
 	private Cargo cargo;
+	private CargoInspectionInfo inspectionInfo;
+	private CargoService cargoService;
+	
+	public CargoPresentation(CargoService cargoService, Cargo cargo) {
+		this.cargoService = cargoService;
+		this.cargo = cargo;
+	}
+
+//	public CargoPresentation(CargoService cargoService, Cargo cargo, CargoInspectionInfo inspectionInfo) {
+//		this(cargoService, cargo);
+//		this.inspectionInfo = inspectionInfo;
+//	}
 
 	public Cargo getCargo() {
 		return cargo;
@@ -26,8 +40,18 @@ public class CargoPresentation implements Serializable {
 		this.cargo = cargo;
 	}
 
-	public CargoPresentation(Cargo cargo) {
-		this.cargo = cargo;
+	public CargoInspectionInfo getInspectionInfo() {
+		if(cargo == null) {
+			return null;
+		}
+		if(inspectionInfo == null) {
+			this.inspectionInfo = cargoService.getCargoInspectionInfo(cargo.getId());
+		}
+		return inspectionInfo;
+	}
+
+	public void setInspectionInfo(CargoInspectionInfo inspectionInfo) {
+		this.inspectionInfo = inspectionInfo;
 	}
 
 	public CargoCondition getActiveCargoCondition() {
@@ -77,7 +101,11 @@ public class CargoPresentation implements Serializable {
 		if (cargo == null) {
 			return null;
 		}
-		Collection<CargoDefectGroup> cd = cargo.getInspectionInfo().getDefectGroups();
+		CargoInspectionInfo inspectionInfo = getInspectionInfo();
+		if (inspectionInfo == null) {
+			return null;
+		}
+		Collection<CargoDefectGroup> cd = inspectionInfo.getDefectGroups();
 		List<CargoDefectGroupPresentation> result = new ArrayList<CargoDefectGroupPresentation>(
 				cd.size());
 		AlgoUtil.transform(result, cd, new CargoDefectGroupTransformer());
@@ -85,41 +113,48 @@ public class CargoPresentation implements Serializable {
 	}
 	
 	public String getSticker(){
-		if (cargo == null || cargo.getInspectionInfo() == null) {
+		CargoInspectionInfo inspectionInfo = getInspectionInfo();
+		if (inspectionInfo == null) {
 			return null;
 		}
-		return cargo.getInspectionInfo().getSticker() != null ?
-				cargo.getInspectionInfo().getSticker().getValue() : null;
+		return inspectionInfo.getSticker() != null ?
+				inspectionInfo.getSticker().getValue() : null;
 	}
 	
 	public String getStickerEng(){
-		if (cargo == null || cargo.getInspectionInfo() == null) {
+		CargoInspectionInfo inspectionInfo = getInspectionInfo();
+		if (inspectionInfo == null) {
 			return null;
-		}		
-		return cargo.getInspectionInfo().getStickerEng() != null ?
-				cargo.getInspectionInfo().getStickerEng().getValue() : null;
+		}
+		return inspectionInfo.getStickerEng() != null ?
+				inspectionInfo.getStickerEng().getValue() : null;
 	}
 	
 	public String getShippingMark(){
-		if (cargo == null || cargo.getInspectionInfo() == null) {
+		CargoInspectionInfo inspectionInfo = getInspectionInfo();
+		if (inspectionInfo == null) {
 			return null;
 		}
-		return cargo.getInspectionInfo().getShippingMark() != null ?
-				cargo.getInspectionInfo().getShippingMark().getValue() : null;
+		return inspectionInfo.getShippingMark() != null ?
+				inspectionInfo.getShippingMark().getValue() : null;
 	}
 	
 	public String getShippingMarkEng(){
-		if (cargo == null || cargo.getInspectionInfo() == null) {
+		CargoInspectionInfo inspectionInfo = getInspectionInfo();
+		if (inspectionInfo == null) {
 			return null;
 		}
-		return cargo.getInspectionInfo().getShippingMarkEng() != null ?
-				cargo.getInspectionInfo().getShippingMarkEng().getValue() : null;
+		return inspectionInfo.getShippingMarkEng() != null ?
+				inspectionInfo.getShippingMarkEng().getValue() : null;
 	}
 	
 	public String getNormativeDoc(){
-		return cargo != null && cargo.getInspectionInfo() != null
-		&& cargo.getInspectionInfo().getNormativeDocument() != null ?
-				cargo.getInspectionInfo().getNormativeDocument().getName(): null;
+		CargoInspectionInfo inspectionInfo = getInspectionInfo();
+		if (inspectionInfo == null) {
+			return null;
+		}
+		return inspectionInfo.getNormativeDocument() != null ?
+				inspectionInfo.getNormativeDocument().getName(): null;
 	}
 
 	public List<CargoPackagePresentation> getPackages() {
@@ -142,4 +177,5 @@ public class CargoPresentation implements Serializable {
 		});
 		return result;
 	}
+
 }

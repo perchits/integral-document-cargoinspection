@@ -1,15 +1,9 @@
 package com.docum.dao;
 
-import com.docum.domain.po.common.Cargo;
+import com.docum.domain.po.common.CargoInspectionInfo;
 
 public interface CargoDao extends BaseDao{
+	public static final String GET_CARGO_INSPECTION_INFO = "getCargoInspectionInfo";
 	
-	public Cargo getCargoByName(String name);
-	
-	public Cargo getCargoShortName(String name);
-	
-	public Cargo getCargoByEnglishName(String name);
-	
-	public void deleteCargo(Long cargoId);
-
+	public CargoInspectionInfo getCargoInspectionInfo(Long cargoId);
 }

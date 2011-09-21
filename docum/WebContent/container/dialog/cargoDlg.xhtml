@@ -38,11 +38,11 @@
 		</p:outputPanel>
 		
 		<h:outputLabel for="normDoc" value="Норм. документ:"
-		rendered="#{bean.cargo.inspectionInfo != null}" />
-		<p:outputPanel id="normDoc" rendered="#{bean.cargo.inspectionInfo != null}">
+		rendered="#{bean.hasNormativeDocument}" />
+		<p:outputPanel id="normDoc" rendered="#{bean.hasNormativeDocument}">
 			<h:selectOneMenu label="Норм. документы" required="false"
 				styleClass="ui-inputfield ui-widget ui-state-default ui-corner-all"
-				value="#{bean.cargo.inspectionInfo.normativeDocument}">
+				value="#{bean.normativeDocument}">
 				<f:converter converterId="normativeDocumentConverter" />
 				<f:selectItem itemLabel="Выберите документ..." itemValue=""
 					noSelectionOption="true" itemDisabled="true" />

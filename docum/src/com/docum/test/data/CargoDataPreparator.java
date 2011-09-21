@@ -83,7 +83,7 @@ public class CargoDataPreparator extends AbstractDataPreparator {
 	}
 
 	private void prepareCargoInspection(Cargo cargo) {
-		CargoInspectionInfo info = cargo.getInspectionInfo();
+		CargoInspectionInfo info = new CargoInspectionInfo(cargo);
 		
 		List<ArticleInspectionOption> articleInspectionOptions =
 			cargo.getArticle().getInspectionOptions();
@@ -98,6 +98,7 @@ public class CargoDataPreparator extends AbstractDataPreparator {
 			options.add(cio);
 		}
 		info.setInspectionOptions(options);
+		persister.persist(info);
 	}
 	
 	private void getArticleInspectionOptionLeaves(

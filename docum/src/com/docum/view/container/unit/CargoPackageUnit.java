@@ -3,7 +3,6 @@ package com.docum.view.container.unit;
 import java.io.Serializable;
 import java.util.List;
 
-import com.docum.domain.po.common.Cargo;
 import com.docum.domain.po.common.CargoPackage;
 import com.docum.domain.po.common.Measure;
 import com.docum.service.BaseService;
@@ -18,7 +17,7 @@ import com.docum.view.wrapper.CargoPresentation;
 
 public class CargoPackageUnit implements Serializable, DialogActionHandler {
 	private static final long serialVersionUID = 7333408655523733042L;
-	private Cargo cargo;
+	private CargoPresentation cargo;
 	private CargoPackage cargoPackage;
 	private CargoPackageDlgView cargoPackageDlg;
 	private BaseService baseService;
@@ -35,13 +34,11 @@ public class CargoPackageUnit implements Serializable, DialogActionHandler {
 	}
 	
 	public CargoPresentation getCargo(){
-		return new CargoPresentation(cargo); 
+		return cargo; 
 	}
 	
 	public void setCargo(CargoPresentation cargo){	
-		if (cargo != null && cargo.getCargo() != null) {
-			this.cargo = cargo.getCargo();
-		}		 
+		this.cargo = cargo;
 	}
 	
 	public CalibreUnit getCalibreUnit() {		
@@ -62,9 +59,9 @@ public class CargoPackageUnit implements Serializable, DialogActionHandler {
 	}
 
 	public void addPackage() {
-		CargoPackage cargoPackage = new CargoPackage(cargo);
+		CargoPackage cargoPackage = new CargoPackage(cargo.getCargo());
 		List<Measure> measures = baseService.getAll(Measure.class);
-		for (CargoPackage cp : cargo.getCargoPackages()) {
+		for (CargoPackage cp : cargo.getCargo().getCargoPackages()) {
 			measures.remove(cp.getMeasure());
 		}
 		prepareCargoPackageDlg(cargoPackage, measures);
@@ -105,7 +102,7 @@ public class CargoPackageUnit implements Serializable, DialogActionHandler {
 			if (DialogActionEnum.ACCEPT.equals(action)) {
 				CargoPackage cargoPackage = d.getCargoPackage();
 				if (cargoPackage.getId() == null) {
-					cargo.addPackage(cargoPackage);
+					cargo.getCargo().addPackage(cargoPackage);
 				}
 				containerHolder.saveContainer();
 			}

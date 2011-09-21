@@ -188,7 +188,7 @@ public class ArticleDataPreparator extends AbstractDataPreparator {
 		for(String[] rec : categoryNames) {
 			ArticleCategory category = new ArticleCategory(article, rec[0], rec[1]);
 			category.setOrd(ord++);
-//			category.setDefects(prepareDefects(category));
+			category.setDefects(prepareDefects(category));
 			result.add(category);
 		}
 		persister.persist(result);
