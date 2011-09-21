@@ -66,12 +66,12 @@
 									<h:outputText value="#{category.name}" />
 								</p:column>
 								<p:column rendered="#{userBean.administrationPermited}">
-									<p:commandButton title="Вверх" image="ui-icon-arrow-1-n"
+									<p:commandButton process="@parent" title="Вверх" image="ui-icon-arrow-1-n"
 										styleClass="inline-btn border-btn" update="categoriesGrid">
 										<f:setPropertyActionListener target="#{articleBean.ordUp}"
 											value="#{category}" />
 									</p:commandButton>
-									<p:commandButton title="Вниз" image="ui-icon-arrow-1-s"
+									<p:commandButton process="@parent" title="Вниз" image="ui-icon-arrow-1-s"
 										styleClass="inline-btn border-btn" update="categoriesGrid">
 										<f:setPropertyActionListener target="#{articleBean.ordDown}"
 											value="#{category}" />
@@ -170,12 +170,12 @@
 								</p:column>
 								
 								<p:column style="width:70px" rendered="#{userBean.administrationPermited}">
-									<p:commandButton title="Вверх" image="ui-icon-arrow-1-n"
+									<p:commandButton  process="@parent" title="Вверх" image="ui-icon-arrow-1-n"
 										styleClass="inline-btn border-btn" update="optionGrid">
 										<f:setPropertyActionListener target="#{articleBean.optionUp}"
 											value="#{option}" />
 									</p:commandButton>
-									<p:commandButton title="Вниз" image="ui-icon-arrow-1-s"
+									<p:commandButton process="@parent" title="Вниз" image="ui-icon-arrow-1-s"
 										styleClass="inline-btn border-btn" update="optionGrid">
 										<f:setPropertyActionListener target="#{articleBean.optionDown}"
 											value="#{option}" />
