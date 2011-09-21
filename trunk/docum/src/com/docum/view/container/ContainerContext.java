@@ -5,6 +5,7 @@ import java.io.Serializable;
 import com.docum.domain.po.common.Container;
 import com.docum.service.ArticleService;
 import com.docum.service.BaseService;
+import com.docum.service.CargoService;
 import com.docum.service.FileProcessingService;
 
 public class ContainerContext implements Serializable {
@@ -12,6 +13,7 @@ public class ContainerContext implements Serializable {
 
 	private BaseService baseService;
 	private ArticleService articleService;
+	private CargoService cargoService;
 	private FileProcessingService fileService;
 	private Container container;
 
@@ -31,6 +33,14 @@ public class ContainerContext implements Serializable {
 		this.articleService = articleService;
 	}
 
+	public CargoService getCargoService() {
+		return cargoService;
+	}
+
+	public void setCargoService(CargoService cargoService) {
+		this.cargoService = cargoService;
+	}
+
 	public BaseService getBaseService() {
 		return baseService;
 	}
@@ -46,4 +56,5 @@ public class ContainerContext implements Serializable {
 	public void setFileService(FileProcessingService fileService) {
 		this.fileService = fileService;
 	}
+
 }

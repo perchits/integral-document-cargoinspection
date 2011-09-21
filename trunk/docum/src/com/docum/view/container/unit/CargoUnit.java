@@ -10,11 +10,13 @@ import java.util.List;
 import org.primefaces.event.FileUploadEvent;
 
 import com.docum.domain.po.common.Cargo;
-import com.docum.domain.po.common.CargoArticleFeature;
 import com.docum.domain.po.common.CargoCondition;
+import com.docum.domain.po.common.CargoInspectionInfo;
 import com.docum.domain.po.common.FileUrl;
+import com.docum.domain.po.common.NormativeDocument;
 import com.docum.service.ArticleService;
 import com.docum.service.BaseService;
+import com.docum.service.CargoService;
 import com.docum.service.FileProcessingService;
 import com.docum.util.AlgoUtil;
 import com.docum.view.AbstractDlgView;
@@ -30,11 +32,18 @@ import com.docum.view.wrapper.CargoTransformer;
 
 public class CargoUnit implements Serializable, DialogActionHandler {
 	private static final long serialVersionUID = 4121556886204075852L;
+
+	private static enum CargoOperationEnum {
+		ADDED, EDITED, REMOVED
+	}
+	
 	private CargoDlgView cargoDlg;
-	private Cargo cargo;
+	private CargoPresentation cargoPresentation;
 
 	private BaseService baseService;
 	private ArticleService articleService;
+	private CargoService cargoService;
+
 	private ContainerHolder containerHolder;
 	private CargoFeatureUnit cargoFeatureUnit;
 	private CargoPackageUnit cargoPackageUnit;
@@ -54,6 +63,7 @@ public class CargoUnit implements Serializable, DialogActionHandler {
 	public void setContext(ContainerContext context) {
 		baseService = context.getBaseService();
 		articleService = context.getArticleService();
+		cargoService = context.getCargoService();
 		fileService = context.getFileService();
 	}
 
@@ -80,14 +90,14 @@ public class CargoUnit implements Serializable, DialogActionHandler {
 		return cargoDefectUnit;
 	}
 
-	public void setCargo(CargoPresentation cargo) {
-		this.cargo = cargo.getCargo();
+	public void setCargoPresentation(CargoPresentation cargo) {
+		this.cargoPresentation = cargo;
 		containerHolder.setDlgCargoUnit(this);
 	}
 
 	public void setEditCargo(CargoPresentation cargo) {
-		setCargo(cargo);
-		prepareCargoDialog(new Cargo(this.cargo));
+		setCargoPresentation(cargo);
+		prepareCargoDialog(new Cargo(this.cargoPresentation.getCargo()));
 	}
 
 	public CargoDlgView getCargoDlg() {
@@ -95,7 +105,14 @@ public class CargoUnit implements Serializable, DialogActionHandler {
 	}
 
 	private void prepareCargoDialog(Cargo cargo) {
-		cargoDlg = new CargoDlgView(cargo, articleService, baseService);
+		NormativeDocument normativeDocument = null;
+		boolean hasNormativeDocument = cargo.getCondition().isSurveyable();
+		if(this.cargoPresentation != null) {
+			normativeDocument = hasNormativeDocument && this.cargoPresentation.getInspectionInfo() != null ?
+					this.cargoPresentation.getInspectionInfo().getNormativeDocument() : null;
+		}
+		cargoDlg = new CargoDlgView(cargo, hasNormativeDocument, normativeDocument,
+				articleService, baseService);
 		cargoDlg.addHandler(this);
 		containerHolder.setDlgCargoUnit(this);
 	}
@@ -104,22 +121,22 @@ public class CargoUnit implements Serializable, DialogActionHandler {
 		Cargo cargo = new Cargo(cargoCondition);
 		prepareCargoDialog(cargo);
 	}
-
+	
 	public void deleteCargo() {
-		cargoCondition.getCargoes().remove(cargo);
-		containerHolder.saveContainer();
-		cargo = null;
+		cargoCondition.getCargoes().remove(cargoPresentation.getCargo());
+		saveContainer(CargoOperationEnum.REMOVED);
+		cargoPresentation = null;
 	}
 
 	public String getCargoName() {
-		return new CargoPresentation(cargo).getArticle();
+		return cargoPresentation.getArticle();
 	}
 
 	public List<CargoPresentation> getContainerCargoes() {
 		if (cargoCondition != null) {
 			Collection<Cargo> c = cargoCondition.getCargoes();
 			List<CargoPresentation> result = new ArrayList<CargoPresentation>(c.size());
-			AlgoUtil.transform(result, c, new CargoTransformer());
+			AlgoUtil.transform(result, c, new CargoTransformer(cargoService));
 			Collections.sort(result, new Comparator<CargoPresentation>() {
 				@Override
 				public int compare(CargoPresentation o1, CargoPresentation o2) {
@@ -140,56 +157,81 @@ public class CargoUnit implements Serializable, DialogActionHandler {
 		this.removeFunctionName = removeFunctionName;
 	}
 
-	public void uploadSticker(FileUploadEvent event) {
-		FileUrl sticker = new FileUrl(FileUploadUtil.handleUploadedFile(fileService, cargo
-				.getCondition().getContainer(), event));
-		cargo.getInspectionInfo().setSticker(sticker);
+	private void saveContainer(CargoOperationEnum operation) {
+		if(CargoOperationEnum.REMOVED.equals(operation)) {
+			if(cargoPresentation.getInspectionInfo() != null) {
+				cargoService.deleteObject(cargoPresentation.getInspectionInfo());
+			}
+		} else if(CargoOperationEnum.ADDED.equals(operation)) {
+			cargoPresentation.setCargo(cargoService.save(cargoPresentation.getCargo()));
+		}
+		
 		containerHolder.saveContainer();
+		
+		if(CargoOperationEnum.EDITED.equals(operation)) {
+			if(cargoPresentation.getInspectionInfo() != null) {
+				cargoService.save(cargoPresentation.getInspectionInfo());
+			}
+		} else if(CargoOperationEnum.ADDED.equals(operation)) {
+			if(cargoCondition.isSurveyable()) {
+				cargoService.save(new CargoInspectionInfo(cargoPresentation.getCargo()));
+			}
+		} 
+	}
+
+	private void saveContainer() {
+		saveContainer(CargoOperationEnum.EDITED);
+	}	
+	public void uploadSticker(FileUploadEvent event) {
+		FileUrl sticker = new FileUrl(FileUploadUtil.handleUploadedFile(fileService,
+				cargoPresentation.getCargo().getCondition().getContainer(), event));
+		cargoPresentation.getInspectionInfo().setSticker(sticker);
+		saveContainer();
 	}
 
 	public void removeSticker() {
-		fileService.deleteImage(cargo.getInspectionInfo().getSticker().getValue());
-		cargo.getInspectionInfo().setSticker(null);
-		containerHolder.saveContainer();
+		fileService.deleteImage(cargoPresentation.getInspectionInfo().getSticker().getValue());
+		cargoPresentation.getInspectionInfo().setSticker(null);
+		saveContainer();
 	}
 
 	public void uploadStickerEng(FileUploadEvent event) {
-		FileUrl sticker = new FileUrl(FileUploadUtil.handleUploadedFile(fileService, cargo
-				.getCondition().getContainer(), event));
-		cargo.getInspectionInfo().setStickerEng(sticker);
-		containerHolder.saveContainer();
+		FileUrl sticker = new FileUrl(FileUploadUtil.handleUploadedFile(fileService,
+				cargoPresentation.getCargo().getCondition().getContainer(), event));
+		cargoPresentation.getInspectionInfo().setStickerEng(sticker);
+		saveContainer();
 	}
 
 	public void removeStickerEng() {
-		fileService.deleteImage(cargo.getInspectionInfo().getStickerEng().getValue());
-		cargo.getInspectionInfo().setStickerEng(null);
-		containerHolder.saveContainer();
+		fileService.deleteImage(cargoPresentation.getInspectionInfo().getStickerEng().getValue());
+		cargoPresentation.getInspectionInfo().setStickerEng(null);
+		saveContainer();
 	}
 
 	public void uploadShippingMark(FileUploadEvent event) {
-		FileUrl shippingMark = new FileUrl(FileUploadUtil.handleUploadedFile(fileService, cargo
-				.getCondition().getContainer(), event));
-		cargo.getInspectionInfo().setShippingMark(shippingMark);
-		containerHolder.saveContainer();
+		FileUrl shippingMark = new FileUrl(FileUploadUtil.handleUploadedFile(fileService,
+				cargoPresentation.getCargo().getCondition().getContainer(), event));
+		cargoPresentation.getInspectionInfo().setShippingMark(shippingMark);
+		saveContainer();
 	}
 
 	public void removeShippingMark() {
-		fileService.deleteImage(cargo.getInspectionInfo().getShippingMark().getValue());
-		cargo.getInspectionInfo().setShippingMark(null);
-		containerHolder.saveContainer();
+		fileService.deleteImage(cargoPresentation.getInspectionInfo().getShippingMark().getValue());
+		cargoPresentation.getInspectionInfo().setShippingMark(null);
+		saveContainer();
 	}
 
 	public void uploadShippingMarkEng(FileUploadEvent event) {
-		FileUrl shippingMark = new FileUrl(FileUploadUtil.handleUploadedFile(fileService, cargo
-				.getCondition().getContainer(), event));
-		cargo.getInspectionInfo().setShippingMarkEng(shippingMark);
-		containerHolder.saveContainer();
+		FileUrl shippingMark = new FileUrl(FileUploadUtil.handleUploadedFile(fileService,
+				cargoPresentation.getCargo().getCondition().getContainer(), event));
+		cargoPresentation.getInspectionInfo().setShippingMarkEng(shippingMark);
+		saveContainer();
 	}
 
 	public void removeShippingMarkEng() {
-		fileService.deleteImage(cargo.getInspectionInfo().getShippingMarkEng().getValue());
-		cargo.getInspectionInfo().setShippingMarkEng(null);
-		containerHolder.saveContainer();
+		fileService.deleteImage(cargoPresentation.getInspectionInfo().getShippingMarkEng().getValue());
+		cargoPresentation.getInspectionInfo().setShippingMarkEng(null);
+		saveContainer();
 	}
 
 	public FileListDlgView getImageListDialog() {
@@ -197,8 +239,8 @@ public class CargoUnit implements Serializable, DialogActionHandler {
 	}
 
 	public void handleImages() {
-		imageListDialog = new FileListDlgView(cargo.getInspectionInfo().getImages(),
-				"Фотографии по грузу", fileService, cargo.getCondition().getContainer());
+		imageListDialog = new FileListDlgView(cargoPresentation.getInspectionInfo().getImages(),
+				"Фотографии по грузу", fileService, cargoPresentation.getCargo().getCondition().getContainer());
 		imageListDialog.addHandler(this);
 	}
 
@@ -208,18 +250,23 @@ public class CargoUnit implements Serializable, DialogActionHandler {
 			CargoDlgView d = (CargoDlgView) dialog;
 			if (DialogActionEnum.ACCEPT.equals(action)) {
 				Cargo c = d.getCargo();
+				CargoOperationEnum op;
 				if (c.getId() == null) {
-					c = d.getCargo();
+					op = CargoOperationEnum.ADDED;
 					cargoCondition.addCargo(c);
+					cargoPresentation = new CargoPresentation(cargoService, c);
 				} else {
-					cargo.copy(d.getCargo());
+					op = CargoOperationEnum.EDITED;
+					if(!cargoPresentation.getCargo().getArticle().equals(c.getArticle()))
+						cargoPresentation.getInspectionInfo().setNormativeDocument(d.getNormativeDocument());
+					cargoPresentation.getCargo().copy(d.getCargo());
 				}
-				containerHolder.saveContainer();
+				saveContainer(op);
 			}
 		} else {
 			if (dialog instanceof FileListDlgView) {
 				if (DialogActionEnum.ACCEPT.equals(action)) {
-					containerHolder.saveContainer();
+					saveContainer();
 				}
 			}
 		}

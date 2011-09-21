@@ -30,11 +30,13 @@ import com.artofsolving.jodconverter.openoffice.connection.SocketOpenOfficeConne
 import com.artofsolving.jodconverter.openoffice.converter.OpenOfficeDocumentConverter;
 import com.docum.dao.ReportingDao;
 import com.docum.domain.po.common.Cargo;
+import com.docum.domain.po.common.CargoInspectionInfo;
 import com.docum.domain.po.common.Container;
 import com.docum.domain.po.common.FileUrl;
 import com.docum.domain.po.common.Report;
 import com.docum.service.ApplicationConfigService;
 import com.docum.service.BaseService;
+import com.docum.service.CargoService;
 import com.docum.service.ReportingService;
 import com.docum.util.ListHandler;
 import com.docum.util.XMLUtil;
@@ -49,6 +51,8 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 	ReportingDao reportingDao;
 	@Autowired
 	BaseService baseService;
+	@Autowired
+	CargoService cargoService;
 	@Autowired
 	ApplicationConfigService applicationConfigService;
 	
@@ -263,8 +267,10 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 				odfTable.appendRow();
 				currRow = odfTable.getRowCount() - 1;
 				OdfTableCell odfTableCell;
+				CargoInspectionInfo inspectionInfo =
+					cargoService.getCargoInspectionInfo(cargo.getId());
 				FileUrl fileUrl = (FileUrl) XMLUtil.getObjectProperty(
-					cargo.getInspectionInfo(), engImageUrlProperty);
+					inspectionInfo, engImageUrlProperty);
 				if (fileUrl != null) {
 					addImage(odt, fileUrl, odfTable, 0, currRow);
 				} else {
@@ -272,7 +278,7 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 					odfTableCell.setStringValue(engNoImageComment);					
 				}
 				fileUrl = (FileUrl) XMLUtil.getObjectProperty(
-					cargo.getInspectionInfo(), rusImageUrlProperty);
+					inspectionInfo, rusImageUrlProperty);
 				if (fileUrl != null) {
 					addImage(odt, fileUrl, odfTable, 1, currRow);
 				} else {

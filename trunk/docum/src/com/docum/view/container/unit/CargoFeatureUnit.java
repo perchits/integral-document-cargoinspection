@@ -6,13 +6,11 @@ import java.util.Set;
 
 import com.docum.domain.po.common.Article;
 import com.docum.domain.po.common.ArticleFeature;
-import com.docum.domain.po.common.Cargo;
 import com.docum.domain.po.common.CargoArticleFeature;
 import com.docum.util.AlgoUtil;
 import com.docum.view.AbstractDlgView;
 import com.docum.view.DialogActionEnum;
 import com.docum.view.DialogActionHandler;
-import com.docum.view.container.CargoDlgView;
 import com.docum.view.container.ContainerHolder;
 import com.docum.view.container.FeatureDlgView;
 import com.docum.view.wrapper.CargoPresentation;
@@ -21,7 +19,7 @@ public class CargoFeatureUnit implements Serializable, DialogActionHandler {
 	private static final long serialVersionUID = -8975590625480426959L;
 	private FeatureDlgView featureDlg;
 	private CargoArticleFeature feature;
-	private Cargo cargo;	
+	private CargoPresentation cargo;	
 	private ContainerHolder containerHolder;
 
 	public CargoFeatureUnit(ContainerHolder containerHolder) {
@@ -29,13 +27,11 @@ public class CargoFeatureUnit implements Serializable, DialogActionHandler {
 	}
 
 	public CargoPresentation getCargo() {
-		return new CargoPresentation(cargo);
+		return cargo;
 	}
 
 	public void setCargo(CargoPresentation cargo) {
-		if (cargo != null && cargo.getCargo() != null) {
-			this.cargo = cargo.getCargo();
-		}
+		this.cargo = cargo;
 	}
 	
 	public String getFeatureName() {
@@ -52,7 +48,7 @@ public class CargoFeatureUnit implements Serializable, DialogActionHandler {
 	 * список.
 	 */
 	public void addFeature() {
-		Article article = cargo.getArticle();
+		Article article = cargo.getCargo().getArticle();
 		Set<CargoArticleFeature> features = new HashSet<CargoArticleFeature>(cargo.getFeatures());
 		for (final ArticleFeature feature : article.getFeatures()) {
 			CargoArticleFeature res = AlgoUtil.find(cargo.getFeatures(),
@@ -62,7 +58,7 @@ public class CargoFeatureUnit implements Serializable, DialogActionHandler {
 						}
 					});
 			if (res == null) {
-				features.add(new CargoArticleFeature(cargo, feature));
+				features.add(new CargoArticleFeature(cargo.getCargo(), feature));
 			}
 		}		
 		prepareFeatureDialog(features);
@@ -90,7 +86,7 @@ public class CargoFeatureUnit implements Serializable, DialogActionHandler {
 		if (dialog instanceof FeatureDlgView) {
 			FeatureDlgView d = (FeatureDlgView) dialog;
 			if (DialogActionEnum.ACCEPT.equals(action)) {
-				cargo.setFeatures(new HashSet<CargoArticleFeature>(d.getCargoFeatures()));
+				cargo.getCargo().setFeatures(new HashSet<CargoArticleFeature>(d.getCargoFeatures()));
 				containerHolder.saveContainer();
 			}
 		}

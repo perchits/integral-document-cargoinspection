@@ -10,14 +10,23 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.OrderColumn;
 
+import com.docum.dao.CargoDao;
 import com.docum.domain.po.IdentifiedEntity;
 import com.docum.util.OrderedEntityUtil;
 
 @Entity
+@NamedQueries({
+	@NamedQuery(
+			name = CargoDao.GET_CARGO_INSPECTION_INFO,
+			query = "FROM CargoInspectionInfo c WHERE c.cargo.id=:cargoId"
+	)
+})
 public class CargoInspectionInfo extends IdentifiedEntity {
 	private static final long serialVersionUID = -109254110803956456L;
 
