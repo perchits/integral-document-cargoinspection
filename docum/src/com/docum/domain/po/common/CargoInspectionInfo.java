@@ -30,7 +30,7 @@ import com.docum.util.OrderedEntityUtil;
 public class CargoInspectionInfo extends IdentifiedEntity {
 	private static final long serialVersionUID = -109254110803956456L;
 
-	@OneToOne(optional = false)
+	@ManyToOne(optional = false)
 	private Cargo cargo;
 
 	@OneToMany(mappedBy = "inspectionInfo", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)

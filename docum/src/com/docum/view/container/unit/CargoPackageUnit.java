@@ -9,6 +9,7 @@ import com.docum.service.BaseService;
 import com.docum.view.AbstractDlgView;
 import com.docum.view.DialogActionEnum;
 import com.docum.view.DialogActionHandler;
+import com.docum.view.container.CargoHolder;
 import com.docum.view.container.CargoPackageDlgView;
 import com.docum.view.container.ContainerContext;
 import com.docum.view.container.ContainerHolder;
@@ -24,9 +25,10 @@ public class CargoPackageUnit implements Serializable, DialogActionHandler {
 	private ContainerHolder containerHolder;
 	private CalibreUnit calibreUnit;
 
-	public CargoPackageUnit(ContainerHolder containerHolder) {
+	public CargoPackageUnit(ContainerHolder containerHolder, CargoHolder cargoHolder) {
 		this.containerHolder = containerHolder;
-		calibreUnit = new CalibreUnit(containerHolder);
+		//this.cargoHolder = cargoHolder;
+		calibreUnit = new CalibreUnit(containerHolder, cargoHolder);
 	}
 
 	public void setContext(ContainerContext context) {

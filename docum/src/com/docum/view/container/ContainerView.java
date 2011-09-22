@@ -4,7 +4,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.faces.event.ActionEvent;
 
@@ -54,6 +56,9 @@ public class ContainerView extends BaseView implements Serializable,
 	private ContainerDlgView containerDlg;
 	private boolean reloadContainer = true;
 	private VoyagePresentation selectedVoyage;
+	
+	private Set<ContainerChangeListener> containerChangeListeners =
+		new HashSet<ContainerChangeListener>();
 
 	@Autowired
 	private ContainerService containerService;
@@ -357,6 +362,19 @@ public class ContainerView extends BaseView implements Serializable,
 	public void saveContainer() {
 		containerService.save(container);
 		resreshContainers();
+		for(ContainerChangeListener listener : containerChangeListeners) {
+			listener.containerChanged(container);
+		}
+	}
+
+	@Override
+	public void addContainerChangeListener(ContainerChangeListener listener) {
+		containerChangeListeners.add(listener);
+	}
+
+	@Override
+	public void removeContainerChangeListener(ContainerChangeListener listener) {
+		containerChangeListeners.remove(listener);		
 	}
 
 }

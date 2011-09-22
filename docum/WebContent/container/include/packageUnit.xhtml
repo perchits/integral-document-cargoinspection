@@ -44,6 +44,7 @@
 					update="calibreIdDlgPanel,growl">
 					<f:setPropertyActionListener
 						target="#{packagebean.calibreUnit.cargoPackage}" value="#{pack}" />
+					<f:setPropertyActionListener target="#{cargobean.cargo}" value="#{wcargo}" />
 				</p:commandButton>
 			</h:form> <ui:include src="/container/include/calibreUnit.xhtml">
 				<ui:param name="calibrebean" value="#{packagebean.calibreUnit}" />

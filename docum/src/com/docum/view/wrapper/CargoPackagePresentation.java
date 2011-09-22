@@ -14,6 +14,8 @@ public class CargoPackagePresentation implements Serializable {
 	
 	private CargoPackage cargoPackage;
 
+	private CargoPresentation cargoPresentation;
+
 	public CargoPackage getCargoPackage() {
 		return cargoPackage;
 	}
@@ -22,8 +24,10 @@ public class CargoPackagePresentation implements Serializable {
 		this.cargoPackage = cargoPackage;
 	}
 
-	public CargoPackagePresentation(CargoPackage cargoPackage) {
+	public CargoPackagePresentation(CargoPackage cargoPackage,
+			CargoPresentation cargoPresentation) {
 		this.cargoPackage = cargoPackage;
+		this.cargoPresentation = cargoPresentation;
 	}
 	
 	public List<CargoPackageCalibre> getCalibres(){
@@ -49,6 +53,10 @@ public class CargoPackagePresentation implements Serializable {
 
 	public String getMeasureName(){
 		return cargoPackage != null ? cargoPackage.toString() : null;
+	}
+
+	public CargoPresentation getCargoPresentation() {
+		return cargoPresentation;
 	}
 	
 	

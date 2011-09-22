@@ -37,7 +37,18 @@ public class CargoPresentation implements Serializable {
 	}
 
 	public void setCargo(Cargo cargo) {
+		if(cargo == null) {
+			this.cargo = null;
+			this.inspectionInfo = null;
+			return;
+		}
+		if(!cargo.equals(this.cargo)) {
+			inspectionInfo = cargoService.getCargoInspectionInfo(cargo.getId());
+		}
 		this.cargo = cargo;
+		if(inspectionInfo != null) {
+			inspectionInfo.setCargo(cargo);
+		}
 	}
 
 	public CargoInspectionInfo getInspectionInfo() {
@@ -46,6 +57,7 @@ public class CargoPresentation implements Serializable {
 		}
 		if(inspectionInfo == null) {
 			this.inspectionInfo = cargoService.getCargoInspectionInfo(cargo.getId());
+			this.inspectionInfo.setCargo(cargo);
 		}
 		return inspectionInfo;
 	}
@@ -166,7 +178,7 @@ public class CargoPresentation implements Serializable {
 
 		List<CargoPackagePresentation> result = new ArrayList<CargoPackagePresentation>(
 				cp.size());
-		AlgoUtil.transform(result, cp, new CargoPackageTransformer());
+		AlgoUtil.transform(result, cp, new CargoPackageTransformer(this));
 
 		Collections.sort(result, new Comparator<CargoPackagePresentation>() {
 			@Override
@@ -176,6 +188,35 @@ public class CargoPresentation implements Serializable {
 			}
 		});
 		return result;
+	}
+
+	public void save() {
+		cargoService.saveCargoInspectionInfo(inspectionInfo);
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((cargo == null) ? 0 : cargo.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		CargoPresentation other = (CargoPresentation) obj;
+		if (cargo == null) {
+			if (other.cargo != null)
+				return false;
+		} else if (!cargo.equals(other.cargo))
+			return false;
+		return true;
 	}
 
 }

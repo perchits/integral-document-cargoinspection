@@ -13,4 +13,7 @@ public interface ContainerHolder {
 	public void setDlgPackageUnit(CargoPackageUnit dlgPackageUnit);
 	public void setDlgCalibreUnit(CalibreUnit dlgCalibreUnit);
 	public void setDlgDefectUnit(CargoDefectUnit dlgDefectUnit);
+	
+	public void addContainerChangeListener(ContainerChangeListener listener);
+	public void removeContainerChangeListener(ContainerChangeListener listener);
 }

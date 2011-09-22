@@ -2,12 +2,12 @@ package com.docum.view.container.unit;
 
 import java.io.Serializable;
 
-import com.docum.domain.po.common.CargoPackage;
 import com.docum.domain.po.common.CargoPackageCalibre;
 import com.docum.view.AbstractDlgView;
 import com.docum.view.DialogActionEnum;
 import com.docum.view.DialogActionHandler;
 import com.docum.view.container.CalibreDlgView;
+import com.docum.view.container.CargoHolder;
 import com.docum.view.container.ContainerHolder;
 import com.docum.view.wrapper.CargoPackagePresentation;
 
@@ -16,19 +16,22 @@ public class CalibreUnit implements Serializable, DialogActionHandler {
 
 	private CalibreDlgView calibreDlg;
 	private CargoPackageCalibre calibre;
-	private CargoPackage cargoPackage;
+	private CargoPackagePresentation cargoPackage;
 	private ContainerHolder containerHolder;
 
-	public CalibreUnit(ContainerHolder containerHolder) {
+	private CargoHolder cargoHolder;
+
+	public CalibreUnit(ContainerHolder containerHolder, CargoHolder cargoHolder) {
 		this.containerHolder = containerHolder;
+		this.cargoHolder = cargoHolder;
 	}
 	
 	public void setCargoPackage(CargoPackagePresentation cargoPackage){
-		this.cargoPackage = cargoPackage.getCargoPackage();
+		this.cargoPackage = cargoPackage;
 	}
 	
 	public CargoPackagePresentation getCargoPackage() {		
-		return new CargoPackagePresentation(cargoPackage);
+		return cargoPackage;
 	}
 	
 	public CalibreDlgView getCalibreDlg() {
@@ -51,7 +54,7 @@ public class CalibreUnit implements Serializable, DialogActionHandler {
 	}
 
 	public void addCalibre() {
-		CargoPackageCalibre calibre = new CargoPackageCalibre(cargoPackage);
+		CargoPackageCalibre calibre = new CargoPackageCalibre(cargoPackage.getCargoPackage());
 		prepareCalibreDlg(calibre);
 	}
 
@@ -61,6 +64,7 @@ public class CalibreUnit implements Serializable, DialogActionHandler {
 
 	public void removeCalibre() {
 		calibre.getCargoPackage().removeCalibre(calibre);
+		cargoHolder.saveCargo();
 		containerHolder.saveContainer();
 		calibre = null;
 	}
@@ -72,9 +76,10 @@ public class CalibreUnit implements Serializable, DialogActionHandler {
 			if (DialogActionEnum.ACCEPT.equals(action)) {
 				CargoPackageCalibre calibre = d.getCalibre();
 				if (calibre.getId() == null) {
-					cargoPackage.addCalibre(calibre);
+					cargoPackage.getCargoPackage().addCalibre(calibre);
 				}
 				containerHolder.saveContainer();
+				cargoHolder.saveCargo();
 			}
 		}
 
