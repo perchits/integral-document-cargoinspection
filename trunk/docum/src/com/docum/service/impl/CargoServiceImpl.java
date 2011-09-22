@@ -37,7 +37,8 @@ public class CargoServiceImpl extends BaseServiceImpl implements CargoService {
 		return super.save(cargoInspectionInfo);
 	}
 
-	private void processCategoryDefects(CargoInspectionInfo cargoInspectionInfo) {
+	@Override
+	public void processCategoryDefects(CargoInspectionInfo cargoInspectionInfo) {
 		Cargo cargo = cargoInspectionInfo.getCargo();
 		Set<CargoCalibreDefect> defects = cargoInspectionInfo.getCalibreDefects();
 		Set<CargoPackageCalibre> calibreCache = new HashSet<CargoPackageCalibre>();
@@ -60,7 +61,7 @@ public class CargoServiceImpl extends BaseServiceImpl implements CargoService {
 				it.remove();
 			}
 		}
-		super.save(defects);
+		//super.save(defects);
 	}
 	
 	private boolean findDefect(final Set<CargoCalibreDefect> defects,

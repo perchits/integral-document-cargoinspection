@@ -1,7 +1,13 @@
 package com.docum.domain.po.common;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import com.docum.domain.po.IdentifiedEntity;
 import com.docum.util.EqualsHelper;
@@ -18,6 +24,9 @@ public class CargoPackageCalibre extends IdentifiedEntity{
 	
 	private double packageCount;
 
+	@OneToMany(mappedBy = "calibre", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+	private Set<CargoCalibreDefect> calibreDefects = new HashSet<CargoCalibreDefect>();
+	
 	public CargoPackageCalibre() {
 		super();
 	}
