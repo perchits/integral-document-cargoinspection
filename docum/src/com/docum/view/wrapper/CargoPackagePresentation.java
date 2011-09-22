@@ -2,12 +2,14 @@ package com.docum.view.wrapper;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
 import com.docum.domain.po.common.CargoPackage;
 import com.docum.domain.po.common.CargoPackageCalibre;
+import com.docum.util.AlgoUtil;
 import com.docum.util.cargo.AverageCargoPackageWeights;
 import com.docum.util.cargo.CargoUtil;
 
@@ -39,7 +41,7 @@ public class CargoPackagePresentation implements Serializable {
 		}
 	}
 
-	public List<CargoPackageCalibre> getCalibres(){
+	public List<CargoPackageCalibre> prepareCalibres(){
 		if (cargoPackage == null) {
 			return null;
 		}
@@ -60,6 +62,16 @@ public class CargoPackagePresentation implements Serializable {
 		return result;
 	}
 
+	public List<CalibrePresentation> getCalibres(){		
+		Collection<CargoPackageCalibre> from = prepareCalibres();
+		if (from == null) {
+			return null;
+		}
+		List<CalibrePresentation> result = new ArrayList<CalibrePresentation> (from.size());
+		AlgoUtil.transform(result, from, new CalibreTransformer());
+		return result;
+	}
+	
 	public String getMeasureName(){
 		return cargoPackage != null ? cargoPackage.toString() : null;
 	}

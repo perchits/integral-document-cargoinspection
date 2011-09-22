@@ -17,7 +17,7 @@
 						oncomplete="beforeShow(calibreIdVar,args)"
 						update="calibreIdDlgPanel,growl">
 						<f:setPropertyActionListener target="#{calibrebean.calibre}"
-							value="#{calibre}" />
+							value="#{calibre.calibre}" />
 						<f:setPropertyActionListener target="#{cargobean.cargo}"
         			value="#{wcargo}" />
 						<h:outputText value="#{calibre.calibreValue}:" />
@@ -26,12 +26,18 @@
 					<h:outputText value="#{calibre.packageCount}">
 						<f:convertNumber maxFractionDigits="2" />
 					</h:outputText>
+					<h:outputText value=" " />
+					<ui:repeat value="#{calibre.defects}" var="defect">
+						<h:panelGroup style="border:1px solid #E5E8CA; padding:0 3px 0 3px; margin-left:-1px">
+							<h:outputText title="#{defect.articleCategory.name}" value="#{defect.percentage}" />
+						</h:panelGroup>
+					</ui:repeat>					
 					<p:commandButton image="ui-icon-trash" title="Удалить калибр"
 						styleClass="inline-btn"
 						oncomplete="beforeShow(calibreIdConfirmVar,args)"
 						update="calibreIdConfirmId">
 						<f:setPropertyActionListener target="#{calibrebean.calibre}"
-							value="#{calibre}" />
+							value="#{calibre.calibre}" />
 						<f:setPropertyActionListener target="#{cargobean.cargo}"
         			value="#{wcargo}" />
 					</p:commandButton>
