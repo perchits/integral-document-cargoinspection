@@ -7,7 +7,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.docum.dao.ContainerDao;
+import com.docum.domain.po.common.Cargo;
+import com.docum.domain.po.common.CargoInspectionInfo;
 import com.docum.domain.po.common.Container;
+import com.docum.service.CargoService;
 import com.docum.service.ContainerService;
 
 @Service(ContainerService.SERVICE_NAME)
@@ -17,7 +20,9 @@ public class ContainerServiceImpl extends BaseServiceImpl implements ContainerSe
 	private static final long serialVersionUID = 9011562038896560162L;
 
 	@Autowired
-	public ContainerDao containerDao;
+	private ContainerDao containerDao;
+	@Autowired
+	private CargoService cargoService;
 	
 	@Override
 	public List<Container> getContainersByVoyage(Long voyageId) {		
@@ -53,5 +58,25 @@ public class ContainerServiceImpl extends BaseServiceImpl implements ContainerSe
 	@Override
 	public List<Container> getContainersWithoutReportByVoyage(Long voyageId) {
 		return containerDao.getContainersWithoutReportByVoyage(voyageId);
+	}
+	
+	@Override
+	public Container getContainer(Long containerId) {
+		return super.getObject(Container.class, containerId);
+	}
+	
+	@Override
+	public Container saveContainer(Container container) {
+		processCategoryDefects(container);
+		return super.save(container);
+	}
+
+	private void processCategoryDefects(Container container) {
+		for(Cargo cargo : container.getActualCondition().getCargoes()) {
+			CargoInspectionInfo inspectionInfo = cargo.getInspectionInfo();
+			if(inspectionInfo != null) {
+				cargoService.processCategoryDefects(inspectionInfo);
+			}
+		}
 	}
 }

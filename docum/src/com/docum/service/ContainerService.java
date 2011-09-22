@@ -15,4 +15,7 @@ public interface ContainerService extends BaseService {
 	public List<Container> getContainersWithoutReport();
 	public List<Container> getContainersByReport(Long reportId);
 	public List<Container> getContainersWithoutReportByVoyage(Long voyageId);
+	
+	public Container getContainer(Long containerId);
+	public Container saveContainer(Container container);
 }

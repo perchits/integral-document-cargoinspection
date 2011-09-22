@@ -210,16 +210,17 @@ public class ContainerView extends BaseView implements Serializable,
 			this.container = null;
 			return;
 		}
-		reloadContainer = !containerPresentation.getContainer().equals(
-				this.container);
-		if (reloadContainer) {
-			this.container = containerPresentation.getContainer();
-		}
+//		reloadContainer = !containerPresentation.getContainer().equals(
+//				this.container);
+//		if (reloadContainer) {
+//			this.container = containerPresentation.getContainer();
+//		}
+		loadContainer(containerPresentation.getContainer());
 	}
 
 	private void loadContainer(Container container) {
 		this.container = (container != null && container.getId() != null) ? containerService
-				.getObject(Container.class, container.getId()) : container;
+				.getContainer(container.getId()) : container;
 	}
 
 	public List<VoyagePresentation> getVoyages() {
@@ -332,7 +333,7 @@ public class ContainerView extends BaseView implements Serializable,
 		if (dialog instanceof ContainerDlgView) {
 			ContainerDlgView d = (ContainerDlgView) dialog;
 			if (DialogActionEnum.ACCEPT.equals(action)) {
-				container = containerService.save(d.getContainer());
+				container = containerService.saveContainer(d.getContainer());
 				invoiceService.save(d.getInvoices(container));
 				orderService.save(d.getOrders(container));
 				billService.save(d.getBills(container));
@@ -360,7 +361,7 @@ public class ContainerView extends BaseView implements Serializable,
 
 	@Override
 	public void saveContainer() {
-		containerService.save(container);
+		containerService.saveContainer(container);
 		resreshContainers();
 		for(ContainerChangeListener listener : containerChangeListeners) {
 			listener.containerChanged(container);

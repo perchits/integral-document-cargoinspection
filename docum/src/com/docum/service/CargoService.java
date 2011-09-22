@@ -8,4 +8,5 @@ public interface CargoService extends BaseService {
 
 	public CargoInspectionInfo getCargoInspectionInfo(Long cargoId);
 	public CargoInspectionInfo saveCargoInspectionInfo(CargoInspectionInfo cargoInspectionInfo);
+	public void processCategoryDefects(CargoInspectionInfo cargoInspectionInfo);
 }

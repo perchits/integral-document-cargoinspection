@@ -13,17 +13,13 @@ import com.docum.domain.po.common.CargoCondition;
 import com.docum.domain.po.common.CargoDefectGroup;
 import com.docum.domain.po.common.CargoInspectionInfo;
 import com.docum.domain.po.common.CargoPackage;
-import com.docum.service.CargoService;
 import com.docum.util.AlgoUtil;
 
 public class CargoPresentation implements Serializable {
 	private static final long serialVersionUID = -3161032049705097594L;
 	private Cargo cargo;
-	private CargoInspectionInfo inspectionInfo;
-	private CargoService cargoService;
 	
-	public CargoPresentation(CargoService cargoService, Cargo cargo) {
-		this.cargoService = cargoService;
+	public CargoPresentation(Cargo cargo) {
 		this.cargo = cargo;
 	}
 
@@ -37,33 +33,14 @@ public class CargoPresentation implements Serializable {
 	}
 
 	public void setCargo(Cargo cargo) {
-		if(cargo == null) {
-			this.cargo = null;
-			this.inspectionInfo = null;
-			return;
-		}
-		if(!cargo.equals(this.cargo)) {
-			inspectionInfo = cargoService.getCargoInspectionInfo(cargo.getId());
-		}
 		this.cargo = cargo;
-		if(inspectionInfo != null) {
-			inspectionInfo.setCargo(cargo);
-		}
 	}
 
 	public CargoInspectionInfo getInspectionInfo() {
 		if(cargo == null) {
 			return null;
 		}
-		if(inspectionInfo == null) {
-			this.inspectionInfo = cargoService.getCargoInspectionInfo(cargo.getId());
-			this.inspectionInfo.setCargo(cargo);
-		}
-		return inspectionInfo;
-	}
-
-	public void setInspectionInfo(CargoInspectionInfo inspectionInfo) {
-		this.inspectionInfo = inspectionInfo;
+		return cargo.getInspectionInfo();
 	}
 
 	public CargoCondition getActiveCargoCondition() {
@@ -188,10 +165,6 @@ public class CargoPresentation implements Serializable {
 			}
 		});
 		return result;
-	}
-
-	public void save() {
-		cargoService.saveCargoInspectionInfo(inspectionInfo);
 	}
 
 	@Override

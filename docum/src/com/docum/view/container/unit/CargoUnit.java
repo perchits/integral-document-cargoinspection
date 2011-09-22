@@ -11,13 +11,11 @@ import org.primefaces.event.FileUploadEvent;
 
 import com.docum.domain.po.common.Cargo;
 import com.docum.domain.po.common.CargoCondition;
-import com.docum.domain.po.common.CargoInspectionInfo;
 import com.docum.domain.po.common.Container;
 import com.docum.domain.po.common.FileUrl;
 import com.docum.domain.po.common.NormativeDocument;
 import com.docum.service.ArticleService;
 import com.docum.service.BaseService;
-import com.docum.service.CargoService;
 import com.docum.service.FileProcessingService;
 import com.docum.util.AlgoUtil;
 import com.docum.view.AbstractDlgView;
@@ -25,7 +23,6 @@ import com.docum.view.DialogActionEnum;
 import com.docum.view.DialogActionHandler;
 import com.docum.view.FileUploadUtil;
 import com.docum.view.container.CargoDlgView;
-import com.docum.view.container.CargoHolder;
 import com.docum.view.container.ContainerChangeListener;
 import com.docum.view.container.ContainerContext;
 import com.docum.view.container.ContainerHolder;
@@ -33,20 +30,14 @@ import com.docum.view.container.FileListDlgView;
 import com.docum.view.wrapper.CargoPresentation;
 import com.docum.view.wrapper.CargoTransformer;
 
-public class CargoUnit implements Serializable, DialogActionHandler, CargoHolder,
-		ContainerChangeListener {
+public class CargoUnit implements Serializable, DialogActionHandler, ContainerChangeListener {
 	private static final long serialVersionUID = 4121556886204075852L;
 
-	private static enum CargoOperationEnum {
-		ADDED, EDITED, REMOVED
-	}
-	
 	private CargoDlgView cargoDlg;
 	private CargoPresentation cargoPresentation;
 
 	private BaseService baseService;
 	private ArticleService articleService;
-	private CargoService cargoService;
 
 	private ContainerHolder containerHolder;
 	private CargoFeatureUnit cargoFeatureUnit;
@@ -60,7 +51,7 @@ public class CargoUnit implements Serializable, DialogActionHandler, CargoHolder
 	public CargoUnit(ContainerHolder containerHolder) {
 		this.containerHolder = containerHolder;
 		cargoFeatureUnit = new CargoFeatureUnit(containerHolder);
-		cargoPackageUnit = new CargoPackageUnit(containerHolder, this);
+		cargoPackageUnit = new CargoPackageUnit(containerHolder);
 		cargoDefectUnit = new CargoDefectUnit(containerHolder);
 		containerHolder.addContainerChangeListener(this);
 	}
@@ -68,7 +59,6 @@ public class CargoUnit implements Serializable, DialogActionHandler, CargoHolder
 	public void setContext(ContainerContext context) {
 		baseService = context.getBaseService();
 		articleService = context.getArticleService();
-		cargoService = context.getCargoService();
 		fileService = context.getFileService();
 	}
 
@@ -133,7 +123,7 @@ public class CargoUnit implements Serializable, DialogActionHandler, CargoHolder
 	
 	public void deleteCargo() {
 		cargoCondition.getCargoes().remove(cargoPresentation.getCargo());
-		saveContainer(CargoOperationEnum.REMOVED);
+		saveContainer();
 		cargoPresentation = null;
 	}
 
@@ -145,7 +135,7 @@ public class CargoUnit implements Serializable, DialogActionHandler, CargoHolder
 		if (cargoCondition != null) {
 			Collection<Cargo> c = cargoCondition.getCargoes();
 			List<CargoPresentation> result = new ArrayList<CargoPresentation>(c.size());
-			AlgoUtil.transform(result, c, new CargoTransformer(cargoService));
+			AlgoUtil.transform(result, c, new CargoTransformer());
 			Collections.sort(result, new Comparator<CargoPresentation>() {
 				@Override
 				public int compare(CargoPresentation o1, CargoPresentation o2) {
@@ -166,31 +156,10 @@ public class CargoUnit implements Serializable, DialogActionHandler, CargoHolder
 		this.removeFunctionName = removeFunctionName;
 	}
 
-	private void saveContainer(CargoOperationEnum operation) {
-		if(CargoOperationEnum.REMOVED.equals(operation)) {
-			if(cargoPresentation.getInspectionInfo() != null) {
-				cargoService.deleteObject(cargoPresentation.getInspectionInfo());
-			}
-		} else if(CargoOperationEnum.ADDED.equals(operation)) {
-			cargoPresentation.setCargo(cargoService.save(cargoPresentation.getCargo()));
-		}
-		
+	private void saveContainer() {
 		containerHolder.saveContainer();
-		
-		if(CargoOperationEnum.EDITED.equals(operation)) {
-			if(cargoPresentation.getInspectionInfo() != null) {
-				cargoService.save(cargoPresentation.getInspectionInfo());
-			}
-		} else if(CargoOperationEnum.ADDED.equals(operation)) {
-			if(cargoCondition.isSurveyable()) {
-				cargoService.save(new CargoInspectionInfo(cargoPresentation.getCargo()));
-			}
-		} 
 	}
 
-	private void saveContainer() {
-		saveContainer(CargoOperationEnum.EDITED);
-	}	
 	public void uploadSticker(FileUploadEvent event) {
 		FileUrl sticker = new FileUrl(FileUploadUtil.handleUploadedFile(fileService,
 				cargoPresentation.getCargo().getCondition().getContainer(), event));
@@ -259,18 +228,15 @@ public class CargoUnit implements Serializable, DialogActionHandler, CargoHolder
 			CargoDlgView d = (CargoDlgView) dialog;
 			if (DialogActionEnum.ACCEPT.equals(action)) {
 				Cargo c = d.getCargo();
-				CargoOperationEnum op;
 				if (c.getId() == null) {
-					op = CargoOperationEnum.ADDED;
 					cargoCondition.addCargo(c);
-					cargoPresentation = new CargoPresentation(cargoService, c);
+					cargoPresentation = new CargoPresentation(c);
 				} else {
-					op = CargoOperationEnum.EDITED;
 					if(!cargoPresentation.getCargo().getArticle().equals(c.getArticle()))
 						cargoPresentation.getInspectionInfo().setNormativeDocument(d.getNormativeDocument());
 					cargoPresentation.getCargo().copy(d.getCargo());
 				}
-				saveContainer(op);
+				saveContainer();
 			}
 		} else {
 			if (dialog instanceof FileListDlgView) {
@@ -278,13 +244,6 @@ public class CargoUnit implements Serializable, DialogActionHandler, CargoHolder
 					saveContainer();
 				}
 			}
-		}
-	}
-
-	@Override
-	public void saveCargo() {
-		if(cargoPresentation != null) {
-			cargoPresentation.save();
 		}
 	}
 
