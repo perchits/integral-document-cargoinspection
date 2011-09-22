@@ -8,6 +8,7 @@ import com.docum.view.DialogActionEnum;
 import com.docum.view.DialogActionHandler;
 import com.docum.view.container.CalibreDlgView;
 import com.docum.view.container.ContainerHolder;
+import com.docum.view.wrapper.CalibrePresentation;
 import com.docum.view.wrapper.CargoPackagePresentation;
 
 public class CalibreUnit implements Serializable, DialogActionHandler {
@@ -15,6 +16,7 @@ public class CalibreUnit implements Serializable, DialogActionHandler {
 
 	private CalibreDlgView calibreDlg;
 	private CargoPackageCalibre calibre;
+	
 	private CargoPackagePresentation cargoPackage;
 	private ContainerHolder containerHolder;
 
@@ -62,6 +64,10 @@ public class CalibreUnit implements Serializable, DialogActionHandler {
 		calibre.getCargoPackage().removeCalibre(calibre);
 		containerHolder.saveContainer();
 		calibre = null;
+	}
+	
+	public void setCalibreWrapped(CalibrePresentation calibre){
+		this.calibre = calibre != null ? calibre.getCalibre() : null;
 	}
 
 	@Override

@@ -7,18 +7,31 @@
 <ui:composition template="/WEB-INF/includes/dialogLayout.xhtml">
 	<ui:param name="width" value="480" />
 	<ui:param name="saveObject" value="save" />
-	<ui:param name="colCount" value="2" />
-	<ui:define name="dialogBody">	
-		
-		<p:inputText size="30"
-			value="#{bean.calibre.calibreValue}" id="calibre-value"			
-			label="Калибр" />
-		
-		<p:inputText size="30"
-			value="#{bean.calibre.packageCount}" id="calibre-count"			
-			label="Количество" >
-		<f:convertNumber maxFractionDigits="2" />
-		</p:inputText>	
+	<ui:param name="colCount" value="1" />
+	<ui:define name="dialogBody">
+	<h:panelGrid columns="2" width="100%">
+		<p:inputText size="30" value="#{bean.calibre.calibreValue}"
+			id="calibre-value" label="Калибр" />
+		<p:inputText size="30" value="#{bean.calibre.packageCount}"
+			id="calibre-count" label="Количество">
+			<f:convertNumber maxFractionDigits="2" />
+		</p:inputText>
+	</h:panelGrid>	
+	</ui:define>
+	<ui:define name="details">
+		<h:panelGroup rendered="#{bean.edit}">
+			<br />						
+			<h:dataTable value="#{bean.defects}" var="defect">
+			<f:facet name="header">Дефекты</f:facet>
+				<h:column>				
+					<h:outputText label="Дефект"  value="#{defect.articleCategory.name}: " />					
+				</h:column>					
+				<h:column>
+					<p:inputText  value="#{defect.percentage}" />
+				</h:column>
+			</h:dataTable>
+			
+		</h:panelGroup>
 	</ui:define>
 </ui:composition>
 </html>

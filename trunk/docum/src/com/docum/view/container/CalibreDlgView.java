@@ -1,10 +1,13 @@
 package com.docum.view.container;
 
 import java.io.Serializable;
+import java.util.List;
 
+import com.docum.domain.po.common.CargoCalibreDefect;
 import com.docum.domain.po.common.CargoPackageCalibre;
 import com.docum.view.AbstractDlgView;
 import com.docum.view.DialogActionEnum;
+import com.docum.view.wrapper.CalibrePresentation;
 
 public class CalibreDlgView extends AbstractDlgView implements Serializable {
 	private static final long serialVersionUID = -8167987929961469160L;
@@ -23,6 +26,14 @@ public class CalibreDlgView extends AbstractDlgView implements Serializable {
 	
 	public void save() {
 		fireAction(this, DialogActionEnum.ACCEPT);		
+	}
+	
+	public boolean isEdit(){
+		return calibre == null || calibre.getId() == null ? false : true;
+	}
+	
+	public List<CargoCalibreDefect> getDefects(){
+		return new CalibrePresentation(calibre).getDefects();
 	}
 	
 	public String getTitle() {		

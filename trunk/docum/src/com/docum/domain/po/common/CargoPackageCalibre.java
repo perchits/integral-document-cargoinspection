@@ -27,6 +27,14 @@ public class CargoPackageCalibre extends IdentifiedEntity{
 	@OneToMany(mappedBy = "calibre", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	private Set<CargoCalibreDefect> calibreDefects = new HashSet<CargoCalibreDefect>();
 	
+	public Set<CargoCalibreDefect> getCalibreDefects() {
+		return calibreDefects;
+	}
+
+	public void setCalibreDefects(Set<CargoCalibreDefect> calibreDefects) {
+		this.calibreDefects = calibreDefects;
+	}
+
 	public CargoPackageCalibre() {
 		super();
 	}
