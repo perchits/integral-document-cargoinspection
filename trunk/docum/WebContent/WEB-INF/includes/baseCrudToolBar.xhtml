@@ -9,7 +9,7 @@
 <h:panelGroup layout="block" styleClass="crud-menu" rendered="#{userBean.administrationPermited}">
 	<p:toolbar styleClass="crud-menu">
 		<p:toolbarGroup align="left">
-			<p:commandButton process="#{process == null? (gridId) : process}" type="push" 
+			<p:commandButton process="#{process == null? ('@this') : process}" type="push" 
 				value="#{hideTitle == null ? ((addTitle == null) ? 'Добавить' : addTitle) : null}"
 				update="#{gridId}DlgPanel,growl" image="ui-icon-document"
 				actionListener="#{bean[(newObject == null) ? 'newObject' : newObject]}" 

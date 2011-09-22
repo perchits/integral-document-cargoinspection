@@ -609,20 +609,19 @@ a.olive-color:hover {
 		transparent !important;
 	background-position: 3px -48px !important;
 } */
-
 .inline-auto-upload .fileinput-button {
 	width: 20px !important;
 	height: 16px !important;
-	border: 0 !important;	
-	background : transparent !important;	
+	border: 0 !important;
+	background: transparent !important;
 }
 
-.inline-auto-upload .fileinput-button span{		
-	background-position: -2px -48px !important;	
+.inline-auto-upload .fileinput-button span {
+	background-position: -2px -48px !important;
 }
 
 .inline-auto-upload .fileupload-content {
-	display : none;
+	display: none;
 }
 
 .inline-auto-upload .fileupload-buttonbar {
@@ -697,7 +696,7 @@ a.olive-color:hover {
 }
 
 .upload-dlg-left-col {
-	width: 170px;	
+	width: 170px;
 }
 
 .report-containers table {
@@ -705,20 +704,18 @@ a.olive-color:hover {
 	font-size: 11px !important;
 }
 
-
-.upload-dlg-left, .upload-dlg-right {
-	max-height : 400px;
+.upload-dlg-left,.upload-dlg-right {
+	max-height: 400px;
 	overflow: auto !important;
 }
-
 
 .upload-dlg-right {
 	padding: 0 0 0 50px;
 }
 
-.image-list-table td, .basic-dialog th {
+.image-list-table td,.basic-dialog th {
 	vertical-align: middle !important;
-	text-align : center;
+	text-align: center;
 	background: #FCFFF0;
 	border: 1px dotted #E4F0B6;
 }
@@ -730,18 +727,18 @@ a.olive-color:hover {
 
 .ui-pickreport .ui-picklist-list {
 	width: auto !important;
-	min-height : 200px !important;
+	min-height: 200px !important;
 	height: auto !important;
 }
 
-.container-bill .ui-picklist .ui-picklist-list{
+.container-bill .ui-picklist .ui-picklist-list {
 	height: 320px !important;
 }
 
 .basic-dialog th {
 	text-align: left;
-	color : olive;	
-	padding : 3px;
+	color: olive;
+	padding: 3px;
 }
 
 .container-docum div div {
@@ -754,11 +751,11 @@ a.olive-color:hover {
 }
 
 .number {
-	min-width : 40px !important;
+	min-width: 40px !important;
 	width: 50px !important;
 }
 
-.dialog-line-grid  td{	
+.dialog-line-grid  td {
 	vertical-align: middle;
 }
 
@@ -767,15 +764,14 @@ a.olive-color:hover {
 }
 
 .temperature {
-	margin-top:2px;
+	margin-top: 2px;
 }
 
-.temperature td{
-	padding : 0 5px 0 5px !important;
+.temperature td {
+	padding: 0 5px 0 5px !important;
 	border: 1px solid #E5E8CA !important;
 }
-	
-.fileinput-button {
-/* 	display: none !important; */
-}	
-	
+
+.ui-dialog-titlebar {
+	border : 0 !important;
+}
