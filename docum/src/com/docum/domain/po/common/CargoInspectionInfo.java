@@ -61,7 +61,7 @@ public class CargoInspectionInfo extends IdentifiedEntity {
 
 	@OneToMany(mappedBy = "inspectionInfo", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	private Set<CargoCalibreDefect> calibreDefects = new HashSet<CargoCalibreDefect>();
-	
+
 	public CargoInspectionInfo() {
 	}
 
@@ -187,4 +187,5 @@ public class CargoInspectionInfo extends IdentifiedEntity {
 	public void setCalibreDefects(Set<CargoCalibreDefect> calibreDefects) {
 		this.calibreDefects = calibreDefects;
 	}
+
 }

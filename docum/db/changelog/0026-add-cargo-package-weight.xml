@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+	<changeSet author="pepper" id="0026-add-cargo-package-weight">
+
+		<createTable tableName="cargopackageweight">
+		    <column autoIncrement="true" name="id" type="bigserial">
+		        <constraints nullable="false" primaryKey="true" primaryKeyName="cargopackageweight_pkey"/>
+		    </column>
+		    <column name="grossweight" type="FLOAT8(17)">
+		        <constraints nullable="false"/>
+		    </column>
+		    <column name="tareweight" type="FLOAT8(17)">
+		        <constraints nullable="false"/>
+		    </column>
+		    <column name="cargopackage_id" type="int8">
+		        <constraints nullable="false"/>
+		    </column>
+		</createTable>
+
+		<addForeignKeyConstraint constraintName="cargopackageweight__cargopackage_fk"
+			baseTableName="cargopackageweight" baseColumnNames="cargopackage_id"
+			referencedTableName="cargopackage" referencedColumnNames="id"/>
+
+		<createIndex indexName="cargopackageweight__cargopackage_fk_idx"
+			tableName="cargopackageweight">
+			<column name="cargopackage_id"/>
+		</createIndex>
+
+		<dropForeignKeyConstraint baseTableName="cargocalibredefect"
+			constraintName="fk423e01af45fff8c7"/>
+		<addForeignKeyConstraint constraintName="cargocalibredefect__articlecategory_fk"
+			baseTableName="cargocalibredefect" baseColumnNames="articlecategory_id"
+			referencedTableName="articlecategory" referencedColumnNames="id"/>
+
+		<createIndex indexName="cargocalibredefect__articlecategory_fk_idx"
+			tableName="cargocalibredefect">
+			<column name="articlecategory_id"/>
+		</createIndex>
+
+		<dropForeignKeyConstraint baseTableName="cargocalibredefect"
+			constraintName="fk423e01afc554281d"/>
+		<addForeignKeyConstraint constraintName="cargocalibredefect__cargopackagecalibre_fk"
+			baseTableName="cargocalibredefect" baseColumnNames="calibre_id"
+			referencedTableName="cargopackagecalibre" referencedColumnNames="id"/>
+
+		<createIndex indexName="cargocalibredefect__cargopackagecalibre_fk_idx"
+			tableName="cargocalibredefect">
+			<column name="calibre_id"/>
+		</createIndex>
+
+		<dropForeignKeyConstraint baseTableName="cargocalibredefect"
+			constraintName="fk423e01af15e76e63"/>
+		<addForeignKeyConstraint constraintName="cargocalibredefect__cargoinspectioninfo_fk"
+			baseTableName="cargocalibredefect" baseColumnNames="inspectioninfo_id"
+			referencedTableName="cargoinspectioninfo" referencedColumnNames="id"/>
+
+		<createIndex indexName="cargocalibredefect__cargoinspectioninfo_fk_idx"
+			tableName="cargocalibredefect">
+			<column name="inspectioninfo_id"/>
+		</createIndex>
+
+	</changeSet>
+</databaseChangeLog>
