@@ -18,6 +18,8 @@
 						update="calibreIdDlgPanel,growl">
 						<f:setPropertyActionListener target="#{calibrebean.calibre}"
 							value="#{calibre}" />
+						<f:setPropertyActionListener target="#{cargobean.cargo}"
+        			value="#{wcargo}" />
 						<h:outputText value="#{calibre.calibreValue}:" />
 					</p:commandLink>
 					<h:outputText value=" " />
@@ -30,6 +32,8 @@
 						update="calibreIdConfirmId">
 						<f:setPropertyActionListener target="#{calibrebean.calibre}"
 							value="#{calibre}" />
+						<f:setPropertyActionListener target="#{cargobean.cargo}"
+        			value="#{wcargo}" />
 					</p:commandButton>
 				</h:form>
 			</li>

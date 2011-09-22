@@ -12,6 +12,7 @@ import org.primefaces.event.FileUploadEvent;
 import com.docum.domain.po.common.Cargo;
 import com.docum.domain.po.common.CargoCondition;
 import com.docum.domain.po.common.CargoInspectionInfo;
+import com.docum.domain.po.common.Container;
 import com.docum.domain.po.common.FileUrl;
 import com.docum.domain.po.common.NormativeDocument;
 import com.docum.service.ArticleService;
@@ -24,13 +25,16 @@ import com.docum.view.DialogActionEnum;
 import com.docum.view.DialogActionHandler;
 import com.docum.view.FileUploadUtil;
 import com.docum.view.container.CargoDlgView;
+import com.docum.view.container.CargoHolder;
+import com.docum.view.container.ContainerChangeListener;
 import com.docum.view.container.ContainerContext;
 import com.docum.view.container.ContainerHolder;
 import com.docum.view.container.FileListDlgView;
 import com.docum.view.wrapper.CargoPresentation;
 import com.docum.view.wrapper.CargoTransformer;
 
-public class CargoUnit implements Serializable, DialogActionHandler {
+public class CargoUnit implements Serializable, DialogActionHandler, CargoHolder,
+		ContainerChangeListener {
 	private static final long serialVersionUID = 4121556886204075852L;
 
 	private static enum CargoOperationEnum {
@@ -56,8 +60,9 @@ public class CargoUnit implements Serializable, DialogActionHandler {
 	public CargoUnit(ContainerHolder containerHolder) {
 		this.containerHolder = containerHolder;
 		cargoFeatureUnit = new CargoFeatureUnit(containerHolder);
-		cargoPackageUnit = new CargoPackageUnit(containerHolder);
+		cargoPackageUnit = new CargoPackageUnit(containerHolder, this);
 		cargoDefectUnit = new CargoDefectUnit(containerHolder);
+		containerHolder.addContainerChangeListener(this);
 	}
 
 	public void setContext(ContainerContext context) {
@@ -90,13 +95,17 @@ public class CargoUnit implements Serializable, DialogActionHandler {
 		return cargoDefectUnit;
 	}
 
-	public void setCargoPresentation(CargoPresentation cargo) {
+	public void setCargo(CargoPresentation cargo) {
 		this.cargoPresentation = cargo;
 		containerHolder.setDlgCargoUnit(this);
 	}
+	
+	public CargoPresentation getCargo() {
+		return cargoPresentation;
+	}
 
 	public void setEditCargo(CargoPresentation cargo) {
-		setCargoPresentation(cargo);
+		setCargo(cargo);
 		prepareCargoDialog(new Cargo(this.cargoPresentation.getCargo()));
 	}
 
@@ -270,6 +279,58 @@ public class CargoUnit implements Serializable, DialogActionHandler {
 				}
 			}
 		}
+	}
+
+	@Override
+	public void saveCargo() {
+		if(cargoPresentation != null) {
+			cargoPresentation.save();
+		}
+	}
+
+	@Override
+	public void containerChanged(Container container) {
+		if(cargoPresentation == null) {
+			return;
+		}
+		Cargo cargo = cargoPresentation.getCargo();
+		for(Cargo c : container.getDeclaredCondition().getCargoes()) {
+			if(c.equals(cargo)) {
+				cargoPresentation.setCargo(c);
+				return;
+			}
+		}
+		for(Cargo c : container.getActualCondition().getCargoes()) {
+			if(c.equals(cargo)) {
+				cargoPresentation.setCargo(c);
+				return;
+			}
+		}
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((cargoPresentation == null) ? 0 : cargoPresentation.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		CargoUnit other = (CargoUnit) obj;
+		if (cargoPresentation == null) {
+			if (other.cargoPresentation != null)
+				return false;
+		} else if (!cargoPresentation.equals(other.cargoPresentation))
+			return false;
+		return true;
 	}
 
 }

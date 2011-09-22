@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import com.docum.domain.po.IdentifiedEntity;
 import com.docum.util.EqualsHelper;
@@ -34,6 +35,9 @@ public class Cargo extends IdentifiedEntity {
 
 	@ManyToOne(optional = false)
 	private CargoCondition condition;
+	
+//	@OneToMany(mappedBy="cargo", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+//	private Set<CargoInspectionInfo> inspectionInfo = new HashSet<CargoInspectionInfo>();
 
 	public Cargo() {
 		super();
