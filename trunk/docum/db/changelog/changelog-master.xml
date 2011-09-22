@@ -28,5 +28,6 @@
   <include file="0023-add-inspection-options.xml"/>
   <include file="0024-nulable-article-id-in-options.xml"/>
   <include file="0025-add-calibre-defects.xml"/>
+  <include file="0026-add-cargo-package-weight.xml"/>
     
 </databaseChangeLog>

@@ -16,6 +16,7 @@ import com.docum.domain.po.common.CargoInspectionInfo;
 import com.docum.domain.po.common.CargoInspectionOption;
 import com.docum.domain.po.common.CargoPackage;
 import com.docum.domain.po.common.CargoPackageCalibre;
+import com.docum.domain.po.common.CargoPackageWeight;
 import com.docum.domain.po.common.Container;
 import com.docum.domain.po.common.Measure;
 import com.docum.domain.po.common.Supplier;
@@ -32,6 +33,8 @@ public class CargoDataPreparator extends AbstractDataPreparator {
 	public static final Double[] percents = new Double[] { 0.2, 2.3, 1.5, 2.7,
 		0.9, 3.4, 1.2, 3.3, 12.8, 7.2 };
 
+	public static final Double[] weights = new Double[] { 1.4, 12.2, 15.1, 12.7,
+		0.7, 23.2, 1.6, 12.9, 0.2, 8.3 };
 	
 	private TestDataEntityCounter<Article> articleCounter;
 	private TestDataEntityCounter<Supplier> supplierCounter;
@@ -43,6 +46,8 @@ public class CargoDataPreparator extends AbstractDataPreparator {
 		new TestDataEntityCounter<String>(calibreNames);
 	private TestDataEntityCounter<Double> percentsCounter =
 		new TestDataEntityCounter<Double>(percents);
+	private TestDataEntityCounter<Double> weightsCounter =
+		new TestDataEntityCounter<Double>(weights);
 
 
 	private int categoryCounter = 0;
@@ -152,8 +157,19 @@ public class CargoDataPreparator extends AbstractDataPreparator {
 			if(i==0) {
 				pkg.setCalibres(new HashSet<CargoPackageCalibre>(prepareCalibres(pkg)));
 			}
+			if(cargo.getCondition().isSurveyable()) {
+				prepareWeights(pkg);
+			}
 		}
 		return packages;
+	}
+
+	private void prepareWeights(CargoPackage pkg) {
+		for(int i = 0; i<10; i++) {
+			CargoPackageWeight weight = new CargoPackageWeight(pkg, weightsCounter.next(),
+					weightsCounter.next()) ;
+			pkg.getWeights().add(weight);
+		}
 	}
 
 	private List<CargoPackageCalibre> prepareCalibres(CargoPackage pkg) {

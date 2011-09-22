@@ -8,6 +8,8 @@ import java.util.List;
 
 import com.docum.domain.po.common.CargoPackage;
 import com.docum.domain.po.common.CargoPackageCalibre;
+import com.docum.util.cargo.AverageCargoPackageWeights;
+import com.docum.util.cargo.CargoUtil;
 
 public class CargoPackagePresentation implements Serializable {
 	private static final long serialVersionUID = -7646051869636422101L;
@@ -15,21 +17,28 @@ public class CargoPackagePresentation implements Serializable {
 	private CargoPackage cargoPackage;
 
 	private CargoPresentation cargoPresentation;
+	
+	private AverageCargoPackageWeights averageWeights;
+
+	public CargoPackagePresentation(CargoPackage cargoPackage,
+			CargoPresentation cargoPresentation) {
+		setCargoPackage(cargoPackage);
+		this.cargoPresentation = cargoPresentation;
+	}
 
 	public CargoPackage getCargoPackage() {
 		return cargoPackage;
 	}
 
-	public void setCargo(CargoPackage cargoPackage) {
+	public void setCargoPackage(CargoPackage cargoPackage) {
 		this.cargoPackage = cargoPackage;
+		if(cargoPackage.getCargo().getCondition().isSurveyable()) {
+			averageWeights = CargoUtil.calcAverageWeights(cargoPackage.getWeights());
+		} else {
+			averageWeights = null;
+		}
 	}
 
-	public CargoPackagePresentation(CargoPackage cargoPackage,
-			CargoPresentation cargoPresentation) {
-		this.cargoPackage = cargoPackage;
-		this.cargoPresentation = cargoPresentation;
-	}
-	
 	public List<CargoPackageCalibre> getCalibres(){
 		if (cargoPackage == null) {
 			return null;
@@ -57,6 +66,10 @@ public class CargoPackagePresentation implements Serializable {
 
 	public CargoPresentation getCargoPresentation() {
 		return cargoPresentation;
+	}
+
+	public AverageCargoPackageWeights getAverageWeights() {
+		return averageWeights;
 	}
 	
 	

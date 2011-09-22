@@ -6,6 +6,8 @@ import java.util.List;
 import com.docum.domain.po.common.CargoPackage;
 import com.docum.domain.po.common.Measure;
 import com.docum.service.BaseService;
+import com.docum.util.cargo.AverageCargoPackageWeights;
+import com.docum.util.cargo.CargoUtil;
 import com.docum.view.AbstractDlgView;
 import com.docum.view.DialogActionEnum;
 import com.docum.view.DialogActionHandler;
