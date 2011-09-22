@@ -80,15 +80,14 @@
 
 
 			<h:outputText value="Термодатчик:" />
-			<h:panelGrid columns="2" styleClass="dialog-line-grid">
+			<h:panelGrid columns="2" styleClass="dialog-line-grid">				
 				<h:selectOneMenu id="temperatureSpyState"
 					styleClass="ui-inputfield ui-widget ui-state-default ui-corner-all"
 					value="#{bean.temperatureSpyState}">
 					<f:selectItems value="#{bean.temperatureSpyStates}" var="temperatureSpyState"
-						itemLabel="#{temperatureSpyState.name}" />
-				<p:inputText value="#{bean.temperatureSpyNumber}" />
+						itemLabel="#{temperatureSpyState.name}" />				
 				</h:selectOneMenu>
-				
+				<p:inputText value="#{bean.temperatureSpyNumber}" />
 			</h:panelGrid>
 			
 <!-- 			<h:panelGrid columns="4" styleClass="dialog-line-grid"> -->

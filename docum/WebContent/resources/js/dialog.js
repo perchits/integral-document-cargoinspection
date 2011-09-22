@@ -34,3 +34,10 @@ function checkIfArticleList(articleListPanelId) {
 	document.getElementById('featuresGridDlgPanel').style.display = "none";
 	document.getElementById('featuresGridDlgPanel').style.display = "block";
 }
+
+function topFix(obj){	
+	var h = jQuery('#' + obj).height();
+	var t = jQuery(window).height();	
+	var topFixed = (t - h) / 2;
+	jQuery('#' + obj).css("top",topFixed + "px");	
+}
