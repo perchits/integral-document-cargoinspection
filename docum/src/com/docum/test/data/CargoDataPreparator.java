@@ -88,6 +88,7 @@ public class CargoDataPreparator extends AbstractDataPreparator {
 				prepareFeatures(actualCargo);
 				actualCargo.setArticleCategory(prepareCategory(actualCargo));
 				prepareCargoInspection(actualCargo);
+				prepareCalibreDefects(actualCargo);
 				result.add(actualCargo);
 			}
 		}
@@ -111,7 +112,6 @@ public class CargoDataPreparator extends AbstractDataPreparator {
 			options.add(cio);
 		}
 		info.setInspectionOptions(options);
-		info.setCalibreDefects(prepareCalibreDefects(info));
 		persister.persist(info);
 	}
 	
@@ -182,18 +182,15 @@ public class CargoDataPreparator extends AbstractDataPreparator {
 		return calibres;
 	}
 	
-	private Set<CargoCalibreDefect> prepareCalibreDefects(CargoInspectionInfo info) {
-		Cargo cargo = info.getCargo();
-		Set<CargoCalibreDefect> result = new HashSet<CargoCalibreDefect>();
+	private void prepareCalibreDefects(Cargo cargo) {
 		for(CargoPackage cp : cargo.getCargoPackages()) {
 			for(CargoPackageCalibre calibre : cp.getCalibres()) {
 				for(ArticleCategory cat : cargo.getArticle().getCategories()) {
-					CargoCalibreDefect defect = new CargoCalibreDefect(info, cat, calibre);
+					CargoCalibreDefect defect = new CargoCalibreDefect(cat, calibre);
 					defect.setPercentage(percentsCounter.next());
-					result.add(defect);
+					calibre.getCalibreDefects().add(defect);
 				}
 			}
 		}
-		return result;
 	}
 }

@@ -67,7 +67,7 @@ public class CargoUtilTest {
 	private CargoCalibreDefect createDefect(ArticleCategory category, CargoPackageCalibre calibre,
 			double percentage) {
 		CargoCalibreDefect defect;
-		defect = new CargoCalibreDefect(null, category, calibre);
+		defect = new CargoCalibreDefect(category, calibre);
 		defect.setPercentage(percentage);
 		return defect;
 	}

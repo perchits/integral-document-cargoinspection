@@ -33,40 +33,30 @@ public class CargoServiceImpl extends BaseServiceImpl implements CargoService {
 	
 	@Override
 	public CargoInspectionInfo saveCargoInspectionInfo(CargoInspectionInfo cargoInspectionInfo) {
-		processCategoryDefects(cargoInspectionInfo);
 		return super.save(cargoInspectionInfo);
 	}
 
 	@Override
-	public void processCategoryDefects(CargoInspectionInfo cargoInspectionInfo) {
-		Cargo cargo = cargoInspectionInfo.getCargo();
-		Set<CargoCalibreDefect> defects = cargoInspectionInfo.getCalibreDefects();
-		Set<CargoPackageCalibre> calibreCache = new HashSet<CargoPackageCalibre>();
+	public void processCategoryDefects(Cargo cargo) {
+		if(!cargo.getCondition().isSurveyable()) {
+			return;
+		}
 		//Добавляем недостающие дефекты
 		for(CargoPackage cp : cargo.getCargoPackages()) {
 			for(CargoPackageCalibre calibre : cp.getCalibres()) {
-				calibreCache.add(calibre);
 				for(ArticleCategory category : cargo.getArticle().getCategories()) {
-					if(!findDefect(defects, calibre, category)) {
-						CargoCalibreDefect defect = new CargoCalibreDefect(cargoInspectionInfo,
-								category, calibre);
-						defects.add(defect);
+					if(!findDefect(calibre, category)) {
+						CargoCalibreDefect defect = new CargoCalibreDefect(category, calibre);
+						calibre.getCalibreDefects().add(defect);
 					}
 				}
 			}
 		}
-		//Удаляем лишние дефекты
-		for(Iterator<CargoCalibreDefect> it = defects.iterator(); it.hasNext();) {
-			if(!calibreCache.contains(it.next().getCalibre())) {
-				it.remove();
-			}
-		}
-		//super.save(defects);
 	}
 	
-	private boolean findDefect(final Set<CargoCalibreDefect> defects,
-			final CargoPackageCalibre calibre, final ArticleCategory category) {
-		return AlgoUtil.find(defects, new AlgoUtil.FindPredicate<CargoCalibreDefect>() {
+	private boolean findDefect(final CargoPackageCalibre calibre, final ArticleCategory category) {
+		return AlgoUtil.find(calibre.getCalibreDefects(),
+				new AlgoUtil.FindPredicate<CargoCalibreDefect>() {
 			@Override
 			public boolean isIt(CargoCalibreDefect defect) {
 				return defect.getArticleCategory().equals(category) &&

@@ -29,5 +29,6 @@
   <include file="0024-nulable-article-id-in-options.xml"/>
   <include file="0025-add-calibre-defects.xml"/>
   <include file="0026-add-cargo-package-weight.xml"/>
-    
+  <include file="0027-fix-cargo-calibre-defects.xml"/>
+      
 </databaseChangeLog>
