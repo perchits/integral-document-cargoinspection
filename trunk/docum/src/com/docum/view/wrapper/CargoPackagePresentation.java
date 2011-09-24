@@ -3,8 +3,6 @@ package com.docum.view.wrapper;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import com.docum.domain.po.common.CargoPackage;
@@ -45,21 +43,20 @@ public class CargoPackagePresentation implements Serializable {
 		if (cargoPackage == null) {
 			return null;
 		}
-		
-		if (cargoPackage.getCalibres() == null){
-			return null;
-		}
-		
-		List<CargoPackageCalibre> result = new ArrayList<CargoPackageCalibre>(
-				cargoPackage.getCalibres());
-		Collections.sort(result, new Comparator<CargoPackageCalibre>() {
-			@Override
-			public int compare(CargoPackageCalibre o1, CargoPackageCalibre o2) {
-				return o1.getCalibreValue()
-						.compareTo(o2.getCalibreValue());
-			}
-		});
-		return result;
+		return cargoPackage.getCalibres();
+//		if (cargoPackage.getCalibres() == null){
+//			return null;
+//		}
+//		List<CargoPackageCalibre> result = new ArrayList<CargoPackageCalibre>(
+//				cargoPackage.getCalibres());
+//		Collections.sort(result, new Comparator<CargoPackageCalibre>() {
+//			@Override
+//			public int compare(CargoPackageCalibre o1, CargoPackageCalibre o2) {
+//				return o1.getCalibreValue()
+//						.compareTo(o2.getCalibreValue());
+//			}
+//		});
+//		return result;
 	}
 
 	public List<CalibrePresentation> getCalibres(){		

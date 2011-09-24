@@ -7,6 +7,110 @@ import java.util.List;
 public class Stats {
 
 	/**
+	 * CargoCalibreDefects - строка в таблице повреждений
+	 */
+	public static class CargoCalibreDefects implements Serializable {
+		private static final long serialVersionUID = -1703079367878760638L;
+
+		private String calibreName;
+		private double packageCount;
+		private double[] percentages;
+
+		public CargoCalibreDefects() {
+			super();
+		}
+
+		public CargoCalibreDefects(String calibreName, double packageCount) {
+			super();
+			this.calibreName = calibreName;
+			this.packageCount = packageCount;
+		}
+		
+		public String getCalibreName() {
+			return calibreName;
+		}
+		public void setCalibreName(String calibre) {
+			this.calibreName = calibre;
+		}
+		public double getPackageCount() {
+			return packageCount;
+		}
+		public void setPackageCount(double packageCount) {
+			this.packageCount = packageCount;
+		}
+		public double[] getPercentages() {
+			return percentages;
+		}
+		public void setPercentages(double[] percentages) {
+			this.percentages = percentages;
+		}
+	}
+	
+	/**
+	 * CargoDefectsOld - таблица повреждений
+	 */
+	public static class CargoDefects implements Serializable {
+		private static final long serialVersionUID = -968234605437616504L;
+
+		private String cargoName;
+		private String cargoEnglishName;
+		private String[] categoryNames;
+		private String[] categoryEnglishNames;
+		private CargoCalibreDefects[] calibreDefects;
+		private CargoCalibreDefects averageCalibreDefects;
+
+		public CargoDefects() {
+			super();
+		}
+
+		public CargoDefects(String cargoName, String cargoEnglishName) {
+			super();
+			this.cargoName = cargoName;
+			this.cargoEnglishName = cargoEnglishName;
+		}
+		
+		public String getCargoName() {
+			return cargoName;
+		}
+		public void setCargoName(String cargoName) {
+			this.cargoName = cargoName;
+		}
+		public String getCargoEnglishName() {
+			return cargoEnglishName;
+		}
+		public void setCargoEnglishName(String cargoEnglishName) {
+			this.cargoEnglishName = cargoEnglishName;
+		}
+		public String[] getCategoryNames() {
+			return categoryNames;
+		}
+		public void setCategoryNames(String[] categoryNames) {
+			this.categoryNames = categoryNames;
+		}
+		public String[] getCategoryEnglishNames() {
+			return categoryEnglishNames;
+		}
+		public void setCategoryEnglishNames(String[] categoryEnglishNames) {
+			this.categoryEnglishNames = categoryEnglishNames;
+		}
+		public CargoCalibreDefects[] getCalibreDefects() {
+			return calibreDefects;
+		}
+		public void setCalibreDefects(CargoCalibreDefects[] calibreDefects) {
+			this.calibreDefects = calibreDefects;
+		}
+		public CargoCalibreDefects getAverageCalibreDefects() {
+			return averageCalibreDefects;
+		}
+		public void setAverageCalibreDefects(CargoCalibreDefects averageCalibreDefects) {
+			this.averageCalibreDefects = averageCalibreDefects;
+		}
+	}
+	
+	
+	
+	
+	/**
 	 * Описывает партию груза с уникальными характеристиками в рамках инвойса
 	 */
 	public static class CargoParty implements Serializable {
@@ -16,10 +120,10 @@ public class Stats {
 		private String articleEnglishName;
 		private String categoryName;
 		private String categoryEnglishName;
-		private CargoDefects defects;
+		private CargoDefectsOld defects;
 
 		public CargoParty(String articleName, String articleEnglishName, String categoryName,
-				String categoryEnglishName, CargoDefects defects) {
+				String categoryEnglishName, CargoDefectsOld defects) {
 			super();
 			this.articleName = articleName;
 			this.articleEnglishName = articleEnglishName;
@@ -39,28 +143,28 @@ public class Stats {
 		public String getCategoryEnglishName() {
 			return categoryEnglishName;
 		}
-		public CargoDefects getDefects() {
+		public CargoDefectsOld getDefects() {
 			return defects;
 		}
 	}
 	
-	public static class CargoDefects implements Serializable {
+	public static class CargoDefectsOld implements Serializable {
 		private static final long serialVersionUID = -372166682283425892L;
 
-		private List<CategoryDefects> categoryDefects = new ArrayList<Stats.CategoryDefects>();
+		private List<CategoryDefectsOld> categoryDefectsOld = new ArrayList<Stats.CategoryDefectsOld>();
 
-		public CargoDefects() {
+		public CargoDefectsOld() {
 			super();
 		}
-		public List<CategoryDefects> getCategoryDefects() {
-			return categoryDefects;
+		public List<CategoryDefectsOld> getCategoryDefects() {
+			return categoryDefectsOld;
 		}
-		public void addCategoryDefects(CategoryDefects defects) {
-			categoryDefects.add(defects);
+		public void addCategoryDefects(CategoryDefectsOld defects) {
+			categoryDefectsOld.add(defects);
 		}
 		//Главная категория - всегда первая
-		public CategoryDefects getMainCategory() {
-			return categoryDefects.isEmpty() ? null : categoryDefects.iterator().next();
+		public CategoryDefectsOld getMainCategory() {
+			return categoryDefectsOld.isEmpty() ? null : categoryDefectsOld.iterator().next();
 		}
 	}
 	
@@ -68,14 +172,14 @@ public class Stats {
 	 * Средние значения дефектов по категориям
 	 */
 	
-	public static class CategoryDefects implements Serializable {
+	public static class CategoryDefectsOld implements Serializable {
 		private static final long serialVersionUID = 382955697301254228L;
 
 		private String categoryName;
 		private String categoryEnglishName;
 		private double percentage = 0.0;
 
-		public CategoryDefects(String categoryName, String categoryEnglishName) {
+		public CategoryDefectsOld(String categoryName, String categoryEnglishName) {
 			super();
 			this.categoryName = categoryName;
 			this.categoryEnglishName = categoryEnglishName;

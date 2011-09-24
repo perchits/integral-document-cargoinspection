@@ -155,7 +155,7 @@ public class CargoDataPreparator extends AbstractDataPreparator {
 					countCounter.next());
 			packages.add(pkg);
 			if(i==0) {
-				pkg.setCalibres(new HashSet<CargoPackageCalibre>(prepareCalibres(pkg)));
+				pkg.setCalibres(prepareCalibres(pkg));
 			}
 			if(cargo.getCondition().isSurveyable()) {
 				prepareWeights(pkg);

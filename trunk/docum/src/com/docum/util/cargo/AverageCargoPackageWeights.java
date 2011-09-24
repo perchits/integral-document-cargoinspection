@@ -1,6 +1,10 @@
 package com.docum.util.cargo;
 
-public class AverageCargoPackageWeights {
+import java.io.Serializable;
+
+public class AverageCargoPackageWeights implements Serializable {
+	private static final long serialVersionUID = 2644759056777972632L;
+
 	private double grossWeight;
 	private double netWeight;
 	private double tareWeight;
