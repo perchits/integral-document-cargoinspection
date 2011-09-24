@@ -1,9 +1,7 @@
 package com.docum.domain.po.common;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -25,8 +23,8 @@ public class CargoPackage extends IdentifiedEntity {
 
 	private double count;
 	
-	@OneToMany(mappedBy="cargoPackage", cascade=CascadeType.ALL, orphanRemoval=true, fetch=FetchType.EAGER)
-	private Set<CargoPackageCalibre> calibres = new HashSet<CargoPackageCalibre>();
+	@OneToMany(mappedBy="cargoPackage", cascade=CascadeType.ALL, orphanRemoval=true, fetch=FetchType.LAZY)
+	private List<CargoPackageCalibre> calibres = new ArrayList<CargoPackageCalibre>();
 
 	@OneToMany(mappedBy = "cargoPackage", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	private List<CargoPackageWeight> weights = new ArrayList<CargoPackageWeight>();
@@ -71,11 +69,11 @@ public class CargoPackage extends IdentifiedEntity {
 		this.count = count;
 	}
 
-	public Set<CargoPackageCalibre> getCalibres() {
+	public List<CargoPackageCalibre> getCalibres() {
 		return calibres;
 	}
 
-	public void setCalibres(Set<CargoPackageCalibre> calibres) {		
+	public void setCalibres(List<CargoPackageCalibre> calibres) {		
 		this.calibres = calibres;
 	}
 	

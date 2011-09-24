@@ -11,15 +11,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.docum.domain.Stats;
-import com.docum.domain.Stats.CategoryDefects;
 import com.docum.domain.po.common.Article;
 import com.docum.domain.po.common.ArticleCategory;
 import com.docum.domain.po.common.Cargo;
-import com.docum.domain.po.common.CargoDefect;
-import com.docum.domain.po.common.CargoDefectGroup;
+import com.docum.domain.po.common.Container;
 import com.docum.domain.po.common.Invoice;
+import com.docum.service.ContainerService;
 import com.docum.service.InvoiceService;
 import com.docum.service.StatsService;
+import com.docum.util.cargo.CargoUtil;
 import com.docum.util.stats.StatsCargoGroup;
 import com.docum.util.stats.StatsCargoGroupInfo;
 import com.docum.util.stats.StatsHelper;
@@ -31,7 +31,24 @@ public class StatsServiceImpl implements StatsService, Serializable {
 
 	@Autowired
 	private InvoiceService invoiceSvc;
+	@Autowired
+	private ContainerService containerSvc;
 
+
+	@Override
+	public List<Stats.CargoDefects> calcAverageDefects(Long containerId) {
+		List<Stats.CargoDefects> result = new ArrayList<Stats.CargoDefects>();
+		Container container = containerSvc.getContainer(containerId);
+
+		for(Cargo cargo : container.getActualCondition().getCargoes()) {
+			result.add(CargoUtil.calcAverageDefects(cargo));
+		}
+		return result;
+	}
+	
+	
+	
+	
 	@Override
 	public List<Stats.CargoParty> getCargoParties(Long invoiceId) {
 		List<Stats.CargoParty> result = new ArrayList<Stats.CargoParty>();
@@ -58,20 +75,20 @@ public class StatsServiceImpl implements StatsService, Serializable {
 		ArticleCategory articleCategory = info.getCategory();
 		Article article = articleCategory.getArticle();
 		
-		List<Stats.CargoDefects> allDefects = new ArrayList<Stats.CargoDefects>();
+		List<Stats.CargoDefectsOld> allDefects = new ArrayList<Stats.CargoDefectsOld>();
 		//Сначала рассчитываем все категории по каждому грузу
 		for(Cargo cargo : group.getCargoes()) {
 			allDefects.add(extractCargoDefects(cargo));
 		}
 		//Далее находим среднее арифметическое всех значений
 		//Заодно проверяем, что все списки дефектов категорий имеют один размер
-		Stats.CargoDefects averageDefects = new Stats.CargoDefects();
-		List<Iterator<Stats.CategoryDefects>> iterators =
-			new ArrayList<Iterator<Stats.CategoryDefects>>();
+		Stats.CargoDefectsOld averageDefects = new Stats.CargoDefectsOld();
+		List<Iterator<Stats.CategoryDefectsOld>> iterators =
+			new ArrayList<Iterator<Stats.CategoryDefectsOld>>();
 		//Итератор для определения позиции в расчете
-		Iterator<Stats.CategoryDefects> refIterator = null;
+		Iterator<Stats.CategoryDefectsOld> refIterator = null;
 		int count =-1;
-		for(Stats.CargoDefects defects : allDefects) {
+		for(Stats.CargoDefectsOld defects : allDefects) {
 			if(count == -1) {
 				count = defects.getCategoryDefects().size();
 				refIterator = defects.getCategoryDefects().iterator();
@@ -82,12 +99,12 @@ public class StatsServiceImpl implements StatsService, Serializable {
 		}
 		//Собственно расчет среднего арифметического
 		while(refIterator.hasNext()) {
-			Stats.CategoryDefects refCatDefects = refIterator.next();
-			Stats.CategoryDefects catDefects =
-				new Stats.CategoryDefects(refCatDefects.getCategoryName(),
+			Stats.CategoryDefectsOld refCatDefects = refIterator.next();
+			Stats.CategoryDefectsOld catDefects =
+				new Stats.CategoryDefectsOld(refCatDefects.getCategoryName(),
 						refCatDefects.getCategoryEnglishName());
 			double percentage = 0.0;
-			for(Iterator<Stats.CategoryDefects> i : iterators) {
+			for(Iterator<Stats.CategoryDefectsOld> i : iterators) {
 				percentage += i.next().getPercentage();
 			}
 			catDefects.setPercertage(percentage/iterators.size());
@@ -99,12 +116,12 @@ public class StatsServiceImpl implements StatsService, Serializable {
 		return party;
 	}
 
-	public Stats.CargoDefects extractCargoDefects(Cargo cargo) {
-		Stats.CargoDefects cargoDefects = new Stats.CargoDefects();
+	public Stats.CargoDefectsOld extractCargoDefects(Cargo cargo) {
+		Stats.CargoDefectsOld cargoDefectsOld = new Stats.CargoDefectsOld();
 //		boolean isFirstCategory = true;
 //		double categoryPercentage = 0.0;
 //		for(CargoDefectGroup defectGroup : cargo.getInspectionInfo().getDefectGroups()) {
-//			Stats.CategoryDefects catDefects = new Stats.CategoryDefects(
+//			Stats.CategoryDefectsOld catDefects = new Stats.CategoryDefectsOld(
 //					defectGroup.getArticleCategory().getName(),
 //					defectGroup.getArticleCategory().getEnglishName());
 //			cargoDefects.addCategoryDefects(catDefects);
@@ -124,16 +141,16 @@ public class StatsServiceImpl implements StatsService, Serializable {
 //		}
 //		//Добавляем категорию с браком и рассчитываем первую категорию.
 //		//TODO Сделать имена брака настраиваемыми
-//		Stats.CategoryDefects wasteDefects = new Stats.CategoryDefects("Брак", "Waste");
+//		Stats.CategoryDefectsOld wasteDefects = new Stats.CategoryDefectsOld("Брак", "Waste");
 //		cargoDefects.addCategoryDefects(wasteDefects);
-//		CategoryDefects mainCategory = cargoDefects.getMainCategory();
+//		CategoryDefectsOld mainCategory = cargoDefects.getMainCategory();
 //		categoryPercentage = 100.0;
-//		for(Stats.CategoryDefects category : cargoDefects.getCategoryDefects()) {
+//		for(Stats.CategoryDefectsOld category : cargoDefects.getCategoryDefects()) {
 //			if(!category.equals(mainCategory)) {
 //				categoryPercentage -= category.getPercentage();
 //			}
 //		}
 //		mainCategory.setPercertage(categoryPercentage);
-		return cargoDefects;
+		return cargoDefectsOld;
 	}
 }
