@@ -1,5 +1,6 @@
 package com.docum.service;
 
+import com.docum.domain.po.common.Cargo;
 import com.docum.domain.po.common.CargoInspectionInfo;
 
 public interface CargoService extends BaseService {
@@ -8,5 +9,5 @@ public interface CargoService extends BaseService {
 
 	public CargoInspectionInfo getCargoInspectionInfo(Long cargoId);
 	public CargoInspectionInfo saveCargoInspectionInfo(CargoInspectionInfo cargoInspectionInfo);
-	public void processCategoryDefects(CargoInspectionInfo cargoInspectionInfo);
+	public void processCategoryDefects(Cargo cargo);
 }

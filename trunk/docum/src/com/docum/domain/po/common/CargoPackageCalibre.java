@@ -1,7 +1,7 @@
 package com.docum.domain.po.common;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -25,13 +25,13 @@ public class CargoPackageCalibre extends IdentifiedEntity{
 	private double packageCount;
 
 	@OneToMany(mappedBy = "calibre", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-	private Set<CargoCalibreDefect> calibreDefects = new HashSet<CargoCalibreDefect>();
+	private List<CargoCalibreDefect> calibreDefects = new ArrayList<CargoCalibreDefect>();
 	
-	public Set<CargoCalibreDefect> getCalibreDefects() {
+	public List<CargoCalibreDefect> getCalibreDefects() {
 		return calibreDefects;
 	}
 
-	public void setCalibreDefects(Set<CargoCalibreDefect> calibreDefects) {
+	public void setCalibreDefects(List<CargoCalibreDefect> calibreDefects) {
 		this.calibreDefects = calibreDefects;
 	}
 

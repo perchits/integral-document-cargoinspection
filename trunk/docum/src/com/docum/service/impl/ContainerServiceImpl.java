@@ -73,10 +73,7 @@ public class ContainerServiceImpl extends BaseServiceImpl implements ContainerSe
 
 	private void processCategoryDefects(Container container) {
 		for(Cargo cargo : container.getActualCondition().getCargoes()) {
-			CargoInspectionInfo inspectionInfo = cargo.getInspectionInfo();
-			if(inspectionInfo != null) {
-				cargoService.processCategoryDefects(inspectionInfo);
-			}
+			cargoService.processCategoryDefects(cargo);
 		}
 	}
 }

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import com.docum.domain.Stats;
 import com.docum.domain.po.common.Article;
@@ -97,7 +96,7 @@ public class CargoUtil {
 	}
 	
 	private static CargoCalibreDefect findCargoCalibreDefect(ArticleCategory category,
-			Set<CargoCalibreDefect> calibreDefects) {
+			Collection<CargoCalibreDefect> calibreDefects) {
 		for(CargoCalibreDefect defect : calibreDefects) {
 			if(defect.getArticleCategory().equals(category)) {
 				return defect;

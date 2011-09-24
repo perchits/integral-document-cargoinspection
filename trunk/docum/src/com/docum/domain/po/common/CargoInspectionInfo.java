@@ -59,9 +59,6 @@ public class CargoInspectionInfo extends IdentifiedEntity {
 	@OneToMany(mappedBy = "inspectionInfo", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	private Set<CargoInspectionOption> inspectionOptions = new HashSet<CargoInspectionOption>();
 
-	@OneToMany(mappedBy = "inspectionInfo", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-	private Set<CargoCalibreDefect> calibreDefects = new HashSet<CargoCalibreDefect>();
-
 	public CargoInspectionInfo() {
 	}
 
@@ -178,14 +175,6 @@ public class CargoInspectionInfo extends IdentifiedEntity {
 
 	public void setInspectionOptions(Set<CargoInspectionOption> inspectionOptions) {
 		this.inspectionOptions = inspectionOptions;
-	}
-
-	public Set<CargoCalibreDefect> getCalibreDefects() {
-		return calibreDefects;
-	}
-
-	public void setCalibreDefects(Set<CargoCalibreDefect> calibreDefects) {
-		this.calibreDefects = calibreDefects;
 	}
 
 }
