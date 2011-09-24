@@ -31,6 +31,7 @@ import com.artofsolving.jodconverter.openoffice.converter.OpenOfficeDocumentConv
 import com.docum.dao.ReportingDao;
 import com.docum.domain.po.common.Cargo;
 import com.docum.domain.po.common.CargoInspectionInfo;
+import com.docum.domain.po.common.CargoPackage;
 import com.docum.domain.po.common.Container;
 import com.docum.domain.po.common.FileUrl;
 import com.docum.domain.po.common.Report;
@@ -39,6 +40,7 @@ import com.docum.service.BaseService;
 import com.docum.service.CargoService;
 import com.docum.service.ReportingService;
 import com.docum.util.ListHandler;
+import com.docum.util.ReportUtil;
 import com.docum.util.XMLUtil;
 import com.docum.view.wrapper.ContainerPresentation;
 
@@ -62,6 +64,7 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 	private List<Container> containers;
 	private Map<Container, ContainerPresentation> containerPresentationMap;
 	private Map<String, Object[]> temlateAccordance = new HashMap<String, Object[]>();
+	private ReportUtil reportUtil = new ReportUtil();
 
 	@Override
 	public void createReport(Report report) throws Exception {
@@ -95,6 +98,7 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 		addImages(odt, "TableStickerA4", "UNAVAILABLE", "Стикер отсутствует", 
 			"stickerEng", "sticker");
 		addTemperatureData(odt, "TableMeasurementTemperature");
+		addCargoAmount(odt, "TableCargoAmount");
 		processRipe(odt);
 		odt.save(location + reportFileName + ".odt");
 		OpenOfficeConnection officeConnection = 
@@ -224,6 +228,45 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 			setCellValueExt(odfTable, 0, currRow, 
 				ListHandler.getUniqueResult(containersWithoutTemperatureDeviation),
 				"По фактической фиксации температуры по приходу контейнера на терминал отклонений в температурном режиме не выявлено.");
+			currRow++;
+		}
+	}
+	
+	private void addCargoAmount(OdfTextDocument odt, String odfTableName) throws Exception {
+		OdfTable odfTable = odt.getTableByName(odfTableName);
+		if (odfTable == null) {
+			return;
+		}
+		for (Container container: this.containers) {
+			for (Cargo cargo: container.getActualCondition().getCargoes()) {
+				String tableName = reportUtil.insertTableCopy(odt, odfTableName);
+				if (tableName != null) {
+					processCargoAmount(odt.getTableByName(tableName), container.getNumber(), 
+						cargo);
+				}
+			}
+		}
+		odfTable.remove();
+	}
+	
+	private void processCargoAmount(OdfTable odfTable, String container, Cargo cargo) {
+		int currRow = 0;
+		odfTable.insertRowsBefore(currRow, 1);
+		odfTable.getCellRangeByPosition(0, currRow, 6, currRow).merge();
+		odfTable.getCellByPosition(0, currRow).setHorizontalAlignment("center");
+		StringBuffer stringBuffer = new StringBuffer(container);
+		stringBuffer.append(", ").append(cargo.getArticle().getName()).append(", ").append(
+			cargo.getSupplier().getCompany().getName());
+		odfTable.getCellByPosition(0, currRow).setStringValue(stringBuffer.toString());
+		currRow++;
+		odfTable.getCellByPosition(0, currRow).setHorizontalAlignment("center");
+		odfTable.getCellByPosition(1, currRow).setHorizontalAlignment("center");
+		currRow = 3;
+		for(CargoPackage cargoPackage: cargo.getCargoPackages()) {
+			odfTable.getCellByPosition(0, currRow).setStringValue(
+					cargoPackage.getMeasure().getName());
+			odfTable.getCellByPosition(2, currRow).setStringValue(
+					String.valueOf(cargoPackage.getCount()));
 			currRow++;
 		}
 	}

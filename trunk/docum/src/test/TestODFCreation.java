@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import junit.framework.TestCase;
 
@@ -48,17 +49,32 @@ public class TestODFCreation extends TestCase {
 	ReportingService reportingService;
 	Container container;
 	
+	private Node tempNode;
+	private OdfTextDocument tempDoc;
+	
 	@Test
 	public void testODFCreation() {
 		try {
-			Report report = baseService.getObject(Report.class, 1L);
+			/*Report report = baseService.getObject(Report.class, 1L);
 			if (report != null) {
 				reportingService.createReport(report);
 			} else {
 				TestCase.fail();
+			}*/
+			this.tempDoc = OdfTextDocument.loadDocument(LOCATION + "/testTemplate.odt");
+			int l = this.tempDoc.getContentDom().getChildNodes().getLength();
+			Node sourceNode = null;
+			String tableToFind = "TableCargoAmount";
+			for (int i = 0; i < l; i++) {
+				Node node = this.tempDoc.getContentDom().getChildNodes().item(i);
+				//processNode(node);
+				sourceNode = findTableNode(node, tableToFind);
 			}
-			/*OdfTextDocument odt = OdfTextDocument.loadDocument(LOCATION + "/testTemplate.odt");
-			odt.save(LOCATION + "/testResult.odt");
+			if (this.tempNode != null) {
+				this.tempNode.getAttributes().item(0).setNodeValue(tableToFind + UUID.randomUUID());
+				sourceNode.getParentNode().insertBefore(this.tempNode, sourceNode);
+			}
+			/*odt.save(LOCATION + "/testResult.odt");
 			odt = OdfTextDocument.loadDocument(LOCATION + "/testResult.odt");
 			container = baseService.getObject(Container.class, 3L);
 			int l = odt.getContentDom().getChildNodes().getLength();
@@ -66,18 +82,50 @@ public class TestODFCreation extends TestCase {
 				Node node = odt.getContentDom().getChildNodes().item(i);
 				processNode(node);
 			}
-			addMarksImages(odt);
-			odt.save(LOCATION + "/testResult.odt");
+			addMarksImages(odt);*/
+			this.tempDoc.save(LOCATION + "/testResult.odt");
 			OpenOfficeConnection officeConnection = new SocketOpenOfficeConnection(8100);
 			officeConnection.connect();
 			DocumentConverter converter = new OpenOfficeDocumentConverter(officeConnection);
 			converter.convert(
 				new File("e:/Work/NCSP/Development/docum/project/src/test/testResources/testResult.odt"), 
 				new File("e:/Work/NCSP/Development/docum/project/src/test/testResources/testResult.pdf"));
-			officeConnection.disconnect();*/
+			officeConnection.disconnect();
 		} catch(Exception e) {
 			TestCase.fail(e.getMessage());
 		}
+	}
+	
+	private Node findTableNode(Node node, String nodeName) {
+		Node result = null;
+		if (node.getNodeName().equals("table:table")) {
+			int l = node.getAttributes().getLength();
+			for (int i = 0; i <l; i++) {
+				Node n = node.getAttributes().item(i);
+				if (n.getNodeName().equals("table:name") && n.getNodeValue().equals(nodeName)) {
+					System.out.println("Node " + nodeName + " found.");
+					this.tempNode = node.cloneNode(true);
+					return node;
+					/*this.tempNode.getAttributes().item(0).setNodeValue("TableProbe");
+					node.getParentNode().insertBefore(this.tempNode, node);
+					System.out.println("Inserted");
+					break;*/
+				}
+			}
+		}
+		if (result == null && node.hasChildNodes()) {
+			NodeList nodeList = node.getChildNodes();
+			int length = nodeList.getLength();
+			for(int i = 0; i< length; i++) {
+				if (result == null) {
+					result = findTableNode(nodeList.item(i), nodeName);
+				} else {
+					return result;
+				}
+			}
+		}
+		
+		return result;
 	}
 	
 	private void addMarksImages(OdfTextDocument odt) throws Exception {
@@ -100,13 +148,13 @@ public class TestODFCreation extends TestCase {
 	}
 	
 	private void processNode(Node node) throws Exception {
-		if (node.getNodeValue() != null) {
+		/*if (node.getNodeValue() != null) {
 			int statementBeginPos = node.getNodeValue().indexOf(STATEMENT_BEGIN);
 			if (statementBeginPos != -1) {
 				System.out.println(node.getNodeName() + " : " + node.getNodeValue());
 				replaceNodeValue(node, node.getNodeValue(), container, statementBeginPos);
 			}
-		}
+		}*/
 		/*if (node instanceof TableTableCellElement) {
 			TableTableCellElement tableCellElement = (TableTableCellElement) node;
 			TextPElement textPElement = tableCellElement.newTextPElement();
