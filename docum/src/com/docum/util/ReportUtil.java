@@ -1,12 +1,14 @@
 package com.docum.util;
 
+import java.io.Serializable;
 import java.util.UUID;
 
 import org.odftoolkit.odfdom.doc.OdfTextDocument;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class ReportUtil {
+public class ReportUtil implements Serializable {
+	private static final long serialVersionUID = -6276477440612413243L;
 	
 	private Node tempNode;
 	
