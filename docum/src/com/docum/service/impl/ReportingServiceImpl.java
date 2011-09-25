@@ -39,6 +39,7 @@ import com.docum.service.ApplicationConfigService;
 import com.docum.service.BaseService;
 import com.docum.service.CargoService;
 import com.docum.service.ReportingService;
+import com.docum.util.AlgoUtil;
 import com.docum.util.ListHandler;
 import com.docum.util.ReportUtil;
 import com.docum.util.XMLUtil;
@@ -238,33 +239,60 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 			return;
 		}
 		for (Container container: this.containers) {
-			for (Cargo cargo: container.getActualCondition().getCargoes()) {
+			for (final Cargo cargo: container.getActualCondition().getCargoes()) {
 				String tableName = reportUtil.insertTableCopy(odt, odfTableName);
 				if (tableName != null) {
+					Cargo declaredCargo = AlgoUtil.find(container.getDeclaredCondition().getCargoes(), 
+							new AlgoUtil.FindPredicate<Cargo>() {
+						@Override
+						public boolean isIt(Cargo c) {
+							return c.getArticle().getName().equals(cargo.getArticle().getName()) && 
+								c.getArticleCategory().getName().equals(cargo.getArticleCategory().getName()) && 
+								c.getSupplier().getCompany().equals(cargo.getSupplier().getCompany());
+						}
+					});
 					processCargoAmount(odt.getTableByName(tableName), container.getNumber(), 
-						cargo);
+							declaredCargo, cargo);
 				}
 			}
 		}
 		odfTable.remove();
 	}
 	
-	private void processCargoAmount(OdfTable odfTable, String container, Cargo cargo) {
+	private void processCargoAmount(OdfTable odfTable, String container, 
+			Cargo declaredCargo, Cargo actualCargo) {
 		int currRow = 0;
 		odfTable.insertRowsBefore(currRow, 1);
 		odfTable.getCellRangeByPosition(0, currRow, 6, currRow).merge();
 		odfTable.getCellByPosition(0, currRow).setHorizontalAlignment("center");
 		StringBuffer stringBuffer = new StringBuffer(container);
-		stringBuffer.append(", ").append(cargo.getArticle().getName()).append(", ").append(
-			cargo.getSupplier().getCompany().getName());
+		stringBuffer.append(", ").append(actualCargo.getArticle().getName()).append(", ").append(
+			actualCargo.getSupplier().getCompany().getName());
 		odfTable.getCellByPosition(0, currRow).setStringValue(stringBuffer.toString());
 		currRow++;
 		odfTable.getCellByPosition(0, currRow).setHorizontalAlignment("center");
 		odfTable.getCellByPosition(1, currRow).setHorizontalAlignment("center");
 		currRow = 3;
-		for(CargoPackage cargoPackage: cargo.getCargoPackages()) {
+		for(final CargoPackage cargoPackage: actualCargo.getCargoPackages()) {
 			odfTable.getCellByPosition(0, currRow).setStringValue(
 					cargoPackage.getMeasure().getName());
+			if (declaredCargo != null) {
+				CargoPackage declaredCargoPackage = AlgoUtil.find(declaredCargo.getCargoPackages(), 
+						new AlgoUtil.FindPredicate<CargoPackage>() {
+					@Override
+					public boolean isIt(CargoPackage cp) {
+						return cp.getMeasure().equals(cargoPackage.getMeasure());
+					}
+				});
+				odfTable.getCellByPosition(1, currRow).setStringValue(
+						String.valueOf(declaredCargoPackage.getCount()));
+				reportUtil.setRatingValue(odfTable.getCellByPosition(3, currRow),
+						cargoPackage.getCount(), declaredCargoPackage.getCount());
+			} else {
+				odfTable.getCellByPosition(1, currRow).setStringValue("0");
+				reportUtil.setRatingValue(odfTable.getCellByPosition(3, currRow),
+						cargoPackage.getCount(), 0);
+			}
 			odfTable.getCellByPosition(2, currRow).setStringValue(
 					String.valueOf(cargoPackage.getCount()));
 			currRow++;
