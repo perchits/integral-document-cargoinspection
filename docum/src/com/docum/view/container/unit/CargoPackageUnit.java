@@ -6,8 +6,6 @@ import java.util.List;
 import com.docum.domain.po.common.CargoPackage;
 import com.docum.domain.po.common.Measure;
 import com.docum.service.BaseService;
-import com.docum.util.cargo.AverageCargoPackageWeights;
-import com.docum.util.cargo.CargoUtil;
 import com.docum.view.AbstractDlgView;
 import com.docum.view.DialogActionEnum;
 import com.docum.view.DialogActionHandler;
@@ -75,8 +73,8 @@ public class CargoPackageUnit implements Serializable, DialogActionHandler {
 			if (!cp.equals(cargoPackage)) {
 				measures.remove(cp.getMeasure());
 			}
-		}
-		prepareCargoPackageDlg(cargoPackage, measures);
+		}		
+		prepareCargoPackageDlg(new CargoPackage(cargoPackage), measures);
 	}
 
 	public void removePackage() {
@@ -102,10 +100,9 @@ public class CargoPackageUnit implements Serializable, DialogActionHandler {
 		if (dialog instanceof CargoPackageDlgView) {
 			CargoPackageDlgView d = (CargoPackageDlgView) dialog;
 			if (DialogActionEnum.ACCEPT.equals(action)) {
-				CargoPackage cargoPackage = d.getCargoPackage();
-				if (cargoPackage.getId() == null) {
-					cargo.getCargo().addPackage(cargoPackage);
-				}
+				CargoPackage cargoPackage = d.getCargoPackage();				
+				cargo.getCargo().removePackage(cargoPackage);
+				cargo.getCargo().addPackage(cargoPackage);
 				containerHolder.saveContainer();
 			}
 		}

@@ -1,9 +1,6 @@
 package com.docum.view.wrapper;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import com.docum.domain.po.common.CargoCalibreDefect;
@@ -21,17 +18,8 @@ public class CalibrePresentation implements Serializable{
 		return calibre;
 	}
 	
-	public List<CargoCalibreDefect> getDefects(){
-		List<CargoCalibreDefect> result = 
-			new ArrayList<CargoCalibreDefect>(calibre.getCalibreDefects());
-		Collections.sort(result, new Comparator<CargoCalibreDefect>() {
-			@Override
-			public int compare(CargoCalibreDefect o1,
-					CargoCalibreDefect o2) {
-				return new Integer(o1.getArticleCategory().getOrd()).compareTo(o2.getArticleCategory().getOrd());
-			}
-		});
-		return result;
+	public List<CargoCalibreDefect> getDefects(){		
+		return calibre.getCalibreDefects();
 	}
 
 	public void setCalibre(CargoPackageCalibre cargoPackageCalibre) {

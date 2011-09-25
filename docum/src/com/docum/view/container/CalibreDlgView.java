@@ -29,7 +29,8 @@ public class CalibreDlgView extends AbstractDlgView implements Serializable {
 	}
 	
 	public boolean isEdit(){
-		return calibre == null || calibre.getId() == null ? false : true;
+		return calibre == null || calibre.getId() == null ? false :
+			calibre.getCargoPackage().getCargo().getCondition().isSurveyable();
 	}
 	
 	public List<CargoCalibreDefect> getDefects(){
