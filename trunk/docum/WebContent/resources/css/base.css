@@ -775,3 +775,18 @@ a.olive-color:hover {
 .ui-dialog-titlebar {
 	border : 0 !important;
 }
+
+.weight-table td{
+	width: 50px;
+	border : 1px dotted #E4F0B6;
+}
+
+.weight-table input {
+	min-width: 40px !important;
+	width : 40px !important;
+}
+
+.weight-table .crud-btn {
+	text-align: center;
+	width: 30px;
+}

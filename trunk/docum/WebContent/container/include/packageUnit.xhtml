@@ -25,6 +25,8 @@
 					<h:outputText value="#{pack.measureName}:" />
 					<f:setPropertyActionListener
 						target="#{packagebean.wrappedCargoPackage}" value="#{pack}" />
+					<f:setPropertyActionListener target="#{packagebean.cargo}"
+						value="#{wcargo}" />	
 				</p:commandLink>
 				<h:outputText value=" " />
 				<h:outputText value="#{pack.cargoPackage.count}">

@@ -18,7 +18,7 @@ public class CargoPackagePresentation implements Serializable {
 
 	private CargoPresentation cargoPresentation;
 	
-	private AverageCargoPackageWeights averageWeights;
+	private AverageCargoPackageWeights averageWeights;		
 
 	public CargoPackagePresentation(CargoPackage cargoPackage,
 			CargoPresentation cargoPresentation) {
@@ -28,7 +28,7 @@ public class CargoPackagePresentation implements Serializable {
 
 	public CargoPackage getCargoPackage() {
 		return cargoPackage;
-	}
+	}	
 
 	public void setCargoPackage(CargoPackage cargoPackage) {
 		this.cargoPackage = cargoPackage;

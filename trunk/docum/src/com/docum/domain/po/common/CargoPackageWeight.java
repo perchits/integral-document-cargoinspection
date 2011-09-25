@@ -27,6 +27,11 @@ public class CargoPackageWeight extends IdentifiedEntity {
 		this.tareWeight = tareWeight;
 	}
 
+	public CargoPackageWeight(CargoPackageWeight weight){
+		this(weight.cargoPackage,weight.grossWeight,weight.tareWeight);
+		this.setId(weight.getId());
+	}
+	
 	public CargoPackage getCargoPackage() {
 		return cargoPackage;
 	}

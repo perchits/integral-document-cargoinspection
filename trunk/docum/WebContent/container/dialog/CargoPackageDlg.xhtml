@@ -7,9 +7,9 @@
 <ui:composition template="/WEB-INF/includes/dialogLayout.xhtml">
 	<ui:param name="width" value="480" />
 	<ui:param name="saveObject" value="save" />
-	<ui:param name="colCount" value="2" />
-	<ui:define name="dialogBody">
-		
+	<ui:param name="colCount" value="1" />
+	<ui:define name="dialogBody">		
+	 <h:panelGrid columns="2" width="100%">
 		<h:selectOneMenu id="cargoPackageMeasure"
 			label="Вид упаковки"			
 			styleClass="ui-inputfield ui-widget ui-state-default ui-corner-all"
@@ -19,11 +19,59 @@
 				noSelectionOption="true" itemDisabled="true" />
 			<f:selectItems value="#{bean.measures}" var="measure"
 				itemLabel="#{measure.name}" />
-		</h:selectOneMenu>
-		
+		</h:selectOneMenu>		
 		<p:inputText size="30"
 			value="#{bean.cargoPackage.count}" id="package-count"			
 			label="Количество" />
+	</h:panelGrid>		
+	</ui:define>
+	<ui:define name="details">		
+		<h:panelGroup rendered="#{bean.actual}">
+			<br />						
+			<h:dataTable value="#{bean.weights}" var="weight" styleClass="weight-table"
+			columnClasses=",,,crud-btn">
+			<f:facet name="header">Веса (Брутто / Нетто / Тара)
+					
+					<p:commandButton style="margin:0 5px 0 5px" 
+					image="ui-icon-document" title="Добавить вес"
+						styleClass="inline-btn border-btn"
+						action="#{bean.addWeight}"						
+						update="@form">						
+						<f:setPropertyActionListener target="#{bean.weight}"
+							value="#{weight.weight}" />	
+					</p:commandButton>
+					
+			</f:facet>
+				<h:column>				
+					<p:inputText label="Вес брутто"  value="#{weight.weight.grossWeight}" >
+						<p:ajax event="change" process="@form" update="@form,growl"/>
+					</p:inputText>					
+				</h:column>
+				<h:column>
+					<h:outputText  value="#{weight.netWeight}" >
+						<f:convertNumber maxFractionDigits="2" />
+					</h:outputText>
+				</h:column>					
+				<h:column>
+					<p:inputText label="Вес тары" value="#{weight.weight.tareWeight}" >
+						<p:ajax event="change" process="@form" update="@form,growl"/>
+					</p:inputText>
+				</h:column>
+				
+				<h:column>
+					
+					<p:commandButton image="ui-icon-trash" title="Удалить вес"
+						styleClass="inline-btn"
+						action="#{bean.removeWeight}"						
+						update="@form">
+						<f:setPropertyActionListener target="#{bean.weight}"
+							value="#{weight.weight}" />						
+					</p:commandButton>			
+					
+				</h:column>
+				
+			</h:dataTable>			
+		</h:panelGroup>		
 	</ui:define>
 </ui:composition>
 </html>

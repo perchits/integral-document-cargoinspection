@@ -44,7 +44,16 @@ public class CargoPackage extends IdentifiedEntity {
 		this.measure = measure;
 		this.count = count;
 	}
-
+	
+	public CargoPackage(CargoPackage from) {
+		this(from.cargo, from.measure, from.count);
+		this.setId(from.getId());
+		this.weights = new ArrayList<CargoPackageWeight>(from.weights.size());
+		for (CargoPackageWeight w : from.weights) {
+			this.weights.add(new CargoPackageWeight(w));
+		}
+	}
+	
 	public Cargo getCargo() {
 		return cargo;
 	}
