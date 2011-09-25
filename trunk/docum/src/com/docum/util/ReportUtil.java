@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.UUID;
 
 import org.odftoolkit.odfdom.doc.OdfTextDocument;
+import org.odftoolkit.odfdom.doc.table.OdfTableCell;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -59,5 +60,14 @@ public class ReportUtil implements Serializable {
 		}
 		
 		return result;
+	}
+
+	public void setRatingValue(OdfTableCell tableCell, double value1, double value2) {
+		double rating = value1 - value2;
+		StringBuffer stringBuffer = new StringBuffer(String.valueOf(rating));
+		if (rating > 0) {
+			stringBuffer.insert(0, "+");
+		}
+		tableCell.setStringValue(stringBuffer.toString());
 	}
 }
