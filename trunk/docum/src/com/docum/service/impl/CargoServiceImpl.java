@@ -1,9 +1,5 @@
 package com.docum.service.impl;
 
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +13,7 @@ import com.docum.domain.po.common.CargoPackage;
 import com.docum.domain.po.common.CargoPackageCalibre;
 import com.docum.service.CargoService;
 import com.docum.util.AlgoUtil;
+import com.docum.util.cargo.CargoUtil;
 
 @Service(CargoService.SERVICE_NAME)
 @Transactional
@@ -44,7 +41,7 @@ public class CargoServiceImpl extends BaseServiceImpl implements CargoService {
 		//Добавляем недостающие дефекты
 		for(CargoPackage cp : cargo.getCargoPackages()) {
 			for(CargoPackageCalibre calibre : cp.getCalibres()) {
-				for(ArticleCategory category : cargo.getArticle().getCategories()) {
+				for(ArticleCategory category : CargoUtil.getCargoCategoriesForDefects(cargo)) {
 					if(!findDefect(calibre, category)) {
 						CargoCalibreDefect defect = new CargoCalibreDefect(category, calibre);
 						calibre.getCalibreDefects().add(defect);

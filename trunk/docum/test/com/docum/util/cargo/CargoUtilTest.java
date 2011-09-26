@@ -43,11 +43,11 @@ public class CargoUtilTest {
 		cargo.setArticleCategory(categories.get(0));
 		
 		cargoPackage.addCalibre(createCalibre(cargoPackage, categories,
-				"45", 10.0, new double[]{73.3, 15.9, 5.4, 5.4}));
+				"45", 10.0, new double[]{15.9, 5.4, 5.4}));
 		cargoPackage.addCalibre(createCalibre(cargoPackage, categories,
-				"54", 6.0, new double[]{90.0, 7.8, 1.1, 1.1}));
+				"54", 6.0, new double[]{7.8, 1.1, 1.1}));
 		cargoPackage.addCalibre(createCalibre(cargoPackage, categories,
-				"60", 5.0, new double[]{83.1, 9.7, 4.7, 2.5}));
+				"60", 5.0, new double[]{9.7, 4.7, 2.5}));
 
 		Stats.CargoDefects defects = CargoUtil.calcAverageDefects(cargo);
 		Assert.assertEquals(defects.getCalibreDefects().length, 3);
@@ -58,7 +58,12 @@ public class CargoUtilTest {
 		CargoPackageCalibre calibre;
 		calibre = new CargoPackageCalibre(cargoPackage, name, count);
 		int i = 0;
+		boolean firstCategory = true;
 		for(ArticleCategory category : categories) {
+			if(firstCategory) {
+				firstCategory = false;
+				continue;
+			}
 			calibre.getCalibreDefects().add(createDefect(category, calibre, percentages[i++]));
 		}
 		return calibre;
