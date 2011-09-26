@@ -55,7 +55,7 @@ public class CargoPackagePresentation implements Serializable {
 	
 	public void setAvgDefects(Stats.CargoDefects defects){
 		avgDefects.clear();
-		if (defects == null) {
+		if (defects == null || defects.getCategoryNames() == null) {
 			return;
 		}
 		for (int i = 0 ; i <  defects.getCategoryNames().length; i++){

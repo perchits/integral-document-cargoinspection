@@ -38,23 +38,29 @@ public class CargoUtil {
 		for(CargoPackage cargoPackage : cargo.getCargoPackages()) {
 			Collection<CargoPackageCalibre> calibres = cargoPackage.getCalibres();
 			if(!calibres.isEmpty()) {
-				List<ArticleCategory> cargoCategories = getCargoCategories(cargo);
+				List<ArticleCategory> cargoCategories = getCargoCategoriesForDefects(cargo);
+				int categoriesCount = cargoCategories.size();
 				Stats.CargoCalibreDefects averageCalibreDefects = new Stats.CargoCalibreDefects();
 				averageCalibreDefects.setPackageCount(calcPackageCount(calibres));
-				averageCalibreDefects.setPercentages(new double[cargoCategories.size()]);
-				assignCategoryNames(result, cargoCategories);
+				double[] averagePercentages = new double[categoriesCount+1];
+				averageCalibreDefects.setPercentages(averagePercentages);
+				averagePercentages[0] = 100.0;
+				assignCategoryNames(result, getCargoCategories(cargo));
 				result.setAverageCalibreDefects(averageCalibreDefects);
 
 				for(CargoPackageCalibre calibre : calibres) {
 					Stats.CargoCalibreDefects calibreDefects = new Stats.CargoCalibreDefects();
 					calibreDefects.setCalibreName(calibre.getCalibreValue());
 					calibreDefects.setPackageCount(calibre.getPackageCount());
-					calibreDefects.setPercentages(new double[cargoCategories.size()]);
+					double[] defectsPercentages = new double[categoriesCount+1];
+					calibreDefects.setPercentages(defectsPercentages);
+					defectsPercentages[0] = 100.0;
 					resultDefects.add(calibreDefects);
 					
 					Iterator<ArticleCategory> categoryIt = cargoCategories.iterator();
 					Iterator<CargoCalibreDefect> defectIt = calibre.getCalibreDefects().iterator();
-					int i = 0;
+					// начинаем индексацию дефектов с единицы (первый дефект - расчетный)
+					int i = 1;
 					while(categoryIt.hasNext() && defectIt.hasNext()) {
 						ArticleCategory category = categoryIt.next();
 						CargoCalibreDefect cargoCalibreDefect = defectIt.next();
@@ -66,16 +72,20 @@ public class CargoUtil {
 							i++;
 							continue;
 						}
-						calibreDefects.getPercentages()[i] = cargoCalibreDefect.getPercentage();
+						defectsPercentages[0] -= cargoCalibreDefect.getPercentage();
+						defectsPercentages[i] = cargoCalibreDefect.getPercentage();
 						
 						//расчет среднего % как СУММА(КОЛ-ВО УП. В КАЛИБРЕ / ОБЩ КОЛ-ВО УП. * % В КАЛИБРЕ)
-						double average = averageCalibreDefects.getPercentages()[i];
+						double average = averagePercentages[i];
 						average += cargoCalibreDefect.getCalibre().getPackageCount()
 								/ averageCalibreDefects.getPackageCount()
 								* cargoCalibreDefect.getPercentage();
-						averageCalibreDefects.getPercentages()[i] = average;
+						averagePercentages[i] = average;
 						i++;
 					}
+				}
+				for(int i=1; i<averagePercentages.length; i++) {
+					averagePercentages[0] -= averagePercentages[i];
 				}
 			}
 		}
@@ -126,6 +136,19 @@ public class CargoUtil {
 				} else {
 					continue;
 				}
+			}
+			result.add(category);
+		}
+		return result;
+	}
+
+	public static List<ArticleCategory> getCargoCategoriesForDefects(Cargo cargo) {
+		List<ArticleCategory> result = new ArrayList<ArticleCategory>();
+		boolean firstCategory = true;
+		for(ArticleCategory category : getCargoCategories(cargo)) {
+			if(firstCategory) {
+				firstCategory = false;
+				continue;
 			}
 			result.add(category);
 		}
