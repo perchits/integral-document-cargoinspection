@@ -51,6 +51,7 @@ import com.docum.view.wrapper.ContainerPresentation;
 @Transactional
 public class ReportingServiceImpl implements Serializable, ReportingService {
 	private static final long serialVersionUID = -4974869292960516986L;
+	private static final String DOUBLE_FORMAT = "%.2f";
 	
 	@Autowired
 	ReportingDao reportingDao;
@@ -307,11 +308,11 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 				CargoUtil.calcAverageWeights(cargoPackage.getWeights());
 			if (averageCargoPackageWeights != null) {
 				odfTable.getCellByPosition(4, currRow).setStringValue(
-						String.valueOf(averageCargoPackageWeights.getGrossWeight()));
+						String.format(DOUBLE_FORMAT, averageCargoPackageWeights.getGrossWeight()));
 				odfTable.getCellByPosition(5, currRow).setStringValue(
-						String.valueOf(averageCargoPackageWeights.getNetWeight()));
+						String.format(DOUBLE_FORMAT, averageCargoPackageWeights.getNetWeight()));
 				odfTable.getCellByPosition(6, currRow).setStringValue(
-						String.valueOf(averageCargoPackageWeights.getTareWeight()));
+						String.format(DOUBLE_FORMAT, averageCargoPackageWeights.getTareWeight()));
 			}
 			currRow++;
 		}
