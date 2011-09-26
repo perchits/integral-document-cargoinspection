@@ -26,8 +26,11 @@ public class CargoUtil {
 			}
 			grossWeight /= weights.size();
 			tareWeight /= weights.size();
+			return new AverageCargoPackageWeights(grossWeight, grossWeight-tareWeight, tareWeight);
+		} else {
+			return null;
 		}
-		return new AverageCargoPackageWeights(grossWeight, grossWeight-tareWeight, tareWeight);
+		
 	}
 
 	public static Stats.CargoDefects calcAverageDefects(Cargo cargo) {
