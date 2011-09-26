@@ -30,7 +30,6 @@ public class CargoUtil {
 		} else {
 			return null;
 		}
-		
 	}
 
 	public static Stats.CargoDefects calcAverageDefects(Cargo cargo) {
@@ -41,7 +40,7 @@ public class CargoUtil {
 			if(!calibres.isEmpty()) {
 				List<ArticleCategory> cargoCategories = getCargoCategories(cargo);
 				Stats.CargoCalibreDefects averageCalibreDefects = new Stats.CargoCalibreDefects();
-				averageCalibreDefects.setPackageCount(cargoPackage.getCount());
+				averageCalibreDefects.setPackageCount(calcPackageCount(calibres));
 				averageCalibreDefects.setPercentages(new double[cargoCategories.size()]);
 				assignCategoryNames(result, cargoCategories);
 				result.setAverageCalibreDefects(averageCalibreDefects);
@@ -72,7 +71,8 @@ public class CargoUtil {
 						//расчет среднего % как СУММА(КОЛ-ВО УП. В КАЛИБРЕ / ОБЩ КОЛ-ВО УП. * % В КАЛИБРЕ)
 						double average = averageCalibreDefects.getPercentages()[i];
 						average += cargoCalibreDefect.getCalibre().getPackageCount()
-								/ cargoPackage.getCount() * cargoCalibreDefect.getPercentage();
+								/ averageCalibreDefects.getPackageCount()
+								* cargoCalibreDefect.getPercentage();
 						averageCalibreDefects.getPercentages()[i] = average;
 						i++;
 					}
@@ -81,6 +81,14 @@ public class CargoUtil {
 		}
 		result.setCalibreDefects(resultDefects.toArray(
 				new Stats.CargoCalibreDefects[resultDefects.size()]));
+		return result;
+	}
+
+	private static double calcPackageCount(Collection<CargoPackageCalibre> calibres) {
+		double result = 0.0;
+		for(CargoPackageCalibre calibre : calibres) {
+			result += calibre.getPackageCount();
+		}
 		return result;
 	}
 
