@@ -3,7 +3,25 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.prime.com.tr/ui">
-	
+
+
+<h:panelGroup styleClass="calibre" rendered="#{pack.avgWeight}">
+	<h:panelGrid columns="4" styleClass="inline-table temperature"
+		style="margin: 0 0 7px 0">
+		<h:outputText value="Средний вес" />
+		<h:outputText title="Брутто"
+			value="#{pack.averageWeights.grossWeight}">
+			<f:convertNumber maxFractionDigits="2" />
+		</h:outputText>
+		<h:outputText title="Нетто" value="#{pack.averageWeights.netWeight}">
+			<f:convertNumber maxFractionDigits="2" />
+		</h:outputText>
+		<h:outputText title="Тара" value="#{pack.averageWeights.tareWeight}">
+			<f:convertNumber maxFractionDigits="2" />
+		</h:outputText>
+	</h:panelGrid>
+</h:panelGroup>
+
 <h:panelGroup rendered="#{not empty pack.calibres}">
 
 	<h:panelGroup styleClass="calibre">
@@ -19,7 +37,7 @@
 						<f:setPropertyActionListener target="#{calibrebean.calibre}"
 							value="#{calibre.calibre}" />
 						<f:setPropertyActionListener target="#{cargobean.cargo}"
-        			value="#{wcargo}" />
+							value="#{wcargo}" />
 						<h:outputText value="#{calibre.calibreValue}:" />
 					</p:commandLink>
 					<h:outputText value=" " />
@@ -28,10 +46,12 @@
 					</h:outputText>
 					<h:outputText value=" " />
 					<ui:repeat value="#{calibre.defects}" var="defect">
-						<h:panelGroup style="border:1px solid #E5E8CA; padding:0 3px 0 3px; margin-left:-1px">
-							<h:outputText title="#{defect.articleCategory.name}" value="#{defect.percentage}" />
+						<h:panelGroup
+							style="border:1px solid #E5E8CA; padding:0 3px 0 3px; margin-left:-1px">
+							<h:outputText title="#{defect.articleCategory.name}"
+								value="#{defect.percentage}" />
 						</h:panelGroup>
-					</ui:repeat>					
+					</ui:repeat>
 					<p:commandButton image="ui-icon-trash" title="Удалить калибр"
 						styleClass="inline-btn"
 						oncomplete="beforeShow(calibreIdConfirmVar,args)"
@@ -39,12 +59,25 @@
 						<f:setPropertyActionListener target="#{calibrebean.calibre}"
 							value="#{calibre.calibre}" />
 						<f:setPropertyActionListener target="#{cargobean.cargo}"
-        			value="#{wcargo}" />
+							value="#{wcargo}" />
 					</p:commandButton>
-				</h:form>
-			</li>
+				</h:form></li>
 		</ui:repeat>
 	</ul>
+
+<h:panelGroup rendered="#{pack.actual}">
+<h:outputText value="Средние дефекты: " />
+	<ui:repeat value="#{pack.avgDefects}" var="avgDefect">
+		<h:panelGroup
+			style="border:1px solid #E5E8CA; padding:0 3px 0 3px; margin-left:-1px">
+			<h:outputText title="#{avgDefect.categoryName}"
+				value="#{avgDefect.percentage}">
+				<f:convertNumber maxFractionDigits="2" />
+			</h:outputText>
+		</h:panelGroup>
+	</ui:repeat>
+</h:panelGroup>
+
 </h:panelGroup>
 
 </html>
