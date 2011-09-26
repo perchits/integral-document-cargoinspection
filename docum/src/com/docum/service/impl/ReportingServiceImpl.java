@@ -43,6 +43,8 @@ import com.docum.util.AlgoUtil;
 import com.docum.util.ListHandler;
 import com.docum.util.ReportUtil;
 import com.docum.util.XMLUtil;
+import com.docum.util.cargo.AverageCargoPackageWeights;
+import com.docum.util.cargo.CargoUtil;
 import com.docum.view.wrapper.ContainerPresentation;
 
 @Service(ReportingService.SERVICE_NAME)
@@ -284,10 +286,12 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 						return cp.getMeasure().equals(cargoPackage.getMeasure());
 					}
 				});
-				odfTable.getCellByPosition(1, currRow).setStringValue(
-						String.valueOf(declaredCargoPackage.getCount()));
-				reportUtil.setRatingValue(odfTable.getCellByPosition(3, currRow),
-						cargoPackage.getCount(), declaredCargoPackage.getCount());
+				if (declaredCargoPackage != null) {
+					odfTable.getCellByPosition(1, currRow).setStringValue(
+							String.valueOf(declaredCargoPackage.getCount()));
+					reportUtil.setRatingValue(odfTable.getCellByPosition(3, currRow),
+							cargoPackage.getCount(), declaredCargoPackage.getCount());
+				}
 			} else {
 				odfTable.getCellByPosition(1, currRow).setStringValue("0");
 				reportUtil.setRatingValue(odfTable.getCellByPosition(3, currRow),
@@ -295,6 +299,16 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 			}
 			odfTable.getCellByPosition(2, currRow).setStringValue(
 					String.valueOf(cargoPackage.getCount()));
+			AverageCargoPackageWeights averageCargoPackageWeights =
+				CargoUtil.calcAverageWeights(cargoPackage.getWeights());
+			if (averageCargoPackageWeights != null) {
+				odfTable.getCellByPosition(4, currRow).setStringValue(
+						String.valueOf(averageCargoPackageWeights.getGrossWeight()));
+				odfTable.getCellByPosition(5, currRow).setStringValue(
+						String.valueOf(averageCargoPackageWeights.getNetWeight()));
+				odfTable.getCellByPosition(6, currRow).setStringValue(
+						String.valueOf(averageCargoPackageWeights.getTareWeight()));
+			}
 			currRow++;
 		}
 	}
