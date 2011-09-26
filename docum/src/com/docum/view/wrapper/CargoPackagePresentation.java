@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import com.docum.domain.Stats;
 import com.docum.domain.po.common.CargoPackage;
 import com.docum.domain.po.common.CargoPackageCalibre;
 import com.docum.util.AlgoUtil;
@@ -18,8 +19,10 @@ public class CargoPackagePresentation implements Serializable {
 
 	private CargoPresentation cargoPresentation;
 	
-	private AverageCargoPackageWeights averageWeights;		
-
+	private AverageCargoPackageWeights averageWeights;	
+	
+	private List<AvgDefect> avgDefects = new ArrayList<AvgDefect>();
+		
 	public CargoPackagePresentation(CargoPackage cargoPackage,
 			CargoPresentation cargoPresentation) {
 		setCargoPackage(cargoPackage);
@@ -28,35 +31,50 @@ public class CargoPackagePresentation implements Serializable {
 
 	public CargoPackage getCargoPackage() {
 		return cargoPackage;
-	}	
+	}
+	
+	public boolean isActual(){
+		return cargoPackage != null ? cargoPackage.getCargo().getCondition().isSurveyable():
+			false;
+	}
+	
+	public boolean isAvgWeight(){
+		return averageWeights != null &&  isActual();
+	}
 
 	public void setCargoPackage(CargoPackage cargoPackage) {
 		this.cargoPackage = cargoPackage;
 		if(cargoPackage.getCargo().getCondition().isSurveyable()) {
 			averageWeights = CargoUtil.calcAverageWeights(cargoPackage.getWeights());
+			setAvgDefects(CargoUtil.calcAverageDefects(cargoPackage.getCargo()));
 		} else {
 			averageWeights = null;
+			avgDefects.clear();
 		}
 	}
-
+	
+	public void setAvgDefects(Stats.CargoDefects defects){
+		avgDefects.clear();
+		if (defects == null) {
+			return;
+		}
+		for (int i = 0 ; i <  defects.getCategoryNames().length; i++){
+			avgDefects.add(new AvgDefect(
+				defects.getCategoryNames()[i],
+				defects.getAverageCalibreDefects().getPercentages()[i]
+			));			
+		}		
+	}
+	
+	public List<AvgDefect> getAvgDefects() {
+		return avgDefects;
+	}
+	
 	public List<CargoPackageCalibre> prepareCalibres(){
 		if (cargoPackage == null) {
 			return null;
 		}
 		return cargoPackage.getCalibres();
-//		if (cargoPackage.getCalibres() == null){
-//			return null;
-//		}
-//		List<CargoPackageCalibre> result = new ArrayList<CargoPackageCalibre>(
-//				cargoPackage.getCalibres());
-//		Collections.sort(result, new Comparator<CargoPackageCalibre>() {
-//			@Override
-//			public int compare(CargoPackageCalibre o1, CargoPackageCalibre o2) {
-//				return o1.getCalibreValue()
-//						.compareTo(o2.getCalibreValue());
-//			}
-//		});
-//		return result;
 	}
 
 	public List<CalibrePresentation> getCalibres(){		
@@ -81,5 +99,29 @@ public class CargoPackagePresentation implements Serializable {
 		return averageWeights;
 	}
 	
+	public static class AvgDefect implements Serializable {
+		private static final long serialVersionUID = -7317123835372816280L;
+		private String categoryName;
+		private double percentage;			
+		
+		public AvgDefect(String categoryName, double percentage) {
+			this.categoryName = categoryName;
+			this.percentage = percentage;
+		}
+		
+		public String getCategoryName() {
+			return categoryName;
+		}
+		public void setCategoryName(String categoryName) {
+			this.categoryName = categoryName;
+		}
+		public double getPercentage() {
+			return percentage;
+		}
+		public void setPercentage(double percentage) {
+			this.percentage = percentage;
+		}
+				
+	}
 	
 }
