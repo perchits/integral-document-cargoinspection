@@ -291,6 +291,10 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 							String.valueOf(declaredCargoPackage.getCount()));
 					reportUtil.setRatingValue(odfTable.getCellByPosition(3, currRow),
 							cargoPackage.getCount(), declaredCargoPackage.getCount());
+				} else {
+					odfTable.getCellByPosition(1, currRow).setStringValue("0");
+					reportUtil.setRatingValue(odfTable.getCellByPosition(3, currRow),
+							cargoPackage.getCount(), 0);
 				}
 			} else {
 				odfTable.getCellByPosition(1, currRow).setStringValue("0");
