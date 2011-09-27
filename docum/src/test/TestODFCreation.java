@@ -33,6 +33,7 @@ import com.docum.domain.po.common.Container;
 import com.docum.domain.po.common.Report;
 import com.docum.service.BaseService;
 import com.docum.service.ReportingService;
+import com.docum.util.ReportUtil;
 import com.docum.util.XMLUtil;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -49,7 +50,6 @@ public class TestODFCreation extends TestCase {
 	ReportingService reportingService;
 	Container container;
 	
-	private Node tempNode;
 	private OdfTextDocument tempDoc;
 	
 	@Test
@@ -63,16 +63,17 @@ public class TestODFCreation extends TestCase {
 			}*/
 			this.tempDoc = OdfTextDocument.loadDocument(LOCATION + "/testTemplate.odt");
 			int l = this.tempDoc.getContentDom().getChildNodes().getLength();
-			Node sourceNode = null;
-			String tableToFind = "TableCargoAmount";
+			ReportUtil reportUtil = new ReportUtil();
+			reportUtil.insertTableCopy(this.tempDoc, "TableCargoAmount", 
+				"TableCargoAmountAndDefectsAux");
+			reportUtil.insertTableCopy(this.tempDoc, "TableCargoAmount", 
+				"TableCargoAmountAndDefectsAux");
+			reportUtil.insertTableCopy(this.tempDoc, "TableCargoAmount", 
+				"TableCargoAmountAndDefectsAux");
+			this.tempDoc.getTableByName("TableCargoAmount").remove();
 			for (int i = 0; i < l; i++) {
 				Node node = this.tempDoc.getContentDom().getChildNodes().item(i);
 				//processNode(node);
-				sourceNode = findTableNode(node, tableToFind);
-			}
-			if (this.tempNode != null) {
-				this.tempNode.getAttributes().item(0).setNodeValue(tableToFind + UUID.randomUUID());
-				sourceNode.getParentNode().insertBefore(this.tempNode, sourceNode);
 			}
 			/*odt.save(LOCATION + "/testResult.odt");
 			odt = OdfTextDocument.loadDocument(LOCATION + "/testResult.odt");
@@ -94,38 +95,6 @@ public class TestODFCreation extends TestCase {
 		} catch(Exception e) {
 			TestCase.fail(e.getMessage());
 		}
-	}
-	
-	private Node findTableNode(Node node, String nodeName) {
-		Node result = null;
-		if (node.getNodeName().equals("table:table")) {
-			int l = node.getAttributes().getLength();
-			for (int i = 0; i <l; i++) {
-				Node n = node.getAttributes().item(i);
-				if (n.getNodeName().equals("table:name") && n.getNodeValue().equals(nodeName)) {
-					System.out.println("Node " + nodeName + " found.");
-					this.tempNode = node.cloneNode(true);
-					return node;
-					/*this.tempNode.getAttributes().item(0).setNodeValue("TableProbe");
-					node.getParentNode().insertBefore(this.tempNode, node);
-					System.out.println("Inserted");
-					break;*/
-				}
-			}
-		}
-		if (result == null && node.hasChildNodes()) {
-			NodeList nodeList = node.getChildNodes();
-			int length = nodeList.getLength();
-			for(int i = 0; i< length; i++) {
-				if (result == null) {
-					result = findTableNode(nodeList.item(i), nodeName);
-				} else {
-					return result;
-				}
-			}
-		}
-		
-		return result;
 	}
 	
 	private void addMarksImages(OdfTextDocument odt) throws Exception {

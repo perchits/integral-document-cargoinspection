@@ -11,26 +11,28 @@ import org.w3c.dom.NodeList;
 public class ReportUtil implements Serializable {
 	private static final long serialVersionUID = -6276477440612413243L;
 	
-	private Node tempNode;
-	
-	public String insertTableCopy(OdfTextDocument odt, String tableName) throws Exception {
+	public String insertTableCopy(OdfTextDocument odt, String tableToFindName, 
+			String tableBeforeInsertName) throws Exception {
 		String result = null;
 		int l = odt.getContentDom().getChildNodes().getLength();
 		Node sourceNode = null;
+		Node beforeInsertNode = null;
 		for (int i = 0; i < l; i++) {
 			Node node = odt.getContentDom().getChildNodes().item(i);
-			sourceNode = findTableNode(node, tableName);
+			sourceNode = findTableNode(node, tableToFindName);
+			beforeInsertNode = findTableNode(node, tableBeforeInsertName);
 		}
-		if (this.tempNode != null) {
-			l = this.tempNode.getAttributes().getLength();
+		if (sourceNode != null && beforeInsertNode != null) {
+			Node newNode = sourceNode.cloneNode(true);
+			l = newNode.getAttributes().getLength();
 			for (int i = 0; i <l; i++) {
-				Node n = this.tempNode.getAttributes().item(i);
+				Node n = newNode.getAttributes().item(i);
 				if (n.getNodeName().equals("table:name")) {
-					result = tableName + UUID.randomUUID(); 
+					result = tableToFindName + UUID.randomUUID(); 
 					n.setNodeValue(result);
 				}
 			}	
-			sourceNode.getParentNode().insertBefore(this.tempNode, sourceNode);
+			beforeInsertNode.getParentNode().insertBefore(newNode, beforeInsertNode);
 		}
 		return result;
 	}
@@ -42,7 +44,6 @@ public class ReportUtil implements Serializable {
 			for (int i = 0; i <l; i++) {
 				Node n = node.getAttributes().item(i);
 				if (n.getNodeName().equals("table:name") && n.getNodeValue().equals(nodeName)) {
-					this.tempNode = node.cloneNode(true);
 					return node;
 				}
 			}
