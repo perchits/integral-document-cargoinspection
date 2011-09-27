@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.Serializable;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +30,8 @@ import com.artofsolving.jodconverter.openoffice.connection.OpenOfficeConnection;
 import com.artofsolving.jodconverter.openoffice.connection.SocketOpenOfficeConnection;
 import com.artofsolving.jodconverter.openoffice.converter.OpenOfficeDocumentConverter;
 import com.docum.dao.ReportingDao;
+import com.docum.domain.Stats.CargoDefects;
+import com.docum.domain.po.common.ArticleCategory;
 import com.docum.domain.po.common.Cargo;
 import com.docum.domain.po.common.CargoInspectionInfo;
 import com.docum.domain.po.common.CargoPackage;
@@ -39,6 +42,7 @@ import com.docum.service.ApplicationConfigService;
 import com.docum.service.BaseService;
 import com.docum.service.CargoService;
 import com.docum.service.ReportingService;
+import com.docum.service.StatsService;
 import com.docum.util.AlgoUtil;
 import com.docum.util.ListHandler;
 import com.docum.util.ReportUtil;
@@ -61,6 +65,8 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 	CargoService cargoService;
 	@Autowired
 	ApplicationConfigService applicationConfigService;
+	@Autowired
+	StatsService statsService;
 	
 	private static final String STATEMENT_BEGIN = "{$";
 	private static final String STATEMENT_END = "}";
@@ -241,9 +247,13 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 		if (odfTable == null) {
 			return;
 		}
+		String defectsTableName = "TableDefects";
+		OdfTable defectsTable = odt.getTableByName(defectsTableName);
+		final String tableBeforeInsertName = "TableCargoAmountAndDefectsAux";
 		for (Container container: this.containers) {
+			List<CargoDefects> listCargoDefects = this.statsService.calcAverageDefects(container.getId());
 			for (final Cargo cargo: container.getActualCondition().getCargoes()) {
-				String tableName = reportUtil.insertTableCopy(odt, odfTableName);
+				String tableName = reportUtil.insertTableCopy(odt, odfTableName, tableBeforeInsertName);
 				if (tableName != null) {
 					Cargo declaredCargo = AlgoUtil.find(container.getDeclaredCondition().getCargoes(), 
 							new AlgoUtil.FindPredicate<Cargo>() {
@@ -257,7 +267,36 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 					processCargoAmount(odt.getTableByName(tableName), container.getNumber(), 
 							declaredCargo, cargo);
 				}
+				if (defectsTable != null && !listCargoDefects.isEmpty()) {
+					tableName = reportUtil.insertTableCopy(odt, defectsTableName, tableBeforeInsertName);
+					CargoDefects cargoDefects = AlgoUtil.find(listCargoDefects, 
+							new AlgoUtil.FindPredicate<CargoDefects>() {
+						@Override
+						public boolean isIt(CargoDefects cd) {
+							boolean result = false;
+							//TODO refactor
+							if (cd.getCargoName().equals(cargo.getArticle().getName() + ", "  + 
+									cargo.getArticleCategory().getName())) {
+								for (ArticleCategory articleCategory: cargo.getArticle().getCategories()) {
+									if (Arrays.binarySearch(
+											cd.getCategoryNames(), articleCategory.getName()) == -1) {
+										return false;
+									} else {
+										result = true;
+									}
+								}
+							}
+							return result;
+						}
+					});
+					if (cargoDefects != null) {
+						processCargoDefects(odt.getTableByName(tableName), cargoDefects);
+					}
+				}
 			}
+		}
+		if (defectsTable != null) {
+			defectsTable.remove();
 		}
 		odfTable.remove();
 	}
@@ -316,6 +355,40 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 			}
 			currRow++;
 		}
+	}
+	
+	private void processCargoDefects(OdfTable odfTable, CargoDefects cargoDefects) {
+		/*List<CargoDefects> listCargoDefects = this.statsService.calcAverageDefects(container.getId());
+		int currRow = 1;
+		for (CargoDefects cargoDefects: listCargoDefects) {
+			odfTable.getCellByPosition(0, currRow).setHorizontalAlignment("center");
+			cargoDefects.get
+			odfTable.getCellByPosition(1, currRow).setHorizontalAlignment("center");
+			currRow++;
+		}
+		
+		currRow = 1;
+		for(final CargoPackage cargoPackage: actualCargo.getCargoPackages()) {
+			odfTable.getCellByPosition(0, currRow).setStringValue(
+					cargoPackage.getMeasure().getName());
+			cargoPackage.get
+			odfTable.getCellByPosition(1, currRow).setStringValue("0");
+			reportUtil.setRatingValue(odfTable.getCellByPosition(3, currRow),
+					cargoPackage.getCount(), 0);
+			odfTable.getCellByPosition(2, currRow).setStringValue(
+					String.valueOf(cargoPackage.getCount()));
+			AverageCargoPackageWeights averageCargoPackageWeights =
+				CargoUtil.calcAverageWeights(cargoPackage.getWeights());
+			if (averageCargoPackageWeights != null) {
+				odfTable.getCellByPosition(4, currRow).setStringValue(
+						String.format(DOUBLE_FORMAT, averageCargoPackageWeights.getGrossWeight()));
+				odfTable.getCellByPosition(5, currRow).setStringValue(
+						String.format(DOUBLE_FORMAT, averageCargoPackageWeights.getNetWeight()));
+				odfTable.getCellByPosition(6, currRow).setStringValue(
+						String.format(DOUBLE_FORMAT, averageCargoPackageWeights.getTareWeight()));
+			}
+			currRow++;
+		}*/
 	}
 	
 	private void setCellValueExt(OdfTable odfTable, int column, int row, 
