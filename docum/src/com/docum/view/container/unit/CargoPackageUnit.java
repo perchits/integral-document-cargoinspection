@@ -74,7 +74,9 @@ public class CargoPackageUnit implements Serializable, DialogActionHandler {
 				measures.remove(cp.getMeasure());
 			}
 		}		
-		prepareCargoPackageDlg(new CargoPackage(cargoPackage), measures);
+		CargoPackage editPackage = new CargoPackage();
+		editPackage.copy(cargoPackage);
+		prepareCargoPackageDlg(editPackage, measures);
 	}
 
 	public void removePackage() {
@@ -100,9 +102,12 @@ public class CargoPackageUnit implements Serializable, DialogActionHandler {
 		if (dialog instanceof CargoPackageDlgView) {
 			CargoPackageDlgView d = (CargoPackageDlgView) dialog;
 			if (DialogActionEnum.ACCEPT.equals(action)) {
-				CargoPackage cargoPackage = d.getCargoPackage();				
-				cargo.getCargo().removePackage(cargoPackage);
-				cargo.getCargo().addPackage(cargoPackage);
+				CargoPackage cargoPackage = d.getCargoPackage();
+				if (cargoPackage.getId() == null) {					
+					cargo.getCargo().addPackage(cargoPackage);
+				} else {
+					this.cargoPackage.copy(cargoPackage);
+				}
 				containerHolder.saveContainer();
 			}
 		}
