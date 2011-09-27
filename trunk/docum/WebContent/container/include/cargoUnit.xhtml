@@ -112,7 +112,7 @@
 			<h:form style="margin: 0 0 6px">
 				<p:commandLink styleClass="olive-color"
 					title="Медиа менеджер. Добавление и удаление фото, изменение порядка"
-					value="Фотографии" action="#{cargobean.handleImages}"
+					value="Фотографии (#{wcargo.imagesCount})" action="#{cargobean.handleImages}"
 					oncomplete="beforeShow(filelistIdVar,args)"
 					update="filelistIdDlgPanel,growl">
 					<f:setPropertyActionListener target="#{cargobean.cargo}"

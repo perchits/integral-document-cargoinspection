@@ -19,11 +19,19 @@ public class VoyageDaoImpl extends BaseDaoImpl implements VoyageDao {
 	@Override
 	public List<Voyage> getVoyagesByFinishStatus(boolean finished) {
 		TypedQuery<Voyage> query = entityManager.createQuery(
+			"select v from Voyage v where v.finished = :finished", Voyage.class);
+		query.setParameter("finished", finished);
+		return query.getResultList();
+	}
+
+	@Override
+	public List<Voyage> getVoyagesByStatus(boolean finished, ContainerStateEnum... containerStates) {
+		TypedQuery<Voyage> query = entityManager.createQuery(
 			"SELECT DISTINCT v FROM Voyage v JOIN v.containers c " +
 			"WHERE v.finished = :finished " +
 			"AND c.state IN (:states) ", Voyage.class);
 		query.setParameter("finished", finished);
-		List<ContainerStateEnum> states = Arrays.asList(ContainerStateEnum.NOT_HANDLED, ContainerStateEnum.READY);
+		List<ContainerStateEnum> states = Arrays.asList(containerStates);
 		query.setParameter("states", states);
 		return query.getResultList();
 	}

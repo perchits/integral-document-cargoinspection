@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.docum.dao.VoyageDao;
+import com.docum.domain.ContainerStateEnum;
 import com.docum.domain.SortOrderEnum;
 import com.docum.domain.po.IdentifiedEntity;
 import com.docum.domain.po.common.Voyage;
@@ -29,7 +30,7 @@ public class VoyageServiceImpl extends BaseServiceImpl implements VoyageService 
 
 	@Override
 	public Collection<Voyage> getFinishedVoyages() {
-		return voyageDao.getVoyagesByFinishStatus(true);
+		return voyageDao.getVoyagesByStatus(true, ContainerStateEnum.getNotFinalStates());
 	}
 
 	@Override

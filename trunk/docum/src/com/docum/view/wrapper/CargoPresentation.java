@@ -166,6 +166,11 @@ public class CargoPresentation implements Serializable {
 		});
 		return result;
 	}
+	
+	public int getImagesCount() {
+		return cargo.getInspectionInfo().getImages().size();
+
+	}
 
 	@Override
 	public int hashCode() {
