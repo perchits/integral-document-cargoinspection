@@ -15,15 +15,15 @@ import com.docum.domain.po.IdentifiedEntity;
 public class CargoPackage extends IdentifiedEntity {
 	private static final long serialVersionUID = 1238283870788720201L;
 
-	@ManyToOne(optional=false)
-	private	Cargo cargo;
-	
-	@ManyToOne(optional=false)
+	@ManyToOne(optional = false)
+	private Cargo cargo;
+
+	@ManyToOne(optional = false)
 	private Measure measure;
 
 	private double count;
-	
-	@OneToMany(mappedBy="cargoPackage", cascade=CascadeType.ALL, orphanRemoval=true, fetch=FetchType.LAZY)
+
+	@OneToMany(mappedBy = "cargoPackage", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	private List<CargoPackageCalibre> calibres = new ArrayList<CargoPackageCalibre>();
 
 	@OneToMany(mappedBy = "cargoPackage", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
@@ -37,23 +37,27 @@ public class CargoPackage extends IdentifiedEntity {
 		this();
 		this.setCargo(cargo);
 	}
-	
+
 	public CargoPackage(Cargo cargo, Measure measure, Double count) {
 		this();
 		this.setCargo(cargo);
 		this.measure = measure;
 		this.count = count;
 	}
-	
-	public CargoPackage(CargoPackage from) {
-		this(from.cargo, from.measure, from.count);
-		this.setId(from.getId());
-		this.weights = new ArrayList<CargoPackageWeight>(from.weights.size());
-		for (CargoPackageWeight w : from.weights) {
-			this.weights.add(new CargoPackageWeight(w));
+
+	public void copy(CargoPackage from) {
+		this.cargo = from.cargo;
+		this.measure = from.measure;
+		this.count = from.count;
+		setId(from.getId());
+		if (from.getCargo().getCondition().isSurveyable()) {
+			weights = new ArrayList<CargoPackageWeight>(from.weights.size());
+			for (CargoPackageWeight w : from.weights) {
+				this.weights.add(new CargoPackageWeight(w));
+			}
 		}
 	}
-	
+
 	public Cargo getCargo() {
 		return cargo;
 	}
@@ -82,15 +86,15 @@ public class CargoPackage extends IdentifiedEntity {
 		return calibres;
 	}
 
-	public void setCalibres(List<CargoPackageCalibre> calibres) {		
+	public void setCalibres(List<CargoPackageCalibre> calibres) {
 		this.calibres = calibres;
 	}
-	
-	public void addCalibre(CargoPackageCalibre calibre){
+
+	public void addCalibre(CargoPackageCalibre calibre) {
 		calibres.add(calibre);
 		calibre.setCargoPackage(this);
 	}
-	
+
 	public void removeCalibre(CargoPackageCalibre calibre) {
 		if (calibres.remove(calibre)) {
 			calibre.setCargoPackage(null);
@@ -104,9 +108,9 @@ public class CargoPackage extends IdentifiedEntity {
 	public void setWeights(List<CargoPackageWeight> weights) {
 		this.weights = weights;
 	}
-	
+
 	@Override
-	public String toString() {		
-		return getMeasure() != null ? getMeasure().getName() : "Не указано измерение"; 
+	public String toString() {
+		return getMeasure() != null ? getMeasure().getName() : "Не указано измерение";
 	}
 }
