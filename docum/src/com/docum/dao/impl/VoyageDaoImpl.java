@@ -1,5 +1,6 @@
 package com.docum.dao.impl;
 
+import java.util.Arrays;
 import java.util.List;
 
 import javax.persistence.Query;
@@ -8,6 +9,7 @@ import javax.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
 
 import com.docum.dao.VoyageDao;
+import com.docum.domain.ContainerStateEnum;
 import com.docum.domain.po.common.Voyage;
 
 @Repository("voyageDao")
@@ -17,8 +19,12 @@ public class VoyageDaoImpl extends BaseDaoImpl implements VoyageDao {
 	@Override
 	public List<Voyage> getVoyagesByFinishStatus(boolean finished) {
 		TypedQuery<Voyage> query = entityManager.createQuery(
-			"select v from Voyage v where v.finished = :finished", Voyage.class);
+			"SELECT DISTINCT v FROM Voyage v JOIN v.containers c " +
+			"WHERE v.finished = :finished " +
+			"AND c.state IN (:states) ", Voyage.class);
 		query.setParameter("finished", finished);
+		List<ContainerStateEnum> states = Arrays.asList(ContainerStateEnum.NOT_HANDLED, ContainerStateEnum.READY);
+		query.setParameter("states", states);
 		return query.getResultList();
 	}
 
