@@ -100,6 +100,10 @@ public class Cargo extends IdentifiedEntity {
 	public void setCondition(CargoCondition condition) {
 		if(!checkEquality(this.condition, condition)) {
 			this.condition = condition;
+			inspectionInfo.clear();
+			if(condition != null && condition.isSurveyable()) {
+				inspectionInfo.add(new CargoInspectionInfo(this));
+			}
 		}
 	}
 

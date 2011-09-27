@@ -221,7 +221,7 @@ public class CargoUnit implements Serializable, DialogActionHandler, ContainerCh
 				"Фотографии по грузу", fileService, cargoPresentation.getCargo().getCondition().getContainer());
 		imageListDialog.addHandler(this);
 	}
-
+	
 	@Override
 	public void handleAction(AbstractDlgView dialog, DialogActionEnum action) {
 		if (dialog instanceof CargoDlgView) {
@@ -232,10 +232,9 @@ public class CargoUnit implements Serializable, DialogActionHandler, ContainerCh
 					cargoCondition.addCargo(c);
 					cargoPresentation = new CargoPresentation(c);
 				} else {
-					if(!cargoPresentation.getCargo().getArticle().equals(c.getArticle()))
-						cargoPresentation.getInspectionInfo().setNormativeDocument(d.getNormativeDocument());
 					cargoPresentation.getCargo().copy(d.getCargo());
 				}
+				cargoPresentation.getInspectionInfo().setNormativeDocument(d.getNormativeDocument());
 				saveContainer();
 			}
 		} else {

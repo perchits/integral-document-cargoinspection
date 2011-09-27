@@ -115,6 +115,10 @@ public class InspectionUnit implements Serializable, DialogActionHandler {
 		inspectionImgDlg.addHandler(this);
 	}
 	
+	public int getImagesCount() {
+		return inspection == null ? 0 : inspection.getImages().size();
+	}
+	
 	@Override
 	public void handleAction(AbstractDlgView dialog, DialogActionEnum action) {
 		if (dialog instanceof InspectionDlgView) {

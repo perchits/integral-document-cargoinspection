@@ -21,4 +21,12 @@ public enum ContainerStateEnum {
 	public String toString() {
 		return name;
 	}
+	
+	public static ContainerStateEnum[] getFinalStates() {
+		return new ContainerStateEnum[]{FINISHED, ABANDONED};
+	}
+
+	public static ContainerStateEnum[] getNotFinalStates() {
+		return new ContainerStateEnum[]{NOT_HANDLED, HANDLED, READY, REPORT_READY};
+	}
 }
