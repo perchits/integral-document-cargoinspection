@@ -30,6 +30,7 @@ import com.artofsolving.jodconverter.openoffice.connection.OpenOfficeConnection;
 import com.artofsolving.jodconverter.openoffice.connection.SocketOpenOfficeConnection;
 import com.artofsolving.jodconverter.openoffice.converter.OpenOfficeDocumentConverter;
 import com.docum.dao.ReportingDao;
+import com.docum.domain.Stats.CargoCalibreDefects;
 import com.docum.domain.Stats.CargoDefects;
 import com.docum.domain.po.common.ArticleCategory;
 import com.docum.domain.po.common.Cargo;
@@ -358,37 +359,39 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 	}
 	
 	private void processCargoDefects(OdfTable odfTable, CargoDefects cargoDefects) {
-		/*List<CargoDefects> listCargoDefects = this.statsService.calcAverageDefects(container.getId());
-		int currRow = 1;
-		for (CargoDefects cargoDefects: listCargoDefects) {
-			odfTable.getCellByPosition(0, currRow).setHorizontalAlignment("center");
-			cargoDefects.get
-			odfTable.getCellByPosition(1, currRow).setHorizontalAlignment("center");
-			currRow++;
+		int len = cargoDefects.getCategoryNames().length;
+		odfTable.appendColumns(len);
+		odfTable.getCellRangeByPosition(0, 0, 1 + len, 0).merge();
+		int currColumn = 2;
+		for(int i = 0; i < len; i++) {
+			odfTable.getCellByPosition(currColumn, 1).
+				setStringValue(cargoDefects.getCategoryNames()[i]);
+			currColumn++;
 		}
-		
-		currRow = 1;
-		for(final CargoPackage cargoPackage: actualCargo.getCargoPackages()) {
+		int currRow = 2;
+		for (CargoCalibreDefects calibreDefect: cargoDefects.getCalibreDefects()) {
 			odfTable.getCellByPosition(0, currRow).setStringValue(
-					cargoPackage.getMeasure().getName());
-			cargoPackage.get
-			odfTable.getCellByPosition(1, currRow).setStringValue("0");
-			reportUtil.setRatingValue(odfTable.getCellByPosition(3, currRow),
-					cargoPackage.getCount(), 0);
-			odfTable.getCellByPosition(2, currRow).setStringValue(
-					String.valueOf(cargoPackage.getCount()));
-			AverageCargoPackageWeights averageCargoPackageWeights =
-				CargoUtil.calcAverageWeights(cargoPackage.getWeights());
-			if (averageCargoPackageWeights != null) {
-				odfTable.getCellByPosition(4, currRow).setStringValue(
-						String.format(DOUBLE_FORMAT, averageCargoPackageWeights.getGrossWeight()));
-				odfTable.getCellByPosition(5, currRow).setStringValue(
-						String.format(DOUBLE_FORMAT, averageCargoPackageWeights.getNetWeight()));
-				odfTable.getCellByPosition(6, currRow).setStringValue(
-						String.format(DOUBLE_FORMAT, averageCargoPackageWeights.getTareWeight()));
+				calibreDefect.getCalibreName());
+			odfTable.getCellByPosition(1, currRow).setStringValue(
+					String.format(DOUBLE_FORMAT, calibreDefect.getPackageCount()));
+			currColumn = 2;
+			for(int i = 0; i < len; i++) {
+				odfTable.getCellByPosition(currColumn, currRow).setStringValue(
+						String.format(DOUBLE_FORMAT, calibreDefect.getPercentages()[i]));
+				currColumn++;
 			}
 			currRow++;
-		}*/
+		}
+		currColumn = 2;
+		CargoCalibreDefects averageCalibreDefects = cargoDefects.getAverageCalibreDefects();
+		len = averageCalibreDefects.getPercentages().length;
+		odfTable.getCellRangeByPosition(0, currRow, 1, currRow).merge();
+		odfTable.getCellByPosition(0, currRow).setStringValue("Summary / Итого");
+		for(int i = 0; i < len; i++) {
+			odfTable.getCellByPosition(currColumn, currRow).setStringValue(
+				String.format(DOUBLE_FORMAT, averageCalibreDefects.getPercentages()[i]));
+			currColumn++;
+		}
 	}
 	
 	private void setCellValueExt(OdfTable odfTable, int column, int row, 
