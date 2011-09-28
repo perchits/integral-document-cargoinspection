@@ -6,14 +6,14 @@
 
 <h:panelGrid columns="4" styleClass="inline-table">
 	<h:outputText value="#{caption}" />
-	<h:form rendered="#{value == null}" onclick="setCargo()"
+	<h:form rendered="#{value == null}" onclick="set#{wcargo.id}Cargo()"
 		styleClass="inline-auto-upload" title="Загрузить #{hint}"
 		enctype="multipart/form-data">
 		<p:fileUpload style="width:20;height:20" mode="advanced" auto="true"
 			label="" fileUploadListener="#{cargobean[uploadListener]}"
 			update="growl,infoPanel" customUI="true" allowTypes="/(\.|\/)(gif|jpe?g|png)$/">			 
-		</p:fileUpload>		
-		<p:remoteCommand name="setCargo">
+		</p:fileUpload>
+		<p:remoteCommand name="set#{wcargo.id}Cargo">
 			<f:setPropertyActionListener target="#{cargobean.cargo}"
 				value="#{wcargo}" />
 		</p:remoteCommand>
