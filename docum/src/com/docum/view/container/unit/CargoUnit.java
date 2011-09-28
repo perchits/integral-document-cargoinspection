@@ -11,6 +11,7 @@ import org.primefaces.event.FileUploadEvent;
 
 import com.docum.domain.po.common.Cargo;
 import com.docum.domain.po.common.CargoCondition;
+import com.docum.domain.po.common.CargoInspectionInfo;
 import com.docum.domain.po.common.Container;
 import com.docum.domain.po.common.FileUrl;
 import com.docum.domain.po.common.NormativeDocument;
@@ -234,7 +235,11 @@ public class CargoUnit implements Serializable, DialogActionHandler, ContainerCh
 				} else {
 					cargoPresentation.getCargo().copy(d.getCargo());
 				}
-				cargoPresentation.getInspectionInfo().setNormativeDocument(d.getNormativeDocument());
+				
+				CargoInspectionInfo inspectionInfo = cargoPresentation.getInspectionInfo();
+				if(cargoPresentation.getCargo().getCondition().isSurveyable() && inspectionInfo != null) {
+					inspectionInfo.setNormativeDocument(d.getNormativeDocument());
+				}
 				saveContainer();
 			}
 		} else {
