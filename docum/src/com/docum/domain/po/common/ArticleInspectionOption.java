@@ -49,17 +49,24 @@ public class ArticleInspectionOption extends OrderedEntity {
 		this(article, name, englishName);
 		this.parent = parent;
 	}	
-	
-	/**
-	 * Копирующий конструктор
-	 */
+		
 	public ArticleInspectionOption(ArticleInspectionOption option) {
-		this(option.article, option.name, option.englishName);		
-		for (ArticleInspectionOption child : option.getChildren()) {
+		deepCopy(option);
+	}
+
+	public void deepCopy(ArticleInspectionOption other){
+		this.setId(other.getId());
+		if (this.getParent() == null) {
+			article = other.article;
+		}
+		name = other.name;
+		englishName = other.englishName;	
+		children = new ArrayList<ArticleInspectionOption>(other.getChildren().size());
+		for (ArticleInspectionOption child : other.getChildren()) {
 			addChild(new ArticleInspectionOption(child));
 		}
 	}
-
+	
 	public String getName() {
 		return name;
 	}

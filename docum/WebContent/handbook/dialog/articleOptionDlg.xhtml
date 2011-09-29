@@ -10,69 +10,65 @@
 	<ui:param name="deleteObject" value="removeOption" />
 	<ui:param name="colCount" value="1" />
 	<ui:define name="dialogBody">
-	<h:panelGrid width="100%" columns="2">
-		<h:outputLabel for="optionEnglishName" value="Name: *" />
-		<p:inputText value="#{bean.option.englishName}" id="optionEnglishName"
-			required="true" label="Наименование на англ. яз.">
-		</p:inputText>
-		<h:outputLabel for="optionName" value="Наименование: *" />
-		<p:inputText style="min-width:400px" value="#{bean.option.name}" id="optionName"
-			required="true" label="Наименование">
-		</p:inputText>
-	</h:panelGrid>	
+		<h:panelGrid width="100%" columns="2">
+			<h:outputLabel for="optionEnglishName" value="Name: *" />
+			<p:inputText value="#{bean.optionCopy.englishName}"
+				id="optionEnglishName" required="true"
+				label="Наименование на англ. яз.">
+			</p:inputText>
+			<h:outputLabel for="optionName" value="Наименование: *" />
+			<p:inputText style="min-width:400px" value="#{bean.optionCopy.name}"
+				id="optionName" required="true" label="Наименование">
+			</p:inputText>
+		</h:panelGrid>
 	</ui:define>
-	
+
 	<ui:define name="details">
-		<p:panel style="border:0">
-			<ui:include src="/WEB-INF/includes/baseCrudToolBar.xhtml">
-				<ui:param name="bean" value="#{bean}" />
-				<ui:param name="gridId" value="childOptGrid" />
-				<ui:param name="newObject" value="addChildOpt" />
-				<ui:param name="editObject" value="editChildOpt" />
-				<ui:param name="beforeDeleteObject" value="beforeDeleteChildOpt" />
-				<ui:param name="hideTitle" value="true" />
-			</ui:include>
-			<p:dataTable id="childOptGrid" var="childOpt" rowKey="#{childOpt}" selectionMode="single"
-				value="#{bean.option.children}" selection="#{bean.childOpt}">
+		<h:dataTable id="childOptTable" var="opt" width="100%"
+			value="#{bean.childOptions}">
 
-				<p:column>
-					<h:outputText value="#{childOpt.name}" />
-					<f:facet name="header">Свойство</f:facet>
-				</p:column>
+			<f:facet name="header">Список свойств					
+					<p:commandButton style="margin:0 5px 0 5px"
+					image="ui-icon-document" title="Добавить свойство в список"
+					styleClass="inline-btn border-btn" action="#{bean.addChildOpt}"
+					update="childOptTable, growl" process="childOptTable" />
+			</f:facet>
 
-				<p:column style="width:70px; text-align:center">
-					<p:commandButton title="Вверх" image="ui-icon-arrow-1-n"
-						styleClass="inline-btn border-btn" update="childOptGrid">
-						<f:setPropertyActionListener target="#{bean.childOptUp}"
-							value="#{childOpt}" />
-					</p:commandButton>
-					<p:commandButton title="Вниз" image="ui-icon-arrow-1-s"
-						styleClass="inline-btn border-btn" update="childOptGrid">
-						<f:setPropertyActionListener target="#{bean.childOptDown}"
-							value="#{childOpt}" />
-					</p:commandButton>
-				</p:column>
+			<h:column>
+				<p:inputText value="#{opt.englishName}" />
+			</h:column>
+			<h:column>
+				<p:inputText value="#{opt.name}" />
+			</h:column>
+			<h:column>
+				<p:commandButton title="Вверх" image="ui-icon-arrow-1-n"
+					styleClass="inline-btn border-btn" update="childOptTable"
+					process="childOptTable">
+					<f:setPropertyActionListener target="#{bean.childOptUp}"
+						value="#{opt}" />
+				</p:commandButton>
+				<p:commandButton title="Вниз" image="ui-icon-arrow-1-s"
+					styleClass="inline-btn border-btn" update="childOptTable"
+					process="childOptTable">
+					<f:setPropertyActionListener target="#{bean.childOptDown}"
+						value="#{opt}" />
+				</p:commandButton>
+			</h:column>
+			<h:column>
+				<p:commandButton image="ui-icon-trash" title="Удалить свойство"
+					styleClass="inline-btn" action="#{bean.removeChildOpt}"
+					update="childOptTable" process="childOptTable">
+					<f:setPropertyActionListener target="#{bean.childOpt}"
+						value="#{opt}" />
+				</p:commandButton>
+			</h:column>
+		</h:dataTable>
 
-				<p:rowExpansion>
-					<p:panel styleClass="innerGrid">
-						<ul>
-							<ui:repeat var="child" value="#{childOpt.children}">
-								<li class="listContainersInDoc"><h:outputText
-										value="#{child.name}" />
-								</li>
-							</ui:repeat>
-						</ul>
-					</p:panel>
-				</p:rowExpansion>
-
-			</p:dataTable>
-
-		</p:panel>
-		
 	</ui:define>
 	<ui:define name="deleteConfirmation">
 		<ui:include src="/WEB-INF/includes/deleteConfirmation.xhtml">
-			<ui:param name="message" value="Удалить свойство '#{bean.option.name}'?" />
+			<ui:param name="message"
+				value="Удалить свойство '#{bean.option.name}'?" />
 		</ui:include>
 	</ui:define>
 </ui:composition>
