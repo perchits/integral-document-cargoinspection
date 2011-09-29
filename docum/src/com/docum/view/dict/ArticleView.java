@@ -45,12 +45,13 @@ public class ArticleView extends BaseView implements Serializable {
 	private List<ArticlePresentation> articles;
 	private ArticleCategory category = new ArticleCategory();
 	private ArticleFeature feature = new ArticleFeature();
+	private ArticleFeature featureCopy;
+
 	private ArticleFeatureInstance featureInstance = new ArticleFeatureInstance();
 	private ArticleDefect defect;
 	private NormativeDocument document;
-	private boolean enableOrdChange = false;	
+	private boolean enableOrdChange = false;
 	private ArticleInspectionOption option, childOpt;
-		
 
 	private void saveArticle() {
 		ArticlePresentation old = new ArticlePresentation(article);
@@ -60,16 +61,16 @@ public class ArticleView extends BaseView implements Serializable {
 
 	public Article getArticle() {
 		return article;
-	}	
-	
-	public ArticlePresentation getWrappedArticle(){
+	}
+
+	public ArticlePresentation getWrappedArticle() {
 		return new ArticlePresentation(article);
 	}
-	
-	public void setWrappedArticle(ArticlePresentation article){		
-		this.article = article != null ? article.getArticle() : null;				
+
+	public void setWrappedArticle(ArticlePresentation article) {
+		this.article = article != null ? article.getArticle() : null;
 	}
-	
+
 	public List<ArticleCategoryPresentation> getCategories() {
 		Collection<ArticleCategory> categories = getWrappedArticle().getCategories();
 		List<ArticleCategoryPresentation> result = null;
@@ -79,19 +80,19 @@ public class ArticleView extends BaseView implements Serializable {
 		}
 		return result;
 	}
-	
+
 	public List<ArticleFeaturePresentation> getFeatures() {
 		return getWrappedArticle().getFeatures();
 	}
-	
+
 	public List<NormativeDocumentPresentation> getDocuments() {
 		return getWrappedArticle().getDocuments();
 	}
 
 	public List<ArticleFeatureInstance> getInstances() {
-		return new ArticleFeaturePresentation(feature).getInstances();
+		return new ArticleFeaturePresentation(featureCopy).getInstances();
 	}
-	
+
 	public List<ArticleDefect> getDefects() {
 		return new ArticleCategoryPresentation(this.category).getDefects();
 	}
@@ -102,16 +103,16 @@ public class ArticleView extends BaseView implements Serializable {
 		}
 		return articles;
 	}
-	
+
 	@Override
 	public void refreshObjects() {
 		Collection<Article> c = articleService.getAll(Article.class, null);
 		articles = new ArrayList<ArticlePresentation>(c.size());
-		AlgoUtil.transform(articles, c, new ArticleTransformer());		
+		AlgoUtil.transform(articles, c, new ArticleTransformer());
 	}
 
-	public void setArticle(Article article) {				
-		this.article = article;			
+	public void setArticle(Article article) {
+		this.article = article;
 	}
 
 	@Override
@@ -143,12 +144,14 @@ public class ArticleView extends BaseView implements Serializable {
 	}
 
 	public void saveFeature() {
-		if (feature.getId() == null) {
-			article.addFeature(feature);
+		if (featureCopy.getId() == null) {
+			article.addFeature(featureCopy);
+		} else {
+			feature.deepCopy(featureCopy);
 		}
 		saveArticle();
 	}
-	
+
 	public void saveDocument() {
 		if (document.getId() == null) {
 			article.addDocument(document);
@@ -156,12 +159,6 @@ public class ArticleView extends BaseView implements Serializable {
 		saveArticle();
 	}
 
-	public void saveFeatureInstance() {
-		if (featureInstance.getId() == null) {
-			feature.addInstance(featureInstance);
-		}
-	}
-	
 	public void saveDefect() {
 		this.category.addDefect(this.defect);
 	}
@@ -170,30 +167,30 @@ public class ArticleView extends BaseView implements Serializable {
 		article.removeCategory(category);
 		saveArticle();
 	}
-		
+
 	public void beforeDeleteCategory(ActionEvent actionEvent) {
 		validateAction(this.category, ArticleCategory.class);
 	}
-	
+
 	public void deleteDocument() {
 		if (validateAction(this.document, NormativeDocument.class)) {
 			article.removeDocument(document);
 			saveArticle();
 		}
 	}
-	
+
 	public void beforeDeleteDocument() {
 		validateAction(this.document, NormativeDocument.class);
 	}
-	
+
 	public void beforeDeleteFeature() {
 		validateAction(this.feature, ArticleFeature.class);
 	}
-	
+
 	public void beforeDeleteFeatureInstance() {
 		validateAction(this.featureInstance, ArticleFeatureInstance.class);
 	}
-	
+
 	public void beforeDeleteDefect() {
 		validateAction(this.defect, ArticleDefect.class);
 	}
@@ -206,12 +203,9 @@ public class ArticleView extends BaseView implements Serializable {
 	}
 
 	public void deleteFeatureInstance() {
-		if (validateAction(this.featureInstance, ArticleFeatureInstance.class)) {
-			feature.removeInstance(featureInstance);
-			feature = getBaseService().save(feature);
-		}
+		featureCopy.removeInstance(featureInstance);
 	}
-	
+
 	public void deleteDefect() {
 		if (validateAction(this.defect, ArticleDefect.class)) {
 			this.category.removeDefect(this.defect);
@@ -223,9 +217,9 @@ public class ArticleView extends BaseView implements Serializable {
 		if (validateAction(this.article, Article.class)) {
 			setTitle("Новая категория");
 			category = new ArticleCategory();
-		} 
+		}
 	}
-	
+
 	public void newDocument() {
 		if (validateAction(this.article, Article.class)) {
 			setTitle("Новый документ");
@@ -236,15 +230,14 @@ public class ArticleView extends BaseView implements Serializable {
 	public void newFeature() {
 		if (validateAction(this.article, Article.class)) {
 			setTitle("Новая характеристика");
-			this.feature = new ArticleFeature();
+			this.featureCopy = new ArticleFeature();
 		}
 	}
 
 	public void newFeatureInstance() {
-		setTitle("Новая характеристика");
-		this.featureInstance = new ArticleFeatureInstance();
+		featureCopy.addInstance(new ArticleFeatureInstance());
 	}
-	
+
 	public void newDefect() {
 		setTitle("Новый дефект");
 		this.defect = new ArticleDefect();
@@ -265,11 +258,11 @@ public class ArticleView extends BaseView implements Serializable {
 	public void setCategory(ArticleCategory category) {
 		this.category = category;
 	}
-	
+
 	public NormativeDocument getDocument() {
 		return document;
 	}
-	
+
 	public void setDocument(NormativeDocument document) {
 		this.document = document;
 	}
@@ -285,65 +278,67 @@ public class ArticleView extends BaseView implements Serializable {
 	public ArticleFeature getFeature() {
 		return feature;
 	}
-	
+
 	public void setFeature(ArticleFeature feature) {
-		this.feature =  feature;
+		this.feature = feature;
 	}
 
-	public void setWrappedFeature(ArticleFeaturePresentation feature) {		
-		this.feature = feature !=  null ? feature.getArticleFeature() : null;
+	public void setWrappedFeature(ArticleFeaturePresentation feature) {
+		this.feature = feature != null ? feature.getArticleFeature() : null;
 	}
-	
-	public void setWrappedCategory(ArticleCategoryPresentation category) {		
-		this.category = category !=  null ? category.getArticleCategory() : null;
+
+	public void setWrappedCategory(ArticleCategoryPresentation category) {
+		this.category = category != null ? category.getArticleCategory() : null;
 	}
-	
+
 	public void setWrappedDocument(NormativeDocumentPresentation normativeDocument) {
-		this.document = normativeDocument != null ? normativeDocument.getDocument() :null;
+		this.document = normativeDocument != null ? normativeDocument.getDocument() : null;
 	}
-	
+
 	public ArticleFeaturePresentation getWrappedFeature() {
 		return new ArticleFeaturePresentation(feature);
 	}
-	
+
 	public ArticleCategoryPresentation getWrappedCategory() {
 		return new ArticleCategoryPresentation(category);
 	}
-	
+
 	public NormativeDocumentPresentation getWrappedDocument() {
 		return new NormativeDocumentPresentation(document);
 	}
-	
+
 	public void editCategory(ActionEvent actionEvent) {
 		if (validateAction(this.category, ArticleCategory.class)) {
 			setTitle("Правка: " + this.category.getName());
 		}
 	}
-	
+
 	public void editDocument(ActionEvent actionEvent) {
 		if (validateAction(this.document, NormativeDocument.class)) {
 			setTitle("Правка: " + this.document.getName());
 		}
 	}
-	
+
 	public void editFeature(ActionEvent actionEvent) {
 		if (validateAction(this.feature, ArticleFeature.class)) {
 			setTitle("Правка: " + this.feature.getName());
+			featureCopy = new ArticleFeature();
+			featureCopy.deepCopy(feature);
 		}
 	}
-	
+
 	public void editFeatureInstance() {
 		if (validateAction(this.featureInstance, ArticleFeatureInstance.class)) {
 			setTitle("Правка: " + this.featureInstance.getName());
 		}
 	}
-	
+
 	public void editDefect() {
 		if (validateAction(this.defect, ArticleDefect.class)) {
 			setTitle("Правка: " + this.defect.getName());
 		}
 	}
-	
+
 	private <T extends IdentifiedEntity> boolean validateAction(T identifiedEntity, Class<T> clazz) {
 		try {
 			if (identifiedEntity != null && identifiedEntity.getId() != null) {
@@ -366,16 +361,16 @@ public class ArticleView extends BaseView implements Serializable {
 			return false;
 		}
 	}
-	
+
 	public boolean getEnableOrdChanged() {
 		return this.enableOrdChange;
 	}
-	
+
 	public void setOrdUp(ArticleCategoryPresentation categoryPresentation) {
 		this.article.moveCategoryUp(categoryPresentation.getArticleCategory());
 		super.getBaseService().save(this.article);
 	}
-	
+
 	public void setOrdDown(ArticleCategoryPresentation categoryPresentation) {
 		this.article.moveCategoryDown(categoryPresentation.getArticleCategory());
 		super.getBaseService().save(this.article);
@@ -396,23 +391,23 @@ public class ArticleView extends BaseView implements Serializable {
 	public void setEnableOrdChange(boolean enableOrdChange) {
 		this.enableOrdChange = enableOrdChange;
 	}
-	
+
 	public int getMaxCategoryOrd() {
 		return this.article.getCategories().size() - 1;
 	}
-	
-	public List<ArticleInspectionOption> getOptions(){
-		return article != null ? article.getInspectionOptions() : null; 
+
+	public List<ArticleInspectionOption> getOptions() {
+		return article != null ? article.getInspectionOptions() : null;
 	}
-	
+
 	public ArticleInspectionOption getOption() {
 		return option;
 	}
 
 	public void setOption(ArticleInspectionOption option) {
 		this.option = option;
-	}	
-	
+	}
+
 	public ArticleInspectionOption getChildOpt() {
 		return childOpt;
 	}
@@ -420,26 +415,26 @@ public class ArticleView extends BaseView implements Serializable {
 	public void setChildOpt(ArticleInspectionOption childOpt) {
 		this.childOpt = childOpt;
 	}
-	
+
 	public void editOption() {
-		if (validateAction(this.option,  ArticleInspectionOption.class)) {
+		if (validateAction(this.option, ArticleInspectionOption.class)) {
 			setTitle("Правка: " + this.option.getName());
 		}
 	}
 
 	public void editChildOpt() {
-		if (validateAction(this.childOpt,  ArticleInspectionOption.class)) {
+		if (validateAction(this.childOpt, ArticleInspectionOption.class)) {
 			setTitle("Правка: " + this.childOpt.getName());
 		}
 	}
-	
+
 	public void addOption() {
 		setTitle("Новое свойство");
-		this.option = new ArticleInspectionOption();		
+		this.option = new ArticleInspectionOption();
 	}
-	
-	public void addChildOpt(){
-		setTitle(String.format("Новое доп. свойство для %1$s",option.getEntityName()));
+
+	public void addChildOpt() {
+		setTitle(String.format("Новое доп. свойство для %1$s", option.getEntityName()));
 		childOpt = new ArticleInspectionOption();
 	}
 
@@ -449,65 +444,55 @@ public class ArticleView extends BaseView implements Serializable {
 		}
 		saveArticle();
 	}
-	
-	public void saveChildOpt(){
+
+	public void saveChildOpt() {
 		if (childOpt.getId() == null) {
 			option.addChild(childOpt);
-		}	
+		}
 	}
-	
-	public void beforeDeleteOption(){
-		validateAction(this.option,  ArticleInspectionOption.class);
+
+	public void beforeDeleteOption() {
+		validateAction(this.option, ArticleInspectionOption.class);
 	}
-	
-	public void beforeDeleteChildOpt(){
-		validateAction(this.childOpt,  ArticleInspectionOption.class);
-	}	
-	
+
+	public void beforeDeleteChildOpt() {
+		validateAction(this.childOpt, ArticleInspectionOption.class);
+	}
+
 	public void removeOption() {
 		article.getInspectionOptions().remove(option);
 		saveArticle();
 	}
-	
+
 	public void removeChildOpt() {
 		option.removeChild(childOpt);
 		saveArticle();
 	}
-	
+
 	public void setOptionUp(ArticleInspectionOption option) {
 		article.moveInspectionOptionUp(option);
 		super.getBaseService().save(this.article);
 	}
-	
+
 	public void setChildOptUp(ArticleInspectionOption child) {
 		option.moveChildUp(child);
 	}
-	
+
 	public void setOptionDown(ArticleInspectionOption option) {
 		article.moveInspectionOptionDown(option);
 		super.getBaseService().save(this.article);
 	}
-	
+
 	public void setChildOptDown(ArticleInspectionOption child) {
 		option.moveChildDown(child);
 	}
-	
-//	public List<ArticleInspectionOptionPresentation> wrapOptionNodes(){
-//		List<ArticleInspectionOptionPresentation> result  = 
-//			new ArrayList<ArticleInspectionOptionPresentation>();
-//		for (ArticleInspectionOption o : article.getInspectionOptions()) {
-//			result.add(new ArticleInspectionOptionPresentation(o));
-//		}
-//		return result;
-//	}
-//	
-//	public  DefaultTreeNode getOptionNode(){
-//		DefaultTreeNode root = new DefaultTreeNode("root", null);
-//		for (ArticleInspectionOptionPresentation node : wrapOptionNodes()){
-//			root.addChild(node);
-//		}		
-//		return root;
-//	}
-//	
-	
+
+	public ArticleFeature getFeatureCopy() {
+		return featureCopy;
+	}
+
+	public void setFeatureCopy(ArticleFeature featureCopy) {
+		this.featureCopy = featureCopy;
+	}
+
 }

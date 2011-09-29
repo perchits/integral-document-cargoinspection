@@ -5,58 +5,68 @@
 	xmlns:p="http://primefaces.prime.com.tr/ui">
 
 <ui:composition template="/WEB-INF/includes/dialogLayout.xhtml">
-	<ui:param name="width" value="640" />
+	<ui:param name="width" value="520" />
+	<ui:param name="colCount" value="1" />
 	<ui:param name="saveObject" value="saveFeature" />
 	<ui:param name="deleteObject" value="deleteFeature" />
 	<ui:define name="dialogBody">
-		<h:panelGrid columns="2">
-			<p:panel>
+		<h:panelGrid columns="2" width="100%">
 			<h:outputLabel for="featureEnglishName"
-				value="Наименование на англ. яз.: *" />
-			<p:inputText value="#{bean.feature.englishName}"
+				value="Name *" title="Наименование на англ. яз." />
+			<p:inputText style="min-width:345px" value="#{bean.featureCopy.englishName}"
 				id="featureEnglishName" required="true"
 				label="Наименование на англ. яз.">
 			</p:inputText>
-			
+
 			<h:outputLabel for="featureName" value="Наименование: *" />
-			<p:inputText value="#{bean.feature.name}" id="featureName"
-				required="true" label="Наименование">
+			<p:inputText value="#{bean.featureCopy.name}" id="featureName"
+				required="true" style="min-width:345px" label="Наименование">
 			</p:inputText>
 			<h:outputLabel for="featureIsMandatory" value="Обязательное поле:" />
-			<h:selectBooleanCheckbox size="30"
-				value="#{bean.feature.mandatory}" id="featureIsMandatory">
+			<h:selectBooleanCheckbox size="30" value="#{bean.featureCopy.mandatory}"
+				id="featureIsMandatory">
 			</h:selectBooleanCheckbox>
 			<h:outputLabel for="featureIsList" value="Список:" />
-			<h:selectBooleanCheckbox size="30" onclick="checkIfArticleList('articleListPanel')"
-				value="#{bean.feature.list}" id="featureIsList">
+			<h:selectBooleanCheckbox size="30"
+				onclick="checkIfArticleList('articleListPanel')"
+				value="#{bean.featureCopy.list}" id="featureIsList">
 			</h:selectBooleanCheckbox>
-			</p:panel>
-			<p:panel visible="#{bean.feature.list}" id="articleListPanel"> 
-			<ui:include src="/WEB-INF/includes/baseCrudToolBar.xhtml">
-				<ui:param name="bean" value="#{articleBean}" />
-				<ui:param name="gridId" value="featuresDetailsEditGrid" />
-				<ui:param name="newObject" value="newFeatureInstance" />
-				<ui:param name="editObject" value="editFeatureInstance" />
-				<ui:param name="refreshObjects" value="refreshFeatureInstances" />
-				<ui:param name="beforeDeleteObject" value="beforeDeleteFeatureInstance" />
-				<ui:param name="hideTitle" value="true" />
-			</ui:include>
-			<p:dataTable id="featuresDetailsEditGrid" var="fde" rowKey="#{fde}" style="min-width: 250px;"
-				value="#{bean.instances}" selectionMode="single" selection="#{bean.featureInstance}">
-				<p:column>
-					<h:outputText value="#{fde.englishName}" />
-				</p:column>
-				<p:column>
-					<h:outputText value="#{fde.name}" />
-				</p:column>
-			</p:dataTable>
-			</p:panel>
+
 		</h:panelGrid>
+	</ui:define>
+	<ui:define name="details">
+	 <p:panel style="border:0" visible="#{bean.featureCopy.list}" id="articleListPanel">
+		<h:dataTable width="100%"  id="articleListTable"
+			var="fde" value="#{bean.instances}" columnClasses=",,,crud-btn">
+			<f:facet name="header">Список возможных значений					
+					<p:commandButton style="margin:0 5px 0 5px"
+					image="ui-icon-document" title="Добавить значение в список"
+					styleClass="inline-btn border-btn"
+					action="#{bean.newFeatureInstance}"
+					update="articleListTable, growl" process="articleListTable" />
+			</f:facet>
+			<h:column>
+				<p:inputText value="#{fde.englishName}" />
+			</h:column>
+			<h:column>
+				<p:inputText value="#{fde.name}" />
+			</h:column>
+			<h:column>
+				<p:commandButton image="ui-icon-trash" title="Удалить значение"
+					styleClass="inline-btn" action="#{bean.deleteFeatureInstance}"
+					update="articleListTable" process="articleListTable">
+					<f:setPropertyActionListener target="#{bean.featureInstance}"
+						value="#{fde}" />
+				</p:commandButton>
+			</h:column>
+		</h:dataTable>
+		</p:panel>
 	</ui:define>
 	<ui:define name="deleteConfirmation">
 		<ui:include src="/WEB-INF/includes/deleteConfirmation.xhtml">
-			<ui:param name="message" value="Удалить характеристику '#{bean.feature.name}'?" />
-			<ui:param name="deleteObject" value="deleteFeature" />	
+			<ui:param name="message"
+				value="Удалить характеристику '#{bean.feature.name}'?" />
+			<ui:param name="deleteObject" value="deleteFeature" />
 		</ui:include>
 	</ui:define>
 </ui:composition>

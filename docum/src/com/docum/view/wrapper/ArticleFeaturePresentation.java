@@ -33,7 +33,13 @@ public class ArticleFeaturePresentation implements Serializable {
 		Collections.sort(result, new Comparator<ArticleFeatureInstance>() {
 			@Override
 			public int compare(ArticleFeatureInstance o1, ArticleFeatureInstance o2) {
-				return o1.getName().compareTo(o2.getName());
+				if (o1.getName() == null) {
+					return 1;
+				}
+				if (o2.getName() == null) {
+					return -1;
+				}				
+				return o1.getName().compareTo(o2.getName());				
 			}
 		});
 		return result;

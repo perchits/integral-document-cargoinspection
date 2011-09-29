@@ -17,45 +17,40 @@ import com.docum.util.EqualsHelper;
 import com.docum.util.HashCodeHelper;
 
 @Entity
-@NamedQueries(
-	@NamedQuery(
-			name = ArticleDao.GET_ARTICLE_FEATURES_BY_ARTICLE_QUERY,
-			query = "SELECT DISTINCT af FROM ArticleFeature af " +
-				"WHERE af.article.id=:articleId ORDER BY af.list, af.id"
-	)
-)
+@NamedQueries(@NamedQuery(name = ArticleDao.GET_ARTICLE_FEATURES_BY_ARTICLE_QUERY, query = "SELECT DISTINCT af FROM ArticleFeature af "
+		+ "WHERE af.article.id=:articleId ORDER BY af.list, af.id"))
 public class ArticleFeature extends IdentifiedEntity {
 	private static final long serialVersionUID = -4670814162326883296L;
 
-	@ManyToOne(optional=false)
+	@ManyToOne(optional = false)
 	private Article article;
-	
+
 	private String name;
-	
+
 	private String englishName;
-	
+
 	private boolean list;
-	
+
 	private boolean mandatory;
-	
+
 	@OneToMany(mappedBy = "articleFeature", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	private Set<ArticleFeatureInstance> instances = new HashSet<ArticleFeatureInstance>();
-	
+
 	public ArticleFeature() {
 		super();
 	}
 
-	public void addInstance(ArticleFeatureInstance instance){
+	public void addInstance(ArticleFeatureInstance instance) {
 		instances.add(instance);
 		instance.setArticleFeature(this);
 	}
-	
+
 	public void removeInstance(ArticleFeatureInstance instance) {
 		if (instances.remove(instance)) {
 			instance.setArticleFeature(null);
 		}
 	}
-	
+
 	public ArticleFeature(Article article, String name, String englishName, boolean list) {
 		this.article = article;
 		this.name = name;
@@ -68,10 +63,34 @@ public class ArticleFeature extends IdentifiedEntity {
 	}
 
 	public void copy(ArticleFeature other) {
+		this.setId(other.getId());
 		this.article = other.article;
 		this.name = other.name;
 		this.englishName = other.englishName;
 		this.list = other.list;
+	}
+
+	public void deepCopy(ArticleFeature other) {
+		copy(other);
+		if (other.getInstances() != null) {
+			instances = new HashSet<ArticleFeatureInstance>(other.instances.size());
+			for (ArticleFeatureInstance inst : other.getInstances()) {
+				addInstance(new ArticleFeatureInstance(inst));
+			}
+		}
+		// if (other.getInstances() != null) {
+		// for (Iterator<ArticleFeatureInstance> it = instances.iterator();
+		// it.hasNext();) {
+		// ArticleFeatureInstance inst = it.next();
+		// if (!other.instances.contains(inst)) {
+		// it.remove();
+		// }
+		// }
+		// for (ArticleFeatureInstance inst : other.getInstances()) {
+		// addInstance(new ArticleFeatureInstance(inst));
+		// }
+		//
+		// }
 	}
 
 	public String getName() {
@@ -121,7 +140,7 @@ public class ArticleFeature extends IdentifiedEntity {
 	public void setMandatory(boolean mandatory) {
 		this.mandatory = mandatory;
 	}
-	
+
 	public boolean equals(Object obj) {
 		if (obj == this) {
 			return true;
@@ -130,25 +149,25 @@ public class ArticleFeature extends IdentifiedEntity {
 		if (!(obj instanceof ArticleFeature)) {
 			return false;
 		}
-		
-		if(getId() == null || ((ArticleFeature) obj).getId() == null) {
+
+		if (getId() == null || ((ArticleFeature) obj).getId() == null) {
 			return false;
 		}
 		return EqualsHelper.equals(getId(), ((ArticleFeature) obj).getId());
 	}
 
 	public int hashCode() {
-		if(getId() == null) {
+		if (getId() == null) {
 			return super.hashCode();
 		}
 		return HashCodeHelper.hashCode(getId());
 	}
-	
+
 	@Override
 	public String getEntityName() {
 		return "Характеристика";
 	}
-	
+
 	@Override
 	public GenderEnum getEntityGender() {
 		return GenderEnum.FEMALE;
