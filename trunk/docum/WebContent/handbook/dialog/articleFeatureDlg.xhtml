@@ -11,11 +11,11 @@
 	<ui:param name="deleteObject" value="deleteFeature" />
 	<ui:define name="dialogBody">
 		<h:panelGrid columns="2" width="100%">
-			<h:outputLabel for="featureEnglishName"
-				value="Name *" title="Наименование на англ. яз." />
-			<p:inputText style="min-width:345px" value="#{bean.featureCopy.englishName}"
-				id="featureEnglishName" required="true"
-				label="Наименование на англ. яз.">
+			<h:outputLabel for="featureEnglishName" value="Name *"
+				title="Наименование на англ. яз." />
+			<p:inputText style="min-width:345px"
+				value="#{bean.featureCopy.englishName}" id="featureEnglishName"
+				required="true" label="Наименование на англ. яз.">
 			</p:inputText>
 
 			<h:outputLabel for="featureName" value="Наименование: *" />
@@ -23,8 +23,8 @@
 				required="true" style="min-width:345px" label="Наименование">
 			</p:inputText>
 			<h:outputLabel for="featureIsMandatory" value="Обязательное поле:" />
-			<h:selectBooleanCheckbox size="30" value="#{bean.featureCopy.mandatory}"
-				id="featureIsMandatory">
+			<h:selectBooleanCheckbox size="30"
+				value="#{bean.featureCopy.mandatory}" id="featureIsMandatory">
 			</h:selectBooleanCheckbox>
 			<h:outputLabel for="featureIsList" value="Список:" />
 			<h:selectBooleanCheckbox size="30"
@@ -35,31 +35,32 @@
 		</h:panelGrid>
 	</ui:define>
 	<ui:define name="details">
-	 <p:panel style="border:0" visible="#{bean.featureCopy.list}" id="articleListPanel">
-		<h:dataTable width="100%"  id="articleListTable"
-			var="fde" value="#{bean.instances}" columnClasses=",,,crud-btn">
-			<f:facet name="header">Список возможных значений					
+		<p:panel style="border:0" visible="#{bean.featureCopy.list}"
+			id="articleListPanel">
+			<h:dataTable width="100%" id="articleListTable" var="fde"
+				value="#{bean.instances}" columnClasses=",,,crud-btn">
+				<f:facet name="header">Список возможных значений					
 					<p:commandButton style="margin:0 5px 0 5px"
-					image="ui-icon-document" title="Добавить значение в список"
-					styleClass="inline-btn border-btn"
-					action="#{bean.newFeatureInstance}"
-					update="articleListTable, growl" process="articleListTable" />
-			</f:facet>
-			<h:column>
-				<p:inputText value="#{fde.englishName}" />
-			</h:column>
-			<h:column>
-				<p:inputText value="#{fde.name}" />
-			</h:column>
-			<h:column>
-				<p:commandButton image="ui-icon-trash" title="Удалить значение"
-					styleClass="inline-btn" action="#{bean.deleteFeatureInstance}"
-					update="articleListTable" process="articleListTable">
-					<f:setPropertyActionListener target="#{bean.featureInstance}"
-						value="#{fde}" />
-				</p:commandButton>
-			</h:column>
-		</h:dataTable>
+						image="ui-icon-document" title="Добавить значение в список"
+						styleClass="inline-btn border-btn"
+						action="#{bean.newFeatureInstance}"
+						update="articleListTable, growl" process="articleListTable" />
+				</f:facet>
+				<h:column>
+					<p:inputText value="#{fde.englishName}" />
+				</h:column>
+				<h:column>
+					<p:inputText value="#{fde.name}" />
+				</h:column>
+				<h:column>
+					<p:commandButton image="ui-icon-trash" title="Удалить значение"
+						styleClass="inline-btn" action="#{bean.deleteFeatureInstance}"
+						update="articleListTable" process="articleListTable">
+						<f:setPropertyActionListener target="#{bean.featureInstance}"
+							value="#{fde}" />
+					</p:commandButton>
+				</h:column>				
+			</h:dataTable>
 		</p:panel>
 	</ui:define>
 	<ui:define name="deleteConfirmation">

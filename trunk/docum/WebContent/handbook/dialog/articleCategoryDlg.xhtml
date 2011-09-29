@@ -6,45 +6,53 @@
 
 <ui:composition template="/WEB-INF/includes/dialogLayout.xhtml">
 	<ui:param name="width" value="640" />
+	<ui:param name="colCount" value="1" />
 	<ui:param name="saveObject" value="saveCategory" />
 	<ui:param name="deleteObject" value="deleteCategory" />
 	<ui:define name="dialogBody">
-	  <h:panelGrid columns="2">
-	   <p:panel>
-	    <h:outputLabel for="categoryEnglishName"
-			value="Наименование на англ. яз.: *" />
-		<p:inputText value="#{bean.category.englishName}"
+	  <h:panelGrid columns="2" width="100%">	   
+	    <h:outputLabel title="Наименование на англ. яз." for="categoryEnglishName"
+			value="Name: *" />
+		<p:inputText style="min-width:445px" value="#{bean.categoryCopy.englishName}"
 			id="categoryEnglishName" required="true"
 			label="Наименование на англ. яз.">
 		</p:inputText>
 		
 		<h:outputLabel for="categoryName" value="Наименование: *" />
-		<p:inputText value="#{bean.category.name}" id="categoryName"
+		<p:inputText style="min-width:445px" value="#{bean.categoryCopy.name}" id="categoryName"
 			required="true" label="Наименование">
-		</p:inputText>
-	   </p:panel>
-	   <p:panel> 
-		<ui:include src="/WEB-INF/includes/baseCrudToolBar.xhtml">
-			<ui:param name="bean" value="#{articleBean}" />
-			<ui:param name="gridId" value="defectsEditGrid" />
-			<ui:param name="newObject" value="newDefect" />
-			<ui:param name="editObject" value="editDefect" />
-			<ui:param name="refreshObjects" value="refreshDefects" />
-			<ui:param name="beforeDeleteObject" value="beforeDeleteDefect" />
-			<ui:param name="hideTitle" value="true" />
-		</ui:include>
-		<p:dataTable id="defectsEditGrid" var="categoryDefect" rowKey="#{categoryDefect}" style="min-width: 400px;"
-			value="#{bean.defects}" selectionMode="single" selection="#{bean.defect}">
-			<p:column>
-				<h:outputText value="#{categoryDefect.englishName}" />
-			</p:column>
-			<p:column>
-				<h:outputText value="#{categoryDefect.name}" />
-			</p:column>
-		</p:dataTable>
-		</p:panel>	
+		</p:inputText>	  
+		
 	  </h:panelGrid>	
 	</ui:define>
+	
+	<ui:define name="details">	 
+		<h:dataTable width="100%"  id="defectListTable"
+			var="defect" value="#{bean.defects}" columnClasses=",,,crud-btn">
+			<f:facet name="header">Список возможных дефектов					
+					<p:commandButton style="margin:0 5px 0 5px"
+					image="ui-icon-document" title="Добавить дефект в список"
+					styleClass="inline-btn border-btn"
+					action="#{bean.newDefect}"
+					update="defectListTable, growl" process="defectListTable" />
+			</f:facet>
+			<h:column>
+				<p:inputTextarea value="#{defect.englishName}" />
+			</h:column>
+			<h:column>
+				<p:inputTextarea value="#{defect.name}" />
+			</h:column>
+			<h:column>
+				<p:commandButton image="ui-icon-trash" title="Удалить дефект"
+					styleClass="inline-btn" action="#{bean.deleteDefect}"
+					update="defectListTable" process="defectListTable">
+					<f:setPropertyActionListener target="#{bean.defect}"
+						value="#{defect}" />
+				</p:commandButton>
+			</h:column>
+		</h:dataTable>		
+	</ui:define>
+	
 	<ui:define name="deleteConfirmation">
 		<ui:include src="/WEB-INF/includes/deleteConfirmation.xhtml">
 			<ui:param name="message" value="Удалить категорию '#{bean.category.name}'?" />

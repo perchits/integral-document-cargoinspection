@@ -26,7 +26,13 @@ public class ArticleCategoryPresentation implements Serializable {
 		Collections.sort(result, new Comparator<ArticleDefect>() {
 			@Override
 			public int compare(ArticleDefect o1, ArticleDefect o2) {
-				return o1.getName().compareTo(o2.getName());
+				if (o1.getName() == null) {
+					return 1;
+				}
+				if (o2.getName() == null) {
+					return -1;
+				}				
+				return o1.getName().compareTo(o2.getName());	
 			}
 		});
 		return result;

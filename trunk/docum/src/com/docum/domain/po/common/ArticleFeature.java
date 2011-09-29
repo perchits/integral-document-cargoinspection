@@ -77,20 +77,7 @@ public class ArticleFeature extends IdentifiedEntity {
 			for (ArticleFeatureInstance inst : other.getInstances()) {
 				addInstance(new ArticleFeatureInstance(inst));
 			}
-		}
-		// if (other.getInstances() != null) {
-		// for (Iterator<ArticleFeatureInstance> it = instances.iterator();
-		// it.hasNext();) {
-		// ArticleFeatureInstance inst = it.next();
-		// if (!other.instances.contains(inst)) {
-		// it.remove();
-		// }
-		// }
-		// for (ArticleFeatureInstance inst : other.getInstances()) {
-		// addInstance(new ArticleFeatureInstance(inst));
-		// }
-		//
-		// }
+		}		
 	}
 
 	public String getName() {

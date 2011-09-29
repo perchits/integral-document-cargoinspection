@@ -54,12 +54,23 @@ public class ArticleCategory extends OrderedEntity {
 		copy(other);
 	}
 
-	public void copy(ArticleCategory other) {
+	public void copy(ArticleCategory other) {		
 		this.article = other.article;
 		this.name = other.name;
 		this.englishName = other.englishName;
+		this.setId(other.getId());
 	}
 
+	public void deepCopy(ArticleCategory other){
+		copy(other);		
+		if (other.defects != null) {
+			defects = new HashSet<ArticleDefect>(other.defects.size());
+			for (ArticleDefect defect : other.defects) {
+				addDefect(new ArticleDefect(defect));
+			}
+		}
+	}
+	
 	public String getName() {
 		return name;
 	}

@@ -29,6 +29,17 @@ public class ArticleDefect extends IdentifiedEntity {
 		this();
 		this.category = category;
 	}
+	
+	public ArticleDefect(ArticleDefect other){
+		copy(other);
+	}
+	
+	public void copy(ArticleDefect other){
+		this.setId(other.getId());
+		this.category = other.category;
+		this.name = other.name;
+		this.englishName = other.englishName;
+	}
 
 	public ArticleCategory getCategory() {
 		return category;
