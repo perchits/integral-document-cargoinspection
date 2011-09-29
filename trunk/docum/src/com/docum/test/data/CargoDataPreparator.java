@@ -112,7 +112,6 @@ public class CargoDataPreparator extends AbstractDataPreparator {
 			options.add(cio);
 		}
 		info.setInspectionOptions(options);
-		persister.persist(info);
 	}
 	
 	private void getArticleInspectionOptionLeaves(
