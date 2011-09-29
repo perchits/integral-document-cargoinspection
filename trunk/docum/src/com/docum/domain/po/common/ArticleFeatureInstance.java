@@ -43,6 +43,7 @@ public class ArticleFeatureInstance extends IdentifiedEntity {
 	}
 
 	public void copy(ArticleFeatureInstance other) {
+		this.setId(other.getId());
 		this.articleFeature = other.articleFeature;
 		this.name = other.name;
 		this.englishName = other.englishName;
