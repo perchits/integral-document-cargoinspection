@@ -111,6 +111,7 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 		addTemperatureData(odt, "TableMeasurementTemperature");
 		addCargoAmount(odt, "TableCargoAmount");
 		processRipe(odt);
+		addGeneralCargoImages(odt, "TablePictures");
 		odt.save(location + reportFileName + ".odt");
 		OpenOfficeConnection officeConnection = 
 			new SocketOpenOfficeConnection(starOfficeConnectionPort);
@@ -124,6 +125,9 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 	
 	private void addTemperatureData(OdfTextDocument odt, String odfTableName) {
 		OdfTable odfTable = odt.getTableByName(odfTableName);
+		if (odfTable == null) {
+			return;
+		}
 		List<String> containersWithTemperatureDeviation = new ArrayList<String>();
 		List<String> containersWithoutTemperatureDeviation = new ArrayList<String>();
 		List<String> containersWithTemperatureSpy = new ArrayList<String>();
@@ -401,9 +405,39 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 		odfTable.appendRow();
 	}
 	
+	private void addGeneralCargoImages(OdfTextDocument odt, String odfTableName) throws Exception {
+		OdfTable odfTable = odt.getTableByName(odfTableName);
+		if (odfTable == null) {
+			return;
+		}
+		for (Container container: this.containers) {
+			if (container.getActualCondition() == null) {
+				continue;
+			}
+			Set<Cargo> cargoes = container.getActualCondition().getCargoes();
+			if (cargoes == null || cargoes.size() == 0) {
+				continue;
+			}
+			int currRow = odfTable.getRowCount() - 1;
+			for (Cargo cargo: cargoes) {
+				currRow = odfTable.getRowCount() - 1;
+				CargoInspectionInfo inspectionInfo =
+					cargoService.getCargoInspectionInfo(cargo.getId());
+				for (FileUrl fileUrl: inspectionInfo.getImages()) {
+					addImage(odt, fileUrl, odfTable, 0, currRow);
+					currRow++;
+				}
+				odfTable.appendRow();
+			}
+		}
+	}
+	
 	private void addImages(OdfTextDocument odt, String odfTableName, String engNoImageComment, 
 			String rusNoImageComment, String engImageUrlProperty, String rusImageUrlProperty) throws Exception {
 		OdfTable odfTable = odt.getTableByName(odfTableName);
+		if (odfTable == null) {
+			return;
+		}
 		for (Container container: this.containers) {
 			if (container.getActualCondition() == null) {
 				continue;
