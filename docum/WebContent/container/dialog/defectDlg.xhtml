@@ -7,9 +7,10 @@
 <ui:composition template="/WEB-INF/includes/dialogLayout.xhtml">
 	<ui:param name="width" value="700" />
 	<ui:param name="saveObject" value="save" />
-	<ui:param name="colCount" value="2" />
-	<ui:define name="dialogBody">	
-		
+	<ui:param name="colCount" value="1" />
+	<ui:define name="dialogBody">
+
+		<!--
 		<h:outputText 
 			rendered="#{!bean.customDefect}"
 			value="#{bean.defectName}" id="defect-name"			
@@ -26,7 +27,51 @@
 			value="#{bean.cargoDefect.percentage}" id="defect-count"			
 			label="Процент" >
 		<f:convertNumber maxFractionDigits="2" />
-		</p:inputText>	
+		</p:inputText>
+		-->
+
+		<h:panelGroup>
+			<h:dataTable value="#{bean.articleDefectsWrapped}"
+				var="articleDefect">
+				<h:column>
+					<h:selectBooleanCheckbox value="#{articleDefect.selected}" />
+				</h:column>
+				<h:column>
+					<h:outputText value="#{articleDefect.name}" />
+				</h:column>
+			</h:dataTable>
+		</h:panelGroup>
 	</ui:define>
+
+	<ui:define name="details">
+		<h:panelGroup>
+			<h:dataTable id="defectListTable"
+			width="100%"
+			value="#{bean.customDefects}" var="customDefect">			
+			<f:facet name="header">Список произвольных дефектов					
+					<p:commandButton style="margin:0 5px 0 5px"
+						image="ui-icon-document" title="Добавить дефект"
+						styleClass="inline-btn border-btn"
+						action="#{bean.addCustomDefect}"
+						update="defectListTable,growl" process="defectListTable" />
+				</f:facet>			
+				<h:column>
+					<p:inputTextarea title="Наименование дефекта на английском языке" value="#{customDefect.englishName}" />
+				</h:column>
+				<h:column>
+					<p:inputTextarea title="Наименование дефекта на русском языке" value="#{customDefect.name}" />
+				</h:column>
+				<h:column>
+					<p:commandButton image="ui-icon-trash" title="Удалить дефект"
+						styleClass="inline-btn" action="#{bean.removeCustomDefect}"
+						update="defectListTable,growl" process="defectListTable">
+						<f:setPropertyActionListener target="#{bean.cargoDefect}"
+							value="#{customDefect}" />
+					</p:commandButton>
+				</h:column>	
+			</h:dataTable>
+		</h:panelGroup>
+	</ui:define>
+
 </ui:composition>
 </html>

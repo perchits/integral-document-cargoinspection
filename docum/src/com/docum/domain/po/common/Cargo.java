@@ -125,9 +125,12 @@ public class Cargo extends IdentifiedEntity {
 				articleCategory.equals(this.articleCategory)) {
 			return;
 		}
-//		if(condition.isSurveyable()) {
-//			inspectionInfo.resetArticleCategory(articleCategory);
-//		}
+		if(condition.isSurveyable()) {
+			CargoInspectionInfo info = inspectionInfo.iterator().next();
+			if (info != null) {
+				info.resetArticleCategory(articleCategory);
+			}
+		}
 		this.articleCategory = articleCategory;
 	}
 

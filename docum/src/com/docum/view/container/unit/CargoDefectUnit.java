@@ -14,6 +14,7 @@ import com.docum.view.wrapper.CargoDefectPresentation;
 
 public class CargoDefectUnit implements Serializable, DialogActionHandler {
 	private static final long serialVersionUID = -7141222194218275903L;
+		
 	private CargoDefect cargoDefect;
 	private DefectDlgView defectDlg;
 	private ContainerHolder containerHolder;
@@ -30,8 +31,8 @@ public class CargoDefectUnit implements Serializable, DialogActionHandler {
 
 	public void setCargoDefectGroup(CargoDefectGroup cargoDefectGroup) {
 		this.cargoDefectGroup = cargoDefectGroup;
-	}
-	
+	}	
+
 	public void setWrappedCargoDefectGroup(CargoDefectGroupPresentation cargoDefectGroup) {
 		this.cargoDefectGroup = cargoDefectGroup.getCargoDefectGroup();
 	}
@@ -42,25 +43,10 @@ public class CargoDefectUnit implements Serializable, DialogActionHandler {
 	
 	public DefectDlgView getDefectDlg() {
 		return defectDlg;
-	}
+	}	
 	
-	public void editDefect(){
-		prepareDefectDialog(cargoDefect);
-	}
-	
-	public void addDefect(){
-		CargoDefect cargoDefect = new CargoDefect(cargoDefectGroup);
-		prepareDefectDialog(cargoDefect);
-	}
-	
-	public void removeDefect() {
-		cargoDefect.getDefectGroup().removeDefect(cargoDefect);
-		containerHolder.saveContainer();
-		cargoDefect = null;
-	}
-	
-	public void prepareDefectDialog(CargoDefect cargoDefect){
-		defectDlg = new DefectDlgView(cargoDefect);
+	public void prepareDefectDialog(){
+		defectDlg = new DefectDlgView(cargoDefectGroup);
 		defectDlg.addHandler(this);		
 		containerHolder.setDlgDefectUnit(this);
 	}
@@ -81,12 +67,7 @@ public class CargoDefectUnit implements Serializable, DialogActionHandler {
 	@Override
 	public void handleAction(AbstractDlgView dialog, DialogActionEnum action) {
 		if (dialog instanceof DefectDlgView) {
-			DefectDlgView d = (DefectDlgView) dialog;
 			if (DialogActionEnum.ACCEPT.equals(action)) {
-				CargoDefect defect = d.getCargoDefect();
-				if (defect.getId() == null) {
-					cargoDefectGroup.addDefect(defect);					
-				}
 				containerHolder.saveContainer();
 			}
 		}

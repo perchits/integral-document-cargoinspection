@@ -59,11 +59,7 @@ public class CargoDefectGroup extends OrderedEntity {
 				|| articleCategory.equals(this.articleCategory)) {
 			return;
 		}
-		this.articleCategory = articleCategory;
-		defects.clear();
-		for (ArticleDefect articleDefect : articleCategory.getDefects()) {
-			defects.add(new CargoDefect(this, articleDefect));
-		}
+		this.articleCategory = articleCategory;		
 	}
 
 	public Set<CargoDefect> getDefects() {
