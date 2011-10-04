@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.faces.context.FacesContext;
+import javax.persistence.Persistence;
 
 import org.odftoolkit.odfdom.doc.OdfTextDocument;
 import org.odftoolkit.odfdom.doc.table.OdfTable;
@@ -644,7 +645,15 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 						for (Object object: objects) {
 							values.add(XMLUtil.propertyUtilsBean.getSimpleProperty(object, props[1]));
 						}
-						propertyValues.add(ListHandler.getUniqueResult(objects));
+						propertyValues.add(ListHandler.getUniqueResult(values));
+					} else if (propertyValue instanceof Set && props.length == 1) {
+						@SuppressWarnings("unchecked")
+						Set<Object> objects = (Set<Object>) propertyValue;
+						List<Object> values = new  ArrayList<Object>();
+						for (Object object: objects) {
+							values.add(object);
+						}
+						propertyValues.add(ListHandler.getUniqueResult(values));
 					} else {
 						if (propertyValue instanceof Date) {
 							propertyValues.add(ReportUtil.DATE_FORMAT.format(propertyValue));
