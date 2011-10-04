@@ -38,6 +38,7 @@ import com.docum.domain.po.common.CargoInspectionInfo;
 import com.docum.domain.po.common.CargoPackage;
 import com.docum.domain.po.common.Container;
 import com.docum.domain.po.common.FileUrl;
+import com.docum.domain.po.common.Inspection;
 import com.docum.domain.po.common.Report;
 import com.docum.service.ApplicationConfigService;
 import com.docum.service.BaseService;
@@ -282,6 +283,7 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 							//TODO refactor
 							if (cd.getCargoName().equals(cargo.getArticle().getName() + ", "  + 
 									cargo.getArticleCategory().getName())) {
+								Arrays.sort(cd.getCategoryNames());
 								for (ArticleCategory articleCategory: cargo.getArticle().getCategories()) {
 									if (Arrays.binarySearch(
 											cd.getCategoryNames(), articleCategory.getName()) == -1) {
@@ -411,21 +413,22 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 			return;
 		}
 		for (Container container: this.containers) {
-			if (container.getActualCondition() == null) {
+			Inspection inspection = container.getInspection();
+			if (inspection == null || inspection.getImages() == null || inspection.getImages().isEmpty()) {
 				continue;
-			}
-			Set<Cargo> cargoes = container.getActualCondition().getCargoes();
-			if (cargoes == null || cargoes.size() == 0) {
-				continue;
-			}
-			int currRow = odfTable.getRowCount() - 1;
-			for (Cargo cargo: cargoes) {
-				currRow = odfTable.getRowCount() - 1;
-				CargoInspectionInfo inspectionInfo =
-					cargoService.getCargoInspectionInfo(cargo.getId());
-				for (FileUrl fileUrl: inspectionInfo.getImages()) {
-					addImage(odt, fileUrl, odfTable, 0, currRow);
-					currRow++;
+			} else {
+				int currRow = odfTable.getRowCount() - 1;
+				int columntIndex = 0;
+				for (FileUrl fileUrl: inspection.getImages()) {
+					addImage(odt, fileUrl, odfTable, columntIndex, currRow);
+					switch (columntIndex) {
+					case 0:
+						columntIndex = 1;
+						break;
+					case 1: 	
+						columntIndex = 0;
+						currRow++;
+					}
 				}
 				odfTable.appendRow();
 			}
