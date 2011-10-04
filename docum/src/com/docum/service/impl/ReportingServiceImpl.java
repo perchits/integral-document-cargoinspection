@@ -280,7 +280,6 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 						@Override
 						public boolean isIt(CargoDefects cd) {
 							boolean result = false;
-							//TODO refactor
 							if (cd.getCargoName().equals(cargo.getArticle().getName() + ", "  + 
 									cargo.getArticleCategory().getName())) {
 								Arrays.sort(cd.getCategoryNames());
@@ -431,6 +430,33 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 					}
 				}
 				odfTable.appendRow();
+			}
+			if (container.getActualCondition() == null) {
+				continue;
+			}
+			Set<Cargo> cargoes = container.getActualCondition().getCargoes();
+			if (cargoes == null || cargoes.size() == 0) {
+				continue;
+			}
+			OdfTable odfQualityExpertiseTable = odt.getTableByName("TableQualityExpertise");
+			int currRow = odfQualityExpertiseTable.getRowCount() - 1;
+			for (Cargo cargo: cargoes) {
+				currRow = odfQualityExpertiseTable.getRowCount() - 1;
+				int columntIndex = 0;
+				CargoInspectionInfo inspectionInfo =
+					cargoService.getCargoInspectionInfo(cargo.getId());
+				for (FileUrl fileUrl: inspectionInfo.getImages()) {
+					addImage(odt, fileUrl, odfQualityExpertiseTable, columntIndex, currRow);
+					switch (columntIndex) {
+					case 0:
+						columntIndex = 1;
+						break;
+					case 1: 	
+						columntIndex = 0;
+						currRow++;
+					}
+				}
+				odfQualityExpertiseTable.appendRow();
 			}
 		}
 	}
