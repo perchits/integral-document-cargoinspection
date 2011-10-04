@@ -43,6 +43,18 @@ public class CargoDefect extends IdentifiedEntity{
 		this.englishName = englishName;
 	}
 	
+	public CargoDefect(CargoDefect other){
+		copy(other);
+	}
+	
+	public void copy(CargoDefect other){
+		this.setId(other.getId());
+		this.articleDefect = other.articleDefect;
+		this.defectGroup = other.defectGroup;
+		this.name = other.name;
+		this.englishName = other.englishName;
+	}
+	
 	public CargoDefectGroup getDefectGroup() {
 		return defectGroup;
 	}
