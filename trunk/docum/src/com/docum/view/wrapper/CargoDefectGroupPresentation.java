@@ -36,6 +36,14 @@ public class CargoDefectGroupPresentation implements Serializable {
 		return result;		
 	}
 	
+	public int getDefectCount(){
+		if (cargoDefectGroup == null || cargoDefectGroup.getDefects() == null) {
+			return 0;
+		} else {
+			return cargoDefectGroup.getDefects().size();
+		}
+	}
+	
 	public String getTitle(){
 		return toString();
 	}

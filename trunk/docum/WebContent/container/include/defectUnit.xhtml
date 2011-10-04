@@ -16,6 +16,7 @@
 					oncomplete="beforeShow(defectIdVar,args)"
 					update="defectIdDlgPanel,growl">
 					<h:outputText styleClass="olive-color" value="#{defectGroup.title}" />
+					<h:outputText styleClass="olive-color" value=" (#{defectGroup.defectCount})" />
 					<f:setPropertyActionListener
 						target="#{defectbean.wrappedCargoDefectGroup}"
 						value="#{defectGroup}" />

@@ -35,7 +35,7 @@ public class DefectDlgView extends AbstractDlgView implements Serializable {
 			}
 		}		
 		
-	}
+	}	
 	
 	public void addCustomDefect() {
 		customDefects.add(new CargoDefect(cargoDefectGroup));
