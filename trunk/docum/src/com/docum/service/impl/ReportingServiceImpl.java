@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -631,7 +632,7 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 			List<Object> propertyValues = new ArrayList<Object>();
 			for (Container container: this.containers) {
 				Object propertyValue = XMLUtil.getObjectProperty(container, props[0]);
-				if (propertyValue != null) {
+				if (propertyValue != null) { 
 					if (propertyValue instanceof List && props.length == 1) {
 						@SuppressWarnings("unchecked")
 						List<Object> objects = (List<Object>) propertyValue;
@@ -645,8 +646,12 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 						}
 						propertyValues.add(ListHandler.getUniqueResult(objects));
 					} else {
-						Object value = XMLUtil.propertyUtilsBean.getNestedProperty(container, result);
-						propertyValues.add(value != null ? value.toString() : "");
+						if (propertyValue instanceof Date) {
+							propertyValues.add(ReportUtil.DATE_FORMAT.format(propertyValue));
+						} else {
+							Object value = XMLUtil.propertyUtilsBean.getNestedProperty(container, result);
+							propertyValues.add(value != null ?  value.toString() : " ");
+						}
 					}
 				}
 			}
