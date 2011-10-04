@@ -10,6 +10,7 @@ import org.w3c.dom.NodeList;
 
 public class ReportUtil implements Serializable {
 	private static final long serialVersionUID = -6276477440612413243L;
+	public static final String DOUBLE_FORMAT = "%.2f";
 	
 	public String insertTableCopy(OdfTextDocument odt, String tableToFindName, 
 			String tableBeforeInsertName) throws Exception {
@@ -65,7 +66,7 @@ public class ReportUtil implements Serializable {
 
 	public void setRatingValue(OdfTableCell tableCell, double value1, double value2) {
 		double rating = value1 - value2;
-		StringBuffer stringBuffer = new StringBuffer(String.valueOf(rating));
+		StringBuffer stringBuffer = new StringBuffer(String.format(DOUBLE_FORMAT, rating));
 		if (rating > 0) {
 			stringBuffer.insert(0, "+");
 		}
