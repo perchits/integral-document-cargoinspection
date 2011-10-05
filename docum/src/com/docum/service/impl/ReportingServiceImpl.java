@@ -283,6 +283,9 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 							boolean result = false;
 							if (cd.getCargoName().equals(cargo.getArticle().getName() + ", "  + 
 									cargo.getArticleCategory().getName())) {
+								if (cd.getCategoryNames() == null) {
+									return false;
+								}
 								Arrays.sort(cd.getCategoryNames());
 								for (ArticleCategory articleCategory: cargo.getArticle().getCategories()) {
 									if (Arrays.binarySearch(
@@ -298,6 +301,8 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 					});
 					if (cargoDefects != null) {
 						processCargoDefects(odt.getTableByName(tableName), cargoDefects);
+					} else {
+						odt.getTableByName(tableName).remove();
 					}
 				}
 			}
