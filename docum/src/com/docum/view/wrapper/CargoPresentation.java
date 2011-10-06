@@ -168,7 +168,7 @@ public class CargoPresentation implements Serializable {
 	}
 	
 	public int getImagesCount() {
-		return cargo.getInspectionInfo().getImages().size();
+		return cargo.getInspectionInfo() == null ? 0 : cargo.getInspectionInfo().getImages().size();
 
 	}
 
