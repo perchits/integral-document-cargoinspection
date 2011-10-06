@@ -47,7 +47,7 @@ public class Stats {
 	}
 	
 	/**
-	 * CargoDefectsOld - таблица повреждений
+	 * CargoDefects - таблица повреждений
 	 */
 	public static class CargoDefects implements Serializable {
 		private static final long serialVersionUID = -968234605437616504L;
@@ -107,9 +107,6 @@ public class Stats {
 		}
 	}
 	
-	
-	
-	
 	/**
 	 * Описывает партию груза с уникальными характеристиками в рамках инвойса
 	 */
@@ -120,16 +117,16 @@ public class Stats {
 		private String articleEnglishName;
 		private String categoryName;
 		private String categoryEnglishName;
-		private CargoDefectsOld defects;
+		private CargoDefects averageDefects;
 
 		public CargoParty(String articleName, String articleEnglishName, String categoryName,
-				String categoryEnglishName, CargoDefectsOld defects) {
+				String categoryEnglishName, CargoDefects averageDefects) {
 			super();
 			this.articleName = articleName;
 			this.articleEnglishName = articleEnglishName;
 			this.categoryName = categoryName;
 			this.categoryEnglishName = categoryEnglishName;
-			this.defects = defects;
+			this.averageDefects = averageDefects;
 		}
 		public String getArticleName() {
 			return articleName;
@@ -143,8 +140,8 @@ public class Stats {
 		public String getCategoryEnglishName() {
 			return categoryEnglishName;
 		}
-		public CargoDefectsOld getDefects() {
-			return defects;
+		public CargoDefects getAverageDefects() {
+			return averageDefects;
 		}
 	}
 	

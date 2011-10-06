@@ -32,6 +32,57 @@ public class CargoUtil {
 		}
 	}
 
+	public static List<List<Cargo>> collectByArticleAndCategory(Collection<Cargo> cargoes) {
+		List<List<Cargo>> result = new ArrayList<List<Cargo>>();
+//		for()
+		return result;
+	}
+
+	/**
+	 * Расчет средних значений повреждений по грузам.
+	 * @param cargoes Список грузов.
+	 * @return Рассчитанные средние значения повреждений.
+	 * Поскольку грузы должны быть одного и того же товара с одинаковыми характеристиками и одной
+	 * категории, поля наименований товаров и категорий берутся из первого груза.
+	 */
+	public static Stats.CargoDefects calcAverageDefects(Collection<Cargo> cargoes)
+			throws IllegalArgumentException {
+		if(cargoes.isEmpty()) {
+			return null;
+		}
+		
+		Stats.CargoDefects result = null;
+		double[] averagePercentages = null;
+		for(Cargo cargo : cargoes) {
+			Stats.CargoDefects defects = calcAverageDefects(cargo);
+			if(result == null) {
+				result = new Stats.CargoDefects();
+				result.setCargoName(defects.getCargoName());
+				result.setCargoEnglishName(defects.getCargoEnglishName());
+				result.setCategoryNames(defects.getCategoryNames());
+				result.setCategoryEnglishNames(defects.getCategoryEnglishNames());
+				result.setAverageCalibreDefects(new Stats.CargoCalibreDefects());
+				averagePercentages = defects.getAverageCalibreDefects().getPercentages();
+				result.getAverageCalibreDefects().setPercentages(averagePercentages);
+			} else {
+				double[] percentages = defects.getAverageCalibreDefects().getPercentages();
+				if(!result.getCargoName().equals(defects.getCargoName()) ||
+						result.getCategoryNames().length != defects.getCategoryNames().length ||
+						averagePercentages.length != percentages.length) {
+					throw new IllegalArgumentException("Inconsistent cargo list");
+				}
+				
+				for(int i = 0; i < averagePercentages.length; i++) {
+					averagePercentages[i] += percentages[i];
+				}
+			}
+		}
+		for(int i = 0; i < averagePercentages.length; i++) {
+			averagePercentages[i] /= cargoes.size();
+		}
+		return result;
+	}
+	
 	public static Stats.CargoDefects calcAverageDefects(Cargo cargo) {
 		Stats.CargoDefects result = createCargoDefects(cargo);
 		List<Stats.CargoCalibreDefects> resultDefects = new ArrayList<Stats.CargoCalibreDefects>();

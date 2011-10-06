@@ -16,7 +16,7 @@ public class FileUploadUtil {
 	public static String handleUploadedFile(FileProcessingService svc, Container container,
 			FileUploadEvent event) {
 		String path = makePath(container);
-		String fileName = event.getFile().getFileName();
+		String fileName = event.getFile().getFileName().trim().replace(' ', '_');
 		String result = null;
 		try {
 			result = svc.saveImage(path, fileName, event.getFile().getInputstream());
@@ -30,6 +30,7 @@ public class FileUploadUtil {
 	}
 	
 	public static String makePath(Container container) {
-		return String.format("%08d", container.getId()) + "-" + container.getNumber();
+		return String.format("%08d", container.getId()) + "-" +
+			container.getNumber().trim().replace(' ', '_');
 	}
 }
