@@ -70,50 +70,51 @@ public class StatsServiceImpl implements StatsService, Serializable {
 			//TODO error
 			return null;
 		}
+return null;
 		
-		StatsCargoGroupInfo info = group.getInfo();
-		ArticleCategory articleCategory = info.getCategory();
-		Article article = articleCategory.getArticle();
-		
-		List<Stats.CargoDefectsOld> allDefects = new ArrayList<Stats.CargoDefectsOld>();
-		//Сначала рассчитываем все категории по каждому грузу
-		for(Cargo cargo : group.getCargoes()) {
-			allDefects.add(extractCargoDefects(cargo));
-		}
-		//Далее находим среднее арифметическое всех значений
-		//Заодно проверяем, что все списки дефектов категорий имеют один размер
-		Stats.CargoDefectsOld averageDefects = new Stats.CargoDefectsOld();
-		List<Iterator<Stats.CategoryDefectsOld>> iterators =
-			new ArrayList<Iterator<Stats.CategoryDefectsOld>>();
-		//Итератор для определения позиции в расчете
-		Iterator<Stats.CategoryDefectsOld> refIterator = null;
-		int count =-1;
-		for(Stats.CargoDefectsOld defects : allDefects) {
-			if(count == -1) {
-				count = defects.getCategoryDefects().size();
-				refIterator = defects.getCategoryDefects().iterator();
-			} else if(count != defects.getCategoryDefects().size()) {
-				throw new RuntimeException("Wrong number of elements in cargo defects");
-			}
-			iterators.add(defects.getCategoryDefects().iterator());
-		}
-		//Собственно расчет среднего арифметического
-		while(refIterator.hasNext()) {
-			Stats.CategoryDefectsOld refCatDefects = refIterator.next();
-			Stats.CategoryDefectsOld catDefects =
-				new Stats.CategoryDefectsOld(refCatDefects.getCategoryName(),
-						refCatDefects.getCategoryEnglishName());
-			double percentage = 0.0;
-			for(Iterator<Stats.CategoryDefectsOld> i : iterators) {
-				percentage += i.next().getPercentage();
-			}
-			catDefects.setPercertage(percentage/iterators.size());
-			averageDefects.addCategoryDefects(catDefects);
-		}
-		
-		Stats.CargoParty party = new Stats.CargoParty(article.getName(), article.getEnglishName(),
-				articleCategory.getName(), articleCategory.getEnglishName(), averageDefects);
-		return party;
+//		StatsCargoGroupInfo info = group.getInfo();
+//		ArticleCategory articleCategory = info.getCategory();
+//		Article article = articleCategory.getArticle();
+//		
+//		List<Stats.CargoDefectsOld> allDefects = new ArrayList<Stats.CargoDefectsOld>();
+//		//Сначала рассчитываем все категории по каждому грузу
+//		for(Cargo cargo : group.getCargoes()) {
+//			allDefects.add(extractCargoDefects(cargo));
+//		}
+//		//Далее находим среднее арифметическое всех значений
+//		//Заодно проверяем, что все списки дефектов категорий имеют один размер
+//		Stats.CargoDefectsOld averageDefects = new Stats.CargoDefectsOld();
+//		List<Iterator<Stats.CategoryDefectsOld>> iterators =
+//			new ArrayList<Iterator<Stats.CategoryDefectsOld>>();
+//		//Итератор для определения позиции в расчете
+//		Iterator<Stats.CategoryDefectsOld> refIterator = null;
+//		int count =-1;
+//		for(Stats.CargoDefectsOld defects : allDefects) {
+//			if(count == -1) {
+//				count = defects.getCategoryDefects().size();
+//				refIterator = defects.getCategoryDefects().iterator();
+//			} else if(count != defects.getCategoryDefects().size()) {
+//				throw new RuntimeException("Wrong number of elements in cargo defects");
+//			}
+//			iterators.add(defects.getCategoryDefects().iterator());
+//		}
+//		//Собственно расчет среднего арифметического
+//		while(refIterator.hasNext()) {
+//			Stats.CategoryDefectsOld refCatDefects = refIterator.next();
+//			Stats.CategoryDefectsOld catDefects =
+//				new Stats.CategoryDefectsOld(refCatDefects.getCategoryName(),
+//						refCatDefects.getCategoryEnglishName());
+//			double percentage = 0.0;
+//			for(Iterator<Stats.CategoryDefectsOld> i : iterators) {
+//				percentage += i.next().getPercentage();
+//			}
+//			catDefects.setPercertage(percentage/iterators.size());
+//			averageDefects.addCategoryDefects(catDefects);
+//		}
+//		
+//		Stats.CargoParty party = new Stats.CargoParty(article.getName(), article.getEnglishName(),
+//				articleCategory.getName(), articleCategory.getEnglishName(), averageDefects);
+//		return party;
 	}
 
 	public Stats.CargoDefectsOld extractCargoDefects(Cargo cargo) {
