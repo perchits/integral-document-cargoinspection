@@ -1,0 +1,32 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	xmlns:itg="http://integral-info.ru/jsf">
+
+<h:outputText value="Свойства" />
+<ul>
+	<ui:repeat value="#{wcargo.options}" var="option">
+		<li><h:form styleClass="inline-form">
+				<p:commandLink
+					title="Изменить состав свойств для категогии «#{option.name}»"
+					styleClass="olive-color" image="ui-icon-document"
+					action="#{optionbean.prepareOptionDlg}"
+					oncomplete="beforeShow(optionIdVar,args)"
+					update="optionIdDlgPanel,growl">
+					<h:outputText styleClass="olive-color" value="#{option.name}" />
+					
+					<f:setPropertyActionListener
+						target="#{optionbean.articleInspectionOption}"
+						value="#{option}" />
+					<f:setPropertyActionListener
+						target="#{optionbean.cargo}"
+						value="#{wcargo}" />	
+				</p:commandLink>
+			</h:form>
+		</li>
+	</ui:repeat>
+</ul>
+
+</html>

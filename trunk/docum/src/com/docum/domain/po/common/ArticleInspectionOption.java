@@ -67,6 +67,10 @@ public class ArticleInspectionOption extends OrderedEntity {
 		}
 	}
 	
+	public ArticleInspectionOption getRoot(){
+		return this.parent == null ? this : this.parent.getRoot(); 
+	}
+	
 	public String getName() {
 		return name;
 	}

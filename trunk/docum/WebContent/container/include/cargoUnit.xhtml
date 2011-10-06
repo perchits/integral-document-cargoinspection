@@ -65,6 +65,12 @@
 			</h:panelGroup>
 			
 			<h:panelGroup rendered="#{wcargo.actual}">
+				<ui:include src="/container/include/optionUnit.xhtml">
+					<ui:param name="optionbean" value="#{cargobean.optionUnit}" />
+				</ui:include>
+			</h:panelGroup>
+			
+			<h:panelGroup rendered="#{wcargo.actual}">
 				<h:outputText styleClass="olive-color" value="Норм. документ: " />
 				<h:outputText value="#{wcargo.normativeDoc}" />
 				<br />

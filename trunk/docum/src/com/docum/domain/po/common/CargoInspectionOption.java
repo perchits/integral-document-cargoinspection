@@ -20,6 +20,23 @@ public class CargoInspectionOption extends IdentifiedEntity {
 	public CargoInspectionOption() {
 		
 	}
+	
+	public CargoInspectionOption(ArticleInspectionOption articleInspectionOption,
+			CargoInspectionInfo inspectionInfo) {
+		this.articleInspectionOption = articleInspectionOption;
+		this.inspectionInfo = inspectionInfo;
+	}
+	
+	public CargoInspectionOption(CargoInspectionOption other) {
+		copy(other);
+	}
+	
+	public void copy(CargoInspectionOption other){
+		this.setId(other.getId());
+		this.articleInspectionOption = other.articleInspectionOption;
+		this.inspectionInfo = other.inspectionInfo;
+		this.value = other.value;
+	}
 
 	public CargoInspectionOption(CargoInspectionInfo inspectionInfo,
 			ArticleInspectionOption articleInspectionOption) {

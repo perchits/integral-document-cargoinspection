@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import com.docum.domain.po.common.ArticleInspectionOption;
 import com.docum.domain.po.common.Cargo;
 import com.docum.domain.po.common.CargoArticleFeature;
 import com.docum.domain.po.common.CargoCondition;
@@ -170,6 +171,11 @@ public class CargoPresentation implements Serializable {
 	public int getImagesCount() {
 		return cargo.getInspectionInfo() == null ? 0 : cargo.getInspectionInfo().getImages().size();
 
+	}
+	
+	public List<ArticleInspectionOption> getOptions(){
+		if (cargo == null) return null;
+		return cargo.getArticle().getInspectionOptions();
 	}
 
 	@Override

@@ -1,0 +1,32 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+<ui:composition template="/WEB-INF/includes/dialogLayout.xhtml">
+	<ui:param name="width" value="540" />
+	<ui:param name="saveObject" value="save" />
+	<ui:param name="colCount" value="1" />
+	<ui:define name="dialogBody">
+		<h:panelGroup>
+			<h:outputText value="#{articleInspectionOption.name}"/>
+			
+		<h:dataTable value="#{bean.cargoOptionsCopy}"
+				var="cargoOption">				
+				<h:column>
+					<h:outputText value="#{cargoOption.articleInspectionOption.name}" />
+				</h:column>
+				<h:column>
+					<p:inputText value="#{cargoOption.value}"/>
+				</h:column>
+			</h:dataTable>	
+		</h:panelGroup>
+	</ui:define>
+
+	<ui:define name="details">
+		
+	</ui:define>
+
+</ui:composition>
+</html>
