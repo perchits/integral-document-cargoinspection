@@ -37,6 +37,7 @@ import com.docum.view.container.unit.CargoFeatureUnit;
 import com.docum.view.container.unit.CargoPackageUnit;
 import com.docum.view.container.unit.CargoUnit;
 import com.docum.view.container.unit.InspectionUnit;
+import com.docum.view.container.unit.OptionUnit;
 import com.docum.view.dict.BaseView;
 import com.docum.view.param.FlashParamKeys;
 import com.docum.view.wrapper.ContainerPresentation;
@@ -83,6 +84,7 @@ public class ContainerView extends BaseView implements Serializable,
 	private CargoPackageUnit dlgPackageUnit;
 	private CalibreUnit dlgCalibreUnit;
 	private CargoDefectUnit dlgDefectUnit;
+	private OptionUnit dlgOptionUnit;
 	
 	private InspectionUnit inspectionUnit = new InspectionUnit(this);	
 	
@@ -126,6 +128,14 @@ public class ContainerView extends BaseView implements Serializable,
 		this.dlgDefectUnit = dlgDefectUnit;
 	}
 	
+	public OptionUnit getDlgOptionUnit() {
+		return dlgOptionUnit;
+	}
+
+	public void setDlgOptionUnit(OptionUnit dlgOptionUnit) {
+		this.dlgOptionUnit = dlgOptionUnit;
+	}
+
 	public CargoUnit getActualCargoUnit() {
 		return getCargoUnit(true, actualCargoUnit);
 	}

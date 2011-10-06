@@ -46,6 +46,10 @@ public class DefectDlgView extends AbstractDlgView implements Serializable {
 	}
 	
 	private boolean hasDefect(ArticleDefect articleDefect) {
+		if (cargoDefectGroup == null || 
+				cargoDefectGroup.getDefects() == null){
+			return false;
+		}
 		for (CargoDefect defect : cargoDefectGroup.getDefects()) {
 			if (defect.getArticleDefect() != null && 
 					defect.getArticleDefect().equals(articleDefect)) {

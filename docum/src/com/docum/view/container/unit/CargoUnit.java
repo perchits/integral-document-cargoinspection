@@ -45,6 +45,7 @@ public class CargoUnit implements Serializable, DialogActionHandler, ContainerCh
 	private CargoPackageUnit cargoPackageUnit;
 	private CargoCondition cargoCondition;
 	private CargoDefectUnit cargoDefectUnit;
+	private OptionUnit optionUnit;
 	private FileProcessingService fileService;
 	private String removeFunctionName;
 	private FileListDlgView imageListDialog;
@@ -54,6 +55,7 @@ public class CargoUnit implements Serializable, DialogActionHandler, ContainerCh
 		cargoFeatureUnit = new CargoFeatureUnit(containerHolder);
 		cargoPackageUnit = new CargoPackageUnit(containerHolder);
 		cargoDefectUnit = new CargoDefectUnit(containerHolder);
+		optionUnit = new OptionUnit(containerHolder);
 		containerHolder.addContainerChangeListener(this);
 	}
 
@@ -84,6 +86,10 @@ public class CargoUnit implements Serializable, DialogActionHandler, ContainerCh
 
 	public CargoDefectUnit getCargoDefectUnit() {
 		return cargoDefectUnit;
+	}
+
+	public OptionUnit getOptionUnit() {
+		return optionUnit;
 	}
 
 	public void setCargo(CargoPresentation cargo) {
