@@ -664,6 +664,9 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 							propertyValues.add(ReportUtil.DATE_FORMAT.format(propertyValue));
 						} else {
 							Object value = XMLUtil.propertyUtilsBean.getNestedProperty(container, result);
+							if (value instanceof Date) {
+								value = ReportUtil.DATE_FORMAT.format(value);
+							}
 							propertyValues.add(value != null ?  value.toString() : " ");
 						}
 					}
