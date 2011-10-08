@@ -328,8 +328,8 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 		odfTable.getCellByPosition(1, currRow).setHorizontalAlignment("center");
 		currRow = 3;
 		for(final CargoPackage cargoPackage: actualCargo.getCargoPackages()) {
-			odfTable.getCellByPosition(0, currRow).setStringValue(
-					cargoPackage.getMeasure().getName());
+			odfTable.getCellByPosition(0, currRow).setStringValue(cargoPackage.getMeasure()
+					.getEnglishName() + " / " + cargoPackage.getMeasure().getName());
 			if (declaredCargo != null) {
 				CargoPackage declaredCargoPackage = AlgoUtil.find(declaredCargo.getCargoPackages(), 
 						new AlgoUtil.FindPredicate<CargoPackage>() {
@@ -375,8 +375,8 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 		odfTable.getCellRangeByPosition(0, 0, 1 + len, 0).merge();
 		int currColumn = 2;
 		for(int i = 0; i < len; i++) {
-			odfTable.getCellByPosition(currColumn, 1).
-				setStringValue(cargoDefects.getCategoryNames()[i]);
+			odfTable.getCellByPosition(currColumn, 1).setStringValue(cargoDefects.
+					getCategoryEnglishNames()[i] + " / " +  cargoDefects.getCategoryNames()[i]);
 			currColumn++;
 		}
 		int currRow = 2;
