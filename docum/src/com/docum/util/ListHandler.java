@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Set;
 
 public class ListHandler {
+	private final static String NO_DATA = "No data/Нет данных";
+	
 	public static String join(Collection<?> list, String delim) {
 		if (!list.isEmpty()) {
 			StringBuilder sb = new StringBuilder();
@@ -33,9 +35,9 @@ public class ListHandler {
 	
 	public static <T extends Object>  String getUniqueResult(List<T> data) {
 		if (data == null | data.size() == 0) {
-			return "No data/Нет данных";
+			return NO_DATA;
 		} else if (data.size() == 1) {
-			return data.get(0).toString();
+			return data.get(0) != null ? data.get(0).toString() : NO_DATA;
 		} else {
 			StringBuffer result = new StringBuffer();
 			Set<T> uniqueObjects = new HashSet<T>();
