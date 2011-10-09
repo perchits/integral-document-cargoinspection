@@ -790,3 +790,7 @@ a.olive-color:hover {
 	text-align: center;
 	width: 30px;
 }
+
+.upload-dlg-right-col {
+	vertical-align: top !important;
+}
