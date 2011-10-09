@@ -16,7 +16,7 @@
 					id="#{gridId}imageList">
 <h:outputText value="Изображения отсутствуют..."
 					rendered="#{empty bean.fileUrls}" />
-					<h:dataTable styleClass="image-list-table" value="#{bean.fileUrls}"
+					<h:dataTable styleClass="image-list-table" value="#{bean.urlsWrapper}"
 						var="furl">
 						<h:column>
 							<p:column>
@@ -24,13 +24,13 @@
 									action="#{bean.moveUp}" styleClass="inline-btn border-btn"
 									update="#{gridId}imageList">
 									<f:setPropertyActionListener target="#{bean.fileUrl}"
-										value="#{furl}" />
+										value="#{furl.fileUrl}" />
 								</p:commandButton>
 								<p:commandButton title="Вниз" image="ui-icon-arrow-1-s"
 									action="#{bean.moveDown}" styleClass="inline-btn border-btn"
 									update="#{gridId}imageList">
 									<f:setPropertyActionListener target="#{bean.fileUrl}"
-										value="#{furl}" />
+										value="#{furl.fileUrl}" />
 								</p:commandButton>
 							</p:column>
 						</h:column>
@@ -39,7 +39,7 @@
 
 							<h:outputLink
 								value="#{facesContext.externalContext.requestContextPath}/images/#{furl.value}">
-								<p:graphicImage width="90" value="/images/#{furl.value}" />
+								<p:graphicImage width="90" value="/images/#{furl.thumbName}" />
 							</h:outputLink>
 
 						</h:column>
@@ -48,7 +48,7 @@
 								image="ui-icon-trash" action="#{bean.removeImage}"
 								update="#{gridId}imageList">
 								<f:setPropertyActionListener target="#{bean.fileUrl}"
-									value="#{furl}" />
+									value="#{furl.fileUrl}" />
 							</p:commandButton>
 						</h:column>
 

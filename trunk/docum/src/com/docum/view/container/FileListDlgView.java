@@ -1,6 +1,7 @@
 package com.docum.view.container;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.primefaces.event.FileUploadEvent;
@@ -21,6 +22,7 @@ public class FileListDlgView extends AbstractDlgView implements Serializable {
 	private FileUrl fileUrl;
 	private FileProcessingService fileService;
 	private Container container;
+	private List<UrlWrapper> urlsWrapper= new ArrayList<UrlWrapper>();
 	
 	public FileListDlgView(List<FileUrl> fileUrls, String title, 
 			FileProcessingService fileService, Container container) {
@@ -35,7 +37,7 @@ public class FileListDlgView extends AbstractDlgView implements Serializable {
 	}
 	
 	public void setFileUrls(List<FileUrl> fileUrls) {
-		this.fileUrls = fileUrls;
+		this.fileUrls = fileUrls;		
 	}
 	
 	public void moveUp() {
@@ -62,6 +64,20 @@ public class FileListDlgView extends AbstractDlgView implements Serializable {
 		fileUrls.add(new FileUrl(FileUploadUtil.handleUploadedFile(fileService, container , event)));
 	}
 	
+		
+	public List<UrlWrapper> getUrlsWrapper() {
+		if (fileUrls == null) return null;
+		urlsWrapper.clear();
+		for (FileUrl url : fileUrls){
+			urlsWrapper.add(new UrlWrapper(url));
+		}
+		return urlsWrapper;
+	}
+
+	public void setUrlsWrapper(List<UrlWrapper> urlsWrapper) {
+		this.urlsWrapper = urlsWrapper;
+	}
+
 	public void removeImage(){
 		AlgoUtil.removeAll(fileUrls, new AlgoUtil.FindPredicate<FileUrl>(){
 			  public boolean isIt(FileUrl c) {
@@ -72,6 +88,37 @@ public class FileListDlgView extends AbstractDlgView implements Serializable {
 
 	public void save() {
 		fireAction(this, DialogActionEnum.ACCEPT);
+	}
+	
+	public class UrlWrapper implements Serializable {
+		private static final long serialVersionUID = 1542287184483688431L;
+		private FileUrl fileUrl;
+		
+		public UrlWrapper(FileUrl fileUrl){
+			this.fileUrl = fileUrl;
+		}
+		
+		public String getThumbName(){			
+			if (getValue()== null) return null;
+			String fullName = fileUrl.getValue(); 
+			int mid = fullName.lastIndexOf(".");
+			String fname = fullName.substring(0,mid);
+			String ext = fullName.substring(mid,fullName.length());
+			return  fname + "_t" + ext;
+		}
+
+		public String getValue(){
+			return fileUrl != null ? fileUrl.getValue() : null; 
+		}
+		
+		public FileUrl getFileUrl() {
+			return fileUrl;
+		}
+
+		public void setFileUrl(FileUrl fileUrl) {
+			this.fileUrl = fileUrl;
+		}	
+		
 	}
 
 }
