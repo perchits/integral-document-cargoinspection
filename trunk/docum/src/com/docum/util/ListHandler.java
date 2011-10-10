@@ -2,7 +2,6 @@ package com.docum.util;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class ListHandler {
@@ -33,11 +32,12 @@ public class ListHandler {
 		}
 	}
 	
-	public static <T extends Object>  String getUniqueResult(List<T> data) {
+	public static <T extends Object>  String getUniqueResult(Collection<T> data) {
 		if (data == null | data.size() == 0) {
 			return NO_DATA;
 		} else if (data.size() == 1) {
-			return data.get(0) != null ? data.get(0).toString() : NO_DATA;
+			T obj = data.iterator().next(); 
+			return obj != null ? obj.toString() : NO_DATA;
 		} else {
 			StringBuffer result = new StringBuffer();
 			Set<T> uniqueObjects = new HashSet<T>();
