@@ -7,12 +7,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import javax.faces.context.FacesContext;
-import javax.persistence.Persistence;
 
 import org.odftoolkit.odfdom.doc.OdfTextDocument;
 import org.odftoolkit.odfdom.doc.table.OdfTable;
@@ -36,6 +36,8 @@ import com.docum.domain.Stats.CargoCalibreDefects;
 import com.docum.domain.Stats.CargoDefects;
 import com.docum.domain.po.common.ArticleCategory;
 import com.docum.domain.po.common.Cargo;
+import com.docum.domain.po.common.CargoDefect;
+import com.docum.domain.po.common.CargoDefectGroup;
 import com.docum.domain.po.common.CargoInspectionInfo;
 import com.docum.domain.po.common.CargoPackage;
 import com.docum.domain.po.common.Container;
@@ -256,6 +258,8 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 		}
 		String defectsTableName = "TableDefects";
 		OdfTable defectsTable = odt.getTableByName(defectsTableName);
+		String defectsByClassTableName = "TableDefectsByClass";
+		OdfTable defectsByClassTable = odt.getTableByName(defectsByClassTableName);
 		final String tableBeforeInsertName = "TableCargoAmountAndDefectsAux";
 		for (Container container: this.containers) {
 			List<CargoDefects> listCargoDefects = this.statsService.calcAverageDefects(container.getId());
@@ -305,12 +309,53 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 						odt.getTableByName(tableName).remove();
 					}
 				}
+				if (defectsByClassTable != null) {
+					tableName = reportUtil.insertTableCopy(odt, defectsByClassTableName, tableBeforeInsertName);
+					OdfTable tbl = odt.getTableByName(tableName);
+					List<CargoDefectGroup> cargoDefectGroups = 
+						cargo.getInspectionInfo().getDefectGroups();
+					for(CargoDefectGroup cargoDefectGroup: cargoDefectGroups) {
+						processCargoDefectsByClass(tbl, cargoDefectGroup);
+					}
+					int lastRow = tbl.getRowCount() - 1;
+					if (lastRow == 1) {
+						tbl.remove();
+					} else {
+						tbl.removeRowsByIndex(lastRow, lastRow);
+					}
+				}
 			}
 		}
 		if (defectsTable != null) {
 			defectsTable.remove();
 		}
+		if (defectsByClassTable != null) {
+			defectsByClassTable.remove();
+		}
 		odfTable.remove();
+	}
+	
+	private void processCargoDefectsByClass(OdfTable odfTable, CargoDefectGroup cargoDefectGroup) {
+		int currRow = odfTable.getRowCount() - 1;
+		List<String> cargoDefects = new ArrayList<String>();
+		StringBuffer sb;
+		for(Iterator<CargoDefect> itrDefectGroup = cargoDefectGroup.getDefects().iterator(); 
+				itrDefectGroup.hasNext(); ) {
+			sb = new StringBuffer();
+			CargoDefect cargoDefect = itrDefectGroup.next();
+			sb.append(cargoDefect.getArticleDefect().getEnglishName()).append(" / ")
+				.append(cargoDefect.getArticleDefect().getName());
+			cargoDefects.add(sb.toString());
+		}
+		if (cargoDefects.size() != 0) {
+			sb = new StringBuffer();
+			sb.append(cargoDefectGroup.getArticleCategory().getEnglishName()).append(" / ")
+				.append(cargoDefectGroup.getArticleCategory().getName());
+			odfTable.getCellByPosition(0, currRow).setStringValue(sb.toString());
+			odfTable.getCellByPosition(1, currRow).setStringValue(
+				ListHandler.getUniqueResult(cargoDefects));
+			odfTable.appendRow();
+		}
 	}
 	
 	private void processCargoAmount(OdfTable odfTable, String container, 
