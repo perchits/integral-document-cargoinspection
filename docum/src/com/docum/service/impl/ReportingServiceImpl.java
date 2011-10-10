@@ -343,8 +343,30 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 				itrDefectGroup.hasNext(); ) {
 			sb = new StringBuffer();
 			CargoDefect cargoDefect = itrDefectGroup.next();
-			sb.append(cargoDefect.getArticleDefect().getEnglishName()).append(" / ")
-				.append(cargoDefect.getArticleDefect().getName());
+			if (cargoDefect.getArticleDefect() != null) {
+				sb.append(cargoDefect.getArticleDefect().getEnglishName()).append(" / ")
+					.append(cargoDefect.getArticleDefect().getName());
+			}
+			if (cargoDefect.getEnglishName() != null) {
+				if (sb.length() > 0) {
+					sb.append(", ").append(cargoDefect.getEnglishName());
+				} else {
+					sb.append(cargoDefect.getEnglishName());
+				}
+			}
+			if (cargoDefect.getEnglishName() != null && cargoDefect.getName() != null) {
+				if (sb.length() > 0) {
+					sb.append(" / ").append(cargoDefect.getName());
+				} else {
+					sb.append(" / ").append(cargoDefect.getName());
+				}
+			} else if (cargoDefect.getName() != null) {
+				if (sb.length() > 0) {
+					sb.append(", ").append(cargoDefect.getName());
+				} else {
+					sb.append(cargoDefect.getName());
+				}
+			}
 			cargoDefects.add(sb.toString());
 		}
 		if (cargoDefects.size() != 0) {
