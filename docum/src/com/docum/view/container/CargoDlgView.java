@@ -1,8 +1,10 @@
 package com.docum.view.container;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
 
+import com.docum.domain.SortOrderEnum;
 import com.docum.domain.po.common.Article;
 import com.docum.domain.po.common.ArticleCategory;
 import com.docum.domain.po.common.Cargo;
@@ -30,8 +32,12 @@ public class CargoDlgView extends AbstractDlgView implements Serializable {
 		this.hasNormativeDocument = hasNormativeDocument;
 		this.normativeDocument = normativeDocument;
 		this.articleService = articleService;
-		suppliers = baseService.getAll(Supplier.class, null);
-		articles = baseService.getAll(Article.class, null);			
+		HashMap<String, SortOrderEnum> sortFields = new HashMap<String, SortOrderEnum>();
+		sortFields.put("clazz.company.name", SortOrderEnum.ASC);
+		suppliers = baseService.getAll(Supplier.class, sortFields);
+		sortFields.clear();
+		sortFields.put("clazz.name", SortOrderEnum.ASC);
+		articles = baseService.getAll(Article.class, sortFields);			
 	}
 
 	public Cargo getCargo() {
