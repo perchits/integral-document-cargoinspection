@@ -190,8 +190,6 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 			if(actual != null) {
 				if (actual > 0) {
 					sb.append("+");
-				} else if (min < 0) {
-					sb.append("-");
 				}
 				sb.append(actual);
 			}
