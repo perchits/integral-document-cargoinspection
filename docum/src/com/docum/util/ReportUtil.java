@@ -11,7 +11,7 @@ import org.w3c.dom.NodeList;
 
 public class ReportUtil implements Serializable {
 	private static final long serialVersionUID = -6276477440612413243L;
-	public static final String DOUBLE_FORMAT = "%.2f";
+	public static final String DOUBLE_FORMAT = "%.3f";
 	public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
 	
 	public String insertTableCopy(OdfTextDocument odt, String tableToFindName, 

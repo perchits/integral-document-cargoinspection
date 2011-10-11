@@ -108,9 +108,13 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 			Node node = odt.getStylesDom().getChildNodes().item(i);
 			processNode(node);
 		}
-		addImages(odt, "TableShippingMark", "UNAVAILABLE", "Нет фотографии", 
+		addImages(odt, "TableShippingMark", 
+				"Shipping mark in English is unavailable / Маркировка производителя на английском языке отсутствует", 
+				"Shipping mark in Russian is unavailable / Маркировка производителя на русском языке отсутствует", 
 			"shippingMarkEng", "shippingMark");
-		addImages(odt, "TableStickerA4", "UNAVAILABLE", "Стикер отсутствует", 
+		addImages(odt, "TableStickerA4", 
+				"Sticker in English is unavailable / Стикер на английском языке отсутствует", 
+				"Sticker in Russian is unavailable / Стикер на русском языке отсутствует", 
 			"stickerEng", "sticker");
 		addTemperatureData(odt, "TableMeasurementTemperature");
 		addCargoAmount(odt, "TableCargoAmount");
@@ -171,16 +175,12 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 			if(min != null) {
 				if (min > 0) {
 					sb.append("+");
-				} else if (min < 0) {
-					sb.append("-");
 				}
 				sb.append(min).append("/");
 			}
 			if(max != null) {
 				if (max > 0) {
 					sb.append("+");
-				} else if (min < 0) {
-					sb.append("-");
 				}
 				sb.append(max);
 			}
@@ -261,6 +261,8 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 		String defectsByClassTableName = "TableDefectsByClass";
 		OdfTable defectsByClassTable = odt.getTableByName(defectsByClassTableName);
 		final String tableBeforeInsertName = "TableCargoAmountAndDefectsAux";
+		reportUtil.insertTableCopy(odt, "TableCargoDigitalData", tableBeforeInsertName);
+		odt.getTableByName("TableCargoDigitalData").remove();
 		for (Container container: this.containers) {
 			List<CargoDefects> listCargoDefects = this.statsService.calcAverageDefects(container.getId());
 			for (final Cargo cargo: container.getActualCondition().getCargoes()) {
@@ -337,45 +339,49 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 	
 	private void processCargoDefectsByClass(OdfTable odfTable, CargoDefectGroup cargoDefectGroup) {
 		int currRow = odfTable.getRowCount() - 1;
-		List<String> cargoDefects = new ArrayList<String>();
-		StringBuffer sb;
+		List<String> cargoDefectsEng = new ArrayList<String>();
+		List<String> cargoDefectsRus = new ArrayList<String>();
+		StringBuffer sbEng;
+		StringBuffer sbRus;
 		for(Iterator<CargoDefect> itrDefectGroup = cargoDefectGroup.getDefects().iterator(); 
 				itrDefectGroup.hasNext(); ) {
-			sb = new StringBuffer();
+			sbEng = new StringBuffer();
+			sbRus = new StringBuffer();
 			CargoDefect cargoDefect = itrDefectGroup.next();
 			if (cargoDefect.getArticleDefect() != null) {
-				sb.append(cargoDefect.getArticleDefect().getEnglishName()).append(" / ")
-					.append(cargoDefect.getArticleDefect().getName());
+				sbEng.append(cargoDefect.getArticleDefect().getEnglishName());
+				sbRus.append(cargoDefect.getArticleDefect().getName());
 			}
 			if (cargoDefect.getEnglishName() != null) {
-				if (sb.length() > 0) {
-					sb.append(", ").append(cargoDefect.getEnglishName());
+				if (sbEng.length() > 0) {
+					sbEng.append(", ").append(cargoDefect.getEnglishName());
 				} else {
-					sb.append(cargoDefect.getEnglishName());
+					sbEng.append(cargoDefect.getEnglishName());
 				}
 			}
-			if (cargoDefect.getEnglishName() != null && cargoDefect.getName() != null) {
-				if (sb.length() > 0) {
-					sb.append(" / ").append(cargoDefect.getName());
-				} else {
-					sb.append(" / ").append(cargoDefect.getName());
-				}
-			} else if (cargoDefect.getName() != null) {
-				if (sb.length() > 0) {
-					sb.append(", ").append(cargoDefect.getName());
-				} else {
-					sb.append(cargoDefect.getName());
-				}
+			if (sbRus.length() > 0) {
+				sbRus.append(", ").append(cargoDefect.getName());
+			} else {
+				sbRus.append(cargoDefect.getName());
 			}
-			cargoDefects.add(sb.toString());
+			cargoDefectsEng.add(sbEng.toString());
+			cargoDefectsRus.add(sbRus.toString());
 		}
-		if (cargoDefects.size() != 0) {
-			sb = new StringBuffer();
+		int engSize = cargoDefectsEng.size(); 
+		int rusSize = cargoDefectsRus.size();
+		if (engSize > 0 || rusSize > 0) {
+			StringBuffer sb = new StringBuffer();
 			sb.append(cargoDefectGroup.getArticleCategory().getEnglishName()).append(" / ")
 				.append(cargoDefectGroup.getArticleCategory().getName());
 			odfTable.getCellByPosition(0, currRow).setStringValue(sb.toString());
-			odfTable.getCellByPosition(1, currRow).setStringValue(
-				ListHandler.getUniqueResult(cargoDefects));
+			if (engSize > 0) {
+				odfTable.getCellByPosition(1, currRow).setStringValue(
+					ListHandler.getUniqueResult(cargoDefectsEng));
+			}
+			if (rusSize > 0) {
+				odfTable.getCellByPosition(2, currRow).setStringValue(
+						ListHandler.getUniqueResult(cargoDefectsRus));
+			}
 			odfTable.appendRow();
 		}
 	}
