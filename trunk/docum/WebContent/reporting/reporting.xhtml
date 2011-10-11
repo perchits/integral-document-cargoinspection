@@ -22,12 +22,17 @@
 				</h:panelGroup>
 				<h:panelGroup style="float: right; margin: -3px 0px 0px -7px;">
 					<h:form prependId="false" id="report-preview">
-					<p:commandButton title="Просмотр отчета" image="ui-icon-search" 
-						styleClass="table-btns container-btns" 
-						style="font-size: 10px !important; width: 22px; height: 22px;"
-						actionListener="#{reportBean.renderReport}"
-						oncomplete="openWindow(args);"
-						update="growl"/>						
+						<p:commandButton title="Просмотр отчета" image="ui-icon-search" 
+							styleClass="table-btns container-btns" 
+							style="font-size: 10px !important; width: 22px; height: 22px;"
+							actionListener="#{reportBean.renderReport}"
+							oncomplete="openWindow(args);"
+							update="growl"/>						
+						<p:commandButton title="Оригинал отчета" image="ui-icon-suitcase" 
+							styleClass="table-btns container-btns" 
+							style="font-size: 10px !important; width: 22px; height: 22px;"
+							actionListener="#{reportBean.getOriginalReportFile}"
+							update="growl"/>	
 					</h:form>
 				</h:panelGroup>
 			</h:panelGrid>

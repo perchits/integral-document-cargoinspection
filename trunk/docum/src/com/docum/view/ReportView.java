@@ -324,6 +324,28 @@ public class ReportView extends BaseView {
 		}
 	}
 	
+	public void getOriginalReportFile() {
+		FacesContext fc = FacesContext.getCurrentInstance();
+		if (!reportingService.checkStarOfficeConnection()) {
+			showErrorMessage(
+				"Отсутствует связь со службой StarOffice. Генерация отчетов невозможна.");
+			addCallbackParam("dontShow", true);
+		} else if (this.report == null) {
+			showErrorMessage("Отчета для редактирования не выбран");
+			addCallbackParam("dontShow", true);
+		} else {
+			try {
+				reportingService.createReport(this.report);
+				fc.getExternalContext().redirect(
+						"/docum/resources/reporting/resultReport_" + this.report.getId() + ".odt");
+			} catch(Exception e) {
+				fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, 
+					"Исключение при создании отчета!", e.getMessage()));
+				DocumLogger.log(e);
+			}
+		}
+	}
+	
 	public String getReportUrl() {
 		StringBuffer sb = new StringBuffer("?").append("No cache").
 			append(TestUtil.getRandomLong());
