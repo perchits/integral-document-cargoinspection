@@ -135,7 +135,7 @@ public class CargoUnit implements Serializable, DialogActionHandler, ContainerCh
 	}
 
 	public String getCargoName() {
-		return cargoPresentation.getArticle();
+		return cargoPresentation != null ? cargoPresentation.getArticle() : null;
 	}
 
 	public List<CargoPresentation> getContainerCargoes() {

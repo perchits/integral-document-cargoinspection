@@ -387,5 +387,13 @@ public class ContainerView extends BaseView implements Serializable,
 	public void removeContainerChangeListener(ContainerChangeListener listener) {
 		containerChangeListeners.remove(listener);		
 	}
+	
+	public String getContainerNumber(){
+		return container != null ? container.getNumber() : null; 
+	}
+	
+	public String getCargoName(){
+		return dlgCargoUnit != null ? dlgCargoUnit.getCargoName() : null;
+	}
 
 }
