@@ -43,6 +43,7 @@ import com.docum.domain.po.common.CargoPackage;
 import com.docum.domain.po.common.Container;
 import com.docum.domain.po.common.FileUrl;
 import com.docum.domain.po.common.Inspection;
+import com.docum.domain.po.common.NormativeDocument;
 import com.docum.domain.po.common.Report;
 import com.docum.service.ApplicationConfigService;
 import com.docum.service.BaseService;
@@ -117,6 +118,7 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 				"Sticker in Russian is unavailable / Стикер на русском языке отсутствует", 
 			"stickerEng", "sticker");
 		addTemperatureData(odt, "TableMeasurementTemperature");
+		addNormativePaper(odt, "ТаблицаNormativePaper");
 		addCargoAmount(odt, "TableCargoAmount");
 		processRipe(odt);
 		addGeneralCargoImages(odt, "TablePictures");
@@ -129,6 +131,55 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 			new File(location + reportFileName + ".odt"), 
 			new File(location + reportFileName + ".pdf"));
 		officeConnection.disconnect();
+	}
+	
+	private void addNormativePaper(OdfTextDocument odt, String odfTableName) throws Exception {
+		OdfTable odfTable = odt.getTableByName(odfTableName);
+		if (odfTable == null) {
+			return;
+		}
+		for (Container container: this.containers) {
+			if (container.getActualCondition() == null) {
+				continue;
+			}
+			for (final Cargo cargo: container.getActualCondition().getCargoes()) {
+				if (cargo.getInspectionInfo().getNormativeDocument() != null) {
+					NormativeDocument normativeDocument = 
+						cargo.getInspectionInfo().getNormativeDocument();
+					String tableName = reportUtil.insertTableCopy(odt, odfTableName, odfTableName);
+					OdfTable table = odt.getTableByName(tableName);
+					StringBuffer sb = new StringBuffer();
+					sb.append(cargo.getArticle().getEnglishName()).append(", ")
+						.append(cargo.getSupplier().getCompany().getEnglishName()).append(" / ")
+						.append(cargo.getArticle().getName()).append(", ")
+						.append(cargo.getSupplier().getCompany().getName());
+					table.getCellByPosition(0, 0).setStringValue(sb.toString());
+					if (normativeDocument == null) {
+						table.getCellByPosition(0, 1).setStringValue("No data/Нет данных");
+						table.getCellByPosition(1, 1).setStringValue("No data/Нет данных");
+					} else {
+						table.getCellByPosition(0, 1).setStringValue(
+							normativeDocument.getEnglishName() != null ? 
+									normativeDocument.getEnglishName() : "No data/Нет данных");
+						table.getCellByPosition(1, 1).setStringValue(
+							normativeDocument.getName() != null ? 
+									normativeDocument.getName() : "No data/Нет данных");
+					}
+				} else {
+					String tableName = reportUtil.insertTableCopy(odt, odfTableName, odfTableName);
+					OdfTable table = odt.getTableByName(tableName);
+					StringBuffer sb = new StringBuffer();
+					sb.append(cargo.getArticle().getEnglishName()).append(", ")
+						.append(cargo.getSupplier().getCompany().getEnglishName()).append(" / ")
+						.append(cargo.getArticle().getName()).append(", ")
+						.append(cargo.getSupplier().getCompany().getName());
+					table.getCellByPosition(0, 0).setStringValue(sb.toString());
+					table.getCellByPosition(0, 1).setStringValue("No data/Нет данных");
+					table.getCellByPosition(1, 1).setStringValue("No data/Нет данных");
+				}
+			}
+		}
+		odfTable.remove();
 	}
 	
 	private void addTemperatureData(OdfTextDocument odt, String odfTableName) {
