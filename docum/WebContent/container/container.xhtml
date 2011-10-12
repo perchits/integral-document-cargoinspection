@@ -230,7 +230,7 @@
 
 		<ui:include src="/WEB-INF/includes/deleteConfirmation.xhtml">
 			<ui:param name="message"
-				value="Удалить контейнер «#{containerBean.container.number}»?" />
+				value="Удалить контейнер «#{containerBean.containerNumber}»?" />
 			<ui:param name="gridId" value="containers" />
 			<ui:param name="bean" value="#{containerBean}" />
 			<ui:param name="update" value="infoPanel" />
@@ -250,7 +250,7 @@
 
 		<ui:include src="/WEB-INF/includes/deleteConfirmation.xhtml">
 			<ui:param name="message"
-				value="Удалить груз «#{containerBean.dlgCargoUnit.cargoName}»?" />
+				value="Удалить груз «#{containerBean.cargoName}»?" />
 			<ui:param name="gridId" value="cargoId" />
 			<ui:param name="bean" value="#{containerBean.dlgCargoUnit}" />
 			<ui:param name="deleteObject" value="deleteCargo" />
