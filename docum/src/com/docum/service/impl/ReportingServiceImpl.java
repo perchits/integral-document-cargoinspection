@@ -34,6 +34,7 @@ import com.artofsolving.jodconverter.openoffice.converter.OpenOfficeDocumentConv
 import com.docum.dao.ReportingDao;
 import com.docum.domain.Stats.CargoCalibreDefects;
 import com.docum.domain.Stats.CargoDefects;
+import com.docum.domain.TemperatureSpyStateEnum;
 import com.docum.domain.po.common.ArticleCategory;
 import com.docum.domain.po.common.Cargo;
 import com.docum.domain.po.common.CargoDefect;
@@ -143,16 +144,16 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 				continue;
 			}
 			for (final Cargo cargo: container.getActualCondition().getCargoes()) {
+				StringBuffer sb = new StringBuffer();
+				sb.append(cargo.getArticle().getEnglishName()).append(", ")
+					.append(cargo.getSupplier().getCompany().getEnglishName()).append(" / ")
+					.append(cargo.getArticle().getName()).append(", ")
+					.append(cargo.getSupplier().getCompany().getName());
 				if (cargo.getInspectionInfo().getNormativeDocument() != null) {
 					NormativeDocument normativeDocument = 
 						cargo.getInspectionInfo().getNormativeDocument();
 					String tableName = reportUtil.insertTableCopy(odt, odfTableName, odfTableName);
 					OdfTable table = odt.getTableByName(tableName);
-					StringBuffer sb = new StringBuffer();
-					sb.append(cargo.getArticle().getEnglishName()).append(", ")
-						.append(cargo.getSupplier().getCompany().getEnglishName()).append(" / ")
-						.append(cargo.getArticle().getName()).append(", ")
-						.append(cargo.getSupplier().getCompany().getName());
 					table.getCellByPosition(0, 0).setStringValue(sb.toString());
 					if (normativeDocument == null) {
 						table.getCellByPosition(0, 1).setStringValue("No data/Нет данных");
@@ -168,11 +169,6 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 				} else {
 					String tableName = reportUtil.insertTableCopy(odt, odfTableName, odfTableName);
 					OdfTable table = odt.getTableByName(tableName);
-					StringBuffer sb = new StringBuffer();
-					sb.append(cargo.getArticle().getEnglishName()).append(", ")
-						.append(cargo.getSupplier().getCompany().getEnglishName()).append(" / ")
-						.append(cargo.getArticle().getName()).append(", ")
-						.append(cargo.getSupplier().getCompany().getName());
 					table.getCellByPosition(0, 0).setStringValue(sb.toString());
 					table.getCellByPosition(0, 1).setStringValue("No data/Нет данных");
 					table.getCellByPosition(1, 1).setStringValue("No data/Нет данных");
@@ -208,16 +204,16 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 				} else if (container.getActualCondition().getHasTemperatureTestDeviation() == null) {
 					containersWithoutTemperatureDeviation.add(container.getNumber());
 				}
-//TODO Переделать рендеринг по термоединицам
-//				if (container.getActualCondition().getHasTemperatureSpy() != null && 
-//					container.getActualCondition().getHasTemperatureSpy().equals(Boolean.TRUE)) {
-//					containersWithTemperatureSpy.add(container.getNumber());
-//				} else if (container.getActualCondition().getHasTemperatureSpy() != null && 
-//					container.getActualCondition().getHasTemperatureSpy().equals(Boolean.FALSE)) {
-//					containersWithoutTemperatureSpy.add(container.getNumber());
-//				} else if (container.getActualCondition().getHasTemperatureSpy() == null) {
-//					containersWithoutTemperatureSpy.add(container.getNumber());
-//				}
+				if (container.getActualCondition().getTemperatureSpyState() != null && 
+						container.getActualCondition().getTemperatureSpyState() != TemperatureSpyStateEnum.NOT_FOUND
+						&& container.getActualCondition().getTemperatureSpyState() != TemperatureSpyStateEnum.UNKNOWN) {
+					containersWithTemperatureSpy.add(
+						ReportUtil.getComplexString(new String[]{
+							container.getActualCondition().getTemperatureSpyState().getName(),
+							container.getActualCondition().getTemperatureSpyNumber()}, ","));
+				} else {
+					containersWithoutTemperatureSpy.add(container.getNumber());
+				} 
 			}
 			sb = new StringBuffer();
 			Double min = container.getDeclaredCondition().getMinTemperature();
@@ -257,9 +253,17 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 			currRow++;
 		}
 		if (containersWithTemperatureSpy.size() > 0) {
+			//TODO refactor
+			String thermoSpyData= ListHandler.getUniqueResult(containersWithTemperatureSpy);
+			thermoSpyData = 
+				thermoSpyData.replaceAll(TemperatureSpyStateEnum.FOUND_BROKEN.getName(), "Found broken");
+			thermoSpyData = 
+				thermoSpyData.replaceAll(TemperatureSpyStateEnum.FOUND_DEVIATED.getName(), "Found deviated");
+			thermoSpyData = 
+				thermoSpyData.replaceAll(TemperatureSpyStateEnum.FOUND_OK.getName(), "Found normal state");
 			setCellValueExt(odfTable, 0, currRow, 
-				ListHandler.getUniqueResult(containersWithTemperatureSpy),
-				"Mobile Thermo-Unit was found in cargo.");
+				"Mobile Thermo-Unit: ",
+				thermoSpyData);
 			currRow++;
 		}
 		if (containersWithTemperatureDeviation.size() > 0) {
@@ -282,8 +286,8 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 		}
 		if (containersWithTemperatureSpy.size() > 0) {
 			setCellValueExt(odfTable, 0, currRow, 
-				ListHandler.getUniqueResult(containersWithTemperatureSpy),
-				"Мобильная термо-единица присутствует в грузе.");
+				"Мобильная термо-единица: ",
+				ListHandler.getUniqueResult(containersWithTemperatureSpy));
 			currRow++;
 		}
 		if (containersWithTemperatureDeviation.size() > 0) {

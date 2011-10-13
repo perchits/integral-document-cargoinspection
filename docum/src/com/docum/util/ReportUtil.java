@@ -74,4 +74,17 @@ public class ReportUtil implements Serializable {
 		}
 		tableCell.setStringValue(stringBuffer.toString());
 	}
+	
+	public static String getComplexString(String[] objects, String delimiter) {
+		StringBuffer sb = new StringBuffer();
+		for (String object: objects) {
+			if (object != null) {
+				sb.append(object);
+			}
+			sb.append(", ");
+		}
+		int length = sb.length();
+		sb.replace(length - 2, length - 1 , "");
+		return sb.toString();
+	}
 }
