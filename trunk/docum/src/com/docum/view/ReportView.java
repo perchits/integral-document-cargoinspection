@@ -30,6 +30,7 @@ import com.docum.test.TestUtil;
 import com.docum.util.AlgoUtil;
 import com.docum.util.DocumLogger;
 import com.docum.util.FacesUtil;
+import com.docum.util.ReportUtil;
 import com.docum.view.dict.BaseView;
 import com.docum.view.navigation.ViewNavigation;
 import com.docum.view.param.FlashParamKeys;
@@ -69,6 +70,13 @@ public class ReportView extends BaseView {
 
 	@Override
 	public void saveObject() {
+		if (this.report.getId() == null) {
+			Long reportNumber = reportingService.getReportsWithinYear(
+				ReportUtil.getYear(this.report.getDate()));
+			StringBuffer sb = new StringBuffer();
+			sb.append(dateFormat.format(this.report.getDate())).append("/").append(reportNumber + 1);
+			this.report.setNumber(sb.toString());
+		}
 		getBaseService().save(this.report);
 		refreshObjects();
 	}
@@ -91,11 +99,8 @@ public class ReportView extends BaseView {
 			this.report = new Report();
 			StringBuffer sb = new StringBuffer();
 			Date now = new Date();
-			if (this.reports != null) {
-				sb.append(dateFormat.format(now)).append("/").append(this.reports.size() + 1);
-			} else {
-				sb.append(dateFormat.format(now)).append("/1");
-			}
+			Long reportNumber = reportingService.getReportsWithinYear(ReportUtil.getYear(now)); 
+			sb.append(dateFormat.format(now)).append("/").append(reportNumber + 1);
 			this.report.setNumber(sb.toString());
 			this.report.setDate(new Date());
 			this.report.setCustomer(customerService.getDefaultCustomer());
