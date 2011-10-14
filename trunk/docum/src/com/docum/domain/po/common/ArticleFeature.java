@@ -68,6 +68,7 @@ public class ArticleFeature extends IdentifiedEntity {
 		this.name = other.name;
 		this.englishName = other.englishName;
 		this.list = other.list;
+		this.mandatory = other.mandatory;
 	}
 
 	public void deepCopy(ArticleFeature other) {

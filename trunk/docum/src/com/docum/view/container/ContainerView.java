@@ -10,6 +10,7 @@ import java.util.Set;
 
 import javax.faces.event.ActionEvent;
 
+import org.hibernate.exception.ConstraintViolationException;
 import org.primefaces.event.SelectEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -19,6 +20,7 @@ import com.docum.domain.SortOrderEnum;
 import com.docum.domain.po.IdentifiedEntity;
 import com.docum.domain.po.common.Container;
 import com.docum.domain.po.common.Voyage;
+import com.docum.exception.SQLException;
 import com.docum.service.ArticleService;
 import com.docum.service.BillOfLadingService;
 import com.docum.service.CargoService;
@@ -47,8 +49,8 @@ import com.docum.view.wrapper.VoyageTransformer;
 
 @Controller("containerBean")
 @Scope("session")
-public class ContainerView extends BaseView implements Serializable,
-		DialogActionHandler, ContainerHolder {
+public class ContainerView extends BaseView implements Serializable, DialogActionHandler,
+		ContainerHolder {
 	private static final long serialVersionUID = 3476513399265370923L;
 	private static final String sign = "Контейнер";
 	private static final int MAX_LIST_SIZE = 10;
@@ -57,9 +59,8 @@ public class ContainerView extends BaseView implements Serializable,
 	private ContainerDlgView containerDlg;
 	private boolean reloadContainer = true;
 	private VoyagePresentation selectedVoyage;
-	
-	private Set<ContainerChangeListener> containerChangeListeners =
-		new HashSet<ContainerChangeListener>();
+
+	private Set<ContainerChangeListener> containerChangeListeners = new HashSet<ContainerChangeListener>();
 
 	@Autowired
 	private ContainerService containerService;
@@ -70,24 +71,24 @@ public class ContainerView extends BaseView implements Serializable,
 	@Autowired
 	private BillOfLadingService billService;
 	@Autowired
-	private ArticleService articleService;	
+	private ArticleService articleService;
 	@Autowired
-	private CargoService cargoService;	
+	private CargoService cargoService;
 	@Autowired
-	private FileProcessingService fileService;	
-		
+	private FileProcessingService fileService;
+
 	private CargoUnit actualCargoUnit = new CargoUnit(this);
 	private CargoUnit declaredCargoUnit = new CargoUnit(this);
-	
+
 	private CargoUnit dlgCargoUnit;
 	private CargoFeatureUnit dlgFeatureUnit;
 	private CargoPackageUnit dlgPackageUnit;
 	private CalibreUnit dlgCalibreUnit;
 	private CargoDefectUnit dlgDefectUnit;
 	private OptionUnit dlgOptionUnit;
-	
-	private InspectionUnit inspectionUnit = new InspectionUnit(this);	
-	
+
+	private InspectionUnit inspectionUnit = new InspectionUnit(this);
+
 	public CalibreUnit getDlgCalibreUnit() {
 		return dlgCalibreUnit;
 	}
@@ -127,7 +128,7 @@ public class ContainerView extends BaseView implements Serializable,
 	public void setDlgDefectUnit(CargoDefectUnit dlgDefectUnit) {
 		this.dlgDefectUnit = dlgDefectUnit;
 	}
-	
+
 	public OptionUnit getDlgOptionUnit() {
 		return dlgOptionUnit;
 	}
@@ -143,8 +144,8 @@ public class ContainerView extends BaseView implements Serializable,
 	public CargoUnit getDeclaredCargoUnit() {
 		return getCargoUnit(false, declaredCargoUnit);
 	}
-	
-	public CargoUnit getCargoUnit(Boolean isActual, CargoUnit cargoUnit) {		
+
+	public CargoUnit getCargoUnit(Boolean isActual, CargoUnit cargoUnit) {
 		if (container != null) {
 			ContainerContext context = new ContainerContext();
 			context.setArticleService(articleService);
@@ -156,13 +157,13 @@ public class ContainerView extends BaseView implements Serializable,
 				cargoUnit.setCargoCondition(container.getActualCondition());
 			} else {
 				cargoUnit.setCargoCondition(container.getDeclaredCondition());
-			}				
+			}
 		}
 		return cargoUnit;
 	}
-	
+
 	public InspectionUnit getInspectionUnit() {
-		if (container != null) { 
+		if (container != null) {
 			ContainerContext context = new ContainerContext();
 			context.setContainer(container);
 			context.setBaseService(getBaseService());
@@ -172,7 +173,6 @@ public class ContainerView extends BaseView implements Serializable,
 		return inspectionUnit;
 	}
 
-	
 	@Override
 	public String getSign() {
 		return sign;
@@ -191,8 +191,8 @@ public class ContainerView extends BaseView implements Serializable,
 	@Override
 	public void refreshObjects() {
 		Collection<Container> c = containerService
-				.getContainersByVoyage(selectedVoyage != null ? selectedVoyage
-						.getVoyage().getId() : null);
+				.getContainersByVoyage(selectedVoyage != null ? selectedVoyage.getVoyage().getId()
+						: null);
 		containers = new ArrayList<ContainerPresentation>(c.size());
 		AlgoUtil.transform(containers, c, new ContainerTransformer());
 	}
@@ -215,16 +215,15 @@ public class ContainerView extends BaseView implements Serializable,
 	}
 
 	public void setContainer(ContainerPresentation containerPresentation) {
-		if (containerPresentation == null
-				|| containerPresentation.getContainer() == null) {
+		if (containerPresentation == null || containerPresentation.getContainer() == null) {
 			this.container = null;
 			return;
 		}
-//		reloadContainer = !containerPresentation.getContainer().equals(
-//				this.container);
-//		if (reloadContainer) {
-//			this.container = containerPresentation.getContainer();
-//		}
+		// reloadContainer = !containerPresentation.getContainer().equals(
+		// this.container);
+		// if (reloadContainer) {
+		// this.container = containerPresentation.getContainer();
+		// }
 		loadContainer(containerPresentation.getContainer());
 	}
 
@@ -236,23 +235,20 @@ public class ContainerView extends BaseView implements Serializable,
 	public List<VoyagePresentation> getVoyages() {
 		HashMap<String, SortOrderEnum> sortFields = new HashMap<String, SortOrderEnum>();
 		sortFields.put("arrivalDate", SortOrderEnum.DESC);
-		List<Voyage> voyages = (List<Voyage>) getBaseService().getAll(
-				Voyage.class, sortFields);
-		List<VoyagePresentation> result = new ArrayList<VoyagePresentation>(
-				voyages.size());
+		List<Voyage> voyages = (List<Voyage>) getBaseService().getAll(Voyage.class, sortFields);
+		List<VoyagePresentation> result = new ArrayList<VoyagePresentation>(voyages.size());
 		AlgoUtil.transform(result, voyages, new VoyageTransformer(false));
 		return result;
 	}
 
-	public List<VoyagePresentation> voyageAutocomplete(Object suggest)
-			throws Exception {
+	public List<VoyagePresentation> voyageAutocomplete(Object suggest) throws Exception {
 		// TODO Вынести в презентейшн
 		String pref = (String) suggest;
 		ArrayList<VoyagePresentation> result = new ArrayList<VoyagePresentation>();
 
 		for (VoyagePresentation voyage : getVoyages()) {
-			if ((voyage.getVoyageInfo() != null && voyage.getVoyageInfo()
-					.toLowerCase().indexOf(pref.toLowerCase()) >= 0)
+			if ((voyage.getVoyageInfo() != null && voyage.getVoyageInfo().toLowerCase()
+					.indexOf(pref.toLowerCase()) >= 0)
 					|| "".equals(pref)) {
 				result.add(voyage);
 				if (result.size() >= MAX_LIST_SIZE)
@@ -271,14 +267,13 @@ public class ContainerView extends BaseView implements Serializable,
 	}
 
 	public void voyageSelect(SelectEvent event) {
-		setSelectedVoyage((VoyagePresentation)event.getObject());
+		setSelectedVoyage((VoyagePresentation) event.getObject());
 		refreshObjects();
 		setContainer(new ContainerPresentation(null));
 	}
 
 	public String getContainersTitle() {
-		return selectedVoyage != null ? selectedVoyage.getVoyageInfo()
-				: "Выберите судозаход...";
+		return selectedVoyage != null ? selectedVoyage.getVoyageInfo() : "Выберите судозаход...";
 
 	}
 
@@ -287,8 +282,7 @@ public class ContainerView extends BaseView implements Serializable,
 	}
 
 	public void loadPage() {
-		Container container = (Container) FacesUtil
-				.getFlashParam(FlashParamKeys.CONTAINER);
+		Container container = (Container) FacesUtil.getFlashParam(FlashParamKeys.CONTAINER);
 		if (container != null) {
 			this.container = container;
 			loadContainer(this.container);
@@ -333,8 +327,8 @@ public class ContainerView extends BaseView implements Serializable,
 	}
 
 	private void prepareContainerDialog(Container container) {
-		containerDlg = new ContainerDlgView(container, invoiceService,
-				orderService, billService, getBaseService());
+		containerDlg = new ContainerDlgView(container, invoiceService, orderService, billService,
+				getBaseService());
 		containerDlg.addHandler(this);
 	}
 
@@ -371,13 +365,20 @@ public class ContainerView extends BaseView implements Serializable,
 
 	@Override
 	public void saveContainer() {
-		containerService.saveContainer(container);
-		resreshContainers();
-		for(ContainerChangeListener listener : containerChangeListeners) {
-			listener.containerChanged(container);
+		try {
+			containerService.saveContainer(container);
+			resreshContainers();
+			for (ContainerChangeListener listener : containerChangeListeners) {
+				listener.containerChanged(container);
+			}
+		} catch (ConstraintViolationException e) {
+			SQLException.integrityViolation(e);
+		} catch (Exception e) {
+			SQLException.commonException(e);
 		}
 	}
-
+	
+	
 	@Override
 	public void addContainerChangeListener(ContainerChangeListener listener) {
 		containerChangeListeners.add(listener);
@@ -385,14 +386,14 @@ public class ContainerView extends BaseView implements Serializable,
 
 	@Override
 	public void removeContainerChangeListener(ContainerChangeListener listener) {
-		containerChangeListeners.remove(listener);		
+		containerChangeListeners.remove(listener);
 	}
-	
-	public String getContainerNumber(){
-		return container != null ? container.getNumber() : null; 
+
+	public String getContainerNumber() {
+		return container != null ? container.getNumber() : null;
 	}
-	
-	public String getCargoName(){
+
+	public String getCargoName() {
 		return dlgCargoUnit != null ? dlgCargoUnit.getCargoName() : null;
 	}
 

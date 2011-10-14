@@ -17,11 +17,11 @@
 			<h:panelGrid columns="2" rendered="#{!feature.feature.list}" >
 			<p:inputText size="30"
 					value="#{feature.englishValue}" id="feature-value-eng"
-					required="#{feature.feature.mandatory}" label="Xарактеристика на англ. яз. «#{feature.feature.name}»" />
+					required="#{feature.feature.mandatory}" title="Xарактеристика на англ. яз. «#{feature.feature.name}»" />
 					
 			<p:inputText size="30"
 					value="#{feature.value}" id="feature-value"
-					required="#{feature.feature.mandatory}" label="Xарактеристика на рус. яз. «#{feature.feature.name}»" />		
+					required="#{feature.feature.mandatory}" title="Xарактеристика на рус. яз. «#{feature.feature.name}»" />		
 			</h:panelGrid>	
 					
 				<h:selectOneMenu id="featureInstance" label="Xарактеристика «#{feature.feature.name}»"

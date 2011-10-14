@@ -3,6 +3,7 @@ function handleOKRequest(args, widgetVar, dialogId) {
 		jQuery('#' + dialogId).effect("shake", {
 			times : 3
 		}, 100);
+		//widgetVar.loadContents();
 	} else {
 		widgetVar.hide();
 	}
