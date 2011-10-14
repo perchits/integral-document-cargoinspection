@@ -3,13 +3,13 @@ package com.docum.view.dict;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 import javax.faces.event.ActionEvent;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 
 import com.docum.domain.po.IdentifiedEntity;
@@ -21,6 +21,7 @@ import com.docum.domain.po.common.ArticleFeature;
 import com.docum.domain.po.common.ArticleFeatureInstance;
 import com.docum.domain.po.common.ArticleInspectionOption;
 import com.docum.domain.po.common.NormativeDocument;
+import com.docum.exception.SQLException;
 import com.docum.service.ArticleService;
 import com.docum.util.AlgoUtil;
 import com.docum.util.DocumLogger;
@@ -55,9 +56,36 @@ public class ArticleView extends BaseView implements Serializable {
 	private ArticleInspectionOption option, optionCopy, childOpt;
 
 	private void saveArticle() {
-		ArticlePresentation old = new ArticlePresentation(article);
-		article = getBaseService().save(article);
-		Collections.replaceAll(articles, old, new ArticlePresentation(article));
+		Article articleDao = null;
+		try {
+			articleDao = getBaseService().save(article);
+		} catch (DataIntegrityViolationException e) {
+			SQLException.integrityViolation(e);
+		} catch (Exception e) {
+			SQLException.commonException(e);
+		} finally {
+			refreshArticle(articleDao);
+		}
+	}
+
+	private void refreshArticle(Article articleDao) {
+		if (articleDao != null) {
+			article = articleDao;
+		} else {
+			if (article != null && article.getId() != null) {
+				article = getBaseService().getObject(article.getClass(), article.getId());
+			}
+		}
+
+		ArticlePresentation ap = new ArticlePresentation(article);
+		int index = articles.indexOf(ap);
+		if (index != -1) {
+			articles.remove(index);
+			articles.add(index, ap);
+		} else {
+			articles.add(ap);
+		}
+
 	}
 
 	public Article getArticle() {
@@ -451,7 +479,7 @@ public class ArticleView extends BaseView implements Serializable {
 	public void addChildOpt() {
 		optionCopy.addChild(new ArticleInspectionOption());
 	}
-	
+
 	public void setChildOptUp(ArticleInspectionOption child) {
 		optionCopy.moveChildUp(child);
 	}
