@@ -466,30 +466,31 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 				});
 				if (declaredCargoPackage != null) {
 					odfTable.getCellByPosition(1, currRow).setStringValue(
-							String.format(ReportUtil.DOUBLE_FORMAT, declaredCargoPackage.getCount()));
+							String.format(ReportUtil.DOUBLE_FORMAT0, declaredCargoPackage.getCount()));
 					reportUtil.setRatingValue(odfTable.getCellByPosition(3, currRow),
-							cargoPackage.getCount(), declaredCargoPackage.getCount());
+							cargoPackage.getCount(), declaredCargoPackage.getCount(), 
+							ReportUtil.DOUBLE_FORMAT0);
 				} else {
 					odfTable.getCellByPosition(1, currRow).setStringValue("0");
 					reportUtil.setRatingValue(odfTable.getCellByPosition(3, currRow),
-							cargoPackage.getCount(), 0);
+							cargoPackage.getCount(), 0, ReportUtil.DOUBLE_FORMAT0);
 				}
 			} else {
 				odfTable.getCellByPosition(1, currRow).setStringValue("0");
 				reportUtil.setRatingValue(odfTable.getCellByPosition(3, currRow),
-						cargoPackage.getCount(), 0);
+						cargoPackage.getCount(), 0, ReportUtil.DOUBLE_FORMAT0);
 			}
 			odfTable.getCellByPosition(2, currRow).setStringValue(
-					String.format(ReportUtil.DOUBLE_FORMAT, cargoPackage.getCount()));
+					String.format(ReportUtil.DOUBLE_FORMAT0, cargoPackage.getCount()));
 			AverageCargoPackageWeights averageCargoPackageWeights =
 				CargoUtil.calcAverageWeights(cargoPackage.getWeights());
 			if (averageCargoPackageWeights != null) {
 				odfTable.getCellByPosition(4, currRow).setStringValue(
-						String.format(ReportUtil.DOUBLE_FORMAT, averageCargoPackageWeights.getGrossWeight()));
+						String.format(ReportUtil.DOUBLE_FORMAT3, averageCargoPackageWeights.getGrossWeight()));
 				odfTable.getCellByPosition(5, currRow).setStringValue(
-						String.format(ReportUtil.DOUBLE_FORMAT, averageCargoPackageWeights.getNetWeight()));
+						String.format(ReportUtil.DOUBLE_FORMAT3, averageCargoPackageWeights.getNetWeight()));
 				odfTable.getCellByPosition(6, currRow).setStringValue(
-						String.format(ReportUtil.DOUBLE_FORMAT, averageCargoPackageWeights.getTareWeight()));
+						String.format(ReportUtil.DOUBLE_FORMAT3, averageCargoPackageWeights.getTareWeight()));
 			}
 			currRow++;
 		}
@@ -510,11 +511,11 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 			odfTable.getCellByPosition(0, currRow).setStringValue(
 				calibreDefect.getCalibreName());
 			odfTable.getCellByPosition(1, currRow).setStringValue(
-					String.format(ReportUtil.DOUBLE_FORMAT, calibreDefect.getPackageCount()));
+					String.format(ReportUtil.DOUBLE_FORMAT0, calibreDefect.getPackageCount()));
 			currColumn = 2;
 			for(int i = 0; i < len; i++) {
 				odfTable.getCellByPosition(currColumn, currRow).setStringValue(
-						String.format(ReportUtil.DOUBLE_FORMAT, calibreDefect.getPercentages()[i]));
+						String.format(ReportUtil.DOUBLE_FORMAT1, calibreDefect.getPercentages()[i]));
 				currColumn++;
 			}
 			currRow++;
@@ -526,7 +527,7 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 		odfTable.getCellByPosition(0, currRow).setStringValue("Summary / Итого");
 		for(int i = 0; i < len; i++) {
 			odfTable.getCellByPosition(currColumn, currRow).setStringValue(
-				String.format(ReportUtil.DOUBLE_FORMAT, averageCalibreDefects.getPercentages()[i]));
+				String.format(ReportUtil.DOUBLE_FORMAT1, averageCalibreDefects.getPercentages()[i]));
 			currColumn++;
 		}
 	}

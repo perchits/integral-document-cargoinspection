@@ -13,7 +13,10 @@ import org.w3c.dom.NodeList;
 
 public class ReportUtil implements Serializable {
 	private static final long serialVersionUID = -6276477440612413243L;
-	public static final String DOUBLE_FORMAT = "%.3f";
+	public static final String DOUBLE_FORMAT0 = "%.0f";
+	public static final String DOUBLE_FORMAT1 = "%.1f";
+	public static final String DOUBLE_FORMAT3 = "%.3f";
+	
 	public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
 	
 	public String insertTableCopy(OdfTextDocument odt, String tableToFindName, 
@@ -68,9 +71,13 @@ public class ReportUtil implements Serializable {
 		return result;
 	}
 
-	public void setRatingValue(OdfTableCell tableCell, double value1, double value2) {
+	public void setRatingValue(OdfTableCell tableCell, double value1, double value2, 
+			String format) {
+		if (format == null) {
+			format = DOUBLE_FORMAT3;
+		}
 		double rating = value1 - value2;
-		StringBuffer stringBuffer = new StringBuffer(String.format(DOUBLE_FORMAT, rating));
+		StringBuffer stringBuffer = new StringBuffer(String.format(format, rating));
 		if (rating > 0) {
 			stringBuffer.insert(0, "+");
 		}
