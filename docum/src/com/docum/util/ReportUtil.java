@@ -2,6 +2,8 @@ package com.docum.util;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.UUID;
 
 import org.odftoolkit.odfdom.doc.OdfTextDocument;
@@ -86,5 +88,11 @@ public class ReportUtil implements Serializable {
 		int length = sb.length();
 		sb.replace(length - 2, length - 1 , "");
 		return sb.toString();
+	}
+	
+	public static int getYear(Date date) {
+		Calendar calendar = (Calendar) Calendar.getInstance().clone();
+		calendar.setTime(date);
+		return calendar.get(Calendar.YEAR);
 	}
 }
