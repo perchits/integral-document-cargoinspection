@@ -21,5 +21,13 @@ public class ReportingDaoImpl extends BaseDaoImpl implements ReportingDao {
 		List<Report> result = query.getResultList();
 		return result;
 	}
+	
+	@Override
+	public Long getReportsWithinYear(int year) {
+		Query query = entityManager.createNamedQuery(GET_REPORT_NUMBER_WITHIN_YEAR);
+		query.setParameter("year", year);
+		Long result = (Long) query.getSingleResult();
+		return result;
+	}
 
 }

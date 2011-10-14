@@ -819,5 +819,9 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 	public List<Report> getReportsByVoyage(Long voyageId) {
 		return reportingDao.getReportsByVoyage(voyageId);
 	}
-
+	
+	@Override
+	public Long getReportsWithinYear(int year) {
+		return reportingDao.getReportsWithinYear(year);
+	}
 }

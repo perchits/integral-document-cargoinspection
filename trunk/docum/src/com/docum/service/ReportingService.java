@@ -11,6 +11,7 @@ public interface ReportingService {
 	public static final String REPORT_TEMPLATE_FILENAME = "/documTemplate.odt";
 
 	public void createReport(Report report) throws Exception;
+	public Long getReportsWithinYear(int year);
 	public List<Report> getReportsByVoyage(Long voyageId);
 	public boolean checkStarOfficeConnection();
 }

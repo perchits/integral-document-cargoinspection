@@ -21,6 +21,11 @@ import com.docum.domain.po.IdentifiedEntity;
 				"join c.voyage v " +
 				"where v.id = :voyageId " +
 				"order by rep.id"
+	),
+	@NamedQuery(
+			name = ReportingDao.GET_REPORT_NUMBER_WITHIN_YEAR,
+			query = "select count(*) from Report rep " +
+				"where year(rep.date) = :year "
 	)
 })
 public class Report extends IdentifiedEntity{
