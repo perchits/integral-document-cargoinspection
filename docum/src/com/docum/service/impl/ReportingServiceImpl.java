@@ -347,10 +347,11 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 								if (cd.getCategoryNames() == null) {
 									return false;
 								}
-								Arrays.sort(cd.getCategoryNames());
+								String[] clone = cd.getCategoryNames().clone();
+								Arrays.sort(clone);
 								for (ArticleCategory articleCategory: cargo.getArticle().getCategories()) {
 									if (Arrays.binarySearch(
-											cd.getCategoryNames(), articleCategory.getName()) == -1) {
+											clone, articleCategory.getName()) == -1) {
 										return false;
 									} else {
 										result = true;
@@ -414,10 +415,12 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 					sbEng.append(cargoDefect.getEnglishName());
 				}
 			}
-			if (sbRus.length() > 0) {
-				sbRus.append(", ").append(cargoDefect.getName());
-			} else {
-				sbRus.append(cargoDefect.getName());
+			if (cargoDefect.getName() != null) {
+				if (sbRus.length() > 0) {
+					sbRus.append(", ").append(cargoDefect.getName());
+				} else {
+					sbRus.append(cargoDefect.getName());
+				}
 			}
 			cargoDefectsEng.add(sbEng.toString());
 			cargoDefectsRus.add(sbRus.toString());
