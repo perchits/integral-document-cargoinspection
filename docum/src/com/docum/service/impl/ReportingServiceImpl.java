@@ -1,6 +1,7 @@
 package com.docum.service.impl;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.Serializable;
 import java.net.URI;
 import java.util.ArrayList;
@@ -52,6 +53,7 @@ import com.docum.service.CargoService;
 import com.docum.service.ReportingService;
 import com.docum.service.StatsService;
 import com.docum.util.AlgoUtil;
+import com.docum.util.DocumLogger;
 import com.docum.util.ListHandler;
 import com.docum.util.ReportUtil;
 import com.docum.util.XMLUtil;
@@ -654,8 +656,12 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 	private void addImage(OdfTextDocument odt, FileUrl imageURL, OdfTable odfTable, 
 			int column, int row) throws Exception {
 		String storagePath = "file:///" + applicationConfigService.getImagesStoragePath() + "/";
+		try {
 		odt.getPackage().insert(new URI(storagePath + imageURL.getValue()), 
 			imageURL.getValue(), null);
+		} catch (FileNotFoundException expt) {
+			DocumLogger.log(expt);
+		}
 		OdfTableCell odfTableCell = odfTable.getCellByPosition(column, row);
 		TableTableCellElement tableCellElement = 
 			(TableTableCellElement) odfTableCell.getOdfElement();
