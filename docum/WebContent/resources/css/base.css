@@ -728,6 +728,7 @@ a.olive-color:hover {
 .ui-pickreport .ui-picklist-list {
 	width: auto !important;
 	min-height: 200px !important;
+	max-height: 300px !important;
 	height: auto !important;
 }
 
