@@ -10,132 +10,141 @@
 	<ui:param name="colCount" value="1" />
 	<ui:define name="dialogBody">
 
-		<h:panelGrid width="100%" columns="2" cellpadding="2">
+		<p:tabView styleClass="container-tab">
+			<p:tab title="Детали инспекции">
+				<h:panelGrid width="100%" columns="2" cellpadding="2">
 
-			<h:outputLabel for="actualSeal" value="Пломба:" />
-			<p:inputText id="actualSeal" value="#{bean.inspection.actualSeal}" />
+					<h:outputLabel for="actualSeal" value="Пломба:" />
+					<p:inputText id="actualSeal" value="#{bean.inspection.actualSeal}" />
 
-			<h:outputLabel for="surveyRequestDateId"
-				value="Дата заявки на инспекцию:" />
-			<p:calendar value="#{bean.inspection.surveyRequestDate}"
-				id="surveyRequestDateId" label="Дата прибытия" pattern="dd.MM.yyyy" />
+					<h:outputLabel for="surveyRequestDateId"
+						value="Дата заявки на инспекцию:" />
+					<p:calendar value="#{bean.inspection.surveyRequestDate}"
+						id="surveyRequestDateId" label="Дата прибытия"
+						pattern="dd.MM.yyyy" />
 
-			<h:outputLabel for="surveyDateId" value="Дата провед. инспекции:" />
-			<p:calendar value="#{bean.inspection.surveyDate}" id="surveyDateId"
-				label="Дата прибытия" pattern="dd.MM.yyyy" />
+					<h:outputLabel for="surveyDateId" value="Дата провед. инспекции:" />
+					<p:calendar value="#{bean.inspection.surveyDate}" id="surveyDateId"
+						label="Дата прибытия" pattern="dd.MM.yyyy" />
 
-			<h:outputLabel for="inspectionPlace" value="Место инспекции:" />
-			<h:selectOneMenu id="inspectionPlace"
-				label="Место проведения инспекции" required="true"
-				styleClass="ui-inputfield ui-widget ui-state-default ui-corner-all"
-				value="#{bean.inspection.surveyPlace}">
-				<f:converter converterId="surveyPlaceConverter" />
-				<f:selectItem itemLabel="Выберите место провед. инспекции..."
-					itemValue="" noSelectionOption="true" itemDisabled="true" />
-				<f:selectItems value="#{bean.surveyPlaces}" var="survey"
-					itemLabel="#{survey.russianName}" />
-			</h:selectOneMenu>
+					<h:outputLabel for="inspectionPlace" value="Место инспекции:" />
+					<h:selectOneMenu id="inspectionPlace"
+						label="Место проведения инспекции" required="true"
+						styleClass="ui-inputfield ui-widget ui-state-default ui-corner-all"
+						value="#{bean.inspection.surveyPlace}">
+						<f:converter converterId="surveyPlaceConverter" />
+						<f:selectItem itemLabel="Выберите место провед. инспекции..."
+							itemValue="" noSelectionOption="true" itemDisabled="true" />
+						<f:selectItems value="#{bean.surveyPlaces}" var="survey"
+							itemLabel="#{survey.russianName}" />
+					</h:selectOneMenu>
 
-			<h:outputLabel for="unloadingPlaceId" value="Вывоз:" />
-			<h:panelGrid columns="2" styleClass="inpection-input-table">
-				<p:inputText value="#{bean.inspection.unloadingPlaceEng}" />
-				<p:inputText id="unloadingPlaceId"
-					value="#{bean.inspection.unloadingPlace}" />				
-			</h:panelGrid>
+					<h:outputLabel for="unloadingPlaceId" value="Вывоз:" />
+					<h:panelGrid columns="2" styleClass="inpection-input-table">
+						<p:inputText value="#{bean.inspection.unloadingPlaceEng}" />
+						<p:inputText id="unloadingPlaceId"
+							value="#{bean.inspection.unloadingPlace}" />
+					</h:panelGrid>
+				</h:panelGrid>
+			</p:tab>
+			<p:tab title="Упаковка">
+				<h:panelGrid width="100%" columns="2" cellpadding="2">
+					<h:outputLabel for="packingTypeId" value="Вид упаковки:" />
+					<h:panelGrid columns="2" styleClass="inpection-input-table">
+						<p:inputTextarea value="#{bean.inspection.packageTypeEng}" />
+						<p:inputTextarea id="packingTypeId"
+							value="#{bean.inspection.packageType}" />
+					</h:panelGrid>
 
-			<h:outputLabel for="packingTypeId" value="Вид упаковки:" />
-			<h:panelGrid columns="2" styleClass="inpection-input-table">
-				<p:inputTextarea value="#{bean.inspection.packageTypeEng}" />
-				<p:inputTextarea id="packingTypeId"
-					value="#{bean.inspection.packageType}" />				
-			</h:panelGrid>
+					<h:outputLabel for="packageFormingId"
+						value="Формирование упаковки:" />
+					<h:panelGrid columns="2" styleClass="inpection-input-table">
+						<p:inputTextarea value="#{bean.inspection.packageFormingEng}" />
+						<p:inputTextarea id="packageFormingId"
+							value="#{bean.inspection.packageForming}" />
+					</h:panelGrid>
 
-			<h:outputLabel for="packageFormingId" value="Формирование упаковки:" />
-			<h:panelGrid columns="2" styleClass="inpection-input-table">
-				<p:inputTextarea value="#{bean.inspection.packageFormingEng}" />
-				<p:inputTextarea id="packageFormingId"
-					value="#{bean.inspection.packageForming}" />				
-			</h:panelGrid>
+					<h:outputLabel for="packageToSurveyId" value="Осмотрено:" />
+					<h:panelGrid columns="2" styleClass="inpection-input-table">
+						<p:inputText value="#{bean.inspection.packageToSurveyEng}" />
+						<p:inputText id="packageToSurveyId"
+							value="#{bean.inspection.packageToSurvey}" />
+					</h:panelGrid>
 
-			<h:outputText value="Температура: " />
-			<h:panelGrid columns="8" styleClass="dialog-line-grid">
-				<h:outputLabel for="minTemperatureId" value="Мин.:" />
-				<p:inputText styleClass="number" id="minTemperatureId"
-					value="#{bean.minTemperature}" />
+					<h:outputLabel for="packageStateId" value="Состояние упаковки:" />
+					<h:panelGrid columns="2" styleClass="inpection-input-table">
+						<p:inputTextarea value="#{bean.inspection.packageStateEng}" />
+						<p:inputTextarea id="packageStateId"
+							value="#{bean.inspection.packageState}" />
+					</h:panelGrid>
 
-				<h:outputLabel for="maxTemperatureId" value="Макс.:" />
-				<p:inputText styleClass="number" id="maxTemperatureId"
-					value="#{bean.maxTemperature}" />
+				</h:panelGrid>
 
-				<h:outputLabel for="temperatureId" value="Измеренная:" />
-				<p:inputText styleClass="number" id="temperatureId"
-					value="#{bean.temperature}" />
+			</p:tab>
 
-				<h:outputLabel for="hasTemperatureTestDeviationId"
-					value="Отклонение:" />
-				<h:selectBooleanCheckbox styleClass="number"
-					id="hasTemperatureTestDeviationId"
-					value="#{bean.hasTemperatureTestDeviation}" />
-			</h:panelGrid>
+			<p:tab title="Температура">
+				<h:panelGrid width="100%" columns="2" cellpadding="2">
+					<h:outputText value="Температура: " />
+					<h:panelGrid columns="8" styleClass="dialog-line-grid">
+						<h:outputLabel for="minTemperatureId" value="Мин.:" />
+						<p:inputText styleClass="number" id="minTemperatureId"
+							value="#{bean.minTemperature}" />
+
+						<h:outputLabel for="maxTemperatureId" value="Макс.:" />
+						<p:inputText styleClass="number" id="maxTemperatureId"
+							value="#{bean.maxTemperature}" />
+
+						<h:outputLabel for="temperatureId" value="Измеренная:" />
+						<p:inputText styleClass="number" id="temperatureId"
+							value="#{bean.temperature}" />
+
+						<h:outputLabel for="hasTemperatureTestDeviationId"
+							value="Отклонение:" />
+						<h:selectBooleanCheckbox styleClass="number"
+							id="hasTemperatureTestDeviationId"
+							value="#{bean.hasTemperatureTestDeviation}" />
+					</h:panelGrid>
 
 
-			<h:outputText value="Термодатчик:" />
-			<h:panelGrid columns="2" styleClass="dialog-line-grid">				
-				<h:selectOneMenu id="temperatureSpyState"
-					styleClass="ui-inputfield ui-widget ui-state-default ui-corner-all"
-					value="#{bean.temperatureSpyState}">
-					<f:selectItems value="#{bean.temperatureSpyStates}" var="temperatureSpyState"
-						itemLabel="#{temperatureSpyState.name}" />				
-				</h:selectOneMenu>
-				<p:inputText value="#{bean.temperatureSpyNumber}" />
-			</h:panelGrid>
-			
-<!-- 			<h:panelGrid columns="4" styleClass="dialog-line-grid"> -->
-<!-- 				<h:outputLabel for="hasTemperatureSpyId" value="Найдена:" /> -->
-				
-<!-- 				<h:selectBooleanCheckbox styleClass="number" id="hasTemperatureSpyId" -->
-<!-- 					value="#{bean.hasTemperatureSpy}" /> -->
+					<h:outputText value="Термодатчик:" />
+					<h:panelGrid columns="2" styleClass="dialog-line-grid">
+						<h:selectOneMenu id="temperatureSpyState"
+							styleClass="ui-inputfield ui-widget ui-state-default ui-corner-all"
+							value="#{bean.temperatureSpyState}">
+							<f:selectItems value="#{bean.temperatureSpyStates}"
+								var="temperatureSpyState"
+								itemLabel="#{temperatureSpyState.name}" />
+						</h:selectOneMenu>
+						<p:inputText value="#{bean.temperatureSpyNumber}" />
+					</h:panelGrid>
+					
+				</h:panelGrid>
 
-<!-- 				<h:outputLabel for="hasTemperatureSpyDeviationId" -->
-<!-- 					value="Отклонение:" /> -->
-<!-- 				<h:selectBooleanCheckbox styleClass="number" id="hasTemperatureSpyDeviationId" -->
-<!-- 					value="#{bean.hasTemperatureSpyDeviation}" /> -->
-<!-- 			</h:panelGrid> -->
-			
-			<h:outputLabel for="packageToSurveyId" value="Осмотрено:" />
-			<h:panelGrid columns="2" styleClass="inpection-input-table">
-				<p:inputText value="#{bean.inspection.packageToSurveyEng}" />
-				<p:inputText id="packageToSurveyId"
-					value="#{bean.inspection.packageToSurvey}" />
-			</h:panelGrid>	
+			</p:tab>
 
-			<h:outputLabel for="packageStateId" value="Состояние упаковки:" />
-			<h:panelGrid columns="2" styleClass="inpection-input-table">
-				<p:inputTextarea value="#{bean.inspection.packageStateEng}" />
-				<p:inputTextarea id="packageStateId"
-					value="#{bean.inspection.packageState}" />				
-			</h:panelGrid>
+			<p:tab title="Заключение">
+				<h:panelGrid width="100%" columns="2" cellpadding="2">
+					<h:outputLabel for="surveyorConclusionId" value="Заключение:" />
+					<h:panelGrid columns="2" styleClass="inpection-input-table">
+						<p:inputTextarea autoResize="true" value="#{bean.inspection.surveyorConclusionEng}" />
+						<p:inputTextarea autoResize="true" id="surveyorConclusionId"
+							value="#{bean.inspection.surveyorConclusion}" />
+					</h:panelGrid>
 
-			<h:outputLabel for="surveyorConclusionId" value="Заключение:" />
-			<h:panelGrid columns="2" styleClass="inpection-input-table">
-				<p:inputTextarea value="#{bean.inspection.surveyorConclusionEng}" />
-				<p:inputTextarea id="surveyorConclusionId"
-					value="#{bean.inspection.surveyorConclusion}" />				
-			</h:panelGrid>
+					<h:outputLabel for="surveyor" value="Инспектор:" />
+					<h:selectOneMenu id="surveyor" label="Инспектор"
+						styleClass="ui-inputfield ui-widget ui-state-default ui-corner-all"
+						value="#{bean.inspection.surveyor}">
+						<f:converter converterId="surveyorConverter" />
+						<f:selectItem itemLabel="Выберите инспектора..." itemValue=""
+							noSelectionOption="true" itemDisabled="true" />
+						<f:selectItems value="#{bean.surveyors}" var="surveyor"
+							itemLabel="#{surveyor.name}" />
+					</h:selectOneMenu>
 
-			<h:outputLabel for="surveyor" value="Инспектор:" />
-			<h:selectOneMenu id="surveyor" label="Инспектор"
-				styleClass="ui-inputfield ui-widget ui-state-default ui-corner-all"
-				value="#{bean.inspection.surveyor}">
-				<f:converter converterId="surveyorConverter" />
-				<f:selectItem itemLabel="Выберите инспектора..." itemValue=""
-					noSelectionOption="true" itemDisabled="true" />
-				<f:selectItems value="#{bean.surveyors}" var="surveyor"
-					itemLabel="#{surveyor.name}" />
-			</h:selectOneMenu>
-
-		</h:panelGrid>
-
+				</h:panelGrid>
+			</p:tab>
+		</p:tabView>
 	</ui:define>
 
 </ui:composition>
