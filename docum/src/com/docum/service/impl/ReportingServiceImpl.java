@@ -15,6 +15,7 @@ import java.util.Set;
 
 import javax.faces.context.FacesContext;
 
+import org.apache.commons.beanutils.NestedNullException;
 import org.odftoolkit.odfdom.doc.OdfTextDocument;
 import org.odftoolkit.odfdom.doc.table.OdfTable;
 import org.odftoolkit.odfdom.doc.table.OdfTableCell;
@@ -799,7 +800,12 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 						if (propertyValue instanceof Date) {
 							propertyValues.add(ReportUtil.DATE_FORMAT.format(propertyValue));
 						} else {
-							Object value = XMLUtil.propertyUtilsBean.getNestedProperty(container, result);
+							Object value = null;
+							try {
+								value = XMLUtil.propertyUtilsBean.getNestedProperty(container, result);
+							} catch (NestedNullException expt) {
+								DocumLogger.log(expt);
+							}
 							if (value instanceof Date) {
 								value = ReportUtil.DATE_FORMAT.format(value);
 							}
