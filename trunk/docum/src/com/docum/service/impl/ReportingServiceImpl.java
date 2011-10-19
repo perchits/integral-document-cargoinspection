@@ -804,7 +804,7 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 							try {
 								value = XMLUtil.propertyUtilsBean.getNestedProperty(container, result);
 							} catch (NestedNullException expt) {
-								DocumLogger.log(expt);
+								DocumLogger.log("NestedNullException " + expt.getMessage());
 							}
 							if (value instanceof Date) {
 								value = ReportUtil.DATE_FORMAT.format(value);
