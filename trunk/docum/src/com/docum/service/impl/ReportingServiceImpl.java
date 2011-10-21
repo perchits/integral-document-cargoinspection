@@ -152,7 +152,8 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 					.append(cargo.getSupplier().getCompany().getEnglishName()).append(" / ")
 					.append(cargo.getArticle().getName()).append(", ")
 					.append(cargo.getSupplier().getCompany().getName());
-				if (cargo.getInspectionInfo().getNormativeDocument() != null) {
+				if (cargo.getInspectionInfo() != null && 
+						cargo.getInspectionInfo().getNormativeDocument() != null) {
 					NormativeDocument normativeDocument = 
 						cargo.getInspectionInfo().getNormativeDocument();
 					String tableName = reportUtil.insertTableCopy(odt, odfTableName, odfTableName);
@@ -368,7 +369,7 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 						odt.getTableByName(tableName).remove();
 					}
 				}
-				if (defectsByClassTable != null) {
+				if (defectsByClassTable != null && cargo.getInspectionInfo() != null) {
 					tableName = reportUtil.insertTableCopy(odt, defectsByClassTableName, tableBeforeInsertName);
 					OdfTable tbl = odt.getTableByName(tableName);
 					List<CargoDefectGroup> cargoDefectGroups = 
