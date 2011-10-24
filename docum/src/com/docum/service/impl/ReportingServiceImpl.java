@@ -42,6 +42,7 @@ import com.docum.domain.po.common.Cargo;
 import com.docum.domain.po.common.CargoDefect;
 import com.docum.domain.po.common.CargoDefectGroup;
 import com.docum.domain.po.common.CargoInspectionInfo;
+import com.docum.domain.po.common.CargoInspectionOption;
 import com.docum.domain.po.common.CargoPackage;
 import com.docum.domain.po.common.Container;
 import com.docum.domain.po.common.FileUrl;
@@ -85,6 +86,7 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 	private Map<Container, ContainerPresentation> containerPresentationMap;
 	private Map<String, Object[]> temlateAccordance = new HashMap<String, Object[]>();
 	private ReportUtil reportUtil = new ReportUtil();
+	private static final String TABLE_BRIX_SCALE = "TableBrixScale"; 
 
 	@Override
 	public void createReport(Report report) throws Exception {
@@ -318,12 +320,15 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 		String defectsByClassTableName = "TableDefectsByClass";
 		OdfTable defectsByClassTable = odt.getTableByName(defectsByClassTableName);
 		final String tableBeforeInsertName = "TableCargoAmountAndDefectsAux";
-		reportUtil.insertTableCopy(odt, "TableCargoDigitalData", tableBeforeInsertName);
+		String tableCargoDigitalDataName = 
+			reportUtil.insertTableCopy(odt, "TableCargoDigitalData", tableBeforeInsertName);
 		odt.getTableByName("TableCargoDigitalData").remove();
 		for (Container container: this.containers) {
 			List<CargoDefects> listCargoDefects = this.statsService.calcAverageDefects(container.getId());
 			for (final Cargo cargo: container.getActualCondition().getCargoes()) {
 				String tableName = reportUtil.insertTableCopy(odt, odfTableName, tableBeforeInsertName);
+				processCargoInspectionOptions(odt, cargo, tableCargoDigitalDataName);
+				tableName = reportUtil.insertTableCopy(odt, odfTableName, tableBeforeInsertName);
 				if (tableName != null) {
 					Cargo declaredCargo = AlgoUtil.find(container.getDeclaredCondition().getCargoes(), 
 							new AlgoUtil.FindPredicate<Cargo>() {
@@ -386,6 +391,7 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 				}
 			}
 		}
+		odt.getTableByName(TABLE_BRIX_SCALE).remove();
 		if (defectsTable != null) {
 			defectsTable.remove();
 		}
@@ -393,6 +399,28 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 			defectsByClassTable.remove();
 		}
 		odfTable.remove();
+	}
+	
+	private void processCargoInspectionOptions(OdfTextDocument odt, Cargo cargo, 
+			String tableBeforeInsertDataName) throws Exception {
+		Iterator<CargoInspectionOption> iterator = 
+			cargo.getInspectionInfo().getInspectionOptions().iterator();
+		while (iterator.hasNext()) {
+			CargoInspectionOption inspectionOption = iterator.next();
+			if (inspectionOption.getArticleInspectionOption().getName().contains("Брикса")) {
+				String tableName = 
+					reportUtil.insertTableCopy(odt, TABLE_BRIX_SCALE, tableBeforeInsertDataName);
+				StringBuffer stringBuffer = new StringBuffer(cargo.getArticle().getEnglishName());
+				stringBuffer.append(", ").append(cargo.getSupplier().getCompany().getEnglishName())
+					.append(" / ").append(cargo.getArticle().getName()).append(", ")
+					.append(cargo.getSupplier().getCompany().getName());
+				odt.getTableByName(tableName).getCellRangeByPosition(0, 0, 1, 0).merge();
+				odt.getTableByName(tableName).getCellByPosition(0, 1)
+					.setStringValue(stringBuffer.toString());
+				odt.getTableByName(tableName).getCellByPosition(1, 1)
+					.setStringValue(String.valueOf(inspectionOption.getValue()) + "°");
+			}
+		}
 	}
 	
 	private void processCargoDefectsByClass(OdfTable odfTable, CargoDefectGroup cargoDefectGroup) {
@@ -544,7 +572,7 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 			String data, String comment) {
 		StringBuffer sb = new StringBuffer(data).append(" ").append(comment);
 		odfTable.getCellByPosition(column, row).setStringValue(sb.toString());
-		odfTable.appendRow();
+		//odfTable.appendRow();
 	}
 	
 	private void addGeneralCargoImages(OdfTextDocument odt, String odfTableName) throws Exception {
