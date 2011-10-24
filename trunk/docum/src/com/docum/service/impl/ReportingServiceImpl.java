@@ -472,22 +472,22 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 					}
 				});
 				if (declaredCargoPackage != null) {
-					odfTable.getCellByPosition(1, currRow).setStringValue(
+					odfTable.getCellByPosition(2, currRow).setStringValue(
 							String.format(ReportUtil.DOUBLE_FORMAT0, declaredCargoPackage.getCount()));
 					reportUtil.setRatingValue(odfTable.getCellByPosition(3, currRow),
 							cargoPackage.getCount(), declaredCargoPackage.getCount(), 
 							ReportUtil.DOUBLE_FORMAT0);
 				} else {
-					odfTable.getCellByPosition(1, currRow).setStringValue("0");
+					odfTable.getCellByPosition(2, currRow).setStringValue("0");
 					reportUtil.setRatingValue(odfTable.getCellByPosition(3, currRow),
 							cargoPackage.getCount(), 0, ReportUtil.DOUBLE_FORMAT0);
 				}
 			} else {
-				odfTable.getCellByPosition(1, currRow).setStringValue("0");
+				odfTable.getCellByPosition(2, currRow).setStringValue("0");
 				reportUtil.setRatingValue(odfTable.getCellByPosition(3, currRow),
 						cargoPackage.getCount(), 0, ReportUtil.DOUBLE_FORMAT0);
 			}
-			odfTable.getCellByPosition(2, currRow).setStringValue(
+			odfTable.getCellByPosition(1, currRow).setStringValue(
 					String.format(ReportUtil.DOUBLE_FORMAT0, cargoPackage.getCount()));
 			AverageCargoPackageWeights averageCargoPackageWeights =
 				CargoUtil.calcAverageWeights(cargoPackage.getWeights());
@@ -507,13 +507,14 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 		int len = cargoDefects.getCategoryNames().length;
 		odfTable.appendColumns(len);
 		odfTable.getCellRangeByPosition(0, 0, 1 + len, 0).merge();
+		odfTable.getCellRangeByPosition(0, 1, 1 + len, 1).merge();
 		int currColumn = 2;
 		for(int i = 0; i < len; i++) {
-			odfTable.getCellByPosition(currColumn, 1).setStringValue(cargoDefects.
+			odfTable.getCellByPosition(currColumn, 2).setStringValue(cargoDefects.
 					getCategoryEnglishNames()[i] + " / " +  cargoDefects.getCategoryNames()[i]);
 			currColumn++;
 		}
-		int currRow = 2;
+		int currRow = 3;
 		for (CargoCalibreDefects calibreDefect: cargoDefects.getCalibreDefects()) {
 			odfTable.getCellByPosition(0, currRow).setStringValue(
 				calibreDefect.getCalibreName());
@@ -665,7 +666,7 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 		odt.getPackage().insert(new URI(storagePath + imageURL.getValue()), 
 			imageURL.getValue(), null);
 		} catch (FileNotFoundException expt) {
-			DocumLogger.log(expt);
+			DocumLogger.log("FileNotFoundException: " + expt.getMessage());
 		}
 		OdfTableCell odfTableCell = odfTable.getCellByPosition(column, row);
 		TableTableCellElement tableCellElement = 
