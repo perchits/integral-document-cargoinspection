@@ -9,6 +9,26 @@
 	<ui:param name="saveObject" value="save" />
 	<ui:param name="colCount" value="1" />
 	<ui:define name="dialogBody">
+	
+<h:outputScript>
+
+jQuery(document).ready(
+function() {			
+	setInterval("refreshSession()",100000);					
+});
+
+function refreshSession(){  	
+  	$.ajax({
+	  url: "/docum/handbook/city.jsf",
+	  context: document.body,
+	  success: function(){
+    	
+  	  }
+});
+}
+  
+
+</h:outputScript>
 
 		<p:tabView styleClass="container-tab">
 			<p:tab title="Детали инспекции">
