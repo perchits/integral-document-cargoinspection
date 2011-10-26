@@ -418,7 +418,7 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 				odt.getTableByName(tableName).getCellByPosition(0, 1)
 					.setStringValue(stringBuffer.toString());
 				odt.getTableByName(tableName).getCellByPosition(1, 1)
-					.setStringValue(String.valueOf(inspectionOption.getValue()) + "°");
+					.setStringValue(String.valueOf(inspectionOption.getValue()) + "°Bx");
 			}
 		}
 	}
@@ -536,13 +536,15 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 		odfTable.appendColumns(len);
 		odfTable.getCellRangeByPosition(0, 0, 1 + len, 0).merge();
 		odfTable.getCellRangeByPosition(0, 1, 1 + len, 1).merge();
+		odfTable.getCellRangeByPosition(0, 2, 1 + len, 2).merge();
+		odfTable.getCellRangeByPosition(0, 3, 1 + len, 3).merge();
 		int currColumn = 2;
 		for(int i = 0; i < len; i++) {
-			odfTable.getCellByPosition(currColumn, 2).setStringValue(cargoDefects.
+			odfTable.getCellByPosition(currColumn, 4).setStringValue(cargoDefects.
 					getCategoryEnglishNames()[i] + " / " +  cargoDefects.getCategoryNames()[i]);
 			currColumn++;
 		}
-		int currRow = 3;
+		int currRow = 5;
 		for (CargoCalibreDefects calibreDefect: cargoDefects.getCalibreDefects()) {
 			odfTable.getCellByPosition(0, currRow).setStringValue(
 				calibreDefect.getCalibreName());
