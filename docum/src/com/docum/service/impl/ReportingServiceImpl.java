@@ -778,9 +778,30 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 		}
 	}
 	
+	private void processContainerOrRefrigerator(Node node, String value) {
+		String containerNumber = this.containers.get(0).getNumber().replaceAll(" ", "");
+		if (containerNumber.length() < 11 || containerNumber.contains("-")) {
+			if (value.equals("{$TypeRus}")) {
+				node.setNodeValue("Рефрижераторная тележка");
+			} else {
+				node.setNodeValue("Refrigerator trailer");
+			}
+		} else {
+			if (value.equals("{$TypeRus}")) {
+				node.setNodeValue("Контейнер");
+			} else {
+				node.setNodeValue("Container");
+			}
+		}
+	}
+	
 	private void replaceNodeValue(Node node, String processedValue, 
 			int statementBeginPos, int statementEndPos) throws Exception {
 		if (statementEndPos == -1) {
+			return;
+		}
+		if (processedValue.contains("{$Type")) {
+			processContainerOrRefrigerator(node, processedValue);
 			return;
 		}
 		String result = processedValue.substring(
