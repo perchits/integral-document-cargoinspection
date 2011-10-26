@@ -613,10 +613,10 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 				continue;
 			}
 			OdfTable odfQualityExpertiseTable = odt.getTableByName("TableQualityExpertise");
-			int currRow = odfQualityExpertiseTable.getRowCount() - 1;
 			odfQualityExpertiseTable.appendRow();
 			odfQualityExpertiseTable.appendColumn();
 			odfQualityExpertiseTable.getCellRangeByPosition(0, 0, 1, 0).merge();
+			int currRow = odfQualityExpertiseTable.getRowCount() - 1;
 			for (Cargo cargo: cargoes) {
 				currRow = odfQualityExpertiseTable.getRowCount() - 1;
 				int columntIndex = 0;
