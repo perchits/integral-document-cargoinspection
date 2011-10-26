@@ -613,6 +613,9 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 				continue;
 			}
 			OdfTable odfQualityExpertiseTable = odt.getTableByName("TableQualityExpertise");
+			if (odfQualityExpertiseTable == null) {
+				return;
+			}
 			odfQualityExpertiseTable.appendRow();
 			odfQualityExpertiseTable.appendColumn();
 			odfQualityExpertiseTable.getCellRangeByPosition(0, 0, 1, 0).merge();
