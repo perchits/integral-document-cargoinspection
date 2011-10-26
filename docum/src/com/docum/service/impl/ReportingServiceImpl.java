@@ -587,6 +587,9 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 			if (inspection == null || inspection.getImages() == null || inspection.getImages().isEmpty()) {
 				continue;
 			} else {
+				odfTable.appendRow();
+				odfTable.appendColumn();
+				odfTable.getCellRangeByPosition(0, 0, 1, 0).merge();
 				int currRow = odfTable.getRowCount() - 1;
 				int columntIndex = 0;
 				for (FileUrl fileUrl: inspection.getImages()) {
@@ -611,6 +614,9 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 			}
 			OdfTable odfQualityExpertiseTable = odt.getTableByName("TableQualityExpertise");
 			int currRow = odfQualityExpertiseTable.getRowCount() - 1;
+			odfQualityExpertiseTable.appendRow();
+			odfQualityExpertiseTable.appendColumn();
+			odfQualityExpertiseTable.getCellRangeByPosition(0, 0, 1, 0).merge();
 			for (Cargo cargo: cargoes) {
 				currRow = odfQualityExpertiseTable.getRowCount() - 1;
 				int columntIndex = 0;
