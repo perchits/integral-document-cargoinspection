@@ -38,6 +38,7 @@ import com.docum.domain.Stats.CargoCalibreDefects;
 import com.docum.domain.Stats.CargoDefects;
 import com.docum.domain.TemperatureSpyStateEnum;
 import com.docum.domain.po.common.ArticleCategory;
+import com.docum.domain.po.common.ArticleInspectionOption;
 import com.docum.domain.po.common.Cargo;
 import com.docum.domain.po.common.CargoDefect;
 import com.docum.domain.po.common.CargoDefectGroup;
@@ -87,6 +88,7 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 	private Map<String, Object[]> temlateAccordance = new HashMap<String, Object[]>();
 	private ReportUtil reportUtil = new ReportUtil();
 	private static final String TABLE_BRIX_SCALE = "TableBrixScale"; 
+	private static final String TABLE_RIPENESS = "TableRipeness";
 
 	@Override
 	public void createReport(Report report) throws Exception {
@@ -126,7 +128,6 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 		addTemperatureData(odt, "TableMeasurementTemperature");
 		addNormativePaper(odt, "ТаблицаNormativePaper");
 		addCargoAmount(odt, "TableCargoAmount");
-		processRipe(odt);
 		addGeneralCargoImages(odt, "TablePictures");
 		odt.save(location + reportFileName + ".odt");
 		OpenOfficeConnection officeConnection = 
@@ -399,6 +400,10 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 			defectsByClassTable.remove();
 		}
 		odfTable.remove();
+		odfTable = odt.getTableByName(TABLE_RIPENESS);
+		if (odfTable != null && odfTable.getColumnCount() <3) {
+			odfTable.remove();
+		}
 	}
 	
 	private void processCargoInspectionOptions(OdfTextDocument odt, Cargo cargo, 
@@ -419,6 +424,10 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 					.setStringValue(stringBuffer.toString());
 				odt.getTableByName(tableName).getCellByPosition(1, 1)
 					.setStringValue(String.valueOf(inspectionOption.getValue()) + "°Bx");
+			} else if (inspectionOption.getArticleInspectionOption().getParent() != null && 
+					inspectionOption.getArticleInspectionOption().getParent().getName().toUpperCase()
+					.contains("зрелость".toUpperCase())) {
+				processRipeness(odt, inspectionOption);
 			}
 		}
 	}
@@ -888,9 +897,20 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 		this.starOfficeConnectionPort = starOfficeConnectionPort;
 	}
 	
-	private void processRipe(OdfTextDocument odt){
-		OdfTable table = odt.getTableByName("TableRipeness");
-		table.remove();
+	private void processRipeness(OdfTextDocument odt, CargoInspectionOption inspectionOption){
+		OdfTable table = odt.getTableByName(TABLE_RIPENESS);
+		if (table == null) {
+			return;
+		}
+		table.appendColumn();
+		int currColumn = table.getColumnCount() - 1;
+		table.getCellRangeByPosition(0, 0, currColumn, 0).merge();
+		StringBuffer buf = 
+			new StringBuffer(inspectionOption.getArticleInspectionOption().getEnglishName());
+		buf.append(" / ").append(inspectionOption.getArticleInspectionOption().getName());
+		table.getCellByPosition(currColumn, 1).setStringValue(buf.toString());
+		table.getCellByPosition(currColumn, 2).setStringValue(
+			String.valueOf(inspectionOption.getValue()));
 	}
 	
 	@Override
