@@ -482,8 +482,12 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 		odfTable.getCellRangeByPosition(0, currRow, 6, currRow).merge();
 		odfTable.getCellByPosition(0, currRow).setHorizontalAlignment("center");
 		StringBuffer stringBuffer = new StringBuffer(container);
-		stringBuffer.append(", ").append(actualCargo.getArticle().getName()).append(", ").append(
-			actualCargo.getSupplier().getCompany().getName());
+		stringBuffer.append(", ").append(actualCargo.getArticle().getEnglishName()).append(", ")
+			.append(actualCargo.getSupplier().getCompany().getName());
+		if (actualCargo.getArticle().getCategories() != null && 
+				actualCargo.getArticle().getCategories().size() >= 1) {
+			stringBuffer.append(", ").append(actualCargo.getArticle().getCategories().get(0).getEnglishName());
+		}
 		odfTable.getCellByPosition(0, currRow).setStringValue(stringBuffer.toString());
 		currRow++;
 		odfTable.getCellByPosition(0, currRow).setHorizontalAlignment("center");
