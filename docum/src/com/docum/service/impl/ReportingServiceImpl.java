@@ -38,7 +38,6 @@ import com.docum.domain.Stats.CargoCalibreDefects;
 import com.docum.domain.Stats.CargoDefects;
 import com.docum.domain.TemperatureSpyStateEnum;
 import com.docum.domain.po.common.ArticleCategory;
-import com.docum.domain.po.common.ArticleInspectionOption;
 import com.docum.domain.po.common.Cargo;
 import com.docum.domain.po.common.CargoDefect;
 import com.docum.domain.po.common.CargoDefectGroup;
@@ -102,7 +101,7 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 			this.containers.add(c);
 			containerPresentationMap.put(c, new ContainerPresentation(c));
 		}
-		initTemlateAccordance(report);
+		initTemplateAccordance(report);
 		String reportFileName = REPORT_FILENAME_PREFIX + report.getId();
 		String location = FacesContext.getCurrentInstance().getExternalContext()
 			.getRealPath("/") +	REPORTS_LOCATION; 
@@ -329,7 +328,6 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 			for (final Cargo cargo: container.getActualCondition().getCargoes()) {
 				String tableName = reportUtil.insertTableCopy(odt, odfTableName, tableBeforeInsertName);
 				processCargoInspectionOptions(odt, cargo, tableCargoDigitalDataName);
-				tableName = reportUtil.insertTableCopy(odt, odfTableName, tableBeforeInsertName);
 				if (tableName != null) {
 					Cargo declaredCargo = AlgoUtil.find(container.getDeclaredCondition().getCargoes(), 
 							new AlgoUtil.FindPredicate<Cargo>() {
@@ -415,13 +413,7 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 			if (inspectionOption.getArticleInspectionOption().getName().contains("Брикса")) {
 				String tableName = 
 					reportUtil.insertTableCopy(odt, TABLE_BRIX_SCALE, tableBeforeInsertDataName);
-				StringBuffer stringBuffer = new StringBuffer(cargo.getArticle().getEnglishName());
-				stringBuffer.append(", ").append(cargo.getSupplier().getCompany().getEnglishName())
-					.append(" / ").append(cargo.getArticle().getName()).append(", ")
-					.append(cargo.getSupplier().getCompany().getName());
 				odt.getTableByName(tableName).getCellRangeByPosition(0, 0, 1, 0).merge();
-				odt.getTableByName(tableName).getCellByPosition(0, 1)
-					.setStringValue(stringBuffer.toString());
 				odt.getTableByName(tableName).getCellByPosition(1, 1)
 					.setStringValue(String.valueOf(inspectionOption.getValue()) + "°Bx");
 			} else if (inspectionOption.getArticleInspectionOption().getParent() != null && 
@@ -739,7 +731,7 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 		drawImageElement.setXlinkTypeAttribute("simple");
 	}
 	
-	private void initTemlateAccordance(final Report report) {
+	private void initTemplateAccordance(final Report report) {
 		this.temlateAccordance.put("Report",  new Object[]{report, "number"});
 		this.temlateAccordance.put("CargoReceiverName",  
 			new Object[]{report, "customer.company.name"});
@@ -757,9 +749,9 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 			new Object[]{report, "customer.company.englishName"});
 		this.temlateAccordance.put("ReportClientAddrEng",  
 			new Object[]{report, "customer.company.englishAddress"});
-		this.temlateAccordance.put("actualCargoesEnglishName",  
+		this.temlateAccordance.put("actualCargoesEN",  
 			new Object[]{containerPresentationMap, "actualCargoesEnglishName"});
-		this.temlateAccordance.put("actualCargoesName",  
+		this.temlateAccordance.put("actualCargoesN",  
 			new Object[]{containerPresentationMap, "actualCargoesName"});
 		this.temlateAccordance.put("cargoSuppliers",  
 				new Object[]{containerPresentationMap, "actualCargoSuppliers"});
@@ -885,7 +877,9 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 					}
 				}
 			}
-			node.setNodeValue(ListHandler.getUniqueResult(propertyValues));
+			String str = processedValue.substring(statementBeginPos, statementEndPos + 1);
+			node.setNodeValue(processedValue.replace(
+				str, ListHandler.getUniqueResult(propertyValues)));
 		}
 	}
 	
