@@ -406,10 +406,11 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 	
 	private void processCargoInspectionOptions(OdfTextDocument odt, Cargo cargo, 
 			String tableBeforeInsertDataName) throws Exception {
-		Iterator<CargoInspectionOption> iterator = 
-			cargo.getInspectionInfo().getInspectionOptions().iterator();
-		while (iterator.hasNext()) {
-			CargoInspectionOption inspectionOption = iterator.next();
+		Object[] inspectionOptions = cargo.getInspectionInfo().getInspectionOptions().toArray();
+		Arrays.sort(inspectionOptions);
+		int len = inspectionOptions.length;
+		for (int i = 0; i < len; i++ ) {
+			CargoInspectionOption inspectionOption = (CargoInspectionOption) inspectionOptions[i];
 			if (inspectionOption.getArticleInspectionOption().getName().contains("Брикса")) {
 				String tableName = 
 					reportUtil.insertTableCopy(odt, TABLE_BRIX_SCALE, tableBeforeInsertDataName);
@@ -418,7 +419,7 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 					.setStringValue(String.valueOf(inspectionOption.getValue()) + "°Bx");
 			} else if (inspectionOption.getArticleInspectionOption().getParent() != null && 
 					inspectionOption.getArticleInspectionOption().getParent().getName().toUpperCase()
-					.contains("зрелость".toUpperCase())) {
+					.contains("зрелост".toUpperCase())) {
 				processRipeness(odt, inspectionOption);
 			}
 		}
