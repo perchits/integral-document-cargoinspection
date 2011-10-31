@@ -6,7 +6,7 @@ import javax.persistence.ManyToOne;
 import com.docum.domain.po.IdentifiedEntity;
 
 @Entity
-public class CargoInspectionOption extends IdentifiedEntity {
+public class CargoInspectionOption extends IdentifiedEntity implements Comparable<CargoInspectionOption> {
 	private static final long serialVersionUID = 6093648676864917112L;
 
 	@ManyToOne(optional=false)
@@ -66,6 +66,11 @@ public class CargoInspectionOption extends IdentifiedEntity {
 
 	public void setValue(Double value) {
 		this.value = value;
+	}
+
+	@Override
+	public int compareTo(CargoInspectionOption o) {
+		return -Double.compare(o.value, this.value); 
 	}
 
 	
