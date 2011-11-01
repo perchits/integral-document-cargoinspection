@@ -7,7 +7,7 @@ import com.docum.util.EqualsHelper;
 import com.docum.util.HashCodeHelper;
 
 @Entity
-public class Measure extends IdentifiedEntity {
+public class Measure extends IdentifiedEntity implements Comparable<Measure> {
 
 	private static final long serialVersionUID = 34410299838532629L;
 
@@ -64,6 +64,22 @@ public class Measure extends IdentifiedEntity {
 	
 	public String toString(){		
 		return getName();
+	}
+
+	@Override
+	public int compareTo(Measure o) {
+		if (o == null) {
+			return 1;
+		} else if (this.getName() == null && o.getName() == null) {
+			return 0;
+		} else if (this.getName() != null && o.getName() == null) {
+			return 1;
+		} else if (this.getName() == null && o.getName() != null) {
+			return -1;
+		} else {
+			return this.getName().compareToIgnoreCase(o.getName());
+		}
+		
 	}
 
 }

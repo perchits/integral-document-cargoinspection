@@ -12,7 +12,7 @@ import javax.persistence.OneToMany;
 import com.docum.domain.po.IdentifiedEntity;
 
 @Entity
-public class CargoPackage extends IdentifiedEntity {
+public class CargoPackage extends IdentifiedEntity implements Comparable<CargoPackage> {
 	private static final long serialVersionUID = 1238283870788720201L;
 
 	@ManyToOne(optional = false)
@@ -112,5 +112,21 @@ public class CargoPackage extends IdentifiedEntity {
 	@Override
 	public String toString() {
 		return getMeasure() != null ? getMeasure().getName() : "Не указано измерение";
+	}
+
+	@Override
+	public int compareTo(CargoPackage o) {
+		if (o == null) {
+			return 1;
+		} else if (o.getMeasure() == null && this.measure == null ) {
+			return 0;
+		} else if (o.getMeasure() != null && this.measure == null) {
+			return -1;
+		} else if (o.getMeasure() == null && this.measure != null) {
+			return 1;
+		} else {
+			return this.getMeasure().compareTo(o.getMeasure());
+		}
+		
 	}
 }
