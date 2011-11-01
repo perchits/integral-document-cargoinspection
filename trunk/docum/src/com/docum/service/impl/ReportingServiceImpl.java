@@ -494,7 +494,9 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 		odfTable.getCellByPosition(0, currRow).setHorizontalAlignment("center");
 		odfTable.getCellByPosition(1, currRow).setHorizontalAlignment("center");
 		currRow = 3;
-		for(final CargoPackage cargoPackage: actualCargo.getCargoPackages()) {
+		CargoPackage[] cargoPackages = actualCargo.getCargoPackages().toArray(new CargoPackage[0]);
+		Arrays.sort(cargoPackages);
+		for(final CargoPackage cargoPackage: cargoPackages) {
 			odfTable.getCellByPosition(0, currRow).setStringValue(cargoPackage.getMeasure()
 					.getEnglishName() + " / " + cargoPackage.getMeasure().getName());
 			if (declaredCargo != null) {
