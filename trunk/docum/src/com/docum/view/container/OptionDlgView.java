@@ -2,6 +2,8 @@ package com.docum.view.container;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 
@@ -29,6 +31,12 @@ public class OptionDlgView extends AbstractDlgView implements Serializable {
 				cargoOptionsCopy.add(new CargoInspectionOption(op));
 			}
 		}
+		Collections.sort(cargoOptionsCopy, new Comparator<CargoInspectionOption>(){
+			@Override
+			public int compare(CargoInspectionOption o1, CargoInspectionOption o2) {
+				return new Integer(o1.getArticleInspectionOption().getOrd()).compareTo(
+						new Integer(o2.getArticleInspectionOption().getOrd()));
+			}});
 
 		List<ArticleInspectionOption> children = articleInspectionOption.getChildren();
 		if (children.size() > 0) {
