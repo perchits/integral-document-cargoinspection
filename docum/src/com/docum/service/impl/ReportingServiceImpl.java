@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -406,8 +407,16 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 	
 	private void processCargoInspectionOptions(OdfTextDocument odt, Cargo cargo, 
 			String tableBeforeInsertDataName) throws Exception {
-		Object[] inspectionOptions = cargo.getInspectionInfo().getInspectionOptions().toArray();
-		Arrays.sort(inspectionOptions);
+		CargoInspectionOption[] inspectionOptions =
+			new CargoInspectionOption[cargo.getInspectionInfo().getInspectionOptions().size()]; 
+		inspectionOptions =
+			cargo.getInspectionInfo().getInspectionOptions().toArray(inspectionOptions);
+		Arrays.sort(inspectionOptions, new Comparator<CargoInspectionOption>(){
+			@Override
+			public int compare(CargoInspectionOption o1, CargoInspectionOption o2) {
+				return new Integer(o1.getArticleInspectionOption().getOrd()).compareTo(
+						new Integer(o2.getArticleInspectionOption().getOrd()));
+			}});
 		int len = inspectionOptions.length;
 		for (int i = 0; i < len; i++ ) {
 			CargoInspectionOption inspectionOption = (CargoInspectionOption) inspectionOptions[i];
