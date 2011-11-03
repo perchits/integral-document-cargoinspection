@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+	<changeSet author="pepper" id="0028-fix-fileurl-uniqueness-hibernate-bug">
+
+		<dropUniqueConstraint constraintName="cargoinspectioninfo_fileurl_images_id_key"
+			tableName="cargoinspectioninfo_fileurl" />
+		
+		<dropUniqueConstraint constraintName="inspection_fileurl_images_id_key"
+			tableName="inspection_fileurl" />
+
+		<createIndex indexName="cargoinspectioninfo_fileurl_images_id_key"
+			tableName="cargoinspectioninfo_fileurl">
+			<column name="images_id"/>
+		</createIndex>
+
+		<createIndex indexName="inspection_fileurl_images_id_key"
+			tableName="inspection_fileurl">
+			<column name="images_id"/>
+		</createIndex>
+
+	</changeSet>
+</databaseChangeLog>
