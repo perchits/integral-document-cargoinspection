@@ -19,6 +19,7 @@ import com.docum.service.ArticleService;
 import com.docum.service.BaseService;
 import com.docum.service.FileProcessingService;
 import com.docum.util.AlgoUtil;
+import com.docum.util.FacesUtil;
 import com.docum.view.AbstractDlgView;
 import com.docum.view.DialogActionEnum;
 import com.docum.view.DialogActionHandler;
@@ -224,7 +225,12 @@ public class CargoUnit implements Serializable, DialogActionHandler, ContainerCh
 	}
 
 	public void handleImages() {
-		imageListDialog = new FileListDlgView(cargoPresentation.getInspectionInfo().getImages(),
+		CargoInspectionInfo info = cargoPresentation.getInspectionInfo();
+		if(info == null) {
+			FacesUtil.warn("Ошибка", "Нужно добавить инспекцию для контейнера");
+			return;
+		}
+		imageListDialog = new FileListDlgView(info.getImages(),
 				"Фотографии по грузу", fileService, cargoPresentation.getCargo().getCondition().getContainer());
 		imageListDialog.addHandler(this);
 	}
