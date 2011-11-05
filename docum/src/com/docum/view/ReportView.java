@@ -380,7 +380,7 @@ public class ReportView extends BaseView {
 	}
 
 	public List<Customer> getCustomers() {				
-		return getBaseService().getAll(Customer.class, DEFAULT_SORT_FIELDS);
+		return getBaseService().getAll(Customer.class, getDefaultSortFields());
 	}
 	
 	public Customer getSelectedCustomer() {

@@ -620,8 +620,8 @@ a.olive-color:hover {
 	background-position: -2px -48px !important;
 }
 
-.inline-auto-upload .fileupload-content {
-	display: none;
+.inline-auto-upload .fileupload-content{
+	  display: none;  
 }
 
 .inline-auto-upload .fileupload-buttonbar {
@@ -696,7 +696,7 @@ a.olive-color:hover {
 }
 
 .upload-dlg-left-col {
-	width: 170px;
+	width: 215px;
 }
 
 .report-containers table {

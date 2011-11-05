@@ -11,48 +11,50 @@
 		<h:panelGrid columns="2" width="100%"
 			rendered="#{rendered == null ? true : rendered}"
 			columnClasses="upload-dlg-left-col,upload-dlg-right-col">
-			<h:panelGroup layout="block"  styleClass="upload-dlg-left">				
-				<p:lightBox opacity="0.4" height="480" width="640"
-					id="#{gridId}imageList">
-<h:outputText value="Изображения отсутствуют..."
-					rendered="#{empty bean.fileUrls}" />
-					<h:dataTable styleClass="image-list-table" value="#{bean.urlsWrapper}"
-						var="furl">
-						<h:column>
-							<p:column>
+			<h:panelGroup layout="block"  styleClass="upload-dlg-left">
+			
+			<h:panelGroup layout="block" style="position:absolute; top:5; left:5; background:white">							
 								<p:commandButton title="Вверх" image="ui-icon-arrow-1-n"
 									action="#{bean.moveUp}" styleClass="inline-btn border-btn"
-									update="#{gridId}imageList">
-									<f:setPropertyActionListener target="#{bean.fileUrl}"
-										value="#{furl.fileUrl}" />
+									update="#{gridId}imageList" >									
 								</p:commandButton>
 								<p:commandButton title="Вниз" image="ui-icon-arrow-1-s"
 									action="#{bean.moveDown}" styleClass="inline-btn border-btn"
-									update="#{gridId}imageList">
-									<f:setPropertyActionListener target="#{bean.fileUrl}"
-										value="#{furl.fileUrl}" />
-								</p:commandButton>
-							</p:column>
-						</h:column>
+									update="#{gridId}imageList">									
+								</p:commandButton>								
+			</h:panelGroup>	
+							
+				<p:lightBox opacity="0.4" height="480" width="640"
+					id="#{gridId}imageList">					
+					
+					<p:dataTable					  
+					 emptyMessage="Изображения отсутствуют..." 
+					 styleClass="image-list-table" 
+					 value="#{bean.urlWrapperDataModel}"
+					 var="furl" selection="#{bean.fileUrlWrapped}" >						
+						
+						<p:column selectionMode="single" >
+													
+						</p:column>  			
 
-						<h:column>
+						<p:column>
 
 							<h:outputLink
 								value="#{facesContext.externalContext.requestContextPath}/images/#{furl.value}">
 								<p:graphicImage width="90" value="/images/#{furl.thumbName}" />
 							</h:outputLink>
 
-						</h:column>
-						<h:column>
+						</p:column>
+						<p:column>
 							<p:commandButton styleClass="inline-btn" title="Удалить #{hint}"
 								image="ui-icon-trash" action="#{bean.removeImage}"
 								update="#{gridId}imageList">
 								<f:setPropertyActionListener target="#{bean.fileUrl}"
 									value="#{furl.fileUrl}" />
 							</p:commandButton>
-						</h:column>
+						</p:column>
 
-					</h:dataTable>
+					</p:dataTable>
 
 				</p:lightBox>
 

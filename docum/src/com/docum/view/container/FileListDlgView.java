@@ -4,7 +4,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.faces.model.ListDataModel;
+
 import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.SelectableDataModel;
 
 import com.docum.domain.po.common.Container;
 import com.docum.domain.po.common.FileUrl;
@@ -23,7 +26,16 @@ public class FileListDlgView extends AbstractDlgView implements Serializable {
 	private FileProcessingService fileService;
 	private Container container;
 	private List<UrlWrapper> urlsWrapper= new ArrayList<UrlWrapper>();
-	
+	private UrlWrapper fileUrlWrapped;
+		
+	public UrlWrapper getFileUrlWrapped() {
+		return fileUrlWrapped;
+	}
+
+	public void setFileUrlWrapped(UrlWrapper fileUrlWrapped) {
+		this.fileUrlWrapped = fileUrlWrapped;
+	}
+
 	public FileListDlgView(List<FileUrl> fileUrls, String title, 
 			FileProcessingService fileService, Container container) {
 		this.fileUrls = fileUrls;
@@ -41,11 +53,15 @@ public class FileListDlgView extends AbstractDlgView implements Serializable {
 	}
 	
 	public void moveUp() {
-		OrderedEntityUtil.moveUp(fileUrl, fileUrls);
+		if (fileUrlWrapped != null) {
+			OrderedEntityUtil.moveUp(fileUrlWrapped.fileUrl, fileUrls);
+		}
 	}
 	
 	public void moveDown() {
-		OrderedEntityUtil.moveDown(fileUrl, fileUrls);
+		if (fileUrlWrapped != null) {
+			OrderedEntityUtil.moveDown(fileUrlWrapped.fileUrl, fileUrls);
+		}
 	}
 	
 	public String getTitle() {						
@@ -64,6 +80,9 @@ public class FileListDlgView extends AbstractDlgView implements Serializable {
 		fileUrls.add(new FileUrl(FileUploadUtil.handleUploadedFile(fileService, container , event)));
 	}
 	
+	public UrlWrapperDataModel getUrlWrapperDataModel(){
+		return new UrlWrapperDataModel(getUrlsWrapper());
+	}
 		
 	public List<UrlWrapper> getUrlsWrapper() {
 		if (fileUrls == null) return null;
@@ -117,8 +136,40 @@ public class FileListDlgView extends AbstractDlgView implements Serializable {
 
 		public void setFileUrl(FileUrl fileUrl) {
 			this.fileUrl = fileUrl;
-		}	
+		}
+		
+		public Long getId(){
+			return fileUrl != null ? fileUrl.getId() : null;  
+		}		
 		
 	}
+	
+	class UrlWrapperDataModel extends ListDataModel<UrlWrapper> implements SelectableDataModel<UrlWrapper> {
+		
+		public UrlWrapperDataModel() {  
+	    }  
+	  
+	    public UrlWrapperDataModel(List<UrlWrapper> data) {  
+	        super(data);  
+	    }  
+		
+		@Override
+		public Object getRowKey(UrlWrapper object) {
+			return object.fileUrl;
+		}
 
+		@Override
+		public UrlWrapper getRowData(String rowKey) {
+			if (rowKey == null) return null;
+			@SuppressWarnings("unchecked")
+			List<UrlWrapper> urls = (List<UrlWrapper>) getWrappedData();	          
+	        for(UrlWrapper url : urls) {  
+	        	if(String.valueOf(url.fileUrl).equals(rowKey)) {
+                    return url;
+                }  
+	        }  	          
+	        return null;  	
+		}
+		
+	}
 }
