@@ -1,10 +1,13 @@
 package com.docum.view.dict;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
+import com.docum.domain.SortOrderEnum;
 import com.docum.domain.po.IdentifiedEntity;
 import com.docum.domain.po.common.Company;
 import com.docum.domain.po.common.Supplier;
@@ -17,8 +20,10 @@ public class SupplierView extends BaseView {
 	private static final String sign = "Поставщик";
 	private Supplier supplier = new Supplier();	
 
-	public List<Company> getCompanies() {		
-		return getBaseService().getAll(Company.class, null);
+	public List<Company> getCompanies() {	
+		HashMap<String, SortOrderEnum> sortFields = new HashMap<String, SortOrderEnum>();
+		sortFields.put("clazz.name", SortOrderEnum.ASC);
+		return getBaseService().getAll(Company.class, sortFields);
 	}
 
 	public void setSupplier(Supplier supplier) {
@@ -39,6 +44,13 @@ public class SupplierView extends BaseView {
 		}
 	}
 
+	@Override
+	public Map<String, SortOrderEnum> getDefaultSortFields(){
+		HashMap<String, SortOrderEnum> sortFields = new HashMap<String, SortOrderEnum>();
+		sortFields.put("clazz.company.name", SortOrderEnum.ASC);
+		return sortFields;
+	}
+	
 	@Override
 	public void newObject() {
 		super.newObject();

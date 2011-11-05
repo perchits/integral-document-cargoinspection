@@ -53,7 +53,7 @@ public class UserView extends BaseView {
 			this.availableRoles.clear();
 			this.selectedRoles.addAll(this.user.getSecurityRoles());
 			this.availableRoles.addAll(
-				super.getBaseService().getAll(SecurityRole.class, DEFAULT_SORT_FIELDS));
+				super.getBaseService().getAll(SecurityRole.class, getDefaultSortFields()));
 			ListHandler.sublist(availableRoles, selectedRoles);
 			this.roles.setSource(availableRoles);
 			this.roles.setTarget(selectedRoles);
@@ -83,7 +83,7 @@ public class UserView extends BaseView {
 		this.selectedRoles.clear();
 		this.availableRoles.clear();
 		this.availableRoles.addAll(
-			super.getBaseService().getAll(SecurityRole.class, DEFAULT_SORT_FIELDS));
+			super.getBaseService().getAll(SecurityRole.class, getDefaultSortFields()));
 		this.roles.setSource(availableRoles);
 		this.roles.setTarget(selectedRoles);
 	}
