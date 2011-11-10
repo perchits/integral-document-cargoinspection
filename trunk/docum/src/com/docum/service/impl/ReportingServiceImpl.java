@@ -328,7 +328,7 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 			List<CargoDefects> listCargoDefects = this.statsService.calcAverageDefects(container.getId());
 			for (final Cargo cargo: container.getActualCondition().getCargoes()) {
 				String tableName = reportUtil.insertTableCopy(odt, odfTableName, tableBeforeInsertName);
-				processCargoInspectionOptions(odt, cargo, tableCargoDigitalDataName);
+				processCargoInspectionOptions(odt, cargo, tableCargoDigitalDataName, container);
 				if (tableName != null) {
 					Cargo declaredCargo = AlgoUtil.find(container.getDeclaredCondition().getCargoes(), 
 							new AlgoUtil.FindPredicate<Cargo>() {
@@ -400,13 +400,13 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 		}
 		odfTable.remove();
 		odfTable = odt.getTableByName(TABLE_RIPENESS);
-		if (odfTable != null && odfTable.getColumnCount() <3) {
+		if (odfTable != null) {
 			odfTable.remove();
 		}
 	}
 	
 	private void processCargoInspectionOptions(OdfTextDocument odt, Cargo cargo, 
-			String tableBeforeInsertDataName) throws Exception {
+			String tableBeforeInsertDataName, Container container) throws Exception {
 		CargoInspectionOption[] inspectionOptions =
 			new CargoInspectionOption[cargo.getInspectionInfo().getInspectionOptions().size()]; 
 		inspectionOptions =
@@ -418,6 +418,7 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 						new Integer(o2.getArticleInspectionOption().getOrd()));
 			}});
 		int len = inspectionOptions.length;
+		String ripenessTableName = reportUtil.insertTableCopy(odt, TABLE_RIPENESS, TABLE_RIPENESS);
 		for (int i = 0; i < len; i++ ) {
 			CargoInspectionOption inspectionOption = (CargoInspectionOption) inspectionOptions[i];
 			if (inspectionOption.getArticleInspectionOption().getName().contains("Брикса")) {
@@ -429,7 +430,7 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 			} else if (inspectionOption.getArticleInspectionOption().getParent() != null && 
 					inspectionOption.getArticleInspectionOption().getParent().getName().toUpperCase()
 					.contains("зрелост".toUpperCase())) {
-				processRipeness(odt, inspectionOption);
+				processRipeness(odt, inspectionOption, ripenessTableName, container);
 			}
 		}
 	}
@@ -907,19 +908,20 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 		this.starOfficeConnectionPort = starOfficeConnectionPort;
 	}
 	
-	private void processRipeness(OdfTextDocument odt, CargoInspectionOption inspectionOption){
-		OdfTable table = odt.getTableByName(TABLE_RIPENESS);
+	private void processRipeness(OdfTextDocument odt, CargoInspectionOption inspectionOption, 
+			String tableName, Container container){
+		OdfTable table = odt.getTableByName(tableName);
 		if (table == null) {
 			return;
 		}
 		table.appendColumn();
 		int currColumn = table.getColumnCount() - 1;
-		table.getCellRangeByPosition(0, 0, currColumn, 0).merge();
+		table.getCellByPosition(0, 1).setStringValue(container.getNumber());
 		StringBuffer buf = 
 			new StringBuffer(inspectionOption.getArticleInspectionOption().getEnglishName());
 		buf.append(" / ").append(inspectionOption.getArticleInspectionOption().getName());
-		table.getCellByPosition(currColumn, 1).setStringValue(buf.toString());
-		table.getCellByPosition(currColumn, 2).setStringValue(
+		table.getCellByPosition(currColumn, 0).setStringValue(buf.toString());
+		table.getCellByPosition(currColumn, 1).setStringValue(
 			String.valueOf(inspectionOption.getValue()));
 	}
 	
