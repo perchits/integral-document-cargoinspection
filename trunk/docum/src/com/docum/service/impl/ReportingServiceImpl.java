@@ -89,6 +89,7 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 	private ReportUtil reportUtil = new ReportUtil();
 	private static final String TABLE_BRIX_SCALE = "TableBrixScale"; 
 	private static final String TABLE_RIPENESS = "TableRipeness";
+	private static final String TABLE_PICTURES_CONTAINER_NUMBER = "TablePicturesContainerNumber";
 
 	@Override
 	public void createReport(Report report) throws Exception {
@@ -128,7 +129,7 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 		addTemperatureData(odt, "TableMeasurementTemperature");
 		addNormativePaper(odt, "ТаблицаNormativePaper");
 		addCargoAmount(odt, "TableCargoAmount");
-		addGeneralCargoImages(odt, "TablePictures");
+		addGeneralCargoImages(odt, TABLE_PICTURES_CONTAINER_NUMBER);
 		odt.save(location + reportFileName + ".odt");
 		OpenOfficeConnection officeConnection = 
 			new SocketOpenOfficeConnection(starOfficeConnectionPort);
@@ -391,7 +392,6 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 				}
 			}
 		}
-		odt.getTableByName(TABLE_BRIX_SCALE).remove();
 		if (defectsTable != null) {
 			defectsTable.remove();
 		}
@@ -399,10 +399,7 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 			defectsByClassTable.remove();
 		}
 		odfTable.remove();
-		odfTable = odt.getTableByName(TABLE_RIPENESS);
-		if (odfTable != null) {
-			odfTable.remove();
-		}
+		removeTables(odt, new String[]{TABLE_BRIX_SCALE, TABLE_RIPENESS});
 	}
 	
 	private void processCargoInspectionOptions(OdfTextDocument odt, Cargo cargo, 
@@ -592,37 +589,44 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 			String data, String comment) {
 		StringBuffer sb = new StringBuffer(data).append(" ").append(comment);
 		odfTable.getCellByPosition(column, row).setStringValue(sb.toString());
-		//odfTable.appendRow();
 	}
 	
 	private void addGeneralCargoImages(OdfTextDocument odt, String odfTableName) throws Exception {
 		OdfTable odfTable = odt.getTableByName(odfTableName);
-		if (odfTable == null) {
-			return;
-		}
+		String tablePicturesDataName = "TablePicturesData";
 		for (Container container: this.containers) {
-			Inspection inspection = container.getInspection();
-			if (inspection == null || inspection.getImages() == null || inspection.getImages().isEmpty()) {
-				continue;
-			} else {
-				odfTable.appendRow();
-				odfTable.appendColumn();
-				odfTable.getCellRangeByPosition(0, 0, 1, 0).merge();
-				int currRow = odfTable.getRowCount() - 1;
-				int columntIndex = 0;
-				for (FileUrl fileUrl: inspection.getImages()) {
-					addImage(odt, fileUrl, odfTable, columntIndex, currRow);
-					switch (columntIndex) {
-					case 0:
-						columntIndex = 1;
-						break;
-					case 1: 	
-						columntIndex = 0;
-						currRow++;
+			if (odfTable != null) {
+				odfTable = odt.getTableByName(
+					reportUtil.insertTableCopy(odt, odfTableName, odfTableName));
+				odfTable.getCellByPosition(0, 0).setStringValue(container.getNumber());
+				odfTable = odt.getTableByName(
+					reportUtil.insertTableCopy(odt, tablePicturesDataName, odfTableName));
+				Inspection inspection = container.getInspection();
+				if (inspection == null || inspection.getImages() == null || inspection.getImages().isEmpty()) {
+					continue;
+				} else {
+					odfTable.appendRow();
+					odfTable.appendColumn();
+					int currRow = odfTable.getRowCount() - 1;
+					int columnIndex = 0;
+					for (FileUrl fileUrl: inspection.getImages()) {
+						addImage(odt, fileUrl, odfTable, columnIndex, currRow);
+						switch (columnIndex) {
+						case 0:
+							columnIndex = 1;
+							break;
+						case 1: 	
+							columnIndex = 0;
+							currRow++;
+						}
 					}
+					odfTable.appendRow();
 				}
-				odfTable.appendRow();
 			}
+		}
+		String tableQualityExpertiseContainerNumber = "TableQualityExpertiseContainerNumber";
+		String tableQualityExpertiseData = "TableQualityExpertiseData";
+		for (Container container: this.containers) {
 			if (container.getActualCondition() == null) {
 				continue;
 			}
@@ -630,13 +634,16 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 			if (cargoes == null || cargoes.size() == 0) {
 				continue;
 			}
-			OdfTable odfQualityExpertiseTable = odt.getTableByName("TableQualityExpertise");
+			OdfTable odfQualityExpertiseTable = odt.getTableByName(reportUtil.insertTableCopy(
+					odt, tableQualityExpertiseContainerNumber, tableQualityExpertiseContainerNumber));
 			if (odfQualityExpertiseTable == null) {
-				return;
+				continue;
 			}
+			odfQualityExpertiseTable.getCellByPosition(0, 0).setStringValue(container.getNumber());
+			odfQualityExpertiseTable = odt.getTableByName(reportUtil.insertTableCopy(
+					odt, tableQualityExpertiseData, tableQualityExpertiseContainerNumber));
 			odfQualityExpertiseTable.appendRow();
 			odfQualityExpertiseTable.appendColumn();
-			odfQualityExpertiseTable.getCellRangeByPosition(0, 0, 1, 0).merge();
 			int currRow = odfQualityExpertiseTable.getRowCount() - 1;
 			for (Cargo cargo: cargoes) {
 				currRow = odfQualityExpertiseTable.getRowCount() - 1;
@@ -655,6 +662,18 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 					}
 				}
 				odfQualityExpertiseTable.appendRow();
+			}
+		}
+		
+		removeTables(odt, new String[]{odfTableName,  tablePicturesDataName, 
+			tableQualityExpertiseContainerNumber, tableQualityExpertiseData});
+	}
+	
+	private void removeTables(OdfTextDocument odt, String[] tableNames) {
+		for (String tableName: tableNames) {
+			OdfTable odfTable = odt.getTableByName(tableName);
+			if (odfTable != null) {
+				odfTable.remove();
 			}
 		}
 	}
