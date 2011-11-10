@@ -151,8 +151,8 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 				continue;
 			}
 			for (final Cargo cargo: container.getActualCondition().getCargoes()) {
-				StringBuffer sb = new StringBuffer();
-				sb.append(cargo.getArticle().getEnglishName()).append(", ")
+				StringBuffer sb = new StringBuffer(container.getNumber());
+				sb.append(", ").append(cargo.getArticle().getEnglishName()).append(", ")
 					.append(cargo.getSupplier().getCompany().getEnglishName()).append(" / ")
 					.append(cargo.getArticle().getName()).append(", ")
 					.append(cargo.getSupplier().getCompany().getName());
@@ -420,9 +420,10 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 			CargoInspectionOption inspectionOption = (CargoInspectionOption) inspectionOptions[i];
 			if (inspectionOption.getArticleInspectionOption().getName().contains("Брикса")) {
 				String tableName = 
-					reportUtil.insertTableCopy(odt, TABLE_BRIX_SCALE, tableBeforeInsertDataName);
-				odt.getTableByName(tableName).getCellRangeByPosition(0, 0, 1, 0).merge();
-				odt.getTableByName(tableName).getCellByPosition(1, 1)
+					reportUtil.insertTableCopy(odt, TABLE_BRIX_SCALE, TABLE_BRIX_SCALE);
+				odt.getTableByName(tableName).getCellByPosition(0, 0)
+					.setStringValue(container.getNumber());
+				odt.getTableByName(tableName).getCellByPosition(1, 0)
 					.setStringValue(String.valueOf(inspectionOption.getValue()) + "°Bx");
 			} else if (inspectionOption.getArticleInspectionOption().getParent() != null && 
 					inspectionOption.getArticleInspectionOption().getParent().getName().toUpperCase()
