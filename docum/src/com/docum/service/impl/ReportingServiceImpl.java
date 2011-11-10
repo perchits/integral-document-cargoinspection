@@ -822,6 +822,18 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 		}
 	}
 	
+	private String getContainerType(Container container) {
+		StringBuffer result = new StringBuffer();
+		String containerNumber = container.getNumber().replaceAll(" ", "");
+		if (containerNumber.length() < 11 || containerNumber.contains("-")) {
+			result.append("Refrigerator trailer").append(" / ").append("Рефрижераторная тележка");
+		} else {
+			result.append("Container").append(" / ").append("Контейнер");
+		}
+		
+		return result.toString();
+	}
+	
 	private void replaceNodeValue(Node node, String processedValue, 
 			int statementBeginPos, int statementEndPos) throws Exception {
 		if (statementEndPos == -1) {
@@ -916,6 +928,7 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 		}
 		table.appendColumn();
 		int currColumn = table.getColumnCount() - 1;
+		table.getCellByPosition(0, 0).setStringValue(getContainerType(container));
 		table.getCellByPosition(0, 1).setStringValue(container.getNumber());
 		StringBuffer buf = 
 			new StringBuffer(inspectionOption.getArticleInspectionOption().getEnglishName());
