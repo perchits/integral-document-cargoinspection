@@ -2,14 +2,21 @@ package com.docum.util;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.odftoolkit.odfdom.doc.OdfTextDocument;
 import org.odftoolkit.odfdom.doc.table.OdfTableCell;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
+import com.docum.domain.po.common.Cargo;
+import com.docum.domain.po.common.Container;
 
 public class ReportUtil implements Serializable {
 	private static final long serialVersionUID = -6276477440612413243L;
@@ -90,10 +97,10 @@ public class ReportUtil implements Serializable {
 			if (object != null) {
 				sb.append(object);
 			}
-			sb.append(", ");
+			sb.append(delimiter);
 		}
 		int length = sb.length();
-		sb.replace(length - 2, length - 1 , "");
+		sb.replace(length - delimiter.length(), length - (delimiter.length() - 1) , "");
 		return sb.toString();
 	}
 	
@@ -101,5 +108,26 @@ public class ReportUtil implements Serializable {
 		Calendar calendar = (Calendar) Calendar.getInstance().clone();
 		calendar.setTime(date);
 		return calendar.get(Calendar.YEAR);
+	}
+	
+	public Map<Cargo, List<Container>> getCargoContainers(List<Container> containers) {
+		Map<Cargo, List<Container>> result = new HashMap<Cargo, List<Container>>();
+		Map<String, Cargo> temp = new HashMap<String, Cargo>();
+		for (Container container: containers) {
+			for (Cargo cargo: container.getActualCondition().getCargoes()) {
+				String key = getComplexString(new String[]{
+					cargo.toString(), cargo.getSupplier().getCompany().getName()}, ", ");
+				if (temp.get(key) == null) {
+					temp.put(key, cargo);
+					List<Container> list = new ArrayList<Container>();
+					list.add(container);
+					result.put(cargo, list);
+				} else {
+					result.get(temp.get(key)).add(container);
+				}
+			}
+		}
+		
+		return result;
 	}
 }
