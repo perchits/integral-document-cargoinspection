@@ -21,7 +21,7 @@
 				<p:menuitem value="Контейнеры" url="/container/container.jsf"
 					icon="ui-icon ui-icon-suitcase" />
 				<p:menuitem value="Отчеты" url="/reporting/reporting.jsf" icon="ui-icon ui-icon-image" />
-				<p:submenu label="Справочники" icon="ui-icon ui-icon-comment">
+				<p:submenu label="Справочники" icon="ui-icon ui-icon-comment" rendered="#{userBean.administrationPermited}">
 					<p:menuitem value="Поставщики" url="/handbook/supplier.jsf" />
 					<p:menuitem value="Контрагенты" url="/handbook/company.jsf" />
 					<p:menuitem value="Клиенты" url="/handbook/customer.jsf" />

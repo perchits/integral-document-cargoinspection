@@ -105,6 +105,10 @@ public class UserView extends BaseView {
 		return loginService.getAdministrationPermited();
 	}
 	
+	public boolean getOperatorModePermited() {
+		return loginService.getOperatorModePermited();
+	}
+	
 	public boolean getDevelopmentPermited() {
 		return loginService.getDevelopmentPermited();
 	}

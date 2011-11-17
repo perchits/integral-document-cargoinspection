@@ -6,7 +6,7 @@
 
 <h:outputScript name="dialog.js" library="js" />
 
-<h:panelGroup layout="block" styleClass="crud-menu" rendered="#{userBean.administrationPermited}">
+<h:panelGroup layout="block" styleClass="crud-menu" rendered="#{userBean.operatorModePermited}">
 	<p:toolbar styleClass="crud-menu">
 		<p:toolbarGroup align="left">
 			<p:commandButton process="#{process == null? ('@this') : process}" type="push" 
