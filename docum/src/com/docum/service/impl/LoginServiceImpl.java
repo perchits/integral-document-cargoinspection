@@ -64,9 +64,11 @@ public class LoginServiceImpl implements LoginService, Serializable {
 		for(SecurityRole role: this.securityUser.getSecurityRoles()) {
 			if (role.getRole().equals(SecurityRoleEnum.SUPERUSER)) {
 				this.administrationPermited = true;
+				this.operatorModePermited = true;
 			} else if (role.getRole().equals(SecurityRoleEnum.DEVELOPER)) {
 				this.developmentPermited = true;
 				this.administrationPermited = true;
+				this.operatorModePermited = true;
 			} else if (role.getRole().equals(SecurityRoleEnum.USER)) {
 				this.operatorModePermited = true;
 			}

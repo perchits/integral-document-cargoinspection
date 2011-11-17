@@ -8,7 +8,7 @@
 	<f:facet name="header">
 		<h:form prependId="false" styleClass="cargo-title">
 			<h:outputText value="#{paneltitle}" />
-			<h:panelGroup styleClass="table-btns">
+			<h:panelGroup styleClass="table-btns" rendered="#{userBean.operatorModePermited}">
 				<p:commandButton image="ui-icon-document" title="Добавить груз"
 					action="#{cargobean.addCargo}"
 					oncomplete="beforeShow(cargoIdVar,args)"
@@ -26,7 +26,7 @@
 								#{wcargo.article}, #{wcargo.articleCategory}
 								</h:panelGroup>
 				<h:form prependId="false">
-					<h:panelGroup styleClass="cargo-btn-panel">
+					<h:panelGroup styleClass="cargo-btn-panel" rendered="#{userBean.operatorModePermited}">
 						<p:commandButton styleClass="inline-btn border-btn"
 							title="Редактировать груз" image="ui-icon-wrench"
 							oncomplete="beforeShow(cargoIdVar,args)"

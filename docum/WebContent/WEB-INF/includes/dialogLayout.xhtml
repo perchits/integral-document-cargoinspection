@@ -18,10 +18,11 @@
 			</f:facet>
 			<f:facet name="footer">
 				<p:commandButton
+					 rendered="#{userBean.operatorModePermited}"
 					action="#{bean[saveObject]}" value="OK"
 					update="#{gridId},growl,#{update}"
 					oncomplete="handleOKRequest(args,#{gridId}Var,'#{gridId}Id')" />
-				<p:commandButton type="reset" value="Отмена" update="growl"
+				<p:commandButton  rendered="#{userBean.operatorModePermited}" type="reset" value="Отмена" update="growl"
 					onclick="#{gridId}Var.hide()" />
 			</f:facet>
 		</h:panelGrid>
