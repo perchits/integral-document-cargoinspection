@@ -13,4 +13,5 @@ public interface LoginService extends UserDetailsService {
 	public List<SecurityRole> getUserRoles();
 	public boolean getAdministrationPermited();
 	public boolean getDevelopmentPermited();
+	public boolean getOperatorModePermited();
 }

@@ -32,6 +32,7 @@ public class LoginServiceImpl implements LoginService, Serializable {
 	private SecurityUser securityUser;
 	private boolean administrationPermited = false;
 	private boolean developmentPermited = false;
+	private boolean operatorModePermited = false;
 	
 	@Autowired
 	DocumAuthenticationManager documAuthenticationManager;
@@ -45,6 +46,7 @@ public class LoginServiceImpl implements LoginService, Serializable {
 			throws UsernameNotFoundException, DataAccessException {
 		this.administrationPermited = false;
 		this.developmentPermited = false;
+		this.operatorModePermited = false;
 		Authentication auth = documAuthenticationManager.getAuthentication();
 		this.securityUser  = securityUserService.getUser(auth.getPrincipal().toString());
 		if (this.securityUser == null) {
@@ -65,6 +67,8 @@ public class LoginServiceImpl implements LoginService, Serializable {
 			} else if (role.getRole().equals(SecurityRoleEnum.DEVELOPER)) {
 				this.developmentPermited = true;
 				this.administrationPermited = true;
+			} else if (role.getRole().equals(SecurityRoleEnum.USER)) {
+				this.operatorModePermited = true;
 			}
 			authorities.add(new SwitchUserGrantedAuthority(role.getRole().name(), auth));
 		}
@@ -88,6 +92,11 @@ public class LoginServiceImpl implements LoginService, Serializable {
 	@Override
 	public boolean getDevelopmentPermited() {
 		return this.developmentPermited;
+	}
+
+	@Override
+	public boolean getOperatorModePermited() {
+		return this.operatorModePermited;
 	}
 
 }
