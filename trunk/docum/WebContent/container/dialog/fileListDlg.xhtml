@@ -60,7 +60,7 @@
 
 			</h:panelGroup>
 
-			<h:panelGroup  styleClass="upload-dlg-right" layout="block">
+			<h:panelGroup  styleClass="upload-dlg-right" layout="block" rendered="#{userBean.operatorModePermited}">
 				<p:fileUpload mode="advanced" cancelLabel="Отмена"
 					uploadLabel="Загрузить" multiple="true" auto="false"
 					label="Добавить фотографии"
