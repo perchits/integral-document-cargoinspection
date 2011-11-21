@@ -145,54 +145,54 @@ public class Stats {
 		}
 	}
 	
-	public static class CargoDefectsOld implements Serializable {
-		private static final long serialVersionUID = -372166682283425892L;
-
-		private List<CategoryDefectsOld> categoryDefectsOld = new ArrayList<Stats.CategoryDefectsOld>();
-
-		public CargoDefectsOld() {
-			super();
-		}
-		public List<CategoryDefectsOld> getCategoryDefects() {
-			return categoryDefectsOld;
-		}
-		public void addCategoryDefects(CategoryDefectsOld defects) {
-			categoryDefectsOld.add(defects);
-		}
-		//Главная категория - всегда первая
-		public CategoryDefectsOld getMainCategory() {
-			return categoryDefectsOld.isEmpty() ? null : categoryDefectsOld.iterator().next();
-		}
-	}
-	
-	/**
-	 * Средние значения дефектов по категориям
-	 */
-	
-	public static class CategoryDefectsOld implements Serializable {
-		private static final long serialVersionUID = 382955697301254228L;
-
-		private String categoryName;
-		private String categoryEnglishName;
-		private double percentage = 0.0;
-
-		public CategoryDefectsOld(String categoryName, String categoryEnglishName) {
-			super();
-			this.categoryName = categoryName;
-			this.categoryEnglishName = categoryEnglishName;
-		}
-		public String getCategoryName() {
-			return categoryName;
-		}
-		public String getCategoryEnglishName() {
-			return categoryEnglishName;
-		}
-		public double getPercentage() {
-			return percentage;
-		}
-		public void setPercertage(double percentage) {
-			this.percentage = percentage;
-		}
-	}
+//	public static class CargoDefectsOld implements Serializable {
+//		private static final long serialVersionUID = -372166682283425892L;
+//
+//		private List<CategoryDefectsOld> categoryDefectsOld = new ArrayList<Stats.CategoryDefectsOld>();
+//
+//		public CargoDefectsOld() {
+//			super();
+//		}
+//		public List<CategoryDefectsOld> getCategoryDefects() {
+//			return categoryDefectsOld;
+//		}
+//		public void addCategoryDefects(CategoryDefectsOld defects) {
+//			categoryDefectsOld.add(defects);
+//		}
+//		//Главная категория - всегда первая
+//		public CategoryDefectsOld getMainCategory() {
+//			return categoryDefectsOld.isEmpty() ? null : categoryDefectsOld.iterator().next();
+//		}
+//	}
+//	
+//	/**
+//	 * Средние значения дефектов по категориям
+//	 */
+//	
+//	public static class CategoryDefectsOld implements Serializable {
+//		private static final long serialVersionUID = 382955697301254228L;
+//
+//		private String categoryName;
+//		private String categoryEnglishName;
+//		private double percentage = 0.0;
+//
+//		public CategoryDefectsOld(String categoryName, String categoryEnglishName) {
+//			super();
+//			this.categoryName = categoryName;
+//			this.categoryEnglishName = categoryEnglishName;
+//		}
+//		public String getCategoryName() {
+//			return categoryName;
+//		}
+//		public String getCategoryEnglishName() {
+//			return categoryEnglishName;
+//		}
+//		public double getPercentage() {
+//			return percentage;
+//		}
+//		public void setPercertage(double percentage) {
+//			this.percentage = percentage;
+//		}
+//	}
 
 }
