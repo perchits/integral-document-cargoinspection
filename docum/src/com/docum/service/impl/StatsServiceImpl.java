@@ -46,9 +46,6 @@ public class StatsServiceImpl implements StatsService, Serializable {
 		return result;
 	}
 	
-	
-	
-	
 	@Override
 	public List<Stats.CargoParty> getCargoParties(Long invoiceId) {
 		List<Stats.CargoParty> result = new ArrayList<Stats.CargoParty>();
@@ -70,12 +67,15 @@ public class StatsServiceImpl implements StatsService, Serializable {
 			//TODO error
 			return null;
 		}
-return null;
+		StatsCargoGroupInfo info = group.getInfo();
+		ArticleCategory articleCategory = info.getCategory();
+		Article article = articleCategory.getArticle();
+
+		Stats.CargoDefects averageDefects = CargoUtil.calcAverageDefects(group.getCargoes());
+		Stats.CargoParty party = new Stats.CargoParty(article.getName(), article.getEnglishName(),
+				articleCategory.getName(), articleCategory.getEnglishName(), averageDefects);
+		return party;
 		
-//		StatsCargoGroupInfo info = group.getInfo();
-//		ArticleCategory articleCategory = info.getCategory();
-//		Article article = articleCategory.getArticle();
-//		
 //		List<Stats.CargoDefectsOld> allDefects = new ArrayList<Stats.CargoDefectsOld>();
 //		//Сначала рассчитываем все категории по каждому грузу
 //		for(Cargo cargo : group.getCargoes()) {
@@ -117,8 +117,8 @@ return null;
 //		return party;
 	}
 
-	public Stats.CargoDefectsOld extractCargoDefects(Cargo cargo) {
-		Stats.CargoDefectsOld cargoDefectsOld = new Stats.CargoDefectsOld();
+//	public Stats.CargoDefectsOld extractCargoDefects(Cargo cargo) {
+//		Stats.CargoDefectsOld cargoDefectsOld = new Stats.CargoDefectsOld();
 //		boolean isFirstCategory = true;
 //		double categoryPercentage = 0.0;
 //		for(CargoDefectGroup defectGroup : cargo.getInspectionInfo().getDefectGroups()) {
@@ -152,6 +152,6 @@ return null;
 //			}
 //		}
 //		mainCategory.setPercertage(categoryPercentage);
-		return cargoDefectsOld;
-	}
+//		return cargoDefectsOld;
+//	}
 }
