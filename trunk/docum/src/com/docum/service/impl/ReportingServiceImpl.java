@@ -90,8 +90,6 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 	private static final String TABLE_BRIX_SCALE = "TableBrixScale"; 
 	private static final String TABLE_RIPENESS = "TableRipeness";
 	private static final String TABLE_PICTURES_CONTAINER_NUMBER = "TablePicturesContainerNumber";
-	private static final String TABLE_DEFECTS_DATA = "TableDefectsData";
-	private static final String TABLE_DEFECTS_BY_CLASS_AUX = "TableDefectsByClassAux";
 
 	@Override
 	public void createReport(Report report) throws Exception {
@@ -131,7 +129,6 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 		addTemperatureData(odt, "TableMeasurementTemperature");
 		addNormativePaper(odt, "ТаблицаNormativePaper");
 		addCargoAmount(odt, "TableCargoAmount");
-		processCargoDefects(odt);
 		addGeneralCargoImages(odt, TABLE_PICTURES_CONTAINER_NUMBER);
 		odt.save(location + reportFileName + ".odt");
 		OpenOfficeConnection officeConnection = 
@@ -221,7 +218,7 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 					containersWithTemperatureSpy.add(
 						ReportUtil.getComplexString(new String[]{
 							container.getActualCondition().getTemperatureSpyState().getName(),
-							container.getActualCondition().getTemperatureSpyNumber()}, ", "));
+							container.getActualCondition().getTemperatureSpyNumber()}, ","));
 				} else {
 					containersWithoutTemperatureSpy.add(container.getNumber());
 				} 
@@ -264,7 +261,7 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 			currRow++;
 		}
 		if (containersWithTemperatureSpy.size() > 0) {
-			//TODO refactor
+			//TODO refactor.
 			String thermoSpyData= ListHandler.getUniqueResult(containersWithTemperatureSpy);
 			thermoSpyData = 
 				thermoSpyData.replaceAll(TemperatureSpyStateEnum.FOUND_BROKEN.getName(), "Found broken");
@@ -320,6 +317,8 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 		if (odfTable == null) {
 			return;
 		}
+		String defectsTableName = "TableDefects";
+		OdfTable defectsTable = odt.getTableByName(defectsTableName);
 		String defectsByClassTableName = "TableDefectsByClass";
 		OdfTable defectsByClassTable = odt.getTableByName(defectsByClassTableName);
 		final String tableBeforeInsertName = "TableCargoAmountAndDefectsAux";
@@ -327,6 +326,7 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 			reportUtil.insertTableCopy(odt, "TableCargoDigitalData", tableBeforeInsertName);
 		odt.getTableByName("TableCargoDigitalData").remove();
 		for (Container container: this.containers) {
+			List<CargoDefects> listCargoDefects = this.statsService.calcAverageDefects(container.getId());
 			for (final Cargo cargo: container.getActualCondition().getCargoes()) {
 				String tableName = reportUtil.insertTableCopy(odt, odfTableName, tableBeforeInsertName);
 				processCargoInspectionOptions(odt, cargo, tableCargoDigitalDataName, container);
@@ -343,8 +343,40 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 					processCargoAmount(odt.getTableByName(tableName), container.getNumber(), 
 							declaredCargo, cargo);
 				}
+				if (defectsTable != null && !listCargoDefects.isEmpty()) {
+					tableName = reportUtil.insertTableCopy(odt, defectsTableName, tableBeforeInsertName);
+					CargoDefects cargoDefects = AlgoUtil.find(listCargoDefects, 
+							new AlgoUtil.FindPredicate<CargoDefects>() {
+						@Override
+						public boolean isIt(CargoDefects cd) {
+							boolean result = false;
+							if (cd.getCargoName().equals(cargo.getArticle().getName() + ", "  + 
+									cargo.getArticleCategory().getName())) {
+								if (cd.getCategoryNames() == null) {
+									return false;
+								}
+								String[] clone = cd.getCategoryNames().clone();
+								Arrays.sort(clone);
+								for (ArticleCategory articleCategory: cargo.getArticle().getCategories()) {
+									if (Arrays.binarySearch(
+											clone, articleCategory.getName()) == -1) {
+										return false;
+									} else {
+										result = true;
+									}
+								}
+							}
+							return result;
+						}
+					});
+					if (cargoDefects != null) {
+						processCargoDefects(odt.getTableByName(tableName), cargoDefects);
+					} else {
+						odt.getTableByName(tableName).remove();
+					}
+				}
 				if (defectsByClassTable != null && cargo.getInspectionInfo() != null) {
-					tableName = reportUtil.insertTableCopy(odt, defectsByClassTableName, TABLE_DEFECTS_BY_CLASS_AUX);
+					tableName = reportUtil.insertTableCopy(odt, defectsByClassTableName, tableBeforeInsertName);
 					OdfTable tbl = odt.getTableByName(tableName);
 					List<CargoDefectGroup> cargoDefectGroups = 
 						cargo.getInspectionInfo().getDefectGroups();
@@ -360,11 +392,14 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 				}
 			}
 		}
+		if (defectsTable != null) {
+			defectsTable.remove();
+		}
 		if (defectsByClassTable != null) {
 			defectsByClassTable.remove();
 		}
 		odfTable.remove();
-		removeTables(odt, new String[]{TABLE_BRIX_SCALE, TABLE_RIPENESS, TABLE_DEFECTS_BY_CLASS_AUX});
+		removeTables(odt, new String[]{TABLE_BRIX_SCALE, TABLE_RIPENESS});
 	}
 	
 	private void processCargoInspectionOptions(OdfTextDocument odt, Cargo cargo, 
@@ -393,7 +428,7 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 			} else if (inspectionOption.getArticleInspectionOption().getParent() != null && 
 					inspectionOption.getArticleInspectionOption().getParent().getName().toUpperCase()
 					.contains("зрелост".toUpperCase())) {
-				processRipeness(odt, inspectionOption, ripenessTableName, container, cargo);
+				processRipeness(odt, inspectionOption, ripenessTableName, container);
 			}
 		}
 	}
@@ -464,6 +499,9 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 		}
 		odfTable.getCellByPosition(0, currRow).setStringValue(stringBuffer.toString());
 		currRow++;
+		odfTable.getCellByPosition(0, currRow).setHorizontalAlignment("center");
+		odfTable.getCellByPosition(1, currRow).setHorizontalAlignment("center");
+		currRow = 3;
 		CargoPackage[] cargoPackages = actualCargo.getCargoPackages().toArray(new CargoPackage[0]);
 		Arrays.sort(cargoPackages);
 		for(final CargoPackage cargoPackage: cargoPackages) {
@@ -509,123 +547,43 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 		}
 	}
 	
-	private void processCargoDefects(OdfTextDocument odt) throws Exception {
-		OdfTable defectsTable = odt.getTableByName(TABLE_DEFECTS_DATA);
-		/*if (defectsTable == null) {
-			return;
+	private void processCargoDefects(OdfTable odfTable, CargoDefects cargoDefects) {
+		int len = cargoDefects.getCategoryNames().length;
+		odfTable.appendColumns(len);
+		odfTable.getCellRangeByPosition(0, 0, 1 + len, 0).merge();
+		odfTable.getCellRangeByPosition(0, 1, 1 + len, 1).merge();
+		odfTable.getCellRangeByPosition(0, 2, 1 + len, 2).merge();
+		odfTable.getCellRangeByPosition(0, 3, 1 + len, 3).merge();
+		int currColumn = 2;
+		for(int i = 0; i < len; i++) {
+			odfTable.getCellByPosition(currColumn, 4).setStringValue(cargoDefects.
+					getCategoryEnglishNames()[i] + " / " +  cargoDefects.getCategoryNames()[i]);
+			currColumn++;
 		}
-		if (this.containers != null && this.containers.get(0) != null) {
-			List<CargoDefects> listCargoDefects = 
-				this.statsService.calcAverageDefects(this.containers.get(0).getId());
-			OdfTable odfTable = odt.getTableByName("TableDefectsHeader");
-			CargoDefects cargoDefects = AlgoUtil.find(listCargoDefects, 
-					new AlgoUtil.FindPredicate<CargoDefects>() {
-				@Override
-				public boolean isIt(CargoDefects cd) {
-					boolean result = false;
-					if (cd.getCargoName().equals(cargo.getArticle().getName() + ", "  + 
-							cargo.getArticleCategory().getName())) {
-						if (cd.getCategoryNames() == null) {
-							return false;
-						}
-						String[] clone = cd.getCategoryNames().clone();
-						Arrays.sort(clone);
-						for (ArticleCategory articleCategory: cargo.getArticle().getCategories()) {
-							if (Arrays.binarySearch(
-									clone, articleCategory.getName()) == -1) {
-								return false;
-							} else {
-								result = true;
-							}
-						}
-					}
-					return result;
-				}
-			});
-			int len = cargoDefects.getCategoryNames().length;
-			odfTable.appendColumns(len);
-			odfTable.getCellRangeByPosition(0, 0, 2 + len, 0).merge();
-			odfTable.getCellRangeByPosition(0, 1, 2 + len, 1).merge();
-			odfTable.getCellRangeByPosition(0, 2, 2 + len, 2).merge();
-			odfTable.getCellRangeByPosition(0, 3, 2 + len, 3).merge();
-			int currColumn = 3;
+		int currRow = 5;
+		for (CargoCalibreDefects calibreDefect: cargoDefects.getCalibreDefects()) {
+			odfTable.getCellByPosition(0, currRow).setStringValue(
+				calibreDefect.getCalibreName());
+			odfTable.getCellByPosition(1, currRow).setStringValue(
+					String.format(ReportUtil.DOUBLE_FORMAT0, calibreDefect.getPackageCount()));
+			currColumn = 2;
 			for(int i = 0; i < len; i++) {
-				odfTable.getCellByPosition(currColumn, 4).setStringValue(cargoDefects.
-						getCategoryEnglishNames()[i] + " / " +  cargoDefects.getCategoryNames()[i]);
+				odfTable.getCellByPosition(currColumn, currRow).setStringValue(
+						String.format(ReportUtil.DOUBLE_FORMAT1, calibreDefect.getPercentages()[i]));
 				currColumn++;
 			}
-		}*/
-		/*for (Container container: this.containers) {
-			for (final Cargo cargo: container.getActualCondition().getCargoes()) {
-				List<CargoDefects> listCargoDefects = this.statsService.calcAverageDefects(container.getId());
-				if (defectsTable != null && !listCargoDefects.isEmpty()) {
-					String tableName = reportUtil.insertTableCopy(odt, TABLE_DEFECTS_DATA, TABLE_DEFECTS_DATA);
-					CargoDefects cargoDefects = AlgoUtil.find(listCargoDefects, 
-							new AlgoUtil.FindPredicate<CargoDefects>() {
-						@Override
-						public boolean isIt(CargoDefects cd) {
-							boolean result = false;
-							if (cd.getCargoName().equals(cargo.getArticle().getName() + ", "  + 
-									cargo.getArticleCategory().getName())) {
-								if (cd.getCategoryNames() == null) {
-									return false;
-								}
-								String[] clone = cd.getCategoryNames().clone();
-								Arrays.sort(clone);
-								for (ArticleCategory articleCategory: cargo.getArticle().getCategories()) {
-									if (Arrays.binarySearch(
-											clone, articleCategory.getName()) == -1) {
-										return false;
-									} else {
-										result = true;
-									}
-								}
-							}
-							return result;
-						}
-					});
-					OdfTable odfTable = odt.getTableByName(tableName);
-					int len = cargoDefects.getCategoryNames().length;
-					odfTable.appendColumns(len);
-					odfTable.getCellRangeByPosition(0, 0, 2 + len, 0).merge();
-					odfTable.getCellRangeByPosition(0, 1, 2 + len, 1).merge();
-					odfTable.getCellRangeByPosition(0, 2, 2 + len, 2).merge();
-					odfTable.getCellRangeByPosition(0, 3, 2 + len, 3).merge();
-					int currColumn = 3;
-					for(int i = 0; i < len; i++) {
-						odfTable.getCellByPosition(currColumn, 4).setStringValue(cargoDefects.
-								getCategoryEnglishNames()[i] + " / " +  cargoDefects.getCategoryNames()[i]);
-						currColumn++;
-					}
-					int currRow = 5;
-					odfTable.getCellByPosition(0, currRow).setStringValue(container.getNumber());
-					for (CargoCalibreDefects calibreDefect: cargoDefects.getCalibreDefects()) {
-						odfTable.getCellByPosition(1, currRow).setStringValue(calibreDefect.getCalibreName());
-						odfTable.getCellByPosition(2, currRow).setStringValue(
-								String.format(ReportUtil.DOUBLE_FORMAT0, calibreDefect.getPackageCount()));
-						currColumn = 3;
-						for(int i = 0; i < len; i++) {
-							odfTable.getCellByPosition(currColumn, currRow).setStringValue(
-									String.format(ReportUtil.DOUBLE_FORMAT1, calibreDefect.getPercentages()[i]));
-							currColumn++;
-						}
-						currRow++;
-					}
-					currColumn = 3;
-					CargoCalibreDefects averageCalibreDefects = cargoDefects.getAverageCalibreDefects();
-					len = averageCalibreDefects.getPercentages().length;
-					odfTable.getCellRangeByPosition(1, currRow, 2, currRow).merge();
-					odfTable.getCellByPosition(1, currRow).setStringValue("Summary / Итого");
-					for(int i = 0; i < len; i++) {
-						odfTable.getCellByPosition(currColumn, currRow).setStringValue(
-							String.format(ReportUtil.DOUBLE_FORMAT1, averageCalibreDefects.getPercentages()[i]));
-						currColumn++;
-					}
-					odfTable.getCellRangeByPosition(0, 5, 0, 5 + cargoDefects.getCalibreDefects().length).merge();
-				}
-			}
-		}*/
-		removeTables(odt, new String[]{TABLE_DEFECTS_DATA});
+			currRow++;
+		}
+		currColumn = 2;
+		CargoCalibreDefects averageCalibreDefects = cargoDefects.getAverageCalibreDefects();
+		len = averageCalibreDefects.getPercentages().length;
+		odfTable.getCellRangeByPosition(0, currRow, 1, currRow).merge();
+		odfTable.getCellByPosition(0, currRow).setStringValue("Summary / Итого");
+		for(int i = 0; i < len; i++) {
+			odfTable.getCellByPosition(currColumn, currRow).setStringValue(
+				String.format(ReportUtil.DOUBLE_FORMAT1, averageCalibreDefects.getPercentages()[i]));
+			currColumn++;
+		}
 	}
 	
 	private void setCellValueExt(OdfTable odfTable, int column, int row, 
@@ -983,24 +941,19 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 	}
 	
 	private void processRipeness(OdfTextDocument odt, CargoInspectionOption inspectionOption, 
-			String tableName, Container container, Cargo cargo){
+			String tableName, Container container){
 		OdfTable table = odt.getTableByName(tableName);
 		if (table == null) {
 			return;
 		}
 		table.appendColumn();
 		int currColumn = table.getColumnCount() - 1;
-		OdfTable tempTable = odt.getTableByName("TableRipenessHeader");
+		table.getCellByPosition(0, 0).setStringValue(getContainerType(container));
+		table.getCellByPosition(0, 1).setStringValue(container.getNumber());
 		StringBuffer buf = 
 			new StringBuffer(inspectionOption.getArticleInspectionOption().getEnglishName());
 		buf.append(" / ").append(inspectionOption.getArticleInspectionOption().getName());
-		tempTable.getCellByPosition(currColumn, 1).setStringValue(buf.toString());
-		tempTable.getCellRangeByPosition(0, 0, currColumn, 0).merge();
-		buf = new StringBuffer(container.getNumber()); 
-		buf.append(", ").append(cargo.getArticle().getEnglishName()).append(", ")
-			.append(cargo.getSupplier().getCompany().getEnglishName());
-		table.getCellByPosition(0, 0).setStringValue(buf.toString());
-		table.getCellRangeByPosition(0, 0, currColumn, 0).merge();
+		table.getCellByPosition(currColumn, 0).setStringValue(buf.toString());
 		table.getCellByPosition(currColumn, 1).setStringValue(
 			String.valueOf(inspectionOption.getValue()));
 	}
