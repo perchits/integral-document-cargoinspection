@@ -31,5 +31,7 @@
   <include file="0026-add-cargo-package-weight.xml"/>
   <include file="0027-fix-cargo-calibre-defects.xml"/>
   <include file="0028-fix-fileurl-uniqueness-hibernate-bug.xml"/>
+  <include file="0029-add-scans-for-inspection.xml"/>
+  
       
 </databaseChangeLog>

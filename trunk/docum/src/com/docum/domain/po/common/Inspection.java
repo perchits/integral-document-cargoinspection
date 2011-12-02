@@ -8,6 +8,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -77,6 +78,11 @@ public class Inspection extends IdentifiedEntity {
 	@OrderColumn(name="ord")
 	private List<FileUrl> images = new ArrayList<FileUrl>();
 
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+	@OrderColumn(name="ord")
+	@JoinTable(name="inspection_scan")
+	private List<FileUrl> scans = new ArrayList<FileUrl>();
+	
 	public Inspection() {
 
 	}
@@ -251,5 +257,29 @@ public class Inspection extends IdentifiedEntity {
 
 	public void moveImageDown(FileUrl url) {
 		OrderedEntityUtil.moveDown(url, images);
+	}
+
+	public List<FileUrl> getScans() {
+		return scans;
+	}
+
+	public void setScans(List<FileUrl> Scans) {
+		this.scans = Scans;
+	}
+	
+	public void addScan(FileUrl url) {
+		scans.add(url);
+	}
+	
+	public void removeScan(FileUrl url) {
+		scans.remove(url);
+	}
+	
+	public void moveScanUp(FileUrl url) {
+		OrderedEntityUtil.moveUp(url, scans);
+	}
+
+	public void moveScanDown(FileUrl url) {
+		OrderedEntityUtil.moveDown(url, scans);
 	}
 }
