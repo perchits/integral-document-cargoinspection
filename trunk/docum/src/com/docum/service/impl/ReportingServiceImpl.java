@@ -90,7 +90,6 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 	private ReportUtil reportUtil = new ReportUtil();
 	private static final String TABLE_BRIX_SCALE = "TableBrixScale"; 
 	private static final String TABLE_RIPENESS = "TableRipeness";
-	private static final String TABLE_PICTURES_CONTAINER_NUMBER = "TablePicturesContainerNumber";
 	private Set<String> ripenessTables = new HashSet<String>();
 	private Set<String> brixScaleTables = new HashSet<String>();
 
@@ -132,7 +131,7 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 		addTemperatureData(odt, "TableMeasurementTemperature");
 		addNormativePaper(odt, "ТаблицаNormativePaper");
 		addCargoAmount(odt, "TableCargoAmount");
-		addGeneralCargoImages(odt, TABLE_PICTURES_CONTAINER_NUMBER);
+		addGeneralCargoImages(odt, "TablePicturesData");
 		odt.save(location + reportFileName + ".odt");
 		OpenOfficeConnection officeConnection = 
 			new SocketOpenOfficeConnection(starOfficeConnectionPort);
@@ -614,9 +613,6 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 		for (Container container: this.containers) {
 			if (odfTable != null) {
 				odfTable = odt.getTableByName(
-					reportUtil.insertTableCopy(odt, odfTableName, odfTableName));
-				odfTable.getCellByPosition(0, 0).setStringValue(container.getNumber());
-				odfTable = odt.getTableByName(
 					reportUtil.insertTableCopy(odt, tablePicturesDataName, odfTableName));
 				Inspection inspection = container.getInspection();
 				if (inspection == null || inspection.getImages() == null || inspection.getImages().isEmpty()) {
@@ -641,7 +637,6 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 				}
 			}
 		}
-		String tableQualityExpertiseContainerNumber = "TableQualityExpertiseContainerNumber";
 		String tableQualityExpertiseData = "TableQualityExpertiseData";
 		for (Container container: this.containers) {
 			if (container.getActualCondition() == null) {
@@ -652,18 +647,12 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 				continue;
 			}
 			OdfTable odfQualityExpertiseTable = odt.getTableByName(reportUtil.insertTableCopy(
-					odt, tableQualityExpertiseContainerNumber, tableQualityExpertiseContainerNumber));
+					odt, tableQualityExpertiseData, tableQualityExpertiseData));
 			if (odfQualityExpertiseTable == null) {
 				continue;
 			}
-			odfQualityExpertiseTable.getCellByPosition(0, 0).setStringValue(container.getNumber());
-			odfQualityExpertiseTable = odt.getTableByName(reportUtil.insertTableCopy(
-					odt, tableQualityExpertiseData, tableQualityExpertiseContainerNumber));
-			odfQualityExpertiseTable.appendRow();
-			odfQualityExpertiseTable.appendColumn();
-			int currRow = odfQualityExpertiseTable.getRowCount() - 1;
 			for (Cargo cargo: cargoes) {
-				currRow = odfQualityExpertiseTable.getRowCount() - 1;
+				int currRow = odfQualityExpertiseTable.getRowCount() - 1;
 				int columntIndex = 0;
 				CargoInspectionInfo inspectionInfo =
 					cargoService.getCargoInspectionInfo(cargo.getId());
@@ -682,8 +671,8 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 			}
 		}
 		
-		removeTables(odt, new String[]{odfTableName,  tablePicturesDataName, 
-			tableQualityExpertiseContainerNumber, tableQualityExpertiseData});
+		removeTables(odt, new String[]{odfTableName,  tablePicturesDataName,
+			tableQualityExpertiseData});
 	}
 	
 	private void removeTables(OdfTextDocument odt, String[] tableNames) {
