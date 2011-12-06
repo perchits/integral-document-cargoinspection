@@ -109,4 +109,16 @@
 </h:form>
 </h:panelGroup>
 
+<h:panelGroup>	
+<h:form style="margin: 0 0 6px">
+				<p:commandLink styleClass="olive-color"
+					title="Медиа менеджер. Добавление и удаление скан-копий, изменение порядка"
+					value="Скан-копии (#{inspectionbean.scansCount})" 
+					action="#{inspectionbean.handleScans}"
+					oncomplete="beforeShow(inspectionScanlistIdVar,args)"
+					update="inspectionScanlistIdDlgPanel,growl">					
+				</p:commandLink>
+</h:form>
+</h:panelGroup>
+
 </html>
