@@ -23,6 +23,7 @@ public class InspectionUnit implements Serializable, DialogActionHandler {
 	private InspectionDlgView inspectionDlg; 
 	private BaseService baseService;	
 	private FileListDlgView inspectionImgDlg;
+	private FileListDlgView inspectionScanDlg;
 	private FileProcessingService fileService;
 	
 	public Inspection getInspection() {
@@ -109,14 +110,29 @@ public class InspectionUnit implements Serializable, DialogActionHandler {
 		return inspectionImgDlg;
 	}
 	
+	public FileListDlgView getInspectionScanDlg() {
+		return inspectionScanDlg;
+	}
+	
 	public void handleImages() {
 		inspectionImgDlg = new FileListDlgView( inspection.getImages(),
 				"Общие фотографии по инспекции", fileService, inspection.getContainer());
 		inspectionImgDlg.addHandler(this);
 	}
 	
+	public void handleScans() {
+		inspectionScanDlg = new FileListDlgView( inspection.getScans(),
+				"Скан-копии документов по инспекции", fileService, 
+				inspection.getContainer(),"/(\\.|\\/)(gif|jpe?g|png)$/","Добавить скан-копии");
+		inspectionScanDlg.addHandler(this);
+	}
+	
 	public int getImagesCount() {
 		return inspection == null ? 0 : inspection.getImages().size();
+	}
+	
+	public int getScansCount() {
+		return inspection == null ? 0 : inspection.getScans().size();
 	}
 	
 	@Override

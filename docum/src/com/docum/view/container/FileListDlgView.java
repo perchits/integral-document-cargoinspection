@@ -27,6 +27,8 @@ public class FileListDlgView extends AbstractDlgView implements Serializable {
 	private Container container;
 	private List<UrlWrapper> urlsWrapper= new ArrayList<UrlWrapper>();
 	private UrlWrapper fileUrlWrapped;
+	private String allowTypes = "/(\\.|\\/)(gif|jpe?g|png)$/";
+	private String uploadBtnLabel = "Добавить фотографии";
 		
 	public UrlWrapper getFileUrlWrapped() {
 		return fileUrlWrapped;
@@ -41,9 +43,26 @@ public class FileListDlgView extends AbstractDlgView implements Serializable {
 		this.fileUrls = fileUrls;
 		this.title = title;
 		this.fileService = fileService;
-		this.container = container;
+		this.container = container;		
 	}
 	
+	public FileListDlgView(List<FileUrl> fileUrls, String title, 
+			FileProcessingService fileService, Container container,
+			String allowTypes, String uploadBtnLabel) {
+		this(fileUrls, title, fileService, container);		
+		this.allowTypes = allowTypes;
+		this.uploadBtnLabel = uploadBtnLabel; 
+	}
+	
+	
+	public String getAllowTypes() {
+		return allowTypes;
+	}
+
+	public String getUploadBtnLabel() {
+		return uploadBtnLabel;
+	}
+
 	public List<FileUrl> getFileUrls() {
 		return fileUrls;
 	}

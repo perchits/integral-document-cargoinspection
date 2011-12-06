@@ -63,10 +63,10 @@
 			<h:panelGroup  styleClass="upload-dlg-right" layout="block" rendered="#{userBean.operatorModePermited}">
 				<p:fileUpload mode="advanced" cancelLabel="Отмена"
 					uploadLabel="Загрузить" multiple="true" auto="false"
-					label="Добавить фотографии"
+					label="#{bean.uploadBtnLabel}"
 					fileUploadListener="#{bean.uploadImages}"
 					update="#{gridId}imageList,growl" customUI="false"
-					allowTypes="/(\.|\/)(gif|jpe?g|png)$/">
+					allowTypes="#{bean.allowTypes}">
 				</p:fileUpload>
 			</h:panelGroup>
 			<f:facet name="footer">
