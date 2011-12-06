@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -90,6 +91,8 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 	private static final String TABLE_BRIX_SCALE = "TableBrixScale"; 
 	private static final String TABLE_RIPENESS = "TableRipeness";
 	private static final String TABLE_PICTURES_CONTAINER_NUMBER = "TablePicturesContainerNumber";
+	private Set<String> ripenessTables = new HashSet<String>();
+	private Set<String> brixScaleTables = new HashSet<String>();
 
 	@Override
 	public void createReport(Report report) throws Exception {
@@ -400,6 +403,12 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 		}
 		odfTable.remove();
 		removeTables(odt, new String[]{TABLE_BRIX_SCALE, TABLE_RIPENESS});
+		if (ripenessTables.size() == 0) {
+			removeTables(odt, new String[]{"TableRipenessHeader"});
+		}
+		if (brixScaleTables.size() == 0) {
+			removeTables(odt, new String[]{"TableBrixScaleHeader"});
+		}
 	}
 	
 	private void processCargoInspectionOptions(OdfTextDocument odt, Cargo cargo, 
@@ -425,11 +434,18 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 					.setStringValue(container.getNumber());
 				odt.getTableByName(tableName).getCellByPosition(1, 0)
 					.setStringValue(String.valueOf(inspectionOption.getValue()) + "°Bx");
+				brixScaleTables.add(tableName);
 			} else if (inspectionOption.getArticleInspectionOption().getParent() != null && 
 					inspectionOption.getArticleInspectionOption().getParent().getName().toUpperCase()
 					.contains("зрелост".toUpperCase())) {
+				ripenessTables.add(ripenessTableName);
 				processRipeness(odt, inspectionOption, ripenessTableName, container);
 			}
+		}
+		
+		if (odt.getTableByName(ripenessTableName).getColumnCount() <= 1) {
+			removeTables(odt, new String[]{ripenessTableName});
+			ripenessTables.remove(ripenessTableName);
 		}
 	}
 	
