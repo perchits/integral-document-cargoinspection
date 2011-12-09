@@ -83,6 +83,8 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 	
 	private static final String STATEMENT_BEGIN = "{$";
 	private static final String STATEMENT_END = "}";
+	private static final String DEFAUlT_SVG_HEIGHT = "6.283cm";
+	private static final String DEFAUlT_SVG_WIDTH = "8.371cm";
 	private int starOfficeConnectionPort;
 	private List<Container> containers;
 	private Map<Container, ContainerPresentation> containerPresentationMap;
@@ -610,6 +612,7 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 	private void addGeneralCargoImages(OdfTextDocument odt, String odfTableName) throws Exception {
 		OdfTable odfTable = odt.getTableByName(odfTableName);
 		String tablePicturesDataName = "TablePicturesData";
+		OdfTable tableCustomImages = odt.getTableByName("TableCustomImages");
 		for (Container container: this.containers) {
 			if (odfTable != null) {
 				odfTable = odt.getTableByName(
@@ -623,7 +626,7 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 					int currRow = odfTable.getRowCount() - 1;
 					int columnIndex = 0;
 					for (FileUrl fileUrl: inspection.getImages()) {
-						addImage(odt, fileUrl, odfTable, columnIndex, currRow);
+						addImage(odt, fileUrl, odfTable, columnIndex, currRow, null, null);
 						switch (columnIndex) {
 						case 0:
 							columnIndex = 1;
@@ -632,6 +635,17 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 							columnIndex = 0;
 							currRow++;
 						}
+					}
+					odfTable.appendRow();
+				}
+				
+				if (inspection == null || inspection.getScans() == null || inspection.getScans().isEmpty()) {
+					continue;
+				} else {
+					int currRow = tableCustomImages.getRowCount() - 1;
+					for (FileUrl fileUrl: inspection.getScans()) {
+						addImage(odt, fileUrl, tableCustomImages, 0, currRow, "14.283cm", "18.371cm");
+						currRow++;
 					}
 					odfTable.appendRow();
 				}
@@ -657,7 +671,7 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 				CargoInspectionInfo inspectionInfo =
 					cargoService.getCargoInspectionInfo(cargo.getId());
 				for (FileUrl fileUrl: inspectionInfo.getImages()) {
-					addImage(odt, fileUrl, odfQualityExpertiseTable, columntIndex, currRow);
+					addImage(odt, fileUrl, odfQualityExpertiseTable, columntIndex, currRow, null, null);
 					switch (columntIndex) {
 					case 0:
 						columntIndex = 1;
@@ -724,7 +738,7 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 				FileUrl fileUrl = (FileUrl) XMLUtil.getObjectProperty(
 					inspectionInfo, engImageUrlProperty);
 				if (fileUrl != null) {
-					addImage(odt, fileUrl, odfTable, 0, currRow);
+					addImage(odt, fileUrl, odfTable, 0, currRow, null, null);
 				} else {
 					odfTableCell = odfTable.getCellByPosition(0, currRow);
 					odfTableCell.setStringValue(engNoImageComment);					
@@ -732,7 +746,7 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 				fileUrl = (FileUrl) XMLUtil.getObjectProperty(
 					inspectionInfo, rusImageUrlProperty);
 				if (fileUrl != null) {
-					addImage(odt, fileUrl, odfTable, 1, currRow);
+					addImage(odt, fileUrl, odfTable, 1, currRow, null, null);
 				} else {
 					odfTableCell = odfTable.getCellByPosition(1, currRow);
 					odfTableCell.setStringValue(rusNoImageComment);					
@@ -742,7 +756,7 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 	}
 	
 	private void addImage(OdfTextDocument odt, FileUrl imageURL, OdfTable odfTable, 
-			int column, int row) throws Exception {
+			int column, int row, String svgHeightValue, String svgWidthValue) throws Exception {
 		String storagePath = "file:///" + applicationConfigService.getImagesStoragePath() + "/";
 		try {
 		odt.getPackage().insert(new URI(storagePath + imageURL.getValue()), 
@@ -754,18 +768,20 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 		TableTableCellElement tableCellElement = 
 			(TableTableCellElement) odfTableCell.getOdfElement();
 		TextPElement textPElement = tableCellElement.newTextPElement();
-		initImageAttributes(textPElement.newDrawFrameElement(), imageURL.getValue());
+		initImageAttributes(textPElement.newDrawFrameElement(), imageURL.getValue(),
+			svgHeightValue != null ? svgHeightValue : DEFAUlT_SVG_HEIGHT, 
+			svgWidthValue != null ? svgWidthValue : DEFAUlT_SVG_WIDTH);
 	}
 	
-	private void initImageAttributes(DrawFrameElement drawFrameElement, String fileUrl)
-			throws Exception{
+	private void initImageAttributes(DrawFrameElement drawFrameElement, String fileUrl,
+			String svgHeightValue, String svgWidthValue)throws Exception {
 		if (fileUrl == null) {
 			throw new Exception("Не указано расположение изображения");
 		}
 		drawFrameElement.setDrawZIndexAttribute(0);
 		drawFrameElement.setDrawStyleNameAttribute("fr1");
-		drawFrameElement.setSvgHeightAttribute("6.283cm");
-		drawFrameElement.setSvgWidthAttribute("8.371cm");
+		drawFrameElement.setSvgHeightAttribute(svgHeightValue);
+		drawFrameElement.setSvgWidthAttribute(svgWidthValue);
 		DrawImageElement drawImageElement = drawFrameElement.newDrawImageElement();
 		drawImageElement.setXlinkHrefAttribute(fileUrl);
 		drawImageElement.setXlinkActuateAttribute("onLoad");
