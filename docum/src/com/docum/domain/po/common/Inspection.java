@@ -76,6 +76,7 @@ public class Inspection extends IdentifiedEntity {
 
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	@OrderColumn(name="ord")
+	@JoinTable(name="inspection_fileurl")
 	private List<FileUrl> images = new ArrayList<FileUrl>();
 
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
