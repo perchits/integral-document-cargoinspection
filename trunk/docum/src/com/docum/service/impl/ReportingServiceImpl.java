@@ -644,7 +644,7 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 				} else {
 					int currRow = tableCustomImages.getRowCount() - 1;
 					for (FileUrl fileUrl: inspection.getScans()) {
-						addImage(odt, fileUrl, tableCustomImages, 0, currRow, "20.283cm", "18.371cm");
+						addImage(odt, fileUrl, tableCustomImages, 0, currRow, "21.00cm", "15.32cm");
 						currRow++;
 					}
 					odfTable.appendRow();
