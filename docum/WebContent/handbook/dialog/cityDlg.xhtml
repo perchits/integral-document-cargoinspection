@@ -5,9 +5,9 @@
 	xmlns:p="http://primefaces.prime.com.tr/ui">
 
 <ui:composition template="/WEB-INF/includes/dialogLayout.xhtml">
-	<ui:param name="width" value="400" />	
+	<ui:param name="width" value="700" />	
 	<ui:define name="dialogBody">
-		<h:outputLabel for="cityEnglishName" value="Наименование на англ. яз.: *" />
+		<h:outputLabel for="cityEnglishName" value="Name: *" />
 		<p:inputText value="#{bean.city.englishName}" id="cityEnglishName"
 			required="true" label="Наименование на англ. яз.">
 		</p:inputText>

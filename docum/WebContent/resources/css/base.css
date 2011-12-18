@@ -795,3 +795,8 @@ a.olive-color:hover {
 .upload-dlg-right-col {
 	vertical-align: top !important;
 }
+
+.dialog-grid td:nth-child(2) {
+	/* width: 75%; */
+}
+	

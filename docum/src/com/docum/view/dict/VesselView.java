@@ -1,8 +1,12 @@
 package com.docum.view.dict;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
+import com.docum.domain.SortOrderEnum;
 import com.docum.domain.po.IdentifiedEntity;
 import com.docum.domain.po.common.Vessel;
 
@@ -42,6 +46,13 @@ public class VesselView extends BaseView {
 
 	public void setVessel(Vessel vessel) {
 		this.vessel = vessel;
+	}
+	
+	@Override
+	public Map<String, SortOrderEnum> getDefaultSortFields(){
+		HashMap<String, SortOrderEnum> sortFields = new HashMap<String, SortOrderEnum>();
+		sortFields.put("name", SortOrderEnum.ASC);
+		return sortFields;
 	}
 
 }

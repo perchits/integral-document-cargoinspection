@@ -1,8 +1,12 @@
 package com.docum.view.dict;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
+import com.docum.domain.SortOrderEnum;
 import com.docum.domain.po.IdentifiedEntity;
 import com.docum.domain.po.common.City;
 
@@ -41,6 +45,13 @@ public class CityView extends BaseView {
 	@Override
 	public IdentifiedEntity getBeanObject() {		
 		return city != null ? this.city : new City();
+	}
+	
+	@Override
+	public Map<String, SortOrderEnum> getDefaultSortFields(){
+		HashMap<String, SortOrderEnum> sortFields = new HashMap<String, SortOrderEnum>();
+		sortFields.put("name", SortOrderEnum.ASC);
+		return sortFields;
 	}
 
 }

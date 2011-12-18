@@ -3,7 +3,9 @@ package com.docum.view.dict;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.faces.event.ActionEvent;
 
@@ -12,6 +14,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 
+import com.docum.domain.SortOrderEnum;
 import com.docum.domain.po.IdentifiedEntity;
 import com.docum.domain.po.NamedEntity;
 import com.docum.domain.po.common.Article;
@@ -135,7 +138,9 @@ public class ArticleView extends BaseView implements Serializable {
 
 	@Override
 	public void refreshObjects() {
-		Collection<Article> c = articleService.getAll(Article.class, null);
+		HashMap<String, SortOrderEnum> sortFields = new HashMap<String, SortOrderEnum>();
+		sortFields.put("name", SortOrderEnum.ASC);
+		Collection<Article> c = articleService.getAll(Article.class, sortFields);
 		articles = new ArrayList<ArticlePresentation>(c.size());
 		AlgoUtil.transform(articles, c, new ArticleTransformer());
 	}
@@ -511,4 +516,5 @@ public class ArticleView extends BaseView implements Serializable {
 	public void setOptionCopy(ArticleInspectionOption optionCopy) {
 		this.optionCopy = optionCopy;
 	}
+	
 }

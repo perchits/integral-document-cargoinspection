@@ -22,7 +22,7 @@ public class SupplierView extends BaseView {
 
 	public List<Company> getCompanies() {	
 		HashMap<String, SortOrderEnum> sortFields = new HashMap<String, SortOrderEnum>();
-		sortFields.put("clazz.name", SortOrderEnum.ASC);
+		sortFields.put("name", SortOrderEnum.ASC);
 		return getBaseService().getAll(Company.class, sortFields);
 	}
 
@@ -47,7 +47,7 @@ public class SupplierView extends BaseView {
 	@Override
 	public Map<String, SortOrderEnum> getDefaultSortFields(){
 		HashMap<String, SortOrderEnum> sortFields = new HashMap<String, SortOrderEnum>();
-		sortFields.put("clazz.company.name", SortOrderEnum.ASC);
+		sortFields.put("company.name", SortOrderEnum.ASC);
 		return sortFields;
 	}
 	

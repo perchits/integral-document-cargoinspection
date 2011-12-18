@@ -3,13 +3,16 @@ package com.docum.view.dict;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.primefaces.event.SelectEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
+import com.docum.domain.SortOrderEnum;
 import com.docum.domain.po.IdentifiedEntity;
 import com.docum.domain.po.common.BillOfLading;
 import com.docum.domain.po.common.Invoice;
@@ -72,9 +75,11 @@ public class VoyageView extends BaseView {
 	}
 
 	public List<Vessel> getVessels() {		
-		return getBaseService().getAll(Vessel.class, null);
+		HashMap<String, SortOrderEnum> sortFields = new HashMap<String, SortOrderEnum>();
+		sortFields.put("name", SortOrderEnum.ASC);
+		return getBaseService().getAll(Vessel.class, sortFields);
 	}
-
+	
 	public String getVoyageInfo() {
 		return VoyagePresentation.joinVoyageInfo(voyage);
 	}
@@ -150,6 +155,14 @@ public class VoyageView extends BaseView {
 		} else {
 			return billOfLadingService.getBillsByVoyage(voyage.getId());
 		}
+	}
+	
+	@Override
+	public Map<String, SortOrderEnum> getDefaultSortFields(){
+		HashMap<String, SortOrderEnum> sortFields = new HashMap<String, SortOrderEnum>();
+		sortFields.put("arrivalDate", SortOrderEnum.DESC);
+		sortFields.put("vessel.name", SortOrderEnum.ASC);
+		return sortFields;
 	}
 
 }

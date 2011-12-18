@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -11,6 +12,7 @@ import java.util.Set;
 import org.primefaces.model.DualListModel;
 
 import com.docum.domain.ContainerStateEnum;
+import com.docum.domain.SortOrderEnum;
 import com.docum.domain.po.IdentifiedEntity;
 import com.docum.domain.po.common.BillOfLading;
 import com.docum.domain.po.common.City;
@@ -162,9 +164,11 @@ public class ContainerDlgView extends AbstractDlgView implements Serializable {
 			BaseService baseService) {
 		this.baseService = baseService;
 		this.container = container;
-				
-		cities = baseService.getAll(City.class, null);
-		ports = baseService.getAll(Port.class, null);			
+			
+		HashMap<String, SortOrderEnum> sortFields = new HashMap<String, SortOrderEnum>();
+		sortFields.put("name", SortOrderEnum.ASC);
+		cities = baseService.getAll(City.class, sortFields);
+		ports = baseService.getAll(Port.class, sortFields);			
 
 		Set<Invoice> freeInvoices = new HashSet<Invoice>(
 				invoiceService.getInvoicesByVoyage(container.getVoyage()

@@ -36,14 +36,14 @@ public class BaseDaoImpl implements BaseDao {
 	}
 
 	public <T extends IdentifiedEntity> List<T> getAll(Class<T> clazz,
-			Map<String, SortOrderEnum> sortFields) {
+			Map<String, SortOrderEnum> sortFields) {		
 		StringBuffer orderBy = new StringBuffer();
 		if (sortFields != null) {
 			if (orderBy.length() > 0) {
 				orderBy.append(", ");
 			}
 			for (String key : sortFields.keySet()) {
-				orderBy.append(String.format(" %1$s %2$s ", key,
+				orderBy.append(String.format(" clazz.%1$s %2$s ", key,
 						sortFields.get(key)));
 			}
 			orderBy.insert(0, " order by ");

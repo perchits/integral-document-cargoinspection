@@ -33,10 +33,10 @@ public class CargoDlgView extends AbstractDlgView implements Serializable {
 		this.normativeDocument = normativeDocument;
 		this.articleService = articleService;
 		HashMap<String, SortOrderEnum> sortFields = new HashMap<String, SortOrderEnum>();
-		sortFields.put("clazz.company.name", SortOrderEnum.ASC);
+		sortFields.put("company.name", SortOrderEnum.ASC);
 		suppliers = baseService.getAll(Supplier.class, sortFields);
 		sortFields.clear();
-		sortFields.put("clazz.name", SortOrderEnum.ASC);
+		sortFields.put("name", SortOrderEnum.ASC);
 		articles = baseService.getAll(Article.class, sortFields);			
 	}
 
