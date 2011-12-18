@@ -1,10 +1,13 @@
 package com.docum.view.dict;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
+import com.docum.domain.SortOrderEnum;
 import com.docum.domain.po.IdentifiedEntity;
 import com.docum.domain.po.common.Company;
 import com.docum.domain.po.common.Customer;
@@ -58,5 +61,12 @@ public class CustomerView extends BaseView {
 
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
+	}
+	
+	@Override
+	public Map<String, SortOrderEnum> getDefaultSortFields(){
+		HashMap<String, SortOrderEnum> sortFields = new HashMap<String, SortOrderEnum>();
+		sortFields.put("company.name", SortOrderEnum.ASC);
+		return sortFields;
 	}
 }
