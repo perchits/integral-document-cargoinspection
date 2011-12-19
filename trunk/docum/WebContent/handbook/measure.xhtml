@@ -8,33 +8,14 @@
 <ui:param name="selectedMenuItem" value="6" />
 	<ui:define name="content">
 		<h:form prependId="false">
-			<h:panelGroup layout="block" styleClass="crud-menu" rendered="#{userBean.administrationPermited}">
-				<p:toolbar styleClass="crud-menu">
-					<p:toolbarGroup align="left">
-						<p:commandButton type="push" value="Добавить"
-							update="dialogPanel,growl" image="ui-icon-document"
-							actionListener="#{measureBean.newObject}"
-							oncomplete="dialog.show()" />
-
-						<p:commandButton type="push" value="Правка"
-							update="dialogPanel,growl"
-							actionListener="#{measureBean.editObject}"
-							oncomplete="beforeShow(dialog,'measures')"
-							image="ui-icon ui-icon-wrench" />
-
-						<p:commandButton type="push" value="Удалить"
-							oncomplete="beforeShow(confirmation,'measures')"
-							image="ui-icon ui-icon-minus" update="confirmationPanel,growl" />
-
-						<p:commandButton type="push" update="measures" value="Обновить"
-							actionListener="#{measureBean.refreshObjects}"
-							image="ui-icon ui-icon-arrowreturnthick-1-w" />
-
-					</p:toolbarGroup>
-				</p:toolbar>
-			</h:panelGroup>
+			
+			<ui:include src="/WEB-INF/includes/baseCrudToolBar.xhtml">
+				<ui:param name="bean" value="#{measureBean}" />
+				<ui:param name="gridId" value="measureGrid" />
+			</ui:include>
+			
 			<p:panel header="#{measureBean.sign}" styleClass="small-panel">			
-				<p:dataTable id="measures" var="measure" rowKey="#{measure}" value="#{measureBean.allObjects}"
+				<p:dataTable id="measureGrid" var="measure" rowKey="#{measure}" value="#{measureBean.allObjects}"
 					selectionMode="single" selection="#{measureBean.measure}">
 					<p:column sortBy="#{measure.englishName}" filterBy="#{measure.englishName}"
 						filterMatchMode="contains">
@@ -53,55 +34,13 @@
 				</p:dataTable>
 			</p:panel>
 		</h:form>
-		<p:outputPanel id="dialogPanel">
-			<h:form prependId="false" id="dialogForm">
-				<p:dialog width="550" id="dialog" widgetVar="dialog" modal="true"
-					header="#{measureBean.title}">
-					<p:outputPanel id="dialogContent">
-						<h:panelGroup>
-							<h:panelGrid width="100%" columns="2" cellpadding="5">
-								<h:outputLabel for="measureEnglishName" value="Наименование на англ. яз.: *" />
-								<p:inputText size="60" value="#{measureBean.measure.englishName}"
-									id="measureEnglishName" required="true" label="Наименование на англ. яз.">
-								</p:inputText>
-								<h:outputLabel for="measureName" value="Наименование: *" />
-								<p:inputText size="60" value="#{measureBean.measure.name}"
-									id="measureName" required="true" label="Наименование">
-								</p:inputText>
-
-								<f:facet name="footer">
-									<p:commandButton
-										actionListener="#{measureBean.saveObject}" value="OK"
-										update="measures,growl"
-										oncomplete="handleOKRequest(args,dialog,'dialog')" />
-									<p:commandButton type="reset" value="Отмена" update="growl"
-										onclick="dialog.hide()" />
-
-								</f:facet>
-							</h:panelGrid>
-
-						</h:panelGroup>
-					</p:outputPanel>
-				</p:dialog>
-			</h:form>
-		</p:outputPanel>
-
-		<p:outputPanel id="confirmationPanel">
-			<h:form prependId="false" id="confirmationForm">
-				<p:confirmDialog
-					message="Удалить #{measureBean.sign} '#{measureBean.measure.name}'?"
-					header="Удаление..." severity="alert" widgetVar="confirmation">
-
-					<p:commandButton value="ОК" update="measures,growl"
-						actionListener="#{measureBean.deleteObject}"
-						oncomplete="confirmation.hide()" />
-					<p:commandButton value="Отмена" onclick="confirmation.hide()"
-						type="button" />
-				</p:confirmDialog>
-			</h:form>
-		</p:outputPanel>
-
-		<h:outputScript name="dialog.js" library="js" />
+		
+		<ui:include src="/handbook/dialog/measureDlg.xhtml">
+			<ui:param name="gridId" value="measureGrid" />
+			<ui:param name="bean" value="#{measureBean}" />
+			<ui:param name="title" value="title" />
+		</ui:include>	
+				
 
 	</ui:define>
 </ui:composition>
