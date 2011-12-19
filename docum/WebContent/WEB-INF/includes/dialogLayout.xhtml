@@ -8,7 +8,7 @@
 <p:dialog onShow="topFix('#{gridId}Id');" width="#{width}" id="#{gridId}Id" widgetVar="#{gridId}Var"
 	modal="true" header="Правка / Добавление" styleClass="basic-dialog">
 	<h:form prependId="false" enctype="multipart/form-data"	id="#{gridId}DlgPanel">			
-		<h:panelGrid styleClass="dialog-grid" width="100%"	rendered="#{rendered == null ? true : rendered}"		
+		<h:panelGrid styleClass="cols-#{(colCount == null) ? 2 : colCount}" width="100%"	rendered="#{rendered == null ? true : rendered}"		
 			columns="#{(colCount == null) ? 2 : colCount}" cellpadding="1">						
 			<ui:insert name="dialogBody">
 			</ui:insert>
