@@ -777,6 +777,10 @@ a.olive-color:hover {
 	border : 0 !important;
 }
 
+.weight-table {
+	min-width : 285px;
+}
+
 .weight-table td{
 	width: 50px;
 	border : 1px dotted #E4F0B6;
@@ -796,7 +800,7 @@ a.olive-color:hover {
 	vertical-align: top !important;
 }
 
-.dialog-grid td:nth-child(2) {
-	/* width: 75%; */
+.cols-2 td:FIRST-CHILD {
+	width: 150px; 
 }
 	
