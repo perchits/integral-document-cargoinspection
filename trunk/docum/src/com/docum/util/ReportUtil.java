@@ -22,6 +22,7 @@ public class ReportUtil implements Serializable {
 	private static final long serialVersionUID = -6276477440612413243L;
 	public static final String DOUBLE_FORMAT0 = "%.0f";
 	public static final String DOUBLE_FORMAT1 = "%.1f";
+	public static final String DOUBLE_FORMAT2 = "%.2f";
 	public static final String DOUBLE_FORMAT3 = "%.3f";
 	
 	public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
