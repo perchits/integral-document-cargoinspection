@@ -85,6 +85,7 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 	private static final String STATEMENT_END = "}";
 	private static final String DEFAUlT_SVG_HEIGHT = "6.283cm";
 	private static final String DEFAUlT_SVG_WIDTH = "8.371cm";
+	private static final String VALUE_FOR_FLOATING_POINT_FORMAT = "ВЕС";
 	private int starOfficeConnectionPort;
 	private List<Container> containers;
 	private Map<Container, ContainerPresentation> containerPresentationMap;
@@ -524,6 +525,8 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 		for(final CargoPackage cargoPackage: cargoPackages) {
 			odfTable.getCellByPosition(0, currRow).setStringValue(cargoPackage.getMeasure()
 					.getEnglishName() + " / " + cargoPackage.getMeasure().getName());
+			String valueFormat = cargoPackage.getMeasure().getName().toUpperCase().indexOf(
+				VALUE_FOR_FLOATING_POINT_FORMAT) == -1 ? ReportUtil.DOUBLE_FORMAT0 : ReportUtil.DOUBLE_FORMAT2;
 			if (declaredCargo != null) {
 				CargoPackage declaredCargoPackage = AlgoUtil.find(declaredCargo.getCargoPackages(), 
 						new AlgoUtil.FindPredicate<CargoPackage>() {
@@ -534,22 +537,22 @@ public class ReportingServiceImpl implements Serializable, ReportingService {
 				});
 				if (declaredCargoPackage != null) {
 					odfTable.getCellByPosition(2, currRow).setStringValue(
-							String.format(ReportUtil.DOUBLE_FORMAT0, declaredCargoPackage.getCount()));
+							String.format(valueFormat, declaredCargoPackage.getCount()));
 					reportUtil.setRatingValue(odfTable.getCellByPosition(3, currRow),
 							cargoPackage.getCount(), declaredCargoPackage.getCount(), 
-							ReportUtil.DOUBLE_FORMAT0);
+							valueFormat);
 				} else {
 					odfTable.getCellByPosition(2, currRow).setStringValue("0");
 					reportUtil.setRatingValue(odfTable.getCellByPosition(3, currRow),
-							cargoPackage.getCount(), 0, ReportUtil.DOUBLE_FORMAT0);
+							cargoPackage.getCount(), 0, valueFormat);
 				}
 			} else {
 				odfTable.getCellByPosition(2, currRow).setStringValue("0");
 				reportUtil.setRatingValue(odfTable.getCellByPosition(3, currRow),
-						cargoPackage.getCount(), 0, ReportUtil.DOUBLE_FORMAT0);
+						cargoPackage.getCount(), 0, valueFormat);
 			}
 			odfTable.getCellByPosition(1, currRow).setStringValue(
-					String.format(ReportUtil.DOUBLE_FORMAT0, cargoPackage.getCount()));
+					String.format(valueFormat, cargoPackage.getCount()));
 			AverageCargoPackageWeights averageCargoPackageWeights =
 				CargoUtil.calcAverageWeights(cargoPackage.getWeights());
 			if (averageCargoPackageWeights != null) {
