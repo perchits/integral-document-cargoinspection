@@ -4,5 +4,6 @@ database.class=org.postgresql.Driver
 database.url=jdbc:postgresql://localhost/docum
 database.username=docum
 database.password=docum
+database.showSql=true
 
 images.storage.path=<path to directory>
